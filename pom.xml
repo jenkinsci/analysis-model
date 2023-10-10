@@ -6,7 +6,7 @@
   <parent>
     <groupId>edu.hm.hafner</groupId>
     <artifactId>codingstyle-pom</artifactId>
-    <version>3.28.0</version>
+    <version>3.29.0</version>
     <relativePath />
   </parent>
 
@@ -60,7 +60,7 @@
 
     <!-- Project Dependencies Configuration -->
     <jmh.version>1.37</jmh.version>
-    <commons.io.version>2.14.0</commons.io.version>
+    <commons.io.version>2.11.0</commons.io.version>
     <commons.digester.version>3.2</commons.digester.version>
     <commons-beanutils.version>1.9.4</commons-beanutils.version>
     <commons.text.version>1.10.0</commons.text.version>
