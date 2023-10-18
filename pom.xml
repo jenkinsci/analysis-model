@@ -6,7 +6,7 @@
   <parent>
     <groupId>edu.hm.hafner</groupId>
     <artifactId>codingstyle-pom</artifactId>
-    <version>3.29.0</version>
+    <version>3.33.0</version>
     <relativePath />
   </parent>
 
@@ -64,15 +64,14 @@
     <commons.digester.version>3.2</commons.digester.version>
     <commons-beanutils.version>1.9.4</commons-beanutils.version>
     <commons.text.version>1.10.0</commons.text.version>
-    <spotbugs.parser.library.version>6.0.4</spotbugs.parser.library.version>
     <j2html.version>1.4.0</j2html.version>
     <slf4j.version>2.0.9</slf4j.version>
     <violations-lib.version>1.156.6</violations-lib.version>
     <jsoup.version>1.16.1</jsoup.version>
     <json.version>20230618</json.version>
     <json-smart.version>2.5.0</json-smart.version>
-    <pmd.version>6.55.0</pmd.version>
-    <spotbugs.version>4.7.3</spotbugs.version>
+    <pmd.api.version>6.55.0</pmd.api.version>
+    <spotbugs.api.version>4.7.3</spotbugs.api.version>
 
     <incrementals-plugin.version>1.7</incrementals-plugin.version>
     <maven-shade-plugin.version>3.5.1</maven-shade-plugin.version>
@@ -147,7 +146,7 @@
     <dependency>
       <groupId>com.github.spotbugs</groupId>
       <artifactId>spotbugs</artifactId>
-      <version>${spotbugs.version}</version>
+      <version>${spotbugs.api.version}</version>
       <exclusions>
         <exclusion>
           <groupId>com.github.spotbugs</groupId>
@@ -193,7 +192,7 @@
     <dependency>
       <groupId>net.sourceforge.pmd</groupId>
       <artifactId>pmd-core</artifactId>
-      <version>${pmd.version}</version>
+      <version>${pmd.api.version}</version>
       <exclusions>
         <exclusion>
           <groupId>com.ibm.icu</groupId>
@@ -234,7 +233,7 @@
     <dependency>
       <groupId>net.sourceforge.pmd</groupId>
       <artifactId>pmd-java</artifactId>
-      <version>${pmd.version}</version>
+      <version>${pmd.api.version}</version>
       <exclusions>
         <exclusion>
           <groupId>net.sourceforge.saxon</groupId>
