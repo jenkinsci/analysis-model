@@ -47,7 +47,7 @@ To submit a pull request:
 1. Commit changes and push them to your fork on GitHub.
 It is a good practice is to create branches instead of pushing to master.
 2. In GitHub Web UI click the **New Pull Request** button.
-3. Select `analysis-model` as **base fork** and `master` as **base**, then click **Create Pull Request**.
+3. Select `analysis-model` as **base fork** and `main` as **base**, then click **Create Pull Request**.
 4. Fill in the Pull Request description. It should reflect the changes, the reason behind the changes, and if available a
 reference to the Jenkins ticket in our [issue tracker](https://issues.jenkins.io/).
 5. Click **Create Pull Request**.
