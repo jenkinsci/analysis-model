@@ -49,7 +49,7 @@ public class GrypeParser extends JsonIssueParser {
                 .setCategory(vuln.getString(SEVERITY_TAG))
                 .setSeverity(Severity.guessFromString(vuln.getString(SEVERITY_TAG)))
                 .setType(vuln.getString(ID_TAG))
-                .setMessage(vuln.getString(DESCRIPTION_TAG))
+                .setMessage(vuln.optString(DESCRIPTION_TAG, "Unknown"))
                 .setOriginName("Grype")
                 .setPathName(fileName)
                 .setDescription(p().with(a()
