@@ -43,8 +43,7 @@ class GrypeParserTest extends AbstractParserTest {
 
     @Test
     void assertThatVulnerabilityWithoutDescriptionCanBeParsed() {
-        var fileWithIssues = "grype-report-wo-description.json";
-        var report = super.parse(fileWithIssues);
+        var report = parse("grype-report-wo-description.json");
 
         try (var softly = new SoftAssertions()) {
             softly.assertThat(report).hasSize(20).hasDuplicatesSize(13);
