@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
 
@@ -7,7 +8,7 @@
     <groupId>edu.hm.hafner</groupId>
     <artifactId>codingstyle-pom</artifactId>
     <version>3.33.0</version>
-    <relativePath />
+    <relativePath/>
   </parent>
 
   <artifactId>analysis-model</artifactId>
@@ -186,6 +187,12 @@
       <groupId>org.apache.bcel</groupId>
       <artifactId>bcel</artifactId>
       <version>6.7.0</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>commons-lang3</artifactId>
+          <groupId>org.apache.commons</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <!-- PMD Messages -->
