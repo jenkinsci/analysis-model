@@ -308,36 +308,11 @@
   </dependencies>
 
   <build>
-    <resources>
-      <resource>
-        <directory>etc</directory>
-        <filtering>true</filtering>
-      </resource>
-      <resource>
-        <directory>src/main/resources</directory>
-        <filtering>false</filtering>
-      </resource>
-    </resources>
-
     <plugins>
       <plugin>
         <groupId>org.pitest</groupId>
         <artifactId>pitest-maven</artifactId>
-        <version>${maven-pitest-plugin.version}</version>
-        <dependencies>
-          <dependency>
-            <groupId>org.pitest</groupId>
-            <artifactId>pitest-junit5-plugin</artifactId>
-            <version>${pitest-junit5-plugin.version}</version>
-          </dependency>
-        </dependencies>
         <configuration>
-          <outputFormats>XML,HTML</outputFormats>
-          <excludedMethods>
-            <param>*equals</param>
-            <param>*hashCode</param>
-            <param>*toString</param>
-          </excludedMethods>
           <targetTests>
             <param>*Test*</param>
           </targetTests>
@@ -608,13 +583,14 @@
   </pluginRepositories>
 
   <distributionManagement>
-    <repository>
-      <id>maven.jenkins-ci.org</id>
-      <url>https://repo.jenkins-ci.org/releases/</url>
-    </repository>
     <snapshotRepository>
-      <id>maven.jenkins-ci.org</id>
-      <url>https://repo.jenkins-ci.org/snapshots/</url>
+      <id>ossrh</id>
+      <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
     </snapshotRepository>
+    <repository>
+      <id>ossrh</id>
+      <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
   </distributionManagement>
+
 </project>
