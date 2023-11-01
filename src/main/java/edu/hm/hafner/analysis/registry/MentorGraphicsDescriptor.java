@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.MentorParser;
  *
  * @author Lorenz Munsch
  */
-class MentorGraphicsDescriptor extends ParserDescriptor {
+public class MentorGraphicsDescriptor extends ParserDescriptor {
     private static final String ID = "modelsim";
     private static final String NAME = "Mentor Graphics Modelsim/Questa Simulators";
 
-    MentorGraphicsDescriptor() {
+    public MentorGraphicsDescriptor() {
         super(ID, NAME);
     }
 

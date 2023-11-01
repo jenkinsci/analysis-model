@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.GoVetParser;
  *
  * @author Lorenz Munsch
  */
-class GoVetDescriptor extends ParserDescriptor {
+public class GoVetDescriptor extends ParserDescriptor {
     private static final String ID = "go-vet";
     private static final String NAME = "Go Vet";
 
-    GoVetDescriptor() {
+    public GoVetDescriptor() {
         super(ID, NAME);
     }
 

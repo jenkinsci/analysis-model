@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.CodeAnalysisParser;
  *
  * @author Lorenz Munsch
  */
-class CodeAnalysisDescriptor extends ParserDescriptor {
+public class CodeAnalysisDescriptor extends ParserDescriptor {
     private static final String ID = "code-analysis";
     private static final String NAME = "Code Analysis";
 
-    CodeAnalysisDescriptor() {
+    public CodeAnalysisDescriptor() {
         super(ID, NAME);
     }
 

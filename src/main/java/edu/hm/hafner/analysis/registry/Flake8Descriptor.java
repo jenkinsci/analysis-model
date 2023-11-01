@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.violations.Flake8Adapter;
  *
  * @author Lorenz Munsch
  */
-class Flake8Descriptor extends ParserDescriptor {
+public class Flake8Descriptor extends ParserDescriptor {
     private static final String ID = "flake8";
     private static final String NAME = "Flake8";
 
-    Flake8Descriptor() {
+    public Flake8Descriptor() {
         super(ID, NAME);
     }
 

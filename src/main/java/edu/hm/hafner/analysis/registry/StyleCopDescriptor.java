@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.StyleCopParser;
  *
  * @author Lorenz Munsch
  */
-class StyleCopDescriptor extends ParserDescriptor {
+public class StyleCopDescriptor extends ParserDescriptor {
     private static final String ID = "stylecop";
     private static final String NAME = "StyleCop";
 
-    StyleCopDescriptor() {
+    public StyleCopDescriptor() {
         super(ID, NAME);
     }
 

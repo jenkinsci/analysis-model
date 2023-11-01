@@ -11,13 +11,13 @@ import edu.hm.hafner.analysis.util.Deferred;
  *
  * @author Lorenz Munsch
  */
-class CheckStyleDescriptor extends ParserDescriptor {
+public class CheckStyleDescriptor extends ParserDescriptor {
     private static final String ID = "checkstyle";
     private static final String NAME = "CheckStyle";
 
     private final Deferred<CheckStyleRules> messages = new Deferred<>(CheckStyleRules::new);
 
-    CheckStyleDescriptor() {
+    public CheckStyleDescriptor() {
         super(ID, NAME);
     }
 

@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.ClangAnalyzerPlistParser;
  *
  * @author Lorenz Munsch
  */
-class ClangAnalyzerDescriptor extends ParserDescriptor {
+public class ClangAnalyzerDescriptor extends ParserDescriptor {
     private static final String ID = "clang-analyzer";
     private static final String NAME = "Clang Analyzer";
 
-    ClangAnalyzerDescriptor() {
+    public ClangAnalyzerDescriptor() {
         super(ID, NAME);
     }
 

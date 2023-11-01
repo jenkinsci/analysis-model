@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.violations.SemgrepAdapter;
  *
  * @author Ullrich Hafner
  */
-class SemgrepDescriptor extends ParserDescriptor {
+public class SemgrepDescriptor extends ParserDescriptor {
     private static final String ID = "semgrep";
     private static final String NAME = "Semgrep";
 
-    SemgrepDescriptor() {
+    public SemgrepDescriptor() {
         super(ID, NAME);
     }
 

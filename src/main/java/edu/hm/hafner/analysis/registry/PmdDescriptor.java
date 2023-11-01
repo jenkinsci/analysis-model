@@ -11,13 +11,13 @@ import edu.hm.hafner.analysis.util.Deferred;
  *
  * @author Lorenz Munsch
  */
-class PmdDescriptor extends ParserDescriptor {
+public class PmdDescriptor extends ParserDescriptor {
     private static final String ID = "pmd";
     private static final String NAME = "PMD";
 
     private final Deferred<PmdMessages> messages = new Deferred<>(PmdMessages::new);
 
-    PmdDescriptor() {
+    public PmdDescriptor() {
         super(ID, NAME);
     }
 

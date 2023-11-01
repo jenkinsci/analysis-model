@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.violations.DartAnalyzeParserAdapter;
  *
  * @author Ullrich Hafner
  */
-class DartAnalyzeDescriptor extends ParserDescriptor {
+public class DartAnalyzeDescriptor extends ParserDescriptor {
     private static final String ID = "dart";
     private static final String NAME = "Dart Analyze";
 
-    DartAnalyzeDescriptor() {
+    public DartAnalyzeDescriptor() {
         super(ID, NAME);
     }
 

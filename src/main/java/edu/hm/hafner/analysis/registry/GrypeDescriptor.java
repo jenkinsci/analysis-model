@@ -10,7 +10,7 @@ public class GrypeDescriptor extends ParserDescriptor {
     private static final String ID = "grype";
     private static final String NAME = "Grype";
 
-    GrypeDescriptor() {
+    public GrypeDescriptor() {
         super(ID, NAME);
     }
 

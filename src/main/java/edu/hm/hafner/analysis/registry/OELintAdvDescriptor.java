@@ -6,11 +6,11 @@ import edu.hm.hafner.analysis.parser.OELintAdvParser;
 /**
  * Descriptor for oelint-adv.
  */
-class OELintAdvDescriptor extends ParserDescriptor {
+public class OELintAdvDescriptor extends ParserDescriptor {
     private static final String ID = "oelint-adv";
     private static final String NAME = ID;
 
-    OELintAdvDescriptor() {
+    public OELintAdvDescriptor() {
         super(ID, NAME);
     }
 

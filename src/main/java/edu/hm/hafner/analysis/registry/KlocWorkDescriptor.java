@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.violations.KlocWorkAdapter;
  *
  * @author Lorenz Munsch
  */
-class KlocWorkDescriptor extends ParserDescriptor {
+public class KlocWorkDescriptor extends ParserDescriptor {
     private static final String ID = "klocwork";
     private static final String NAME = "Klocwork";
 
-    KlocWorkDescriptor() {
+    public KlocWorkDescriptor() {
         super(ID, NAME);
     }
 

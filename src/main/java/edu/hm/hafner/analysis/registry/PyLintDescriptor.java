@@ -11,13 +11,13 @@ import edu.hm.hafner.analysis.util.Deferred;
  *
  * @author Lorenz Munsch
  */
-class PyLintDescriptor extends ParserDescriptor {
+public class PyLintDescriptor extends ParserDescriptor {
     private static final String ID = "pylint";
     private static final String NAME = "Pylint";
 
     private final Deferred<PyLintDescriptions> messages = new Deferred<>(PyLintDescriptions::new);
 
-    PyLintDescriptor() {
+    public PyLintDescriptor() {
         super(ID, NAME);
     }
 

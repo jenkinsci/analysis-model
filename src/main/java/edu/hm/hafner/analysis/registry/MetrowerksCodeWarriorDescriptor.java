@@ -11,11 +11,11 @@ import edu.hm.hafner.analysis.parser.MetrowerksCwLinkerParser;
  *
  * @author Lorenz Munsch
  */
-class MetrowerksCodeWarriorDescriptor extends CompositeParserDescriptor {
+public class MetrowerksCodeWarriorDescriptor extends CompositeParserDescriptor {
     private static final String ID = "metrowerks";
     private static final String NAME = "Metrowerks CodeWarrior Compiler";
 
-    MetrowerksCodeWarriorDescriptor() {
+    public MetrowerksCodeWarriorDescriptor() {
         super(ID, NAME);
     }
 

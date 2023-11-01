@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.ErlcParser;
  *
  * @author Lorenz Munsch
  */
-class ErlcDescriptor extends ParserDescriptor {
+public class ErlcDescriptor extends ParserDescriptor {
     private static final String ID = "erlc";
     private static final String NAME = "Erlang Compiler (erlc)";
 
-    ErlcDescriptor() {
+    public ErlcDescriptor() {
         super(ID, NAME);
     }
 

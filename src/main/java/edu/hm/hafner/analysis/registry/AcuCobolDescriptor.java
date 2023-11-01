@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.AcuCobolParser;
  *
  * @author Lorenz Munsch
  */
-class AcuCobolDescriptor extends ParserDescriptor {
+public class AcuCobolDescriptor extends ParserDescriptor {
     private static final String ID = "acu-cobol";
     private static final String NAME = "AcuCobol";
 
-    AcuCobolDescriptor() {
+    public AcuCobolDescriptor() {
         super(ID, NAME);
     }
 

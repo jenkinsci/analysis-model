@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.ClairParser;
  *
  * @author Lorenz Munsch
  */
-class ClairDescriptor extends ParserDescriptor {
+public class ClairDescriptor extends ParserDescriptor {
     private static final String ID = "clair";
     private static final String NAME = "Clair Scanner";
 
-    ClairDescriptor() {
+    public ClairDescriptor() {
         super(ID, NAME);
     }
 

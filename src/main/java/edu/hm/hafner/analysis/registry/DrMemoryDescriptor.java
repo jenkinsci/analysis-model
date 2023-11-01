@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.DrMemoryParser;
  *
  * @author Lorenz Munsch
  */
-class DrMemoryDescriptor extends ParserDescriptor {
+public class DrMemoryDescriptor extends ParserDescriptor {
     private static final String ID = "dr-memory";
     private static final String NAME = "Dr. Memory";
 
-    DrMemoryDescriptor() {
+    public DrMemoryDescriptor() {
         super(ID, NAME);
     }
 

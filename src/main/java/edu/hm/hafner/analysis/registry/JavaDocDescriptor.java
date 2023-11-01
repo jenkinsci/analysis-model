@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.JavaDocParser;
  *
  * @author Lorenz Munsch
  */
-class JavaDocDescriptor extends ParserDescriptor {
+public class JavaDocDescriptor extends ParserDescriptor {
     private static final String ID = "javadoc-warnings";
     private static final String NAME = "JavaDoc";
 
-    JavaDocDescriptor() {
+    public JavaDocDescriptor() {
         super(ID, NAME);
     }
 

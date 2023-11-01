@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.checkstyle.CheckStyleParser;
  *
  * @author Lorenz Munsch
  */
-class DetektDescriptor extends ParserDescriptor {
+public class DetektDescriptor extends ParserDescriptor {
     private static final String ID = "detekt";
     private static final String NAME = "Detekt";
 
-    DetektDescriptor() {
+    public DetektDescriptor() {
         super(ID, NAME);
     }
 

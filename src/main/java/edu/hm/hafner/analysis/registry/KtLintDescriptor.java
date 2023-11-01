@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.checkstyle.CheckStyleParser;
  *
  * @author Lorenz Munsch
  */
-class KtLintDescriptor extends ParserDescriptor {
+public class KtLintDescriptor extends ParserDescriptor {
     private static final String ID = "ktlint";
     private static final String NAME = "KtLint";
 
-    KtLintDescriptor() {
+    public KtLintDescriptor() {
         super(ID, NAME);
     }
 

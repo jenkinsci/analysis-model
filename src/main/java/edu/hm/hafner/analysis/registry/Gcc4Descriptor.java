@@ -11,11 +11,11 @@ import edu.hm.hafner.analysis.parser.Gcc4LinkerParser;
  *
  * @author Lorenz Munsch
  */
-class Gcc4Descriptor extends CompositeParserDescriptor {
+public class Gcc4Descriptor extends CompositeParserDescriptor {
     private static final String ID = "gcc";
     private static final String NAME = "GNU C Compiler (gcc)";
 
-    Gcc4Descriptor() {
+    public Gcc4Descriptor() {
         super(ID, NAME);
     }
 

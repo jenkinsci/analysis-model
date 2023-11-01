@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.violations.DocFxAdapter;
  *
  * @author Lorenz Munsch
  */
-class DocFxDescriptor extends ParserDescriptor {
+public class DocFxDescriptor extends ParserDescriptor {
     private static final String ID = "docfx";
     private static final String NAME = "DocFX";
 
-    DocFxDescriptor() {
+    public DocFxDescriptor() {
         super(ID, NAME);
     }
 

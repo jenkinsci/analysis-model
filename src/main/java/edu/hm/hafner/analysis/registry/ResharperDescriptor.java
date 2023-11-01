@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.violations.ResharperInspectCodeAdapter;
  *
  * @author Lorenz Munsch
  */
-class ResharperDescriptor extends ParserDescriptor {
+public class ResharperDescriptor extends ParserDescriptor {
     private static final String ID = "resharper";
     private static final String NAME = "Resharper Inspections";
 
-    ResharperDescriptor() {
+    public ResharperDescriptor() {
         super(ID, NAME);
     }
 

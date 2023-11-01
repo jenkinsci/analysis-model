@@ -11,11 +11,11 @@ import edu.hm.hafner.analysis.parser.SonarQubeIssuesParser;
  *
  * @author Lorenz Munsch
  */
-class SonarQubeDescriptor extends CompositeParserDescriptor {
+public class SonarQubeDescriptor extends CompositeParserDescriptor {
     private static final String ID = "sonar";
     private static final String NAME = "SonarQube Issues";
 
-    SonarQubeDescriptor() {
+    public SonarQubeDescriptor() {
         super(ID, NAME);
     }
 

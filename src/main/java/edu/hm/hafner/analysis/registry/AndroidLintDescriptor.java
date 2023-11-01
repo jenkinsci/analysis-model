@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.violations.AndroidLintParserAdapter;
  *
  * @author Lorenz Munsch
  */
-class AndroidLintDescriptor extends ParserDescriptor {
+public class AndroidLintDescriptor extends ParserDescriptor {
     private static final String ID = "android-lint";
     private static final String NAME = "Android Lint";
 
-    AndroidLintDescriptor() {
+    public AndroidLintDescriptor() {
         super(ID, NAME);
     }
 

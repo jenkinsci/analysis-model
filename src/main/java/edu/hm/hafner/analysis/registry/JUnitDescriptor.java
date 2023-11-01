@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.violations.JUnitAdapter;
  *
  * @author Lorenz Munsch
  */
-class JUnitDescriptor extends ParserDescriptor {
+public class JUnitDescriptor extends ParserDescriptor {
     private static final String ID = "junit";
     private static final String NAME = "JUnit";
 
-    JUnitDescriptor() {
+    public JUnitDescriptor() {
         super(ID, NAME);
     }
 

@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.GhsMultiParser;
  *
  * @author Lorenz Munsch
  */
-class GhsMultiDescriptor extends ParserDescriptor {
+public class GhsMultiDescriptor extends ParserDescriptor {
     private static final String ID = "ghs-multi";
     private static final String NAME = "GHS Multi Compiler";
 
-    GhsMultiDescriptor() {
+    public GhsMultiDescriptor() {
         super(ID, NAME);
     }
 

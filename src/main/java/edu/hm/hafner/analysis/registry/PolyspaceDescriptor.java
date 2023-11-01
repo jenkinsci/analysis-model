@@ -13,7 +13,7 @@ public class PolyspaceDescriptor extends ParserDescriptor {
     private static final String ID = "polyspace-parser";
     private static final String NAME = "Polyspace Tool";
 
-    PolyspaceDescriptor() {
+    public PolyspaceDescriptor() {
         super(ID, NAME);
     }
 

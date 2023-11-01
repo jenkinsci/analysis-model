@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.QtTranslationParser;
  *
  * @author Lorenz Munsch
  */
-class QtTranslationDescriptor extends ParserDescriptor {
+public class QtTranslationDescriptor extends ParserDescriptor {
     private static final String ID = "qt-translation";
     private static final String NAME = "Qt translations";
 
-    QtTranslationDescriptor() {
+    public QtTranslationDescriptor() {
         super(ID, NAME);
     }
 

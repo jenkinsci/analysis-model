@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.violations.MyPyAdapter;
  *
  * @author Lorenz Munsch
  */
-class MyPyDescriptor extends ParserDescriptor {
+public class MyPyDescriptor extends ParserDescriptor {
     private static final String ID = "mypy";
     private static final String NAME = "MyPy";
 
-    MyPyDescriptor() {
+    public MyPyDescriptor() {
         super(ID, NAME);
     }
 

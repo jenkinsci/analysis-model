@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.BluePearlParser;
  *
  * @author Simon Matthews
  */
-class BluePearlDescriptor extends ParserDescriptor {
+public class BluePearlDescriptor extends ParserDescriptor {
     private static final String ID = "bluepearl";
     private static final String NAME = "Blue Pearl Visual Verification Suite";
 
-    BluePearlDescriptor() {
+    public BluePearlDescriptor() {
         super(ID, NAME);
     }
 

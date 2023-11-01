@@ -21,7 +21,7 @@ public class FindBugsDescriptor extends ParserDescriptor {
 
     private final Deferred<FindBugsMessages> messages = new Deferred<>(FindBugsMessages::new);
 
-    FindBugsDescriptor() {
+    public FindBugsDescriptor() {
         super(ID, NAME);
     }
 

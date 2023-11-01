@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.LintParser;
  *
  * @author Lorenz Munsch
  */
-class JsLintDescriptor extends ParserDescriptor {
+public class JsLintDescriptor extends ParserDescriptor {
     private static final String ID = "jslint";
     private static final String NAME = "JSLint";
 
-    JsLintDescriptor() {
+    public JsLintDescriptor() {
         super(ID, NAME);
     }
 

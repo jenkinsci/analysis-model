@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.violations.CodeNarcAdapter;
  *
  * @author Lorenz Munsch
  */
-class CodeNarcDescriptor extends ParserDescriptor {
+public class CodeNarcDescriptor extends ParserDescriptor {
     private static final String ID = "codenarc";
     private static final String NAME = "CodeNarc";
 
-    CodeNarcDescriptor() {
+    public CodeNarcDescriptor() {
         super(ID, NAME);
     }
 

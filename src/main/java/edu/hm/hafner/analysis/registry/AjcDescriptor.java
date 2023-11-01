@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.AjcParser;
  *
  * @author Lorenz Munsch
  */
-class AjcDescriptor extends ParserDescriptor {
+public class AjcDescriptor extends ParserDescriptor {
     private static final String ID = "aspectj";
     private static final String NAME = "AspectJ";
 
-    AjcDescriptor() {
+    public AjcDescriptor() {
         super(ID, NAME);
     }
 

@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.FlawfinderParser;
  *
  * @author Lorenz Munsch
  */
-class FlawfinderDescriptor extends ParserDescriptor {
+public class FlawfinderDescriptor extends ParserDescriptor {
     private static final String ID = "flawfinder";
     private static final String NAME = "FlawFinder";
 
-    FlawfinderDescriptor() {
+    public FlawfinderDescriptor() {
         super(ID, NAME);
     }
 

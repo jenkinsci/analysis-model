@@ -12,7 +12,7 @@ public class RevApiDescriptor extends ParserDescriptor {
     private static final String ID = "revapi";
     private static final String NAME = "Revapi";
 
-    RevApiDescriptor() {
+    public RevApiDescriptor() {
         super(ID, NAME);
     }
 

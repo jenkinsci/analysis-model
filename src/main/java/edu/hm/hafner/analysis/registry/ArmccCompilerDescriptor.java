@@ -11,11 +11,11 @@ import edu.hm.hafner.analysis.parser.ArmccCompilerParser;
  *
  * @author Lorenz Munsch
  */
-class ArmccCompilerDescriptor extends CompositeParserDescriptor {
+public class ArmccCompilerDescriptor extends CompositeParserDescriptor {
     private static final String ID = "armcc";
     private static final String NAME = "Armcc Compiler";
 
-    ArmccCompilerDescriptor() {
+    public ArmccCompilerDescriptor() {
         super(ID, NAME);
     }
 

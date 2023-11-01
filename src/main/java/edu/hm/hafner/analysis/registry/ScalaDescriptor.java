@@ -11,11 +11,11 @@ import edu.hm.hafner.analysis.parser.ScalacParser;
  *
  * @author Lorenz Munsch
  */
-class ScalaDescriptor extends CompositeParserDescriptor {
+public class ScalaDescriptor extends CompositeParserDescriptor {
     private static final String ID = "scala";
     private static final String NAME = "Scala Compiler";
 
-    ScalaDescriptor() {
+    public ScalaDescriptor() {
         super(ID, NAME);
     }
 

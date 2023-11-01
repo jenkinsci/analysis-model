@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.dry.cpd.CpdParser;
  *
  * @author Lorenz Munsch
  */
-class CpdDescriptor extends DryDescriptor {
+public class CpdDescriptor extends DryDescriptor {
     private static final String ID = "cpd";
     private static final String NAME = "CPD";
 
-    CpdDescriptor() {
+    public CpdDescriptor() {
         super(ID, NAME);
     }
 

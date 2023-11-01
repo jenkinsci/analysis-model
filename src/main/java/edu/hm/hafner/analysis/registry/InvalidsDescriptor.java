@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.InvalidsParser;
  *
  * @author Lorenz Munsch
  */
-class InvalidsDescriptor extends ParserDescriptor {
+public class InvalidsDescriptor extends ParserDescriptor {
     private static final String ID = "invalids";
     private static final String NAME = "Oracle Invalids";
 
-    InvalidsDescriptor() {
+    public InvalidsDescriptor() {
         super(ID, NAME);
     }
 

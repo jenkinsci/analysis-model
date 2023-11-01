@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.CargoClippyParser;
  *
  * @author Ullrich Hafner
  */
-class CargoClippyDescriptor extends ParserDescriptor {
+public class CargoClippyDescriptor extends ParserDescriptor {
     private static final String ID = "clippy";
     private static final String NAME = "Cargo Clippy";
 
-    CargoClippyDescriptor() {
+    public CargoClippyDescriptor() {
         super(ID, NAME);
     }
 

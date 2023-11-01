@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.violations.CppCheckAdapter;
  *
  * @author Lorenz Munsch
  */
-class CppCheckDescriptor extends ParserDescriptor {
+public class CppCheckDescriptor extends ParserDescriptor {
     private static final String ID = "cppcheck";
     private static final String NAME = "CPPCheck";
 
-    CppCheckDescriptor() {
+    public CppCheckDescriptor() {
         super(ID, NAME);
     }
 

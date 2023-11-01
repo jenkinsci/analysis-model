@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.checkstyle.CheckStyleParser;
  *
  * @author Lorenz Munsch
  */
-class SwiftLintDescriptor extends ParserDescriptor {
+public class SwiftLintDescriptor extends ParserDescriptor {
     private static final String ID = "swiftlint";
     private static final String NAME = "SwiftLint";
 
-    SwiftLintDescriptor() {
+    public SwiftLintDescriptor() {
         super(ID, NAME);
     }
 

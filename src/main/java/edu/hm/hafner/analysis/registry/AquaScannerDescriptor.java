@@ -10,11 +10,11 @@ import static j2html.TagCreator.*;
  *
  * @author Juri Duval
  */
-class AquaScannerDescriptor extends ParserDescriptor {
+public class AquaScannerDescriptor extends ParserDescriptor {
     private static final String ID = "scannercli";
     private static final String NAME = "Aqua Scanner";
 
-    AquaScannerDescriptor() {
+    public AquaScannerDescriptor() {
         super(ID, NAME);
     }
 

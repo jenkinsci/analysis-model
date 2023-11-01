@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.PreFastParser;
  *
  * @author Lorenz Munsch
  */
-class PreFastDescriptor extends ParserDescriptor {
+public class PreFastDescriptor extends ParserDescriptor {
     private static final String ID = "prefast";
     private static final String NAME = "PREfast";
 
-    PreFastDescriptor() {
+    public PreFastDescriptor() {
         super(ID, NAME);
     }
 

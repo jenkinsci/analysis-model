@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.RuboCopParser;
  *
  * @author Lorenz Munsch
  */
-class RuboCopDescriptor extends ParserDescriptor {
+public class RuboCopDescriptor extends ParserDescriptor {
     private static final String ID = "rubocop";
     private static final String NAME = "Rubocop";
 
-    RuboCopDescriptor() {
+    public RuboCopDescriptor() {
         super(ID, NAME);
     }
 

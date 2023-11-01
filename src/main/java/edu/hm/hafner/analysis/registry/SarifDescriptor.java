@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.violations.SarifAdapter;
  *
  * @author Ullrich Hafner
  */
-class SarifDescriptor extends ParserDescriptor {
+public class SarifDescriptor extends ParserDescriptor {
     private static final String ID = "sarif";
     private static final String NAME = "SARIF";
 
-    SarifDescriptor() {
+    public SarifDescriptor() {
         super(ID, NAME);
     }
 

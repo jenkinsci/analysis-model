@@ -10,7 +10,7 @@ public class OwaspDependencyCheckDescriptor extends ParserDescriptor {
     private static final String ID = "owasp-dependency-check";
     private static final String NAME = "OWASP Dependency Check";
 
-    OwaspDependencyCheckDescriptor() {
+    public OwaspDependencyCheckDescriptor() {
         super(ID, NAME);
     }
 

@@ -5,11 +5,11 @@ package edu.hm.hafner.analysis.registry;
  *
  * @author Lorenz Munsch
  */
-class SpotBugsDescriptor extends FindBugsDescriptor {
+public class SpotBugsDescriptor extends FindBugsDescriptor {
     private static final String ID = "spotbugs";
     private static final String NAME = "SpotBugs";
 
-    SpotBugsDescriptor() {
+    public SpotBugsDescriptor() {
         super(ID, NAME);
     }
 

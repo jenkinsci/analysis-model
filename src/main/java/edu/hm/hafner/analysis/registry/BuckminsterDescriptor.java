@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.BuckminsterParser;
  *
  * @author Lorenz Munsch
  */
-class BuckminsterDescriptor extends ParserDescriptor {
+public class BuckminsterDescriptor extends ParserDescriptor {
     private static final String ID = "buckminster";
     private static final String NAME = "Buckminster";
 
-    BuckminsterDescriptor() {
+    public BuckminsterDescriptor() {
         super(ID, NAME);
     }
 

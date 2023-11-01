@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.BrakemanParser;
  *
  * @author Lorenz Munsch
  */
-class BrakemanDescriptor extends ParserDescriptor {
+public class BrakemanDescriptor extends ParserDescriptor {
     private static final String ID = "brakeman";
     private static final String NAME = "Brakeman";
 
-    BrakemanDescriptor() {
+    public BrakemanDescriptor() {
         super(ID, NAME);
     }
 

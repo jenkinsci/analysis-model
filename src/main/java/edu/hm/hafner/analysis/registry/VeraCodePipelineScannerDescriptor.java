@@ -10,11 +10,11 @@ import static j2html.TagCreator.*;
  *
  * @author Juri Duval
  */
-class VeraCodePipelineScannerDescriptor extends ParserDescriptor {
+public class VeraCodePipelineScannerDescriptor extends ParserDescriptor {
     private static final String ID = "veracode-pipeline-scanner";
     private static final String NAME = "Veracode Pipeline Scanner";
 
-    VeraCodePipelineScannerDescriptor() {
+    public VeraCodePipelineScannerDescriptor() {
         super(ID, NAME);
     }
 

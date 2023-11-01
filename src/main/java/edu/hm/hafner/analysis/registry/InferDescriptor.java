@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.pmd.PmdParser;
  *
  * @author Lorenz Munsch
  */
-class InferDescriptor extends ParserDescriptor {
+public class InferDescriptor extends ParserDescriptor {
     private static final String ID = "infer";
     private static final String NAME = "Infer";
 
-    InferDescriptor() {
+    public InferDescriptor() {
         super(ID, NAME);
     }
 

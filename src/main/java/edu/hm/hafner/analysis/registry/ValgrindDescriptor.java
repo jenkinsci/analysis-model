@@ -12,7 +12,7 @@ public class ValgrindDescriptor extends ParserDescriptor {
     private static final String ID = "valgrind";
     private static final String NAME = "Valgrind";
 
-    ValgrindDescriptor() {
+    public ValgrindDescriptor() {
         super(ID, NAME);
     }
 

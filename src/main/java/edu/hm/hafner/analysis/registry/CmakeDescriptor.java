@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.CMakeParser;
  *
  * @author Lorenz Munsch
  */
-class CmakeDescriptor extends ParserDescriptor {
+public class CmakeDescriptor extends ParserDescriptor {
     private static final String ID = "cmake";
     private static final String NAME = "CMake";
 
-    CmakeDescriptor() {
+    public CmakeDescriptor() {
         super(ID, NAME);
     }
 

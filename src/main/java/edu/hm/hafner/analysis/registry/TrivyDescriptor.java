@@ -10,11 +10,11 @@ import static j2html.TagCreator.*;
  *
  * @author Lorenz Munsch
  */
-class TrivyDescriptor extends ParserDescriptor {
+public class TrivyDescriptor extends ParserDescriptor {
     private static final String ID = "trivy";
     private static final String NAME = "Aquasec Trivy";
 
-    TrivyDescriptor() {
+    public TrivyDescriptor() {
         super(ID, NAME);
     }
 

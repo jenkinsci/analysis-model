@@ -15,7 +15,7 @@ public class PnpmAuditDescriptor extends ParserDescriptor {
     private static final String ID = "pnpm-audit";
     private static final String NAME = "pnpm Audit";
 
-    PnpmAuditDescriptor() {
+    public PnpmAuditDescriptor() {
         super(ID, NAME);
     }
 

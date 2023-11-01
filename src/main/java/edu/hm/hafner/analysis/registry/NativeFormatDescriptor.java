@@ -16,11 +16,11 @@ import static j2html.TagCreator.*;
  *
  * @author Lorenz Munsch
  */
-class NativeFormatDescriptor extends CompositeParserDescriptor {
+public class NativeFormatDescriptor extends CompositeParserDescriptor {
     private static final String ID = "native";
     private static final String NAME = "Native Analysis Model Format";
 
-    NativeFormatDescriptor() {
+    public NativeFormatDescriptor() {
         super(ID, NAME);
     }
 

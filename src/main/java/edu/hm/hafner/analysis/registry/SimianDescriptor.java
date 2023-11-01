@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.dry.simian.SimianParser;
  *
  * @author Lorenz Munsch
  */
-class SimianDescriptor extends DryDescriptor {
+public class SimianDescriptor extends DryDescriptor {
     private static final String ID = "simian";
     private static final String NAME = "Simian";
 
-    SimianDescriptor() {
+    public SimianDescriptor() {
         super(ID, NAME);
     }
 

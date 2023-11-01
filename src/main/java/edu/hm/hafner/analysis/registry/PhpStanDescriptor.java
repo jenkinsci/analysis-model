@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.checkstyle.CheckStyleParser;
  *
  * @author Lorenz Munsch
  */
-class PhpStanDescriptor extends ParserDescriptor {
+public class PhpStanDescriptor extends ParserDescriptor {
     private static final String ID = "phpstan";
     private static final String NAME = "PHPStan";
 
-    PhpStanDescriptor() {
+    public PhpStanDescriptor() {
         super(ID, NAME);
     }
 

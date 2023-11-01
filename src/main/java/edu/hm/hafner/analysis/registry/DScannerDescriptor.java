@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.DScannerParser;
  *
  * @author Lorenz Munsch
  */
-class DScannerDescriptor extends ParserDescriptor {
+public class DScannerDescriptor extends ParserDescriptor {
     private static final String ID = "dscanner";
     private static final String NAME = "DScanner";
 
-    DScannerDescriptor() {
+    public DScannerDescriptor() {
         super(ID, NAME);
     }
 

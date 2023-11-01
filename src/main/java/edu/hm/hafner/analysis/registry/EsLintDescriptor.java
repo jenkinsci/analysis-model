@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.checkstyle.CheckStyleParser;
  *
  * @author Lorenz Munsch
  */
-class EsLintDescriptor extends ParserDescriptor {
+public class EsLintDescriptor extends ParserDescriptor {
     private static final String ID = "eslint";
     private static final String NAME = "ESLint";
 
-    EsLintDescriptor() {
+    public EsLintDescriptor() {
         super(ID, NAME);
     }
 

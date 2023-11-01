@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.MsBuildParser;
  *
  * @author Lorenz Munsch
  */
-class PcLintDescriptor extends ParserDescriptor {
+public class PcLintDescriptor extends ParserDescriptor {
     private static final String ID = "pclint";
     private static final String NAME = "PC-Lint Tool";
 
-    PcLintDescriptor() {
+    public PcLintDescriptor() {
         super(ID, NAME);
     }
 

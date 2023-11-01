@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.violations.YamlLintAdapter;
  *
  * @author Lorenz Munsch
  */
-class YamlLintDescriptor extends ParserDescriptor {
+public class YamlLintDescriptor extends ParserDescriptor {
     private static final String ID = "yamllint";
     private static final String NAME = "YamlLint";
 
-    YamlLintDescriptor() {
+    public YamlLintDescriptor() {
         super(ID, NAME);
     }
 

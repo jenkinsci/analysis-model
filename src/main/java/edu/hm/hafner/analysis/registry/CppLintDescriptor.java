@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.CppLintParser;
  *
  * @author Lorenz Munsch
  */
-class CppLintDescriptor extends ParserDescriptor {
+public class CppLintDescriptor extends ParserDescriptor {
     private static final String ID = "cpplint";
     private static final String NAME = "Cpplint";
 
-    CppLintDescriptor() {
+    public CppLintDescriptor() {
         super(ID, NAME);
     }
 

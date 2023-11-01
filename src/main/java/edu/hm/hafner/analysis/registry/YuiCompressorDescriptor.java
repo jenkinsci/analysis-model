@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.YuiCompressorParser;
  *
  * @author Lorenz Munsch
  */
-class YuiCompressorDescriptor extends ParserDescriptor {
+public class YuiCompressorDescriptor extends ParserDescriptor {
     private static final String ID = "yui";
     private static final String NAME = "YUI Compressor";
 
-    YuiCompressorDescriptor() {
+    public YuiCompressorDescriptor() {
         super(ID, NAME);
     }
 

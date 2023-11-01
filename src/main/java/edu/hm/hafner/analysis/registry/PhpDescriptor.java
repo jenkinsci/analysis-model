@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.PhpParser;
  *
  * @author Lorenz Munsch
  */
-class PhpDescriptor extends ParserDescriptor {
+public class PhpDescriptor extends ParserDescriptor {
     private static final String ID = "php";
     private static final String NAME = "PHP Runtime";
 
-    PhpDescriptor() {
+    public PhpDescriptor() {
         super(ID, NAME);
     }
 

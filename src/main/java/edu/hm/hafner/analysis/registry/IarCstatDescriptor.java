@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.IarCstatParser;
  *
  * @author Lorenz Munsch
  */
-class IarCstatDescriptor extends ParserDescriptor {
+public class IarCstatDescriptor extends ParserDescriptor {
     private static final String ID = "iar-cstat";
     private static final String NAME = "IAR C-STAT";
 
-    IarCstatDescriptor() {
+    public IarCstatDescriptor() {
         super(ID, NAME);
     }
 

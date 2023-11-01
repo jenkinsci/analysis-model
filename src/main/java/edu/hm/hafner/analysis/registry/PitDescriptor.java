@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.violations.PitAdapter;
  *
  * @author Lorenz Munsch
  */
-class PitDescriptor extends ParserDescriptor {
+public class PitDescriptor extends ParserDescriptor {
     private static final String ID = "pit";
     private static final String NAME = "PIT";
 
-    PitDescriptor() {
+    public PitDescriptor() {
         super(ID, NAME);
     }
 

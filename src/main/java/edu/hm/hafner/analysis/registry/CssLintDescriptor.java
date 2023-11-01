@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.LintParser;
  *
  * @author Lorenz Munsch
  */
-class CssLintDescriptor extends ParserDescriptor {
+public class CssLintDescriptor extends ParserDescriptor {
     private static final String ID = "csslint";
     private static final String NAME = "CSS-Lint";
 
-    CssLintDescriptor() {
+    public CssLintDescriptor() {
         super(ID, NAME);
     }
 

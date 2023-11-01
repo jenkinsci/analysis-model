@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.gendarme.GendarmeParser;
  *
  * @author Lorenz Munsch
  */
-class GendarmeDescriptor extends ParserDescriptor {
+public class GendarmeDescriptor extends ParserDescriptor {
     private static final String ID = "gendarme";
     private static final String NAME = "Gendarme";
 
-    GendarmeDescriptor() {
+    public GendarmeDescriptor() {
         super(ID, NAME);
     }
 

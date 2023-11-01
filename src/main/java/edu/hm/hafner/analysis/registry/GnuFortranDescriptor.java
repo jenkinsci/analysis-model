@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.GnuFortranParser;
  *
  * @author Lorenz Munsch
  */
-class GnuFortranDescriptor extends ParserDescriptor {
+public class GnuFortranDescriptor extends ParserDescriptor {
     private static final String ID = "fortran";
     private static final String NAME = "GNU Fortran Compiler";
 
-    GnuFortranDescriptor() {
+    public GnuFortranDescriptor() {
         super(ID, NAME);
     }
 

@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.NagFortranParser;
  *
  * @author Lorenz Munsch
  */
-class NagFortranDescriptor extends ParserDescriptor {
+public class NagFortranDescriptor extends ParserDescriptor {
     private static final String ID = "nag-fortran";
     private static final String NAME = "NAG Fortran Compiler";
 
-    NagFortranDescriptor() {
+    public NagFortranDescriptor() {
         super(ID, NAME);
     }
 

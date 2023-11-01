@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.FlowParser;
  *
  * @author Lorenz Munsch
  */
-class FlowDescriptor extends ParserDescriptor {
+public class FlowDescriptor extends ParserDescriptor {
     private static final String ID = "flow";
     private static final String NAME = "Flow";
 
-    FlowDescriptor() {
+    public FlowDescriptor() {
         super(ID, NAME);
     }
 

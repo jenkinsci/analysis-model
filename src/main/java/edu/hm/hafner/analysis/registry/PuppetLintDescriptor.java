@@ -10,11 +10,11 @@ import static j2html.TagCreator.*;
  *
  * @author Lorenz Munsch
  */
-class PuppetLintDescriptor extends ParserDescriptor {
+public class PuppetLintDescriptor extends ParserDescriptor {
     private static final String ID = "puppetlint";
     private static final String NAME = "Puppet Lint";
 
-    PuppetLintDescriptor() {
+    public PuppetLintDescriptor() {
         super(ID, NAME);
     }
 

@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.DockerLintParser;
  *
  * @author Lorenz Munsch
  */
-class DockerLintDescriptor extends ParserDescriptor {
+public class DockerLintDescriptor extends ParserDescriptor {
     private static final String ID = "dockerlint";
     private static final String NAME = "Dockerfile Lint";
 
-    DockerLintDescriptor() {
+    public DockerLintDescriptor() {
         super(ID, NAME);
     }
 

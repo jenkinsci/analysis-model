@@ -9,11 +9,11 @@ import edu.hm.hafner.analysis.parser.CargoCheckParser;
  *
  * @author Lorenz Munsch
  */
-class CargoDescriptor extends ParserDescriptor {
+public class CargoDescriptor extends ParserDescriptor {
     private static final String ID = "cargo";
     private static final String NAME = "Cargo Check";
 
-    CargoDescriptor() {
+    public CargoDescriptor() {
         super(ID, NAME);
     }
 

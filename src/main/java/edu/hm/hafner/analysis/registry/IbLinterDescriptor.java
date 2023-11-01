@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.checkstyle.CheckStyleParser;
  *
  * @author Lorenz Munsch
  */
-class IbLinterDescriptor extends ParserDescriptor {
+public class IbLinterDescriptor extends ParserDescriptor {
     private static final String ID = "iblinter";
     private static final String NAME = "IbLinter";
 
-    IbLinterDescriptor() {
+    public IbLinterDescriptor() {
         super(ID, NAME);
     }
 

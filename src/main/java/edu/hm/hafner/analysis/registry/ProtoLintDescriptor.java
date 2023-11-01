@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.ProtoLintParser;
  *
  * @author Lorenz Munsch
  */
-class ProtoLintDescriptor extends ParserDescriptor {
+public class ProtoLintDescriptor extends ParserDescriptor {
     private static final String ID = "protolint";
     private static final String NAME = "ProtoLint";
 
-    ProtoLintDescriptor() {
+    public ProtoLintDescriptor() {
         super(ID, NAME);
     }
 

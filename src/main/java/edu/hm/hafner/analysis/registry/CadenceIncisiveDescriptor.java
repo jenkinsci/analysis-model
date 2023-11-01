@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.CadenceIncisiveParser;
  *
  * @author Lorenz Munsch
  */
-class CadenceIncisiveDescriptor extends ParserDescriptor {
+public class CadenceIncisiveDescriptor extends ParserDescriptor {
     private static final String ID = "cadence";
     private static final String NAME = "Cadence Incisive";
 
-    CadenceIncisiveDescriptor() {
+    public CadenceIncisiveDescriptor() {
         super(ID, NAME);
     }
 

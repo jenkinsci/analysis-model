@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.violations.PyDocStyleAdapter;
  *
  * @author Lorenz Munsch
  */
-class PyDocStyleDescriptor extends ParserDescriptor {
+public class PyDocStyleDescriptor extends ParserDescriptor {
     private static final String ID = "pydocstyle";
     private static final String NAME = "PyDocStyle";
 
-    PyDocStyleDescriptor() {
+    public PyDocStyleDescriptor() {
         super(ID, NAME);
     }
 

@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.jcreport.JcReportParser;
  *
  * @author Lorenz Munsch
  */
-class JcreportDescriptor extends ParserDescriptor {
+public class JcreportDescriptor extends ParserDescriptor {
     private static final String ID = "jc-report";
     private static final String NAME = "JCReport";
 
-    JcreportDescriptor() {
+    public JcreportDescriptor() {
         super(ID, NAME);
     }
 

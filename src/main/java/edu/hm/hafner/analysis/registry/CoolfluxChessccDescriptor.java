@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.CoolfluxChessccParser;
  *
  * @author Lorenz Munsch
  */
-class CoolfluxChessccDescriptor extends ParserDescriptor {
+public class CoolfluxChessccDescriptor extends ParserDescriptor {
     private static final String ID = "coolflux";
     private static final String NAME = "Coolflux DSP Compiler";
 
-    CoolfluxChessccDescriptor() {
+    public CoolfluxChessccDescriptor() {
         super(ID, NAME);
     }
 

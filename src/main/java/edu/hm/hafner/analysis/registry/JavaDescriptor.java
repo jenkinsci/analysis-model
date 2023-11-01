@@ -11,11 +11,11 @@ import edu.hm.hafner.analysis.parser.JavacParser;
  *
  * @author Lorenz Munsch
  */
-class JavaDescriptor extends CompositeParserDescriptor {
+public class JavaDescriptor extends CompositeParserDescriptor {
     private static final String ID = "java";
     private static final String NAME = "Java Compiler";
 
-    JavaDescriptor() {
+    public JavaDescriptor() {
         super(ID, NAME);
     }
 

@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.TnsdlParser;
  *
  * @author Lorenz Munsch
  */
-class TnsdlDescriptor extends ParserDescriptor {
+public class TnsdlDescriptor extends ParserDescriptor {
     private static final String ID = "tnsdl";
     private static final String NAME = "TNSDL Translator";
 
-    TnsdlDescriptor() {
+    public TnsdlDescriptor() {
         super(ID, NAME);
     }
 

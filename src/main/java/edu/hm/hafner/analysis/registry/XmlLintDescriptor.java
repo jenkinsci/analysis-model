@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.violations.XmlLintAdapter;
  *
  * @author Lorenz Munsch
  */
-class XmlLintDescriptor extends ParserDescriptor {
+public class XmlLintDescriptor extends ParserDescriptor {
     private static final String ID = "xmllint";
     private static final String NAME = "XML-Lint";
 
-    XmlLintDescriptor() {
+    public XmlLintDescriptor() {
         super(ID, NAME);
     }
 

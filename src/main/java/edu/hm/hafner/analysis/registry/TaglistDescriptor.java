@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.TaglistParser;
  *
  * @author Lorenz Munsch
  */
-class TaglistDescriptor extends ParserDescriptor {
+public class TaglistDescriptor extends ParserDescriptor {
     private static final String ID = "taglist";
     private static final String NAME = "Maven Taglist Plugin";
 
-    TaglistDescriptor() {
+    public TaglistDescriptor() {
         super(ID, NAME);
     }
 

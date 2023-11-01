@@ -12,7 +12,7 @@ public class EmbeddedEngineerDescriptor extends ParserDescriptor {
     private static final String ID = "embedded-engineer";
     private static final String NAME = "Embedded Engineer Tool";
 
-    EmbeddedEngineerDescriptor() {
+    public EmbeddedEngineerDescriptor() {
         super(ID, NAME);
     }
 

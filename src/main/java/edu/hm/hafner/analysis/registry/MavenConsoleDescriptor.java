@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.MavenConsoleParser;
  *
  * @author Lorenz Munsch
  */
-class MavenConsoleDescriptor extends ParserDescriptor {
+public class MavenConsoleDescriptor extends ParserDescriptor {
     private static final String ID = "maven-warnings";
     private static final String NAME = "Maven";
 
-    MavenConsoleDescriptor() {
+    public MavenConsoleDescriptor() {
         super(ID, NAME);
     }
 

@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.pvsstudio.PVSStudioParser;
  *
  * @author Lorenz Munsch
  */
-class PvsStudioDescriptor extends ParserDescriptor {
+public class PvsStudioDescriptor extends ParserDescriptor {
     private static final String ID = "pvs-studio";
     private static final String NAME = "PVS-Studio";
 
-    PvsStudioDescriptor() {
+    public PvsStudioDescriptor() {
         super(ID, NAME);
     }
 

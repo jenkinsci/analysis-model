@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.DoxygenParser;
  *
  * @author Lorenz Munsch
  */
-class DoxygenDescriptor extends ParserDescriptor {
+public class DoxygenDescriptor extends ParserDescriptor {
     private static final String ID = "doxygen";
     private static final String NAME = "Doxygen";
 
-    DoxygenDescriptor() {
+    public DoxygenDescriptor() {
         super(ID, NAME);
     }
 

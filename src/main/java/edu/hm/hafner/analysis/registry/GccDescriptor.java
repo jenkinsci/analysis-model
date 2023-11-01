@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.GccParser;
  *
  * @author Lorenz Munsch
  */
-class GccDescriptor extends ParserDescriptor {
+public class GccDescriptor extends ParserDescriptor {
     private static final String ID = "gcc3";
     private static final String NAME = "GNU C Compiler 3 (gcc)";
 
-    GccDescriptor() {
+    public GccDescriptor() {
         super(ID, NAME);
     }
 

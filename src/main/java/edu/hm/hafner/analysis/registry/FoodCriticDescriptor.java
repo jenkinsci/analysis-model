@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.FoodcriticParser;
  *
  * @author Lorenz Munsch
  */
-class FoodCriticDescriptor extends ParserDescriptor {
+public class FoodCriticDescriptor extends ParserDescriptor {
     private static final String ID = "foodcritic";
     private static final String NAME = "Foodcritic";
 
-    FoodCriticDescriptor() {
+    public FoodCriticDescriptor() {
         super(ID, NAME);
     }
 

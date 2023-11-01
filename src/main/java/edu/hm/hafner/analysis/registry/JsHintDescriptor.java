@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.violations.JsHintAdapter;
  *
  * @author Lorenz Munsch
  */
-class JsHintDescriptor extends ParserDescriptor {
+public class JsHintDescriptor extends ParserDescriptor {
     private static final String ID = "js-hint";
     private static final String NAME = "JsHint";
 
-    JsHintDescriptor() {
+    public JsHintDescriptor() {
         super(ID, NAME);
     }
 

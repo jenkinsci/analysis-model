@@ -14,7 +14,7 @@ public class SimulinkCheckDescriptor extends ParserDescriptor {
     private static final String ID = "simulink-check-parser";
     private static final String NAME = "Simulink Check Tool";
 
-    SimulinkCheckDescriptor() {
+    public SimulinkCheckDescriptor() {
         super(ID, NAME);
     }
 

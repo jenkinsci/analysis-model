@@ -10,7 +10,7 @@ public class CrossCoreEmbeddedStudioDescriptor extends ParserDescriptor {
     private static final String ID = "crosscore-embedded-studio";
     private static final String NAME = "CrossCore Embedded Studio (CCES)";
 
-    CrossCoreEmbeddedStudioDescriptor() {
+    public CrossCoreEmbeddedStudioDescriptor() {
         super(ID, NAME);
     }
 

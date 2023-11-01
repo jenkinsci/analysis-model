@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.checkstyle.CheckStyleParser;
  *
  * @author Lorenz Munsch
  */
-class PhpCodeSnifferDescriptor extends ParserDescriptor {
+public class PhpCodeSnifferDescriptor extends ParserDescriptor {
     private static final String ID = "php-code-sniffer";
     private static final String NAME = "PHP_CodeSniffer";
 
-    PhpCodeSnifferDescriptor() {
+    public PhpCodeSnifferDescriptor() {
         super(ID, NAME);
     }
 

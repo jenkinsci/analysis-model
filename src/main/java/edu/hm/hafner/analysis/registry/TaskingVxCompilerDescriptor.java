@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.TaskingVxCompilerParser;
  *
  * @author Lorenz Munsch
  */
-class TaskingVxCompilerDescriptor extends ParserDescriptor {
+public class TaskingVxCompilerDescriptor extends ParserDescriptor {
     private static final String ID = "tasking-vx";
     private static final String NAME = "TASKING VX Compiler";
 
-    TaskingVxCompilerDescriptor() {
+    public TaskingVxCompilerDescriptor() {
         super(ID, NAME);
     }
 

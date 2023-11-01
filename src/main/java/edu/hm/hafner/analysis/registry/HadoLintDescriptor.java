@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.HadoLintParser;
  *
  * @author Lorenz Munsch
  */
-class HadoLintDescriptor extends ParserDescriptor {
+public class HadoLintDescriptor extends ParserDescriptor {
     private static final String ID = "hadolint";
     private static final String NAME = "HadoLint";
 
-    HadoLintDescriptor() {
+    public HadoLintDescriptor() {
         super(ID, NAME);
     }
 

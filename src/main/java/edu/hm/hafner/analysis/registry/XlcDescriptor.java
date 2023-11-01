@@ -11,11 +11,11 @@ import edu.hm.hafner.analysis.parser.XlcLinkerParser;
  *
  * @author Lorenz Munsch
  */
-class XlcDescriptor extends CompositeParserDescriptor {
+public class XlcDescriptor extends CompositeParserDescriptor {
     private static final String ID = "xlc";
     private static final String NAME = "IBM XLC Compiler";
 
-    XlcDescriptor() {
+    public XlcDescriptor() {
         super(ID, NAME);
     }
 

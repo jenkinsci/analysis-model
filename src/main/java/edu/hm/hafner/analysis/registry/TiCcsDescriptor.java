@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.TiCcsParser;
  *
  * @author Lorenz Munsch
  */
-class TiCcsDescriptor extends ParserDescriptor {
+public class TiCcsDescriptor extends ParserDescriptor {
     private static final String ID = "code-composer";
     private static final String NAME = "Texas Instruments Code Composer Studio";
 
-    TiCcsDescriptor() {
+    public TiCcsDescriptor() {
         super(ID, NAME);
     }
 

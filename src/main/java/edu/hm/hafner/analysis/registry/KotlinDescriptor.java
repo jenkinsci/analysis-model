@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.JavacParser;
  *
  * @author Lorenz Munsch
  */
-class KotlinDescriptor extends ParserDescriptor {
+public class KotlinDescriptor extends ParserDescriptor {
     private static final String ID = "kotlin";
     private static final String NAME = "Kotlin";
 
-    KotlinDescriptor() {
+    public KotlinDescriptor() {
         super(ID, NAME);
     }
 

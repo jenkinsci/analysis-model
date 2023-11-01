@@ -12,11 +12,11 @@ import edu.hm.hafner.analysis.parser.EclipseXMLParser;
  *
  * @author Lorenz Munsch
  */
-class EclipseDescriptor extends CompositeParserDescriptor {
+public class EclipseDescriptor extends CompositeParserDescriptor {
     private static final String ID = "eclipse";
     private static final String NAME = "Eclipse ECJ";
 
-    EclipseDescriptor() {
+    public EclipseDescriptor() {
         super(ID, NAME);
     }
 

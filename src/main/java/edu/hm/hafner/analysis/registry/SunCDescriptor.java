@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.SunCParser;
  *
  * @author Lorenz Munsch
  */
-class SunCDescriptor extends ParserDescriptor {
+public class SunCDescriptor extends ParserDescriptor {
     private static final String ID = "sunc";
     private static final String NAME = "SUN C++ Compiler";
 
-    SunCDescriptor() {
+    public SunCDescriptor() {
         super(ID, NAME);
     }
 

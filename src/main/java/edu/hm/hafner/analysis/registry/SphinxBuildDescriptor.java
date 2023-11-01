@@ -11,11 +11,11 @@ import edu.hm.hafner.analysis.parser.SphinxBuildParser;
  *
  * @author Lorenz Munsch
  */
-class SphinxBuildDescriptor extends CompositeParserDescriptor {
+public class SphinxBuildDescriptor extends CompositeParserDescriptor {
     private static final String ID = "sphinx";
     private static final String NAME = "Sphinx Build";
 
-    SphinxBuildDescriptor() {
+    public SphinxBuildDescriptor() {
         super(ID, NAME);
     }
 

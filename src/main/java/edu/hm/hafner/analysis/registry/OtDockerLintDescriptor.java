@@ -8,11 +8,11 @@ import edu.hm.hafner.analysis.parser.OTDockerLintParser;
  *
  * @author Lorenz Munsch
  */
-class OtDockerLintDescriptor extends ParserDescriptor {
+public class OtDockerLintDescriptor extends ParserDescriptor {
     private static final String ID = "ot-docker-linter";
     private static final String NAME = "OT Docker Linter";
 
-    OtDockerLintDescriptor() {
+    public OtDockerLintDescriptor() {
         super(ID, NAME);
     }
 
