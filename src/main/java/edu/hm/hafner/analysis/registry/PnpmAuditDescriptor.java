@@ -10,7 +10,7 @@ import static j2html.TagCreator.*;
  *
  * @author Fabian Kaupp - kauppfbi@gmail.com
  */
-public class PnpmAuditDescriptor extends ParserDescriptor {
+class PnpmAuditDescriptor extends ParserDescriptor {
 
     private static final String ID = "pnpm-audit";
     private static final String NAME = "pnpm Audit";
