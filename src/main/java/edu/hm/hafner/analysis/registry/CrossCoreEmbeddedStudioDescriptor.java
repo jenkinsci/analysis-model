@@ -6,7 +6,7 @@ import edu.hm.hafner.analysis.parser.CrossCoreEmbeddedStudioParser;
 /**
  * A descriptor for CrossCore Embedded Studio from Analog Devices.
  */
-public class CrossCoreEmbeddedStudioDescriptor extends ParserDescriptor {
+class CrossCoreEmbeddedStudioDescriptor extends ParserDescriptor {
     private static final String ID = "crosscore-embedded-studio";
     private static final String NAME = "CrossCore Embedded Studio (CCES)";
 

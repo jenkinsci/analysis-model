@@ -8,7 +8,7 @@ import static j2html.TagCreator.*;
 /**
  * A descriptor for Valgrind.
  */
-public class ValgrindDescriptor extends ParserDescriptor {
+class ValgrindDescriptor extends ParserDescriptor {
     private static final String ID = "valgrind";
     private static final String NAME = "Valgrind";
 
