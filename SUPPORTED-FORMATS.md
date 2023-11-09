@@ -1542,7 +1542,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 pmd
             </td>
             <td>
-                <img src="https://raw.githubusercontent.com/pmd/pmd/master/docs/images/logo/pmd_logo_small.png" alt="PMD" height="64" width="64">
+                <img src="https://raw.githubusercontent.com/pmd/pmd/master/docs/images/logo/pmd-logo-300px.png" alt="PMD" height="64" width="64">
             </td>
             <td>
                 <a href="https://pmd.github.io">
