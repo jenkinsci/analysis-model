@@ -27,6 +27,11 @@ class AnsibleLintDescriptor extends ParserDescriptor {
     }
 
     @Override
+    public String getUrl() {
+        return "https://ansible.readthedocs.io/projects/lint/";
+    }
+
+    @Override
     public String getIconUrl() {
         return "https://raw.githubusercontent.com/benc-uk/icon-collection/master/logos/ansible.svg";
     }

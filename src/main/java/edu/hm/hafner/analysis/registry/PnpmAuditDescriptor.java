@@ -40,6 +40,6 @@ class PnpmAuditDescriptor extends ParserDescriptor {
 
     @Override
     public String getIconUrl() {
-        return "https://pnpm.io/assets/images/pnpm-standard-79c9dbb2e99b8525ae55174580061e1b.svg";
+        return "https://pnpm.io/img/pnpm-no-name-with-frame.svg";
     }
 }

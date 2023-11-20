@@ -20,4 +20,14 @@ class CmakeDescriptor extends ParserDescriptor {
     public IssueParser createParser(final Option... options) {
         return new CMakeParser();
     }
+
+    @Override
+    public String getUrl() {
+        return "https://cmake.org/";
+    }
+
+    @Override
+    public String getIconUrl() {
+        return "https://cmake.org/wp-content/uploads/2023/08/CMake-Mark-1.svg";
+    }
 }

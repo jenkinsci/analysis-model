@@ -17,6 +17,11 @@ class BluePearlDescriptor extends ParserDescriptor {
     }
 
     @Override
+    public String getUrl() {
+        return "https://bluepearlsoftware.com/visual-verification-suite/";
+    }
+
+    @Override
     public IssueParser createParser(final Option... options) {
         return new BluePearlParser();
     }
