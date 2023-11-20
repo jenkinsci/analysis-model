@@ -20,4 +20,9 @@ class MsBuildDescriptor extends ParserDescriptor {
     public IssueParser createParser(final Option... options) {
         return new MsBuildParser();
     }
+
+    @Override
+    public String getUrl() {
+        return "https://github.com/dotnet/msbuild";
+    }
 }

@@ -20,4 +20,9 @@ class MavenConsoleDescriptor extends ParserDescriptor {
     public IssueParser createParser(final Option... options) {
         return new MavenConsoleParser();
     }
+
+    @Override
+    public String getUrl() {
+        return "https://maven.apache.org/";
+    }
 }

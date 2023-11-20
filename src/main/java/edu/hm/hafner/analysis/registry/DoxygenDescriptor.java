@@ -22,6 +22,16 @@ class DoxygenDescriptor extends ParserDescriptor {
     }
 
     @Override
+    public String getUrl() {
+        return "https://www.doxygen.nl/";
+    }
+
+    @Override
+    public String getIconUrl() {
+        return "https://raw.githubusercontent.com/doxygen/doxygen/master/doc/doxygen_logo.svg";
+    }
+
+    @Override
     public String getHelp() {
         return "Execute doxygen:"
               + "As <b>shell</b> command <code>( cat Doxyfile; echo WARN_FORMAT='$file:$line: $text' ) | doxygen -</code>"

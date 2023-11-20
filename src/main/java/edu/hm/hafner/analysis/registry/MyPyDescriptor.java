@@ -20,4 +20,9 @@ class MyPyDescriptor extends ParserDescriptor {
     public IssueParser createParser(final Option... options) {
         return new MyPyAdapter();
     }
+
+    @Override
+    public String getUrl() {
+        return "https://mypy-lang.org/";
+    }
 }

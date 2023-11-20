@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2023-10-22T17:05:04.834306 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2023-11-20T16:59:30.040364100 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -84,7 +84,9 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
                 <img src="https://raw.githubusercontent.com/benc-uk/icon-collection/master/logos/ansible.svg" alt="Ansible Lint" height="64" width="64">
             </td>
             <td>
-                Ansible Lint
+                <a href="https://ansible.readthedocs.io/projects/lint/">
+                    Ansible Lint
+                </a>
             </td>
             <td>
                 -
@@ -173,7 +175,9 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
                 -
             </td>
             <td>
-                Blue Pearl Visual Verification Suite
+                <a href="https://bluepearlsoftware.com/visual-verification-suite/">
+                    Blue Pearl Visual Verification Suite
+                </a>
             </td>
             <td>
                 -
@@ -233,10 +237,12 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
                 cmake
             </td>
             <td>
-                -
+                <img src="https://cmake.org/wp-content/uploads/2023/08/CMake-Mark-1.svg" alt="CMake" height="64" width="64">
             </td>
             <td>
-                CMake
+                <a href="https://cmake.org/">
+                    CMake
+                </a>
             </td>
             <td>
                 -
@@ -313,7 +319,9 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
                 -
             </td>
             <td>
-                Cargo Check
+                <a href="https://doc.rust-lang.org/cargo/commands/cargo-check.html">
+                    Cargo Check
+                </a>
             </td>
             <td>
                 -
@@ -626,10 +634,12 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
                 doxygen
             </td>
             <td>
-                -
+                <img src="https://raw.githubusercontent.com/doxygen/doxygen/master/doc/doxygen_logo.svg" alt="Doxygen" height="64" width="64">
             </td>
             <td>
-                Doxygen
+                <a href="https://www.doxygen.nl/">
+                    Doxygen
+                </a>
             </td>
             <td>
                 -
@@ -1259,7 +1269,9 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 -
             </td>
             <td>
-                MSBuild
+                <a href="https://github.com/dotnet/msbuild">
+                    MSBuild
+                </a>
             </td>
             <td>
                 -
@@ -1273,7 +1285,9 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 -
             </td>
             <td>
-                Maven
+                <a href="https://maven.apache.org/">
+                    Maven
+                </a>
             </td>
             <td>
                 -
@@ -1336,7 +1350,9 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 -
             </td>
             <td>
-                MyPy
+                <a href="https://mypy-lang.org/">
+                    MyPy
+                </a>
             </td>
             <td>
                 -
@@ -2229,7 +2245,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 pnpm-audit
             </td>
             <td>
-                <img src="https://pnpm.io/assets/images/pnpm-standard-79c9dbb2e99b8525ae55174580061e1b.svg" alt="pnpm Audit" height="64" width="64">
+                <img src="https://pnpm.io/img/pnpm-no-name-with-frame.svg" alt="pnpm Audit" height="64" width="64">
             </td>
             <td>
                 <a href="https://pnpm.io/cli/audit">

@@ -18,6 +18,11 @@ class CargoDescriptor extends ParserDescriptor {
     }
 
     @Override
+    public String getUrl() {
+        return "https://doc.rust-lang.org/cargo/commands/cargo-check.html";
+    }
+
+    @Override
     public IssueParser createParser(final Option... options) {
         return new CargoCheckParser();
     }
