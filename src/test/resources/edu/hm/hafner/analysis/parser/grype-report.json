@@ -254,7 +254,6 @@
    "artifact": {
     "id": "c1c07c89ccdbbc49",
     "name": "tomcat-jdbc",
-    "version": "8.0.28",
     "type": "java-archive",
     "locations": [
      {

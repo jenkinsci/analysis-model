@@ -29,6 +29,18 @@ class GrypeParserTest extends AbstractParserTest {
                         .withHref("https://nvd.nist.gov/vuln/detail/CVE-2015-5345")
                         .withText("https://nvd.nist.gov/vuln/detail/CVE-2015-5345")).render());
 
+        softly.assertThat(report.get(1))
+                .hasFileName("tomcat-jdbc/8.0.28/tomcat-jdbc-8.0.28.jar")
+                .hasPackageName("tomcat-jdbc")
+                .hasSeverity(Severity.WARNING_HIGH)
+                .hasCategory("java-archive")
+                .hasType("CVE-2015-5346")
+                .hasMessage(
+                        "Session fixation vulnerability in Apache Tomcat 7.x before 7.0.66, 8.x before 8.0.30, and 9.x before 9.0.0.M2, when different session settings are used for deployments of multiple versions of the same web application, might allow remote attackers to hijack web sessions by leveraging use of a requestedSessionSSL field for an unintended request, related to CoyoteAdapter.java and Request.java.")
+                .hasDescription(p().with(a()
+                        .withHref("https://nvd.nist.gov/vuln/detail/CVE-2015-5346")
+                        .withText("https://nvd.nist.gov/vuln/detail/CVE-2015-5346")).render());
+
         softly.assertThat(report.get(2))
                 .hasFileName("tomcat-jdbc/8.0.28/tomcat-jdbc-8.0.28.jar")
                 .hasPackageName("tomcat-jdbc 8.0.28")
