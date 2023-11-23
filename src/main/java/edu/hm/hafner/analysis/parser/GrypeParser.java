@@ -49,7 +49,7 @@ public class GrypeParser extends JsonIssueParser {
         String fileName = artifact.getJSONArray(LOCATIONS_TAG).getJSONObject(0).getString(PATH_TAG);
         String packageName = artifact.optString(NAME_TAG, "Unknown");
         String version = artifact.optString(VERSION_TAG);
-        if(version != null){
+        if (version != null) {
             packageName = packageName + " " + version;
         }
 
