@@ -27,6 +27,9 @@ public class GrypeParser extends JsonIssueParser {
     private static final String SEVERITY_TAG = "severity";
     private static final String ID_TAG = "id";
     private static final String DESCRIPTION_TAG = "description";
+    private static final String NAME_TAG = "name";
+    private static final String VERSION_TAG = "version";
+    private static final String TYPE_TAG = "type";
 
     @Override
     protected void parseJsonObject(final Report report, final JSONObject jsonReport, final IssueBuilder issueBuilder) {
@@ -42,11 +45,17 @@ public class GrypeParser extends JsonIssueParser {
 
     private Issue getIssue(final IssueBuilder issueBuilder, final JSONObject match) {
         JSONObject vuln = match.getJSONObject(VULNERABILIY_TAG);
-        String fileName = match.getJSONObject(ARTIFACT_TAG).getJSONArray(LOCATIONS_TAG).getJSONObject(0)
-                .getString(PATH_TAG);
+        JSONObject artifact = match.getJSONObject(ARTIFACT_TAG);
+        String fileName = artifact.getJSONArray(LOCATIONS_TAG).getJSONObject(0).getString(PATH_TAG);
+        String packageName = artifact.optString(NAME_TAG, "Unknown");
+        String version = artifact.optString(VERSION_TAG, "");
+        if (!version.isEmpty()) {
+            packageName = packageName + " " + version;
+        }
 
         return issueBuilder.setFileName(fileName)
-                .setCategory(vuln.getString(SEVERITY_TAG))
+                .setPackageName(packageName)
+                .setCategory(artifact.optString(TYPE_TAG, "Unknown"))
                 .setSeverity(Severity.guessFromString(vuln.getString(SEVERITY_TAG)))
                 .setType(vuln.getString(ID_TAG))
                 .setMessage(vuln.optString(DESCRIPTION_TAG, "Unknown"))
