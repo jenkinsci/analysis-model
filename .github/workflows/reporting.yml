@@ -1,0 +1,128 @@
+name: 'Generate reports'
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  coverage:
+
+    runs-on: [ubuntu-latest]
+    name: Reporting on Ubuntu
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 21
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          check-latest: true
+          cache: 'maven'
+      - name: Set up Maven
+        uses: stCarolas/setup-maven@v4.5
+        with:
+          maven-version: 3.9.5
+      - name: Generate coverage with JaCoCo
+        run: mvn -V --color always -ntp clean verify --file pom.xml '-Dgpg.skip'
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3.1.4
+        with:
+          token: ${{secrets.CODECOV_TOKEN}}
+      - name: Mutation Coverage
+        run: mvn -V --color always -ntp org.pitest:pitest-maven:mutationCoverage
+      - name: Autograding
+        uses: uhafner/autograding-github-action@v2.0.0
+        with:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HEAD_SHA: ${{github.event.pull_request.head.sha}}
+          CONFIG: >
+            {
+              "tests": {
+                "tools": [
+                  {
+                    "id": "test",
+                    "name": "Unittests",
+                    "pattern": "**/target/*-reports/TEST*.xml"
+                  }
+                ],
+                "name": "JUnit",
+                "passedImpact": 0,
+                "skippedImpact": -1,
+                "failureImpact": -5,
+                "maxScore": 100
+              },
+              "analysis": [
+                {
+                  "name": "Style",
+                  "tools": [
+                    {
+                      "id": "checkstyle",
+                      "name": "CheckStyle",
+                      "pattern": "**/target/checkstyle-result.xml"
+                    },
+                    {
+                      "id": "pmd",
+                      "name": "PMD",
+                      "pattern": "**/target/pmd.xml"
+                    }
+                  ],
+                  "errorImpact": -1,
+                  "highImpact": -1,
+                  "normalImpact": -1,
+                  "lowImpact": -1,
+                  "maxScore": 100
+                },
+                {
+                  "name": "Bugs",
+                  "tools": [
+                    {
+                      "id": "spotbugs",
+                      "name": "SpotBugs",
+                      "pattern": "**/target/spotbugsXml.xml"
+                    }
+                  ],
+                  "errorImpact": -3,
+                  "highImpact": -3,
+                  "normalImpact": -3,
+                  "lowImpact": -3,
+                  "maxScore": 100
+                }
+              ],
+              "coverage": [
+                {
+                  "tools": [
+                    {
+                      "id": "jacoco",
+                      "name": "Line Coverage",
+                      "metric": "line",
+                      "pattern": "**/target/site/jacoco/jacoco.xml"
+                    },
+                    {
+                      "id": "jacoco",
+                      "name": "Branch Coverage",
+                      "metric": "branch",
+                      "pattern": "**/target/site/jacoco/jacoco.xml"
+                    }
+                  ],
+                  "name": "JaCoCo",
+                  "maxScore": 100,
+                  "missedPercentageImpact": -1
+                },
+                {
+                  "tools": [
+                    {
+                      "id": "pit",
+                      "name": "Mutation Coverage",
+                      "metric": "mutation",
+                      "pattern": "**/target/pit-reports/mutations.xml"
+                    }
+                  ],
+                  "name": "PIT",
+                  "maxScore": 100,
+                  "missedPercentageImpact": -1
+                }
+              ]
+            }
