@@ -34,7 +34,7 @@ jobs:
       - name: Mutation Coverage
         run: mvn -V --color always -ntp org.pitest:pitest-maven:mutationCoverage
       - name: Autograding
-        uses: uhafner/autograding-github-action@v2.0.0
+        uses: uhafner/autograding-github-action@v2.1.0
         with:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
           HEAD_SHA: ${{github.event.pull_request.head.sha}}
