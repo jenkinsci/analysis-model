@@ -97,19 +97,6 @@ jobs:
                   "name": "JaCoCo",
                   "maxScore": 100,
                   "missedPercentageImpact": -1
-                },
-                {
-                  "tools": [
-                    {
-                      "id": "pit",
-                      "name": "Mutation Coverage",
-                      "metric": "mutation",
-                      "pattern": "**/target/pit-reports/mutations.xml"
-                    }
-                  ],
-                  "name": "PIT",
-                  "maxScore": 100,
-                  "missedPercentageImpact": -1
                 }
               ]
             }
@@ -132,13 +119,6 @@ jobs:
           status: ${{ steps.metrics.outputs.branch }}%
           color: 'green'
           path: badges/branch-coverage.svg
-      - name: Generate the badge SVG image for the mutation coverage
-        uses: emibcn/badge-action@v2.0.2
-        with:
-          label: 'Mutations'
-          status: ${{ steps.metrics.outputs.mutation }}%
-          color: 'green'
-          path: badges/mutation-coverage.svg
       - name: Generate the badge SVG image for the warnings
         uses: emibcn/badge-action@v2.0.2
         with:
