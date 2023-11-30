@@ -25,7 +25,7 @@ jobs:
         with:
           maven-version: 3.9.5
       - name: Generate coverage with JaCoCo
-        run: mvn -V --color always -ntp clean verify --file pom.xml '-Dgpg.skip'
+        run: mvn -V --color always -ntp clean verify --file pom.xml '-Dgpg.skip' | tee maven.log
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3.1.4
         with:
