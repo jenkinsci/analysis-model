@@ -3,8 +3,10 @@
 [![Join the chat at Gitter/Matrix](https://badges.gitter.im/jenkinsci/warnings-plugin.svg)](https://gitter.im/jenkinsci/warnings-plugin?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Jenkins](https://ci.jenkins.io/job/Plugins/job/analysis-model/job/main/badge/icon?subject=Jenkins%20CI)](https://ci.jenkins.io/job/Plugins/job/analysis-model/job/main/)
 [![CI on all platforms](https://github.com/jenkinsci/analysis-model/workflows/GitHub%20CI/badge.svg)](https://github.com/jenkinsci/analysis-model/actions)
-[![codecov](https://codecov.io/gh/jenkinsci/analysis-model/branch/master/graph/badge.svg)](https://codecov.io/gh/jenkinsci/analysis-model)
 [![CodeQL](https://github.com/jenkinsci/analysis-model/workflows/CodeQL/badge.svg)](https://github.com/jenkinsci/analysis-model/actions/workflows/codeql.yml)
+[![Line Coverage](https://raw.githubusercontent.com/jenkinsci/analysis-model/main/badges/line-coverage.svg)](https://app.codecov.io/gh/jenkinsci/analysis-model)
+[![Branch Coverage](https://raw.githubusercontent.com/jenkinsci/analysis-model/main/badges/branch-coverage.svg)](https://app.codecov.io/gh/jenkinsci/analysis-model)
+[![Mutation Coverage](https://raw.githubusercontent.com/jenkinsci/analysis-model/main/badges/mutation-coverage.svg)](https://github.com/jenkinsci/analysis-model/actions/workflows/reporting.yml)
 
 This library provides a Java object model to read, aggregate, filter, and query static analysis reports. 
 It is used by [Jenkins' warnings next generation plug-in](https://github.com/jenkinsci/warnings-ng-plugin) to visualize
