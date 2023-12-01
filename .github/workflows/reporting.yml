@@ -31,10 +31,10 @@ jobs:
         with:
           token: ${{secrets.CODECOV_TOKEN}}
       - name: Autograding
-        uses: uhafner/autograding-github-action@v2.1.0
+        uses: uhafner/autograding-github-action@v3
         with:
-          TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CONFIG: >
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          config: >
             {
               "tests": {
                 "tools": [
@@ -129,14 +129,14 @@ jobs:
           status: ${{ steps.metrics.outputs.warnings }}
           color: 'orange'
           path: badges/warnings.svg
-      - name: Commit badge
+      - name: Commit updated badges
         continue-on-error: true
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add badges/*.svg
           git commit -m "Update badges with results from latest autograding"
-      - name: Push badge commit
+      - name: Push updated badges to GitHub repository
         uses: ad-m/github-push-action@master
         if: ${{ success() }}
         with:
