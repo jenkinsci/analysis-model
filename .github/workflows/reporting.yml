@@ -72,6 +72,7 @@ jobs:
                   {
                     "id": "spotbugs",
                     "name": "SpotBugs",
+                    "sourcePath": "src/main/java",
                     "pattern": "**/target/spotbugsXml.xml"
                   }
                 ],
@@ -88,12 +89,14 @@ jobs:
                       "id": "jacoco",
                       "name": "Line Coverage",
                       "metric": "line",
+                      "sourcePath": "src/main/java",
                       "pattern": "**/target/site/jacoco/jacoco.xml"
                     },
                     {
                       "id": "jacoco",
                       "name": "Branch Coverage",
                       "metric": "branch",
+                      "sourcePath": "src/main/java",
                       "pattern": "**/target/site/jacoco/jacoco.xml"
                     }
                   ],
@@ -135,7 +138,7 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add badges/*.svg
-          git commit -m "Update badges with results from latest autograding"
+          git commit -m "Update badges with results from latest autograding" || true
       - name: Push updated badges to GitHub repository
         uses: ad-m/github-push-action@master
         if: ${{ success() }}
