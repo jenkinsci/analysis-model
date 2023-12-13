@@ -10,7 +10,6 @@ import edu.hm.hafner.analysis.parser.CodeGeneratorParser;
  */
 
 class CodeGeneratorDescriptor extends ParserDescriptor {
-
     private static final String ID = "code-generator";
     private static final String NAME = "Code Generator Tool";
 

@@ -9,9 +9,9 @@
 [![Warnings](https://raw.githubusercontent.com/jenkinsci/analysis-model/main/badges/warnings.svg)](https://github.com/jenkinsci/analysis-model/actions/workflows/reporting.yml)
 
 This library provides a Java object model to read, aggregate, filter, and query static analysis reports. 
-It is used by [Jenkins' warnings next generation plug-in](https://github.com/jenkinsci/warnings-ng-plugin) to visualize
+It is used by [Jenkins' warnings plug-in](https://github.com/jenkinsci/warnings-ng-plugin) to visualize
 the warnings of individual builds. Additionally, this library is used by a 
-[GitHub action](https://github.com/uhafner/autograding-github-action) to autograde student software projects based
+[GitHub action](https://github.com/uhafner/autograding-github-action) and [GitLab action](https://github.com/uhafner/autograding-gitlab-action) to autograde student software projects based
 on a given set of metrics (unit tests, code and mutation coverage, static analysis warnings). 
 
 This library consists basically of three separate parts:

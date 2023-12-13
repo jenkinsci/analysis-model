@@ -183,5 +183,4 @@ public class EclipseXMLParser extends IssueParser {
         // XPath is "./@categoryID"
         return problem.getAttribute("categoryID");
     }
-
 }

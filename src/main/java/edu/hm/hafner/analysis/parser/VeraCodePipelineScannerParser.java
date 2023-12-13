@@ -10,8 +10,6 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 
 import static j2html.TagCreator.*;
-import static org.apache.commons.lang3.StringUtils.startsWith;
-import static org.apache.commons.lang3.StringUtils.endsWith;
 
 /**
  * Parser for Veracode Pipeline Scanner (pipeline-scan) tool.
@@ -76,10 +74,10 @@ public class VeraCodePipelineScannerParser extends JsonIssueParser {
      * @return original file name or a java file name prepended with src/main/java
      */
     private String getEnrichedFileName(final String rawFileName) {
-        if (endsWith(rawFileName, ".java") && !startsWith(rawFileName, "src/main/java/")) {
+        if (StringUtils.endsWith(rawFileName, ".java") && !StringUtils.startsWith(rawFileName, "src/main/java/")) {
             return "src/main/java/" + rawFileName;
         }
-        else if (endsWith(rawFileName, ".kt") && !startsWith(rawFileName, "src/main/kotlin/")) {
+        else if (StringUtils.endsWith(rawFileName, ".kt") && !StringUtils.startsWith(rawFileName, "src/main/kotlin/")) {
             return "src/main/kotlin/" + rawFileName;
         }
         else {
@@ -144,7 +142,6 @@ public class VeraCodePipelineScannerParser extends JsonIssueParser {
         else {
             return Severity.WARNING_NORMAL;
         }
-
     }
 
     private String formatDescription(final String fileName, final JSONObject finding) {
@@ -158,5 +155,4 @@ public class VeraCodePipelineScannerParser extends JsonIssueParser {
                 div(b("Severity: "), text(severity)),
                 p(rawHtml(displayHtml))).render();
     }
-
 }

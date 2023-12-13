@@ -28,7 +28,6 @@ import static j2html.TagCreator.*;
  * @author Fabian Kaupp - kauppfbi@gmail.com
  */
 public class PnpmAuditParser extends JsonIssueParser {
-
     private static final String VALUE_NOT_SET = "-";
     private static final String UNCATEGORIZED = "Uncategorized";
 

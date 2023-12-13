@@ -320,7 +320,6 @@ public class Issue implements Serializable {
             @CheckForNull final String reference, @CheckForNull final String fingerprint,
             @CheckForNull final Serializable additionalProperties,
             final UUID id) {
-
         this.pathName = normalizeFileName(pathName);
         this.fileName = fileName;
 
@@ -934,5 +933,4 @@ public class Issue implements Serializable {
     public String toString() {
         return String.format("%s(%d,%d): %s: %s: %s", getBaseName(), lineStart, columnStart, type, category, message);
     }
-
 }

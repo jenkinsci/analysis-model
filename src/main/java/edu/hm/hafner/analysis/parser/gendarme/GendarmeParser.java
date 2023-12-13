@@ -49,7 +49,6 @@ public class GendarmeParser extends IssueParser {
 
     private Report parseViolations(final List<Element> ruleElements, final Map<String, GendarmeRule> rules) {
         try (IssueBuilder issueBuilder = new IssueBuilder()) {
-
             Report warnings = new Report();
             for (Element ruleElement : ruleElements) {
                 String ruleName = ruleElement.getAttribute("Name");

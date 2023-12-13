@@ -10,7 +10,6 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  */
 @SuppressWarnings("PMD.DataClass")
 public class Item {
-
     @CheckForNull
     private String column;
     @CheckForNull

@@ -44,7 +44,6 @@ public class CodeCheckerParser extends LookaheadParser {
     }
 
     private Severity getSeverity(final String severityText) {
-
         if (severityText.contains("CRITICAL")) {
             return Severity.ERROR;
         }

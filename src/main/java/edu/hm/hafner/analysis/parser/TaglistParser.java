@@ -76,5 +76,4 @@ public class TaglistParser extends IssueParser {
         int idx = clazz.lastIndexOf('.');
         return idx > 0 ? clazz.substring(0, idx) : null;
     }
-
 }

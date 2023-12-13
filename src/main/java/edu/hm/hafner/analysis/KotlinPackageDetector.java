@@ -11,7 +11,6 @@ import edu.hm.hafner.util.VisibleForTesting;
  * @author Bastian Kersting
  */
 class KotlinPackageDetector extends AbstractPackageDetector {
-
     private static final Pattern PACKAGE_PATTERN = Pattern.compile(
             "^\\s*package\\s*([a-z]+[.\\w]*)\\s*.*");
 
