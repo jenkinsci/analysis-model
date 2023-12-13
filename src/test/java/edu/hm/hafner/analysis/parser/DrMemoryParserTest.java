@@ -14,11 +14,7 @@ import static edu.hm.hafner.analysis.assertions.Assertions.*;
  * Tests the class {@link DrMemoryParser}.
  */
 class DrMemoryParserTest extends AbstractParserTest {
-
-    /**
-     * Creates a new instance of {@link DrMemoryParserTest}.
-     */
-    protected DrMemoryParserTest() {
+    DrMemoryParserTest() {
         super("drmemory.txt");
     }
 

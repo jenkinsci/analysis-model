@@ -53,7 +53,6 @@ class XmlParserTest extends StructuredFileParserTest {
                 .hasFingerprint("fingerprint")
                 .hasAdditionalProperties("")
                 .hasOnlyLineRanges(new LineRange(5, 6));
-
     }
 
     @Override

@@ -20,7 +20,6 @@ import static edu.hm.hafner.analysis.assertions.Assertions.*;
  * @author Andreas Mandel
  */
 class DockerLintParserTest extends AbstractParserTest {
-
     DockerLintParserTest() {
         super("dockerlint.json");
     }

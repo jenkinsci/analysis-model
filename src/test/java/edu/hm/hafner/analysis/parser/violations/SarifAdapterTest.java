@@ -50,5 +50,4 @@ class SarifAdapterTest extends AbstractParserTest {
     protected SarifAdapter createParser() {
         return new SarifAdapter();
     }
-
 }

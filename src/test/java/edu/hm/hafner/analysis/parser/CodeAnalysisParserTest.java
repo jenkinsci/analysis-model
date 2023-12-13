@@ -9,10 +9,6 @@ import edu.hm.hafner.analysis.assertions.SoftAssertions;
  * Tests the class {@link CodeAnalysisParser}.
  */
 class CodeAnalysisParserTest extends AbstractParserTest {
-
-    /**
-     * Creates a new CodeAnalysisParserTest.
-     */
     CodeAnalysisParserTest() {
         super("codeanalysis.txt");
     }

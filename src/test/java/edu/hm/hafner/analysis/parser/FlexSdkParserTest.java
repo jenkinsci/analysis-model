@@ -69,7 +69,6 @@ class FlexSdkParserTest extends AbstractParserTest {
                         "The CSS type selector 'Book' was not processed, because the type was not used in the application.")
                 .hasFileName(
                         "D:/workspaces/flexcompo_trunkdev_nightly/src/flexcompo/samples/ugv_helloExtensibility_flex/src/main/HelloExtensibleWorld.mxml");
-
     }
 
     @Override
