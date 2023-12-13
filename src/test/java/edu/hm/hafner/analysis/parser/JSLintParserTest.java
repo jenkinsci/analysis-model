@@ -33,7 +33,6 @@ class JSLintParserTest extends AbstractParserTest {
         assertThat(warnings).hasSize(197);
 
         try (SoftAssertions softly = new SoftAssertions()) {
-
             softly.assertThat(warnings.get(0))
                     .hasSeverity(Severity.WARNING_HIGH)
                     .hasCategory(LintParser.JSLintXmlSaxParser.CATEGORY_UNDEFINED_VARIABLE)
@@ -42,7 +41,6 @@ class JSLintParserTest extends AbstractParserTest {
                     .hasMessage("'window' is not defined.")
                     .hasFileName("C:/DVR/lint_Mobile-Localization_ws/evWebService/WebClientApi/api-v1.js")
                     .hasColumnStart(5);
-
         }
     }
 

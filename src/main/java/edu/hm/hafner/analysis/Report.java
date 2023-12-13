@@ -1046,7 +1046,6 @@ public class Report implements Iterable<Issue>, Serializable {
         for (Report subReport : subReports) {
             output.writeObject(subReport);
         }
-
     }
 
     private void writeIssues(final ObjectOutputStream output) throws IOException {
@@ -1274,7 +1273,6 @@ public class Report implements Iterable<Issue>, Serializable {
          */
         private void addNewFilter(final Collection<String> patterns, final Function<Issue, String> propertyToFilter,
                 final FilterType type) {
-
             Collection<Predicate<Issue>> filters = new ArrayList<>();
             for (String pattern : patterns) {
                 filters.add(issueToFilter -> Pattern.compile(pattern, Pattern.DOTALL)

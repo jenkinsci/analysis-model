@@ -35,7 +35,6 @@ class IssueBuilderTest {
     @Test
     void shouldCreateAbsolutePath() {
         try (IssueBuilder builder = new IssueBuilder()) {
-
             builder.setFileName(RELATIVE_FILE);
 
             assertThat(builder.build())

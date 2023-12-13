@@ -18,7 +18,6 @@ import static org.assertj.core.api.Assertions.*;
  * @author Fabian Kaupp - kauppfbi@gmail.com
  */
 class PnpmAuditParserTest extends AbstractParserTest {
-
     protected PnpmAuditParserTest() {
         super("pnpm-audit.json");
     }
@@ -72,7 +71,6 @@ class PnpmAuditParserTest extends AbstractParserTest {
         assertThat(description).doesNotContain("Installed Version");
         assertThat(description).contains("Patched Versions");
         assertThat(description).contains("Vulnerable Versions");
-
     }
 
     @Test

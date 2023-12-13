@@ -293,7 +293,6 @@ class RfLintParserTest extends AbstractParserTest {
                 .hasPackageName(packageName)
                 .hasCategory(OTHER_CATEGORY)
                 .hasSeverity(Severity.WARNING_NORMAL);
-
     }
 
     @Override

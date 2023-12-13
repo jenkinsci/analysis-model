@@ -83,12 +83,8 @@ class GccParserTest extends AbstractParserTest {
         }
     }
 
-    /**
-     * Parses a file with two GCC warnings.
-     */
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-
         softly.assertThat(report).hasSize(8);
 
         Iterator<Issue> iterator = report.iterator();

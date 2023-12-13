@@ -9,10 +9,6 @@ import edu.hm.hafner.analysis.assertions.SoftAssertions;
  * Tests the class {@link CoolfluxChessccParserTest}.
  */
 class CoolfluxChessccParserTest extends AbstractParserTest {
-
-    /**
-     * Creates a new CoolfluxChessccParserTest.
-     */
     CoolfluxChessccParserTest() {
         super("coolfluxchesscc.txt");
     }

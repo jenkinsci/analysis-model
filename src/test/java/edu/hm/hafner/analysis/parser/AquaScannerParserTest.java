@@ -15,7 +15,6 @@ import static edu.hm.hafner.analysis.assertions.Assertions.*;
  * Tests the class {@link AquaScannerParser}.
  */
 class AquaScannerParserTest extends AbstractParserTest {
-
     private static final String EXPECTED_FILENAME = "/opt/app/app-runner.jar:org/jose4j/json/JsonHeaderUtil.class";
 
     AquaScannerParserTest() {

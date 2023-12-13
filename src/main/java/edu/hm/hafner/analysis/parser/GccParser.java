@@ -86,6 +86,5 @@ public class GccParser extends LookaheadParser {
                 .setSeverity(priority)
                 .buildOptional();
     }
-
 }
 

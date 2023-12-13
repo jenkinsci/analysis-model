@@ -16,7 +16,6 @@ import static edu.hm.hafner.analysis.assertions.Assertions.*;
  * @author Jan Vansteenkiste
  */
 class PuppetLintParserTest extends AbstractParserTest {
-
     PuppetLintParserTest() {
         super("puppet-lint.txt");
     }

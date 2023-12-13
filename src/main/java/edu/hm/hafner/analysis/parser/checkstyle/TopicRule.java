@@ -69,5 +69,4 @@ public class TopicRule extends NodeCreateRule {
 
         return StringUtils.replace(endSourceRemoved, "<source>", "<pre><code>");
     }
-
 }

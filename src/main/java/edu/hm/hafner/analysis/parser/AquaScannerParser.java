@@ -90,5 +90,4 @@ public class AquaScannerParser extends JsonIssueParser {
                 div(b("Aqua Severity: "), text(severity)),
                 p(text(description))).render();
     }
-
 }

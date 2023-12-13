@@ -116,7 +116,6 @@ class PmdParserTest extends AbstractParserTest {
                                 + "\tat net.sourceforge.pmd.SourceCodeProcessor.processSource(SourceCodeProcessor.java:175)\n"
                                 + "\tat net.sourceforge.pmd.SourceCodeProcessor.processSourceCode(SourceCodeProcessor.java:96)\n"
                                 + "\t... 9 more");
-
     }
 
     /**

@@ -310,6 +310,5 @@ public abstract class SonarQubeParser extends JsonIssueParser {
         }
         return priority;
     }
-
 }
 

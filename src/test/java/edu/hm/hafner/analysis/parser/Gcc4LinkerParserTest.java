@@ -92,7 +92,6 @@ class Gcc4LinkerParserTest extends AbstractParserTest {
                         "errno: TLS definition in /lib/libc.so.6 section .tbss mismatches non-TLS reference in /tmp/ccgdbGtN.o")
                 .hasFileName(FILE_NAME)
                 .hasSeverity(Severity.WARNING_HIGH);
-
     }
 
     /** Should not report warnings already detected by {@link Gcc4CompilerParser}. */

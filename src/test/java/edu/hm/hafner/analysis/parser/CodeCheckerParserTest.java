@@ -10,7 +10,6 @@ import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 class CodeCheckerParserTest extends AbstractParserTest {
-
     CodeCheckerParserTest() {
         super("CodeChecker_with_linux_paths.txt");
     }
@@ -63,7 +62,6 @@ class CodeCheckerParserTest extends AbstractParserTest {
                 .hasMessage("misra violation (use --rule-texts=<file> to get proper output)")
                 .hasCategory("cppcheck-misra-c2012-11.3")
                 .hasSeverity(Severity.WARNING_LOW);
-
     }
 
     @Test
@@ -109,6 +107,5 @@ class CodeCheckerParserTest extends AbstractParserTest {
                 .hasMessage("suspicious usage of 'sizeof(A*)'; pointer to aggregate")
                 .hasCategory("bugprone-sizeof-expression")
                 .hasSeverity(Severity.WARNING_HIGH);
-
     }
 }

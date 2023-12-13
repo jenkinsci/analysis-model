@@ -78,7 +78,6 @@ class JcReportParserTest extends AbstractParserTest {
     void testSAXEception() throws ParsingCanceledException {
         assertThatThrownBy(() -> parse("jcreport/testCorrupt.xml"))
                 .isInstanceOf(ParsingException.class);
-
     }
 
     @Override
