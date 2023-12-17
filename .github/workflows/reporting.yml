@@ -24,16 +24,17 @@ jobs:
         uses: stCarolas/setup-maven@v4.5
         with:
           maven-version: 3.9.5
-      - name: Generate coverage with JaCoCo
-        run: mvn -V --color always -ntp clean verify --file pom.xml '-Dgpg.skip' | tee maven.log
+      - name: Build and test with Maven
+        run: mvn -V --color always -ntp clean verify --file pom.xml '-Dgpg.skip' '-Ppit' | tee maven.log
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3.1.4
         with:
           token: ${{secrets.CODECOV_TOKEN}}
-      - name: Autograding
+      - name: Run Autograding
         uses: uhafner/autograding-github-action@v3
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          checks-name: 'Quality Checks'
           config: >
             {
               "tests": {
@@ -44,11 +45,7 @@ jobs:
                     "pattern": "**/target/*-reports/TEST*.xml"
                   }
                 ],
-                "name": "JUnit",
-                "passedImpact": 0,
-                "skippedImpact": -1,
-                "failureImpact": -5,
-                "maxScore": 100
+                "name": "Tests"
               },
               "analysis": {
                 "name": "Warnings",
@@ -75,12 +72,7 @@ jobs:
                     "sourcePath": "src/main/java",
                     "pattern": "**/target/spotbugsXml.xml"
                   }
-                ],
-                "errorImpact": -1,
-                "highImpact": -1,
-                "normalImpact": -1,
-                "lowImpact": -1,
-                "maxScore": 100
+                ]
               },
               "coverage": [
                 {
@@ -100,9 +92,7 @@ jobs:
                       "pattern": "**/target/site/jacoco/jacoco.xml"
                     }
                   ],
-                  "name": "JaCoCo",
-                  "maxScore": 100,
-                  "missedPercentageImpact": -1
+                  "name": "Code Coverage"
                 }
               ]
             }
