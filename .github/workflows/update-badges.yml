@@ -94,7 +94,7 @@ jobs:
                 ]
               }
             ]
-      }
+            }
       - name: Write metrics to GitHub output
         id: metrics
         run: |
