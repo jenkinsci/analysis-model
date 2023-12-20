@@ -1,0 +1,102 @@
+name: 'Quality Monitor PR'
+
+on:
+  pull_request:
+
+jobs:
+  build:
+
+    runs-on: [ubuntu-latest]
+    name: Build, test and monitor quality on Ubuntu
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: 21
+          check-latest: true
+          cache: 'maven'
+      - name: Set up Maven
+        uses: stCarolas/setup-maven@v4.5
+        with:
+          maven-version: 3.9.5
+      - name: Build with Maven
+        env:
+          BROWSER: chrome-container
+        run: mvn -V --color always -ntp clean verify | tee maven.log
+      - name: Extract pull request number
+        uses: jwalton/gh-find-current-pr@v1
+        id: pr
+      - name: Run Quality Monitor
+        uses: uhafner/quality-monitor@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          pr-number: ${{ steps.pr.outputs.number }}
+          config: >
+            {
+            "tests": {
+              "tools": [
+                {
+                  "id": "test",
+                  "name": "Tests",
+                  "pattern": "**/target/*-reports/TEST*.xml"
+                }
+              ],
+              "name": "Tests"
+            },
+            "analysis": [
+              {
+                "name": "Style",
+                "id": "style",
+                "tools": [
+                  {
+                    "id": "checkstyle",
+                    "name": "CheckStyle",
+                    "pattern": "**/target/checkstyle-result.xml"
+                  },
+                  {
+                    "id": "pmd",
+                    "name": "PMD",
+                    "pattern": "**/target/pmd.xml"
+                  }
+                ]
+              },
+              {
+                "name": "Bugs",
+                "id": "bugs",
+                "icon": "bug",
+                "tools": [
+                  {
+                    "id": "spotbugs",
+                    "name": "SpotBugs",
+                    "sourcePath": "src/main/java",
+                    "pattern": "**/target/spotbugsXml.xml"
+                  }
+                ]
+              }
+            ],
+            "coverage": [
+              {
+                "name": "Code Coverage",
+                "tools": [
+                  {
+                    "id": "jacoco",
+                    "name": "Line Coverage",
+                    "metric": "line",
+                    "sourcePath": "src/main/java",
+                    "pattern": "**/target/site/jacoco/jacoco.xml"
+                  },
+                  {
+                    "id": "jacoco",
+                    "name": "Branch Coverage",
+                    "metric": "branch",
+                    "sourcePath": "src/main/java",
+                    "pattern": "**/target/site/jacoco/jacoco.xml"
+                  }
+                ]
+              }
+            ]
+        }
+
