@@ -1,4 +1,4 @@
-name: 'Generate reports'
+name: 'Update project badges'
 
 on:
   push:
@@ -9,7 +9,7 @@ jobs:
   coverage:
 
     runs-on: [ubuntu-latest]
-    name: Reporting on Ubuntu
+    name: Update project quality badges on Ubuntu
 
     steps:
       - uses: actions/checkout@v4
@@ -25,31 +25,27 @@ jobs:
         with:
           maven-version: 3.9.5
       - name: Build and test with Maven
-        run: mvn -V --color always -ntp clean verify --file pom.xml '-Dgpg.skip' '-Ppit' | tee maven.log
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3.1.4
-        with:
-          token: ${{secrets.CODECOV_TOKEN}}
-      - name: Run Autograding
-        uses: uhafner/autograding-github-action@v3
+        run: mvn -V --color always -ntp clean verify --file pom.xml '-Dgpg.skip' | tee maven.log
+      - name: Run Quality Monitor
+        uses: uhafner/quality-monitor@v1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          checks-name: 'Quality Checks'
           config: >
             {
-              "tests": {
-                "tools": [
-                  {
-                    "id": "test",
-                    "name": "Unittests",
-                    "pattern": "**/target/*-reports/TEST*.xml"
-                  }
-                ],
-                "name": "Tests"
-              },
-              "analysis": {
-                "name": "Warnings",
-                "id": "warnings",
+            "tests": {
+              "tools": [
+                {
+                  "id": "test",
+                  "name": "Tests",
+                  "pattern": "**/target/*-reports/TEST*.xml"
+                }
+              ],
+              "name": "Tests"
+            },
+            "analysis": [
+              {
+                "name": "Style",
+                "id": "style",
                 "tools": [
                   {
                     "id": "checkstyle",
@@ -60,12 +56,14 @@ jobs:
                     "id": "pmd",
                     "name": "PMD",
                     "pattern": "**/target/pmd.xml"
-                  },
-                  {
-                    "id": "error-prone",
-                    "name": "Error Prone",
-                    "pattern": "**/maven.log"
-                  },
+                  }
+                ]
+              },
+              {
+                "name": "Bugs",
+                "id": "bugs",
+                "icon": "bug",
+                "tools": [
                   {
                     "id": "spotbugs",
                     "name": "SpotBugs",
@@ -73,29 +71,30 @@ jobs:
                     "pattern": "**/target/spotbugsXml.xml"
                   }
                 ]
-              },
-              "coverage": [
-                {
-                  "tools": [
-                    {
-                      "id": "jacoco",
-                      "name": "Line Coverage",
-                      "metric": "line",
-                      "sourcePath": "src/main/java",
-                      "pattern": "**/target/site/jacoco/jacoco.xml"
-                    },
-                    {
-                      "id": "jacoco",
-                      "name": "Branch Coverage",
-                      "metric": "branch",
-                      "sourcePath": "src/main/java",
-                      "pattern": "**/target/site/jacoco/jacoco.xml"
-                    }
-                  ],
-                  "name": "Code Coverage"
-                }
-              ]
-            }
+              }
+            ],
+            "coverage": [
+              {
+                "name": "Code Coverage",
+                "tools": [
+                  {
+                    "id": "jacoco",
+                    "name": "Line Coverage",
+                    "metric": "line",
+                    "sourcePath": "src/main/java",
+                    "pattern": "**/target/site/jacoco/jacoco.xml"
+                  },
+                  {
+                    "id": "jacoco",
+                    "name": "Branch Coverage",
+                    "metric": "branch",
+                    "sourcePath": "src/main/java",
+                    "pattern": "**/target/site/jacoco/jacoco.xml"
+                  }
+                ]
+              }
+            ]
+      }
       - name: Write metrics to GitHub output
         id: metrics
         run: |
@@ -115,13 +114,20 @@ jobs:
           status: ${{ steps.metrics.outputs.branch }}%
           color: 'green'
           path: badges/branch-coverage.svg
-      - name: Generate the badge SVG image for the warnings
+      - name: Generate the badge SVG image for the style warnings
         uses: emibcn/badge-action@v2.0.2
         with:
           label: 'Warnings'
-          status: ${{ steps.metrics.outputs.warnings }}
+          status: ${{ steps.metrics.outputs.style }}
           color: 'orange'
-          path: badges/warnings.svg
+          path: badges/style.svg
+      - name: Generate the badge SVG image for the style warnings
+        uses: emibcn/badge-action@v2.0.2
+        with:
+          label: 'Bugs'
+          status: ${{ steps.metrics.outputs.bugs }}
+          color: 'orange'
+          path: badges/bugs.svg
       - name: Commit updated badges
         continue-on-error: true
         run: |
