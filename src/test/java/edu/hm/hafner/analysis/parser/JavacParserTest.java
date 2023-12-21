@@ -35,6 +35,13 @@ class JavacParserTest extends AbstractParserTest {
         assertThat(warnings).hasSize(1);
     }
 
+    @Test @org.junitpioneer.jupiter.Issue("JENKINS-72077")
+    void issue72077IgnoreTestWarnings() {
+        Report warnings = parse("issue72077.txt");
+
+        assertThat(warnings).isEmpty();
+    }
+
     @Test
     void issue67521IgnoreJavaDocWarnings() {
         Report warnings = parse("javadoc-in-java.log");
