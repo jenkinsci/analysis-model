@@ -1,4 +1,4 @@
-name: 'Generate Codecov coverage report'
+name: 'Codecov'
 
 on:
   push:
@@ -11,7 +11,7 @@ jobs:
   coverage:
 
     runs-on: ubuntu-latest
-    name: Create coverage report and upload results to Codecov on Ubuntu
+    name: Create and upload coverage report
 
     steps:
       - uses: actions/checkout@v4

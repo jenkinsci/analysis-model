@@ -1,4 +1,4 @@
-name: 'Update project badges'
+name: 'Quality Badges'
 
 on:
   push:
@@ -9,7 +9,7 @@ jobs:
   coverage:
 
     runs-on: [ubuntu-latest]
-    name: Update project quality badges on Ubuntu
+    name: Update quality badges
 
     steps:
       - uses: actions/checkout@v4
