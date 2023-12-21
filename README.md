@@ -6,8 +6,8 @@
 [![CodeQL](https://github.com/jenkinsci/analysis-model/workflows/CodeQL/badge.svg)](https://github.com/jenkinsci/analysis-model/actions/workflows/codeql.yml)
 [![Line Coverage](https://raw.githubusercontent.com/jenkinsci/analysis-model/main/badges/line-coverage.svg)](https://app.codecov.io/gh/jenkinsci/analysis-model)
 [![Branch Coverage](https://raw.githubusercontent.com/jenkinsci/analysis-model/main/badges/branch-coverage.svg)](https://app.codecov.io/gh/jenkinsci/analysis-model)
-[![Warnings](https://raw.githubusercontent.com/jenkinsci/analysis-model/main/badges/style.svg)](https://github.com/jenkinsci/analysis-model/actions/workflows/quality-checks.yml)
-[![Bugs](https://raw.githubusercontent.com/jenkinsci/analysis-model/main/badges/bugs.svg)](https://github.com/jenkinsci/analysis-model/actions/workflows/quality-checks.yml)
+[![Warnings](https://raw.githubusercontent.com/jenkinsci/analysis-model/main/badges/style.svg)](https://github.com/jenkinsci/analysis-model/actions/workflows/quality-monitor.yml)
+[![Bugs](https://raw.githubusercontent.com/jenkinsci/analysis-model/main/badges/bugs.svg)](https://github.com/jenkinsci/analysis-model/actions/workflows/quality-monitor.yml)
 
 This library provides a Java object model to read, aggregate, filter, and query static analysis reports. 
 It is used by [Jenkins' warnings plug-in](https://github.com/jenkinsci/warnings-ng-plugin) to visualize
