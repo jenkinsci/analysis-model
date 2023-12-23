@@ -1,0 +1,60 @@
+[INFO] --- maven-compiler-plugin:3.10.1:compile (default-compile) @ faktorips-runtime ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 294 source files to /data/build-space/workspace/FaktorIPS_CI/runtime/faktorips-runtime/target/classes
+[INFO] /data/build-space/workspace/FaktorIPS_CI/runtime/faktorips-runtime/src/main/java/org/faktorips/runtime/jaxb/IpsJAXBContext.java: Some input files use or override a deprecated API.
+[INFO] /data/build-space/workspace/FaktorIPS_CI/runtime/faktorips-runtime/src/main/java/org/faktorips/runtime/jaxb/IpsJAXBContext.java: Recompile with -Xlint:deprecation for details.
+[INFO] /data/build-space/workspace/FaktorIPS_CI/runtime/faktorips-runtime/src/main/java/org/faktorips/runtime/internal/xml/XmlBindingSupportHelper.java: /data/build-space/workspace/FaktorIPS_CI/runtime/faktorips-runtime/src/main/java/org/faktorips/runtime/internal/xml/XmlBindingSupportHelper.java uses or overrides a deprecated API that is marked for removal.
+[INFO] /data/build-space/workspace/FaktorIPS_CI/runtime/faktorips-runtime/src/main/java/org/faktorips/runtime/internal/xml/XmlBindingSupportHelper.java: Recompile with -Xlint:removal for details.
+[INFO]
+[INFO] --- maven-bundle-plugin:5.1.6:manifest (generate-manifest) @ faktorips-runtime ---
+[INFO] No MANIFEST.MF file found, generating manifest.
+[WARNING] Manifest org.faktorips:faktorips-runtime:bundle:24.1.0-SNAPSHOT : Export-Package duplicate package name (org.faktorips.runtime.internal) that uses the default version because no version is specified (24.1.0). Remove duplicate package or add an explicit version to it.
+[INFO] Writing manifest: /data/build-space/workspace/FaktorIPS_CI/runtime/faktorips-runtime/target/classes/META-INF/MANIFEST.MF
+[INFO]
+[INFO] --- maven-resources-plugin:3.3.1:testResources (default-testResources) @ faktorips-runtime ---
+[INFO] Copying 61 resources from src/test/resources to target/test-classes
+[INFO]
+[INFO] --- maven-compiler-plugin:3.10.1:testCompile (default-testCompile) @ faktorips-runtime ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 132 source files to /data/build-space/workspace/FaktorIPS_CI/runtime/faktorips-runtime/target/test-classes
+[INFO] /data/build-space/workspace/FaktorIPS_CI/runtime/faktorips-runtime/src/test/java/org/faktorips/runtime/jaxb/MonthAdapterTest.java: Some input files use or override a deprecated API.
+[INFO] /data/build-space/workspace/FaktorIPS_CI/runtime/faktorips-runtime/src/test/java/org/faktorips/runtime/jaxb/MonthAdapterTest.java: Recompile with -Xlint:deprecation for details.
+[INFO]
+[INFO] --- maven-surefire-plugin:3.0.0-M5:test (default-test) @ faktorips-runtime ---
+[INFO] Toolchain in maven-surefire-plugin: JDK[/data/build-space/tools/hudson.model.JDK/JDK8/jdk8u372-b07]
+[INFO] Surefire report directory: /data/build-space/workspace/FaktorIPS_CI/runtime/faktorips-runtime/target/surefire-reports
+[WARNING] The system property user.language is configured twice! The property appears in <argLine/> and any of <systemPropertyVariables/>, <systemProperties/> or user property.
+[WARNING] The system property user.country is configured twice! The property appears in <argLine/> and any of <systemPropertyVariables/>, <systemProperties/> or user property.
+[INFO]
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[ERROR] Picked up JAVA_TOOL_OPTIONS: -Dmaven.ext.class.path="/data/build-space/workspace/FaktorIPS_CI@tmp/withMavenad64f306/pipeline-maven-spy.jar" -Dorg.jenkinsci.plugins.pipeline.maven.reportsFolder="/data/build-space/workspace/FaktorIPS_CI@tmp/withMavenad64f306"
+[WARNING] Tests run: 16, Failures: 0, Errors: 0, Skipped: 3, Time elapsed: 0.01 s - in org.faktorips.runtime.internal.XmlUtilTest
+[WARNING] Tests run: 1209, Failures: 0, Errors: 0, Skipped: 3
+[INFO]
+[INFO]
+[INFO] --- jacoco-maven-plugin:0.8.8:report (report) @ faktorips-runtime ---
+[INFO] Loading execution data file /data/build-space/workspace/FaktorIPS_CI/runtime/faktorips-runtime/target/jacoco.exec
+[INFO] Analyzed bundle 'Faktor-IPS Runtime' with 285 classes
+[INFO]
+[INFO] --- maven-bundle-plugin:5.1.6:bundle (default-bundle) @ faktorips-runtime ---
+[INFO] --- failsafe:3.2.2:integration-test (default) @ faktorips-runtime ---
+[INFO] Toolchain in maven-surefire-plugin: JDK[/data/build-space/tools/hudson.model.JDK/JDK8/jdk8u372-b07]
+[INFO] Surefire report directory: /data/build-space/workspace/FaktorIPS_CI/runtime/faktorips-runtime/target/surefire-reports
+[WARNING] The system property user.language is configured twice! The property appears in <argLine/> and any of <systemPropertyVariables/>, <systemProperties/> or user property.
+[WARNING] The system property user.country is configured twice! The property appears in <argLine/> and any of <systemPropertyVariables/>, <systemProperties/> or user property.
+[INFO]
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[ERROR] Picked up JAVA_TOOL_OPTIONS: -Dmaven.ext.class.path="/data/build-space/workspace/FaktorIPS_CI@tmp/withMavenad64f306/pipeline-maven-spy.jar" -Dorg.jenkinsci.plugins.pipeline.maven.reportsFolder="/data/build-space/workspace/FaktorIPS_CI@tmp/withMavenad64f306"
+[WARNING] Tests run: 16, Failures: 0, Errors: 0, Skipped: 3, Time elapsed: 0.01 s - in org.faktorips.runtime.internal.XmlUtilTest
+[WARNING] Tests run: 1209, Failures: 0, Errors: 0, Skipped: 3
+[INFO]
+[INFO]
+[INFO] --- jacoco-maven-plugin:0.8.8:report (report) @ faktorips-runtime ---
+[INFO] Loading execution data file /data/build-space/workspace/FaktorIPS_CI/runtime/faktorips-runtime/target/jacoco.exec
+[INFO] Analyzed bundle 'Faktor-IPS Runtime' with 285 classes
+[INFO]
+[INFO] --- maven-bundle-plugin:5.1.6:bundle (default-bundle) @ faktorips-runtime ---
