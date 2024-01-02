@@ -349,5 +349,41 @@ class JavacParserTest extends AbstractParserTest {
                 .hasFileName("file:///project/src/main/java/com/app/ui/model/Activity.kt")
                 .hasMessage("'PackageStats' is deprecated. Deprecated in Java");
     }
+
+     /**
+     * Parses a warning log written by Gradle containing 3 Kotlin warnings and 1 error.
+     * Having a cmake directory switch log in between. Following duplicated Kotlin errors should still be treated as duplicates.
+     */
+    @Test
+    void kotlinAndCmakeDirectoryOuptut() {
+        Report warnings = parse("kotlin-cmake.txt");
+
+        assertThat(warnings).hasSize(5);
+
+        assertThat(warnings.get(0)).hasSeverity(Severity.WARNING_NORMAL)
+                .hasLineStart(214)
+                .hasColumnStart(35)
+                .hasFileName("/project/app/src/main/java/ui/Activity.kt");
+        assertThat(warnings.get(1)).hasSeverity(Severity.WARNING_NORMAL)
+                .hasLineStart(424)
+                .hasColumnStart(29)
+                .hasFileName("/project/app/src/main/java/ui/Activity.kt");
+        assertThat(warnings.get(2)).hasSeverity(Severity.WARNING_NORMAL)
+                .hasLineStart(425)
+                .hasColumnStart(29)
+                .hasFileName("/project/app/src/main/java/ui/Activity.kt")
+                .hasCategory("Deprecation")
+                .hasMessage("deprecated: Serializable! to kotlin.collections.HashMap<String, String> /* = java.util.HashMap<String, String> */");
+        assertThat(warnings.get(3)).hasSeverity(Severity.WARNING_NORMAL)
+                .hasLineStart(200)
+                .hasColumnStart(2)
+                .hasFileName("C:/project/app/src/main/java/ui/Activity.kt");
+        assertThat(warnings.get(4)).hasSeverity(Severity.WARNING_NORMAL)
+                .hasLineStart(8)
+                .hasColumnStart(27)
+                .hasCategory("Deprecation")
+                .hasFileName("file:///project/src/main/java/com/app/ui/model/Activity.kt")
+                .hasMessage("'PackageStats' is deprecated. Deprecated in Java");
+    }
 }
 

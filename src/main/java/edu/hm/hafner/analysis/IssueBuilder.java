@@ -1,6 +1,10 @@
 package edu.hm.hafner.analysis;
 
 import java.io.Serializable;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -142,6 +146,9 @@ public class IssueBuilder implements AutoCloseable {
             return UNDEFINED_TREE_STRING;
         }
         else {
+            if (directory != null && isAbsolutePath(normalizeFileName(unsafeFileName))) {
+                return fileNameBuilder.intern(normalizeFileName(unsafeFileName));
+            }
             return fileNameBuilder.intern(normalizeFileName(
                     new PathUtil().createAbsolutePath(directory, unsafeFileName)));
         }
@@ -576,6 +583,20 @@ public class IssueBuilder implements AutoCloseable {
 
         moduleName = null;
         additionalProperties = null;
+    }
+
+    private static boolean isAbsolutePath(final String stringPath) {
+        try {
+            URI uri = new URI(stringPath);
+            if (uri.isAbsolute()) {
+                return true;
+            }
+        }
+        catch (URISyntaxException e) {
+            // Catch and ignore as system paths are not URI and we need to check them separately.
+        }
+        Path path = Paths.get(stringPath);
+        return path.isAbsolute();
     }
 
     private static String normalizeFileName(@CheckForNull final String platformFileName) {
