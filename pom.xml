@@ -67,7 +67,7 @@
     <j2html.version>1.4.0</j2html.version>
     <slf4j.version>2.0.10</slf4j.version>
     <violations-lib.version>1.156.7</violations-lib.version>
-    <jsoup.version>1.17.1</jsoup.version>
+    <jsoup.version>1.17.2</jsoup.version>
     <json.version>20231013</json.version>
     <json-smart.version>2.5.0</json-smart.version>
     <pmd.api.version>6.55.0</pmd.api.version>
