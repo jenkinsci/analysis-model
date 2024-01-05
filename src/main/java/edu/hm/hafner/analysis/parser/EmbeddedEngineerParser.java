@@ -1,7 +1,9 @@
 package edu.hm.hafner.analysis.parser;
 
 import java.io.UncheckedIOException;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
@@ -22,11 +24,14 @@ import edu.hm.hafner.analysis.Severity;
  */
 public class EmbeddedEngineerParser extends IssueParser {
     private static final long serialVersionUID = -1251248150731418714L;
+
+    private static final Pattern LOG_BEGINNING_PATTERN = Pattern.compile("\\[.*?\\].*");
     private static final Pattern HEADER_PATTERN = Pattern.compile(
             "^([^\\(Start)]*)(Starting code generation for)\\s(?<file>.*\\})");
     private static final Pattern SPECIAL_WARNING_PATTERN = Pattern.compile(
             "^\\[([^\\]]*)\\]\\s(?<severity>Warn)\\s-\\s(?<description>[^']*)'(?<module>[^']*)"
                     + "'\\s(?<details>\\(?[^{]*)(?<serial>[^)]*\\})");
+
     private static final Pattern WARNING_PATTERN = Pattern.compile(
             "^\\[([^\\]]*)\\]\\s(?<severity>Error|Warn)\\s-\\s(?<category>.+):\\s(?<description>.+)");
 
@@ -40,28 +45,51 @@ public class EmbeddedEngineerParser extends IssueParser {
         }
     }
 
+    private List<String> ReadLogInfo(final Iterator<String> lineIterator)
+    {
+        List<String> logInfo = new ArrayList<>();
+
+        while (lineIterator.hasNext())
+        {
+            String currentLine = lineIterator.next();
+            Matcher logBeginningMatcher = LOG_BEGINNING_PATTERN.matcher(currentLine);
+            if (logBeginningMatcher.matches())
+            {
+                logInfo.add(currentLine);
+            } else {
+                int lastIdx = logInfo.size() - 1;
+                StringBuilder multiLineInfo = new StringBuilder(logInfo.get(lastIdx));
+                multiLineInfo.append(" ").append(currentLine);
+                logInfo.set(lastIdx, multiLineInfo.toString());
+            }
+
+        }
+        return logInfo;
+    }
+
     private Report parse(final Stream<String> lines) {
         try (IssueBuilder builder = new IssueBuilder()) {
             Iterator<String> lineIterator = lines.iterator();
             String file = parseFileName(lineIterator);
             Report report = new Report();
+            List<String> logLines = this.ReadLogInfo(lineIterator);
+            for (String logLine:logLines) {
 
-            while (lineIterator.hasNext()) {
-                String line = lineIterator.next();
-                Matcher matcher = SPECIAL_WARNING_PATTERN.matcher(line);
-                Matcher warningMatcher = WARNING_PATTERN.matcher(line);
+                Matcher matcher = SPECIAL_WARNING_PATTERN.matcher(logLine);
+                Matcher warningMatcher = WARNING_PATTERN.matcher(logLine);
 
                 if (matcher.matches() || warningMatcher.matches()) {
                     String group;
                     String description;
                     if (matcher.matches()) {
                         group = matcher.group("severity");
+
                         description = String.format("%s'%s' %s%s",
                                 matcher.group("description"),
                                 matcher.group("module"),
                                 matcher.group("details"),
                                 matcher.group("serial"));
-                        builder.setCategory(setCategory(line));
+                        builder.setCategory(setCategory(logLine));
                         builder.setModuleName(matcher.group("module"));
                     }
                     else {
@@ -71,7 +99,7 @@ public class EmbeddedEngineerParser extends IssueParser {
                                 warningMatcher.group("category"),
                                 warningMatcher.group("description"));
                     }
-                    Severity priority = mapPriority(line, group);
+                    Severity priority = mapPriority(logLine, group);
                     builder.setDescription(description);
                     builder.setFileName(file);
                     builder.setSeverity(priority);
