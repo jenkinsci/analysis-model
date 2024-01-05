@@ -22,7 +22,7 @@ class EmbeddedEngineerParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-        softly.assertThat(report).hasSize(8);
+        softly.assertThat(report).hasSize(9);
         softly.assertThat(report.get(0))
                 .hasModuleName("index_module")
                 .hasDescription("Complex type definition without referenced element found 'index_module' (uint8_t); {98CF1FE6-EC9C-43f1-e476-40EFCD63cA8D}")
@@ -45,6 +45,10 @@ class EmbeddedEngineerParserTest extends AbstractParserTest {
                 .hasCategory("Error loading plugins from")
                 .hasDescription("Error loading plugins from C:\\file1\\idc\\sample_ext.x64.dll")
                 .hasSeverity(Severity.ERROR);
+        softly.assertThat(report.get(8))
+                .hasCategory("Out parameters")
+                .hasDescription("Out parameters 'Model_ptr_2345') are not supported. Please use 'return' or 'inout' parameters; {98CF1FE6-EC9C-43f1-e476-40EFCD63cA8D}")
+                .hasSeverity(Severity.WARNING_NORMAL);
     }
 }
 
