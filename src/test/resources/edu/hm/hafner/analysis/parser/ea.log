@@ -8,3 +8,4 @@
 [2023-03-10 12:04:25.0777] Warn - Code generation for element 'Module1' passed. Could not start code generation ; {ffeee99-9BD1-12345678}
 [2023-03-10 12:04:25.1377] Warn - SampleValidation: no requirement linked to final node 'Module1_Node'.
 [2023-03-10 12:04:22.1045] Error - Error loading plugins from: C:\file1\idc\sample_ext.x64.dll
+[2024-01-05 10:52:27.3199] Warn - Out parameters ('Model_ptr_2345') are not supported. Please use 'return' or 'inout' parameters; {98CF1FE6-EC9C-43f1-e476-40EFCD63cA8D}

@@ -28,7 +28,7 @@ public class EmbeddedEngineerParser extends IssueParser {
             "^\\[([^\\]]*)\\]\\s(?<severity>Warn)\\s-\\s(?<description>[^']*)'(?<module>[^']*)"
                     + "'\\s(?<details>\\(?[^{]*)(?<serial>[^)]*\\})");
     private static final Pattern WARNING_PATTERN = Pattern.compile(
-            "^\\[([^\\]]*)\\]\\s(?<severity>Error|Warn)\\s-\\s(?<category>.+):\\s(?<description>.+)");
+            "^\\[([^\\]]*)\\]\\s(?<severity>Error|Warn)\\s-\\s(?<category>[^:]*)" + "(:\\s|\\s\\()(?<description>.+)");
 
     @Override
     public Report parse(final ReaderFactory reader) throws ParsingException {
