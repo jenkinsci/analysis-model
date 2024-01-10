@@ -45,24 +45,21 @@ public class EmbeddedEngineerParser extends IssueParser {
         }
     }
 
-    private List<String> ReadLogInfo(final Iterator<String> lineIterator)
-    {
+    private List<String> readLogInfo(final Iterator<String> lineIterator) {
         List<String> logInfo = new ArrayList<>();
 
-        while (lineIterator.hasNext())
-        {
+        while (lineIterator.hasNext()) {
             String currentLine = lineIterator.next();
             Matcher logBeginningMatcher = LOG_BEGINNING_PATTERN.matcher(currentLine);
-            if (logBeginningMatcher.matches())
-            {
+            if (logBeginningMatcher.matches()) {
                 logInfo.add(currentLine);
-            } else {
+            }
+            else {
                 int lastIdx = logInfo.size() - 1;
                 StringBuilder multiLineInfo = new StringBuilder(logInfo.get(lastIdx));
                 multiLineInfo.append(" ").append(currentLine);
                 logInfo.set(lastIdx, multiLineInfo.toString());
             }
-
         }
         return logInfo;
     }
@@ -72,9 +69,8 @@ public class EmbeddedEngineerParser extends IssueParser {
             Iterator<String> lineIterator = lines.iterator();
             String file = parseFileName(lineIterator);
             Report report = new Report();
-            List<String> logLines = this.ReadLogInfo(lineIterator);
+            List<String> logLines = this.readLogInfo(lineIterator);
             for (String logLine:logLines) {
-
                 Matcher matcher = SPECIAL_WARNING_PATTERN.matcher(logLine);
                 Matcher warningMatcher = WARNING_PATTERN.matcher(logLine);
 
