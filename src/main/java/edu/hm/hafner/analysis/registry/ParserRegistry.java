@@ -41,6 +41,7 @@ public class ParserRegistry {
             new AnsibleLintDescriptor(),
             new AquaScannerDescriptor(),
             new ArmccCompilerDescriptor(),
+            new BanditDescriptor(),
             new BluePearlDescriptor(),
             new BrakemanDescriptor(),
             new BuckminsterDescriptor(),
