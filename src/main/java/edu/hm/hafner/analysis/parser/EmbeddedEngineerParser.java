@@ -29,11 +29,8 @@ public class EmbeddedEngineerParser extends IssueParser {
     @Override
     public Report parse(final ReaderFactory reader) throws ParsingException {
         try (Stream<String> lines = reader.readStream()) {
-            try {
-                LookaheadStream lookahead = new LookaheadStream(lines, reader.getFileName());
+            try (LookaheadStream lookahead = new LookaheadStream(lines, reader.getFileName())) {
                 return parse(lookahead);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
             }
         }
         catch (UncheckedIOException e) {
