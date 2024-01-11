@@ -2,14 +2,13 @@ package edu.hm.hafner.analysis.parser.violations;
 
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
-
-import static edu.hm.hafner.analysis.parser.violations.PitAdapter.*;
+import edu.hm.hafner.analysis.registry.AbstractParserTest;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import static edu.hm.hafner.analysis.parser.violations.PitAdapter.*;
 
 /**
  * Tests the class {@link PitAdapter}.

@@ -11,7 +11,7 @@ import edu.hm.hafner.analysis.Report;
 
 /**
  * A {@link CompositeParserDescriptor} is composed of several tools. Every parser of this suite will be called on the
- * input file, the results will be aggregated afterwards.
+ * input file, the results will be aggregated afterward.
  *
  * @author Ullrich Hafner
  */

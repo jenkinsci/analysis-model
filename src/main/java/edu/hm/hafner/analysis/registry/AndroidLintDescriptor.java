@@ -1,7 +1,7 @@
 package edu.hm.hafner.analysis.registry;
 
 import edu.hm.hafner.analysis.IssueParser;
-import edu.hm.hafner.analysis.parser.violations.AndroidLintParserAdapter;
+import edu.hm.hafner.analysis.parser.violations.AndroidLintAdapter;
 
 /**
  * A descriptor for Android Lint.
@@ -18,7 +18,7 @@ class AndroidLintDescriptor extends ParserDescriptor {
 
     @Override
     public IssueParser createParser(final Option... options) {
-        return new AndroidLintParserAdapter();
+        return new AndroidLintAdapter();
     }
 
     @Override

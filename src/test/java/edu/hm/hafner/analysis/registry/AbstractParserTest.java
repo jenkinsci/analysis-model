@@ -1,4 +1,4 @@
-package edu.hm.hafner.analysis;
+package edu.hm.hafner.analysis.registry;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -8,9 +8,19 @@ import java.io.Reader;
 import java.io.Serializable;
 import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
+import java.util.Collection;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 
+import edu.hm.hafner.analysis.FileReaderFactory;
+import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.IssueParser;
+import edu.hm.hafner.analysis.ParsingException;
+import edu.hm.hafner.analysis.ReaderFactory;
+import edu.hm.hafner.analysis.Report;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.util.ResourceTest;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -59,6 +69,32 @@ public abstract class AbstractParserTest extends ResourceTest {
         try (SoftAssertions softAssertions = new SoftAssertions()) {
             assertThatIssuesArePresent(report, softAssertions);
         }
+    }
+
+    /**
+     * Parses the default file that must contain issues. Verification of the issues is delegated to method {@link
+     * #assertThatIssuesArePresent(Report, SoftAssertions)} that needs to be implemented by subclasses.
+     */
+    @Test
+    void shouldRegisterParser() {
+        Set<Class<?>> parsers = new ParserRegistry().getAllDescriptors()
+                .stream()
+                .map(ParserDescriptor::createParser)
+                .map(IssueParser::getClass)
+                .collect(Collectors.toSet());
+
+        var compositeParsers = new ParserRegistry().getAllDescriptors().stream()
+                .filter(descriptor -> descriptor instanceof CompositeParserDescriptor)
+                .map(descriptor -> (CompositeParserDescriptor) descriptor)
+                .map(CompositeParserDescriptor::createParsers)
+                .flatMap(Collection::stream)
+                .map(IssueParser::getClass)
+                .collect(Collectors.toList());
+        parsers.addAll(compositeParsers);
+
+        assertThat(parsers)
+                .as("Every parser should be registered in the ParserRegistry")
+                .contains(createParser().getClass());
     }
 
     protected void assertThatReportHasSeverities(final Report report, final int expectedSizeError,

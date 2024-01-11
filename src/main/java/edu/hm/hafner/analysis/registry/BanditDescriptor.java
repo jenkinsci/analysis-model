@@ -1,7 +1,7 @@
 package edu.hm.hafner.analysis.registry;
 
 import edu.hm.hafner.analysis.IssueParser;
-import edu.hm.hafner.analysis.parser.violations.BanditParserAdapter;
+import edu.hm.hafner.analysis.parser.violations.BanditAdapter;
 
 /**
  * A descriptor for the Bandit.
@@ -28,6 +28,6 @@ class BanditDescriptor extends ParserDescriptor {
 
     @Override
     public IssueParser createParser(final Option... options) {
-        return new BanditParserAdapter();
+        return new BanditAdapter();
     }
 }

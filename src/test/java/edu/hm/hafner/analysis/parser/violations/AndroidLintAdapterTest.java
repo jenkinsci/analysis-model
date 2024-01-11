@@ -1,17 +1,17 @@
 package edu.hm.hafner.analysis.parser.violations;
 
-import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
+import edu.hm.hafner.analysis.registry.AbstractParserTest;
 
 /**
- * Tests the class {@link AndroidLintParserAdapter}.
+ * Tests the class {@link AndroidLintAdapter}.
  *
  * @author Ullrich Hafner
  */
-class AndroidLintParserAdapterTest extends AbstractParserTest {
-    AndroidLintParserAdapterTest() {
+class AndroidLintAdapterTest extends AbstractParserTest {
+    AndroidLintAdapterTest() {
         super("android-lint.xml");
     }
 
@@ -40,7 +40,7 @@ class AndroidLintParserAdapterTest extends AbstractParserTest {
     }
 
     @Override
-    protected AndroidLintParserAdapter createParser() {
-        return new AndroidLintParserAdapter();
+    protected AndroidLintAdapter createParser() {
+        return new AndroidLintAdapter();
     }
 }

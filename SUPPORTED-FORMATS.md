@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2024-01-11T15:25:00.378477 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2024-01-11T17:26:39.067180 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -74,6 +74,27 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
         <tr>
             <td colspan="4">
                 :bulb: Use the flag -p.
+            </td>
+        </tr>
+        <tr>
+            <td>
+                ansible-later
+            </td>
+            <td>
+                <img src="https://raw.githubusercontent.com/benc-uk/icon-collection/master/logos/ansible.svg" alt="Ansible Later" height="64" width="64">
+            </td>
+            <td>
+                <a href="https://github.com/thegeeklab/ansible-later">
+                    Ansible Later
+                </a>
+            </td>
+            <td>
+                -
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Use -p flag.
             </td>
         </tr>
         <tr>
