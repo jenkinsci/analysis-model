@@ -58,6 +58,7 @@ public class ParserRegistry {
             new CmakeDescriptor(),
             new CodeAnalysisDescriptor(),
             new CodeCheckerDescriptor(),
+            new CodeClimateDescriptor(),
             new CodeGeneratorDescriptor(),
             new CodeNarcDescriptor(),
             new CoolfluxChessccDescriptor(),
