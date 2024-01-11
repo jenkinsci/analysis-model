@@ -30,7 +30,7 @@ public class EmbeddedEngineerParser extends IssueParser {
     public Report parse(final ReaderFactory reader) throws ParsingException {
         try (Stream<String> lines = reader.readStream()) {
             LookaheadStream lookahead = new LookaheadStream(lines, reader.getFileName());
-                return parse(lookahead);
+            return parse(lookahead);
         }
         catch (UncheckedIOException e) {
             throw new ParsingException(e);
