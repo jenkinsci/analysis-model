@@ -1,4 +1,5 @@
 package edu.hm.hafner.analysis.parser;
+
 import java.io.UncheckedIOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -31,7 +32,6 @@ public class EmbeddedEngineerParser extends IssueParser {
             try (LookaheadStream lookahead = new LookaheadStream(lines, reader.getFileName())) {
                 return parse(lookahead);
             }
-
         }
         catch (UncheckedIOException e) {
             throw new ParsingException(e);
@@ -45,12 +45,12 @@ public class EmbeddedEngineerParser extends IssueParser {
         }
         return multipleLines.toString();
     }
+
     private Report parse(final LookaheadStream lookahead) {
         try (IssueBuilder builder = new IssueBuilder()) {
             String file = parseFileName(lookahead);
             Report report = new Report();
             while (lookahead.hasNext() && lookahead.hasNext(LOG_BEGINNING_PATTERN)) {
-
                 String lines = this.readMultipleLines(lookahead);
                 Matcher matcher = SPECIAL_WARNING_PATTERN.matcher(lines);
                 Matcher warningMatcher = WARNING_PATTERN.matcher(lines);
