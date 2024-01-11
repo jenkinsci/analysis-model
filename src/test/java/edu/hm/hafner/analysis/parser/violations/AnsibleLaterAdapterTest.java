@@ -24,6 +24,12 @@ class AnsibleLaterAdapterTest extends AbstractParserTest {
                 .hasType("ANSIBLE0004")
                 .hasLineStart(7)
                 .hasSeverity(Severity.WARNING_HIGH);
+        softly.assertThat(report.get(1))
+                .hasMessage("[ANSIBLE9998] Best practice 'Standards version should be pinned' not met: simple_role.yml: Standards version not set. Using latest standards version 0.2")
+                .hasFileName("simple_role.yml")
+                .hasType("ANSIBLE9998")
+                .hasLineStart(0)
+                .hasSeverity(Severity.WARNING_NORMAL);
     }
 
     @Override
