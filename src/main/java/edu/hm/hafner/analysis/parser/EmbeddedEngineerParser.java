@@ -1,21 +1,11 @@
 package edu.hm.hafner.analysis.parser;
-
 import java.io.UncheckedIOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
-
+import edu.hm.hafner.analysis.*;
+import edu.hm.hafner.util.LookaheadStream;
 import org.apache.commons.lang3.StringUtils;
-
-import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.IssueParser;
-import edu.hm.hafner.analysis.ParsingException;
-import edu.hm.hafner.analysis.ReaderFactory;
-import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Severity;
 
 /**
  * A parser for the EmbeddedEngineer EA Code Generator tool log files.
@@ -25,7 +15,7 @@ import edu.hm.hafner.analysis.Severity;
 public class EmbeddedEngineerParser extends IssueParser {
     private static final long serialVersionUID = -1251248150731418714L;
 
-    private static final Pattern LOG_BEGINNING_PATTERN = Pattern.compile("\\[.*?\\].*");
+    private static final String LOG_BEGINNING_PATTERN = "^\\[.*?\\].*";
     private static final Pattern HEADER_PATTERN = Pattern.compile(
             "^([^\\(Start)]*)(Starting code generation for)\\s(?<file>.*\\})");
     private static final Pattern SPECIAL_WARNING_PATTERN = Pattern.compile(
@@ -38,41 +28,32 @@ public class EmbeddedEngineerParser extends IssueParser {
     @Override
     public Report parse(final ReaderFactory reader) throws ParsingException {
         try (Stream<String> lines = reader.readStream()) {
-            return parse(lines);
+            try (LookaheadStream lookahead = new LookaheadStream(lines, reader.getFileName())) {
+                return parse(lookahead);
+            }
+
         }
         catch (UncheckedIOException e) {
             throw new ParsingException(e);
         }
     }
 
-    private List<String> readLogInfo(final Iterator<String> lineIterator) {
-        List<String> logInfo = new ArrayList<>();
-
-        while (lineIterator.hasNext()) {
-            String currentLine = lineIterator.next();
-            Matcher logBeginningMatcher = LOG_BEGINNING_PATTERN.matcher(currentLine);
-            if (logBeginningMatcher.matches()) {
-                logInfo.add(currentLine);
-            }
-            else {
-                int lastIdx = logInfo.size() - 1;
-                StringBuilder multiLineInfo = new StringBuilder(logInfo.get(lastIdx));
-                multiLineInfo.append(" ").append(currentLine);
-                logInfo.set(lastIdx, multiLineInfo.toString());
-            }
+    private String readMultipleLines(final LookaheadStream lookahead) {
+        StringBuilder multipleLines = new StringBuilder(lookahead.next());
+        while (lookahead.hasNext() && !lookahead.hasNext(LOG_BEGINNING_PATTERN)) {
+            multipleLines.append(" ").append(lookahead.next());
         }
-        return logInfo;
+        return multipleLines.toString();
     }
-
-    private Report parse(final Stream<String> lines) {
+    private Report parse(final LookaheadStream lookahead) {
         try (IssueBuilder builder = new IssueBuilder()) {
-            Iterator<String> lineIterator = lines.iterator();
-            String file = parseFileName(lineIterator);
+            String file = parseFileName(lookahead);
             Report report = new Report();
-            List<String> logLines = this.readLogInfo(lineIterator);
-            for (String logLine:logLines) {
-                Matcher matcher = SPECIAL_WARNING_PATTERN.matcher(logLine);
-                Matcher warningMatcher = WARNING_PATTERN.matcher(logLine);
+            while (lookahead.hasNext() && lookahead.hasNext(LOG_BEGINNING_PATTERN)) {
+
+                String lines = this.readMultipleLines(lookahead);
+                Matcher matcher = SPECIAL_WARNING_PATTERN.matcher(lines);
+                Matcher warningMatcher = WARNING_PATTERN.matcher(lines);
 
                 if (matcher.matches() || warningMatcher.matches()) {
                     String group;
@@ -85,7 +66,7 @@ public class EmbeddedEngineerParser extends IssueParser {
                                 matcher.group("module"),
                                 matcher.group("details"),
                                 matcher.group("serial"));
-                        builder.setCategory(setCategory(logLine));
+                        builder.setCategory(setCategory(lines));
                         builder.setModuleName(matcher.group("module"));
                     }
                     else {
@@ -95,7 +76,7 @@ public class EmbeddedEngineerParser extends IssueParser {
                                 warningMatcher.group("category"),
                                 warningMatcher.group("description"));
                     }
-                    Severity priority = mapPriority(logLine, group);
+                    Severity priority = mapPriority(lines, group);
                     builder.setDescription(description);
                     builder.setFileName(file);
                     builder.setSeverity(priority);
@@ -106,7 +87,7 @@ public class EmbeddedEngineerParser extends IssueParser {
         }
     }
 
-    private String parseFileName(final Iterator<String> lineIterator) {
+    private String parseFileName(final LookaheadStream lineIterator) {
         while (lineIterator.hasNext()) {
             String line = lineIterator.next();
             Matcher matcher = HEADER_PATTERN.matcher(line);
