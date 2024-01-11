@@ -155,7 +155,7 @@ public class IssueBuilder implements AutoCloseable {
     }
 
     /**
-     * Sets the current work directory. This directory is used as prefix for all subsequent issue file names. If the
+     * Sets the current work directory. This directory is used as a prefix for all subsequent issue file names. If the
      * path is set as well, then the final path of an issue is the concatenation of {@code path}, {@code directory}, and
      * {@code fileName}. Note that this directory is not visible later on, the issue does only store the path in the
      * {@code path} and {@code fileName} properties. I.e., the created issue will get a new file name that is composed

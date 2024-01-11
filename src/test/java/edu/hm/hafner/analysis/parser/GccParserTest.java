@@ -332,7 +332,7 @@ class GccParserTest extends AbstractParserTest {
     }
 
     /**
-     * Parses a file with one warning and matching warning that will be excluded afterwards.
+     * Parses a file with one warning and matching warning that will be excluded afterward.
      *
      * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-4260">Issue 4260</a>
      */
@@ -341,6 +341,13 @@ class GccParserTest extends AbstractParserTest {
         Report warnings = parse("issue4260.txt");
 
         assertThat(warnings).hasSize(1);
+    }
+
+    @Test @org.junitpioneer.jupiter.Issue("JENKINS-70996")
+    void ignoreDirectoriesFromOtherTools() {
+        Report warnings = parse("issue70996.txt");
+
+        assertThat(warnings).hasSize(8);
     }
 
     @Override

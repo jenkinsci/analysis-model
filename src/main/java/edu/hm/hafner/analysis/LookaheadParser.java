@@ -34,6 +34,7 @@ public abstract class LookaheadParser extends IssueParser {
     private static final String HYPHEN = "'`";
 
     private static final int MAX_LINE_LENGTH = 4000; // see JENKINS-55805
+    private static final String NO_DIRECTORY = "";
 
     private final Pattern pattern;
 
@@ -68,7 +69,7 @@ public abstract class LookaheadParser extends IssueParser {
         try (IssueBuilder builder = new IssueBuilder()) {
             while (lookahead.hasNext()) {
                 String line = lookahead.next();
-                handleDirectoryChanges(builder, line);
+                handleDirectoryChanges(builder, line, report);
                 preprocessLine(line);
                 if (isLineInteresting(line)) {
                     Matcher matcher = pattern.matcher(line);
@@ -99,13 +100,15 @@ public abstract class LookaheadParser extends IssueParser {
      * return it for use now.
      *
      * @param line
-     *         the line to parse
-     * *
+     *         the line to parse *
+     * @param log
+     *         logger to use
+     *
      * @return The new directory to change to
      */
-    private String enterDirectory(final String line) {
-        recursiveDirectories.push(extractDirectory(line, ENTERING_DIRECTORY_PATH));
-        return recursiveDirectories.peek();
+    private String enterDirectory(final String line, final Report log) {
+        extractDirectory(line, ENTERING_DIRECTORY_PATH, log).map(recursiveDirectories::push);
+        return recursiveDirectories.isEmpty() ? NO_DIRECTORY : recursiveDirectories.peek();
     }
 
     /**
@@ -121,7 +124,7 @@ public abstract class LookaheadParser extends IssueParser {
                 return recursiveDirectories.peek();
             }
         }
-        return "";
+        return NO_DIRECTORY;
     }
 
     /**
@@ -132,16 +135,18 @@ public abstract class LookaheadParser extends IssueParser {
      *         {@link IssueBuilder} to set directory for
      * @param line
      *         the line to parse
+     * @param log
+     *         logger to use
      */
-    private void handleDirectoryChanges(final IssueBuilder builder, final String line) {
+    private void handleDirectoryChanges(final IssueBuilder builder, final String line, final Report log) {
         if (line.contains(ENTERING_DIRECTORY)) {
-            builder.setDirectory(enterDirectory(line));
+            builder.setDirectory(enterDirectory(line, log));
         }
         else if (line.contains(LEAVING_DIRECTORY)) {
             builder.setDirectory(leaveDirectory());
         }
         else if (line.contains(CMAKE_PREFIX)) {
-            builder.setDirectory(extractDirectory(line, CMAKE_PATH));
+            extractDirectory(line, CMAKE_PATH, log).map(builder::setDirectory);
         }
     }
 
@@ -152,6 +157,8 @@ public abstract class LookaheadParser extends IssueParser {
      *         the line to parse using makePath
      * @param makePath
      *         {@link Pattern} which includes a capture group name 'dir'
+     * @param log
+     *         logger to use
      *
      * @return A path extracted from the input line
      * @throws IllegalArgumentException
@@ -159,17 +166,19 @@ public abstract class LookaheadParser extends IssueParser {
      * @throws ParsingException
      *         If the {@link Pattern} fails to match the input line
      */
-    private String extractDirectory(final String line, final Pattern makePath) throws ParsingException {
+    private Optional<String> extractDirectory(final String line, final Pattern makePath, final Report log)
+            throws ParsingException {
         if (!makePath.toString().contains("<dir>")) {
             throw new IllegalArgumentException(
                     String.format("%s does not contain a capture group named 'dir'", makePath));
         }
+
         Matcher makeLineMatcher = makePath.matcher(line);
         if (makeLineMatcher.matches()) {
-            return removeHyphen(makeLineMatcher.group("dir"));
+            return Optional.of(removeHyphen(makeLineMatcher.group("dir")));
         }
-        throw new ParsingException(
-                "Unable to change directory using: %s to match %s", makePath.toString(), line);
+        log.logError("Unable to change directory using: %s to match %s", makePath.toString(), line);
+        return Optional.empty();
     }
 
     /**
@@ -185,15 +194,15 @@ public abstract class LookaheadParser extends IssueParser {
      *
      * @return a new annotation for the specified pattern
      * @throws ParsingException
-     *         Signals that during parsing a non recoverable error has been occurred
+     *         signals that during parsing a non-recoverable error has been occurred
      */
     protected abstract Optional<Issue> createIssue(Matcher matcher, LookaheadStream lookahead, IssueBuilder builder)
             throws ParsingException;
 
     /**
      * Returns whether the specified line is interesting. Each interesting line will be matched by the defined regular
-     * expression. Here a parser can implement some fast checks (i.e. string or character comparisons) in order to see
-     * if a required condition is met. This default implementation does always return {@code true}.
+     * expression. Here a parser can implement some fast checks (i.e., string or character comparisons) to see
+     * if a required condition is met. This default implementation does return {@code true} for small lines.
      *
      * @param line
      *         the line to inspect
@@ -211,14 +220,14 @@ public abstract class LookaheadParser extends IssueParser {
      * @param report
      *         the issues after the parsing process
      *
-     * @return the post processed issues
+     * @return the post-processed issues
      */
     protected Report postProcess(final Report report) {
         return report;
     }
 
     /**
-     * Remove Hyphen from directory path if it starts or ends with hyphen.
+     * Remove Hyphen from directory if it starts or ends with hyphen.
      *
      * @param dir
      *         directory path to inspect
