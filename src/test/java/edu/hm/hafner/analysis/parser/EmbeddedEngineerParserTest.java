@@ -73,7 +73,6 @@ class EmbeddedEngineerParserTest extends AbstractParserTest {
                 + "at A.A`1.a(String , Predicate`1 , Object[] )    "
                 + "at A.A`1.A(String , Predicate`1 , Object[] )")
                 .hasSeverity(Severity.ERROR);
-
     }
 }
 
