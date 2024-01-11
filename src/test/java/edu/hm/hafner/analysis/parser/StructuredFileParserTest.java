@@ -2,8 +2,8 @@ package edu.hm.hafner.analysis.parser;
 
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.ParsingException;
+import edu.hm.hafner.analysis.registry.AbstractParserTest;
 
 import static org.assertj.core.api.Assertions.*;
 

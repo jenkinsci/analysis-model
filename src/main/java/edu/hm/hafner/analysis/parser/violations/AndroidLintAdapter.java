@@ -7,7 +7,7 @@ import se.bjurr.violations.lib.parsers.AndroidLintParser;
  *
  * @author Ullrich Hafner
  */
-public class AndroidLintParserAdapter extends AbstractViolationAdapter {
+public class AndroidLintAdapter extends AbstractViolationAdapter {
     private static final long serialVersionUID = 2441144477814669681L;
 
     @Override

@@ -1,13 +1,14 @@
 package edu.hm.hafner.analysis.parser;
 
-import edu.hm.hafner.analysis.AbstractParserTest;
+import org.junit.jupiter.api.Test;
+
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
-import org.junit.jupiter.api.Test;
-import static j2html.TagCreator.a;
-import static j2html.TagCreator.p;
+import edu.hm.hafner.analysis.registry.AbstractParserTest;
+
+import static j2html.TagCreator.*;
 
 class GrypeParserTest extends AbstractParserTest {
     protected GrypeParserTest() {

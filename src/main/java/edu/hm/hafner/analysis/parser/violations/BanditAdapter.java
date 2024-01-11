@@ -7,7 +7,7 @@ import se.bjurr.violations.lib.parsers.CLangParser;
  *
  * @author Ullrich Hafner
  */
-public class BanditParserAdapter extends AbstractViolationAdapter {
+public class BanditAdapter extends AbstractViolationAdapter {
     private static final long serialVersionUID = 2441144477814669681L;
 
     @Override
