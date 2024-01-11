@@ -7,11 +7,6 @@ import edu.hm.hafner.analysis.registry.AbstractParserTest;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
-/**
- * Tests the class {@link CodeNarcAdapter}.
- *
- * @author Ullrich Hafner
- */
 class AnsibleLaterAdapterTest extends AbstractParserTest {
     AnsibleLaterAdapterTest() {
         super("ansible-later.json");

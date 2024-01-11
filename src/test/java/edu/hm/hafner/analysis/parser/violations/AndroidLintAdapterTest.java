@@ -5,11 +5,6 @@ import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
 
-/**
- * Tests the class {@link AndroidLintAdapter}.
- *
- * @author Ullrich Hafner
- */
 class AndroidLintAdapterTest extends AbstractParserTest {
     AndroidLintAdapterTest() {
         super("android-lint.xml");
