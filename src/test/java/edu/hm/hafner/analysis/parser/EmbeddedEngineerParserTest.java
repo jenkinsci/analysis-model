@@ -22,7 +22,7 @@ class EmbeddedEngineerParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-        softly.assertThat(report).hasSize(9);
+        softly.assertThat(report).hasSize(10);
         softly.assertThat(report.get(0))
                 .hasModuleName("index_module")
                 .hasDescription("Complex type definition without referenced element found 'index_module' (uint8_t); {98CF1FE6-EC9C-43f1-e476-40EFCD63cA8D}")
