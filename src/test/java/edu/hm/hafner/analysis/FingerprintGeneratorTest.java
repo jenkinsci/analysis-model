@@ -38,7 +38,7 @@ class FingerprintGeneratorTest extends ResourceTest {
 
         FileSystem fileSystem = mock(FileSystem.class);
         when(fileSystem.readLinesFromFile(anyString(), any()))
-                    .thenThrow(new UncheckedIOException(new MalformedInputException(1)));
+                .thenThrow(new UncheckedIOException(new MalformedInputException(1)));
 
         generator.run(new FullTextFingerprint(fileSystem), report, CHARSET_AFFECTED_FILE);
 
@@ -69,15 +69,17 @@ class FingerprintGeneratorTest extends ResourceTest {
 
     @Test
     void shouldSetDefaultFingerprintIfNoFileIsGiven() {
-        FingerprintGenerator generator = new FingerprintGenerator();
+        try (IssueBuilder issueBuilder = new IssueBuilder()) {
+            FingerprintGenerator generator = new FingerprintGenerator();
 
-        Report report = new Report();
-        report.add(new IssueBuilder().build());
+            Report report = new Report();
+            report.add(issueBuilder.build());
 
-        generator.run(new FullTextFingerprint(), report, CHARSET_AFFECTED_FILE);
+            generator.run(new FullTextFingerprint(), report, CHARSET_AFFECTED_FILE);
 
-        assertThatIssueHasDefaultFingerprint(report);
-        assertThat(report.getErrorMessages()).isEmpty();
+            assertThatIssueHasDefaultFingerprint(report);
+            assertThat(report.getErrorMessages()).isEmpty();
+        }
     }
 
     @Test
@@ -128,19 +130,37 @@ class FingerprintGeneratorTest extends ResourceTest {
         assertThat(referenceIssue.getFingerprint()).isNotEqualTo(currentIssue.getFingerprint());
     }
 
-    @ParameterizedTest(name = "[{index}] Illegal filename")
+    @ParameterizedTest(name = "[{index}] Illegal filename {0}")
     @ValueSource(strings = {"/does/not/exist", "!<>$&/&(", "\0 Null-Byte"})
     void shouldUseFallbackFingerprintOnError(final String fileName) {
-        Report report;
-        try (IssueBuilder issueBuilder = new IssueBuilder()) {
-            report = new Report();
-            report.add(issueBuilder.setFileName(fileName).build());
-        }
+        var report = createReportWithOneIssueFor(fileName);
 
         FingerprintGenerator generator = new FingerprintGenerator();
         generator.run(new FullTextFingerprint(), report, CHARSET_AFFECTED_FILE);
 
         assertThatIssueHasDefaultFingerprint(report);
+    }
+
+    @ParameterizedTest(name = "[{index}] Skip non source code file {0}")
+    @ValueSource(strings = {"library.o", "program.exe", "library.dll", "program.so", "library.a", "program.lib",
+            "library.jar", "library.war", "program.zip", "library.7z", "program.tar.gz", "library.tar.bz2"})
+    void shouldUseFallbackFingerprintOnNonSourceFiles(final String fileName) {
+        var report = createReportWithOneIssueFor(fileName);
+
+        FingerprintGenerator generator = new FingerprintGenerator();
+        generator.run(createFullTextFingerprint("fingerprint-one.txt", "fingerprint-two.txt"),
+                report, CHARSET_AFFECTED_FILE);
+
+        assertThatIssueHasDefaultFingerprint(report);
+    }
+
+    private Report createReportWithOneIssueFor(final String fileName) {
+        Report report;
+        try (IssueBuilder issueBuilder = new IssueBuilder()) {
+            report = new Report();
+            report.add(issueBuilder.setFileName(fileName).build());
+        }
+        return report;
     }
 
     private void assertThatIssueHasDefaultFingerprint(final Report report) {
