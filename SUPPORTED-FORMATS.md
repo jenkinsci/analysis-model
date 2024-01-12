@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2024-01-11T18:13:29.166749 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2024-01-12T10:02:06.264457 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -480,6 +480,22 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
             </td>
             <td>
                 Code Analysis
+            </td>
+            <td>
+                -
+            </td>
+        </tr>
+        <tr>
+            <td>
+                code-climate
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                <a href="https://codeclimate.com/">
+                    Code Climate
+                </a>
             </td>
             <td>
                 -
