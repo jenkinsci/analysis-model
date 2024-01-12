@@ -10,6 +10,7 @@ import java.nio.file.NoSuchFileException;
 import java.util.Set;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import edu.hm.hafner.util.FilteredLog;
@@ -52,7 +53,7 @@ public class FingerprintGenerator {
     }
 
     private boolean hasAllowedExtension(final String fileName) {
-        return !NON_SOURCE_CODE_EXTENSIONS.contains(FilenameUtils.getExtension(fileName));
+        return !NON_SOURCE_CODE_EXTENSIONS.contains(StringUtils.lowerCase(FilenameUtils.getExtension(fileName)));
     }
 
     private int computeFingerprint(final Issue issue, final FullTextFingerprint algorithm, final Charset charset,

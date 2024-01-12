@@ -59,7 +59,7 @@ class FingerprintGeneratorTest extends ResourceTest {
 
             String alreadySet = "already-set";
             report.add(issueBuilder.setFingerprint(alreadySet).setMessage(AFFECTED_FILE_NAME).build());
-            generator.run(createFullTextFingerprint("fingerprint-one.txt", "fingerprint-two.txt"),
+            generator.run(createFullTextFingerprint("fingerprint-two.txt"),
                     report, CHARSET_AFFECTED_FILE);
 
             assertThat(report.get(0).hasFingerprint()).isTrue();
@@ -86,7 +86,7 @@ class FingerprintGeneratorTest extends ResourceTest {
     void shouldAssignIdenticalFingerprint() {
         Report report = createTwoIssues();
         FingerprintGenerator generator = new FingerprintGenerator();
-        FullTextFingerprint fingerprint = createFullTextFingerprint("fingerprint-one.txt", "fingerprint-one.txt");
+        FullTextFingerprint fingerprint = createFullTextFingerprint("fingerprint-one.txt");
 
         generator.run(fingerprint, report, CHARSET_AFFECTED_FILE);
 
@@ -119,7 +119,7 @@ class FingerprintGeneratorTest extends ResourceTest {
     void shouldAssignDifferentFingerprint() {
         Report report = createTwoIssues();
         FingerprintGenerator generator = new FingerprintGenerator();
-        FullTextFingerprint fingerprint = createFullTextFingerprint("fingerprint-one.txt", "fingerprint-two.txt");
+        FullTextFingerprint fingerprint = createFullTextFingerprint("fingerprint-two.txt");
 
         generator.run(fingerprint, report, CHARSET_AFFECTED_FILE);
 
@@ -143,12 +143,13 @@ class FingerprintGeneratorTest extends ResourceTest {
 
     @ParameterizedTest(name = "[{index}] Skip non source code file {0}")
     @ValueSource(strings = {"library.o", "program.exe", "library.dll", "program.so", "library.a", "program.lib",
-            "library.jar", "library.war", "program.zip", "library.7z", "program.tar.gz", "library.tar.bz2"})
+            "library.jar", "library.war", "program.zip", "library.7z", "program.tar.gz", "library.tar.bz2",
+            "UPPER_CASE.EXE"})
     void shouldUseFallbackFingerprintOnNonSourceFiles(final String fileName) {
         var report = createReportWithOneIssueFor(fileName);
 
         FingerprintGenerator generator = new FingerprintGenerator();
-        generator.run(createFullTextFingerprint("fingerprint-one.txt", "fingerprint-two.txt"),
+        generator.run(createFullTextFingerprint("fingerprint-two.txt"),
                 report, CHARSET_AFFECTED_FILE);
 
         assertThatIssueHasDefaultFingerprint(report);
@@ -167,8 +168,9 @@ class FingerprintGeneratorTest extends ResourceTest {
         assertThat(report.get(0)).hasFingerprint(FingerprintGenerator.createDefaultFingerprint(report.get(0)));
     }
 
-    private FullTextFingerprint createFullTextFingerprint(final String firstFile, final String secondFile) {
-        FileSystem fileSystem = stubFileSystem(firstFile, secondFile);
+    private FullTextFingerprint createFullTextFingerprint(final String secondFile) {
+        FileSystem fileSystem = stubFileSystem("fingerprint-one.txt", secondFile);
+
         return new FullTextFingerprint(fileSystem);
     }
 
