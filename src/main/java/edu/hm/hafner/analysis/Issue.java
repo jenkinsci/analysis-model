@@ -644,6 +644,30 @@ public class Issue implements Serializable {
     }
 
     /**
+     * Returns whether this issue line ranges contain the specified line. If this issue has no lines defined, then this
+     * method will return {@code true}.
+     *
+     * @param line
+     *         the line to check
+     *
+     * @return {@code true} if the specified line is within the line ranges of this issue, {@code false} otherwise
+     */
+    public boolean affectsLine(final int line) {
+        if (lineStart == 0 || line == 0) {
+            return true; // the whole file is marked, so every line is affected
+        }
+        if (lineStart <= line && line <= lineEnd) {
+            return true; // the line is within the primary range of this issue
+        }
+        for (LineRange lineRange : lineRanges) {
+            if (lineRange.contains(line)) {
+                return true; // the line is within an additional line range of this issue
+            }
+        }
+        return getLineStart() == 0; // an issue without a line number is always relevant
+    }
+
+    /**
      * Returns the first column of this issue (columns start at 1, 0 indicates the whole line).
      *
      * @return the first column

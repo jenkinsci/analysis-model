@@ -122,13 +122,13 @@ class IssueTest extends SerializableTest<Issue> {
 
     @Test
     void shouldExpandPath() {
-        Issue issue = new IssueBuilder()
+        try (var builder = new IssueBuilder()
                 .setPathName("/jenkins-data/jenkins/workspace/root/trunk/sw/build")
-                .setFileName("../../component/app/_src/file.c")
-                .build();
-
-        assertThat(issue.getAbsolutePath()).isEqualTo(
-                "/jenkins-data/jenkins/workspace/root/trunk/component/app/_src/file.c");
+                .setFileName("../../component/app/_src/file.c")) {
+            var issue = builder.build();
+            assertThat(issue.getAbsolutePath()).isEqualTo(
+                    "/jenkins-data/jenkins/workspace/root/trunk/component/app/_src/file.c");
+        }
     }
 
     @Test
@@ -139,6 +139,15 @@ class IssueTest extends SerializableTest<Issue> {
                 UUID.randomUUID());
         assertThat(issue).hasLineStart(1).hasLineEnd(2);
         assertThat(issue).hasColumnStart(1).hasColumnEnd(2);
+
+        assertThat(issue.affectsLine(0)).isTrue();
+        assertThat(issue.affectsLine(1)).isTrue();
+        assertThat(issue.affectsLine(2)).isTrue();
+        assertThat(issue.affectsLine(3)).isFalse();
+        assertThat(issue.affectsLine(4)).isFalse();
+        assertThat(issue.affectsLine(5)).isTrue();
+        assertThat(issue.affectsLine(6)).isTrue();
+        assertThat(issue.affectsLine(7)).isFalse();
     }
 
     /**

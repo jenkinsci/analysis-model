@@ -5,8 +5,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -34,7 +36,25 @@ public class IssueDifference {
      * @param referenceIssues
      *         the issues of a previous report (reference)
      */
-    public IssueDifference(final Report currentIssues, final String referenceId, final Report referenceIssues) {
+    public IssueDifference(final Report currentIssues, final String referenceId,
+            final Report referenceIssues) {
+        this(currentIssues, referenceId, referenceIssues, Map.of());
+    }
+
+    /**
+     * Creates a new instance of {@link IssueDifference}.
+     *
+     * @param currentIssues
+     *         the issues of the current report
+     * @param referenceId
+     *         ID identifying the reference report
+     * @param referenceIssues
+     *         the issues of a previous report (reference)
+     * @param includes
+     *         lines in files mapping to include as new issues, all other issues are considered as outstanding
+     */
+    public IssueDifference(final Report currentIssues, final String referenceId,
+            final Report referenceIssues, final Map<String, Integer> includes) {
         newIssues = currentIssues.copy();
         fixedIssues = referenceIssues.copy();
         outstandingIssues = new Report();
@@ -52,7 +72,27 @@ public class IssueDifference {
         removed.forEach(secondPass::remove);
         matchIssuesByFingerprint(secondPass);
 
+        if (!includes.isEmpty()) {
+            keepOnlyIncludedIssues(includes);
+        }
         newIssues.forEach(issue -> issue.setReference(referenceId));
+    }
+
+    private void keepOnlyIncludedIssues(final Map<String, Integer> includes) {
+        var idsToRemove = newIssues.stream().map(Issue::getId).collect(Collectors.toSet());
+        for (Entry<String, Integer> include : includes.entrySet()) {
+            newIssues.filter(issue -> filter(issue, include.getKey(), include.getValue()))
+                    .stream().map(Issue::getId)
+                    .forEach(idsToRemove::remove);
+        }
+        idsToRemove.stream().map(newIssues::remove).forEach(outstandingIssues::add);
+    }
+
+    private boolean filter(final Issue issue, final String fileName, final int line) {
+        if (!issue.getFileName().endsWith(fileName)) {
+            return false;
+        }
+        return issue.affectsLine(line);
     }
 
     private List<UUID> matchIssuesByEquals(final Report currentIssues) {
@@ -121,7 +161,7 @@ public class IssueDifference {
     }
 
     /**
-     * Returns the outstanding issues. I.e. all issues, that are part of the previous report and that are still part of
+     * Returns the outstanding issues. I.e., all issues that are part of the previous report and that are still part of
      * the current report.
      *
      * @return the outstanding issues
@@ -132,7 +172,7 @@ public class IssueDifference {
     }
 
     /**
-     * Returns the new issues. I.e. all issues, that are part of the current report but that have not been shown up in
+     * Returns the new issues. I.e., all issues that are part of the current report but that have not been shown up in
      * the previous report.
      *
      * @return the new issues
@@ -143,7 +183,7 @@ public class IssueDifference {
     }
 
     /**
-     * Returns the fixed issues. I.e. all issues, that are part of the previous report but that are not present in the
+     * Returns the fixed issues. I.e., all issues that are part of the previous report but that are not present in the
      * current report anymore.
      *
      * @return the fixed issues
