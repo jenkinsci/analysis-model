@@ -48,7 +48,7 @@ public abstract class IssueParser implements Serializable {
      * @throws ParsingException
      *         Signals that during parsing a non-recoverable error has been occurred
      * @throws ParsingCanceledException
-     *         Signals that the parsing has been aborted by the user
+     *         Signals that the user has aborted the parsing
      */
     public abstract Report parse(ReaderFactory readerFactory) throws ParsingException, ParsingCanceledException;
 
@@ -63,7 +63,7 @@ public abstract class IssueParser implements Serializable {
      * @throws ParsingException
      *         Signals that during parsing a non-recoverable error has been occurred
      * @throws ParsingCanceledException
-     *         Signals that the parsing has been aborted by the user
+     *         Signals that the user has aborted the parsing
      */
     public Report parseFile(final ReaderFactory readerFactory) throws ParsingException, ParsingCanceledException {
         Report report = parse(readerFactory);

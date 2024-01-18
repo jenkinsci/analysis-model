@@ -38,7 +38,6 @@ public class AnsibleLintParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-
         final String cat;
 
         /* Ansible-lint has changed the style of parseable output. This requires

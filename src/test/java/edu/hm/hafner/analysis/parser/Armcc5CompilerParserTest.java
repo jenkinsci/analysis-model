@@ -1,9 +1,9 @@
 package edu.hm.hafner.analysis.parser;
 
-import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
+import edu.hm.hafner.analysis.registry.AbstractParserTest;
 
 /**
  * Tests the class {@link Armcc5CompilerParser}.
@@ -20,7 +20,6 @@ class Armcc5CompilerParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-
         softly.assertThat(report).hasSize(3);
 
         softly.assertThat(report.get(0)).hasSeverity(Severity.WARNING_HIGH)

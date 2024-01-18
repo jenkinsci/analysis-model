@@ -13,7 +13,6 @@ import static edu.hm.hafner.analysis.assertions.Assertions.*;
  * Tests the class {@link VeraCodePipelineScannerParserTest}.
  */
 class VeraCodePipelineScannerParserTest extends StructuredFileParserTest {
-
     VeraCodePipelineScannerParserTest() {
         super("veracode_pipeline_scanner_result.json");
     }

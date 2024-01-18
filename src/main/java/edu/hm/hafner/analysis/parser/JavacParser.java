@@ -53,7 +53,7 @@ public class JavacParser extends AbstractMavenLogParser {
     @Override
     protected boolean isLineInteresting(final String line) {
         return (line.contains("[") || line.contains("w:") || line.contains("e:"))
-                && !hasGoals(MAVEN_JAVADOC_PLUGIN, MAVEN_HPI_PLUGIN);
+                && !hasGoals(MAVEN_JAVADOC_PLUGIN, MAVEN_HPI_PLUGIN, MAVEN_SUREFIRE_PLUGIN, MAVEN_FAILSAFE_PLUGIN);
     }
 
     @Override

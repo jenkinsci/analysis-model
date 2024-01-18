@@ -2,12 +2,12 @@ package edu.hm.hafner.analysis.parser;
 
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.parser.pmd.PmdParser;
+import edu.hm.hafner.analysis.registry.AbstractParserTest;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
@@ -116,7 +116,6 @@ class PmdParserTest extends AbstractParserTest {
                                 + "\tat net.sourceforge.pmd.SourceCodeProcessor.processSource(SourceCodeProcessor.java:175)\n"
                                 + "\tat net.sourceforge.pmd.SourceCodeProcessor.processSourceCode(SourceCodeProcessor.java:96)\n"
                                 + "\t... 9 more");
-
     }
 
     /**

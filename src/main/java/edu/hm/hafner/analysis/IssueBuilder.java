@@ -1,6 +1,10 @@
 package edu.hm.hafner.analysis;
 
 import java.io.Serializable;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -142,13 +146,16 @@ public class IssueBuilder implements AutoCloseable {
             return UNDEFINED_TREE_STRING;
         }
         else {
+            if (directory != null && isAbsolutePath(normalizeFileName(unsafeFileName))) {
+                return fileNameBuilder.intern(normalizeFileName(unsafeFileName));
+            }
             return fileNameBuilder.intern(normalizeFileName(
                     new PathUtil().createAbsolutePath(directory, unsafeFileName)));
         }
     }
 
     /**
-     * Sets the current work directory. This directory is used as prefix for all subsequent issue file names. If the
+     * Sets the current work directory. This directory is used as a prefix for all subsequent issue file names. If the
      * path is set as well, then the final path of an issue is the concatenation of {@code path}, {@code directory}, and
      * {@code fileName}. Note that this directory is not visible later on, the issue does only store the path in the
      * {@code path} and {@code fileName} properties. I.e., the created issue will get a new file name that is composed
@@ -576,6 +583,20 @@ public class IssueBuilder implements AutoCloseable {
 
         moduleName = null;
         additionalProperties = null;
+    }
+
+    private static boolean isAbsolutePath(final String stringPath) {
+        try {
+            URI uri = new URI(stringPath);
+            if (uri.isAbsolute()) {
+                return true;
+            }
+        }
+        catch (URISyntaxException e) {
+            // Catch and ignore as system paths are not URI and we need to check them separately.
+        }
+        Path path = Paths.get(stringPath);
+        return path.isAbsolute();
     }
 
     private static String normalizeFileName(@CheckForNull final String platformFileName) {

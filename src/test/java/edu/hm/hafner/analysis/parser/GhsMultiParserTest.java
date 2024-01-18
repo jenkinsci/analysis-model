@@ -2,10 +2,10 @@ package edu.hm.hafner.analysis.parser;
 
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
+import edu.hm.hafner.analysis.registry.AbstractParserTest;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
@@ -69,7 +69,6 @@ class GhsMultiParserTest extends AbstractParserTest {
                 .hasLineStart(42)
                 .hasMessage("warning at the end of the file")
                 .hasFileName("D:/workspace/TEST/mytest.c");
-
     }
 
     /**
@@ -121,6 +120,5 @@ class GhsMultiParserTest extends AbstractParserTest {
     protected GhsMultiParser createParser() {
         return new GhsMultiParser();
     }
-
 }
 

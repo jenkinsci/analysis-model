@@ -52,7 +52,6 @@ public class LintParser extends IssueParser {
         @Override
         public void startElement(final String namespaceURI,
                 final String localName, final String key, final Attributes atts) {
-
             if (isLintDerivate(key)) {
                 return; // Start element, good to skip
             }

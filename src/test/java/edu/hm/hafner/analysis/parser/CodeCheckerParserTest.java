@@ -2,15 +2,14 @@ package edu.hm.hafner.analysis.parser;
 
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
+import edu.hm.hafner.analysis.registry.AbstractParserTest;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 class CodeCheckerParserTest extends AbstractParserTest {
-
     CodeCheckerParserTest() {
         super("CodeChecker_with_linux_paths.txt");
     }
@@ -63,7 +62,6 @@ class CodeCheckerParserTest extends AbstractParserTest {
                 .hasMessage("misra violation (use --rule-texts=<file> to get proper output)")
                 .hasCategory("cppcheck-misra-c2012-11.3")
                 .hasSeverity(Severity.WARNING_LOW);
-
     }
 
     @Test
@@ -109,6 +107,5 @@ class CodeCheckerParserTest extends AbstractParserTest {
                 .hasMessage("suspicious usage of 'sizeof(A*)'; pointer to aggregate")
                 .hasCategory("bugprone-sizeof-expression")
                 .hasSeverity(Severity.WARNING_HIGH);
-
     }
 }

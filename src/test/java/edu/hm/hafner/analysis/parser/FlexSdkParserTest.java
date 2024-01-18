@@ -7,11 +7,11 @@ package edu.hm.hafner.analysis.parser;
 
 import java.util.Iterator;
 
-import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
+import edu.hm.hafner.analysis.registry.AbstractParserTest;
 
 /**
  * Tests the class {@link FlexSdkParser}.
@@ -69,7 +69,6 @@ class FlexSdkParserTest extends AbstractParserTest {
                         "The CSS type selector 'Book' was not processed, because the type was not used in the application.")
                 .hasFileName(
                         "D:/workspaces/flexcompo_trunkdev_nightly/src/flexcompo/samples/ugv_helloExtensibility_flex/src/main/HelloExtensibleWorld.mxml");
-
     }
 
     @Override

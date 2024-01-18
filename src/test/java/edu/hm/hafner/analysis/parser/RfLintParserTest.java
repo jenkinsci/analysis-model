@@ -3,11 +3,11 @@ package edu.hm.hafner.analysis.parser;
 import java.nio.file.Paths;
 import java.util.Iterator;
 
-import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
+import edu.hm.hafner.analysis.registry.AbstractParserTest;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
@@ -293,7 +293,6 @@ class RfLintParserTest extends AbstractParserTest {
                 .hasPackageName(packageName)
                 .hasCategory(OTHER_CATEGORY)
                 .hasSeverity(Severity.WARNING_NORMAL);
-
     }
 
     @Override

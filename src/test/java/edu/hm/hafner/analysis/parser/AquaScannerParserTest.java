@@ -2,12 +2,12 @@ package edu.hm.hafner.analysis.parser;
 
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
+import edu.hm.hafner.analysis.registry.AbstractParserTest;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
@@ -15,7 +15,6 @@ import static edu.hm.hafner.analysis.assertions.Assertions.*;
  * Tests the class {@link AquaScannerParser}.
  */
 class AquaScannerParserTest extends AbstractParserTest {
-
     private static final String EXPECTED_FILENAME = "/opt/app/app-runner.jar:org/jose4j/json/JsonHeaderUtil.class";
 
     AquaScannerParserTest() {

@@ -4,10 +4,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.ModuleDetector.FileSystem;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 class AntModuleDetectorTest extends AbstractModuleDetectorTest {
@@ -19,7 +19,7 @@ class AntModuleDetectorTest extends AbstractModuleDetectorTest {
         return PATH_PREFIX_ANT;
     }
 
-    @Override
+    @Override @SuppressFBWarnings("NM")
     String getFileName() {
         return getPathPrefix() + "something.txt";
     }

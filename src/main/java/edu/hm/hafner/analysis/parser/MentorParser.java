@@ -158,5 +158,4 @@ public class MentorParser extends LookaheadParser {
     protected boolean isLineInteresting(final String line) {
         return line.startsWith("# ** ") || line.startsWith("** ");
     }
-
 }

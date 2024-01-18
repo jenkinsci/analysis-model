@@ -7,7 +7,10 @@ import java.nio.charset.Charset;
 import java.nio.charset.MalformedInputException;
 import java.nio.file.InvalidPathException;
 import java.nio.file.NoSuchFileException;
+import java.util.Set;
 
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import edu.hm.hafner.util.FilteredLog;
@@ -19,6 +22,9 @@ import edu.hm.hafner.util.VisibleForTesting;
  * @author Ullrich Hafner
  */
 public class FingerprintGenerator {
+    private static final Set<String> NON_SOURCE_CODE_EXTENSIONS = Set.of(
+            "o", "exe", "dll", "so", "a", "lib", "jar", "war", "zip", "7z", "gz", "bz2");
+
     /**
      * Creates fingerprints for the specified set of issues.
      *
@@ -34,11 +40,20 @@ public class FingerprintGenerator {
         int sum = 0;
         for (Issue issue : report) {
             if (!issue.hasFingerprint()) {
-                sum += computeFingerprint(issue, algorithm, charset, log);
+                if (hasAllowedExtension(issue.getFileName())) {
+                    sum += computeFingerprint(issue, algorithm, charset, log);
+                }
+                else {
+                    issue.setFingerprint(createDefaultFingerprint(issue));
+                }
             }
         }
         report.mergeLogMessages(log);
         report.logInfo("-> created fingerprints for %d issues (skipped %d issues)", sum, report.size() - sum);
+    }
+
+    private boolean hasAllowedExtension(final String fileName) {
+        return !NON_SOURCE_CODE_EXTENSIONS.contains(StringUtils.lowerCase(FilenameUtils.getExtension(fileName)));
     }
 
     private int computeFingerprint(final Issue issue, final FullTextFingerprint algorithm, final Charset charset,

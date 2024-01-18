@@ -8,3 +8,12 @@
 [2023-03-10 12:04:25.0777] Warn - Code generation for element 'Module1' passed. Could not start code generation ; {ffeee99-9BD1-12345678}
 [2023-03-10 12:04:25.1377] Warn - SampleValidation: no requirement linked to final node 'Module1_Node'.
 [2023-03-10 12:04:22.1045] Error - Error loading plugins from: C:\file1\idc\sample_ext.x64.dll
+[2024-01-05 10:52:27.3199] Warn - Out parameters ('Model_ptr_2345') are not supported. Please use 'return' or 'inout' parameters; {98CF1FE6-EC9C-43f1-e476-40EFCD63cA8D}
+[2023-04-10 12:04:22.1045] Error - Error loading plugins from: C:\file1\idc\sample_ext.x64.dll
+File name: 'file:///C:\AA\BB\System.Text.Json.dll' ---> System.NotSupportedException: An attempt was made to load an assembly from a network location which would have caused the assembly to be sandboxed in previous versions of the .NET Framework. This release of the .NET Framework does not enable CAS policy by default, so this load may be dangerous. If this load is not intended to sandbox the assembly, please enable the loadFromRemoteSources switch. See http://go.microsoft.com/fwlink/?LinkId=155569 for more information.
+   at System.Reflection.RuntimeAssembly._nLoad(AssemblyName fileName, String codeBase, Evidence assemblySecurity, RuntimeAssembly locationHint, StackCrawlMark& stackMark, IntPtr pPrivHostBinder, Boolean throwOnFileNotFound, Boolean forIntrospection, Boolean suppressSecurityChecks)
+   at System.Reflection.RuntimeAssembly.InternalLoadAssemblyName(AssemblyName assemblyRef, Evidence assemblySecurity, RuntimeAssembly reqAssembly, StackCrawlMark& stackMark, IntPtr pPrivHostBinder, Boolean throwOnFileNotFound, Boolean forIntrospection, Boolean suppressSecurityChecks)
+   at System.Reflection.RuntimeAssembly.InternalLoadFrom(String assemblyFile, Evidence securityEvidence, Byte[] hashValue, AssemblyHashAlgorithm hashAlgorithm, Boolean forIntrospection, Boolean suppressSecurityChecks, StackCrawlMark& stackMark)
+   at System.Reflection.Assembly.LoadFrom(String assemblyFile)
+   at A.A`1.a(String , Predicate`1 , Object[] )
+   at A.A`1.A(String , Predicate`1 , Object[] )

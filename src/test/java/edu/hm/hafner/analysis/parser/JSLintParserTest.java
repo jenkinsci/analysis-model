@@ -2,10 +2,10 @@ package edu.hm.hafner.analysis.parser;
 
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
+import edu.hm.hafner.analysis.registry.AbstractParserTest;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
@@ -33,7 +33,6 @@ class JSLintParserTest extends AbstractParserTest {
         assertThat(warnings).hasSize(197);
 
         try (SoftAssertions softly = new SoftAssertions()) {
-
             softly.assertThat(warnings.get(0))
                     .hasSeverity(Severity.WARNING_HIGH)
                     .hasCategory(LintParser.JSLintXmlSaxParser.CATEGORY_UNDEFINED_VARIABLE)
@@ -42,7 +41,6 @@ class JSLintParserTest extends AbstractParserTest {
                     .hasMessage("'window' is not defined.")
                     .hasFileName("C:/DVR/lint_Mobile-Localization_ws/evWebService/WebClientApi/api-v1.js")
                     .hasColumnStart(5);
-
         }
     }
 

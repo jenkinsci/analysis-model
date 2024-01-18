@@ -4,11 +4,11 @@ import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
+import edu.hm.hafner.analysis.registry.AbstractParserTest;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
@@ -83,12 +83,8 @@ class GccParserTest extends AbstractParserTest {
         }
     }
 
-    /**
-     * Parses a file with two GCC warnings.
-     */
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-
         softly.assertThat(report).hasSize(8);
 
         Iterator<Issue> iterator = report.iterator();
@@ -336,7 +332,7 @@ class GccParserTest extends AbstractParserTest {
     }
 
     /**
-     * Parses a file with one warning and matching warning that will be excluded afterwards.
+     * Parses a file with one warning and matching warning that will be excluded afterward.
      *
      * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-4260">Issue 4260</a>
      */
@@ -345,6 +341,13 @@ class GccParserTest extends AbstractParserTest {
         Report warnings = parse("issue4260.txt");
 
         assertThat(warnings).hasSize(1);
+    }
+
+    @Test @org.junitpioneer.jupiter.Issue("JENKINS-70996")
+    void ignoreDirectoriesFromOtherTools() {
+        Report warnings = parse("issue70996.txt");
+
+        assertThat(warnings).hasSize(8);
     }
 
     @Override

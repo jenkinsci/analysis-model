@@ -119,6 +119,5 @@ public class RevApiParser extends JsonIssueParser {
                 jsonIssue.getString("description"),
                 jsonIssue.getString("name"),
                 jsonIssue.getString("code")) + severityDescription;
-
     }
 }

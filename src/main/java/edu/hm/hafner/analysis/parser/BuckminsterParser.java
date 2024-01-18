@@ -35,7 +35,6 @@ public class BuckminsterParser extends LookaheadParser {
         return builder.setFileName(matcher.group(2)).setLineStart(matcher.group(4))
                       .setCategory(guessCategory(matcher.group(5))).setMessage(matcher.group(5))
                       .setSeverity(priority).buildOptional();
-
     }
 }
 

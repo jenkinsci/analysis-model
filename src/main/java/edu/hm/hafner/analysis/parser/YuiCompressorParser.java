@@ -47,7 +47,6 @@ public class YuiCompressorParser extends LookaheadParser {
 
         return builder.setFileName("unknown.file").setLineStart(0).setCategory(categoryAndPriority.getCategory())
                 .setMessage(message).setSeverity(categoryAndPriority.getPriority()).buildOptional();
-
     }
 
     @SuppressWarnings("npathcomplexity")

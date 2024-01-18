@@ -17,5 +17,4 @@ public class DoxygenParser extends Gcc4CompilerParser {
     public DoxygenParser() {
         super(DOXYGEN_WARNING_PATTERN);
     }
-
 }

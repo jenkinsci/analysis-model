@@ -65,7 +65,7 @@ public class AjcParser extends IssueParser {
                         if (line.startsWith("\t")) {
                             fillFileName(builder, line);
                         }
-                        else if ("".equals(line)) {
+                        else if (line.isEmpty()) {
                             state = States.PARSING;
 
                             warnings.add(builder.buildAndClean());

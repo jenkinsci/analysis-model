@@ -2,12 +2,12 @@ package edu.hm.hafner.analysis.parser;
 
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.AbstractParserTest;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
+import edu.hm.hafner.analysis.registry.AbstractParserTest;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.*;
@@ -18,7 +18,6 @@ import static org.assertj.core.api.Assertions.*;
  * @author Fabian Kaupp - kauppfbi@gmail.com
  */
 class PnpmAuditParserTest extends AbstractParserTest {
-
     protected PnpmAuditParserTest() {
         super("pnpm-audit.json");
     }
@@ -72,7 +71,6 @@ class PnpmAuditParserTest extends AbstractParserTest {
         assertThat(description).doesNotContain("Installed Version");
         assertThat(description).contains("Patched Versions");
         assertThat(description).contains("Vulnerable Versions");
-
     }
 
     @Test
