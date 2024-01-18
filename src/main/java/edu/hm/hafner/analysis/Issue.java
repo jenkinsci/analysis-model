@@ -664,7 +664,7 @@ public class Issue implements Serializable {
                 return true; // the line is within an additional line range of this issue
             }
         }
-        return getLineStart() == 0; // an issue without a line number is always relevant
+        return false;
     }
 
     /**
