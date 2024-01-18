@@ -4,8 +4,7 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.apache.commons.lang3.StringUtils;
+import java.util.Objects;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
@@ -34,7 +33,7 @@ public final class RevApiInfoExtension implements Serializable {
      */
     public RevApiInfoExtension(@CheckForNull final String code, final String oldFile,
             final String newFile, final Map<String, String> severities) {
-        this.issueName = StringUtils.defaultString(code, "-");
+        this.issueName = Objects.toString(code, "-");
         this.oldFile = oldFile;
         this.newFile = newFile;
         this.severities.putAll(severities);

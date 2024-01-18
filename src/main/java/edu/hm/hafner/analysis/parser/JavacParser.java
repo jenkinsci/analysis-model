@@ -1,10 +1,10 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.util.Objects;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
 import org.apache.commons.lang3.RegExUtils;
-import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
@@ -77,7 +77,7 @@ public class JavacParser extends AbstractMavenLogParser {
         // get rid of leading / from windows compiler output JENKINS-66738
         return builder.setFileName(RegExUtils.replaceAll(matcher.group(2), "^/([a-zA-Z]):", "$1:"))
                 .setLineStart(matcher.group(7))
-                .setType(StringUtils.defaultString(getGoal(), DEFAULT_GOAL))
+                .setType(Objects.toString(getGoal(), DEFAULT_GOAL))
                 .setColumnStart(matcher.group(8))
                 .setCategory(category)
                 .setMessage(message)

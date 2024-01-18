@@ -39,7 +39,7 @@ public class SimulinkCheckParser extends IssueParser {
     public Report parse(final ReaderFactory readerFactory) throws ParsingException {
         try (IssueBuilder issueBuilder = new IssueBuilder();
                 Reader reader = readerFactory.create();
-                InputStream targetStream = new ReaderInputStream(reader, readerFactory.getCharset())) {
+                InputStream targetStream = ReaderInputStream.builder().setReader(reader).setCharset(readerFactory.getCharset()).get()) {
             Document document = Jsoup.parse(targetStream, readerFactory.getCharset().name(), EMPTY_BASE_URI);
 
             Elements systemElements = document.select(REPORT_CONTENT);
