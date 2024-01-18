@@ -65,9 +65,9 @@ public class FileReaderFactory extends ReaderFactory {
             if (isCharsetUndetected) {
                 charset = detectCharset(Files.newInputStream(file));
             }
-            InputStream inputStream = Files.newInputStream(file);
-
-            return new InputStreamReader(new BOMInputStream(inputStream), getCharset());
+            var inputStream = Files.newInputStream(file);
+            var bomInputStream = BOMInputStream.builder().setInputStream(inputStream).get();
+            return new InputStreamReader(bomInputStream, getCharset());
         }
         catch (FileNotFoundException | InvalidPathException exception) {
             throw new ParsingException(exception, "Can't find file '%s'", fileName);
