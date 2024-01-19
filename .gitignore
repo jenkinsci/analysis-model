@@ -11,3 +11,5 @@ release.properties
 .DS_Store
 .idea
 /package-lock.json
+metrics.env
+maven.log

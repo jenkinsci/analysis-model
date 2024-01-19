@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
@@ -19,11 +20,75 @@ class IssueDifferenceTest extends ResourceTest {
     private static final String REFERENCE_BUILD = "100";
     private static final String CURRENT_BUILD = "2";
 
-    /**
-     * Verifies that issue difference report is created correctly.
-     */
     @Test
-    void shouldCreateIssueDifference() {
+    void shouldFilterByPath() {
+        Report referenceIssues = new Report().addAll(
+                createIssue("OUTSTANDING 1", "OUT 1"),
+                createIssue("OUTSTANDING 2", "OUT 2"),
+                createIssue("OUTSTANDING 3", "OUT 3"),
+                createIssue("TO FIX 1", "FIX 1"),
+                createIssue("TO FIX 2", "FIX 2"));
+
+        Report currentIssues = new Report().addAll(
+                createIssue("UPD OUTSTANDING 1", "OUT 1"),
+                createIssue("OUTSTANDING 2", "UPD OUT 2"),
+                createIssue("OUTSTANDING 3", "OUT 3"),
+                createIssue("NEW 1", "NEW 1", "/include/me"),
+                createIssue("NEW 2", "NEW 2", "/remove/me"),
+                createIssue("NEW 3", "NEW 3", "/include/me"));
+
+        IssueDifference everything = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues);
+        assertThatReportContainsExactly(everything.getFixedIssues(),
+                "TO FIX 1", "TO FIX 2");
+        assertThatReportContainsExactly(everything.getNewIssues(),
+                "NEW 1", "NEW 2", "NEW 3");
+        assertThatReportContainsExactly(everything.getOutstandingIssues(),
+                "OUTSTANDING 2", "OUTSTANDING 3", "UPD OUTSTANDING 1");
+
+        IssueDifference included = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues,
+                Map.of("/include/me", 0));
+        assertThatReportContainsExactly(included.getFixedIssues(),
+                "TO FIX 1", "TO FIX 2");
+        assertThatReportContainsExactly(included.getNewIssues(),
+                "NEW 1", "NEW 3");
+        assertThatReportContainsExactly(included.getOutstandingIssues(),
+                "OUTSTANDING 2", "OUTSTANDING 3", "UPD OUTSTANDING 1", "NEW 2");
+
+        IssueDifference sameSuffixForAll = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues,
+                Map.of("me", 0));
+        assertThatReportContainsExactly(sameSuffixForAll.getFixedIssues(),
+                "TO FIX 1", "TO FIX 2");
+        assertThatReportContainsExactly(sameSuffixForAll.getNewIssues(),
+                "NEW 1", "NEW 2", "NEW 3");
+        assertThatReportContainsExactly(sameSuffixForAll.getOutstandingIssues(),
+                "OUTSTANDING 2", "OUTSTANDING 3", "UPD OUTSTANDING 1");
+
+        IssueDifference allFiles = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues,
+                Map.of("/include/me", 0, "/remove/me", 0));
+        assertThatReportContainsExactly(allFiles.getFixedIssues(),
+                "TO FIX 1", "TO FIX 2");
+        assertThatReportContainsExactly(allFiles.getNewIssues(),
+                "NEW 1", "NEW 2", "NEW 3");
+        assertThatReportContainsExactly(allFiles.getOutstandingIssues(),
+                "OUTSTANDING 2", "OUTSTANDING 3", "UPD OUTSTANDING 1");
+
+        IssueDifference nothingNew = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues,
+                Map.of("other", 0));
+        assertThatReportContainsExactly(nothingNew.getFixedIssues(),
+                "TO FIX 1", "TO FIX 2");
+        assertThatReportContainsExactly(nothingNew.getNewIssues());
+        assertThatReportContainsExactly(nothingNew.getOutstandingIssues(),
+                "OUTSTANDING 2", "OUTSTANDING 3", "UPD OUTSTANDING 1", "NEW 1", "NEW 2", "NEW 3");
+    }
+
+    private void assertThatReportContainsExactly(final Report report, final String... messages) {
+        assertThat(report.get())
+                .extracting(Issue::getMessage)
+                .containsExactlyInAnyOrder(messages);
+    }
+
+    @Test
+    void shouldCreateIssueDifferenceBasedOnPropertiesAndThenOnFingerprint() {
         Report referenceIssues = new Report().addAll(
                 createIssue("OUTSTANDING 1", "OUT 1"),
                 createIssue("OUTSTANDING 2", "OUT 2"),
@@ -37,7 +102,7 @@ class IssueDifferenceTest extends ResourceTest {
                 createIssue("OUTSTANDING 3", "OUT 3"),
                 createIssue("NEW 1", "NEW 1"));
 
-        IssueDifference issueDifference = createDifference(referenceIssues, currentIssues);
+        IssueDifference issueDifference = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues);
 
         Report outstanding = issueDifference.getOutstandingIssues();
         assertThat(outstanding).hasSize(3);
@@ -54,14 +119,8 @@ class IssueDifferenceTest extends ResourceTest {
         assertThat(issueDifference.getNewIssues().get(0)).hasMessage("NEW 1").hasReference("2");
     }
 
-    private IssueDifference createDifference(final Report referenceIssues, final Report currentIssues) {
-        Report aggregation = new Report("aggregation", "Aggregation");
-        aggregation.addAll(currentIssues);
-        return new IssueDifference(aggregation, CURRENT_BUILD, referenceIssues);
-    }
-
     /**
-     * Verifies that issue difference report has only outstanding issues when current report and reference report have
+     * Verifies that issue difference report has only outstanding issues when the current report and reference report have
      * same issues.
      */
     @Test
@@ -76,7 +135,7 @@ class IssueDifferenceTest extends ResourceTest {
         Report referenceIssues = new Report().add(createIssue("OLD", "OLD"));
         Report currentIssues = new Report().add(createIssue(currentMessage, currentFingerprint));
 
-        IssueDifference issueDifference = createDifference(referenceIssues, currentIssues);
+        IssueDifference issueDifference = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues);
 
         assertThat(issueDifference.getFixedIssues()).isEmpty();
         assertThat(issueDifference.getNewIssues()).isEmpty();
@@ -89,16 +148,13 @@ class IssueDifferenceTest extends ResourceTest {
                 .hasReference(REFERENCE_BUILD);
     }
 
-    /**
-     * Verifies that issue difference report has only fixed issues when current report is empty.
-     */
     @Test
     void shouldCreateIssueDifferenceWithEmptyCurrent() {
         Report referenceIssues = new Report().addAll(createIssue("OLD 1", "FA"),
                 createIssue("OLD 2", "FB"));
         Report currentIssues = new Report();
 
-        IssueDifference issueDifference = createDifference(referenceIssues, currentIssues);
+        IssueDifference issueDifference = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues);
 
         assertThat(issueDifference.getNewIssues()).isEmpty();
         assertThat(issueDifference.getOutstandingIssues()).isEmpty();
@@ -110,16 +166,13 @@ class IssueDifferenceTest extends ResourceTest {
         assertThat(fixed.get(1)).hasMessage("OLD 2").hasReference(REFERENCE_BUILD);
     }
 
-    /**
-     * Verifies that issue difference report has only new issues when reference report is empty.
-     */
     @Test
     void shouldCreateIssueDifferenceWithEmptyReference() {
         Report referenceIssues = new Report();
         Report currentIssues = new Report().addAll(createIssue("NEW 1", "FA"),
                 createIssue("NEW 2", "FB"));
 
-        IssueDifference issueDifference = createDifference(referenceIssues, currentIssues);
+        IssueDifference issueDifference = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues);
 
         assertThat(issueDifference.getFixedIssues()).isEmpty();
         assertThat(issueDifference.getOutstandingIssues()).isEmpty();
@@ -130,13 +183,7 @@ class IssueDifferenceTest extends ResourceTest {
         assertThat(newIssues.get(1)).hasMessage("NEW 2").hasReference(CURRENT_BUILD);
     }
 
-    /**
-     * Verifies that if two issues have the same fingerprint then equals is used to select the matching issue in the
-     * reference build.
-     *
-     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-56324">Issue 56324</a>
-     */
-    @Test
+    @Test @org.junitpioneer.jupiter.Issue("JENKINS-56324")
     void shouldAlsoUseFingerprintIfIssuesAreEqual() {
         Report referenceIssues = new Report().addAll(
                 createIssue("OLD 1", "FP"));
@@ -144,7 +191,7 @@ class IssueDifferenceTest extends ResourceTest {
                 createIssue("NEW 1", "FP"),
                 createIssue("OLD 1", "FP"));
 
-        IssueDifference issueDifference = createDifference(referenceIssues, currentIssues);
+        IssueDifference issueDifference = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues);
 
         assertThat(issueDifference.getFixedIssues()).isEmpty();
 
@@ -166,7 +213,7 @@ class IssueDifferenceTest extends ResourceTest {
                 createIssue("NEW 1", "FP1"),
                 createIssue("NEW 3", "FP2"));
 
-        IssueDifference issueDifference = createDifference(referenceIssues, currentIssues);
+        IssueDifference issueDifference = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues);
 
         assertThat(issueDifference.getFixedIssues()).hasSize(1);
         assertThat(issueDifference.getNewIssues()).hasSize(1);
@@ -174,8 +221,12 @@ class IssueDifferenceTest extends ResourceTest {
     }
 
     private Issue createIssue(final String message, final String fingerprint) {
+        return createIssue(message, fingerprint, "file-name");
+    }
+
+    private Issue createIssue(final String message, final String fingerprint, final String fileName) {
         try (IssueBuilder builder = new IssueBuilder()) {
-            builder.setFileName("file-name")
+            builder.setFileName(fileName)
                     .setLineStart(1)
                     .setLineEnd(2)
                     .setColumnStart(3)
@@ -195,12 +246,7 @@ class IssueDifferenceTest extends ResourceTest {
         }
     }
 
-    /**
-     * Verifies that an aggregation of duplicate issues will be retained in the outstanding issues property.
-     *
-     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-65482">Issue 65482</a>
-     */
-    @Test
+    @Test @org.junitpioneer.jupiter.Issue("JENKINS-65482")
     void shouldHandleAggregatedResults() {
         Report firstAxis = readSpotBugsWarnings();
         assertThat(firstAxis).hasSize(2);
@@ -215,7 +261,7 @@ class IssueDifferenceTest extends ResourceTest {
         Report reference = new Report();
         reference.addAll(firstAxis, secondAxis);
 
-        IssueDifference issueDifference = createDifference(reference, aggregation);
+        IssueDifference issueDifference = new IssueDifference(aggregation, CURRENT_BUILD, reference);
         assertThat(issueDifference).hasNoFixedIssues().hasNoNewIssues();
         assertThat(issueDifference.getOutstandingIssues()).hasSize(2);
     }

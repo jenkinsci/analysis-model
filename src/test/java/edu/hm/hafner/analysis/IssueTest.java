@@ -122,23 +122,32 @@ class IssueTest extends SerializableTest<Issue> {
 
     @Test
     void shouldExpandPath() {
-        Issue issue = new IssueBuilder()
+        try (var builder = new IssueBuilder()
                 .setPathName("/jenkins-data/jenkins/workspace/root/trunk/sw/build")
-                .setFileName("../../component/app/_src/file.c")
-                .build();
-
-        assertThat(issue.getAbsolutePath()).isEqualTo(
-                "/jenkins-data/jenkins/workspace/root/trunk/component/app/_src/file.c");
+                .setFileName("../../component/app/_src/file.c")) {
+            var issue = builder.build();
+            assertThat(issue.getAbsolutePath()).isEqualTo(
+                    "/jenkins-data/jenkins/workspace/root/trunk/component/app/_src/file.c");
+        }
     }
 
     @Test
     void shouldEnsureThatEndIsGreaterOrEqualStart() {
-        Issue issue = new Issue(PATH_NAME, FILE_NAME_TS, 2, 1, 2, 1, LINE_RANGES, CATEGORY,
+        Issue issue = new Issue(PATH_NAME, FILE_NAME_TS, 3, 2, 2, 1, LINE_RANGES, CATEGORY,
                 TYPE, PACKAGE_NAME_TS, MODULE_NAME, SEVERITY,
                 MESSAGE_TS, DESCRIPTION, ORIGIN, ORIGIN_NAME, REFERENCE, FINGERPRINT, ADDITIONAL_PROPERTIES,
                 UUID.randomUUID());
-        assertThat(issue).hasLineStart(1).hasLineEnd(2);
+        assertThat(issue).hasLineStart(2).hasLineEnd(3);
         assertThat(issue).hasColumnStart(1).hasColumnEnd(2);
+
+        assertThat(issue.affectsLine(0)).isTrue();
+        assertThat(issue.affectsLine(1)).isFalse();
+        assertThat(issue.affectsLine(2)).isTrue();
+        assertThat(issue.affectsLine(3)).isTrue();
+        assertThat(issue.affectsLine(4)).isFalse();
+        assertThat(issue.affectsLine(5)).isTrue();
+        assertThat(issue.affectsLine(6)).isTrue();
+        assertThat(issue.affectsLine(7)).isFalse();
     }
 
     /**
@@ -239,6 +248,7 @@ class IssueTest extends SerializableTest<Issue> {
                 null, UUID.randomUUID());
 
         assertIsDefaultIssue(issue);
+        assertThat(issue.affectsLine(10)).isTrue();
     }
 
     @Test

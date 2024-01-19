@@ -9,7 +9,7 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  *
  * @author Ullrich Hafner
  */
-public class LineRange implements Serializable {
+public final class LineRange implements Serializable {
     private static final long serialVersionUID = -4124143085672930110L;
 
     private final int start;
@@ -64,6 +64,16 @@ public class LineRange implements Serializable {
      */
     public int getEnd() {
         return end;
+    }
+
+    /**
+     * Returns whether the specified line is contained in this range.
+     *
+     * @param line the line to check
+     * @return {@code true} if the line is contained in this range, {@code false} otherwise
+     */
+    public boolean contains(final int line) {
+        return line >= start && line <= end;
     }
 
     @Override
