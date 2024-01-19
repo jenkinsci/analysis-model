@@ -42,6 +42,7 @@ class IssueDifferenceTest extends ResourceTest {
                 "TO FIX 1", "TO FIX 2");
         assertThatReportContainsExactly(everything.getNewIssues(),
                 "NEW 1", "NEW 2", "NEW 3");
+        assertThatReportContainsExactly(everything.getNewIssuesInChangedCode());
         assertThatReportContainsExactly(everything.getOutstandingIssues(),
                 "OUTSTANDING 2", "OUTSTANDING 3", "UPD OUTSTANDING 1");
 
@@ -49,17 +50,20 @@ class IssueDifferenceTest extends ResourceTest {
                 Map.of("/include/me", 0));
         assertThatReportContainsExactly(included.getFixedIssues(),
                 "TO FIX 1", "TO FIX 2");
-        assertThatReportContainsExactly(included.getNewIssues(),
+        assertThatReportContainsExactly(included.getNewIssuesInChangedCode(),
                 "NEW 1", "NEW 3");
+        assertThatReportContainsExactly(included.getNewIssues(),
+                "NEW 2");
         assertThatReportContainsExactly(included.getOutstandingIssues(),
-                "OUTSTANDING 2", "OUTSTANDING 3", "UPD OUTSTANDING 1", "NEW 2");
+                "OUTSTANDING 2", "OUTSTANDING 3", "UPD OUTSTANDING 1");
 
         IssueDifference sameSuffixForAll = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues,
                 Map.of("me", 0));
         assertThatReportContainsExactly(sameSuffixForAll.getFixedIssues(),
                 "TO FIX 1", "TO FIX 2");
-        assertThatReportContainsExactly(sameSuffixForAll.getNewIssues(),
+        assertThatReportContainsExactly(sameSuffixForAll.getNewIssuesInChangedCode(),
                 "NEW 1", "NEW 2", "NEW 3");
+        assertThatReportContainsExactly(sameSuffixForAll.getNewIssues());
         assertThatReportContainsExactly(sameSuffixForAll.getOutstandingIssues(),
                 "OUTSTANDING 2", "OUTSTANDING 3", "UPD OUTSTANDING 1");
 
@@ -67,8 +71,9 @@ class IssueDifferenceTest extends ResourceTest {
                 Map.of("/include/me", 0, "/remove/me", 0));
         assertThatReportContainsExactly(allFiles.getFixedIssues(),
                 "TO FIX 1", "TO FIX 2");
-        assertThatReportContainsExactly(allFiles.getNewIssues(),
+        assertThatReportContainsExactly(allFiles.getNewIssuesInChangedCode(),
                 "NEW 1", "NEW 2", "NEW 3");
+        assertThatReportContainsExactly(allFiles.getNewIssues());
         assertThatReportContainsExactly(allFiles.getOutstandingIssues(),
                 "OUTSTANDING 2", "OUTSTANDING 3", "UPD OUTSTANDING 1");
 
@@ -76,15 +81,21 @@ class IssueDifferenceTest extends ResourceTest {
                 Map.of("other", 0));
         assertThatReportContainsExactly(nothingNew.getFixedIssues(),
                 "TO FIX 1", "TO FIX 2");
-        assertThatReportContainsExactly(nothingNew.getNewIssues());
+        assertThatReportContainsExactly(nothingNew.getNewIssuesInChangedCode());
+        assertThatReportContainsExactly(nothingNew.getNewIssues(), "NEW 1", "NEW 2", "NEW 3");
         assertThatReportContainsExactly(nothingNew.getOutstandingIssues(),
-                "OUTSTANDING 2", "OUTSTANDING 3", "UPD OUTSTANDING 1", "NEW 1", "NEW 2", "NEW 3");
+                "OUTSTANDING 2", "OUTSTANDING 3", "UPD OUTSTANDING 1");
     }
 
     private void assertThatReportContainsExactly(final Report report, final String... messages) {
-        assertThat(report.get())
-                .extracting(Issue::getMessage)
-                .containsExactlyInAnyOrder(messages);
+        if (messages.length == 0) {
+            assertThat(report).isEmpty();
+        }
+        else {
+            assertThat(report.get())
+                    .extracting(Issue::getMessage)
+                    .containsExactlyInAnyOrder(messages);
+        }
     }
 
     @Test
@@ -120,8 +131,8 @@ class IssueDifferenceTest extends ResourceTest {
     }
 
     /**
-     * Verifies that issue difference report has only outstanding issues when the current report and reference report have
-     * same issues.
+     * Verifies that issue difference report has only outstanding issues when the current report and reference report
+     * have same issues.
      */
     @Test
     void shouldCreateOutstandingIssueDifference() {
@@ -183,7 +194,8 @@ class IssueDifferenceTest extends ResourceTest {
         assertThat(newIssues.get(1)).hasMessage("NEW 2").hasReference(CURRENT_BUILD);
     }
 
-    @Test @org.junitpioneer.jupiter.Issue("JENKINS-56324")
+    @Test
+    @org.junitpioneer.jupiter.Issue("JENKINS-56324")
     void shouldAlsoUseFingerprintIfIssuesAreEqual() {
         Report referenceIssues = new Report().addAll(
                 createIssue("OLD 1", "FP"));
@@ -246,7 +258,8 @@ class IssueDifferenceTest extends ResourceTest {
         }
     }
 
-    @Test @org.junitpioneer.jupiter.Issue("JENKINS-65482")
+    @Test
+    @org.junitpioneer.jupiter.Issue("JENKINS-65482")
     void shouldHandleAggregatedResults() {
         Report firstAxis = readSpotBugsWarnings();
         assertThat(firstAxis).hasSize(2);
