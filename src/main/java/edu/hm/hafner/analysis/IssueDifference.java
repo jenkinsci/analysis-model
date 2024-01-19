@@ -78,11 +78,11 @@ public class IssueDifference {
 
         newIssues.forEach(issue -> issue.setReference(referenceId));
         if (!includes.isEmpty()) {
-            keepOnlyIncludedIssues(includes);
+            findIssuesInChangedCode(includes);
         }
     }
 
-    private void keepOnlyIncludedIssues(final Map<String, Integer> includes) {
+    private void findIssuesInChangedCode(final Map<String, Integer> includes) {
         for (Entry<String, Integer> include : includes.entrySet()) {
             newIssues.filter(issue -> filter(issue, include.getKey(), include.getValue()))
                     .stream()
