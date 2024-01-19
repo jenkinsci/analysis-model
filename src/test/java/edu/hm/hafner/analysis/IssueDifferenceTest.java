@@ -38,53 +38,66 @@ class IssueDifferenceTest extends ResourceTest {
                 createIssue("NEW 3", "NEW 3", "/include/me"));
 
         IssueDifference everything = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues);
-        assertThatReportContainsExactly(everything.getFixedIssues(),
-                "TO FIX 1", "TO FIX 2");
-        assertThatReportContainsExactly(everything.getNewIssues(),
-                "NEW 1", "NEW 2", "NEW 3");
+        assertThatReportContainsExactly(everything.getFixedIssues(), "TO FIX 1", "TO FIX 2");
+        assertThatReferenceIsSet(everything.getFixedIssues(), REFERENCE_BUILD);
+        assertThatReportContainsExactly(everything.getNewIssues(), "NEW 1", "NEW 2", "NEW 3");
+        assertThatReferenceIsSet(everything.getNewIssues(), CURRENT_BUILD);
         assertThatReportContainsExactly(everything.getNewIssuesInChangedCode());
         assertThatReportContainsExactly(everything.getOutstandingIssues(),
                 "OUTSTANDING 2", "OUTSTANDING 3", "UPD OUTSTANDING 1");
+        assertThatReferenceIsSet(everything.getOutstandingIssues(), REFERENCE_BUILD);
 
         IssueDifference included = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues,
                 Map.of("/include/me", 0));
-        assertThatReportContainsExactly(included.getFixedIssues(),
-                "TO FIX 1", "TO FIX 2");
-        assertThatReportContainsExactly(included.getNewIssuesInChangedCode(),
-                "NEW 1", "NEW 3");
-        assertThatReportContainsExactly(included.getNewIssues(),
-                "NEW 2");
+        assertThatReportContainsExactly(included.getFixedIssues(), "TO FIX 1", "TO FIX 2");
+        assertThatReferenceIsSet(included.getFixedIssues(), REFERENCE_BUILD);
+        assertThatReportContainsExactly(included.getNewIssuesInChangedCode(), "NEW 1", "NEW 3");
+        assertThatReferenceIsSet(included.getNewIssuesInChangedCode(), CURRENT_BUILD);
+        assertThatReportContainsExactly(included.getNewIssues(), "NEW 2");
+        assertThatReferenceIsSet(included.getNewIssues(), CURRENT_BUILD);
         assertThatReportContainsExactly(included.getOutstandingIssues(),
                 "OUTSTANDING 2", "OUTSTANDING 3", "UPD OUTSTANDING 1");
+        assertThatReferenceIsSet(included.getOutstandingIssues(), REFERENCE_BUILD);
 
         IssueDifference sameSuffixForAll = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues,
                 Map.of("me", 0));
-        assertThatReportContainsExactly(sameSuffixForAll.getFixedIssues(),
-                "TO FIX 1", "TO FIX 2");
+        assertThatReportContainsExactly(sameSuffixForAll.getFixedIssues(), "TO FIX 1", "TO FIX 2");
+        assertThatReferenceIsSet(sameSuffixForAll.getFixedIssues(), REFERENCE_BUILD);
         assertThatReportContainsExactly(sameSuffixForAll.getNewIssuesInChangedCode(),
                 "NEW 1", "NEW 2", "NEW 3");
+        assertThatReferenceIsSet(sameSuffixForAll.getNewIssuesInChangedCode(), CURRENT_BUILD);
         assertThatReportContainsExactly(sameSuffixForAll.getNewIssues());
         assertThatReportContainsExactly(sameSuffixForAll.getOutstandingIssues(),
                 "OUTSTANDING 2", "OUTSTANDING 3", "UPD OUTSTANDING 1");
+        assertThatReferenceIsSet(sameSuffixForAll.getOutstandingIssues(), REFERENCE_BUILD);
 
         IssueDifference allFiles = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues,
                 Map.of("/include/me", 0, "/remove/me", 0));
-        assertThatReportContainsExactly(allFiles.getFixedIssues(),
-                "TO FIX 1", "TO FIX 2");
+        assertThatReportContainsExactly(allFiles.getFixedIssues(), "TO FIX 1", "TO FIX 2");
+        assertThatReferenceIsSet(allFiles.getFixedIssues(), REFERENCE_BUILD);
         assertThatReportContainsExactly(allFiles.getNewIssuesInChangedCode(),
                 "NEW 1", "NEW 2", "NEW 3");
+        assertThatReferenceIsSet(allFiles.getNewIssuesInChangedCode(), CURRENT_BUILD);
         assertThatReportContainsExactly(allFiles.getNewIssues());
         assertThatReportContainsExactly(allFiles.getOutstandingIssues(),
                 "OUTSTANDING 2", "OUTSTANDING 3", "UPD OUTSTANDING 1");
+        assertThatReferenceIsSet(allFiles.getOutstandingIssues(), REFERENCE_BUILD);
 
         IssueDifference nothingNew = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues,
                 Map.of("other", 0));
         assertThatReportContainsExactly(nothingNew.getFixedIssues(),
                 "TO FIX 1", "TO FIX 2");
+        assertThatReferenceIsSet(nothingNew.getFixedIssues(), REFERENCE_BUILD);
         assertThatReportContainsExactly(nothingNew.getNewIssuesInChangedCode());
         assertThatReportContainsExactly(nothingNew.getNewIssues(), "NEW 1", "NEW 2", "NEW 3");
+        assertThatReferenceIsSet(nothingNew.getNewIssues(), CURRENT_BUILD);
         assertThatReportContainsExactly(nothingNew.getOutstandingIssues(),
                 "OUTSTANDING 2", "OUTSTANDING 3", "UPD OUTSTANDING 1");
+        assertThatReferenceIsSet(nothingNew.getOutstandingIssues(), REFERENCE_BUILD);
+    }
+
+    private void assertThatReferenceIsSet(final Report report, final String referenceBuild) {
+        assertThat(report.get()).extracting(Issue::getReference).containsOnly(referenceBuild);
     }
 
     private void assertThatReportContainsExactly(final Report report, final String... messages) {
