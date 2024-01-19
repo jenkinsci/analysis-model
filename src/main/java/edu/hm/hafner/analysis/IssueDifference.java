@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -18,9 +17,12 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  *
  * @author Ullrich Hafner
  */
+@SuppressWarnings("PMD.DataClass")
 public class IssueDifference {
     private static final List<Issue> EMPTY = Collections.emptyList();
+
     private final Report newIssues;
+    private final Report newIssuesInChangedCode;
     private final Report fixedIssues;
     private final Report outstandingIssues;
     private final Map<Integer, List<Issue>> referencesByHash;
@@ -51,13 +53,15 @@ public class IssueDifference {
      * @param referenceIssues
      *         the issues of a previous report (reference)
      * @param includes
-     *         lines in files mapping to include as new issues, all other issues are considered as outstanding
+     *         A mapping of files to changed lines. Using this mapping, we can identify which new issues are part
+     *         of the changes and which issues are indirectly caused by the changes.
      */
     public IssueDifference(final Report currentIssues, final String referenceId,
             final Report referenceIssues, final Map<String, Integer> includes) {
         newIssues = currentIssues.copy();
         fixedIssues = referenceIssues.copy();
         outstandingIssues = new Report();
+        newIssuesInChangedCode = new Report();
 
         referencesByHash = new HashMap<>();
         referencesByFingerprint = new HashMap<>();
@@ -72,20 +76,20 @@ public class IssueDifference {
         removed.forEach(secondPass::remove);
         matchIssuesByFingerprint(secondPass);
 
-        if (!includes.isEmpty()) {
-            keepOnlyIncludedIssues(includes);
-        }
         newIssues.forEach(issue -> issue.setReference(referenceId));
+        if (!includes.isEmpty()) {
+            findIssuesInChangedCode(includes);
+        }
     }
 
-    private void keepOnlyIncludedIssues(final Map<String, Integer> includes) {
-        var idsToRemove = newIssues.stream().map(Issue::getId).collect(Collectors.toSet());
+    private void findIssuesInChangedCode(final Map<String, Integer> includes) {
         for (Entry<String, Integer> include : includes.entrySet()) {
             newIssues.filter(issue -> filter(issue, include.getKey(), include.getValue()))
-                    .stream().map(Issue::getId)
-                    .forEach(idsToRemove::remove);
+                    .stream()
+                    .map(Issue::getId)
+                    .map(newIssues::remove)
+                    .forEach(newIssuesInChangedCode::add);
         }
-        idsToRemove.stream().map(newIssues::remove).forEach(outstandingIssues::add);
     }
 
     private boolean filter(final Issue issue, final String fileName, final int line) {
@@ -173,13 +177,28 @@ public class IssueDifference {
 
     /**
      * Returns the new issues. I.e., all issues that are part of the current report but that have not been shown up in
-     * the previous report.
+     * the previous report. If the difference is computed for a specific set of changed files, then this set contains
+     * only the new issues that are not part of the changes. These issues are indirectly caused by the changes.
      *
      * @return the new issues
      */
     @SuppressFBWarnings("EI")
     public Report getNewIssues() {
         return newIssues;
+    }
+
+    /**
+     * Returns the new issues that are part of the changed code lines. I.e., all issues that are part of the current
+     * report but that have not been shown up in the previous report. If the difference is computed for a specific
+     * set of changed files, then this set contains only the new issues that are part of the changes. Otherwise, this
+     * set will be empty.
+     *
+     * @return the new issues
+     * @see IssueDifference#getNewIssues()
+     */
+    @SuppressFBWarnings("EI")
+    public Report getNewIssuesInChangedCode() {
+        return newIssuesInChangedCode;
     }
 
     /**
