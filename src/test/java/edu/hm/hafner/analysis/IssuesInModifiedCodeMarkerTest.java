@@ -1,22 +1,30 @@
 package edu.hm.hafner.analysis;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.assertj.core.api.AbstractListAssert;
+import org.assertj.core.api.ObjectAssert;
 import org.junit.jupiter.api.Test;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 class IssuesInModifiedCodeMarkerTest {
+    private static final String TO_STRING_UNMODIFIED = "code.txt(12,0): -: : ";
+    private static final String TO_STRING_MODIFIED = "*code.txt(12,0): -: : ";
+
     @Test
     void shouldNotMarkAnythingForEmptyMap() {
         var report = createReportWithTwoIssues();
 
-        assertThat(report.get()).extracting(Issue::isPartOfModifiedCode).containsExactly(false, false);
+        assertThatModifiedCodeMarkers(report).containsExactly(false, false);
 
         var marker = new IssuesInModifiedCodeMarker();
         marker.markIssuesInModifiedCode(report, Map.of());
-        assertThat(report.get()).extracting(Issue::isPartOfModifiedCode).containsExactly(false, false);
+
+        assertThatModifiedCodeMarkers(report).containsExactly(false, false);
+        assertThatIssuesToString(report).containsExactly(TO_STRING_UNMODIFIED, TO_STRING_UNMODIFIED);
     }
 
     @Test
@@ -24,9 +32,10 @@ class IssuesInModifiedCodeMarkerTest {
         var report = createReportWithTwoIssues();
 
         var marker = new IssuesInModifiedCodeMarker();
-
         marker.markIssuesInModifiedCode(report, Map.of("/part/of/modified/code.txt", Set.of(10)));
-        assertThat(report.get()).extracting(Issue::isPartOfModifiedCode).containsExactly(false, false);
+
+        assertThatModifiedCodeMarkers(report).containsExactly(false, false);
+        assertThatIssuesToString(report).containsExactly(TO_STRING_UNMODIFIED, TO_STRING_UNMODIFIED);
     }
 
     @Test
@@ -34,9 +43,10 @@ class IssuesInModifiedCodeMarkerTest {
         var report = createReportWithTwoIssues();
 
         var marker = new IssuesInModifiedCodeMarker();
-
         marker.markIssuesInModifiedCode(report, Map.of("/wrong/path/code.txt", Set.of(12, 20)));
-        assertThat(report.get()).extracting(Issue::isPartOfModifiedCode).containsExactly(false, false);
+
+        assertThatModifiedCodeMarkers(report).containsExactly(false, false);
+        assertThatIssuesToString(report).containsExactly(TO_STRING_UNMODIFIED, TO_STRING_UNMODIFIED);
     }
 
     @Test
@@ -44,9 +54,10 @@ class IssuesInModifiedCodeMarkerTest {
         var report = createReportWithTwoIssues();
 
         var marker = new IssuesInModifiedCodeMarker();
-
         marker.markIssuesInModifiedCode(report, Map.of("/part/of/modified/code.txt", Set.of(10, 20)));
-        assertThat(report.get()).extracting(Issue::isPartOfModifiedCode).containsExactly(true, false);
+
+        assertThatModifiedCodeMarkers(report).containsExactly(true, false);
+        assertThatIssuesToString(report).containsExactly(TO_STRING_MODIFIED, TO_STRING_UNMODIFIED);
     }
 
     @Test
@@ -54,11 +65,12 @@ class IssuesInModifiedCodeMarkerTest {
         var report = createReportWithTwoIssues();
 
         var marker = new IssuesInModifiedCodeMarker();
-
         marker.markIssuesInModifiedCode(report, Map.of(
                 "/part/of/modified/code.txt", Set.of(12),
                 "/part/of/additional/modified/code.txt", Set.of(20)));
-        assertThat(report.get()).extracting(Issue::isPartOfModifiedCode).containsExactly(true, true);
+
+        assertThatModifiedCodeMarkers(report).containsExactly(true, true);
+        assertThatIssuesToString(report).containsExactly(TO_STRING_MODIFIED, TO_STRING_MODIFIED);
     }
 
     @Test
@@ -66,10 +78,10 @@ class IssuesInModifiedCodeMarkerTest {
         var report = createReportWithTwoIssues();
 
         var marker = new IssuesInModifiedCodeMarker();
+        marker.markIssuesInModifiedCode(report, Map.of("modified/code.txt", Set.of(12, 20)));
 
-        marker.markIssuesInModifiedCode(report, Map.of(
-                "modified/code.txt", Set.of(12, 20)));
-        assertThat(report.get()).extracting(Issue::isPartOfModifiedCode).containsExactly(true, true);
+        assertThatModifiedCodeMarkers(report).containsExactly(true, true);
+        assertThatIssuesToString(report).containsExactly(TO_STRING_MODIFIED, TO_STRING_MODIFIED);
     }
 
     @Test
@@ -77,10 +89,20 @@ class IssuesInModifiedCodeMarkerTest {
         var report = createReportWithTwoIssues();
 
         var marker = new IssuesInModifiedCodeMarker();
+        marker.markIssuesInModifiedCode(report, Map.of("modified\\code.txt", Set.of(12, 20)));
 
-        marker.markIssuesInModifiedCode(report, Map.of(
-                "modified\\code.txt", Set.of(12, 20)));
-        assertThat(report.get()).extracting(Issue::isPartOfModifiedCode).containsExactly(true, true);
+        assertThatModifiedCodeMarkers(report).containsExactly(true, true);
+        assertThatIssuesToString(report).containsExactly(TO_STRING_MODIFIED, TO_STRING_MODIFIED);
+    }
+
+    private AbstractListAssert<?, List<? extends String>, String, ObjectAssert<String>> assertThatIssuesToString(
+            final Report report) {
+        return assertThat(report.get()).extracting(Issue::toString);
+    }
+
+    private AbstractListAssert<?, List<? extends Boolean>, Boolean, ObjectAssert<Boolean>> assertThatModifiedCodeMarkers(
+            final Report report) {
+        return assertThat(report.get()).extracting(Issue::isPartOfModifiedCode);
     }
 
     private Report createReportWithTwoIssues() {
