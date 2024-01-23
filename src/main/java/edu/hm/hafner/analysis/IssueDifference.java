@@ -188,20 +188,6 @@ public class IssueDifference {
     }
 
     /**
-     * Returns the new issues that are part of the changed code lines. I.e., all issues that are part of the current
-     * report but that have not been shown up in the previous report. If the difference is computed for a specific
-     * set of changed files, then this set contains only the new issues that are part of the changes. Otherwise, this
-     * set will be empty.
-     *
-     * @return the new issues
-     * @see IssueDifference#getNewIssues()
-     */
-    @SuppressFBWarnings("EI")
-    public Report getNewIssuesInChangedCode() {
-        return newIssuesInChangedCode;
-    }
-
-    /**
      * Returns the fixed issues. I.e., all issues that are part of the previous report but that are not present in the
      * current report anymore.
      *

@@ -187,6 +187,7 @@ public class Issue implements Serializable {
     private String description;   // fixed
 
     private String fingerprint;     // mutable, not part of equals
+    private boolean partOfModifiedCode;     // mutable
 
     /**
      * Creates a new instance of {@link Issue} using the properties of the other issue instance. The new issue has the
@@ -734,7 +735,7 @@ public class Issue implements Serializable {
     }
 
     /**
-     * Sets the the name of the module or project (or similar concept) that contains this issue.
+     * Sets the name of the module or project (or similar concept) that contains this issue.
      *
      * @param moduleName
      *         the module name to set
@@ -781,7 +782,7 @@ public class Issue implements Serializable {
      * @param origin
      *         the origin
      */
-    public void setOrigin(final String origin) {
+    void setOrigin(final String origin) {
         Ensure.that(origin).isNotBlank("Issue origin ID '%s' must be not blank (%s)", id, toString());
 
         this.origin = origin.intern();
@@ -795,7 +796,7 @@ public class Issue implements Serializable {
      * @param name
      *         the name of the origin
      */
-    public void setOrigin(final String originId, final String name) {
+    void setOrigin(final String originId, final String name) {
         setOrigin(originId);
 
         Ensure.that(name).isNotBlank("Issue origin name '%s' must be not blank (%s)", name, toString());
@@ -820,13 +821,13 @@ public class Issue implements Serializable {
      * @param reference
      *         the reference
      */
-    public void setReference(@CheckForNull final String reference) {
+    void setReference(@CheckForNull final String reference) {
         this.reference = stripToEmpty(reference);
     }
 
     /**
      * Returns the fingerprint for this issue. Used to decide if two issues are equal even if the equals method returns
-     * {@code false} since some of the properties differ due to code refactorings. The fingerprint is created by
+     * {@code false} since some properties differ due to code refactorings. The fingerprint is created by
      * analyzing the content of the affected file.
      * <p>
      * Note: the fingerprint is not part of the equals method since the fingerprint might change due to an unrelated
@@ -861,6 +862,23 @@ public class Issue implements Serializable {
     }
 
     /**
+     * Returns whether this issue affects a code line that has been modified recently.
+     *
+     * @return {@code true} if this issue affects a code line that has been modified recently.
+     * @see IssuesInModifiedCodeMarker
+     */
+    public boolean isPartOfModifiedCode() {
+        return partOfModifiedCode;
+    }
+
+    /**
+     * Marks the issue as part of a source control diff.
+     */
+    void markAsPartOfModifiedCode() {
+        partOfModifiedCode = true;
+    }
+
+    /**
      * Returns additional properties for this issue. A static analysis tool may store additional properties in this
      * untyped object. This object will be serialized and is used in {@code equals} and {@code hashCode}.
      *
@@ -883,6 +901,9 @@ public class Issue implements Serializable {
 
         Issue issue = (Issue) o;
 
+        if (partOfModifiedCode != issue.partOfModifiedCode) {
+            return false;
+        }
         if (lineStart != issue.lineStart) {
             return false;
         }
@@ -950,11 +971,12 @@ public class Issue implements Serializable {
         result = 31 * result + moduleName.hashCode();
         result = 31 * result + packageName.hashCode();
         result = 31 * result + fileName.hashCode();
+        result = 31 * result + (partOfModifiedCode ? 1 : 0);
         return result;
     }
 
     @Override
     public String toString() {
-        return String.format("%s(%d,%d): %s: %s: %s", getBaseName(), lineStart, columnStart, type, category, message);
+        return String.format("%s%s(%d,%d): %s: %s: %s", isPartOfModifiedCode() ? "*" : StringUtils.EMPTY, getBaseName(), lineStart, columnStart, type, category, message);
     }
 }
