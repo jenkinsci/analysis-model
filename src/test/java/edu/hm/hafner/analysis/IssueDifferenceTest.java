@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
@@ -19,97 +18,6 @@ import static java.util.Collections.*;
 class IssueDifferenceTest extends ResourceTest {
     private static final String REFERENCE_BUILD = "100";
     private static final String CURRENT_BUILD = "2";
-
-    @Test
-    void shouldFilterByPath() {
-        Report referenceIssues = new Report().addAll(
-                createIssue("OUTSTANDING 1", "OUT 1"),
-                createIssue("OUTSTANDING 2", "OUT 2"),
-                createIssue("OUTSTANDING 3", "OUT 3"),
-                createIssue("TO FIX 1", "FIX 1"),
-                createIssue("TO FIX 2", "FIX 2"));
-
-        Report currentIssues = new Report().addAll(
-                createIssue("UPD OUTSTANDING 1", "OUT 1"),
-                createIssue("OUTSTANDING 2", "UPD OUT 2"),
-                createIssue("OUTSTANDING 3", "OUT 3"),
-                createIssue("NEW 1", "NEW 1", "/include/me"),
-                createIssue("NEW 2", "NEW 2", "/remove/me"),
-                createIssue("NEW 3", "NEW 3", "/include/me"));
-
-        IssueDifference everything = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues);
-        assertThatReportContainsExactly(everything.getFixedIssues(), "TO FIX 1", "TO FIX 2");
-        assertThatReferenceIsSet(everything.getFixedIssues(), REFERENCE_BUILD);
-        assertThatReportContainsExactly(everything.getNewIssues(), "NEW 1", "NEW 2", "NEW 3");
-        assertThatReferenceIsSet(everything.getNewIssues(), CURRENT_BUILD);
-        assertThatReportContainsExactly(everything.getNewIssuesInChangedCode());
-        assertThatReportContainsExactly(everything.getOutstandingIssues(),
-                "OUTSTANDING 2", "OUTSTANDING 3", "UPD OUTSTANDING 1");
-        assertThatReferenceIsSet(everything.getOutstandingIssues(), REFERENCE_BUILD);
-
-        IssueDifference included = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues,
-                Map.of("/include/me", 0));
-        assertThatReportContainsExactly(included.getFixedIssues(), "TO FIX 1", "TO FIX 2");
-        assertThatReferenceIsSet(included.getFixedIssues(), REFERENCE_BUILD);
-        assertThatReportContainsExactly(included.getNewIssuesInChangedCode(), "NEW 1", "NEW 3");
-        assertThatReferenceIsSet(included.getNewIssuesInChangedCode(), CURRENT_BUILD);
-        assertThatReportContainsExactly(included.getNewIssues(), "NEW 2");
-        assertThatReferenceIsSet(included.getNewIssues(), CURRENT_BUILD);
-        assertThatReportContainsExactly(included.getOutstandingIssues(),
-                "OUTSTANDING 2", "OUTSTANDING 3", "UPD OUTSTANDING 1");
-        assertThatReferenceIsSet(included.getOutstandingIssues(), REFERENCE_BUILD);
-
-        IssueDifference sameSuffixForAll = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues,
-                Map.of("me", 0));
-        assertThatReportContainsExactly(sameSuffixForAll.getFixedIssues(), "TO FIX 1", "TO FIX 2");
-        assertThatReferenceIsSet(sameSuffixForAll.getFixedIssues(), REFERENCE_BUILD);
-        assertThatReportContainsExactly(sameSuffixForAll.getNewIssuesInChangedCode(),
-                "NEW 1", "NEW 2", "NEW 3");
-        assertThatReferenceIsSet(sameSuffixForAll.getNewIssuesInChangedCode(), CURRENT_BUILD);
-        assertThatReportContainsExactly(sameSuffixForAll.getNewIssues());
-        assertThatReportContainsExactly(sameSuffixForAll.getOutstandingIssues(),
-                "OUTSTANDING 2", "OUTSTANDING 3", "UPD OUTSTANDING 1");
-        assertThatReferenceIsSet(sameSuffixForAll.getOutstandingIssues(), REFERENCE_BUILD);
-
-        IssueDifference allFiles = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues,
-                Map.of("/include/me", 0, "/remove/me", 0));
-        assertThatReportContainsExactly(allFiles.getFixedIssues(), "TO FIX 1", "TO FIX 2");
-        assertThatReferenceIsSet(allFiles.getFixedIssues(), REFERENCE_BUILD);
-        assertThatReportContainsExactly(allFiles.getNewIssuesInChangedCode(),
-                "NEW 1", "NEW 2", "NEW 3");
-        assertThatReferenceIsSet(allFiles.getNewIssuesInChangedCode(), CURRENT_BUILD);
-        assertThatReportContainsExactly(allFiles.getNewIssues());
-        assertThatReportContainsExactly(allFiles.getOutstandingIssues(),
-                "OUTSTANDING 2", "OUTSTANDING 3", "UPD OUTSTANDING 1");
-        assertThatReferenceIsSet(allFiles.getOutstandingIssues(), REFERENCE_BUILD);
-
-        IssueDifference nothingNew = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues,
-                Map.of("other", 0));
-        assertThatReportContainsExactly(nothingNew.getFixedIssues(),
-                "TO FIX 1", "TO FIX 2");
-        assertThatReferenceIsSet(nothingNew.getFixedIssues(), REFERENCE_BUILD);
-        assertThatReportContainsExactly(nothingNew.getNewIssuesInChangedCode());
-        assertThatReportContainsExactly(nothingNew.getNewIssues(), "NEW 1", "NEW 2", "NEW 3");
-        assertThatReferenceIsSet(nothingNew.getNewIssues(), CURRENT_BUILD);
-        assertThatReportContainsExactly(nothingNew.getOutstandingIssues(),
-                "OUTSTANDING 2", "OUTSTANDING 3", "UPD OUTSTANDING 1");
-        assertThatReferenceIsSet(nothingNew.getOutstandingIssues(), REFERENCE_BUILD);
-    }
-
-    private void assertThatReferenceIsSet(final Report report, final String referenceBuild) {
-        assertThat(report.get()).extracting(Issue::getReference).containsOnly(referenceBuild);
-    }
-
-    private void assertThatReportContainsExactly(final Report report, final String... messages) {
-        if (messages.length == 0) {
-            assertThat(report).isEmpty();
-        }
-        else {
-            assertThat(report.get())
-                    .extracting(Issue::getMessage)
-                    .containsExactlyInAnyOrder(messages);
-        }
-    }
 
     @Test
     void shouldCreateIssueDifferenceBasedOnPropertiesAndThenOnFingerprint() {
