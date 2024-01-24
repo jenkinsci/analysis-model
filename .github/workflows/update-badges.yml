@@ -25,7 +25,7 @@ jobs:
         with:
           maven-version: 3.9.5
       - name: Build and test with Maven
-        run: mvn -V --color always -ntp clean verify --file pom.xml '-Dgpg.skip' | tee maven.log
+        run: mvn -V --color always -ntp clean verify -Dgpg.skip -Ppit -Pdepgraph | tee maven.log
       - name: Run Quality Monitor
         uses: uhafner/quality-monitor@v1
         with:
@@ -121,7 +121,7 @@ jobs:
           status: ${{ steps.metrics.outputs.style }}
           color: 'orange'
           path: badges/style.svg
-      - name: Generate the badge SVG image for the style warnings
+      - name: Generate the badge SVG image for the bugs
         uses: emibcn/badge-action@v2.0.2
         with:
           label: 'Bugs'
@@ -135,6 +135,8 @@ jobs:
           git config --local user.name "GitHub Action"
           git add badges/*.svg
           git commit -m "Update badges with results from latest autograding" || true
+          git add doc/dependency-graph.puml
+          git commit -m "Update dependency graph to latest versions from POM" || true
       - name: Push updated badges to GitHub repository
         uses: ad-m/github-push-action@master
         if: ${{ success() }}
