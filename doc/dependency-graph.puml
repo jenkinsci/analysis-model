@@ -6,7 +6,7 @@ skinparam rectangle {
   BackgroundColor<<runtime>> lightBlue
   BackgroundColor<<provided>> lightGray
 }
-rectangle "analysis-model\n\n11.18.0-SNAPSHOT" as edu_hm_hafner_analysis_model_jar
+rectangle "analysis-model\n\n11.19.0-SNAPSHOT" as edu_hm_hafner_analysis_model_jar
 rectangle "jsoup\n\n1.17.2" as org_jsoup_jsoup_jar
 rectangle "commons-io\n\n2.15.1" as commons_io_commons_io_jar
 rectangle "commons-digester3\n\n3.2" as org_apache_commons_commons_digester3_jar
@@ -37,17 +37,17 @@ rectangle "json\n\n20231013" as org_json_json_jar
 rectangle "json-smart\n\n2.5.0" as net_minidev_json_smart_jar
 rectangle "accessors-smart\n\n2.5.0" as net_minidev_accessors_smart_jar
 rectangle "slf4j-api\n\n2.0.11" as org_slf4j_slf4j_api_jar
-rectangle "spotbugs-annotations\n\n4.8.2" as com_github_spotbugs_spotbugs_annotations_jar
-rectangle "error_prone_annotations\n\n2.23.0" as com_google_errorprone_error_prone_annotations_jar
+rectangle "spotbugs-annotations\n\n4.8.3" as com_github_spotbugs_spotbugs_annotations_jar
+rectangle "error_prone_annotations\n\n2.24.1" as com_google_errorprone_error_prone_annotations_jar
 rectangle "streamex\n\n0.8.2" as one_util_streamex_jar
-rectangle "codingstyle\n\n3.30.0" as edu_hm_hafner_codingstyle_jar
+rectangle "codingstyle\n\n3.41.0" as edu_hm_hafner_codingstyle_jar
 rectangle "commons-lang3\n\n3.14.0" as org_apache_commons_commons_lang3_jar
 edu_hm_hafner_analysis_model_jar -[#000000]-> org_jsoup_jsoup_jar
 edu_hm_hafner_analysis_model_jar -[#000000]-> commons_io_commons_io_jar
 org_apache_commons_commons_digester3_jar -[#000000]-> cglib_cglib_jar
 org_apache_commons_commons_digester3_jar -[#000000]-> commons_logging_commons_logging_jar
 edu_hm_hafner_analysis_model_jar -[#000000]-> org_apache_commons_commons_digester3_jar
-commons_beanutils_commons_beanutils_jar .[#D3D3D3].> commons_logging_commons_logging_jar
+commons_beanutils_commons_beanutils_jar .[#ABABAB].> commons_logging_commons_logging_jar
 commons_beanutils_commons_beanutils_jar -[#000000]-> commons_collections_commons_collections_jar
 edu_hm_hafner_analysis_model_jar -[#000000]-> commons_beanutils_commons_beanutils_jar
 edu_hm_hafner_analysis_model_jar -[#000000]-> org_apache_commons_commons_text_jar
@@ -56,13 +56,13 @@ edu_hm_hafner_analysis_model_jar -[#000000]-> com_j2html_j2html_jar
 xerces_xercesImpl_jar -[#000000]-> xml_apis_xml_apis_jar
 edu_hm_hafner_analysis_model_jar -[#000000]-> xerces_xercesImpl_jar
 edu_hm_hafner_analysis_model_jar -[#000000]-> org_ow2_asm_asm_jar
-org_ow2_asm_asm_analysis_jar .[#D3D3D3].> org_ow2_asm_asm_tree_jar
+org_ow2_asm_asm_analysis_jar .[#ABABAB].> org_ow2_asm_asm_tree_jar
 com_github_spotbugs_spotbugs_jar -[#000000]-> org_ow2_asm_asm_analysis_jar
-org_ow2_asm_asm_commons_jar .[#D3D3D3].> org_ow2_asm_asm_tree_jar
+org_ow2_asm_asm_commons_jar .[#ABABAB].> org_ow2_asm_asm_tree_jar
 com_github_spotbugs_spotbugs_jar -[#000000]-> org_ow2_asm_asm_commons_jar
 com_github_spotbugs_spotbugs_jar -[#000000]-> org_ow2_asm_asm_tree_jar
-org_ow2_asm_asm_util_jar .[#D3D3D3].> org_ow2_asm_asm_tree_jar
-org_ow2_asm_asm_util_jar .[#D3D3D3].> org_ow2_asm_asm_analysis_jar
+org_ow2_asm_asm_util_jar .[#ABABAB].> org_ow2_asm_asm_tree_jar
+org_ow2_asm_asm_util_jar .[#ABABAB].> org_ow2_asm_asm_analysis_jar
 com_github_spotbugs_spotbugs_jar -[#000000]-> org_ow2_asm_asm_util_jar
 com_github_spotbugs_spotbugs_jar -[#000000]-> com_github_stephenc_jcip_jcip_annotations_jar
 com_github_spotbugs_spotbugs_jar -[#000000]-> org_dom4j_dom4j_jar
@@ -72,7 +72,7 @@ edu_hm_hafner_analysis_model_jar -[#000000]-> org_apache_bcel_bcel_jar
 net_sourceforge_pmd_pmd_core_jar -[#000000]-> org_antlr_antlr4_runtime_jar
 edu_hm_hafner_analysis_model_jar -[#000000]-> net_sourceforge_pmd_pmd_core_jar
 edu_hm_hafner_analysis_model_jar -[#000000]-> com_beust_jcommander_jar
-net_sourceforge_pmd_pmd_java_jar .[#D3D3D3].> net_sourceforge_pmd_pmd_core_jar
+net_sourceforge_pmd_pmd_java_jar .[#ABABAB].> net_sourceforge_pmd_pmd_core_jar
 edu_hm_hafner_analysis_model_jar -[#000000]-> net_sourceforge_pmd_pmd_java_jar
 edu_hm_hafner_analysis_model_jar -[#000000]-> org_json_json_jar
 net_minidev_json_smart_jar -[#000000]-> net_minidev_accessors_smart_jar
