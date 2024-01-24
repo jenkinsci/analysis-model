@@ -904,7 +904,7 @@ class ReportTest extends SerializableTest<Report> {
     }
 
     @Test
-    void shouldSetOrigin() {
+    void shouldSetOriginAndReference() {
         try (IssueBuilder builder = new IssueBuilder()) {
             Report report = new Report();
             Issue checkstyleWarning = builder.setFileName("A.java")
@@ -920,6 +920,11 @@ class ReportTest extends SerializableTest<Report> {
 
             assertThat(checkstyleWarning).hasOrigin("origin");
             assertThat(checkstyleWarning).hasOriginName("Name");
+            assertThat(checkstyleWarning).hasReference("");
+
+            var reference = "reference";
+            report.setReference(reference);
+            assertThat(checkstyleWarning).hasReference(reference);
         }
     }
 

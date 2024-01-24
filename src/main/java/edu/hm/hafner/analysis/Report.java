@@ -1185,6 +1185,18 @@ public class Report implements Iterable<Issue>, Serializable {
     }
 
     /**
+     * Sets a reference to the execution of the static analysis tool (build ID, timestamp, etc.). This property should
+     * not be set by parsers as it is overwritten by the {@link IssueDifference differencing engine} while computing new
+     * and fixed issues.
+     *
+     * @param reference
+     *         the reference
+     */
+    public void setReference(final String reference) {
+        elements.forEach(issue -> issue.setReference(reference));
+    }
+
+    /**
      * Returns the specified custom counter of this report.
      *
      * @param key
