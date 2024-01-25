@@ -10,6 +10,8 @@ import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
+
 import edu.hm.hafner.util.PathUtil;
 import edu.hm.hafner.util.TreeString;
 import edu.hm.hafner.util.TreeStringBuilder;
@@ -92,6 +94,7 @@ public class IssueBuilder implements AutoCloseable {
      *
      * @return this
      */
+    @CanIgnoreReturnValue
     public IssueBuilder setId(final UUID id) {
         this.id = id;
         return this;
@@ -106,6 +109,7 @@ public class IssueBuilder implements AutoCloseable {
      *
      * @return this
      */
+    @CanIgnoreReturnValue
     public IssueBuilder setAdditionalProperties(@CheckForNull final Serializable additionalProperties) {
         this.additionalProperties = additionalProperties;
         return this;
@@ -113,7 +117,7 @@ public class IssueBuilder implements AutoCloseable {
 
     /**
      * Sets the fingerprint for this issue. Used to decide if two issues are equal even if the equals method returns
-     * {@code false} since some of the properties differ due to code refactorings. The fingerprint is created by
+     * {@code false} since some properties differ due to code refactorings. The fingerprint is created by
      * analyzing the content of the affected file.
      *
      * @param fingerprint
@@ -121,6 +125,7 @@ public class IssueBuilder implements AutoCloseable {
      *
      * @return this
      */
+    @CanIgnoreReturnValue
     public IssueBuilder setFingerprint(@CheckForNull final String fingerprint) {
         this.fingerprint = fingerprint;
         return this;
@@ -135,6 +140,7 @@ public class IssueBuilder implements AutoCloseable {
      *
      * @return this
      */
+    @CanIgnoreReturnValue
     public IssueBuilder setFileName(@CheckForNull final String fileName) {
         this.fileName = internFileName(fileName);
 
@@ -166,6 +172,7 @@ public class IssueBuilder implements AutoCloseable {
      *
      * @return this
      */
+    @CanIgnoreReturnValue
     public IssueBuilder setDirectory(@CheckForNull final String directory) {
         this.directory = directory;
         return this;
@@ -173,7 +180,7 @@ public class IssueBuilder implements AutoCloseable {
 
     /**
      * Sets the path of the affected file. Note that this path is not the parent folder of the affected file. This path
-     * is the folder that contains all of the affected files of a {@link Report}. The path of an affected file is stored
+     * is the folder that contains all the affected files of a {@link Report}. The path of an affected file is stored
      * in the {@code path} and {@code fileName} properties so that issues can be tracked even if the root folder changes
      * (due to different build environments).
      *
@@ -182,6 +189,7 @@ public class IssueBuilder implements AutoCloseable {
      *
      * @return this
      */
+    @CanIgnoreReturnValue
     public IssueBuilder setPathName(@CheckForNull final String pathName) {
         this.pathName = pathName;
         return this;
@@ -195,6 +203,7 @@ public class IssueBuilder implements AutoCloseable {
      *
      * @return this
      */
+    @CanIgnoreReturnValue
     public IssueBuilder setLineStart(final int lineStart) {
         this.lineStart = lineStart;
         return this;
@@ -208,6 +217,7 @@ public class IssueBuilder implements AutoCloseable {
      *
      * @return this
      */
+    @CanIgnoreReturnValue
     public IssueBuilder setLineStart(@CheckForNull final String lineStart) {
         this.lineStart = parseInt(lineStart);
         return this;
@@ -221,6 +231,7 @@ public class IssueBuilder implements AutoCloseable {
      *
      * @return this
      */
+    @CanIgnoreReturnValue
     public IssueBuilder setLineEnd(final int lineEnd) {
         this.lineEnd = lineEnd;
         return this;
@@ -234,6 +245,7 @@ public class IssueBuilder implements AutoCloseable {
      *
      * @return this
      */
+    @CanIgnoreReturnValue
     public IssueBuilder setLineEnd(@CheckForNull final String lineEnd) {
         this.lineEnd = parseInt(lineEnd);
         return this;
@@ -247,6 +259,7 @@ public class IssueBuilder implements AutoCloseable {
      *
      * @return this
      */
+    @CanIgnoreReturnValue
     public IssueBuilder setColumnStart(final int columnStart) {
         this.columnStart = columnStart;
         return this;
@@ -260,32 +273,35 @@ public class IssueBuilder implements AutoCloseable {
      *
      * @return this
      */
+    @CanIgnoreReturnValue
     public IssueBuilder setColumnStart(@CheckForNull final String columnStart) {
         this.columnStart = parseInt(columnStart);
         return this;
     }
 
     /**
-     * Sets the the last column of this issue (columns start at 1).
+     * Sets the last column of this issue (columns start at 1).
      *
      * @param columnEnd
      *         the last column
      *
      * @return this
      */
+    @CanIgnoreReturnValue
     public IssueBuilder setColumnEnd(final int columnEnd) {
         this.columnEnd = columnEnd;
         return this;
     }
 
     /**
-     * Sets the the last column of this issue (columns start at 1).
+     * Sets the last column of this issue (columns start at 1).
      *
      * @param columnEnd
      *         the last column
      *
      * @return this
      */
+    @CanIgnoreReturnValue
     public IssueBuilder setColumnEnd(@CheckForNull final String columnEnd) {
         this.columnEnd = parseInt(columnEnd);
         return this;
@@ -300,6 +316,7 @@ public class IssueBuilder implements AutoCloseable {
      *
      * @return this
      */
+    @CanIgnoreReturnValue
     public IssueBuilder setCategory(@CheckForNull final String category) {
         this.category = category;
         return this;
@@ -314,6 +331,7 @@ public class IssueBuilder implements AutoCloseable {
      *
      * @return this
      */
+    @CanIgnoreReturnValue
     public IssueBuilder setType(@CheckForNull final String type) {
         this.type = type;
         return this;
@@ -327,6 +345,7 @@ public class IssueBuilder implements AutoCloseable {
      *
      * @return this
      */
+    @CanIgnoreReturnValue
     public IssueBuilder setPackageName(@CheckForNull final String packageName) {
         this.packageName = internPackageName(packageName);
 
@@ -350,6 +369,7 @@ public class IssueBuilder implements AutoCloseable {
      *
      * @return this
      */
+    @CanIgnoreReturnValue
     public IssueBuilder setModuleName(@CheckForNull final String moduleName) {
         this.moduleName = moduleName;
         return this;
@@ -363,6 +383,7 @@ public class IssueBuilder implements AutoCloseable {
      *
      * @return this
      */
+    @CanIgnoreReturnValue
     public IssueBuilder setOrigin(@CheckForNull final String origin) {
         this.origin = origin;
         return this;
@@ -376,6 +397,7 @@ public class IssueBuilder implements AutoCloseable {
      *
      * @return this
      */
+    @CanIgnoreReturnValue
     public IssueBuilder setOriginName(@CheckForNull final String originName) {
         this.originName = originName;
         return this;
@@ -389,6 +411,7 @@ public class IssueBuilder implements AutoCloseable {
      *
      * @return this
      */
+    @CanIgnoreReturnValue
     public IssueBuilder setReference(@CheckForNull final String reference) {
         this.reference = reference;
         return this;
@@ -402,6 +425,7 @@ public class IssueBuilder implements AutoCloseable {
      *
      * @return this
      */
+    @CanIgnoreReturnValue
     public IssueBuilder setSeverity(@CheckForNull final Severity severity) {
         this.severity = severity;
         return this;
@@ -416,6 +440,7 @@ public class IssueBuilder implements AutoCloseable {
      *
      * @return this
      */
+    @CanIgnoreReturnValue
     public IssueBuilder guessSeverity(@CheckForNull final String severityString) {
         severity = Severity.guessFromString(severityString);
         return this;
@@ -429,6 +454,7 @@ public class IssueBuilder implements AutoCloseable {
      *
      * @return this
      */
+    @CanIgnoreReturnValue
     public IssueBuilder setMessage(@CheckForNull final String message) {
         if (StringUtils.isBlank(message)) {
             this.message = EMPTY_TREE_STRING;
@@ -448,6 +474,7 @@ public class IssueBuilder implements AutoCloseable {
      *
      * @return this
      */
+    @CanIgnoreReturnValue
     public IssueBuilder setDescription(@CheckForNull final String description) {
         this.description = StringUtils.stripToEmpty(description);
         return this;
@@ -462,6 +489,7 @@ public class IssueBuilder implements AutoCloseable {
      *
      * @return this
      */
+    @CanIgnoreReturnValue
     public IssueBuilder setLineRanges(final LineRangeList lineRanges) {
         this.lineRanges = new LineRangeList(lineRanges);
         return this;

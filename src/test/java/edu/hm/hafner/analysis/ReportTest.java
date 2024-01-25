@@ -89,6 +89,19 @@ class ReportTest extends SerializableTest<Report> {
     }
 
     @Test
+    void shouldFindIssuesInModifiedCode() {
+        Report report = new Report();
+        report.addAll(allIssuesAsList());
+
+        assertThat(report).hasNoInModifiedCode();
+
+        report.get(0).markAsPartOfModifiedCode();
+        assertThat(report).hasInModifiedCode(report.get(0));
+        report.get(2).markAsPartOfModifiedCode();
+        assertThat(report).hasInModifiedCode(report.get(0), report.get(2));
+    }
+
+    @Test
     void shouldMergeLog() {
         var issues = new Report();
 
