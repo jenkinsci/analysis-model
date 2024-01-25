@@ -187,7 +187,7 @@ public class Issue implements Serializable {
     private String description;   // fixed
 
     private String fingerprint;     // mutable, not part of equals
-    private boolean partOfModifiedCode;     // mutable
+    private boolean partOfModifiedCode;     // mutable, not part of equals
 
     /**
      * Creates a new instance of {@link Issue} using the properties of the other issue instance. The new issue has the
@@ -901,9 +901,6 @@ public class Issue implements Serializable {
 
         Issue issue = (Issue) o;
 
-        if (partOfModifiedCode != issue.partOfModifiedCode) {
-            return false;
-        }
         if (lineStart != issue.lineStart) {
             return false;
         }
@@ -971,7 +968,6 @@ public class Issue implements Serializable {
         result = 31 * result + moduleName.hashCode();
         result = 31 * result + packageName.hashCode();
         result = 31 * result + fileName.hashCode();
-        result = 31 * result + (partOfModifiedCode ? 1 : 0);
         return result;
     }
 
