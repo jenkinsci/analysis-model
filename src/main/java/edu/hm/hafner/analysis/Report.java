@@ -526,6 +526,15 @@ public class Report implements Iterable<Issue>, Serializable {
     }
 
     /**
+     * Returns the issues in this report that are part of modified code. This will include the issues of any sub-reports.
+     *
+     * @return all issues in this report
+     */
+    public Collection<Issue> getInModifiedCode() {
+        return stream().filter(Issue::isPartOfModifiedCode).collect(Collectors.toList());
+    }
+
+    /**
      * Returns the number of issues in this container.
      *
      * @return total number of issues
