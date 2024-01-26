@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.registry;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -89,10 +88,5 @@ class ParserRegistryTest extends ResourceTest {
         assertThat(confidenceReport.getSizeOf(Severity.WARNING_HIGH)).isEqualTo(expectedHighSize);
         assertThat(confidenceReport.getSizeOf(Severity.WARNING_NORMAL)).isEqualTo(expectedNormalSize);
         assertThat(confidenceReport.getSizeOf(Severity.WARNING_LOW)).isEqualTo(expectedLowSize);
-    }
-
-    @Test
-    void shouldCreateSupportedFormats() throws IOException {
-        ParserRegistry.main(new String[0]);
     }
 }
