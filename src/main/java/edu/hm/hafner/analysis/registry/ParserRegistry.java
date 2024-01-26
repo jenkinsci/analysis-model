@@ -251,7 +251,7 @@ public class ParserRegistry {
      * @throws IOException
      *         of the file `SUPPORTED-FORMATS.md` cannot be written locally
      */
-    public static void main(final String[] unused) throws IOException {
+    public static void main(final String... unused) throws IOException {
         List<ParserDescriptor> descriptors = new ParserRegistry().getAllDescriptors();
         descriptors.sort(Comparator.comparing(ParserDescriptor::getName));
 

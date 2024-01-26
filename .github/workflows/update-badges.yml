@@ -128,7 +128,9 @@ jobs:
           status: ${{ steps.metrics.outputs.bugs }}
           color: 'orange'
           path: badges/bugs.svg
-      - name: Commit updated badges
+      - name: Build and test with Maven
+        run: mvn -V --color always -ntp test -Dtest=UpdateSupportedFormats#run
+      - name: Commit updated files
         continue-on-error: true
         run: |
           git config --local user.email "action@github.com"
@@ -137,6 +139,8 @@ jobs:
           git commit -m "Update badges with results from latest autograding" || true
           git add doc/dependency-graph.puml
           git commit -m "Update dependency graph to latest versions from POM" || true
+          git add SUPPORTED-FORMATS.md
+          git commit -m "Generate list of supported formats" || true
       - name: Push updated badges to GitHub repository
         uses: ad-m/github-push-action@master
         if: ${{ success() }}
