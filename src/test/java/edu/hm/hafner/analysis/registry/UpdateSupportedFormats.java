@@ -13,6 +13,6 @@ import org.junit.jupiter.api.Test;
 class UpdateSupportedFormats {
     @Test
     void run() throws IOException {
-        ParserRegistry.main(new String[0]);
+        ParserRegistry.main();
     }
 }
