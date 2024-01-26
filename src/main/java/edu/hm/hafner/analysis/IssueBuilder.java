@@ -12,6 +12,8 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
+import edu.hm.hafner.util.LineRange;
+import edu.hm.hafner.util.LineRangeList;
 import edu.hm.hafner.util.PathUtil;
 import edu.hm.hafner.util.TreeString;
 import edu.hm.hafner.util.TreeStringBuilder;
@@ -466,7 +468,7 @@ public class IssueBuilder implements AutoCloseable {
     }
 
     /**
-     * Sets  an additional description for this issue. Static analysis tools might provide some additional information
+     * Sets an additional description for this issue. Static analysis tools might provide some additional information
      * about this issue. This description may contain valid HTML.
      *
      * @param description

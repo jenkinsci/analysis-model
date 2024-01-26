@@ -9,9 +9,9 @@ import org.json.JSONObject;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
-import edu.hm.hafner.analysis.LineRange;
-import edu.hm.hafner.analysis.LineRangeList;
 import edu.hm.hafner.analysis.Severity;
+import edu.hm.hafner.util.LineRange;
+import edu.hm.hafner.util.LineRangeList;
 
 /**
  * Base Parser JSON format.
