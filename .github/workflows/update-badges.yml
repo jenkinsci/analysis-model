@@ -25,7 +25,7 @@ jobs:
         with:
           maven-version: 3.9.5
       - name: Build and test with Maven
-        run: mvn -V --color always -ntp clean verify -Dgpg.skip -Ppit -Pdepgraph | tee maven.log
+        run: mvn -V --color always -ntp clean verify -Dgpg.skip -Pdepgraph | tee maven.log
       - name: Run Quality Monitor
         uses: uhafner/quality-monitor@v1
         with:
