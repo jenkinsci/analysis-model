@@ -36,7 +36,7 @@ rectangle "pmd-java\n\n6.55.0" as net_sourceforge_pmd_pmd_java_jar
 rectangle "json\n\n20231013" as org_json_json_jar
 rectangle "json-smart\n\n2.5.0" as net_minidev_json_smart_jar
 rectangle "accessors-smart\n\n2.5.0" as net_minidev_accessors_smart_jar
-rectangle "slf4j-api\n\n2.0.11" as org_slf4j_slf4j_api_jar
+rectangle "slf4j-api\n\n2.0.12" as org_slf4j_slf4j_api_jar
 rectangle "spotbugs-annotations\n\n4.8.3" as com_github_spotbugs_spotbugs_annotations_jar
 rectangle "error_prone_annotations\n\n2.24.1" as com_google_errorprone_error_prone_annotations_jar
 rectangle "streamex\n\n0.8.2" as one_util_streamex_jar
