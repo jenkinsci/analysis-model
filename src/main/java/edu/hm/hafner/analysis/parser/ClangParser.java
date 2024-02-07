@@ -18,7 +18,7 @@ import edu.hm.hafner.util.LookaheadStream;
 public class ClangParser extends LookaheadParser {
     private static final long serialVersionUID = -3015592762345283182L;
 
-    private static final String CLANG_WARNING_PATTERN = "^\\s*(?:\\d+%)?([^%]*?):(\\d+):(?:(\\d+):)?" + "(?:"
+    private static final String CLANG_WARNING_PATTERN = "^\\s*(?:\\d+%)?(C\\/C\\+\\+: )?([^%]*?):(\\d+):(?:(\\d+):)?" + "(?:"
             + "(?:\\{\\d+:\\d+-\\d+:\\d+\\})+:)?\\s*(warning|[^\\[\\]]*error):" + "\\s*(.*?)(?:\\[([^\\[]*)\\])?$";
     private static final Pattern IGNORE_FORMAT = Pattern.compile("^-\\[.*\\].*$");
 
@@ -32,17 +32,17 @@ public class ClangParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        String message = matcher.group(5);
+        String message = matcher.group(6);
         if (IGNORE_FORMAT.matcher(message).matches()) {
             return Optional.empty();
         }
 
-        return builder.setFileName(matcher.group(1))
-                .setLineStart(matcher.group(2))
-                .setColumnStart(matcher.group(3))
-                .setCategory(matcher.group(6))
+        return builder.setFileName(matcher.group(2))
+                .setLineStart(matcher.group(3))
+                .setColumnStart(matcher.group(4))
+                .setCategory(matcher.group(7))
                 .setMessage(message)
-                .setSeverity(mapPriority(matcher.group(4)))
+                .setSeverity(mapPriority(matcher.group(5)))
                 .buildOptional();
     }
 
