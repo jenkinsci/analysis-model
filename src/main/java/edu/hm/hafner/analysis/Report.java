@@ -1203,7 +1203,7 @@ public class Report implements Iterable<Issue>, Serializable {
      *         the reference
      */
     public void setReference(final String reference) {
-        elements.forEach(issue -> issue.setReference(reference));
+        stream().forEach(issue -> issue.setReference(reference));
     }
 
     /**

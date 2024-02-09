@@ -940,6 +940,13 @@ class ReportTest extends SerializableTest<Report> {
             var reference = "reference";
             report.setReference(reference);
             assertThat(checkstyleWarning).hasReference(reference);
+
+            var parentReport = new Report();
+            parentReport.addAll(report);
+
+            var newReference = "new-reference";
+            parentReport.setReference(newReference);
+            assertThat(checkstyleWarning).hasReference(newReference);
         }
     }
 
