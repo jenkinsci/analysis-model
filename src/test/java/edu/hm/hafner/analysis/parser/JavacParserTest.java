@@ -355,7 +355,7 @@ class JavacParserTest extends AbstractParserTest {
      * Having a cmake directory switch log in between. Following duplicated Kotlin errors should still be treated as duplicates.
      */
     @Test
-    void kotlinAndCmakeDirectoryOuptut() {
+    void kotlinAndCmakeDirectoryOutput() {
         Report warnings = parse("kotlin-cmake.txt");
 
         assertThat(warnings).hasSize(5);

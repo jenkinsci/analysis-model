@@ -1,10 +1,6 @@
 package edu.hm.hafner.analysis;
 
 import java.io.Serializable;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -43,6 +39,7 @@ public class IssueBuilder implements AutoCloseable {
     private static final String UNDEFINED = "-";
     private static final TreeString UNDEFINED_TREE_STRING = TreeString.valueOf(UNDEFINED);
     private static final TreeString EMPTY_TREE_STRING = TreeString.valueOf(StringUtils.EMPTY);
+    private static final PathUtil PATH_UTIL = new PathUtil();
 
     private final TreeStringBuilder fileNameBuilder = new TreeStringBuilder();
     private final TreeStringBuilder packageNameBuilder = new TreeStringBuilder();
@@ -89,7 +86,7 @@ public class IssueBuilder implements AutoCloseable {
     private UUID id = UUID.randomUUID();
 
     /**
-     * Sets the unique ID of the issue. If not set then an ID will be generated.
+     * Sets the unique ID of the issue. If not set, then an ID will be generated.
      *
      * @param id
      *         the ID
@@ -103,7 +100,7 @@ public class IssueBuilder implements AutoCloseable {
     }
 
     /**
-     * Sets additional properties from the statical analysis tool. This object could be used to store tool specific
+     * Sets additional properties from the statical analysis tool. This object could be used to store tool-specific
      * information.
      *
      * @param additionalProperties
@@ -154,11 +151,11 @@ public class IssueBuilder implements AutoCloseable {
             return UNDEFINED_TREE_STRING;
         }
         else {
-            if (directory != null && isAbsolutePath(normalizeFileName(unsafeFileName))) {
+            if (directory != null && PATH_UTIL.isAbsolute(normalizeFileName(unsafeFileName))) {
                 return fileNameBuilder.intern(normalizeFileName(unsafeFileName));
             }
             return fileNameBuilder.intern(normalizeFileName(
-                    new PathUtil().createAbsolutePath(directory, unsafeFileName)));
+                    PATH_UTIL.createAbsolutePath(directory, unsafeFileName)));
         }
     }
 
@@ -613,20 +610,6 @@ public class IssueBuilder implements AutoCloseable {
 
         moduleName = null;
         additionalProperties = null;
-    }
-
-    private static boolean isAbsolutePath(final String stringPath) {
-        try {
-            URI uri = new URI(stringPath);
-            if (uri.isAbsolute()) {
-                return true;
-            }
-        }
-        catch (URISyntaxException e) {
-            // Catch and ignore as system paths are not URI and we need to check them separately.
-        }
-        Path path = Paths.get(stringPath);
-        return path.isAbsolute();
     }
 
     private static String normalizeFileName(@CheckForNull final String platformFileName) {
