@@ -1,0 +1,5 @@
+C/C++: /project/src/cpp/MyClass.cpp:35:15: warning: unused parameter 'parameter1' [-Wunused-parameter]
+
+C/C++: C:\project\src\cpp\MyClass.cpp:35:15: warning: unused parameter 'parameter1' [-Wunused-parameter]
+
+C/C++: MyClass.cpp:35:15: warning: unused parameter 'parameter1' [-Wunused-parameter]

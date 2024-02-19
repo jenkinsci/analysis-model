@@ -3,6 +3,7 @@ package edu.hm.hafner.analysis;
 import java.io.Serializable;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
@@ -623,8 +624,13 @@ public class IssueBuilder implements AutoCloseable {
         catch (URISyntaxException e) {
             // Catch and ignore as system paths are not URI and we need to check them separately.
         }
-        Path path = Paths.get(stringPath);
-        return path.isAbsolute();
+        try {
+            Path path = Paths.get(stringPath);
+            return path.isAbsolute();
+        }
+        catch (InvalidPathException e) {
+            return true;
+        }
     }
 
     private static String normalizeFileName(@CheckForNull final String platformFileName) {

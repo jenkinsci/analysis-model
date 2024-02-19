@@ -196,4 +196,38 @@ class ClangParserTest extends AbstractParserTest {
                     .hasSeverity(Severity.WARNING_NORMAL);
         }
     }
+
+    @Test
+    void assertThatClangPathsAreCorrectForAllPlatforms() {
+        Report warnings = parse("llvm-clang.txt");
+
+        assertThat(warnings).hasSize(3);
+
+        try (SoftAssertions softly = new SoftAssertions()) {
+            softly.assertThat(warnings.get(0)).hasLineStart(35)
+                    .hasLineEnd(35)
+                    .hasColumnStart(15)
+                    .hasColumnEnd(15)
+                    .hasMessage("unused parameter 'parameter1'")
+                    .hasFileName("/project/src/cpp/MyClass.cpp")
+                    .hasCategory("-Wunused-parameter")
+                    .hasSeverity(Severity.WARNING_NORMAL);
+            softly.assertThat(warnings.get(1)).hasLineStart(35)
+                    .hasLineEnd(35)
+                    .hasColumnStart(15)
+                    .hasColumnEnd(15)
+                    .hasMessage("unused parameter 'parameter1'")
+                    .hasFileName("C:/project/src/cpp/MyClass.cpp")
+                    .hasCategory("-Wunused-parameter")
+                    .hasSeverity(Severity.WARNING_NORMAL);
+            softly.assertThat(warnings.get(2)).hasLineStart(35)
+                    .hasLineEnd(35)
+                    .hasColumnStart(15)
+                    .hasColumnEnd(15)
+                    .hasMessage("unused parameter 'parameter1'")
+                    .hasFileName("MyClass.cpp")
+                    .hasCategory("-Wunused-parameter")
+                    .hasSeverity(Severity.WARNING_NORMAL);
+        }
+    }
 }
