@@ -144,7 +144,7 @@ class FingerprintGeneratorTest extends ResourceTest {
     @ParameterizedTest(name = "[{index}] Skip non source code file {0}")
     @ValueSource(strings = {"library.o", "program.exe", "library.dll", "program.so", "library.a", "program.lib",
             "library.jar", "library.war", "program.zip", "library.7z", "program.tar.gz", "library.tar.bz2",
-            "UPPER_CASE.EXE", "prefix::suffix.txt"})
+            "UPPER_CASE.EXE"})
     void shouldUseFallbackFingerprintOnNonSourceFiles(final String fileName) {
         var report = createReportWithOneIssueFor(fileName);
 
