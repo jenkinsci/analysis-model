@@ -53,7 +53,12 @@ public class FingerprintGenerator {
     }
 
     private boolean hasAllowedExtension(final String fileName) {
-        return !NON_SOURCE_CODE_EXTENSIONS.contains(StringUtils.lowerCase(FilenameUtils.getExtension(fileName)));
+        try {
+            return !NON_SOURCE_CODE_EXTENSIONS.contains(StringUtils.lowerCase(FilenameUtils.getExtension(fileName)));
+        }
+        catch (IllegalArgumentException exception) {
+            return false; // if the file name is invalid, we assume that it is not a source code file
+        }
     }
 
     private int computeFingerprint(final Issue issue, final FullTextFingerprint algorithm, final Charset charset,

@@ -155,6 +155,20 @@ class FingerprintGeneratorTest extends ResourceTest {
         assertThatIssueHasDefaultFingerprint(report);
     }
 
+    @ParameterizedTest(name = "[{index}] Skip illegal source code files on Windows {0}")
+    @ValueSource(strings = {"prefix::suffix.txt", ":"})
+    void shouldUseFallbackFingerprintOnIllegalFilenamesOnWindows(final String fileName) {
+        assumeThatTestIsRunningOnWindows();
+
+        var report = createReportWithOneIssueFor(fileName);
+
+        FingerprintGenerator generator = new FingerprintGenerator();
+        generator.run(createFullTextFingerprint("fingerprint-two.txt"),
+                report, CHARSET_AFFECTED_FILE);
+
+        assertThatIssueHasDefaultFingerprint(report);
+    }
+
     private Report createReportWithOneIssueFor(final String fileName) {
         Report report;
         try (IssueBuilder issueBuilder = new IssueBuilder()) {
