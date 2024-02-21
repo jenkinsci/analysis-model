@@ -74,7 +74,7 @@
     <spotbugs.api.version>4.8.3</spotbugs.api.version>
 
     <incrementals-plugin.version>1.7</incrementals-plugin.version>
-    <maven-shade-plugin.version>3.5.1</maven-shade-plugin.version>
+    <maven-shade-plugin.version>3.5.2</maven-shade-plugin.version>
 
   </properties>
 
