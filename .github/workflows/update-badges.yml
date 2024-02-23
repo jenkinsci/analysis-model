@@ -21,9 +21,9 @@ jobs:
           check-latest: true
           cache: 'maven'
       - name: Set up Maven
-        uses: stCarolas/setup-maven@v4.5
+        uses: stCarolas/setup-maven@v5
         with:
-          maven-version: 3.9.5
+          maven-version: 3.9.6
       - name: Build and test with Maven
         run: mvn -V --color always -ntp clean verify -Dgpg.skip -Pdepgraph | tee maven.log
       - name: Run Quality Monitor
