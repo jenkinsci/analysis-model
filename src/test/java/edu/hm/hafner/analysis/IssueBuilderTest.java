@@ -7,6 +7,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import edu.hm.hafner.util.LineRange;
+import edu.hm.hafner.util.LineRangeList;
 import edu.hm.hafner.util.TreeString;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 

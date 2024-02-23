@@ -11,6 +11,8 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.util.Ensure;
+import edu.hm.hafner.util.LineRange;
+import edu.hm.hafner.util.LineRangeList;
 import edu.hm.hafner.util.PathUtil;
 import edu.hm.hafner.util.TreeString;
 import edu.umd.cs.findbugs.annotations.CheckForNull;

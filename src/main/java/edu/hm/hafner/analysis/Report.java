@@ -32,6 +32,7 @@ import com.google.errorprone.annotations.FormatMethod;
 
 import edu.hm.hafner.util.Ensure;
 import edu.hm.hafner.util.FilteredLog;
+import edu.hm.hafner.util.LineRangeList;
 import edu.hm.hafner.util.PathUtil;
 import edu.hm.hafner.util.TreeString;
 import edu.hm.hafner.util.TreeStringBuilder;
@@ -1202,7 +1203,7 @@ public class Report implements Iterable<Issue>, Serializable {
      *         the reference
      */
     public void setReference(final String reference) {
-        elements.forEach(issue -> issue.setReference(reference));
+        stream().forEach(issue -> issue.setReference(reference));
     }
 
     /**

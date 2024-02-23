@@ -5,6 +5,8 @@ import java.nio.charset.StandardCharsets;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.registry.ParserRegistry;
+import edu.hm.hafner.util.LineRange;
+import edu.hm.hafner.util.LineRangeList;
 import edu.hm.hafner.util.ResourceTest;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;

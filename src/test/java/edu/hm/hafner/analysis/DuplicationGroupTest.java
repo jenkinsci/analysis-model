@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import org.junit.jupiter.api.Test;
 
+import edu.hm.hafner.util.LineRange;
+import edu.hm.hafner.util.LineRangeList;
 import edu.hm.hafner.util.SerializableTest;
 import edu.hm.hafner.util.TreeString;
 
@@ -18,20 +20,6 @@ import static org.assertj.core.api.Assertions.*;
  * @author Ullrich Hafner
  */
 class DuplicationGroupTest extends SerializableTest<DuplicationGroup> {
-    /**
-     * Serializes a code duplication to a file. Use this method in case the properties have been changed and the
-     * readResolve method has been adapted accordingly so that the old serialization still can be read.
-     *
-     * @param args
-     *         not used
-     *
-     * @throws IOException
-     *         if the file could not be written
-     */
-    public static void main(final String... args) throws IOException {
-        new DuplicationGroupTest().createSerializationFile();
-    }
-
     private static final String SERIALIZATION_NAME = "dry.ser";
     private static final String CODE_FRAGMENT = "fragment";
 
@@ -125,5 +113,19 @@ class DuplicationGroupTest extends SerializableTest<DuplicationGroup> {
                     .suppress(Warning.NONFINAL_FIELDS)
                     .verify();
         }
+    }
+
+    /**
+     * Serializes a code duplication to a file. Use this method in case the properties have been changed and the
+     * readResolve method has been adapted accordingly so that the old serialization still can be read.
+     *
+     * @param args
+     *         not used
+     *
+     * @throws IOException
+     *         if the file could not be written
+     */
+    public static void main(final String... args) throws IOException {
+        new DuplicationGroupTest().createSerializationFile();
     }
 }

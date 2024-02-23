@@ -5,10 +5,10 @@ import java.util.Iterator;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.LineRange;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
+import edu.hm.hafner.util.LineRange;
 
 import static org.assertj.core.api.Assertions.*;
 

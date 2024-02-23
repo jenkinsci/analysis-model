@@ -25,6 +25,8 @@ import edu.hm.hafner.analysis.Report.StandardOutputPrinter;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.parser.checkstyle.CheckStyleParser;
 import edu.hm.hafner.util.FilteredLog;
+import edu.hm.hafner.util.LineRange;
+import edu.hm.hafner.util.LineRangeList;
 import edu.hm.hafner.util.PathUtil;
 import edu.hm.hafner.util.SerializableTest;
 import edu.hm.hafner.util.TreeString;
@@ -938,6 +940,13 @@ class ReportTest extends SerializableTest<Report> {
             var reference = "reference";
             report.setReference(reference);
             assertThat(checkstyleWarning).hasReference(reference);
+
+            var parentReport = new Report();
+            parentReport.addAll(report);
+
+            var newReference = "new-reference";
+            parentReport.setReference(newReference);
+            assertThat(checkstyleWarning).hasReference(newReference);
         }
     }
 

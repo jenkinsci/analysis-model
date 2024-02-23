@@ -2,10 +2,10 @@ package edu.hm.hafner.analysis.parser;
 
 import java.util.UUID;
 
-import edu.hm.hafner.analysis.LineRange;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
+import edu.hm.hafner.util.LineRange;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 

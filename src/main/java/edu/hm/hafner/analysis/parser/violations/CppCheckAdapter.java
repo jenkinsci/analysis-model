@@ -7,9 +7,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.LineRange;
-import edu.hm.hafner.analysis.LineRangeList;
 import edu.hm.hafner.analysis.Report;
+import edu.hm.hafner.util.LineRange;
+import edu.hm.hafner.util.LineRangeList;
 
 import se.bjurr.violations.lib.model.Violation;
 import se.bjurr.violations.lib.parsers.CPPCheckParser;

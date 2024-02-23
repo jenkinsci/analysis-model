@@ -26,6 +26,7 @@ import edu.hm.hafner.util.ResourceTest;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import static org.assertj.core.api.Assumptions.*;
 
 /**
  * Base class for tests of {@link IssueParser} instances.
@@ -34,6 +35,7 @@ import static edu.hm.hafner.analysis.assertions.Assertions.*;
  */
 public abstract class AbstractParserTest extends ResourceTest {
     /** Default category for parsers that do not set the category property. */
+    @SuppressWarnings("resource")
     protected static final String DEFAULT_CATEGORY = new IssueBuilder().build().getCategory();
 
     private final String fileWithIssuesName;
@@ -61,7 +63,7 @@ public abstract class AbstractParserTest extends ResourceTest {
 
     /**
      * Parses the default file that must contain issues. Verification of the issues is delegated to method {@link
-     * #assertThatIssuesArePresent(Report, SoftAssertions)} that needs to be implemented by sub classes.
+     * #assertThatIssuesArePresent(Report, SoftAssertions)} that needs to be implemented by subclasses.
      */
     @Test
     void shouldParseAllIssues() {
@@ -77,6 +79,8 @@ public abstract class AbstractParserTest extends ResourceTest {
      */
     @Test
     void shouldRegisterParser() {
+        assumeThat(createParser().getClass().getPackageName()).startsWith("edu.hm.hafner.analysis"); // only test our own parsers
+
         Set<Class<?>> parsers = new ParserRegistry().getAllDescriptors()
                 .stream()
                 .map(ParserDescriptor::createParser)

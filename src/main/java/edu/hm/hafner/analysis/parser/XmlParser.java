@@ -12,13 +12,13 @@ import org.w3c.dom.NodeList;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
-import edu.hm.hafner.analysis.LineRange;
-import edu.hm.hafner.analysis.LineRangeList;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.util.XmlElementUtil;
+import edu.hm.hafner.util.LineRange;
+import edu.hm.hafner.util.LineRangeList;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
