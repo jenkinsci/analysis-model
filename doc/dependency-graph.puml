@@ -15,7 +15,8 @@ rectangle "commons-logging\n\n1.3.0" as commons_logging_commons_logging_jar
 rectangle "commons-beanutils\n\n1.9.4" as commons_beanutils_commons_beanutils_jar
 rectangle "commons-collections\n\n3.2.2" as commons_collections_commons_collections_jar
 rectangle "commons-text\n\n1.11.0" as org_apache_commons_commons_text_jar
-rectangle "violations-lib\n\n1.156.7" as se_bjurr_violations_violations_lib_jar
+rectangle "violations-lib\n\n1.156.8" as se_bjurr_violations_violations_lib_jar
+rectangle "gson\n\n2.10.1" as com_google_code_gson_gson_jar
 rectangle "j2html\n\n1.4.0" as com_j2html_j2html_jar
 rectangle "xercesImpl\n\n2.12.2" as xerces_xercesImpl_jar
 rectangle "xml-apis\n\n1.4.01" as xml_apis_xml_apis_jar
@@ -27,13 +28,12 @@ rectangle "asm-commons\n\n9.6" as org_ow2_asm_asm_commons_jar
 rectangle "asm-util\n\n9.6" as org_ow2_asm_asm_util_jar
 rectangle "jcip-annotations\n\n1.0-1" as com_github_stephenc_jcip_jcip_annotations_jar
 rectangle "dom4j\n\n2.1.4" as org_dom4j_dom4j_jar
-rectangle "gson\n\n2.10.1" as com_google_code_gson_gson_jar
 rectangle "bcel\n\n6.8.2" as org_apache_bcel_bcel_jar
 rectangle "pmd-core\n\n6.55.0" as net_sourceforge_pmd_pmd_core_jar
 rectangle "antlr4-runtime\n\n4.7.2" as org_antlr_antlr4_runtime_jar
 rectangle "jcommander\n\n1.82" as com_beust_jcommander_jar
 rectangle "pmd-java\n\n6.55.0" as net_sourceforge_pmd_pmd_java_jar
-rectangle "json\n\n20231013" as org_json_json_jar
+rectangle "json\n\n20240303" as org_json_json_jar
 rectangle "json-smart\n\n2.5.0" as net_minidev_json_smart_jar
 rectangle "accessors-smart\n\n2.5.0" as net_minidev_accessors_smart_jar
 rectangle "slf4j-api\n\n2.0.12" as org_slf4j_slf4j_api_jar
@@ -51,6 +51,7 @@ commons_beanutils_commons_beanutils_jar .[#ABABAB].> commons_logging_commons_log
 commons_beanutils_commons_beanutils_jar -[#000000]-> commons_collections_commons_collections_jar
 edu_hm_hafner_analysis_model_jar -[#000000]-> commons_beanutils_commons_beanutils_jar
 edu_hm_hafner_analysis_model_jar -[#000000]-> org_apache_commons_commons_text_jar
+se_bjurr_violations_violations_lib_jar -[#000000]-> com_google_code_gson_gson_jar
 edu_hm_hafner_analysis_model_jar -[#000000]-> se_bjurr_violations_violations_lib_jar
 edu_hm_hafner_analysis_model_jar -[#000000]-> com_j2html_j2html_jar
 xerces_xercesImpl_jar -[#000000]-> xml_apis_xml_apis_jar
@@ -66,7 +67,7 @@ org_ow2_asm_asm_util_jar .[#ABABAB].> org_ow2_asm_asm_analysis_jar
 com_github_spotbugs_spotbugs_jar -[#000000]-> org_ow2_asm_asm_util_jar
 com_github_spotbugs_spotbugs_jar -[#000000]-> com_github_stephenc_jcip_jcip_annotations_jar
 com_github_spotbugs_spotbugs_jar -[#000000]-> org_dom4j_dom4j_jar
-com_github_spotbugs_spotbugs_jar -[#000000]-> com_google_code_gson_gson_jar
+com_github_spotbugs_spotbugs_jar .[#ABABAB].> com_google_code_gson_gson_jar
 edu_hm_hafner_analysis_model_jar -[#000000]-> com_github_spotbugs_spotbugs_jar
 edu_hm_hafner_analysis_model_jar -[#000000]-> org_apache_bcel_bcel_jar
 net_sourceforge_pmd_pmd_core_jar -[#000000]-> org_antlr_antlr4_runtime_jar
