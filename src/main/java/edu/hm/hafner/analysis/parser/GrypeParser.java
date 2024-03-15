@@ -1,8 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import static j2html.TagCreator.a;
-import static j2html.TagCreator.p;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -11,9 +8,13 @@ import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 
+import static j2html.TagCreator.*;
+
 /**
- * JSON report parser for grype (https://plugins.jenkins.io/grypescanner/ /
- * https://github.com/anchore/grype).
+ * JSON report parser for grype.
+ *
+ * @see  <a href="https://plugins.jenkins.io/grypescanner/">Jenkins Plugin GrypeScanner</a>
+ * @see  <a href="https://github.com/anchore/grype">grype</a>
  */
 public class GrypeParser extends JsonIssueParser {
     private static final long serialVersionUID = -1369431674771459756L;
@@ -44,7 +45,7 @@ public class GrypeParser extends JsonIssueParser {
     }
 
     private Issue getIssue(final IssueBuilder issueBuilder, final JSONObject match) {
-        JSONObject vuln = match.getJSONObject(VULNERABILIY_TAG);
+        JSONObject vulnerability = match.getJSONObject(VULNERABILIY_TAG);
         JSONObject artifact = match.getJSONObject(ARTIFACT_TAG);
         String fileName = artifact.getJSONArray(LOCATIONS_TAG).getJSONObject(0).getString(PATH_TAG);
         String packageName = artifact.optString(NAME_TAG, "Unknown");
@@ -56,14 +57,13 @@ public class GrypeParser extends JsonIssueParser {
         return issueBuilder.setFileName(fileName)
                 .setPackageName(packageName)
                 .setCategory(artifact.optString(TYPE_TAG, "Unknown"))
-                .setSeverity(Severity.guessFromString(vuln.getString(SEVERITY_TAG)))
-                .setType(vuln.getString(ID_TAG))
-                .setMessage(vuln.optString(DESCRIPTION_TAG, "Unknown"))
-                .setOriginName("Grype")
+                .setSeverity(Severity.guessFromString(vulnerability.getString(SEVERITY_TAG)))
+                .setType(vulnerability.getString(ID_TAG))
+                .setMessage(vulnerability.optString(DESCRIPTION_TAG, "Unknown"))
                 .setPathName(fileName)
                 .setDescription(p().with(a()
-                        .withHref(vuln.getString(DATA_SOURCE_TAG))
-                        .withText(vuln.getString(DATA_SOURCE_TAG))).render())
+                        .withHref(vulnerability.getString(DATA_SOURCE_TAG))
+                        .withText(vulnerability.getString(DATA_SOURCE_TAG))).render())
                 .build();
     }
 }
