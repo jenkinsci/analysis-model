@@ -20,7 +20,7 @@ rectangle "gson\n\n2.10.1" as com_google_code_gson_gson_jar
 rectangle "j2html\n\n1.4.0" as com_j2html_j2html_jar
 rectangle "xercesImpl\n\n2.12.2" as xerces_xercesImpl_jar
 rectangle "xml-apis\n\n1.4.01" as xml_apis_xml_apis_jar
-rectangle "asm\n\n9.6" as org_ow2_asm_asm_jar
+rectangle "asm\n\n9.7" as org_ow2_asm_asm_jar
 rectangle "asm-analysis\n\n9.6" as org_ow2_asm_asm_analysis_jar
 rectangle "asm-tree\n\n9.6" as org_ow2_asm_asm_tree_jar
 rectangle "spotbugs\n\n4.8.3" as com_github_spotbugs_spotbugs_jar
