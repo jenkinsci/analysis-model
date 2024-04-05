@@ -8,7 +8,7 @@ skinparam rectangle {
 }
 rectangle "analysis-model\n\n12.2.0-SNAPSHOT" as edu_hm_hafner_analysis_model_jar
 rectangle "jsoup\n\n1.17.2" as org_jsoup_jsoup_jar
-rectangle "commons-io\n\n2.15.1" as commons_io_commons_io_jar
+rectangle "commons-io\n\n2.16.0" as commons_io_commons_io_jar
 rectangle "commons-digester3\n\n3.2" as org_apache_commons_commons_digester3_jar
 rectangle "cglib\n\n2.2.2" as cglib_cglib_jar
 rectangle "commons-logging\n\n1.3.0" as commons_logging_commons_logging_jar
