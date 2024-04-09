@@ -19,6 +19,7 @@ import edu.hm.hafner.analysis.Severity;
  */
 public class LintParser extends IssueParser {
     private static final long serialVersionUID = 3341424685245834156L;
+    private static final String FILE = "file";
 
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingException {
@@ -56,7 +57,7 @@ public class LintParser extends IssueParser {
                 return; // Start element, good to skip
             }
 
-            if ("file".equals(key)) {
+            if (FILE.equals(key)) {
                 fileName = atts.getValue("name");
                 return;
             }

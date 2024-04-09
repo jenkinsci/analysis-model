@@ -51,7 +51,7 @@ public abstract class DryDescriptor extends ParserDescriptor {
 
     private String getDuplicateCode(@CheckForNull final Serializable properties) {
         if (properties instanceof DuplicationGroup) {
-            return pre().with(new UnescapedText(DryDescriptor.getCodeFragment((DuplicationGroup) properties)))
+            return pre().with(new UnescapedText(getCodeFragment((DuplicationGroup) properties)))
                     .renderFormatted();
         }
         else {

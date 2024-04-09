@@ -209,7 +209,7 @@ public class FindBugsParser extends IssueParser {
         digester.addCallMethod(fileXPath, "setMessage", 0);
 
         digester.addSetNext(rootXPath, "add", Object.class.getName());
-        ArrayList<XmlBugInstance> bugs = new ArrayList<>();
+        List<XmlBugInstance> bugs = new ArrayList<>();
         digester.push(bugs);
         digester.parse(file);
 
@@ -230,6 +230,7 @@ public class FindBugsParser extends IssueParser {
         }
     }
 
+    @SuppressWarnings("PMD.DoNotUseThreads")
     private SortedBugCollection readXml(final Reader file) throws IOException, DocumentException {
         ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
         try {

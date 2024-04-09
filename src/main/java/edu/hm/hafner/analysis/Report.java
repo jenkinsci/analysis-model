@@ -358,10 +358,14 @@ public class Report implements Iterable<Issue>, Serializable {
     }
 
     private boolean contains(final Issue issue) {
-        if (elements.contains(issue)) {
-            return true;
-        }
-        return subReports.stream().map(r -> r.contains(issue)).reduce(Boolean::logicalOr).orElse(false);
+        return elements.contains(issue) || subReportsContains(issue);
+    }
+
+    private Boolean subReportsContains(final Issue issue) {
+        return subReports.stream()
+                .map(r -> r.contains(issue))
+                .reduce(Boolean::logicalOr)
+                .orElse(false);
     }
 
     @VisibleForTesting
@@ -1157,7 +1161,7 @@ public class Report implements Iterable<Issue>, Serializable {
         for (int j = 0; j < chars.length; j++) {
             chars[j] = input.readChar();
         }
-        return new String(chars);
+        return String.valueOf(chars);
     }
 
     /**

@@ -16,12 +16,11 @@ import edu.hm.hafner.analysis.util.XmlElementUtil;
 
 /**
  * Parses a fxcop xml report file.
- *
- * <p> Note that instances of this parser are not thread safe. </p>
  */
 @SuppressWarnings("unused")
 public class FxCopParser extends IssueParser {
     private static final long serialVersionUID = -7208558002331355408L;
+    private static final int CAPACITY = 1024;
 
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingException, ParsingCanceledException {
@@ -164,7 +163,7 @@ public class FxCopParser extends IssueParser {
             String checkId = getString(parent, "CheckId");
             String issueLevel = getString(issue, "Level");
 
-            StringBuilder msgBuilder = new StringBuilder();
+            StringBuilder msgBuilder = new StringBuilder(CAPACITY);
             FxCopRule rule = ruleSet.getRule(category, checkId);
             if (rule == null) {
                 msgBuilder.append(typeName);

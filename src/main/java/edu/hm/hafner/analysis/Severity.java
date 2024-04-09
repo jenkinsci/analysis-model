@@ -96,18 +96,18 @@ public class Severity implements Serializable {
      */
     public static Severity guessFromString(@CheckForNull final String severity) {
         if (StringUtils.containsAnyIgnoreCase(severity, "error", "severe", "critical", "fatal")) {
-            return Severity.ERROR;
+            return ERROR;
         }
         if (StringUtils.containsAnyIgnoreCase(severity, "info", "note", "low")) {
-            return Severity.WARNING_LOW;
+            return WARNING_LOW;
         }
         if (StringUtils.containsAnyIgnoreCase(severity, "warning", "medium")) {
-            return Severity.WARNING_NORMAL;
+            return WARNING_NORMAL;
         }
         if (StringUtils.containsIgnoreCase(severity, "high")) {
-            return Severity.WARNING_HIGH;
+            return WARNING_HIGH;
         }
-        return Severity.WARNING_LOW;
+        return WARNING_LOW;
     }
 
     /**
@@ -120,7 +120,7 @@ public class Severity implements Serializable {
      */
     public static Collection<Severity> collectSeveritiesFrom(final Severity minimumSeverity) {
         List<Severity> priorities = new ArrayList<>();
-        priorities.add(Severity.ERROR);
+        priorities.add(ERROR);
         if (WARNING_HIGH.equals(minimumSeverity)) {
             priorities.add(WARNING_HIGH);
         }

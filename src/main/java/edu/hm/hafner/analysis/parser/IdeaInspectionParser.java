@@ -3,7 +3,6 @@ package edu.hm.hafner.analysis.parser;
 import java.util.List;
 import java.util.Optional;
 
-import edu.hm.hafner.analysis.util.IntegerParser;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
 import org.w3c.dom.Document;
@@ -16,6 +15,7 @@ import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
+import edu.hm.hafner.analysis.util.IntegerParser;
 import edu.hm.hafner.analysis.util.XmlElementUtil;
 
 /**
@@ -26,6 +26,8 @@ import edu.hm.hafner.analysis.util.XmlElementUtil;
 public class IdeaInspectionParser extends IssueParser {
     private static final long serialVersionUID = 3307389086106375473L;
     private static final String PATH_PREFIX = "file://";
+    private static final String WARNING = "WARNING";
+    private static final String ERROR = "ERROR";
 
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingException {
@@ -58,10 +60,10 @@ public class IdeaInspectionParser extends IssueParser {
 
     private Severity getPriority(final String severity) {
         Severity priority = Severity.WARNING_LOW;
-        if ("WARNING".equals(severity)) {
+        if (WARNING.equals(severity)) {
             priority = Severity.WARNING_NORMAL;
         }
-        else if ("ERROR".equals(severity)) {
+        else if (ERROR.equals(severity)) {
             priority = Severity.WARNING_HIGH;
         }
         return priority;

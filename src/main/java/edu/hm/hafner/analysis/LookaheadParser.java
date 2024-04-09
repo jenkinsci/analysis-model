@@ -1,7 +1,8 @@
 package edu.hm.hafner.analysis;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.Optional;
-import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
@@ -12,9 +13,9 @@ import edu.hm.hafner.util.LookaheadStream;
 
 /**
  * Parses a report file line by line for issues using a pre-defined regular expression. If the regular expression
- * matches then the abstract method {@link #createIssue(Matcher, LookaheadStream, IssueBuilder)} will be called. Sub
- * classes need to provide an implementation that transforms the {@link Matcher} instance into a new issue. If required,
- * sub classes may consume additional lines from the report file before control is handed back to the template method of
+ * matches then the abstract method {@link #createIssue(Matcher, LookaheadStream, IssueBuilder)} will be called.
+ * Subclasses need to provide an implementation that transforms the {@link Matcher} instance into a new issue. If required,
+ * subclasses may consume additional lines from the report file before control is handed back to the template method of
  * this parser.
  *
  * @author Ullrich Hafner
@@ -38,7 +39,7 @@ public abstract class LookaheadParser extends IssueParser {
 
     private final Pattern pattern;
 
-    private final Stack<String> recursiveDirectories;
+    private final Deque<String> recursiveDirectories;
 
     /**
      * Creates a new instance of {@link LookaheadParser}.
@@ -50,7 +51,7 @@ public abstract class LookaheadParser extends IssueParser {
         super();
 
         this.pattern = Pattern.compile(pattern);
-        this.recursiveDirectories = new Stack<>();
+        this.recursiveDirectories = new ArrayDeque<>();
     }
 
     @Override
@@ -65,6 +66,7 @@ public abstract class LookaheadParser extends IssueParser {
         return postProcess(report);
     }
 
+    @SuppressWarnings("PMD.DoNotUseThreads")
     private void parse(final Report report, final LookaheadStream lookahead) {
         try (IssueBuilder builder = new IssueBuilder()) {
             while (lookahead.hasNext()) {
@@ -107,7 +109,7 @@ public abstract class LookaheadParser extends IssueParser {
      * @return The new directory to change to
      */
     private String enterDirectory(final String line, final Report log) {
-        extractDirectory(line, ENTERING_DIRECTORY_PATH, log).map(recursiveDirectories::push);
+        extractDirectory(line, ENTERING_DIRECTORY_PATH, log).ifPresent(recursiveDirectories::push);
         return recursiveDirectories.isEmpty() ? NO_DIRECTORY : recursiveDirectories.peek();
     }
 
@@ -118,9 +120,9 @@ public abstract class LookaheadParser extends IssueParser {
      * @return The last directory seen, or an empty String if we have returned to the beginning
      */
     private String leaveDirectory() {
-        if (!recursiveDirectories.empty()) {
+        if (!recursiveDirectories.isEmpty()) {
             recursiveDirectories.pop();
-            if (!recursiveDirectories.empty()) {
+            if (!recursiveDirectories.isEmpty()) {
                 return recursiveDirectories.peek();
             }
         }

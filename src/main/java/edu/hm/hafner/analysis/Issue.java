@@ -60,7 +60,7 @@ public class Issue implements Serializable {
      * @return the function that obtains the value
      */
     public static Function<Issue, String> getPropertyValueGetter(final String propertyName) {
-        return issue -> Issue.getPropertyValueAsString(issue, propertyName);
+        return issue -> getPropertyValueAsString(issue, propertyName);
     }
 
     /**
