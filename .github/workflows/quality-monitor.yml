@@ -54,12 +54,12 @@ jobs:
                   {
                     "id": "checkstyle",
                     "name": "CheckStyle",
-                    "pattern": "**/target/checkstyle-result.xml"
+                    "pattern": "**/target/checkstyle-*/checkstyle-result.xml"
                   },
                   {
                     "id": "pmd",
                     "name": "PMD",
-                    "pattern": "**/target/pmd.xml"
+                    "pattern": "**/target/pmd-*/pmd.xml"
                   }
                 ]
               },
