@@ -49,7 +49,7 @@
     </developer>
   </developers>
 
-  <url>https://www.cs.hm.edu/die_fakultaet/ansprechpartner/professoren/hafner/index.de.html</url>
+  <url>https://cs.hm.edu/~hafner</url>
 
   <properties>
     <scmTag>HEAD</scmTag>
