@@ -9,12 +9,14 @@ import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * A parser for IBM xlC linker warnings.
  *
  * @author Andrew Gvozdev
  */
+@SuppressFBWarnings("REDOS")
 public class XlcLinkerParser extends LookaheadParser {
     private static final long serialVersionUID = 211259620936831096L;
     private static final String XLC_LINKER_WARNING_PATTERN = ANT_TASK + "ld: ([0-9]+-[0-9]+)*\\s*(.*)$";
