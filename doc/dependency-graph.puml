@@ -8,10 +8,10 @@ skinparam rectangle {
 }
 rectangle "analysis-model\n\n12.2.0-SNAPSHOT" as edu_hm_hafner_analysis_model_jar
 rectangle "jsoup\n\n1.17.2" as org_jsoup_jsoup_jar
-rectangle "commons-io\n\n2.16.0" as commons_io_commons_io_jar
+rectangle "commons-io\n\n2.16.1" as commons_io_commons_io_jar
 rectangle "commons-digester3\n\n3.2" as org_apache_commons_commons_digester3_jar
 rectangle "cglib\n\n2.2.2" as cglib_cglib_jar
-rectangle "commons-logging\n\n1.3.0" as commons_logging_commons_logging_jar
+rectangle "commons-logging\n\n1.3.1" as commons_logging_commons_logging_jar
 rectangle "commons-beanutils\n\n1.9.4" as commons_beanutils_commons_beanutils_jar
 rectangle "commons-collections\n\n3.2.2" as commons_collections_commons_collections_jar
 rectangle "commons-text\n\n1.11.0" as org_apache_commons_commons_text_jar
@@ -21,11 +21,11 @@ rectangle "j2html\n\n1.4.0" as com_j2html_j2html_jar
 rectangle "xercesImpl\n\n2.12.2" as xerces_xercesImpl_jar
 rectangle "xml-apis\n\n1.4.01" as xml_apis_xml_apis_jar
 rectangle "asm\n\n9.7" as org_ow2_asm_asm_jar
-rectangle "asm-analysis\n\n9.6" as org_ow2_asm_asm_analysis_jar
-rectangle "asm-tree\n\n9.6" as org_ow2_asm_asm_tree_jar
-rectangle "spotbugs\n\n4.8.3" as com_github_spotbugs_spotbugs_jar
-rectangle "asm-commons\n\n9.6" as org_ow2_asm_asm_commons_jar
-rectangle "asm-util\n\n9.6" as org_ow2_asm_asm_util_jar
+rectangle "asm-analysis\n\n9.7" as org_ow2_asm_asm_analysis_jar
+rectangle "asm-tree\n\n9.7" as org_ow2_asm_asm_tree_jar
+rectangle "spotbugs\n\n4.8.4" as com_github_spotbugs_spotbugs_jar
+rectangle "asm-commons\n\n9.7" as org_ow2_asm_asm_commons_jar
+rectangle "asm-util\n\n9.7" as org_ow2_asm_asm_util_jar
 rectangle "jcip-annotations\n\n1.0-1" as com_github_stephenc_jcip_jcip_annotations_jar
 rectangle "dom4j\n\n2.1.4" as org_dom4j_dom4j_jar
 rectangle "Saxon-HE\n\n12.4" as net_sf_saxon_Saxon_HE_jar
@@ -44,10 +44,10 @@ rectangle "pmd-java\n\n7.0.0" as net_sourceforge_pmd_pmd_java_jar
 rectangle "json\n\n20240303" as org_json_json_jar
 rectangle "json-smart\n\n2.5.1" as net_minidev_json_smart_jar
 rectangle "accessors-smart\n\n2.5.1" as net_minidev_accessors_smart_jar
-rectangle "spotbugs-annotations\n\n4.8.3" as com_github_spotbugs_spotbugs_annotations_jar
-rectangle "error_prone_annotations\n\n2.25.0" as com_google_errorprone_error_prone_annotations_jar
+rectangle "spotbugs-annotations\n\n4.8.4" as com_github_spotbugs_spotbugs_annotations_jar
+rectangle "error_prone_annotations\n\n2.26.1" as com_google_errorprone_error_prone_annotations_jar
 rectangle "streamex\n\n0.8.2" as one_util_streamex_jar
-rectangle "codingstyle\n\n3.42.0" as edu_hm_hafner_codingstyle_jar
+rectangle "codingstyle\n\n4.3.0" as edu_hm_hafner_codingstyle_jar
 rectangle "commons-lang3\n\n3.14.0" as org_apache_commons_commons_lang3_jar
 edu_hm_hafner_analysis_model_jar -[#000000]-> org_jsoup_jsoup_jar
 edu_hm_hafner_analysis_model_jar -[#000000]-> commons_io_commons_io_jar
