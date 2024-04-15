@@ -22,6 +22,7 @@ public class PyLintDescriptions {
     /**
      * Loads the available rules into a map.
      */
+    @SuppressWarnings("PMD.LooseCoupling")
     public PyLintDescriptions() {
         JSONParser parser = new JSONParser(JSONParser.MODE_JSON_SIMPLE);
 

@@ -6,8 +6,7 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.ModuleDetector.FileSystem;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 /**
@@ -41,9 +40,9 @@ class OsgiModuleDetectorTest extends AbstractModuleDetectorTest {
 
         ModuleDetector detector = new ModuleDetector(ROOT, factory);
 
-        assertThat(detector.guessModuleName(PREFIX + (PATH_PREFIX_OSGI + "something.txt")))
+        assertThat(detector.guessModuleName(PREFIX + PATH_PREFIX_OSGI + "something.txt"))
                 .isEqualTo(EXPECTED_OSGI_MODULE);
-        assertThat(detector.guessModuleName(PREFIX + (PATH_PREFIX_OSGI + "in/between/something.txt")))
+        assertThat(detector.guessModuleName(PREFIX + PATH_PREFIX_OSGI + "in/between/something.txt"))
                 .isEqualTo(EXPECTED_OSGI_MODULE);
         assertThat(detector.guessModuleName(PREFIX + "path/to/something.txt"))
                 .isEqualTo(StringUtils.EMPTY);
@@ -59,9 +58,9 @@ class OsgiModuleDetectorTest extends AbstractModuleDetectorTest {
         ModuleDetector detector = new ModuleDetector(ROOT, factory);
 
         String expectedName = "de.faktorlogik.prototyp (My Vendor)";
-        assertThat(detector.guessModuleName(PREFIX + (PATH_PREFIX_OSGI + "something.txt")))
+        assertThat(detector.guessModuleName(PREFIX + PATH_PREFIX_OSGI + "something.txt"))
                 .isEqualTo(expectedName);
-        assertThat(detector.guessModuleName(PREFIX + (PATH_PREFIX_OSGI + "in/between/something.txt")))
+        assertThat(detector.guessModuleName(PREFIX + PATH_PREFIX_OSGI + "in/between/something.txt"))
                 .isEqualTo(expectedName);
         assertThat(detector.guessModuleName(PREFIX + "path/to/something.txt"))
                 .isEqualTo(StringUtils.EMPTY);
@@ -78,9 +77,9 @@ class OsgiModuleDetectorTest extends AbstractModuleDetectorTest {
         ModuleDetector detector = new ModuleDetector(ROOT, fileSystem);
 
         String expectedName = "My Bundle";
-        assertThat(detector.guessModuleName(PREFIX + (PATH_PREFIX_OSGI + "something.txt")))
+        assertThat(detector.guessModuleName(PREFIX + PATH_PREFIX_OSGI + "something.txt"))
                 .isEqualTo(expectedName);
-        assertThat(detector.guessModuleName(PREFIX + (PATH_PREFIX_OSGI + "in/between/something.txt")))
+        assertThat(detector.guessModuleName(PREFIX + PATH_PREFIX_OSGI + "in/between/something.txt"))
                 .isEqualTo(expectedName);
         assertThat(detector.guessModuleName(PREFIX + "path/to/something.txt"))
                 .isEqualTo(StringUtils.EMPTY);

@@ -1093,6 +1093,8 @@ public class Report implements Iterable<Issue>, Serializable {
     }
 
     @SuppressWarnings("unchecked")
+    @SuppressFBWarnings(value = "MC_OVERRIDABLE_METHOD_CALL_IN_READ_OBJECT",
+            justification = "False positive, the overridden method is in already initialized objects")
     private void readObject(final ObjectInputStream input) throws IOException, ClassNotFoundException {
         elements = new LinkedHashSet<>();
         readIssues(input, input.readInt());
