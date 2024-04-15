@@ -50,9 +50,9 @@ class ModuleDetectorTest extends ResourceTest {
 
         ModuleDetector detector = new ModuleDetector(ROOT, factory);
 
-        assertThat(detector.guessModuleName(PREFIX + (PATH_PREFIX_ANT + "something.txt")))
+        assertThat(detector.guessModuleName(PREFIX + PATH_PREFIX_ANT + "something.txt"))
                 .isEqualTo(EXPECTED_ANT_MODULE);
-        assertThat(detector.guessModuleName(PREFIX + (PATH_PREFIX_MAVEN + "something.txt")))
+        assertThat(detector.guessModuleName(PREFIX + PATH_PREFIX_MAVEN + "something.txt"))
                 .isEqualTo(EXPECTED_MAVEN_MODULE);
     }
 

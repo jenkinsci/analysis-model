@@ -39,7 +39,7 @@ class GradleModuleDetectorTest extends AbstractModuleDetectorTest {
 
         ModuleDetector detector = new ModuleDetector(ROOT, factory);
 
-        assertThat(detector.guessModuleName(PREFIX + (PATH_PREFIX_GRADLE + "build/reports/something.txt")))
+        assertThat(detector.guessModuleName(PREFIX + PATH_PREFIX_GRADLE + "build/reports/something.txt"))
                 .isEqualTo(EXPECTED_GRADLE_MODULE_ROOT_BY_PATH);
         assertThat(detector.guessModuleName(PREFIX + "build/reports/something.txt"))
                 .isEqualTo(StringUtils.EMPTY);
@@ -77,7 +77,7 @@ class GradleModuleDetectorTest extends AbstractModuleDetectorTest {
 
         ModuleDetector detector = new ModuleDetector(ROOT, factory);
 
-        assertThat(detector.guessModuleName(PREFIX + (PATH_PREFIX_GRADLE + "build/reports/something.txt")))
+        assertThat(detector.guessModuleName(PREFIX + PATH_PREFIX_GRADLE + "build/reports/something.txt"))
                 .isEqualTo(EXPECTED_GRADLE_MODULE_ROOT_BY_PATH);
         assertThat(detector.guessModuleName(PREFIX + "build/reports/something.txt"))
                 .isEqualTo(StringUtils.EMPTY);

@@ -19,6 +19,8 @@ public class IarCstatParser extends LookaheadParser {
 
     private static final String IAR_WARNING_PATTERN = ANT_TASK
             + "(?:\"?(.*?)\"?[\\(,](\\d+)\\)?\\s+)?(Severity-(?:Low|Medium|High))\\[(\\S+)\\]:(.*)$";
+    private static final String SEVERITY_LOW = "Severity-Low";
+    private static final String SEVERITY_HIGH = "Severity-High";
 
     /**
      * Creates a new instance of {@link IarCstatParser}.
@@ -45,10 +47,10 @@ public class IarCstatParser extends LookaheadParser {
 
     private Severity mapSeverity(final String category) {
         Severity severity;
-        if ("Severity-Low".equals(category)) {
+        if (SEVERITY_LOW.equals(category)) {
             severity = Severity.WARNING_LOW;
         }
-        else if ("Severity-High".equals(category)) {
+        else if (SEVERITY_HIGH.equals(category)) {
             severity = Severity.WARNING_HIGH;
         }
         else {

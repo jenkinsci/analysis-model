@@ -84,7 +84,7 @@ public class IssueDifference {
 
     private void findIssuesInChangedCode(final Map<String, Integer> includes) {
         for (Entry<String, Integer> include : includes.entrySet()) {
-            newIssues.filter(issue -> filter(issue, include.getKey(), include.getValue()))
+            newIssues.filter(issue -> isInFileAtPosition(issue, include.getKey(), include.getValue()))
                     .stream()
                     .map(Issue::getId)
                     .map(newIssues::remove)
@@ -92,11 +92,8 @@ public class IssueDifference {
         }
     }
 
-    private boolean filter(final Issue issue, final String fileName, final int line) {
-        if (!issue.getFileName().endsWith(fileName)) {
-            return false;
-        }
-        return issue.affectsLine(line);
+    private boolean isInFileAtPosition(final Issue issue, final String fileName, final int line) {
+        return issue.getFileName().endsWith(fileName) && issue.affectsLine(line);
     }
 
     private List<UUID> matchIssuesByEquals(final Report currentIssues) {

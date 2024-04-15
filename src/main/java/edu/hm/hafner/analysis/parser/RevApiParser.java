@@ -14,12 +14,14 @@ import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.RevApiInfoExtension;
 import edu.hm.hafner.analysis.Severity;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  *  Parser for Revapi reports.
  */
 public class RevApiParser extends JsonIssueParser {
     private static final long serialVersionUID = -2452699725595063377L;
+    private static final int CAPACITY = 1024;
 
     @Override
     protected void parseJsonArray(final Report report, final JSONArray jsonReport, final IssueBuilder issueBuilder) {
@@ -101,8 +103,9 @@ public class RevApiParser extends JsonIssueParser {
         }
     }
 
+    @SuppressFBWarnings(value = "POTENTIAL_XML_INJECTION", justification = "Message is cleaned in UI")
     private String getDescription(final JSONObject jsonIssue) {
-        StringBuilder severityDescription = new StringBuilder();
+        StringBuilder severityDescription = new StringBuilder(CAPACITY);
         for  (Object severity :  jsonIssue.getJSONArray("classification")) {
             if (severity instanceof JSONObject) {
                 severityDescription.append("<p>Compatibility: ")

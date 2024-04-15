@@ -848,7 +848,7 @@ class ReportTest extends SerializableTest<Report> {
     private String createLongMessage() {
         char[] chars = new char[100_000];
 
-        return new String(chars);
+        return String.valueOf(chars);
     }
 
     /** Verifies that equals checks all properties. */

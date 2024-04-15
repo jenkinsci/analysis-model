@@ -3,13 +3,14 @@ package edu.hm.hafner.analysis;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import edu.hm.hafner.util.VisibleForTesting;
-import static edu.hm.hafner.analysis.PackageDetectors.*;
 
+import static edu.hm.hafner.analysis.PackageDetectors.*;
 import static java.util.function.Function.*;
 
 /**
@@ -29,7 +30,7 @@ public class PackageNameResolver {
 
     @VisibleForTesting
     PackageNameResolver(final FileSystem fileSystem) {
-        ArrayList<AbstractPackageDetector> detectors = new ArrayList<>(Arrays.asList(
+        List<AbstractPackageDetector> detectors = new ArrayList<>(Arrays.asList(
                 new JavaPackageDetector(fileSystem),
                 new CSharpNamespaceDetector(fileSystem),
                 new KotlinPackageDetector(fileSystem)

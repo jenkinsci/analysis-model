@@ -75,6 +75,6 @@ public class PitAdapter extends AbstractViolationAdapter {
     }
 
     private String getMutationStatus(final Violation violation) {
-        return violation.getSpecifics().getOrDefault(PitAdapter.STATUS, KILLED);
+        return violation.getSpecifics().getOrDefault(STATUS, KILLED);
     }
 }

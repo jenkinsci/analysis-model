@@ -94,7 +94,7 @@ public class AjcParser extends IssueParser {
             category = Categories.DEPRECATION;
         }
         else if (line.contains("adviceDidNotMatch")) {
-            category = AjcParser.ADVICE;
+            category = ADVICE;
         }
         else {
             category = "";

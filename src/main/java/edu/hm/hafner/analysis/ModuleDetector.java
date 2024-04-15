@@ -108,7 +108,7 @@ public class ModuleDetector {
      * @return the found files (as absolute paths)
      */
     private List<String> find(final Path path) {
-        ArrayList<String> absoluteFileNames = new ArrayList<>();
+        List<String> absoluteFileNames = new ArrayList<>();
 
         for (AbstractModuleDetector moduleDetector : moduleDetectors) {
             String[] relativeFileNames = factory.find(path, moduleDetector.getPattern());

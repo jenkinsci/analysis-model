@@ -8,6 +8,7 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.util.LookaheadStream;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Parser for Mentor Graphics Modelsim/Questa Simulator.
@@ -125,6 +126,7 @@ public class MentorParser extends LookaheadParser {
         builder.setMessage(parsedMessage);
     }
 
+    @SuppressFBWarnings(value = "POTENTIAL_XML_INJECTION", justification = "Message is cleaned in UI")
     private String parseSimTime(final LookaheadStream lookahead, final IssueBuilder builder) {
         StringBuilder description = new StringBuilder();
         String timeLine = "";

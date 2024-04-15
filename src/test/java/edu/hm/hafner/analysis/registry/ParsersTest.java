@@ -14,7 +14,7 @@ import edu.hm.hafner.util.ResourceTest;
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
- * Integration tests of all parsers of the warnings plug-in in pipelines.
+ * Integration tests of all parsers.
  *
  * @author Ullrich Hafner
  */

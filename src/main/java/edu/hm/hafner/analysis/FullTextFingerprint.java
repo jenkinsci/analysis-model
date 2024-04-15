@@ -97,7 +97,7 @@ public class FullTextFingerprint {
             hexChars[j * 2] = HEX_CHARACTERS[v >>> 4];
             hexChars[j * 2 + 1] = HEX_CHARACTERS[v & 0x0F];
         }
-        return new String(hexChars);
+        return String.valueOf(hexChars);
     }
 
     @VisibleForTesting
