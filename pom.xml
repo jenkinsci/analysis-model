@@ -509,7 +509,7 @@
               <dependency>
                 <groupId>io.jenkins.tools.incrementals</groupId>
                 <artifactId>incrementals-enforcer-rules</artifactId>
-                <version>1.7</version>
+                <version>1.8</version>
               </dependency>
             </dependencies>
           </plugin>
