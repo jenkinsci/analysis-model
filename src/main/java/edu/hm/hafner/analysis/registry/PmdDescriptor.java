@@ -38,7 +38,7 @@ class PmdDescriptor extends ParserDescriptor {
 
     @Override
     public String getIconUrl() {
-        return "https://docs.pmd-code.org/latest/images/logo/pmd-logo-300px-squared.png";
+        return "https://github.com/pmd/pmd/blob/master/docs/images/logo/PMD_small.svg";
     }
 
     @Override
