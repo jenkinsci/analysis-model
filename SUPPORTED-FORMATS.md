@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2024-04-20T14:40:48.382410270 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2024-04-21T18:09:28.085674970 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -554,6 +554,22 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
             </td>
             <td>
                 Coolflux DSP Compiler
+            </td>
+            <td>
+                -
+            </td>
+        </tr>
+        <tr>
+            <td>
+                coverity
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                <a href="https://scan.coverity.com/">
+                    Coverity Scan
+                </a>
             </td>
             <td>
                 -
