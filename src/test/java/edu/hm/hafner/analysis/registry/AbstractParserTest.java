@@ -81,13 +81,15 @@ public abstract class AbstractParserTest extends ResourceTest {
     void shouldRegisterParser() {
         assumeThat(createParser().getClass().getPackageName()).startsWith("edu.hm.hafner.analysis"); // only test our own parsers
 
-        Set<Class<?>> parsers = new ParserRegistry().getAllDescriptors()
+        var parserRegistry = new ParserRegistry();
+
+        Set<Class<?>> parsers = parserRegistry.getAllDescriptors()
                 .stream()
                 .map(ParserDescriptor::createParser)
                 .map(IssueParser::getClass)
                 .collect(Collectors.toSet());
 
-        var compositeParsers = new ParserRegistry().getAllDescriptors().stream()
+        var compositeParsers = parserRegistry.getAllDescriptors().stream()
                 .filter(descriptor -> descriptor instanceof CompositeParserDescriptor)
                 .map(descriptor -> (CompositeParserDescriptor) descriptor)
                 .map(CompositeParserDescriptor::createParsers)
@@ -99,6 +101,12 @@ public abstract class AbstractParserTest extends ResourceTest {
         assertThat(parsers)
                 .as("Every parser should be registered in the ParserRegistry")
                 .contains(createParser().getClass());
+
+        parserRegistry.getAllDescriptors()
+                .stream()
+                .map(ParserDescriptor::getUrl)
+                .forEach(url ->
+                        assertThat(url).matches("https?://.*|^$"));
     }
 
     protected void assertThatReportHasSeverities(final Report report, final int expectedSizeError,

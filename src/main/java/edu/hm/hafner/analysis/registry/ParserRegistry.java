@@ -62,6 +62,7 @@ public class ParserRegistry {
             new CodeGeneratorDescriptor(),
             new CodeNarcDescriptor(),
             new CoolfluxChessccDescriptor(),
+            new CoverityDescriptor(),
             new CpdDescriptor(),
             new CppCheckDescriptor(),
             new CppLintDescriptor(),
