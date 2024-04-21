@@ -38,6 +38,8 @@ public class MsBuildParser extends LookaheadParser {
 
     private static final Pattern IGNORED_TOOLS_PATTERN = Pattern.compile("(?!.exe)(\\.[^.]+)$");
     private static final Pattern LINKER_CAUSE = Pattern.compile(".*imported by '([A-Za-z0-9\\-_.]+)'.*");
+    private static final String EXPECTED_CATEGORY = "Expected";
+    private static final String MSBUILD = "MSBUILD";
 
     /**
      * Creates a new instance of {@link MsBuildParser}.
@@ -76,7 +78,7 @@ public class MsBuildParser extends LookaheadParser {
         }
 
         String category = matcher.group(9);
-        if ("Expected".equals(category)) {
+        if (EXPECTED_CATEGORY.equals(category)) {
             return Optional.empty();
         }
         return builder.setLineStart(matcher.group(5))
@@ -124,7 +126,7 @@ public class MsBuildParser extends LookaheadParser {
         if (canResolveRelativeFileName(fileName, projectDir)) {
             fileName = FilenameUtils.concat(projectDir, fileName);
         }
-        if ("MSBUILD".equals(fileName.trim())) {
+        if (MSBUILD.equals(fileName.trim())) {
             fileName = "-";
         }
         return fileName;
@@ -132,7 +134,7 @@ public class MsBuildParser extends LookaheadParser {
 
     private boolean canResolveRelativeFileName(final String fileName, final String projectDir) {
         return StringUtils.isNotBlank(projectDir) && FilenameUtils.getPrefixLength(fileName) == 0
-                && !"MSBUILD".equals(fileName.trim());
+                && !MSBUILD.equals(fileName.trim());
     }
 }
 

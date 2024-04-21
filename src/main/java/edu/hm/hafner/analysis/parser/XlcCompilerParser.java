@@ -9,12 +9,14 @@ import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * A parser for IBM xlC compiler warnings.
  *
  * @author Andrew Gvozdev
  */
+@SuppressFBWarnings("REDOS")
 public class XlcCompilerParser extends LookaheadParser {
     private static final long serialVersionUID = 5490211629355204910L;
 

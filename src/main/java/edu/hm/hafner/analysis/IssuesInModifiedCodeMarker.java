@@ -35,9 +35,6 @@ public class IssuesInModifiedCodeMarker {
     private boolean affectsChangedLineInFile(final Issue issue, final String fileName, final Set<Integer> lines) {
         var normalizedPath = PATH_UTIL.getRelativePath(fileName);
 
-        if (!issue.getFileName().endsWith(normalizedPath)) { // check only the suffix
-            return false;
-        }
-        return lines.stream().anyMatch(issue::affectsLine);
+        return issue.getFileName().endsWith(normalizedPath) && lines.stream().anyMatch(issue::affectsLine);
     }
 }

@@ -37,9 +37,9 @@ class AntModuleDetectorTest extends AbstractModuleDetectorTest {
         });
         ModuleDetector detector = new ModuleDetector(ROOT, factory);
 
-        assertThat(detector.guessModuleName(PREFIX + (PATH_PREFIX_ANT + "something.txt")))
+        assertThat(detector.guessModuleName(PREFIX + PATH_PREFIX_ANT + "something.txt"))
                 .isEqualTo(EXPECTED_ANT_MODULE);
-        assertThat(detector.guessModuleName(PREFIX + (PATH_PREFIX_ANT + "in/between/something.txt")))
+        assertThat(detector.guessModuleName(PREFIX + PATH_PREFIX_ANT + "in/between/something.txt"))
                 .isEqualTo(EXPECTED_ANT_MODULE);
         assertThat(detector.guessModuleName(PREFIX + "path/to/something.txt"))
                 .isEqualTo(StringUtils.EMPTY);

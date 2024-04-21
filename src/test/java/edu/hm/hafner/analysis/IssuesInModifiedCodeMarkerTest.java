@@ -22,7 +22,6 @@ class IssuesInModifiedCodeMarkerTest {
 
         var marker = new IssuesInModifiedCodeMarker();
         marker.markIssuesInModifiedCode(report, Map.of());
-
         assertThatModifiedCodeMarkers(report).containsExactly(false, false);
         assertThatIssuesToString(report).containsExactly(TO_STRING_UNMODIFIED, TO_STRING_UNMODIFIED);
     }

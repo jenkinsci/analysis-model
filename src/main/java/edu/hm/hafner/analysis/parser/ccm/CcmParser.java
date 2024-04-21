@@ -106,9 +106,8 @@ public class CcmParser extends IssueParser {
 
     private boolean isMetricModeratePriority(final Metric metric) {
         String metricClassification = metric.getClassification();
-        if (StringUtils.contains(metricClassification, "moderate")) {
-            return true;
-        }
-        return "B".equals(metricClassification);
+
+        return StringUtils.contains(metricClassification, "moderate")
+                || "B".equals(metricClassification);
     }
 }

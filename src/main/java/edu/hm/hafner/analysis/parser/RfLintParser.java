@@ -165,6 +165,7 @@ public class RfLintParser extends IssueParser {
         }
     }
 
+    @SuppressWarnings("PMD.DoNotUseThreads")
     private void parseLine(final IssueBuilder builder, final Report warnings, final String line) {
         Matcher fileMatcher = FILE_PATTERN.matcher(line);
         if (fileMatcher.find()) {

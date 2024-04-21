@@ -13,6 +13,7 @@ import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import static edu.hm.hafner.analysis.util.IntegerParser.*;
 
@@ -40,7 +41,7 @@ public class DrMemoryParser extends LookaheadParser {
         super(DR_MEMORY_WARNING_PATTERN);
     }
 
-    @Override
+    @Override @SuppressFBWarnings(value = "POTENTIAL_XML_INJECTION", justification = "Message is cleaned in UI")
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder)
             throws ParsingException {

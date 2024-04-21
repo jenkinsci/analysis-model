@@ -6,7 +6,7 @@
   <parent>
     <groupId>edu.hm.hafner</groupId>
     <artifactId>codingstyle-pom</artifactId>
-    <version>3.43.0</version>
+    <version>4.5.0</version>
     <relativePath />
   </parent>
 
@@ -49,31 +49,31 @@
     </developer>
   </developers>
 
-  <url>https://www.cs.hm.edu/die_fakultaet/ansprechpartner/professoren/hafner/index.de.html</url>
+  <url>https://cs.hm.edu/~hafner</url>
 
   <properties>
     <scmTag>HEAD</scmTag>
-    <revision>12.2.0</revision>
+    <revision>12.3.0</revision>
     <changelist>-SNAPSHOT</changelist>
 
     <module.name>edu.hm.hafner.analysis.model</module.name>
 
     <!-- Project Dependencies Configuration -->
     <jmh.version>1.37</jmh.version>
-    <commons.io.version>2.15.1</commons.io.version>
+    <commons.io.version>2.16.1</commons.io.version>
     <commons.digester.version>3.2</commons.digester.version>
     <commons-beanutils.version>1.9.4</commons-beanutils.version>
-    <commons.text.version>1.11.0</commons.text.version>
+    <commons.text.version>1.12.0</commons.text.version>
     <j2html.version>1.4.0</j2html.version>
-    <slf4j.version>2.0.12</slf4j.version>
+    <slf4j.version>2.0.13</slf4j.version>
     <violations-lib.version>1.157.1</violations-lib.version>
     <jsoup.version>1.17.2</jsoup.version>
     <json.version>20240303</json.version>
     <json-smart.version>2.5.1</json-smart.version>
-    <pmd.api.version>6.55.0</pmd.api.version>
-    <spotbugs.api.version>4.8.3</spotbugs.api.version>
+    <pmd.api.version>7.0.0</pmd.api.version>
+    <spotbugs.api.version>4.8.4</spotbugs.api.version>
 
-    <incrementals-plugin.version>1.7</incrementals-plugin.version>
+    <incrementals-plugin.version>1.8</incrementals-plugin.version>
     <maven-shade-plugin.version>3.5.2</maven-shade-plugin.version>
 
   </properties>
@@ -509,7 +509,7 @@
               <dependency>
                 <groupId>io.jenkins.tools.incrementals</groupId>
                 <artifactId>incrementals-enforcer-rules</artifactId>
-                <version>1.7</version>
+                <version>1.8</version>
               </dependency>
             </dependencies>
           </plugin>

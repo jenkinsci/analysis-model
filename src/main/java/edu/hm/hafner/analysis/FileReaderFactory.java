@@ -59,6 +59,7 @@ public class FileReaderFactory extends ReaderFactory {
         this(file, null);
     }
 
+    @SuppressWarnings("PMD.CloseResource")
     @Override @MustBeClosed
     public Reader create() {
         try {

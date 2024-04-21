@@ -6,8 +6,7 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.ModuleDetector.FileSystem;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 class MavenModuleDetectorTest extends AbstractModuleDetectorTest {
@@ -39,9 +38,9 @@ class MavenModuleDetectorTest extends AbstractModuleDetectorTest {
 
         ModuleDetector detector = new ModuleDetector(ROOT, factory);
 
-        assertThat(detector.guessModuleName(PREFIX + (PATH_PREFIX_MAVEN + "something.txt"))).isEqualTo(
+        assertThat(detector.guessModuleName(PREFIX + PATH_PREFIX_MAVEN + "something.txt")).isEqualTo(
                 EXPECTED_MAVEN_MODULE);
-        assertThat(detector.guessModuleName(PREFIX + (PATH_PREFIX_MAVEN + "in/between/something.txt"))).isEqualTo(
+        assertThat(detector.guessModuleName(PREFIX + PATH_PREFIX_MAVEN + "in/between/something.txt")).isEqualTo(
                 EXPECTED_MAVEN_MODULE);
         assertThat(detector.guessModuleName(PREFIX + "path/to/something.txt")).isEqualTo(StringUtils.EMPTY);
     }
@@ -56,9 +55,9 @@ class MavenModuleDetectorTest extends AbstractModuleDetectorTest {
         ModuleDetector detector = new ModuleDetector(ROOT, factory);
 
         String artifactId = "com.avaloq.adt.core";
-        assertThat(detector.guessModuleName(PREFIX + (PATH_PREFIX_MAVEN + "something.txt")))
+        assertThat(detector.guessModuleName(PREFIX + PATH_PREFIX_MAVEN + "something.txt"))
                 .isEqualTo(artifactId);
-        assertThat(detector.guessModuleName(PREFIX + (PATH_PREFIX_MAVEN + "in/between/something.txt")))
+        assertThat(detector.guessModuleName(PREFIX + PATH_PREFIX_MAVEN + "in/between/something.txt"))
                 .isEqualTo(artifactId);
         assertThat(detector.guessModuleName(PREFIX + "path/to/something.txt"))
                 .isEqualTo(StringUtils.EMPTY);

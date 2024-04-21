@@ -32,6 +32,9 @@ public class GendarmeParser extends IssueParser {
     private static final long serialVersionUID = 1677715364464119907L;
 
     private static final Pattern FILE_PATTERN = Pattern.compile("^(.*)\\(.(\\d+)\\).*$");
+    private static final String TYPE = "Type";
+    private static final String METHOD = "Method";
+    private static final String ASSEMBLY = "Assembly";
 
     @Override
     public Report parse(final ReaderFactory factory) throws ParsingException {
@@ -108,15 +111,19 @@ public class GendarmeParser extends IssueParser {
             rule.setName(ruleElement.getAttribute("Name"));
             rule.setTypeName(ruleElement.getTextContent());
 
-            String typeString = ruleElement.getAttribute("Type");
-            if ("Type".equals(typeString)) {
-                rule.setType(GendarmeRuleType.Type);
-            }
-            else if ("Method".equals(typeString)) {
-                rule.setType(GendarmeRuleType.Method);
-            }
-            else if ("Assembly".equals(typeString)) {
-                rule.setType(GendarmeRuleType.Assembly);
+            String typeString = ruleElement.getAttribute(TYPE);
+            switch (typeString) {
+                case TYPE:
+                    rule.setType(GendarmeRuleType.Type);
+                    break;
+                case METHOD:
+                    rule.setType(GendarmeRuleType.Method);
+                    break;
+                case ASSEMBLY:
+                    rule.setType(GendarmeRuleType.Assembly);
+                    break;
+                default:
+                    // ignore the type
             }
             try {
                 rule.setUrl(new URL(ruleElement.getAttribute("Uri")));
