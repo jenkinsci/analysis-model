@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2024-04-23T14:45:40.069291142 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2024-04-24T20:12:44.878979315 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -1627,7 +1627,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 pmd
             </td>
             <td>
-                <img src="https://github.com/pmd/pmd/blob/master/docs/images/logo/PMD_small.svg" alt="PMD" height="64" width="64">
+                <img src="https://raw.githubusercontent.com/pmd/pmd/master/docs/images/logo/PMD_small.svg" alt="PMD" height="64" width="64">
             </td>
             <td>
                 <a href="https://pmd.github.io">
