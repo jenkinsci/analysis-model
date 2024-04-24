@@ -53,7 +53,7 @@
 
   <properties>
     <scmTag>HEAD</scmTag>
-    <revision>12.4.0</revision>
+    <revision>12.3.1</revision>
     <changelist>-SNAPSHOT</changelist>
 
     <module.name>edu.hm.hafner.analysis.model</module.name>
