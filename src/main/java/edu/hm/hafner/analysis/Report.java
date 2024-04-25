@@ -336,8 +336,8 @@ public class Report implements Iterable<Issue>, Serializable {
             }
             else {
                 reportsToAdd.addAll(report.subReports);
-                infoMessages.addAll(report.getInfoMessages());
-                errorMessages.addAll(report.getErrorMessages());
+                infoMessages.addAll(report.infoMessages);
+                errorMessages.addAll(report.errorMessages);
             }
         }
 
@@ -870,8 +870,8 @@ public class Report implements Iterable<Issue>, Serializable {
         destination.name = source.getName();
         destination.originReportFile = source.getOriginReportFile();
         destination.duplicatesSize += source.duplicatesSize; // not recursively
-        destination.infoMessages.addAll(source.getInfoMessages());
-        destination.errorMessages.addAll(source.getErrorMessages());
+        destination.infoMessages.addAll(source.infoMessages);
+        destination.errorMessages.addAll(source.errorMessages);
         destination.countersByKey = Stream.concat(
                 destination.countersByKey.entrySet().stream(), source.countersByKey.entrySet().stream())
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, Integer::sum));

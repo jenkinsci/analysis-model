@@ -11,6 +11,7 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.BiFunction;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -44,34 +45,32 @@ import static org.mockito.Mockito.*;
  * @author Marcel Binder
  * @author Ullrich Hafner
  */
-@SuppressWarnings({"PMD.GodClass", "PMD.ExcessiveImports", "PMD.ExcessiveClassLength", "checkstyle:ClassDataAbstractionCoupling"})
+@SuppressWarnings({"PMD.GodClass", "PMD.ExcessiveImports", "PMD.ExcessiveClassLength", "checkstyle:ClassDataAbstractionCoupling", "checkstyle:ClassFanOutComplexity"})
 class ReportTest extends SerializableTest<Report> {
     private static final String SERIALIZATION_NAME = "report.ser";
 
-    private static final Issue HIGH = new IssueBuilder().setMessage("issue-1")
+    private static final Issue HIGH = build(b ->
+            b.setMessage("issue-1").setFileName("file-1").setSeverity(Severity.WARNING_HIGH));
+    private static final Issue NORMAL_1 = build(b ->
+            b.setMessage("issue-2")
             .setFileName("file-1")
-            .setSeverity(Severity.WARNING_HIGH)
-            .build();
-    private static final Issue NORMAL_1 = new IssueBuilder().setMessage("issue-2")
+            .setSeverity(Severity.WARNING_NORMAL));
+    private static final Issue NORMAL_2 = build(b ->
+            b.setMessage("issue-3")
             .setFileName("file-1")
-            .setSeverity(Severity.WARNING_NORMAL)
-            .build();
-    private static final Issue NORMAL_2 = new IssueBuilder().setMessage("issue-3")
-            .setFileName("file-1")
-            .setSeverity(Severity.WARNING_NORMAL)
-            .build();
-    private static final Issue LOW_2_A = new IssueBuilder().setMessage("issue-4")
+            .setSeverity(Severity.WARNING_NORMAL));
+    private static final Issue LOW_2_A = build(b ->
+            b.setMessage("issue-4")
             .setFileName("file-2")
-            .setSeverity(Severity.WARNING_LOW)
-            .build();
-    private static final Issue LOW_2_B = new IssueBuilder().setMessage("issue-5")
+            .setSeverity(Severity.WARNING_LOW));
+    private static final Issue LOW_2_B = build(b ->
+            b.setMessage("issue-5")
             .setFileName("file-2")
-            .setSeverity(Severity.WARNING_LOW)
-            .build();
-    private static final Issue LOW_FILE_3 = new IssueBuilder().setMessage("issue-6")
+            .setSeverity(Severity.WARNING_LOW));
+    private static final Issue LOW_FILE_3 = build(b ->
+            b.setMessage("issue-6")
             .setFileName("file-3")
-            .setSeverity(Severity.WARNING_LOW)
-            .build();
+            .setSeverity(Severity.WARNING_LOW));
     private static final int VALUE = 1234;
     private static final String KEY = "key";
 
@@ -88,6 +87,14 @@ class ReportTest extends SerializableTest<Report> {
     static void beforeAll() {
         SLF4JBridgeHandler.removeHandlersForRootLogger();
         SLF4JBridgeHandler.install();
+    }
+
+    static Issue build(final Consumer<IssueBuilder> configuration) {
+        try (var issueBuilder = new IssueBuilder()) {
+            configuration.accept(issueBuilder);
+
+            return issueBuilder.build();
+        }
     }
 
     @Test
@@ -986,13 +993,20 @@ class ReportTest extends SerializableTest<Report> {
         assertThat(aggregated.getNameOfOrigin(CHECKSTYLE_ID)).isEqualTo(CHECKSTYLE_NAME);
         assertThat(aggregated.getNameOfOrigin(SPOTBUGS_ID)).isEqualTo(SPOTBUGS_NAME);
 
-        assertThat(aggregated.getInfoMessages()).contains(
+        verifyAggregation(aggregated);
+
+        var copy = aggregated.copy();
+        verifyAggregation(copy);
+    }
+
+    private void verifyAggregation(final Report aggregated) {
+        assertThat(aggregated.getInfoMessages()).containsOnlyOnce(
                 "Info message from CheckStyle",
                 "Info message from SpotBugs",
                 "Info (Wrapped) message from CheckStyle",
                 "Info (Wrapped) message from SpotBugs",
                 "Info (Aggregated) message");
-        assertThat(aggregated.getErrorMessages()).contains(
+        assertThat(aggregated.getErrorMessages()).containsOnlyOnce(
                 "Error message from CheckStyle",
                 "Error message from SpotBugs",
                 "Error (Wrapped) message from CheckStyle",
@@ -1130,7 +1144,8 @@ class ReportTest extends SerializableTest<Report> {
                 .forClass(Report.class)
                 .withPrefabValues(Report.class, new Report("left", "Left"), new Report("right", "Right"))
                 .withPrefabValues(TreeString.class, TreeString.valueOf("One"), TreeString.valueOf("Two"))
-                .withPrefabValues(LineRangeList.class, new LineRangeList(new LineRange(2, 2)), new LineRangeList(new LineRange(1, 1)))
+                .withPrefabValues(LineRangeList.class, new LineRangeList(new LineRange(2, 2)),
+                        new LineRangeList(new LineRange(1, 1)))
                 .verify();
     }
 
