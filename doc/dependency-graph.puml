@@ -32,7 +32,7 @@ rectangle "Saxon-HE\n\n12.4" as net_sf_saxon_Saxon_HE_jar
 rectangle "xmlresolver\n\n5.2.2" as org_xmlresolver_xmlresolver_jar
 rectangle "xmlresolver\ndata\n5.2.2" as org_xmlresolver_xmlresolver_jar_data
 rectangle "bcel\n\n6.8.2" as org_apache_bcel_bcel_jar
-rectangle "pmd-core\n\n7.0.0" as net_sourceforge_pmd_pmd_core_jar
+rectangle "pmd-core\n\n7.1.0" as net_sourceforge_pmd_pmd_core_jar
 rectangle "slf4j-api\n\n2.0.13" as org_slf4j_slf4j_api_jar
 rectangle "jul-to-slf4j\n\n2.0.13" as org_slf4j_jul_to_slf4j_jar
 rectangle "antlr4-runtime\n\n4.9.3" as org_antlr_antlr4_runtime_jar
@@ -40,7 +40,7 @@ rectangle "checker-qual\n\n2.11.1" as org_checkerframework_checker_qual_jar
 rectangle "pcollections\n\n3.2.0" as org_pcollections_pcollections_jar
 rectangle "nice-xml-messages\n\n3.1" as com_github_oowekyala_ooxml_nice_xml_messages_jar
 rectangle "jcommander\n\n1.82" as com_beust_jcommander_jar
-rectangle "pmd-java\n\n7.0.0" as net_sourceforge_pmd_pmd_java_jar
+rectangle "pmd-java\n\n7.1.0" as net_sourceforge_pmd_pmd_java_jar
 rectangle "json\n\n20240303" as org_json_json_jar
 rectangle "json-smart\n\n2.5.1" as net_minidev_json_smart_jar
 rectangle "accessors-smart\n\n2.5.1" as net_minidev_accessors_smart_jar
@@ -83,7 +83,7 @@ edu_hm_hafner_analysis_model_jar -[#000000]-> org_apache_bcel_bcel_jar
 net_sourceforge_pmd_pmd_core_jar .[#ABABAB].> org_slf4j_slf4j_api_jar
 net_sourceforge_pmd_pmd_core_jar .[#FF0000].> org_slf4j_jul_to_slf4j_jar: 1.7.36
 net_sourceforge_pmd_pmd_core_jar -[#000000]-> org_antlr_antlr4_runtime_jar
-net_sourceforge_pmd_pmd_core_jar .[#FF0000].> net_sf_saxon_Saxon_HE_jar: 10.9
+net_sourceforge_pmd_pmd_core_jar .[#ABABAB].> net_sf_saxon_Saxon_HE_jar
 net_sourceforge_pmd_pmd_core_jar -[#000000]-> org_checkerframework_checker_qual_jar
 net_sourceforge_pmd_pmd_core_jar -[#000000]-> org_pcollections_pcollections_jar
 net_sourceforge_pmd_pmd_core_jar -[#000000]-> com_github_oowekyala_ooxml_nice_xml_messages_jar
@@ -91,7 +91,7 @@ edu_hm_hafner_analysis_model_jar -[#000000]-> net_sourceforge_pmd_pmd_core_jar
 edu_hm_hafner_analysis_model_jar -[#000000]-> com_beust_jcommander_jar
 net_sourceforge_pmd_pmd_java_jar .[#ABABAB].> net_sourceforge_pmd_pmd_core_jar
 net_sourceforge_pmd_pmd_java_jar .[#ABABAB].> org_checkerframework_checker_qual_jar
-net_sourceforge_pmd_pmd_java_jar .[#FF0000].> net_sf_saxon_Saxon_HE_jar: 10.9
+net_sourceforge_pmd_pmd_java_jar .[#ABABAB].> net_sf_saxon_Saxon_HE_jar
 net_sourceforge_pmd_pmd_java_jar .[#ABABAB].> org_pcollections_pcollections_jar
 edu_hm_hafner_analysis_model_jar -[#000000]-> net_sourceforge_pmd_pmd_java_jar
 edu_hm_hafner_analysis_model_jar -[#000000]-> org_json_json_jar
