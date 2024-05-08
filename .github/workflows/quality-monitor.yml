@@ -25,7 +25,7 @@ jobs:
       - name: Build with Maven
         env:
           BROWSER: chrome-container
-        run: mvn -V --color always -ntp clean verify -Ppit -Pci | tee maven.log
+        run: mvn -V --color always -ntp clean verify -Pci | tee maven.log
       - name: Extract pull request number
         uses: jwalton/gh-find-current-pr@v1
         id: pr
@@ -34,3 +34,65 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           pr-number: ${{ steps.pr.outputs.number }}
+          config: >
+            {
+            "tests": {
+              "tools": [
+                {
+                  "id": "test",
+                  "name": "Tests",
+                  "pattern": "**/target/*-reports/TEST*.xml"
+                }
+              ],
+              "name": "Tests"
+            },
+            "analysis": [
+              {
+                "name": "Style",
+                "id": "style",
+                "tools": [
+                  {
+                    "id": "checkstyle",
+                    "pattern": "**/target/checkstyle-*/checkstyle-result.xml"
+                  },
+                  {
+                    "id": "pmd",
+                    "pattern": "**/target/pmd-*/pmd.xml"
+                  }
+                ]
+              },
+              {
+                "name": "Bugs",
+                "id": "bugs",
+                "icon": "bug",
+                "tools": [
+                  {
+                    "id": "spotbugs",
+                    "sourcePath": "src/main/java",
+                    "pattern": "**/target/spotbugsXml.xml"
+                  }
+                ]
+              }
+            ],
+            "coverage": [
+              {
+                "name": "Code Coverage",
+                "tools": [
+                  {
+                    "id": "jacoco",
+                    "name": "Line Coverage",
+                    "metric": "line",
+                    "sourcePath": "src/main/java",
+                    "pattern": "**/target/site/jacoco/jacoco.xml"
+                  },
+                  {
+                    "id": "jacoco",
+                    "name": "Branch Coverage",
+                    "metric": "branch",
+                    "sourcePath": "src/main/java",
+                    "pattern": "**/target/site/jacoco/jacoco.xml"
+                  }
+                ]
+              }
+             ]
+            }
