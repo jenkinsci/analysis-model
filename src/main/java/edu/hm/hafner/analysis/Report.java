@@ -414,8 +414,8 @@ public class Report implements Iterable<Issue>, Serializable {
 
     private Optional<Issue> removeIfContained(final UUID issueId) {
         Optional<Issue> issue = find(issueId);
-        issue.ifPresent(value -> elements.remove(value));
         if (issue.isPresent()) {
+            elements.remove(issue.get());
             return issue;
         }
 
