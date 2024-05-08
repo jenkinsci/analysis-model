@@ -25,7 +25,7 @@ jobs:
       - name: Build with Maven
         env:
           BROWSER: chrome-container
-        run: mvn -V --color always -ntp clean verify | tee maven.log
+        run: mvn -V --color always -ntp clean verify -Pci | tee maven.log
       - name: Extract pull request number
         uses: jwalton/gh-find-current-pr@v1
         id: pr
@@ -53,12 +53,10 @@ jobs:
                 "tools": [
                   {
                     "id": "checkstyle",
-                    "name": "CheckStyle",
                     "pattern": "**/target/checkstyle-*/checkstyle-result.xml"
                   },
                   {
                     "id": "pmd",
-                    "name": "PMD",
                     "pattern": "**/target/pmd-*/pmd.xml"
                   }
                 ]
@@ -70,7 +68,6 @@ jobs:
                 "tools": [
                   {
                     "id": "spotbugs",
-                    "name": "SpotBugs",
                     "sourcePath": "src/main/java",
                     "pattern": "**/target/spotbugsXml.xml"
                   }
@@ -99,4 +96,3 @@ jobs:
               }
              ]
             }
-
