@@ -23,7 +23,7 @@ rectangle "xml-apis\n\n1.4.01" as xml_apis_xml_apis_jar
 rectangle "asm\n\n9.7" as org_ow2_asm_asm_jar
 rectangle "asm-analysis\n\n9.7" as org_ow2_asm_asm_analysis_jar
 rectangle "asm-tree\n\n9.7" as org_ow2_asm_asm_tree_jar
-rectangle "spotbugs\n\n4.8.4" as com_github_spotbugs_spotbugs_jar
+rectangle "spotbugs\n\n4.8.5" as com_github_spotbugs_spotbugs_jar
 rectangle "asm-commons\n\n9.7" as org_ow2_asm_asm_commons_jar
 rectangle "asm-util\n\n9.7" as org_ow2_asm_asm_util_jar
 rectangle "jcip-annotations\n\n1.0-1" as com_github_stephenc_jcip_jcip_annotations_jar
