@@ -37,14 +37,14 @@ jobs:
           config: >
             {
             "tests": {
+              "name": "Tests",
               "tools": [
                 {
                   "id": "test",
                   "name": "Tests",
                   "pattern": "**/target/*-reports/TEST*.xml"
                 }
-              ],
-              "name": "Tests"
+              ]
             },
             "analysis": [
               {
