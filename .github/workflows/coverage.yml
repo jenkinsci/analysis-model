@@ -26,7 +26,7 @@ jobs:
         with:
           maven-version: 3.9.6
       - name: Generate coverage with JaCoCo
-        run: mvn -V --color always -ntp clean verify -Dgpg.skip -Pci
+        run: mvn -V --color always -ntp clean verify -Pci
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4.4.0
         with:
