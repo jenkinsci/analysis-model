@@ -11,7 +11,7 @@ rectangle "jsoup\n\n1.17.2" as org_jsoup_jsoup_jar
 rectangle "commons-io\n\n2.16.1" as commons_io_commons_io_jar
 rectangle "commons-digester3\n\n3.2" as org_apache_commons_commons_digester3_jar
 rectangle "cglib\n\n2.2.2" as cglib_cglib_jar
-rectangle "commons-logging\n\n1.3.1" as commons_logging_commons_logging_jar
+rectangle "commons-logging\n\n1.3.2" as commons_logging_commons_logging_jar
 rectangle "commons-beanutils\n\n1.9.4" as commons_beanutils_commons_beanutils_jar
 rectangle "commons-collections\n\n3.2.2" as commons_collections_commons_collections_jar
 rectangle "commons-text\n\n1.12.0" as org_apache_commons_commons_text_jar
