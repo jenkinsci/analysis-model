@@ -23,7 +23,7 @@ rectangle "xml-apis\n\n1.4.01" as xml_apis_xml_apis_jar
 rectangle "asm\n\n9.7" as org_ow2_asm_asm_jar
 rectangle "asm-analysis\n\n9.7" as org_ow2_asm_asm_analysis_jar
 rectangle "asm-tree\n\n9.7" as org_ow2_asm_asm_tree_jar
-rectangle "spotbugs\n\n4.8.5" as com_github_spotbugs_spotbugs_jar
+rectangle "spotbugs\n\n4.8.6" as com_github_spotbugs_spotbugs_jar
 rectangle "asm-commons\n\n9.7" as org_ow2_asm_asm_commons_jar
 rectangle "asm-util\n\n9.7" as org_ow2_asm_asm_util_jar
 rectangle "jcip-annotations\n\n1.0-1" as com_github_stephenc_jcip_jcip_annotations_jar
@@ -46,7 +46,7 @@ rectangle "json-smart\n\n2.5.1" as net_minidev_json_smart_jar
 rectangle "accessors-smart\n\n2.5.1" as net_minidev_accessors_smart_jar
 rectangle "codingstyle\n\n4.10.0" as edu_hm_hafner_codingstyle_jar
 rectangle "spotbugs-annotations\n\n4.8.5" as com_github_spotbugs_spotbugs_annotations_jar
-rectangle "error_prone_annotations\n\n2.27.1" as com_google_errorprone_error_prone_annotations_jar
+rectangle "error_prone_annotations\n\n2.28.0" as com_google_errorprone_error_prone_annotations_jar
 rectangle "commons-lang3\n\n3.14.0" as org_apache_commons_commons_lang3_jar
 rectangle "streamex\n\n0.8.2" as one_util_streamex_jar
 edu_hm_hafner_analysis_model_jar -[#000000]-> org_jsoup_jsoup_jar
@@ -74,7 +74,7 @@ org_ow2_asm_asm_util_jar .[#ABABAB].> org_ow2_asm_asm_analysis_jar
 com_github_spotbugs_spotbugs_jar -[#000000]-> org_ow2_asm_asm_util_jar
 com_github_spotbugs_spotbugs_jar -[#000000]-> com_github_stephenc_jcip_jcip_annotations_jar
 com_github_spotbugs_spotbugs_jar -[#000000]-> org_dom4j_dom4j_jar
-com_github_spotbugs_spotbugs_jar .[#ABABAB].> com_google_code_gson_gson_jar
+com_github_spotbugs_spotbugs_jar .[#FF0000].> com_google_code_gson_gson_jar: 2.11.0
 net_sf_saxon_Saxon_HE_jar -[#000000]-> org_xmlresolver_xmlresolver_jar
 net_sf_saxon_Saxon_HE_jar -[#000000]-> org_xmlresolver_xmlresolver_jar_data
 com_github_spotbugs_spotbugs_jar -[#000000]-> net_sf_saxon_Saxon_HE_jar
