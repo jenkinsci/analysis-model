@@ -1,0 +1,2468 @@
+{
+  "lints": [
+    {
+      "filename": "_example/proto/invalidFileName.proto",
+      "line": 1,
+      "column": 1,
+      "message": "File name \"invalidFileName.proto\" should be lower_snake_case.proto like \"invalid_file_name.proto\".",
+      "rule": "FILE_NAMES_LOWER_SNAKE_CASE"
+    },
+    {
+      "filename": "_example/proto/issue_111/multipleFixersApplicable.proto",
+      "line": 1,
+      "column": 1,
+      "message": "File name \"multipleFixersApplicable.proto\" should be lower_snake_case.proto like \"multiple_fixers_applicable.proto\".",
+      "rule": "FILE_NAMES_LOWER_SNAKE_CASE"
+    },
+    {
+      "filename": "_example/proto/issue_111/multipleFixersApplicable.proto",
+      "line": 3,
+      "column": 5,
+      "message": "Found an incorrect indentation style \"    \". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_111/multipleFixersApplicable.proto",
+      "line": 4,
+      "column": 9,
+      "message": "Found an incorrect indentation style \"        \". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_111/multipleFixersApplicable.proto",
+      "line": 5,
+      "column": 5,
+      "message": "Found an incorrect indentation style \"    \". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_111/multipleFixersApplicable.proto",
+      "line": 6,
+      "column": 9,
+      "message": "Found an incorrect indentation style \"        \". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_111/multipleFixersApplicable.proto",
+      "line": 10,
+      "column": 5,
+      "message": "Found an incorrect indentation style \"    \". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_111/multipleFixersApplicable.proto",
+      "line": 11,
+      "column": 5,
+      "message": "Found an incorrect indentation style \"    \". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_111/multipleFixersApplicable.proto",
+      "line": 12,
+      "column": 5,
+      "message": "Found an incorrect indentation style \"    \". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_111/multipleFixersApplicable.proto",
+      "line": 13,
+      "column": 5,
+      "message": "Found an incorrect indentation style \"    \". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_111/multipleFixersApplicable.proto",
+      "line": 3,
+      "column": 5,
+      "message": "EnumField name \"UNKNOWN\" should have the prefix \"ENUM_ALLOWING_ALIAS\"",
+      "rule": "ENUM_FIELD_NAMES_PREFIX"
+    },
+    {
+      "filename": "_example/proto/issue_111/multipleFixersApplicable.proto",
+      "line": 5,
+      "column": 5,
+      "message": "EnumField name \"STARTED\" should have the prefix \"ENUM_ALLOWING_ALIAS\"",
+      "rule": "ENUM_FIELD_NAMES_PREFIX"
+    },
+    {
+      "filename": "_example/proto/issue_111/multipleFixersApplicable.proto",
+      "line": 6,
+      "column": 9,
+      "message": "EnumField name \"RUNNING\" should have the prefix \"ENUM_ALLOWING_ALIAS\"",
+      "rule": "ENUM_FIELD_NAMES_PREFIX"
+    },
+    {
+      "filename": "_example/proto/issue_111/multipleFixersApplicable.proto",
+      "line": 10,
+      "column": 5,
+      "message": "EnumField name \"UNKNOWN\" should have the prefix \"ENUM_ALLOWING_ALIAS_2\"",
+      "rule": "ENUM_FIELD_NAMES_PREFIX"
+    },
+    {
+      "filename": "_example/proto/issue_111/multipleFixersApplicable.proto",
+      "line": 12,
+      "column": 5,
+      "message": "EnumField name \"STARTED\" should have the prefix \"ENUM_ALLOWING_ALIAS_2\"",
+      "rule": "ENUM_FIELD_NAMES_PREFIX"
+    },
+    {
+      "filename": "_example/proto/issue_111/multipleFixersApplicable.proto",
+      "line": 13,
+      "column": 5,
+      "message": "EnumField name \"RUNNING\" should have the prefix \"ENUM_ALLOWING_ALIAS_2\"",
+      "rule": "ENUM_FIELD_NAMES_PREFIX"
+    },
+    {
+      "filename": "_example/proto/issue_111/multipleFixersApplicable.proto",
+      "line": 3,
+      "column": 5,
+      "message": "EnumField name \"UNKNOWN\" with zero value should have the suffix \"UNSPECIFIED\"",
+      "rule": "ENUM_FIELD_NAMES_ZERO_VALUE_END_WITH"
+    },
+    {
+      "filename": "_example/proto/issue_111/multipleFixersApplicable.proto",
+      "line": 10,
+      "column": 5,
+      "message": "EnumField name \"UNKNOWN\" with zero value should have the suffix \"UNSPECIFIED\"",
+      "rule": "ENUM_FIELD_NAMES_ZERO_VALUE_END_WITH"
+    },
+    {
+      "filename": "_example/proto/issue_111/multipleFixersApplicable.proto",
+      "line": 2,
+      "column": 1,
+      "message": "Enum name \"enumAllowingAlias\" must be UpperCamelCase like \"EnumAllowingAlias\"",
+      "rule": "ENUM_NAMES_UPPER_CAMEL_CASE"
+    },
+    {
+      "filename": "_example/proto/issue_111/multipleFixersApplicable.proto",
+      "line": 9,
+      "column": 1,
+      "message": "Enum name \"enumAllowingAlias2\" must be UpperCamelCase like \"EnumAllowingAlias2\"",
+      "rule": "ENUM_NAMES_UPPER_CAMEL_CASE"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 1,
+      "column": 1,
+      "message": "File name \"grpc-gateway_a_bit_of_everything.proto\" should be lower_snake_case.proto like \"grpc_gateway_a_bit_of_everything.proto\".",
+      "rule": "FILE_NAMES_LOWER_SNAKE_CASE"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 3,
+      "column": 1,
+      "message": "The order of Package is invalid. Check if the file is ordered in the correct manner.",
+      "rule": "ORDER"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 187,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 201,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 200,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 202,
+      "column": 3,
+      "message": "Found an incorrect indentation style \"\t\t\". \"    \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 206,
+      "column": 3,
+      "message": "Found an incorrect indentation style \"\t\t\". \"    \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 205,
+      "column": 3,
+      "message": "Found an incorrect indentation style \"\t\t\". \"    \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 207,
+      "column": 3,
+      "message": "Found an incorrect indentation style \"\t\t\". \"    \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 209,
+      "column": 3,
+      "message": "Found an incorrect indentation style \"\t\t\". \"    \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 208,
+      "column": 3,
+      "message": "Found an incorrect indentation style \"\t\t\". \"    \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 211,
+      "column": 4,
+      "message": "Found an incorrect indentation style \"\t\t\t\". \"      \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 210,
+      "column": 4,
+      "message": "Found an incorrect indentation style \"\t\t\t\". \"      \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 213,
+      "column": 4,
+      "message": "Found an incorrect indentation style \"\t\t\t\". \"      \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 212,
+      "column": 4,
+      "message": "Found an incorrect indentation style \"\t\t\t\". \"      \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 214,
+      "column": 3,
+      "message": "Found an incorrect indentation style \"\t\t\". \"    \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 217,
+      "column": 3,
+      "message": "Found an incorrect indentation style \"\t\t\". \"    \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 216,
+      "column": 3,
+      "message": "Found an incorrect indentation style \"\t\t\". \"    \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 218,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 219,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 221,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 222,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 223,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 224,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 225,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 226,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 227,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 228,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 229,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 230,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 231,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 232,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 233,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 234,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 235,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 236,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 237,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 238,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 239,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 240,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 241,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 242,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 243,
+      "column": 3,
+      "message": "Found an incorrect indentation style \"\t\t\". \"    \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 244,
+      "column": 3,
+      "message": "Found an incorrect indentation style \"\t\t\". \"    \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 245,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 247,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 248,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 249,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 251,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 253,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 256,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 255,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 259,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 258,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 262,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 261,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 265,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 264,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 268,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 267,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 271,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 270,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 273,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 278,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 283,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 282,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 284,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 285,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 286,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 287,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 288,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 289,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 290,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 291,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 292,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 293,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 294,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 295,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 296,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 297,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 298,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 302,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 306,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 307,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 314,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 313,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 316,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 315,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 321,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 322,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 329,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 340,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 337,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 338,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 339,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 341,
+      "column": 3,
+      "message": "Found an incorrect indentation style \"\t\t\". \"    \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 344,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 345,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 346,
+      "column": 3,
+      "message": "Found an incorrect indentation style \"\t\t\". \"    \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 350,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 351,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 352,
+      "column": 3,
+      "message": "Found an incorrect indentation style \"\t\t\". \"    \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 355,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 356,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 357,
+      "column": 3,
+      "message": "Found an incorrect indentation style \"\t\t\". \"    \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 361,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 362,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 363,
+      "column": 3,
+      "message": "Found an incorrect indentation style \"\t\t\". \"    \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 377,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 379,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 380,
+      "column": 3,
+      "message": "Found an incorrect indentation style \"\t\t\". \"    \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 383,
+      "column": 3,
+      "message": "Found an incorrect indentation style \"\t\t\". \"    \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 404,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 405,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 406,
+      "column": 3,
+      "message": "Found an incorrect indentation style \"\t\t\". \"    \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 409,
+      "column": 3,
+      "message": "Found an incorrect indentation style \"\t\t\". \"    \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 418,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 419,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 420,
+      "column": 3,
+      "message": "Found an incorrect indentation style \"\t\t\". \"    \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 423,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 431,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 424,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 425,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 426,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 427,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 428,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 429,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 430,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 432,
+      "column": 3,
+      "message": "Found an incorrect indentation style \"\t\t\". \"    \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 442,
+      "column": 3,
+      "message": "Found an incorrect indentation style \"\t\t\". \"    \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 484,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 485,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 486,
+      "column": 3,
+      "message": "Found an incorrect indentation style \"\t\t\". \"    \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 490,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 491,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 492,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 493,
+      "column": 3,
+      "message": "Found an incorrect indentation style \"\t\t\". \"    \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 496,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 497,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 498,
+      "column": 3,
+      "message": "Found an incorrect indentation style \"\t\t\". \"    \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 501,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 502,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 503,
+      "column": 3,
+      "message": "Found an incorrect indentation style \"\t\t\". \"    \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 507,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 508,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 509,
+      "column": 3,
+      "message": "Found an incorrect indentation style \"\t\t\". \"    \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 513,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 514,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 515,
+      "column": 3,
+      "message": "Found an incorrect indentation style \"\t\t\". \"    \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 518,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 519,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 520,
+      "column": 3,
+      "message": "Found an incorrect indentation style \"\t\t\". \"    \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 523,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 524,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 525,
+      "column": 3,
+      "message": "Found an incorrect indentation style \"\t\t\". \"    \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 529,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 530,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 531,
+      "column": 3,
+      "message": "Found an incorrect indentation style \"\t\t\". \"    \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 534,
+      "column": 3,
+      "message": "Found an incorrect indentation style \"\t\t\". \"    \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 537,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 542,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 543,
+      "column": 3,
+      "message": "Found an incorrect indentation style \"\t\t\". \"    \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 546,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 549,
+      "column": 2,
+      "message": "Found an incorrect indentation style \"\t\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 27,
+      "column": 1,
+      "message": "The line length is 90, but it must be shorter than 80",
+      "rule": "MAX_LINE_LENGTH"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 106,
+      "column": 1,
+      "message": "The line length is 92, but it must be shorter than 80",
+      "rule": "MAX_LINE_LENGTH"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 138,
+      "column": 1,
+      "message": "The line length is 99, but it must be shorter than 80",
+      "rule": "MAX_LINE_LENGTH"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 158,
+      "column": 1,
+      "message": "The line length is 81, but it must be shorter than 80",
+      "rule": "MAX_LINE_LENGTH"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 190,
+      "column": 1,
+      "message": "The line length is 100, but it must be shorter than 80",
+      "rule": "MAX_LINE_LENGTH"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 217,
+      "column": 1,
+      "message": "The line length is 125, but it must be shorter than 80",
+      "rule": "MAX_LINE_LENGTH"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 221,
+      "column": 1,
+      "message": "The line length is 186, but it must be shorter than 80",
+      "rule": "MAX_LINE_LENGTH"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 223,
+      "column": 1,
+      "message": "The line length is 166, but it must be shorter than 80",
+      "rule": "MAX_LINE_LENGTH"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 258,
+      "column": 1,
+      "message": "The line length is 89, but it must be shorter than 80",
+      "rule": "MAX_LINE_LENGTH"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 259,
+      "column": 1,
+      "message": "The line length is 207, but it must be shorter than 80",
+      "rule": "MAX_LINE_LENGTH"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 262,
+      "column": 1,
+      "message": "The line length is 177, but it must be shorter than 80",
+      "rule": "MAX_LINE_LENGTH"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 264,
+      "column": 1,
+      "message": "The line length is 83, but it must be shorter than 80",
+      "rule": "MAX_LINE_LENGTH"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 265,
+      "column": 1,
+      "message": "The line length is 192, but it must be shorter than 80",
+      "rule": "MAX_LINE_LENGTH"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 267,
+      "column": 1,
+      "message": "The line length is 90, but it must be shorter than 80",
+      "rule": "MAX_LINE_LENGTH"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 268,
+      "column": 1,
+      "message": "The line length is 206, but it must be shorter than 80",
+      "rule": "MAX_LINE_LENGTH"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 270,
+      "column": 1,
+      "message": "The line length is 82, but it must be shorter than 80",
+      "rule": "MAX_LINE_LENGTH"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 271,
+      "column": 1,
+      "message": "The line length is 170, but it must be shorter than 80",
+      "rule": "MAX_LINE_LENGTH"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 273,
+      "column": 1,
+      "message": "The line length is 113, but it must be shorter than 80",
+      "rule": "MAX_LINE_LENGTH"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 276,
+      "column": 1,
+      "message": "The line length is 85, but it must be shorter than 80",
+      "rule": "MAX_LINE_LENGTH"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 279,
+      "column": 1,
+      "message": "The line length is 127, but it must be shorter than 80",
+      "rule": "MAX_LINE_LENGTH"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 330,
+      "column": 1,
+      "message": "The line length is 125, but it must be shorter than 80",
+      "rule": "MAX_LINE_LENGTH"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 342,
+      "column": 1,
+      "message": "The line length is 391, but it must be shorter than 80",
+      "rule": "MAX_LINE_LENGTH"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 419,
+      "column": 1,
+      "message": "The line length is 87, but it must be shorter than 80",
+      "rule": "MAX_LINE_LENGTH"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 421,
+      "column": 1,
+      "message": "The line length is 521, but it must be shorter than 80",
+      "rule": "MAX_LINE_LENGTH"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 431,
+      "column": 1,
+      "message": "The line length is 123, but it must be shorter than 80",
+      "rule": "MAX_LINE_LENGTH"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 462,
+      "column": 1,
+      "message": "The line length is 90, but it must be shorter than 80",
+      "rule": "MAX_LINE_LENGTH"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 497,
+      "column": 1,
+      "message": "The line length is 81, but it must be shorter than 80",
+      "rule": "MAX_LINE_LENGTH"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 516,
+      "column": 1,
+      "message": "The line length is 82, but it must be shorter than 80",
+      "rule": "MAX_LINE_LENGTH"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 519,
+      "column": 1,
+      "message": "The line length is 84, but it must be shorter than 80",
+      "rule": "MAX_LINE_LENGTH"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 521,
+      "column": 1,
+      "message": "The line length is 92, but it must be shorter than 80",
+      "rule": "MAX_LINE_LENGTH"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 530,
+      "column": 1,
+      "message": "The line length is 99, but it must be shorter than 80",
+      "rule": "MAX_LINE_LENGTH"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 540,
+      "column": 1,
+      "message": "The line length is 94, but it must be shorter than 80",
+      "rule": "MAX_LINE_LENGTH"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 5,
+      "column": 1,
+      "message": "Imports are not sorted.",
+      "rule": "IMPORTS_SORTED"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 6,
+      "column": 1,
+      "message": "Imports are not sorted.",
+      "rule": "IMPORTS_SORTED"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 7,
+      "column": 1,
+      "message": "Imports are not sorted.",
+      "rule": "IMPORTS_SORTED"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 8,
+      "column": 1,
+      "message": "Imports are not sorted.",
+      "rule": "IMPORTS_SORTED"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 9,
+      "column": 1,
+      "message": "Imports are not sorted.",
+      "rule": "IMPORTS_SORTED"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 10,
+      "column": 1,
+      "message": "Imports are not sorted.",
+      "rule": "IMPORTS_SORTED"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 11,
+      "column": 1,
+      "message": "Imports are not sorted.",
+      "rule": "IMPORTS_SORTED"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 12,
+      "column": 1,
+      "message": "Imports are not sorted.",
+      "rule": "IMPORTS_SORTED"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 13,
+      "column": 1,
+      "message": "Imports are not sorted.",
+      "rule": "IMPORTS_SORTED"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 211,
+      "column": 4,
+      "message": "EnumField name \"FALSE\" should have the prefix \"DEEP_ENUM\"",
+      "rule": "ENUM_FIELD_NAMES_PREFIX"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 213,
+      "column": 4,
+      "message": "EnumField name \"TRUE\" should have the prefix \"DEEP_ENUM\"",
+      "rule": "ENUM_FIELD_NAMES_PREFIX"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 314,
+      "column": 2,
+      "message": "EnumField name \"ZERO\" should have the prefix \"NUMERIC_ENUM\"",
+      "rule": "ENUM_FIELD_NAMES_PREFIX"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 316,
+      "column": 2,
+      "message": "EnumField name \"ONE\" should have the prefix \"NUMERIC_ENUM\"",
+      "rule": "ENUM_FIELD_NAMES_PREFIX"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 211,
+      "column": 4,
+      "message": "EnumField name \"FALSE\" with zero value should have the suffix \"UNSPECIFIED\"",
+      "rule": "ENUM_FIELD_NAMES_ZERO_VALUE_END_WITH"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 314,
+      "column": 2,
+      "message": "EnumField name \"ZERO\" with zero value should have the suffix \"UNSPECIFIED\"",
+      "rule": "ENUM_FIELD_NAMES_ZERO_VALUE_END_WITH"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 251,
+      "column": 2,
+      "message": "Field name \"nonConventionalNameValue\" must be underscore_separated_names like \"non_conventional_name_value\"",
+      "rule": "FIELD_NAMES_LOWER_SNAKE_CASE"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 222,
+      "column": 2,
+      "message": "Repeated field name \"nested\" must be pluralized name \"nesteds\"",
+      "rule": "REPEATED_FIELD_NAMES_PLURALIZED"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 241,
+      "column": 2,
+      "message": "Repeated field name \"repeated_string_value\" must be pluralized name \"repeated_string_values\"",
+      "rule": "REPEATED_FIELD_NAMES_PLURALIZED"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 256,
+      "column": 2,
+      "message": "Repeated field name \"repeated_enum_value\" must be pluralized name \"repeated_enum_values\"",
+      "rule": "REPEATED_FIELD_NAMES_PLURALIZED"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 259,
+      "column": 2,
+      "message": "Repeated field name \"repeated_enum_annotation\" must be pluralized name \"repeated_enum_annotations\"",
+      "rule": "REPEATED_FIELD_NAMES_PLURALIZED"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 265,
+      "column": 2,
+      "message": "Repeated field name \"repeated_string_annotation\" must be pluralized name \"repeated_string_annotations\"",
+      "rule": "REPEATED_FIELD_NAMES_PLURALIZED"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 268,
+      "column": 2,
+      "message": "Repeated field name \"repeated_nested_annotation\" must be pluralized name \"repeated_nested_annotations\"",
+      "rule": "REPEATED_FIELD_NAMES_PLURALIZED"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 283,
+      "column": 2,
+      "message": "Repeated field name \"path_repeated_float_value\" must be pluralized name \"path_repeated_float_values\"",
+      "rule": "REPEATED_FIELD_NAMES_PLURALIZED"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 284,
+      "column": 2,
+      "message": "Repeated field name \"path_repeated_double_value\" must be pluralized name \"path_repeated_double_values\"",
+      "rule": "REPEATED_FIELD_NAMES_PLURALIZED"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 285,
+      "column": 2,
+      "message": "Repeated field name \"path_repeated_int64_value\" must be pluralized name \"path_repeated_int64_values\"",
+      "rule": "REPEATED_FIELD_NAMES_PLURALIZED"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 286,
+      "column": 2,
+      "message": "Repeated field name \"path_repeated_uint64_value\" must be pluralized name \"path_repeated_uint64_values\"",
+      "rule": "REPEATED_FIELD_NAMES_PLURALIZED"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 287,
+      "column": 2,
+      "message": "Repeated field name \"path_repeated_int32_value\" must be pluralized name \"path_repeated_int32_values\"",
+      "rule": "REPEATED_FIELD_NAMES_PLURALIZED"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 288,
+      "column": 2,
+      "message": "Repeated field name \"path_repeated_fixed64_value\" must be pluralized name \"path_repeated_fixed64_values\"",
+      "rule": "REPEATED_FIELD_NAMES_PLURALIZED"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 289,
+      "column": 2,
+      "message": "Repeated field name \"path_repeated_fixed32_value\" must be pluralized name \"path_repeated_fixed32_values\"",
+      "rule": "REPEATED_FIELD_NAMES_PLURALIZED"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 290,
+      "column": 2,
+      "message": "Repeated field name \"path_repeated_bool_value\" must be pluralized name \"path_repeated_bool_values\"",
+      "rule": "REPEATED_FIELD_NAMES_PLURALIZED"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 291,
+      "column": 2,
+      "message": "Repeated field name \"path_repeated_string_value\" must be pluralized name \"path_repeated_string_values\"",
+      "rule": "REPEATED_FIELD_NAMES_PLURALIZED"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 292,
+      "column": 2,
+      "message": "Repeated field name \"path_repeated_bytes_value\" must be pluralized name \"path_repeated_bytes_values\"",
+      "rule": "REPEATED_FIELD_NAMES_PLURALIZED"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 293,
+      "column": 2,
+      "message": "Repeated field name \"path_repeated_uint32_value\" must be pluralized name \"path_repeated_uint32_values\"",
+      "rule": "REPEATED_FIELD_NAMES_PLURALIZED"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 294,
+      "column": 2,
+      "message": "Repeated field name \"path_repeated_enum_value\" must be pluralized name \"path_repeated_enum_values\"",
+      "rule": "REPEATED_FIELD_NAMES_PLURALIZED"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 295,
+      "column": 2,
+      "message": "Repeated field name \"path_repeated_sfixed32_value\" must be pluralized name \"path_repeated_sfixed32_values\"",
+      "rule": "REPEATED_FIELD_NAMES_PLURALIZED"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 296,
+      "column": 2,
+      "message": "Repeated field name \"path_repeated_sfixed64_value\" must be pluralized name \"path_repeated_sfixed64_values\"",
+      "rule": "REPEATED_FIELD_NAMES_PLURALIZED"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 297,
+      "column": 2,
+      "message": "Repeated field name \"path_repeated_sint32_value\" must be pluralized name \"path_repeated_sint32_values\"",
+      "rule": "REPEATED_FIELD_NAMES_PLURALIZED"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 298,
+      "column": 2,
+      "message": "Repeated field name \"path_repeated_sint64_value\" must be pluralized name \"path_repeated_sint64_values\"",
+      "rule": "REPEATED_FIELD_NAMES_PLURALIZED"
+    },
+    {
+      "filename": "_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto",
+      "line": 541,
+      "column": 1,
+      "message": "Service name \"camelCaseServiceName\" must be UpperCamelCase like \"CamelCaseServiceName\"",
+      "rule": "SERVICE_NAMES_UPPER_CAMEL_CASE"
+    },
+    {
+      "filename": "_example/proto/issue_140/negative_enum_field.proto",
+      "line": 4,
+      "column": 5,
+      "message": "Found an incorrect indentation style \"    \". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_140/negative_enum_field.proto",
+      "line": 5,
+      "column": 5,
+      "message": "Found an incorrect indentation style \"    \". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_140/negative_enum_field.proto",
+      "line": 6,
+      "column": 5,
+      "message": "Found an incorrect indentation style \"    \". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_140/negative_enum_field.proto",
+      "line": 4,
+      "column": 5,
+      "message": "EnumField name \"NEGATIVE_CONSTANT\" should have the prefix \"TEST_NEGATIVE_VALUE\"",
+      "rule": "ENUM_FIELD_NAMES_PREFIX"
+    },
+    {
+      "filename": "_example/proto/issue_140/negative_enum_field.proto",
+      "line": 5,
+      "column": 5,
+      "message": "EnumField name \"ZERO_CONSTANT\" should have the prefix \"TEST_NEGATIVE_VALUE\"",
+      "rule": "ENUM_FIELD_NAMES_PREFIX"
+    },
+    {
+      "filename": "_example/proto/issue_140/negative_enum_field.proto",
+      "line": 6,
+      "column": 5,
+      "message": "EnumField name \"POSITIVE_CONSTANT\" should have the prefix \"TEST_NEGATIVE_VALUE\"",
+      "rule": "ENUM_FIELD_NAMES_PREFIX"
+    },
+    {
+      "filename": "_example/proto/issue_140/negative_enum_field.proto",
+      "line": 5,
+      "column": 5,
+      "message": "EnumField name \"ZERO_CONSTANT\" with zero value should have the suffix \"UNSPECIFIED\"",
+      "rule": "ENUM_FIELD_NAMES_ZERO_VALUE_END_WITH"
+    },
+    {
+      "filename": "_example/proto/issue_292/trailingcomment.proto",
+      "line": 4,
+      "column": 1,
+      "message": "Found an incorrect indentation style \"\". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_292/trailingcomment.proto",
+      "line": 7,
+      "column": 4,
+      "message": "Found an incorrect indentation style \"   \". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_292/trailingcomment.proto",
+      "line": 3,
+      "column": 1,
+      "message": "Message name \"xyz\" must be UpperCamelCase like \"Xyz\"",
+      "rule": "MESSAGE_NAMES_UPPER_CAMEL_CASE"
+    },
+    {
+      "filename": "_example/proto/issue_292/trailingcomment2.proto",
+      "line": 4,
+      "column": 5,
+      "message": "Found an incorrect indentation style \"    \". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_292/trailingcomment2.proto",
+      "line": 5,
+      "column": 5,
+      "message": "Found an incorrect indentation style \"    \". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_292/trailingcomment2.proto",
+      "line": 9,
+      "column": 5,
+      "message": "Found an incorrect indentation style \"    \". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_292/trailingcomment2.proto",
+      "line": 10,
+      "column": 5,
+      "message": "Found an incorrect indentation style \"    \". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_292/trailingcomment2.proto",
+      "line": 11,
+      "column": 7,
+      "message": "Found an incorrect indentation style \"      \". \"    \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_292/trailingcomment2.proto",
+      "line": 12,
+      "column": 5,
+      "message": "Found an incorrect indentation style \"    \". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_292/trailingcomment2.proto",
+      "line": 13,
+      "column": 5,
+      "message": "Found an incorrect indentation style \"    \". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_292/trailingcomment2.proto",
+      "line": 17,
+      "column": 5,
+      "message": "Found an incorrect indentation style \"    \". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_292/trailingcomment2.proto",
+      "line": 17,
+      "column": 1,
+      "message": "The line length is 84, but it must be shorter than 80",
+      "rule": "MAX_LINE_LENGTH"
+    },
+    {
+      "filename": "_example/proto/issue_292/trailingcomment2.proto",
+      "line": 5,
+      "column": 5,
+      "message": "EnumField name \"UNKNOWN\" should have the prefix \"ENUM_ALLOWING_ALIAS\"",
+      "rule": "ENUM_FIELD_NAMES_PREFIX"
+    },
+    {
+      "filename": "_example/proto/issue_292/trailingcomment2.proto",
+      "line": 5,
+      "column": 5,
+      "message": "EnumField name \"UNKNOWN\" with zero value should have the suffix \"UNSPECIFIED\"",
+      "rule": "ENUM_FIELD_NAMES_ZERO_VALUE_END_WITH"
+    },
+    {
+      "filename": "_example/proto/issue_292/trailingcomment2.proto",
+      "line": 3,
+      "column": 1,
+      "message": "Enum name \"enumAllowingAlias\" must be UpperCamelCase like \"EnumAllowingAlias\"",
+      "rule": "ENUM_NAMES_UPPER_CAMEL_CASE"
+    },
+    {
+      "filename": "_example/proto/issue_292/trailingcomment2.proto",
+      "line": 13,
+      "column": 5,
+      "message": "Repeated field name \"inner_message\" must be pluralized name \"inner_messages\"",
+      "rule": "REPEATED_FIELD_NAMES_PLURALIZED"
+    },
+    {
+      "filename": "_example/proto/issue_292/trailingcomment2.proto",
+      "line": 8,
+      "column": 1,
+      "message": "Message name \"outer\" must be UpperCamelCase like \"Outer\"",
+      "rule": "MESSAGE_NAMES_UPPER_CAMEL_CASE"
+    },
+    {
+      "filename": "_example/proto/issue_292/trailingcomment2.proto",
+      "line": 10,
+      "column": 5,
+      "message": "Message name \"inner\" must be UpperCamelCase like \"Inner\"",
+      "rule": "MESSAGE_NAMES_UPPER_CAMEL_CASE"
+    },
+    {
+      "filename": "_example/proto/issue_292/trailingcomment2.proto",
+      "line": 17,
+      "column": 5,
+      "message": "RPC name \"search\" must be UpperCamelCase like \"Search\"",
+      "rule": "RPC_NAMES_UPPER_CAMEL_CASE"
+    },
+    {
+      "filename": "_example/proto/issue_368/disabled_rpc_names_upper_camel_case.proto",
+      "line": 4,
+      "column": 5,
+      "message": "Found an incorrect indentation style \"    \". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_368/disabled_rpc_names_upper_camel_case.proto",
+      "line": 5,
+      "column": 5,
+      "message": "Found an incorrect indentation style \"    \". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_368/disabled_rpc_names_upper_camel_case.proto",
+      "line": 6,
+      "column": 5,
+      "message": "Found an incorrect indentation style \"    \". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_368/disabled_rpc_names_upper_camel_case.proto",
+      "line": 8,
+      "column": 5,
+      "message": "Found an incorrect indentation style \"    \". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_368/disabled_rpc_names_upper_camel_case.proto",
+      "line": 4,
+      "column": 1,
+      "message": "The line length is 165, but it must be shorter than 80",
+      "rule": "MAX_LINE_LENGTH"
+    },
+    {
+      "filename": "_example/proto/issue_368/disabled_rpc_names_upper_camel_case.proto",
+      "line": 6,
+      "column": 1,
+      "message": "The line length is 139, but it must be shorter than 80",
+      "rule": "MAX_LINE_LENGTH"
+    },
+    {
+      "filename": "_example/proto/issue_368/invalid_rpc_names_upper_camel_case.proto",
+      "line": 4,
+      "column": 5,
+      "message": "Found an incorrect indentation style \"    \". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_368/invalid_rpc_names_upper_camel_case.proto",
+      "line": 5,
+      "column": 5,
+      "message": "Found an incorrect indentation style \"    \". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_368/invalid_rpc_names_upper_camel_case.proto",
+      "line": 6,
+      "column": 5,
+      "message": "Found an incorrect indentation style \"    \". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_368/invalid_rpc_names_upper_camel_case.proto",
+      "line": 8,
+      "column": 5,
+      "message": "Found an incorrect indentation style \"    \". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_368/invalid_rpc_names_upper_camel_case.proto",
+      "line": 4,
+      "column": 1,
+      "message": "The line length is 109, but it must be shorter than 80",
+      "rule": "MAX_LINE_LENGTH"
+    },
+    {
+      "filename": "_example/proto/issue_368/invalid_rpc_names_upper_camel_case.proto",
+      "line": 6,
+      "column": 1,
+      "message": "The line length is 86, but it must be shorter than 80",
+      "rule": "MAX_LINE_LENGTH"
+    },
+    {
+      "filename": "_example/proto/issue_368/invalid_rpc_names_upper_camel_case.proto",
+      "line": 4,
+      "column": 5,
+      "message": "RPC name \"findCurrentOrgSubscription\" must be UpperCamelCase like \"FindCurrentOrgSubscription\"",
+      "rule": "RPC_NAMES_UPPER_CAMEL_CASE"
+    },
+    {
+      "filename": "_example/proto/issue_368/invalid_rpc_names_upper_camel_case.proto",
+      "line": 6,
+      "column": 5,
+      "message": "RPC name \"findPartialPayEligibleSubscription\" must be UpperCamelCase like \"FindPartialPayEligibleSubscription\"",
+      "rule": "RPC_NAMES_UPPER_CAMEL_CASE"
+    },
+    {
+      "filename": "_example/proto/issue_88/oneof_options.proto",
+      "line": 11,
+      "column": 5,
+      "message": "Found an incorrect indentation style \"    \". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_88/oneof_options.proto",
+      "line": 12,
+      "column": 5,
+      "message": "Found an incorrect indentation style \"    \". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_88/oneof_options.proto",
+      "line": 16,
+      "column": 5,
+      "message": "Found an incorrect indentation style \"    \". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_88/oneof_options.proto",
+      "line": 18,
+      "column": 5,
+      "message": "Found an incorrect indentation style \"    \". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_88/oneof_options.proto",
+      "line": 19,
+      "column": 9,
+      "message": "Found an incorrect indentation style \"        \". \"    \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_88/oneof_options.proto",
+      "line": 20,
+      "column": 9,
+      "message": "Found an incorrect indentation style \"        \". \"    \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_88/oneof_options.proto",
+      "line": 21,
+      "column": 9,
+      "message": "Found an incorrect indentation style \"        \". \"    \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_88/oneof_options.proto",
+      "line": 22,
+      "column": 5,
+      "message": "Found an incorrect indentation style \"    \". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_88/oneof_options.proto",
+      "line": 24,
+      "column": 5,
+      "message": "Found an incorrect indentation style \"    \". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_88/oneof_options.proto",
+      "line": 26,
+      "column": 9,
+      "message": "Found an incorrect indentation style \"        \". \"    \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_88/oneof_options.proto",
+      "line": 27,
+      "column": 9,
+      "message": "Found an incorrect indentation style \"        \". \"    \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_88/oneof_options.proto",
+      "line": 28,
+      "column": 9,
+      "message": "Found an incorrect indentation style \"        \". \"    \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_88/oneof_options.proto",
+      "line": 29,
+      "column": 5,
+      "message": "Found an incorrect indentation style \"    \". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/issue_88/oneof_options.proto",
+      "line": 11,
+      "column": 5,
+      "message": "Field name \"Identifier\" must be underscore_separated_names like \"identifier\"",
+      "rule": "FIELD_NAMES_LOWER_SNAKE_CASE"
+    },
+    {
+      "filename": "_example/proto/issue_88/oneof_options.proto",
+      "line": 12,
+      "column": 5,
+      "message": "Field name \"SomeValue\" must be underscore_separated_names like \"some_value\"",
+      "rule": "FIELD_NAMES_LOWER_SNAKE_CASE"
+    },
+    {
+      "filename": "_example/proto/issue_88/oneof_options.proto",
+      "line": 16,
+      "column": 5,
+      "message": "Field name \"SomeInt\" must be underscore_separated_names like \"some_int\"",
+      "rule": "FIELD_NAMES_LOWER_SNAKE_CASE"
+    },
+    {
+      "filename": "_example/proto/simple.proto",
+      "line": 8,
+      "column": 1,
+      "message": "Quoted string should be \"other.proto\" but was 'other.proto'.",
+      "rule": "QUOTE_CONSISTENT"
+    },
+    {
+      "filename": "_example/proto/simple.proto",
+      "line": 8,
+      "column": 1,
+      "message": "The order of Import is invalid. Check if the file is ordered in the correct manner.",
+      "rule": "ORDER"
+    },
+    {
+      "filename": "_example/proto/simple.proto",
+      "line": 18,
+      "column": 5,
+      "message": "Found an incorrect indentation style \"    \". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/simple.proto",
+      "line": 19,
+      "column": 5,
+      "message": "Found an incorrect indentation style \"    \". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/simple.proto",
+      "line": 20,
+      "column": 5,
+      "message": "Found an incorrect indentation style \"    \". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/simple.proto",
+      "line": 21,
+      "column": 5,
+      "message": "Found an incorrect indentation style \"    \". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/simple.proto",
+      "line": 24,
+      "column": 5,
+      "message": "Found an incorrect indentation style \"    \". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/simple.proto",
+      "line": 26,
+      "column": 5,
+      "message": "Found an incorrect indentation style \"    \". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/simple.proto",
+      "line": 25,
+      "column": 5,
+      "message": "Found an incorrect indentation style \"    \". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/simple.proto",
+      "line": 27,
+      "column": 7,
+      "message": "Found an incorrect indentation style \"      \". \"    \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/simple.proto",
+      "line": 28,
+      "column": 5,
+      "message": "Found an incorrect indentation style \"    \". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/simple.proto",
+      "line": 29,
+      "column": 5,
+      "message": "Found an incorrect indentation style \"    \". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/simple.proto",
+      "line": 30,
+      "column": 5,
+      "message": "Found an incorrect indentation style \"    \". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/simple.proto",
+      "line": 31,
+      "column": 5,
+      "message": "Found an incorrect indentation style \"    \". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/simple.proto",
+      "line": 34,
+      "column": 5,
+      "message": "Found an incorrect indentation style \"    \". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/simple.proto",
+      "line": 34,
+      "column": 30,
+      "message": "Found a possible incorrect indentation style. Inserting a new line is recommended.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/simple.proto",
+      "line": 35,
+      "column": 32,
+      "message": "Found a possible incorrect indentation style. Inserting a new line is recommended.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/simple.proto",
+      "line": 47,
+      "column": 5,
+      "message": "Found an incorrect indentation style \"    \". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/simple.proto",
+      "line": 48,
+      "column": 5,
+      "message": "Found an incorrect indentation style \"    \". \"  \" is correct.",
+      "rule": "INDENT"
+    },
+    {
+      "filename": "_example/proto/simple.proto",
+      "line": 3,
+      "column": 1,
+      "message": "The line length is 91, but it must be shorter than 80",
+      "rule": "MAX_LINE_LENGTH"
+    },
+    {
+      "filename": "_example/proto/simple.proto",
+      "line": 4,
+      "column": 1,
+      "message": "Package name \"examplePb\" must not contain any uppercase letter. Consider to change like \"examplepb\".",
+      "rule": "PACKAGE_NAME_LOWER_CASE"
+    },
+    {
+      "filename": "_example/proto/simple.proto",
+      "line": 8,
+      "column": 1,
+      "message": "Imports are not sorted.",
+      "rule": "IMPORTS_SORTED"
+    },
+    {
+      "filename": "_example/proto/simple.proto",
+      "line": 9,
+      "column": 1,
+      "message": "Imports are not sorted.",
+      "rule": "IMPORTS_SORTED"
+    },
+    {
+      "filename": "_example/proto/simple.proto",
+      "line": 14,
+      "column": 1,
+      "message": "Imports are not sorted.",
+      "rule": "IMPORTS_SORTED"
+    },
+    {
+      "filename": "_example/proto/simple.proto",
+      "line": 15,
+      "column": 1,
+      "message": "Imports are not sorted.",
+      "rule": "IMPORTS_SORTED"
+    },
+    {
+      "filename": "_example/proto/simple.proto",
+      "line": 19,
+      "column": 5,
+      "message": "EnumField name \"UNKNOWN\" should have the prefix \"ENUM_ALLOWING_ALIAS\"",
+      "rule": "ENUM_FIELD_NAMES_PREFIX"
+    },
+    {
+      "filename": "_example/proto/simple.proto",
+      "line": 20,
+      "column": 5,
+      "message": "EnumField name \"STARTED\" should have the prefix \"ENUM_ALLOWING_ALIAS\"",
+      "rule": "ENUM_FIELD_NAMES_PREFIX"
+    },
+    {
+      "filename": "_example/proto/simple.proto",
+      "line": 21,
+      "column": 5,
+      "message": "EnumField name \"RUNNING\" should have the prefix \"ENUM_ALLOWING_ALIAS\"",
+      "rule": "ENUM_FIELD_NAMES_PREFIX"
+    },
+    {
+      "filename": "_example/proto/simple.proto",
+      "line": 19,
+      "column": 5,
+      "message": "EnumField name \"UNKNOWN\" with zero value should have the suffix \"UNSPECIFIED\"",
+      "rule": "ENUM_FIELD_NAMES_ZERO_VALUE_END_WITH"
+    },
+    {
+      "filename": "_example/proto/simple.proto",
+      "line": 17,
+      "column": 1,
+      "message": "Enum name \"enumAllowingAlias\" must be UpperCamelCase like \"EnumAllowingAlias\"",
+      "rule": "ENUM_NAMES_UPPER_CAMEL_CASE"
+    },
+    {
+      "filename": "_example/proto/simple.proto",
+      "line": 36,
+      "column": 3,
+      "message": "Field \"inner_message\" should avoid required for proto3",
+      "rule": "PROTO3_FIELDS_AVOID_REQUIRED"
+    },
+    {
+      "filename": "_example/proto/simple.proto",
+      "line": 37,
+      "column": 3,
+      "message": "Group \"Result\" should be avoided for proto3",
+      "rule": "PROTO3_GROUPS_AVOID"
+    },
+    {
+      "filename": "_example/proto/simple.proto",
+      "line": 40,
+      "column": 3,
+      "message": "Group \"Result\" should be avoided for proto3",
+      "rule": "PROTO3_GROUPS_AVOID"
+    },
+    {
+      "filename": "_example/proto/simple.proto",
+      "line": 43,
+      "column": 3,
+      "message": "Group \"Regular\" should be avoided for proto3",
+      "rule": "PROTO3_GROUPS_AVOID"
+    },
+    {
+      "filename": "_example/proto/simple.proto",
+      "line": 29,
+      "column": 5,
+      "message": "Repeated field name \"inner_message\" must be pluralized name \"inner_messages\"",
+      "rule": "REPEATED_FIELD_NAMES_PLURALIZED"
+    },
+    {
+      "filename": "_example/proto/simple.proto",
+      "line": 40,
+      "column": 3,
+      "message": "Repeated group name \"Result\" must be pluralized name \"Results\"",
+      "rule": "REPEATED_FIELD_NAMES_PLURALIZED"
+    },
+    {
+      "filename": "_example/proto/simple.proto",
+      "line": 42,
+      "column": 3,
+      "message": "Repeated field name \"paper\" must be pluralized name \"papers\"",
+      "rule": "REPEATED_FIELD_NAMES_PLURALIZED"
+    },
+    {
+      "filename": "_example/proto/simple.proto",
+      "line": 43,
+      "column": 3,
+      "message": "Repeated group name \"Regular\" must be pluralized name \"Regulars\"",
+      "rule": "REPEATED_FIELD_NAMES_PLURALIZED"
+    },
+    {
+      "filename": "_example/proto/simple.proto",
+      "line": 23,
+      "column": 1,
+      "message": "Message name \"outer\" must be UpperCamelCase like \"Outer\"",
+      "rule": "MESSAGE_NAMES_UPPER_CAMEL_CASE"
+    },
+    {
+      "filename": "_example/proto/simple.proto",
+      "line": 26,
+      "column": 5,
+      "message": "Message name \"inner\" must be UpperCamelCase like \"Inner\"",
+      "rule": "MESSAGE_NAMES_UPPER_CAMEL_CASE"
+    },
+    {
+      "filename": "_example/proto/simple.proto",
+      "line": 47,
+      "column": 5,
+      "message": "RPC name \"search\" must be UpperCamelCase like \"Search\"",
+      "rule": "RPC_NAMES_UPPER_CAMEL_CASE"
+    }
+  ]
+}

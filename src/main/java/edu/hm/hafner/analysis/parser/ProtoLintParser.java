@@ -10,7 +10,9 @@ import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
 
 /**
- * Parser for ProtoLint.
+ * Parser for ProtoLint plaintext reports.
+ *
+ * <p>The recommended report format is now JSON! This parser is just used as fallback.
  *
  * @author David Hart
  * @see <a href="https://github.com/yoheimuta/protolint">https://github.com/yoheimuta/protolint</a>

@@ -807,10 +807,16 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(0, "java", "eclipse.txt");
     }
 
-    /** Runs the ProtoLint parser on an output file that contains 10 issues. */
+    /** Runs the ProtoLint parser on a plaintext output file that contains 2591 issues. */
     @Test
     void shouldFindAllProtoLintIssues() {
         findIssuesOfTool(2591, "protolint", "protolint.txt");
+    }
+
+    /** Runs the ProtoLint parser on a json output file that contains 462 issues. */
+    @Test
+    void shouldFindAllProtoLintIssuesJsonFormat() {
+        findIssuesOfTool(462, "protolint", "protolint_0.50.2.json");
     }
 
     /** Runs the HadoLint parser on an output file that contains 5 issues. */
