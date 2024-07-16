@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2024-07-02T08:57:18.874137981 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2024-07-16T13:29:27.678370749 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -1731,6 +1731,11 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
             </td>
             <td>
                 -
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Use protolint with options <code>-reporter=json -output_file=protolint-report.json</code>, see <a href="https://github.com/yoheimuta/protolint?tab=readme-ov-file#usage">protoLint CLI options</a> for usage details.
             </td>
         </tr>
         <tr>
