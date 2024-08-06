@@ -5,7 +5,7 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import com.google.errorprone.annotations.FormatMethod;
 
 /**
- * Indicates that during parsing a non recoverable error has been occurred.
+ * Indicates that during parsing a non-recoverable error has been occurred.
  *
  * @author Ullrich Hafner
  */
