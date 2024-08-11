@@ -33,8 +33,8 @@ rectangle "xmlresolver\n\n5.2.2" as org_xmlresolver_xmlresolver_jar
 rectangle "xmlresolver\ndata\n5.2.2" as org_xmlresolver_xmlresolver_jar_data
 rectangle "bcel\n\n6.10.0" as org_apache_bcel_bcel_jar
 rectangle "pmd-core\n\n7.4.0" as net_sourceforge_pmd_pmd_core_jar
-rectangle "slf4j-api\n\n2.0.13" as org_slf4j_slf4j_api_jar
-rectangle "jul-to-slf4j\n\n2.0.13" as org_slf4j_jul_to_slf4j_jar
+rectangle "slf4j-api\n\n2.0.15" as org_slf4j_slf4j_api_jar
+rectangle "jul-to-slf4j\n\n2.0.15" as org_slf4j_jul_to_slf4j_jar
 rectangle "antlr4-runtime\n\n4.9.3" as org_antlr_antlr4_runtime_jar
 rectangle "checker-qual\n\n2.11.1" as org_checkerframework_checker_qual_jar
 rectangle "pcollections\n\n3.2.0" as org_pcollections_pcollections_jar
