@@ -66,7 +66,7 @@
     <commons.text.version>1.12.0</commons.text.version>
     <j2html.version>1.4.0</j2html.version>
     <slf4j.version>2.0.16</slf4j.version>
-    <violations-lib.version>1.157.1</violations-lib.version>
+    <violations-lib.version>1.157.3</violations-lib.version>
     <jsoup.version>1.18.1</jsoup.version>
     <json.version>20240303</json.version>
     <json-smart.version>2.5.1</json-smart.version>
