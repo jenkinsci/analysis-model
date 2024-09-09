@@ -27,13 +27,13 @@ class SarifAdapterTest extends AbstractParserTest {
                 .hasLineStart(123)
                 .hasType("Cyclomatic complexity")
                 .hasSeverity(Severity.WARNING_HIGH);
-        softly.assertThat(report.get(0).getMessage()).matches("asdasd\\s*asdasd");
+        softly.assertThat(report.get(0).getMessage()).matches("asdasd");
         softly.assertThat(report.get(1))
                 .hasFileName("/whatever/path.c")
                 .hasLineStart(123)
                 .hasType("-")
                 .hasSeverity(Severity.WARNING_LOW);
-        softly.assertThat(report.get(1).getMessage()).matches("asdasd\\s*asdasd");
+        softly.assertThat(report.get(1).getMessage()).matches("asdasd");
     }
 
     @Test
