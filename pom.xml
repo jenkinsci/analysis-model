@@ -479,7 +479,8 @@
                   <goal>flatten</goal>
                 </goals>
                 <configuration>
-                  <flattenMode>oss</flattenMode>
+                  <flattenMode>ossrh</flattenMode>
+                  <flattenDependencyMode>all</flattenDependencyMode>
                   <outputDirectory>${project.build.directory}</outputDirectory>
                   <flattenedPomFilename>${project.artifactId}-${project.version}.pom</flattenedPomFilename>
                 </configuration>
