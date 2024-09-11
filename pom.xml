@@ -78,6 +78,16 @@
 
   </properties>
 
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>net.sf.saxon</groupId>
+        <artifactId>Saxon-HE</artifactId>
+        <version>12.5</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
   <dependencies>
     <!-- Project Dependencies -->
     <dependency>
@@ -136,12 +146,6 @@
       <artifactId>xercesImpl</artifactId>
       <version>2.12.2</version>
     </dependency>
-    <dependency>
-      <groupId>org.ow2.asm</groupId>
-      <artifactId>asm</artifactId>
-      <version>9.7</version>
-    </dependency>
-
     <!-- FindBugs Parser Dependencies -->
     <dependency>
       <groupId>com.github.spotbugs</groupId>
@@ -173,23 +177,8 @@
           <groupId>org.slf4j</groupId>
         </exclusion>
         <exclusion>
-          <groupId>org.ow2.asm</groupId>
-          <artifactId>asm</artifactId>
-        </exclusion>
-        <exclusion>
-          <artifactId>bcel</artifactId>
-          <groupId>org.apache.bcel</groupId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.bcel</groupId>
-      <artifactId>bcel</artifactId>
-      <version>6.10.0</version>
-      <exclusions>
-        <exclusion>
-          <artifactId>commons-lang3</artifactId>
-          <groupId>org.apache.commons</groupId>
+          <artifactId>error_prone_annotations</artifactId>
+          <groupId>com.google.errorprone</groupId>
         </exclusion>
       </exclusions>
     </dependency>
@@ -225,15 +214,10 @@
           <groupId>com.google.code.gson</groupId>
         </exclusion>
         <exclusion>
-          <artifactId>jcommander</artifactId>
-          <groupId>com.beust</groupId>
+          <artifactId>jul-to-slf4j</artifactId>
+          <groupId>org.slf4j</groupId>
         </exclusion>
       </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>com.beust</groupId>
-      <artifactId>jcommander</artifactId>
-      <version>1.82</version>
     </dependency>
 
     <dependency>
@@ -405,56 +389,7 @@
         <configuration>
           <skip>true</skip>
           <failBuildOnProblemsFound>false</failBuildOnProblemsFound>
-          <analysisConfiguration>
-            <revapi.differences id="manually-vetted">
-              <differences combine.children="append">
-                <item>
-                  <ignore>true</ignore>
-                  <regex>true</regex>
-                  <classQualifiedName>shaded.*</classQualifiedName>
-                  <code>.*</code>
-                </item>
-                <item>
-                  <ignore>true</ignore>
-                  <package>javax.xml.transform</package>
-                  <code>java.class.externalClassExposedInAPI</code>
-                </item>
-              </differences>
-              <filter.classes>
-                <item>
-                  <exclude>edu.hm.hafner.analysis.parser.checkstyle.TopicRule</exclude>
-                </item>
-              </filter.classes>
-            </revapi.differences>
-          </analysisConfiguration>
         </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-shade-plugin</artifactId>
-        <version>${maven-shade-plugin.version}</version>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>shade</goal>
-            </goals>
-            <configuration>
-              <createDependencyReducedPom>false</createDependencyReducedPom>
-              <artifactSet>
-                <includes>
-                  <include>org.ow2.asm:*</include>
-                </includes>
-              </artifactSet>
-              <relocations>
-                <relocation>
-                  <pattern>org.objectweb.asm</pattern>
-                  <shadedPattern>shaded.org.objectweb.asm</shadedPattern>
-                </relocation>
-              </relocations>
-            </configuration>
-          </execution>
-        </executions>
       </plugin>
     </plugins>
   </build>
