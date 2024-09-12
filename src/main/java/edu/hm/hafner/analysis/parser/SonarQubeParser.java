@@ -93,7 +93,7 @@ public abstract class SonarQubeParser extends JsonIssueParser {
     private void extractIssues(final JSONArray elements, final Report report, final IssueBuilder issueBuilder) {
         for (Object object : elements) {
             if (object instanceof JSONObject) {
-                JSONObject issue = (JSONObject) object;
+                var issue = (JSONObject) object;
                 if (filterIssue(issue)) {
                     report.add(createIssueFromJsonObject(issue, issueBuilder));
                 }
@@ -102,7 +102,7 @@ public abstract class SonarQubeParser extends JsonIssueParser {
     }
 
     /**
-     * Get the components part to get the file paths on each issue (the component objects contain the most concise
+     * Get the "components" part to get the file paths on each issue (the component objects contain the most concise
      * path).
      *
      * @param jsonReport
@@ -259,7 +259,7 @@ public abstract class SonarQubeParser extends JsonIssueParser {
     }
 
     /**
-     * Find the component in the components array which contains this key.
+     * Find the component in the components-array which contains this key.
      *
      * @param key
      *         the key of the desired component.
@@ -271,7 +271,7 @@ public abstract class SonarQubeParser extends JsonIssueParser {
         if (components != null && key != null) {
             for (Object component : components) {
                 if (component instanceof JSONObject) {
-                    JSONObject jsonComponent = (JSONObject) component;
+                    var jsonComponent = (JSONObject) component;
                     if (key.equals(jsonComponent.optString(COMPONENT_KEY))) {
                         return (JSONObject) component;
                     }

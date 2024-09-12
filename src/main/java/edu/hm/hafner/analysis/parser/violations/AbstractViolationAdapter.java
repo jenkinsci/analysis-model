@@ -61,7 +61,7 @@ public abstract class AbstractViolationAdapter extends IssueParser {
      */
     Report convertToReport(final Set<Violation> violations) {
         try (IssueBuilder builder = new IssueBuilder()) {
-            Report report = new Report();
+            var report = new Report();
 
             for (Violation violation : violations) {
                 if (isValid(violation)) {

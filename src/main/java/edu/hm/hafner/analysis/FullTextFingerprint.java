@@ -78,7 +78,7 @@ public class FullTextFingerprint {
 
     @VisibleForTesting
     String getFallbackFingerprint(final String fileName) {
-        return String.format("%x", fileName.hashCode());
+        return String.format(Locale.ENGLISH, "%x", fileName.hashCode());
     }
 
     @VisibleForTesting
@@ -108,7 +108,7 @@ public class FullTextFingerprint {
 
         int start = computeStartLine(affectedLine);
 
-        StringBuilder context = new StringBuilder(LINE_RANGE_BUFFER_SIZE);
+        var context = new StringBuilder(LINE_RANGE_BUFFER_SIZE);
         int line = 1;
         for (; lines.hasNext() && line < start - LINES_LOOK_AHEAD; line++) {
             lines.next(); // skip the first lines

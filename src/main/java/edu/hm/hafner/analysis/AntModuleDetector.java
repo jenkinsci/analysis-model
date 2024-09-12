@@ -45,7 +45,7 @@ public class AntModuleDetector extends AbstractModuleDetector {
      */
     private String parseBuildXml(final String buildXml) {
         try (InputStream file = getFactory().open(buildXml)) {
-            SecureDigester digester = new SecureDigester(ModuleDetector.class);
+            var digester = new SecureDigester(ModuleDetector.class);
 
             digester.push(new StringBuilder());
             String xPath = "project";

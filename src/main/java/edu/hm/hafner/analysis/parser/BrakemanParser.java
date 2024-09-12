@@ -32,7 +32,7 @@ public class BrakemanParser extends JsonIssueParser {
         Severity severity = getSeverity(warning.getString("confidence"));
         String fingerprint = warning.getString("fingerprint");
         String warningType = warning.getString("check_name");
-        StringBuilder message = new StringBuilder();
+        var message = new StringBuilder();
         message.append(warning.getString("message"));
 
         if (warning.has("code")) {
@@ -66,8 +66,6 @@ public class BrakemanParser extends JsonIssueParser {
         else if (equalsIgnoreCase(confidence, "Weak")) {
             return Severity.WARNING_LOW;
         }
-        else {
-            return Severity.WARNING_HIGH;
-        }
+        return Severity.WARNING_HIGH;
     }
 }

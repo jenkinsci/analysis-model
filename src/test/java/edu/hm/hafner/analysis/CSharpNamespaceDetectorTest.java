@@ -9,6 +9,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import edu.hm.hafner.util.ResourceTest;
+
 import static org.assertj.core.api.Assertions.*;
 
 /**
@@ -34,7 +35,7 @@ class CSharpNamespaceDetectorTest extends ResourceTest {
 
     @Test
     void shouldAcceptCorrectFileSuffix() {
-        CSharpNamespaceDetector namespaceDetector = new CSharpNamespaceDetector();
+        var namespaceDetector = new CSharpNamespaceDetector();
         assertThat(namespaceDetector.accepts("ActionBinding.cs"))
                 .as("Does not accept a C# file.").isTrue();
         assertThat(namespaceDetector.accepts("ActionBinding.cs.c"))

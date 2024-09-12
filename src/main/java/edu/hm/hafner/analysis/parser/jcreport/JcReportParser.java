@@ -24,7 +24,7 @@ public class JcReportParser extends IssueParser {
     public Report parse(final ReaderFactory reader) {
         try (IssueBuilder issueBuilder = new IssueBuilder()) {
             edu.hm.hafner.analysis.parser.jcreport.Report report = createReport(reader);
-            Report warnings = new Report();
+            var warnings = new Report();
             for (int i = 0; i < report.getFiles().size(); i++) {
                 File file = report.getFiles().get(i);
 
@@ -58,7 +58,7 @@ public class JcReportParser extends IssueParser {
      */
     public edu.hm.hafner.analysis.parser.jcreport.Report createReport(final ReaderFactory readerFactory)
             throws ParsingException {
-        SecureDigester digester = new SecureDigester(JcReportParser.class);
+        var digester = new SecureDigester(JcReportParser.class);
 
         String report = "report";
         digester.addObjectCreate(report, edu.hm.hafner.analysis.parser.jcreport.Report.class);

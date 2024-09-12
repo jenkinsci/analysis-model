@@ -35,7 +35,7 @@ public class PmdParser extends IssueParser {
     }
 
     private Report parseIssues(final ReaderFactory readerFactory) {
-        SecureDigester digester = new SecureDigester(PmdParser.class);
+        var digester = new SecureDigester(PmdParser.class);
 
         String rootXPath = "pmd";
         digester.addObjectCreate(rootXPath, Pmd.class);
@@ -66,7 +66,7 @@ public class PmdParser extends IssueParser {
     }
 
     private Report parseErrors(final ReaderFactory readerFactory) {
-        SecureDigester digester = new SecureDigester(PmdParser.class);
+        var digester = new SecureDigester(PmdParser.class);
 
         String rootXPath = "pmd";
         digester.addObjectCreate(rootXPath, Pmd.class);
@@ -93,7 +93,7 @@ public class PmdParser extends IssueParser {
 
     private Report convertIssues(final Pmd pmdIssues) {
         try (IssueBuilder issueBuilder = new IssueBuilder()) {
-            Report report = new Report();
+            var report = new Report();
             for (File file : pmdIssues.getFiles()) {
                 for (Violation warning : file.getViolations()) {
                     issueBuilder.setSeverity(mapPriority(warning))
@@ -115,7 +115,7 @@ public class PmdParser extends IssueParser {
 
     private Report convertErrors(final Pmd pmdIssues) {
         try (IssueBuilder issueBuilder = new IssueBuilder()) {
-            Report report = new Report();
+            var report = new Report();
             for (PmdError error : pmdIssues.getErrors()) {
                 issueBuilder.setSeverity(Severity.ERROR)
                         .setMessage(error.getMsg())

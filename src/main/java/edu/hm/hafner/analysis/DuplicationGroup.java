@@ -3,9 +3,11 @@ package edu.hm.hafner.analysis;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 
+import edu.hm.hafner.util.Generated;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
@@ -53,7 +55,7 @@ public final class DuplicationGroup implements Serializable {
      * Adds the specified duplication (represented by an {@link Issue} instance) to this group of duplications.
      *
      * @param issue
-     *         the issues that references the position of the duplicated code fragment
+     *         the issues that reference the position of the duplicated code fragment
      */
     public void add(final Issue issue) {
         occurrences.add(issue);
@@ -73,21 +75,21 @@ public final class DuplicationGroup implements Serializable {
     }
 
     @Override
-    public boolean equals(@CheckForNull final Object o) {
+    @Generated
+    public boolean equals(final Object o) {
         if (this == o) {
             return true;
         }
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-
-        DuplicationGroup that = (DuplicationGroup) o;
-
-        return codeFragment.equals(that.codeFragment);
+        var that = (DuplicationGroup) o;
+        return Objects.equals(codeFragment, that.codeFragment);
     }
 
     @Override
+    @Generated
     public int hashCode() {
-        return codeFragment.hashCode();
+        return Objects.hashCode(codeFragment);
     }
 }

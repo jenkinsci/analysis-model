@@ -7,6 +7,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.MalformedInputException;
 import java.nio.file.InvalidPathException;
 import java.nio.file.NoSuchFileException;
+import java.util.Locale;
 import java.util.Set;
 
 import org.apache.commons.io.FilenameUtils;
@@ -36,7 +37,7 @@ public class FingerprintGenerator {
      *         the character set to use when reading the source files
      */
     public void run(final FullTextFingerprint algorithm, final Report report, final Charset charset) {
-        FilteredLog log = new FilteredLog("Can't create fingerprints for some files:");
+        var log = new FilteredLog("Can't create fingerprints for some files:");
         int sum = 0;
         for (Issue issue : report) {
             if (!issue.hasFingerprint()) {
@@ -88,8 +89,8 @@ public class FingerprintGenerator {
 
     @VisibleForTesting
     static String createDefaultFingerprint(final Issue issue) {
-        HashCodeBuilder builder = new HashCodeBuilder();
-        return String.format("FALLBACK-%x",
+        var builder = new HashCodeBuilder();
+        return String.format(Locale.ENGLISH, "FALLBACK-%x",
                 builder.append(issue.getBaseName())
                         .append(issue.getType())
                         .append(issue.getCategory())

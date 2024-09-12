@@ -33,7 +33,7 @@ abstract class AbstractModuleDetectorTest extends ResourceTest {
             when(stub.open(anyString())).thenThrow(new FileNotFoundException("File not found"));
         });
 
-        ModuleDetector detector = new ModuleDetector(ROOT, fileSystem);
+        var detector = new ModuleDetector(ROOT, fileSystem);
 
         assertThat(detector.guessModuleName(PREFIX + getFileName())).isEqualTo(StringUtils.EMPTY);
     }

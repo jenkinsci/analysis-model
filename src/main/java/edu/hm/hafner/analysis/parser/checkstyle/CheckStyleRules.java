@@ -64,7 +64,7 @@ public class CheckStyleRules {
      *         if digester is not configured properly
      */
     private Digester createDigester() throws ParserConfigurationException {
-        SecureDigester digester = new SecureDigester(CheckStyleRules.class);
+        var digester = new SecureDigester(CheckStyleRules.class);
 
         String section = "*/section";
         digester.addObjectCreate(section, Rule.class);

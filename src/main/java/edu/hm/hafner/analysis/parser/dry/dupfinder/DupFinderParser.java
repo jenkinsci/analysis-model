@@ -67,10 +67,10 @@ public class DupFinderParser extends AbstractDryParser<Duplicate> {
 
     @Override
     protected Report convertDuplicationsToIssues(final List<Duplicate> duplications, final IssueBuilder issueBuilder) {
-        Report report = new Report();
+        var report = new Report();
 
         for (Duplicate duplication : duplications) {
-            DuplicationGroup group = new DuplicationGroup();
+            var group = new DuplicationGroup();
             for (Fragment fragment : duplication.getFragments()) {
                 group.setCodeFragment(fragment.getText());
                 Range lineRange = fragment.getLineRange();

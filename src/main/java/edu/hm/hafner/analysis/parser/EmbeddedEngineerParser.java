@@ -4,9 +4,16 @@ import java.io.UncheckedIOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
-import edu.hm.hafner.analysis.*;
-import edu.hm.hafner.util.LookaheadStream;
+
 import org.apache.commons.lang3.StringUtils;
+
+import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.IssueParser;
+import edu.hm.hafner.analysis.ParsingException;
+import edu.hm.hafner.analysis.ReaderFactory;
+import edu.hm.hafner.analysis.Report;
+import edu.hm.hafner.analysis.Severity;
+import edu.hm.hafner.util.LookaheadStream;
 
 /**
  * A parser for the EmbeddedEngineer EA Code Generator tool log files.
@@ -38,18 +45,10 @@ public class EmbeddedEngineerParser extends IssueParser {
         }
     }
 
-    private String readMultipleLines(final LookaheadStream lookahead) {
-        StringBuilder multipleLines = new StringBuilder(lookahead.next());
-        while (lookahead.hasNext() && !lookahead.hasNext(LOG_BEGINNING_PATTERN)) {
-            multipleLines.append(" ").append(lookahead.next());
-        }
-        return multipleLines.toString();
-    }
-
     private Report parse(final LookaheadStream lookahead) {
         try (IssueBuilder builder = new IssueBuilder()) {
             String file = parseFileName(lookahead);
-            Report report = new Report();
+            var report = new Report();
             while (lookahead.hasNext() && lookahead.hasNext(LOG_BEGINNING_PATTERN)) {
                 String lines = this.readMultipleLines(lookahead);
                 Matcher matcher = SPECIAL_WARNING_PATTERN.matcher(lines);
@@ -85,6 +84,14 @@ public class EmbeddedEngineerParser extends IssueParser {
             }
             return report;
         }
+    }
+
+    private String readMultipleLines(final LookaheadStream lookahead) {
+        var multipleLines = new StringBuilder(lookahead.next());
+        while (lookahead.hasNext() && !lookahead.hasNext(LOG_BEGINNING_PATTERN)) {
+            multipleLines.append(" ").append(lookahead.next());
+        }
+        return multipleLines.toString();
     }
 
     private String parseFileName(final LookaheadStream lineIterator) {

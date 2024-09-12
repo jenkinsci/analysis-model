@@ -5,7 +5,6 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -24,13 +23,11 @@ import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LineRange;
 import edu.hm.hafner.util.LineRangeList;
 import edu.hm.hafner.util.VisibleForTesting;
-import edu.umd.cs.findbugs.BugAnnotation;
 import edu.umd.cs.findbugs.BugInstance;
 import edu.umd.cs.findbugs.Project;
 import edu.umd.cs.findbugs.SortedBugCollection;
 import edu.umd.cs.findbugs.SourceLineAnnotation;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
-import edu.umd.cs.findbugs.ba.SourceFile;
 import edu.umd.cs.findbugs.ba.SourceFinder;
 
 import static edu.hm.hafner.analysis.parser.findbugs.FindBugsParser.PriorityProperty.*;
@@ -82,7 +79,7 @@ public class FindBugsParser extends IssueParser {
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingException {
         try (IssueBuilder builder = new IssueBuilder()) {
-            Collection<String> sources = new ArrayList<>();
+            List<String> sources = new ArrayList<>();
             String moduleRoot = StringUtils.substringBefore(readerFactory.getFileName(), "/target/");
             sources.add(moduleRoot + "/src/main/java");
             sources.add(moduleRoot + "/src/test/java");
@@ -153,10 +150,8 @@ public class FindBugsParser extends IssueParser {
                 builder.setModuleName(project.getProjectName());
             }
 
-            Collection<BugInstance> bugs = collection.getCollection();
-
-            Report report = new Report();
-            for (BugInstance warning : bugs) {
+            var report = new Report();
+            for (BugInstance warning : collection.getCollection()) {
                 SourceLineAnnotation sourceLine = warning.getPrimarySourceLineAnnotation();
 
                 String message = warning.getMessage();
@@ -232,10 +227,10 @@ public class FindBugsParser extends IssueParser {
 
     @SuppressWarnings("PMD.DoNotUseThreads")
     private SortedBugCollection readXml(final Reader file) throws IOException, DocumentException {
-        ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
+        var contextClassLoader = Thread.currentThread().getContextClassLoader();
         try {
             Thread.currentThread().setContextClassLoader(FindBugsParser.class.getClassLoader());
-            SortedBugCollection collection = new SortedBugCollection();
+            var collection = new SortedBugCollection();
             collection.readXML(file);
             return collection;
         }
@@ -246,13 +241,13 @@ public class FindBugsParser extends IssueParser {
 
     private void setAffectedLines(final BugInstance warning, final IssueBuilder builder,
             final LineRange primary) {
-        Iterator<BugAnnotation> annotationIterator = warning.annotationIterator();
-        LineRangeList lineRanges = new LineRangeList();
+        var annotationIterator = warning.annotationIterator();
+        var lineRanges = new LineRangeList();
         while (annotationIterator.hasNext()) {
-            BugAnnotation bugAnnotation = annotationIterator.next();
+            var bugAnnotation = annotationIterator.next();
             if (bugAnnotation instanceof SourceLineAnnotation) {
-                SourceLineAnnotation annotation = (SourceLineAnnotation) bugAnnotation;
-                LineRange lineRange = new LineRange(annotation.getStartLine(), annotation.getEndLine());
+                var annotation = (SourceLineAnnotation) bugAnnotation;
+                var lineRange = new LineRange(annotation.getStartLine(), annotation.getEndLine());
                 if (!lineRanges.contains(lineRange) && !primary.equals(lineRange)) {
                     lineRanges.add(lineRange);
                 }
@@ -263,7 +258,7 @@ public class FindBugsParser extends IssueParser {
 
     private String findSourceFile(final SourceFinder sourceFinder, final SourceLineAnnotation sourceLine) {
         try {
-            SourceFile sourceFile = sourceFinder.findSourceFile(sourceLine);
+            var sourceFile = sourceFinder.findSourceFile(sourceLine);
             return sourceFile.getFullFileName();
         }
         catch (IOException ignored) {

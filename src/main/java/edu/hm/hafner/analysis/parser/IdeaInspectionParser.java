@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
@@ -33,16 +32,16 @@ public class IdeaInspectionParser extends IssueParser {
     public Report parse(final ReaderFactory readerFactory) throws ParsingException {
         Document document = readerFactory.readDocument();
 
-        Element rootElement = (Element) document.getElementsByTagName("problems").item(0);
+        var rootElement = (Element) document.getElementsByTagName("problems").item(0);
         return parseProblems(XmlElementUtil.getChildElementsByName(rootElement, "problem"));
     }
 
     private Report parseProblems(final List<Element> elements) {
-        Report problems = new Report();
+        var problems = new Report();
         try (IssueBuilder issueBuilder = new IssueBuilder()) {
             for (Element element : elements) {
                 String file = getChildValue(element, "file");
-                Optional<Element> problemClass = XmlElementUtil.getFirstChildElementByName(element, "problem_class");
+                var problemClass = XmlElementUtil.getFirstChildElementByName(element, "problem_class");
                 if (problemClass.isPresent()) {
                     Element problem = problemClass.get();
                     issueBuilder.setFileName(stripPathPrefix(file))
@@ -78,7 +77,7 @@ public class IdeaInspectionParser extends IssueParser {
     }
 
     private String getChildValue(final Element element, final String childTag) {
-        Optional<Element> firstElement = XmlElementUtil.getFirstChildElementByName(element, childTag);
+        var firstElement = XmlElementUtil.getFirstChildElementByName(element, childTag);
         if (firstElement.isPresent()) {
             Node child = firstElement.get().getFirstChild();
             if (child != null) {

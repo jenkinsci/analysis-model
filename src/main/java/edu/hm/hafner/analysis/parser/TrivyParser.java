@@ -49,9 +49,9 @@ public class TrivyParser extends JsonIssueParser {
 
     private void parseResults(final Report report, final JSONArray jsonReport, final IssueBuilder issueBuilder) {
         for (int i = 0; i < jsonReport.length(); i++) {
-            JSONObject component = (JSONObject) jsonReport.get(i);
+            var component = (JSONObject) jsonReport.get(i);
             if (!component.isNull("Vulnerabilities")) {
-                JSONArray vulnerabilities = component.getJSONArray("Vulnerabilities");
+                var vulnerabilities = component.getJSONArray("Vulnerabilities");
                 for (Object vulnerability : vulnerabilities) {
                     report.add(convertToIssue((JSONObject) vulnerability, issueBuilder));
                 }
@@ -80,17 +80,15 @@ public class TrivyParser extends JsonIssueParser {
         else if (TRIVY_VULNERABILITY_LEVEL_TAG_HIGH.equalsIgnoreCase(string)) {
             return Severity.WARNING_HIGH;
         }
-        else {
-            return Severity.ERROR;
-        }
+        return Severity.ERROR;
     }
 
     private String formatDescription(final JSONObject vulnerability) {
-        final String fileName = vulnerability.optString("PkgName", VALUE_NOT_SET);
-        final String installedVersion = vulnerability.optString("InstalledVersion", VALUE_NOT_SET);
-        final String fixedVersion = vulnerability.optString("FixedVersion", "still open");
-        final String severity = vulnerability.optString("Severity", "UNKOWN");
-        final String description = vulnerability.optString("Description", "");
+        String fileName = vulnerability.optString("PkgName", VALUE_NOT_SET);
+        String installedVersion = vulnerability.optString("InstalledVersion", VALUE_NOT_SET);
+        String fixedVersion = vulnerability.optString("FixedVersion", "still open");
+        String severity = vulnerability.optString("Severity", "UNKOWN");
+        String description = vulnerability.optString("Description", "");
         return join(p(div(b("File: "), text(fileName)),
                 div(b("Installed Version: "), text(installedVersion)),
                 div(b("Fixed Version: "), text(fixedVersion)),

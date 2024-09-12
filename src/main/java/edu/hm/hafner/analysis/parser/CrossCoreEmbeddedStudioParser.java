@@ -36,7 +36,7 @@ public class CrossCoreEmbeddedStudioParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        StringBuilder message = new StringBuilder(matcher.group("messageBegin").trim());
+        var message = new StringBuilder(matcher.group("messageBegin").trim());
 
         // always grab the second line
         if (lookahead.hasNext()) {

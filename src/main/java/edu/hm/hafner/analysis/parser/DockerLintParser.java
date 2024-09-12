@@ -43,7 +43,7 @@ public class DockerLintParser extends JsonIssueParser {
     }
 
     private Issue convertToIssue(final JSONObject jsonIssue, final IssueBuilder builder) {
-        StringBuilder message = new StringBuilder();
+        var message = new StringBuilder();
         message.append(jsonIssue.optString("message"));
         if (jsonIssue.has("description")) {
             message.append(" - ");
@@ -64,7 +64,7 @@ public class DockerLintParser extends JsonIssueParser {
     }
 
     private String collapseReferenceUrl(final Object refUrl) {
-        StringBuilder referenceUrl = new StringBuilder();
+        var referenceUrl = new StringBuilder();
         if (refUrl instanceof JSONArray) {
             for (Object part : (JSONArray) refUrl) {
                 referenceUrl.append(part);

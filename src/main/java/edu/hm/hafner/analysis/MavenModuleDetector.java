@@ -52,7 +52,7 @@ public class MavenModuleDetector extends AbstractModuleDetector {
     @SuppressWarnings("OverlyBroadCatchBlock")
     private String parsePomAttribute(final String pom, final String tagName) {
         try (InputStream file = getFactory().open(pom)) {
-            SecureDigester digester = new SecureDigester(ModuleDetector.class);
+            var digester = new SecureDigester(ModuleDetector.class);
             digester.push(new StringBuilder());
             digester.addCallMethod("project/" + tagName, "append", 0);
 

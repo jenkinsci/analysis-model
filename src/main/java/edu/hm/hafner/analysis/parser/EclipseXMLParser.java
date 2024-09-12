@@ -1,13 +1,10 @@
 package edu.hm.hafner.analysis.parser;
 
 import java.util.Optional;
-import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
@@ -53,22 +50,22 @@ public class EclipseXMLParser extends IssueParser {
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingException {
         try (IssueBuilder issueBuilder = new IssueBuilder()) {
-            Document doc = readerFactory.readDocument();
+            var doc = readerFactory.readDocument();
 
-            XPathFactory xPathFactory = XPathFactory.newInstance();
-            XPath xPath = xPathFactory.newXPath();
-            XPathExpression sourcePath = xPath.compile("/compiler/sources/source[problems]");
-            XPathExpression fileNamePath = xPath.compile("./@path");
-            XPathExpression problemsPath = xPath.compile("problems/problem");
+            var xPathFactory = XPathFactory.newInstance();
+            var xPath = xPathFactory.newXPath();
+            var sourcePath = xPath.compile("/compiler/sources/source[problems]");
+            var fileNamePath = xPath.compile("./@path");
+            var problemsPath = xPath.compile("problems/problem");
 
-            Report report = new Report();
+            var report = new Report();
 
-            NodeList sources = (NodeList)sourcePath.evaluate(doc, XPathConstants.NODESET);
+            var sources = (NodeList)sourcePath.evaluate(doc, XPathConstants.NODESET);
             for (Element source : XmlElementUtil.nodeListToList(sources)) {
                 String fileName = fileNamePath.evaluate(source);
                 issueBuilder.setFileName(fileName);
 
-                NodeList problems = (NodeList)problemsPath.evaluate(source, XPathConstants.NODESET);
+                var problems = (NodeList)problemsPath.evaluate(source, XPathConstants.NODESET);
                 for (Element problem : XmlElementUtil.nodeListToList(problems)) {
                     issueBuilder.guessSeverity(extractSeverity(problem))
                             .setLineStart(extractLineStart(problem))
@@ -171,7 +168,7 @@ public class EclipseXMLParser extends IssueParser {
                 .filter(e -> "source_context".equals(e.getNodeName()))
                 .findFirst();
 
-        StringBuilder range = new StringBuilder();
+        var range = new StringBuilder();
         ctx.map(e -> e.getAttribute("sourceStart")).ifPresent(range::append);
         range.append('-');
         ctx.map(e -> e.getAttribute("sourceEnd")).ifPresent(range::append);

@@ -56,7 +56,7 @@ public class TopicRule extends NodeCreateRule {
      */
     @SuppressFBWarnings("SECURITY")
     private String extractNodeContent(final Element subsection) throws TransformerException {
-        StringWriter content = new StringWriter();
+        var content = new StringWriter();
 
         Transformer transformer = new SecureXmlParserFactory().createTransformer();
         transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");

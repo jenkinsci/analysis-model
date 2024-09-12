@@ -2,6 +2,7 @@ package edu.hm.hafner.analysis;
 
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Locale;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -975,6 +976,8 @@ public class Issue implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("%s%s(%d,%d): %s: %s: %s", isPartOfModifiedCode() ? "*" : StringUtils.EMPTY, getBaseName(), lineStart, columnStart, type, category, message);
+        return String.format(Locale.ENGLISH, "%s%s(%d,%d): %s: %s: %s",
+                isPartOfModifiedCode() ? "*" : StringUtils.EMPTY, getBaseName(),
+                lineStart, columnStart, type, category, message);
     }
 }

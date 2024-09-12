@@ -70,8 +70,8 @@ public class ErrorProneParser extends LookaheadParser {
      * @return the description
      */
     static String createDescription(final LookaheadStream lookahead) {
-        StringBuilder description = new StringBuilder();
-        StringBuilder url = new StringBuilder();
+        var description = new StringBuilder();
+        var url = new StringBuilder();
         boolean urlFound = false; // skip all text before the URL
         while (lookahead.hasNext("^\\s+.*")) {
             String line = lookahead.next();

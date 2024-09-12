@@ -3,7 +3,6 @@ package edu.hm.hafner.analysis;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.ModuleDetector.FileSystem;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import static org.assertj.core.api.Assertions.*;
@@ -31,11 +30,11 @@ class AntModuleDetectorTest extends AbstractModuleDetectorTest {
 
     @Test
     void shouldIdentifyModuleByReadingAntProjectFile() {
-        FileSystem factory = createFileSystemStub(stub -> {
+        var factory = createFileSystemStub(stub -> {
             when(stub.find(any(), anyString())).thenReturn(new String[]{PATH_PREFIX_ANT + AntModuleDetector.ANT_PROJECT});
             when(stub.open(anyString())).thenAnswer(filename -> read(AntModuleDetector.ANT_PROJECT));
         });
-        ModuleDetector detector = new ModuleDetector(ROOT, factory);
+        var detector = new ModuleDetector(ROOT, factory);
 
         assertThat(detector.guessModuleName(PREFIX + PATH_PREFIX_ANT + "something.txt"))
                 .isEqualTo(EXPECTED_ANT_MODULE);

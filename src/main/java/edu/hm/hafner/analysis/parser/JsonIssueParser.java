@@ -24,16 +24,16 @@ public abstract class JsonIssueParser extends IssueParser {
 
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingException {
-        Report report = new Report();
+        var report = new Report();
         try (Reader reader = readerFactory.create(); IssueBuilder issueBuilder = new IssueBuilder()) {
-            Object parsedValue = new JSONTokener(reader).nextValue();
+            var parsedValue = new JSONTokener(reader).nextValue();
             if (parsedValue instanceof JSONObject) {
-                JSONObject jsonReport = (JSONObject) parsedValue;
+                var jsonReport = (JSONObject) parsedValue;
 
                 parseJsonObject(report, jsonReport, issueBuilder);
             }
             else if (parsedValue instanceof JSONArray) {
-                JSONArray jsonReport = (JSONArray) parsedValue;
+                var jsonReport = (JSONArray) parsedValue;
 
                 parseJsonArray(report, jsonReport, issueBuilder);
             }
@@ -63,7 +63,7 @@ public abstract class JsonIssueParser extends IssueParser {
      *         build to be used to create issues
      */
     protected void parseJsonObject(final Report report, final JSONObject jsonReport, final IssueBuilder issueBuilder) {
-        // by default no issues are reported
+        // by default, no issues are reported
     }
 
     /**
@@ -77,6 +77,6 @@ public abstract class JsonIssueParser extends IssueParser {
      *         build to be used to create issues
      */
     protected void parseJsonArray(final Report report, final JSONArray jsonReport, final IssueBuilder issueBuilder) {
-        // by default no issues are reported
+        // by default, no issues are reported
     }
 }

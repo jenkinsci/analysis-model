@@ -28,7 +28,7 @@ public class JsonLogParser extends JsonBaseParser {
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingException {
         try (Stream<String> lines = readerFactory.readStream()) {
-            Report report = new Report();
+            var report = new Report();
             lines.map(String::trim)
                     .filter(line -> !line.isEmpty())
                     .filter(line -> !line.startsWith("//"))
@@ -43,7 +43,7 @@ public class JsonLogParser extends JsonBaseParser {
 
     private Optional<Issue> parseIssue(final String line, final Report report) {
         try {
-            JSONObject jsonIssue = new JSONObject(line);
+            var jsonIssue = new JSONObject(line);
             return convertToIssue(jsonIssue);
         }
         catch (JSONException e) {

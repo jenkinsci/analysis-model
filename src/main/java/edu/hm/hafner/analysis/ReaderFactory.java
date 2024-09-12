@@ -85,7 +85,7 @@ public abstract class ReaderFactory {
     @SuppressFBWarnings("OS_OPEN_STREAM")
     public Stream<String> readStream() {
         try {
-            BufferedReader reader = new BufferedReader(create());
+            var reader = new BufferedReader(create());
             Stream<String> stringStream = reader.lines().onClose(closeReader(reader));
             if (hasLineMapper()) {
                 return stringStream.map(lineMapper);
@@ -142,7 +142,7 @@ public abstract class ReaderFactory {
      */
     public Document readDocument() {
         try (Reader reader = create()) {
-            SecureXmlParserFactory parserFactory = new SecureXmlParserFactory();
+            var parserFactory = new SecureXmlParserFactory();
             return parserFactory.readDocument(reader, getCharset());
         }
         catch (IOException | SecureXmlParserFactory.ParsingException exception) {

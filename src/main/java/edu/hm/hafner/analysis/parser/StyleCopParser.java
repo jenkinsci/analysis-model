@@ -3,9 +3,7 @@ package edu.hm.hafner.analysis.parser;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
@@ -26,22 +24,22 @@ public class StyleCopParser extends IssueParser {
 
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingException {
-        Document document = readerFactory.readDocument();
+        var document = readerFactory.readDocument();
 
         // Pre v4.3 uses SourceAnalysisViolations as the parent node name
-        NodeList mainNode = document.getElementsByTagName("SourceAnalysisViolations");
+        var mainNode = document.getElementsByTagName("SourceAnalysisViolations");
         if (mainNode.getLength() == 0) {
             // v4.3 uses StyleCopViolations as the parent node name
             mainNode = document.getElementsByTagName("StyleCopViolations");
         }
 
-        Element rootElement = (Element) mainNode.item(0);
+        var rootElement = (Element) mainNode.item(0);
         return parseViolations(XmlElementUtil.getChildElementsByName(rootElement, "Violation"));
     }
 
     private Report parseViolations(final List<Element> elements) {
         try (IssueBuilder issueBuilder = new IssueBuilder()) {
-            Report report = new Report();
+            var report = new Report();
             for (Element element : elements) {
                 issueBuilder.setFileName(getString(element, "Source"))
                         .setLineStart(getLineNumber(element))

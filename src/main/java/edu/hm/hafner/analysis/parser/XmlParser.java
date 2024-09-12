@@ -5,7 +5,6 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
@@ -72,12 +71,12 @@ public class XmlParser extends IssueParser {
     @Override @SuppressFBWarnings("XPATH_INJECTION")
     public Report parse(final ReaderFactory readerFactory) {
         try (IssueBuilder issueBuilder = new IssueBuilder()) {
-            Document doc = readerFactory.readDocument();
-            XPathFactory xPathFactory = XPathFactory.newInstance();
-            XPath path = xPathFactory.newXPath();
-            NodeList issues = (NodeList) path.evaluate(getXmlIssueRoot(), doc, XPathConstants.NODESET);
+            var doc = readerFactory.readDocument();
+            var xPathFactory = XPathFactory.newInstance();
+            var path = xPathFactory.newXPath();
+            var issues = (NodeList) path.evaluate(getXmlIssueRoot(), doc, XPathConstants.NODESET);
 
-            Report report = new Report();
+            var report = new Report();
 
             for (Element issue : XmlElementUtil.nodeListToList(issues)) {
                 issueBuilder.setFileName(path.evaluate(FILE_NAME, issue))
@@ -111,7 +110,7 @@ public class XmlParser extends IssueParser {
      * Reads line ranges from XPath.
      *
      * @param path
-     *         path of current xml file.
+     *         path of the current XML file.
      * @param lineRanges
      *         list of lineRange nodes.
      *
@@ -120,11 +119,11 @@ public class XmlParser extends IssueParser {
      *         for xml reading errors.
      */
     private LineRangeList readLineRanges(final XPath path, final NodeList lineRanges) throws XPathExpressionException {
-        LineRangeList ranges = new LineRangeList();
+        var ranges = new LineRangeList();
         for (Element lineRangeNode : XmlElementUtil.nodeListToList(lineRanges)) {
             if (lineRangeNode != null) {
-                Element startNode = (Element) path.evaluate(LINE_RANGE_START, lineRangeNode, XPathConstants.NODE);
-                Element endNode = (Element) path.evaluate(LINE_RANGE_END, lineRangeNode, XPathConstants.NODE);
+                var startNode = (Element) path.evaluate(LINE_RANGE_START, lineRangeNode, XPathConstants.NODE);
+                var endNode = (Element) path.evaluate(LINE_RANGE_END, lineRangeNode, XPathConstants.NODE);
                 if (startNode != null && startNode.getFirstChild() != null
                         && endNode != null && endNode.getFirstChild() != null) {
                     String startValue = startNode.getFirstChild().getNodeValue().trim();
