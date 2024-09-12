@@ -13,6 +13,7 @@ import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.util.IntegerParser;
 import edu.hm.hafner.util.LookaheadStream;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import static j2html.TagCreator.*;
 
@@ -156,6 +157,7 @@ public class CargoClippyParser extends LookaheadParser {
          * @param fileName
          *         the filename of the recommendation.
          */
+        @SuppressFBWarnings("NM")
         public void setFileName(final String fileName) {
             this.fileName = fileName;
         }

@@ -67,16 +67,13 @@ public class ReportSerializationBenchmark extends AbstractBenchmark {
      * @return bytes
      */
     private static byte[] toByteArray(final Report report) {
-        var out = new ByteArrayOutputStream();
-
-        try (ObjectOutputStream stream = new ObjectOutputStream(out)) {
+        try (var out = new ByteArrayOutputStream(); ObjectOutputStream stream = new ObjectOutputStream(out)) {
             stream.writeObject(report);
+            return out.toByteArray();
         }
         catch (IOException exception) {
             throw new IllegalStateException("Can't serialize report " + report, exception);
         }
-
-        return out.toByteArray();
     }
 
     /**
@@ -88,10 +85,9 @@ public class ReportSerializationBenchmark extends AbstractBenchmark {
      * @return report
      */
     @SuppressFBWarnings("OBJECT_DESERIALIZATION")
+    @SuppressWarnings("BanSerializableRead")
     private static Report toReport(final byte[] bytes) {
-        var in = new ByteArrayInputStream(bytes);
-
-        try (ObjectInputStream stream = new ObjectInputStream(in)) {
+        try (var in = new ByteArrayInputStream(bytes); ObjectInputStream stream = new ObjectInputStream(in)) {
             return (Report) stream.readObject();
         }
         catch (IOException | ClassNotFoundException exception) {
