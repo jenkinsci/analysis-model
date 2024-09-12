@@ -48,7 +48,7 @@ class ModuleDetectorTest extends ResourceTest {
             when(stub.open(PREFIX + maven)).thenAnswer(filename -> read(MavenModuleDetector.MAVEN_POM));
         });
 
-        ModuleDetector detector = new ModuleDetector(ROOT, factory);
+        var detector = new ModuleDetector(ROOT, factory);
 
         assertThat(detector.guessModuleName(PREFIX + PATH_PREFIX_ANT + "something.txt"))
                 .isEqualTo(EXPECTED_ANT_MODULE);
@@ -89,7 +89,7 @@ class ModuleDetectorTest extends ResourceTest {
             when(stub.open(maven)).thenAnswer(filename -> read(MavenModuleDetector.MAVEN_POM));
         });
 
-        ModuleDetector detector = new ModuleDetector(ROOT, factory);
+        var detector = new ModuleDetector(ROOT, factory);
 
         assertThat(detector.guessModuleName(prefix + "something.txt")).isEqualTo(EXPECTED_MAVEN_MODULE);
     }
@@ -105,7 +105,7 @@ class ModuleDetectorTest extends ResourceTest {
             when(stub.open(prefix + "/" + OsgiModuleDetector.BUNDLE_PROPERTIES)).thenAnswer(filename -> createEmptyStream());
         });
 
-        ModuleDetector detector = new ModuleDetector(ROOT, fileSystem);
+        var detector = new ModuleDetector(ROOT, fileSystem);
 
         assertThat(detector.guessModuleName(prefix + "something.txt")).isEqualTo(EXPECTED_OSGI_MODULE);
     }

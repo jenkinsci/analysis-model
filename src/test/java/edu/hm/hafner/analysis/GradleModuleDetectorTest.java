@@ -37,7 +37,7 @@ class GradleModuleDetectorTest extends AbstractModuleDetectorTest {
                 when(stub.find(any(), anyString())).thenReturn(
                         new String[] {PATH_PREFIX_GRADLE + GradleModuleDetector.BUILD_GRADLE}));
 
-        ModuleDetector detector = new ModuleDetector(ROOT, factory);
+        var detector = new ModuleDetector(ROOT, factory);
 
         assertThat(detector.guessModuleName(PREFIX + PATH_PREFIX_GRADLE + "build/reports/something.txt"))
                 .isEqualTo(EXPECTED_GRADLE_MODULE_ROOT_BY_PATH);
@@ -54,7 +54,7 @@ class GradleModuleDetectorTest extends AbstractModuleDetectorTest {
                         PATH_PREFIX_GRADLE + "a-module/" + GradleModuleDetector.BUILD_GRADLE,
                 }));
 
-        ModuleDetector detector = new ModuleDetector(ROOT, factory);
+        var detector = new ModuleDetector(ROOT, factory);
         String gradleWorkspace = PREFIX + PATH_PREFIX_GRADLE;
 
         assertThat(detector.guessModuleName(
@@ -75,7 +75,7 @@ class GradleModuleDetectorTest extends AbstractModuleDetectorTest {
                 when(stub.find(any(), anyString())).thenReturn(
                         new String[] {PATH_PREFIX_GRADLE + GradleModuleDetector.BUILD_GRADLE_KTS}));
 
-        ModuleDetector detector = new ModuleDetector(ROOT, factory);
+        var detector = new ModuleDetector(ROOT, factory);
 
         assertThat(detector.guessModuleName(PREFIX + PATH_PREFIX_GRADLE + "build/reports/something.txt"))
                 .isEqualTo(EXPECTED_GRADLE_MODULE_ROOT_BY_PATH);
@@ -94,7 +94,7 @@ class GradleModuleDetectorTest extends AbstractModuleDetectorTest {
             when(stub.open(anyString())).thenAnswer(filename -> read("settings-1.gradle"));
         });
 
-        ModuleDetector detector = new ModuleDetector(ROOT, factory);
+        var detector = new ModuleDetector(ROOT, factory);
         String gradleWorkspace = PREFIX + PATH_PREFIX_GRADLE;
 
         assertThat(detector.guessModuleName(
@@ -118,7 +118,7 @@ class GradleModuleDetectorTest extends AbstractModuleDetectorTest {
             when(stub.open(anyString())).thenAnswer(filename -> read("settings-1.gradle"));
         });
 
-        ModuleDetector detector = new ModuleDetector(ROOT, factory);
+        var detector = new ModuleDetector(ROOT, factory);
         String gradleWorkspace = PREFIX + PATH_PREFIX_GRADLE;
 
         assertThat(detector.guessModuleName(gradleWorkspace + "build/reports/something.txt"))
@@ -139,7 +139,7 @@ class GradleModuleDetectorTest extends AbstractModuleDetectorTest {
             when(stub.open(anyString())).thenAnswer(filename -> read("settings-1.gradle"));
         });
 
-        ModuleDetector detector = new ModuleDetector(ROOT, factory);
+        var detector = new ModuleDetector(ROOT, factory);
         String gradleWorkspace = PREFIX + PATH_PREFIX_GRADLE;
 
         assertThat(detector.guessModuleName(
@@ -165,7 +165,7 @@ class GradleModuleDetectorTest extends AbstractModuleDetectorTest {
 
         String gradleWorkspace = PREFIX + PATH_PREFIX_GRADLE;
 
-        ModuleDetector detector = new ModuleDetector(ROOT, factory);
+        var detector = new ModuleDetector(ROOT, factory);
         assertThat(detector.guessModuleName(gradleWorkspace + "build/reports/something.txt"))
                 .isEqualTo(EXPECTED_GRADLE_MODULE_ROOT);
     }
@@ -181,7 +181,7 @@ class GradleModuleDetectorTest extends AbstractModuleDetectorTest {
 
         String gradleWorkspace = PREFIX + PATH_PREFIX_GRADLE;
 
-        ModuleDetector detector = new ModuleDetector(ROOT, factory);
+        var detector = new ModuleDetector(ROOT, factory);
         assertThat(detector.guessModuleName(gradleWorkspace + "build/reports/something.txt"))
                 .isEqualTo("root-project-2");
     }
@@ -197,7 +197,7 @@ class GradleModuleDetectorTest extends AbstractModuleDetectorTest {
 
         String gradleWorkspace = PREFIX + PATH_PREFIX_GRADLE;
 
-        ModuleDetector detector = new ModuleDetector(ROOT, factory);
+        var detector = new ModuleDetector(ROOT, factory);
         assertThat(detector.guessModuleName(gradleWorkspace + "build/reports/something.txt"))
                 .isEqualTo("root-project-3");
     }
@@ -213,7 +213,7 @@ class GradleModuleDetectorTest extends AbstractModuleDetectorTest {
 
         String gradleWorkspace = PREFIX + PATH_PREFIX_GRADLE;
 
-        ModuleDetector detector = new ModuleDetector(ROOT, factory);
+        var detector = new ModuleDetector(ROOT, factory);
         assertThat(detector.guessModuleName(gradleWorkspace + "build/reports/something.txt"))
                 .isEqualTo("root-project-4");
     }
@@ -230,7 +230,7 @@ class GradleModuleDetectorTest extends AbstractModuleDetectorTest {
 
         String gradleWorkspace = PREFIX + PATH_PREFIX_GRADLE;
 
-        ModuleDetector detector = new ModuleDetector(ROOT, factory);
+        var detector = new ModuleDetector(ROOT, factory);
         assertThat(detector.guessModuleName(gradleWorkspace + "build/reports/something.txt"))
                 .isEqualTo(EXPECTED_GRADLE_MODULE_ROOT_BY_PATH);
     }
@@ -242,7 +242,7 @@ class GradleModuleDetectorTest extends AbstractModuleDetectorTest {
                         GradleModuleDetector.BUILD_GRADLE,
                 }));
 
-        ModuleDetector detector = new ModuleDetector(ROOT_ABSOLUTE, factory);
+        var detector = new ModuleDetector(ROOT_ABSOLUTE, factory);
         assertThat(detector.guessModuleName("build/reports/something.txt"))
                 .isEqualTo(StringUtils.EMPTY);
     }

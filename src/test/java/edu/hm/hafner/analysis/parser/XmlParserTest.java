@@ -62,9 +62,9 @@ class XmlParserTest extends StructuredFileParserTest {
 
     @Test
     void shouldParseWithCustomPath() {
-        XmlParser parser = new XmlParser(CUSTOM_PATH);
-        Report report = parser.parse(createReaderFactory(ISSUES_CUSTOM_PATH_FILE));
-        Iterator<Issue> iterator = report.iterator();
+        var parser = new XmlParser(CUSTOM_PATH);
+        var report = parser.parse(createReaderFactory(ISSUES_CUSTOM_PATH_FILE));
+        var iterator = report.iterator();
         try (SoftAssertions softly = new SoftAssertions()) {
             softly.assertThat(report)
                     .hasSize(2);

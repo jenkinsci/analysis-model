@@ -123,7 +123,7 @@ class CpdParserTest extends AbstractParserTest {
     }
 
     private Report parse(final int highThreshold, final int normalThreshold) {
-        CpdParser parser = new CpdParser(highThreshold, normalThreshold);
+        var parser = new CpdParser(highThreshold, normalThreshold);
         return parser.parse(createReaderFactory("issue12516.xml"));
     }
 

@@ -47,8 +47,7 @@ public class ReportSerializationBenchmark extends AbstractBenchmark {
 
     private static Report createReportWith(final int number) {
         try (IssueBuilder builder = new IssueBuilder()) {
-            Report report;
-            report = new Report();
+            var report = new Report();
             builder.setFileName(AFFECTED_FILE_NAME);
             builder.setLineStart(5);
 
@@ -68,7 +67,7 @@ public class ReportSerializationBenchmark extends AbstractBenchmark {
      * @return bytes
      */
     private static byte[] toByteArray(final Report report) {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        var out = new ByteArrayOutputStream();
 
         try (ObjectOutputStream stream = new ObjectOutputStream(out)) {
             stream.writeObject(report);
@@ -90,7 +89,7 @@ public class ReportSerializationBenchmark extends AbstractBenchmark {
      */
     @SuppressFBWarnings("OBJECT_DESERIALIZATION")
     private static Report toReport(final byte[] bytes) {
-        ByteArrayInputStream in = new ByteArrayInputStream(bytes);
+        var in = new ByteArrayInputStream(bytes);
 
         try (ObjectInputStream stream = new ObjectInputStream(in)) {
             return (Report) stream.readObject();

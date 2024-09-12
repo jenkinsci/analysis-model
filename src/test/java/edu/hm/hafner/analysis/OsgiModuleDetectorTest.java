@@ -38,7 +38,7 @@ class OsgiModuleDetectorTest extends AbstractModuleDetectorTest {
             when(stub.open(anyString())).thenReturn(read(MANIFEST));
         });
 
-        ModuleDetector detector = new ModuleDetector(ROOT, factory);
+        var detector = new ModuleDetector(ROOT, factory);
 
         assertThat(detector.guessModuleName(PREFIX + PATH_PREFIX_OSGI + "something.txt"))
                 .isEqualTo(EXPECTED_OSGI_MODULE);
@@ -55,7 +55,7 @@ class OsgiModuleDetectorTest extends AbstractModuleDetectorTest {
             when(stub.open(anyString())).thenReturn(read(MANIFEST), read("l10n.properties"));
         });
 
-        ModuleDetector detector = new ModuleDetector(ROOT, factory);
+        var detector = new ModuleDetector(ROOT, factory);
 
         String expectedName = "de.faktorlogik.prototyp (My Vendor)";
         assertThat(detector.guessModuleName(PREFIX + PATH_PREFIX_OSGI + "something.txt"))
@@ -74,7 +74,7 @@ class OsgiModuleDetectorTest extends AbstractModuleDetectorTest {
             when(stub.open(anyString())).thenReturn(read(MANIFEST_NAME), read("l10n.properties"));
         });
 
-        ModuleDetector detector = new ModuleDetector(ROOT, fileSystem);
+        var detector = new ModuleDetector(ROOT, fileSystem);
 
         String expectedName = "My Bundle";
         assertThat(detector.guessModuleName(PREFIX + PATH_PREFIX_OSGI + "something.txt"))

@@ -99,7 +99,7 @@ class ReportTest extends SerializableTest<Report> {
 
     @Test
     void shouldFindIssuesInModifiedCode() {
-        Report report = new Report();
+        var report = new Report();
         report.addAll(allIssuesAsList());
 
         assertThat(report).hasNoInModifiedCode();
@@ -132,7 +132,7 @@ class ReportTest extends SerializableTest<Report> {
 
     @Test
     void shouldVerifyExistenceOfProperties() {
-        Report report = new Report();
+        var report = new Report();
 
         assertThat(report.hasTools()).isFalse();
         assertThat(report.hasModules()).isFalse();
@@ -167,8 +167,7 @@ class ReportTest extends SerializableTest<Report> {
 
     private void verifySeverity(final Report report) {
         try (IssueBuilder issueBuilder = new IssueBuilder()) {
-            Issue additional;
-            additional = issueBuilder.setSeverity(Severity.WARNING_HIGH).build();
+            Issue additional = issueBuilder.setSeverity(Severity.WARNING_HIGH).build();
             report.add(additional);
             assertThat(report.hasTools()).isFalse();
             assertThat(report.hasModules()).isFalse();
@@ -304,7 +303,7 @@ class ReportTest extends SerializableTest<Report> {
 
     @Test
     void shouldFilterPriorities() {
-        Report report = new Report();
+        var report = new Report();
         report.addAll(allIssuesAsList());
 
         assertThat(report.getSeverities())
@@ -328,7 +327,7 @@ class ReportTest extends SerializableTest<Report> {
     @Test
     @SuppressWarnings("NullAway")
     void shouldGroupIssuesByProperty() {
-        Report report = new Report();
+        var report = new Report();
         report.addAll(allIssuesAsList());
 
         Map<String, Report> byPriority = report.groupByProperty("severity");
@@ -349,7 +348,7 @@ class ReportTest extends SerializableTest<Report> {
      */
     @Test
     void shouldProvideNoWritingIterator() {
-        Report report = new Report();
+        var report = new Report();
         report.addAll(HIGH, NORMAL_1, NORMAL_2, LOW_2_A, LOW_2_B, LOW_FILE_3);
         Iterator<Issue> iterator = report.iterator();
         iterator.next();
@@ -361,22 +360,22 @@ class ReportTest extends SerializableTest<Report> {
      */
     @Test
     void shouldCopyProperties() {
-        Report expected = new Report(ID, NAME, SOURCE_FILE);
+        var expected = new Report(ID, NAME, SOURCE_FILE);
         expected.addAll(HIGH, NORMAL_1, NORMAL_2, LOW_2_A, LOW_2_B, LOW_FILE_3);
         expected.logInfo("Hello");
         expected.logInfo("World!");
         expected.logError("Boom!");
         expected.setCounter(KEY, VALUE);
 
-        Report copy = expected.copy();
+        var copy = expected.copy();
         assertThat(copy).isEqualTo(expected);
         assertThatAllIssuesHaveBeenAdded(copy);
 
-        Report report = new Report();
+        var report = new Report();
         report.addAll(expected);
         assertThatAllIssuesHaveBeenAdded(report);
 
-        Report empty = expected.copyEmptyInstance();
+        var empty = expected.copyEmptyInstance();
         assertThat(empty).isEmpty();
         assertThat(empty.getErrorMessages()).isEqualTo(expected.getErrorMessages());
         assertThat(empty.getInfoMessages()).isEqualTo(expected.getInfoMessages());
@@ -393,13 +392,13 @@ class ReportTest extends SerializableTest<Report> {
 
     @Test
     void shouldSumCountersOnMerge() {
-        Report first = new Report();
+        var first = new Report();
         first.addAll(HIGH, NORMAL_1, NORMAL_2);
         first.addAll(HIGH, NORMAL_1, NORMAL_2); // 3 duplicates
         first.setCounter(KEY, 10);
         first.setCounter("one", 100);
 
-        Report second = new Report();
+        var second = new Report();
         second.addAll(LOW_2_A, LOW_2_B);
         second.addAll(LOW_2_A, LOW_2_B); // 2 duplicates
         second.setCounter(KEY, 1);
@@ -416,17 +415,17 @@ class ReportTest extends SerializableTest<Report> {
     /** Verifies some additional variants of the {@link Report#addAll(Report[])}. */
     @Test
     void shouldVerifyPathInteriorCoverageOfAddAll() {
-        Report first = new Report().add(HIGH);
+        var first = new Report().add(HIGH);
         first.logInfo("1 info");
         first.logError("1 error");
-        Report second = new Report().addAll(NORMAL_1, NORMAL_2);
+        var second = new Report().addAll(NORMAL_1, NORMAL_2);
         second.logInfo("2 info");
         second.logError("2 error");
-        Report third = new Report().addAll(LOW_2_A, LOW_2_B, LOW_FILE_3);
+        var third = new Report().addAll(LOW_2_A, LOW_2_B, LOW_FILE_3);
         third.logInfo("3 info");
         third.logError("3 error");
 
-        Report report = new Report();
+        var report = new Report();
         report.addAll(first);
         assertThat((Iterable<Issue>) report).containsExactly(HIGH);
         assertThat(report.getInfoMessages()).containsExactly("1 info");
@@ -437,13 +436,13 @@ class ReportTest extends SerializableTest<Report> {
         assertThat(report.getInfoMessages()).containsExactly("1 info", "2 info", "3 info");
         assertThat(report.getErrorMessages()).containsExactly("1 error", "2 error", "3 error");
 
-        Report altogether = new Report();
+        var altogether = new Report();
         altogether.addAll(first, second, third);
         assertThatAllIssuesHaveBeenAdded(report);
         assertThat(report.getInfoMessages()).containsExactly("1 info", "2 info", "3 info");
         assertThat(report.getErrorMessages()).containsExactly("1 error", "2 error", "3 error");
 
-        Report inConstructor = new Report(first, second, third);
+        var inConstructor = new Report(first, second, third);
         assertThatAllIssuesHaveBeenAdded(inConstructor);
         assertThat(inConstructor.getInfoMessages()).containsExactly("1 info", "2 info", "3 info");
         assertThat(inConstructor.getErrorMessages()).containsExactly("1 error", "2 error", "3 error");
@@ -451,7 +450,7 @@ class ReportTest extends SerializableTest<Report> {
 
     @Test
     void shouldBeEmptyWhenCreated() {
-        Report report = new Report();
+        var report = new Report();
 
         assertThat(report).isEmpty();
         assertThat(report.isNotEmpty()).isFalse();
@@ -470,7 +469,7 @@ class ReportTest extends SerializableTest<Report> {
 
     @Test
     void shouldAddMultipleIssuesOneByOne() {
-        Report report = new Report();
+        var report = new Report();
 
         report.add(HIGH);
         report.add(NORMAL_1);
@@ -484,7 +483,7 @@ class ReportTest extends SerializableTest<Report> {
 
     @Test
     void shouldAddMultipleIssuesAsCollection() {
-        Report report = new Report();
+        var report = new Report();
         List<Issue> issueList = allIssuesAsList();
 
         report.addAll(issueList);
@@ -494,7 +493,7 @@ class ReportTest extends SerializableTest<Report> {
 
     @Test
     void shouldIterateOverAllElementsInCorrectOrder() {
-        Report report = new Report();
+        var report = new Report();
 
         report.add(HIGH);
         report.addAll(NORMAL_1, NORMAL_2);
@@ -510,9 +509,9 @@ class ReportTest extends SerializableTest<Report> {
 
     @Test
     void shouldSkipAddedElements() {
-        Report report = new Report().addAll(allIssuesAsList());
+        var report = new Report().addAll(allIssuesAsList());
 
-        Report fromEmpty = new Report();
+        var fromEmpty = new Report();
 
         fromEmpty.addAll(report.get());
         assertThatAllIssuesHaveBeenAdded(fromEmpty);
@@ -521,17 +520,17 @@ class ReportTest extends SerializableTest<Report> {
                 .hasDuplicatesSize(6);
         assertThatReportHasSeverities(report, 0, 1, 2, 3);
 
-        Report left = new Report().addAll(HIGH, NORMAL_1, NORMAL_2);
-        Report right = new Report().addAll(LOW_2_A, LOW_2_B, LOW_FILE_3);
+        var left = new Report().addAll(HIGH, NORMAL_1, NORMAL_2);
+        var right = new Report().addAll(LOW_2_A, LOW_2_B, LOW_FILE_3);
 
-        Report everything = new Report();
+        var everything = new Report();
         everything.addAll(left, right);
         assertThat(everything).hasSize(6);
     }
 
     @Test
     void shouldAddMultipleIssuesToNonEmpty() {
-        Report report = new Report();
+        var report = new Report();
         report.add(HIGH);
 
         report.addAll(asList(NORMAL_1, NORMAL_2));
@@ -566,7 +565,7 @@ class ReportTest extends SerializableTest<Report> {
 
     @Test
     void shouldSkipDuplicates() {
-        Report report = new Report();
+        var report = new Report();
         report.add(HIGH);
         assertThat(report).hasSize(1).hasDuplicatesSize(0);
         report.add(HIGH);
@@ -589,7 +588,7 @@ class ReportTest extends SerializableTest<Report> {
     }
 
     private void shouldRemoveOneIssue(final Issue... initialElements) {
-        Report report = new Report();
+        var report = new Report();
         report.addAll(asList(initialElements));
 
         assertThat(report.remove(HIGH.getId())).isEqualTo(HIGH);
@@ -599,7 +598,7 @@ class ReportTest extends SerializableTest<Report> {
 
     @Test
     void shouldThrowExceptionWhenRemovingWithWrongKey() {
-        Report report = new Report();
+        var report = new Report();
 
         UUID id = HIGH.getId();
         assertThatThrownBy(() -> report.remove(id))
@@ -609,7 +608,7 @@ class ReportTest extends SerializableTest<Report> {
 
     @Test
     void shouldFindIfOnlyOneIssue() {
-        Report report = new Report();
+        var report = new Report();
         report.addAll(Collections.singletonList(HIGH));
 
         Issue found = report.findById(HIGH.getId());
@@ -625,7 +624,7 @@ class ReportTest extends SerializableTest<Report> {
     }
 
     private void shouldFindIssue(final Issue... elements) {
-        Report report = new Report();
+        var report = new Report();
         report.addAll(asList(elements));
 
         Issue found = report.findById(HIGH.getId());
@@ -640,7 +639,7 @@ class ReportTest extends SerializableTest<Report> {
     }
 
     private void shouldFindNothing(final Issue... elements) {
-        Report report = new Report();
+        var report = new Report();
         report.addAll(asList(elements));
 
         UUID id = NORMAL_2.getId();
@@ -651,7 +650,7 @@ class ReportTest extends SerializableTest<Report> {
 
     @Test
     void shouldReturnEmptyListIfPropertyDoesNotMatch() {
-        Report report = new Report();
+        var report = new Report();
         report.addAll(asList(HIGH, NORMAL_1, NORMAL_2));
 
         Set<Issue> found = report.findByProperty(Issue.bySeverity(Severity.WARNING_LOW));
@@ -661,7 +660,7 @@ class ReportTest extends SerializableTest<Report> {
 
     @Test
     void testFindByProperty() {
-        Report report = new Report();
+        var report = new Report();
         report.addAll(asList(HIGH, NORMAL_1, NORMAL_2));
         Set<Issue> found = report.findByProperty(Issue.bySeverity(Severity.WARNING_HIGH));
 
@@ -671,7 +670,7 @@ class ReportTest extends SerializableTest<Report> {
 
     @Test
     void shouldReturnIndexedValue() {
-        Report report = new Report();
+        var report = new Report();
         report.addAll(asList(HIGH, NORMAL_1, NORMAL_2));
 
         assertThat(report.get(0)).isSameAs(HIGH);
@@ -682,7 +681,7 @@ class ReportTest extends SerializableTest<Report> {
     @Test
     @SuppressFBWarnings("RV")
     void shouldThrowExceptionOnWrongIndex() {
-        Report report = new Report();
+        var report = new Report();
         report.addAll(asList(HIGH, NORMAL_1, NORMAL_2));
 
         assertThatThrownBy(() -> report.get(-1))
@@ -695,7 +694,7 @@ class ReportTest extends SerializableTest<Report> {
 
     @Test
     void shouldReturnFiles() {
-        Report report = new Report();
+        var report = new Report();
         report.addAll(allIssuesAsList());
 
         assertThat(report.getFiles()).contains("file-1", "file-1", "file-3");
@@ -707,7 +706,7 @@ class ReportTest extends SerializableTest<Report> {
 
     @Test
     void shouldReturnSizeInToString() {
-        Report report = new Report();
+        var report = new Report();
         report.addAll(asList(HIGH, NORMAL_1, NORMAL_2));
 
         assertThat(report.toString()).contains("3");
@@ -715,7 +714,7 @@ class ReportTest extends SerializableTest<Report> {
 
     @Test
     void shouldReturnProperties() {
-        Report report = new Report();
+        var report = new Report();
         report.addAll(allIssuesAsList());
 
         Set<String> properties = report.getProperties(Issue::getMessage);
@@ -728,10 +727,10 @@ class ReportTest extends SerializableTest<Report> {
 
     @Test
     void testCopy() {
-        Report original = new Report();
+        var original = new Report();
         original.addAll(asList(HIGH, NORMAL_1, NORMAL_2));
 
-        Report copy = original.copy();
+        var copy = original.copy();
 
         assertThat(copy).isNotSameAs(original);
         assertThat(copy.iterator()).toIterable().containsExactly(HIGH, NORMAL_1, NORMAL_2);
@@ -755,7 +754,7 @@ class ReportTest extends SerializableTest<Report> {
             final Function<Report, Set<String>> propertyGetter, final String propertyName,
             final Function<String, Predicate<Issue>> predicate) {
         try (IssueBuilder builder = new IssueBuilder()) {
-            Report report = new Report();
+            var report = new Report();
 
             for (int i = 1; i < 4; i++) {
                 for (int j = i; j < 4; j++) {
@@ -778,7 +777,7 @@ class ReportTest extends SerializableTest<Report> {
 
     @Test
     void shouldStoreAndRetrieveLogAndErrorMessagesInCorrectOrder() {
-        Report report = new Report();
+        var report = new Report();
 
         assertThat(report.getInfoMessages()).hasSize(0);
         assertThat(report.getErrorMessages()).hasSize(0);
@@ -800,7 +799,7 @@ class ReportTest extends SerializableTest<Report> {
 
     @Override
     protected Report createSerializable() {
-        Report report = new Report(ID, NAME, SOURCE_FILE).addAll(HIGH, NORMAL_1, NORMAL_2);
+        var report = new Report(ID, NAME, SOURCE_FILE).addAll(HIGH, NORMAL_1, NORMAL_2);
         report.addAll(HIGH, NORMAL_1, NORMAL_2); // 6 duplicates
         report.setCounter(KEY, VALUE);
         report.logInfo("info1");
@@ -808,7 +807,7 @@ class ReportTest extends SerializableTest<Report> {
         report.logError("error1");
         report.logError("error2");
 
-        Report subReport = new Report(ID, NAME, SOURCE_FILE);
+        var subReport = new Report(ID, NAME, SOURCE_FILE);
         subReport.addAll(LOW_2_A, LOW_2_B, LOW_FILE_3);
         subReport.addAll(LOW_2_A, LOW_2_B, LOW_FILE_3);
         subReport.setCounter("subreport", 10); // FIXME: addition?
@@ -841,7 +840,7 @@ class ReportTest extends SerializableTest<Report> {
     @Test
     void shouldWriteLongMessages() {
         try (IssueBuilder builder = new IssueBuilder()) {
-            Report report = new Report();
+            var report = new Report();
 
             report.add(builder.setMessage(createLongMessage()).build());
 
@@ -861,10 +860,10 @@ class ReportTest extends SerializableTest<Report> {
     /** Verifies that equals checks all properties. */
     @Test
     void shouldBeNotEqualsAPropertyChanges() {
-        Report report = new Report();
+        var report = new Report();
         report.addAll(HIGH, NORMAL_1, NORMAL_2, LOW_2_A, LOW_2_B, LOW_FILE_3);
 
-        Report other = new Report();
+        var other = new Report();
         other.addAll(report);
 
         assertThat(report).isNotEqualTo(other); // there should be duplicates
@@ -872,9 +871,9 @@ class ReportTest extends SerializableTest<Report> {
 
     @Test
     void shouldPrintAllIssues() {
-        Report report = readCheckStyleReport();
+        var report = readCheckStyleReport();
 
-        IssuePrinter printer = mock(IssuePrinter.class);
+        var printer = mock(IssuePrinter.class);
         report.print(printer);
 
         for (Issue issue : report) {
@@ -884,7 +883,7 @@ class ReportTest extends SerializableTest<Report> {
 
     @Test
     void shouldPrintAllIssuesToPrintStream() {
-        Report report = readCheckStyleReport();
+        var report = readCheckStyleReport();
 
         try (PrintStream printStream = mock(PrintStream.class)) {
             report.print(new StandardOutputPrinter(printStream));
@@ -897,7 +896,7 @@ class ReportTest extends SerializableTest<Report> {
 
     private Report readCheckStyleReport() {
         String fileName = "parser/checkstyle/all-severities.xml";
-        Report report = new CheckStyleParser().parseFile(read(fileName));
+        var report = new CheckStyleParser().parseFile(read(fileName));
         report.add(new IssueBuilder().setSeverity(Severity.WARNING_HIGH).setMessage("Severity High warning").build());
         assertThat(report).hasSize(4);
         assertThat(report.getSeverities()).hasSize(4);
@@ -928,7 +927,7 @@ class ReportTest extends SerializableTest<Report> {
     @Test
     void shouldSetOriginAndReference() {
         try (IssueBuilder builder = new IssueBuilder()) {
-            Report report = new Report();
+            var report = new Report();
             Issue checkstyleWarning = builder.setFileName("A.java")
                     .setCategory("Style")
                     .setLineStart(1)
@@ -959,15 +958,15 @@ class ReportTest extends SerializableTest<Report> {
 
     @Test
     void shouldCopyMessagesRecursively() {
-        Report checkStyle = new Report(CHECKSTYLE_ID, CHECKSTYLE_NAME, "checkstyle.xml");
+        var checkStyle = new Report(CHECKSTYLE_ID, CHECKSTYLE_NAME, "checkstyle.xml");
         checkStyle.logInfo("Info message from %s", CHECKSTYLE_NAME);
         checkStyle.logError("Error message from %s", CHECKSTYLE_NAME);
 
-        Report spotBugs = new Report(SPOTBUGS_ID, SPOTBUGS_NAME, "spotbugs.xml");
+        var spotBugs = new Report(SPOTBUGS_ID, SPOTBUGS_NAME, "spotbugs.xml");
         spotBugs.logInfo("Info message from %s", SPOTBUGS_NAME);
         spotBugs.logError("Error message from %s", SPOTBUGS_NAME);
 
-        Report wrappedCheckStyle = new Report();
+        var wrappedCheckStyle = new Report();
         wrappedCheckStyle.addAll(checkStyle);
         assertThat(wrappedCheckStyle.getNameOfOrigin(CHECKSTYLE_ID)).isEqualTo(CHECKSTYLE_NAME);
         assertThat(wrappedCheckStyle.getEffectiveId()).isEqualTo(CHECKSTYLE_ID);
@@ -975,7 +974,7 @@ class ReportTest extends SerializableTest<Report> {
         wrappedCheckStyle.logInfo("Info (Wrapped) message from %s", CHECKSTYLE_NAME);
         wrappedCheckStyle.logError("Error (Wrapped) message from %s", CHECKSTYLE_NAME);
 
-        Report wrappedSpotBugs = new Report();
+        var wrappedSpotBugs = new Report();
         wrappedSpotBugs.addAll(spotBugs);
         assertThat(wrappedSpotBugs.getNameOfOrigin(SPOTBUGS_ID)).isEqualTo(SPOTBUGS_NAME);
         assertThat(wrappedSpotBugs.getEffectiveId()).isEqualTo(SPOTBUGS_ID);
@@ -983,7 +982,7 @@ class ReportTest extends SerializableTest<Report> {
         wrappedSpotBugs.logInfo("Info (Wrapped) message from %s", SPOTBUGS_NAME);
         wrappedSpotBugs.logError("Error (Wrapped) message from %s", SPOTBUGS_NAME);
 
-        Report aggregated = new Report();
+        var aggregated = new Report();
         aggregated.addAll(wrappedCheckStyle, wrappedSpotBugs);
         assertThat(aggregated.getEffectiveId()).isEqualTo(Report.DEFAULT_ID);
         assertThat(aggregated.getEffectiveName()).isEqualTo(Report.DEFAULT_ID);
@@ -1017,10 +1016,10 @@ class ReportTest extends SerializableTest<Report> {
 
     @Test
     void shouldCopyIdRecursively() {
-        Report first = new Report();
-        Report second = new Report();
+        var first = new Report();
+        var second = new Report();
 
-        Report aggregated = new Report();
+        var aggregated = new Report();
         aggregated.addAll(first, second);
         aggregated.setOrigin(ID, NAME);
 
@@ -1035,8 +1034,8 @@ class ReportTest extends SerializableTest<Report> {
     @Test
     void shouldAddSubReports() {
         try (IssueBuilder builder = new IssueBuilder()) {
-            Report checkStyle = new Report(CHECKSTYLE_ID, CHECKSTYLE_NAME, "checkstyle.xml");
-            Issue checkstyleWarning = builder.setFileName("A.java")
+            var checkStyle = new Report(CHECKSTYLE_ID, CHECKSTYLE_NAME, "checkstyle.xml");
+            var checkstyleWarning = builder.setFileName("A.java")
                     .setCategory("Style")
                     .setLineStart(1)
                     .buildAndClean();
@@ -1056,8 +1055,8 @@ class ReportTest extends SerializableTest<Report> {
             assertThat(checkStyle.get(0)).isSameAs(checkstyleWarning);
             assertThat(checkStyle.findById(checkstyleWarning.getId())).isSameAs(checkstyleWarning);
 
-            Report spotBugs = new Report(SPOTBUGS_ID, SPOTBUGS_NAME, "spotbugs.xml");
-            Issue spotBugsWarning = builder.setFileName("A.java").setCategory("Style").setLineStart(1).buildAndClean();
+            var spotBugs = new Report(SPOTBUGS_ID, SPOTBUGS_NAME, "spotbugs.xml");
+            var spotBugsWarning = builder.setFileName("A.java").setCategory("Style").setLineStart(1).buildAndClean();
             spotBugs.add(spotBugsWarning);
             spotBugs.add(builder.setFileName("A.java").setCategory("Style").setLineStart(1).buildAndClean());
 
@@ -1074,7 +1073,7 @@ class ReportTest extends SerializableTest<Report> {
             spotBugs.logInfo("Info message from %s", SPOTBUGS_NAME);
             spotBugs.logError("Error message from %s", SPOTBUGS_NAME);
 
-            Report container = new Report();
+            var container = new Report();
             container.setOrigin("container", "Aggregation");
             container.addAll(checkStyle, spotBugs);
             verifyContainer(container, checkstyleWarning, spotBugsWarning);
@@ -1082,18 +1081,18 @@ class ReportTest extends SerializableTest<Report> {
             assertThat(checkStyle).hasId(CHECKSTYLE_ID).hasName(CHECKSTYLE_NAME).hasErrors();
             assertThat(spotBugs).hasId(SPOTBUGS_ID).hasName(SPOTBUGS_NAME).hasErrors();
 
-            IssueFilterBuilder filterBuilder = new IssueFilterBuilder();
+            var filterBuilder = new IssueFilterBuilder();
             Predicate<Issue> predicate = filterBuilder.setIncludeCategoryFilter("Style").build();
 
             assertThat(checkStyle.filter(predicate)).hasSize(1).hasId(CHECKSTYLE_ID).hasName(CHECKSTYLE_NAME);
 
-            Report filtered = container.filter(predicate);
+            var filtered = container.filter(predicate);
             verifyContainer(filtered, checkstyleWarning, spotBugsWarning);
 
-            Report copy = container.copy();
+            var copy = container.copy();
             verifyContainer(copy, checkstyleWarning, spotBugsWarning);
 
-            Report copyOfCopy = copy.copy();
+            var copyOfCopy = copy.copy();
             verifyContainer(copyOfCopy, checkstyleWarning, spotBugsWarning);
 
             assertThat(container.stream().map(Issue::getOrigin).collect(Collectors.toSet()))

@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis.parser.dry.simian;
 
+import java.util.Locale;
+
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.Issue;
@@ -108,7 +110,7 @@ class SimianParserTest extends AbstractParserTest {
     }
 
     private String getFileName(final int number) {
-        return String.format("C:/java/foo%d.java", number);
+        return String.format(Locale.ENGLISH, "C:/java/foo%d.java", number);
     }
 
     @Test
@@ -147,7 +149,7 @@ class SimianParserTest extends AbstractParserTest {
     }
 
     private Report parse(final int highThreshold, final int normalThreshold) {
-        SimianParser parser = new SimianParser(highThreshold, normalThreshold);
+        var parser = new SimianParser(highThreshold, normalThreshold);
         return parser.parse(createReaderFactory("twofile.xml"));
     }
 }

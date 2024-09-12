@@ -28,7 +28,7 @@ class PackageNameResolverTest {
     void shouldDoNothingForEmptyIssues() {
         Report report = createIssues();
 
-        PackageNameResolver resolver = new PackageNameResolver();
+        var resolver = new PackageNameResolver();
         resolver.run(report, StandardCharsets.UTF_8);
 
         assertThat(report).hasSize(0);
@@ -39,7 +39,7 @@ class PackageNameResolverTest {
         Report report = createIssues();
         report.add(ISSUE_WITH_PACKAGE);
 
-        PackageNameResolver resolver = new PackageNameResolver();
+        var resolver = new PackageNameResolver();
         resolver.run(report, StandardCharsets.UTF_8);
 
         assertThat(report).hasSize(1);
@@ -51,7 +51,7 @@ class PackageNameResolverTest {
         Report report = createIssues();
         report.add(ISSUE_WITHOUT_PACKAGE);
 
-        PackageNameResolver resolver = new PackageNameResolver(createFileSystemStub());
+        var resolver = new PackageNameResolver(createFileSystemStub());
 
         resolver.run(report, StandardCharsets.UTF_8);
 
@@ -65,7 +65,7 @@ class PackageNameResolverTest {
         report.add(ISSUE_WITHOUT_PACKAGE);
         report.add(ISSUE_WITH_PACKAGE);
 
-        PackageNameResolver resolver = new PackageNameResolver(createFileSystemStub());
+        var resolver = new PackageNameResolver(createFileSystemStub());
 
         resolver.run(report, StandardCharsets.UTF_8);
 

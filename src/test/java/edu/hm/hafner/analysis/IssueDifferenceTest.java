@@ -23,28 +23,28 @@ class IssueDifferenceTest extends ResourceTest {
 
     @Test
     void shouldCreateIssueDifferenceBasedOnPropertiesAndThenOnFingerprint() {
-        Report referenceIssues = new Report().addAll(
+        var referenceIssues = new Report().addAll(
                 createIssue("OUTSTANDING 1", "OUT 1"),
                 createIssue("OUTSTANDING 2", "OUT 2"),
                 createIssue("OUTSTANDING 3", "OUT 3"),
                 createIssue("TO FIX 1", "FIX 1"),
                 createIssue("TO FIX 2", "FIX 2"));
 
-        Report currentIssues = new Report().addAll(
+        var currentIssues = new Report().addAll(
                 createIssue("UPD OUTSTANDING 1", "OUT 1"),
                 createIssue("OUTSTANDING 2", "UPD OUT 2"),
                 createIssue("OUTSTANDING 3", "OUT 3"),
                 createIssue("NEW 1", "NEW 1"));
 
-        IssueDifference issueDifference = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues);
+        var issueDifference = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues);
 
-        Report outstanding = issueDifference.getOutstandingIssues();
+        var outstanding = issueDifference.getOutstandingIssues();
         assertThat(outstanding).hasSize(3);
         assertThat(outstanding.get(0)).hasMessage("OUTSTANDING 2").hasReference(REFERENCE_BUILD);
         assertThat(outstanding.get(1)).hasMessage("OUTSTANDING 3").hasReference(REFERENCE_BUILD);
         assertThat(outstanding.get(2)).hasMessage("UPD OUTSTANDING 1").hasReference(REFERENCE_BUILD);
 
-        Report fixed = issueDifference.getFixedIssues();
+        var fixed = issueDifference.getFixedIssues();
         assertThat(fixed).hasSize(2);
         assertThat(fixed.get(0)).hasMessage("TO FIX 1").hasReference(REFERENCE_BUILD);
         assertThat(fixed.get(1)).hasMessage("TO FIX 2").hasReference(REFERENCE_BUILD);
@@ -66,14 +66,14 @@ class IssueDifferenceTest extends ResourceTest {
 
     private void shouldFindOutstandingFromEqualsOrFingerprint(
             final String currentMessage, final String currentFingerprint) {
-        Report referenceIssues = new Report().add(createIssue("OLD", "OLD"));
-        Report currentIssues = new Report().add(createIssue(currentMessage, currentFingerprint));
+        var referenceIssues = new Report().add(createIssue("OLD", "OLD"));
+        var currentIssues = new Report().add(createIssue(currentMessage, currentFingerprint));
 
-        IssueDifference issueDifference = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues);
+        var issueDifference = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues);
 
         assertThat(issueDifference.getFixedIssues()).isEmpty();
         assertThat(issueDifference.getNewIssues()).isEmpty();
-        Report outstanding = issueDifference.getOutstandingIssues();
+        var outstanding = issueDifference.getOutstandingIssues();
 
         assertThat(outstanding).hasSize(1);
         assertThat(outstanding.get(0))
@@ -84,11 +84,11 @@ class IssueDifferenceTest extends ResourceTest {
 
     @Test
     void shouldCreateIssueDifferenceWithEmptyCurrent() {
-        Report referenceIssues = new Report().addAll(createIssue("OLD 1", "FA"),
+        var referenceIssues = new Report().addAll(createIssue("OLD 1", "FA"),
                 createIssue("OLD 2", "FB"));
-        Report currentIssues = new Report();
+        var currentIssues = new Report();
 
-        IssueDifference issueDifference = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues);
+        var issueDifference = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues);
 
         assertThat(issueDifference.getNewIssues()).isEmpty();
         assertThat(issueDifference.getOutstandingIssues()).isEmpty();
@@ -102,11 +102,11 @@ class IssueDifferenceTest extends ResourceTest {
 
     @Test
     void shouldCreateIssueDifferenceWithEmptyReference() {
-        Report referenceIssues = new Report();
-        Report currentIssues = new Report().addAll(createIssue("NEW 1", "FA"),
+        var referenceIssues = new Report();
+        var currentIssues = new Report().addAll(createIssue("NEW 1", "FA"),
                 createIssue("NEW 2", "FB"));
 
-        IssueDifference issueDifference = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues);
+        var issueDifference = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues);
 
         assertThat(issueDifference.getFixedIssues()).isEmpty();
         assertThat(issueDifference.getOutstandingIssues()).isEmpty();
@@ -126,7 +126,7 @@ class IssueDifferenceTest extends ResourceTest {
                 createIssue("NEW 1", "FP"),
                 createIssue("OLD 1", "FP"));
 
-        IssueDifference issueDifference = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues);
+        var issueDifference = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues);
 
         assertThat(issueDifference.getFixedIssues()).isEmpty();
 
@@ -148,7 +148,7 @@ class IssueDifferenceTest extends ResourceTest {
                 createIssue("NEW 1", "FP1"),
                 createIssue("NEW 3", "FP2"));
 
-        IssueDifference issueDifference = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues);
+        var issueDifference = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues);
 
         assertThat(issueDifference.getFixedIssues()).hasSize(1);
         assertThat(issueDifference.getNewIssues()).hasSize(1);
@@ -184,20 +184,20 @@ class IssueDifferenceTest extends ResourceTest {
     @Test
     @org.junitpioneer.jupiter.Issue("JENKINS-65482")
     void shouldHandleAggregatedResults() {
-        Report firstAxis = readSpotBugsWarnings();
+        var firstAxis = readSpotBugsWarnings();
         assertThat(firstAxis).hasSize(2);
 
-        Report secondAxis = readSpotBugsWarnings();
+        var secondAxis = readSpotBugsWarnings();
         assertThat(secondAxis).hasSize(2);
 
-        Report aggregation = new Report();
+        var aggregation = new Report();
         aggregation.addAll(firstAxis, secondAxis);
         assertThat(aggregation).hasSize(2);
 
-        Report reference = new Report();
+        var reference = new Report();
         reference.addAll(firstAxis, secondAxis);
 
-        IssueDifference issueDifference = new IssueDifference(aggregation, CURRENT_BUILD, reference);
+        var issueDifference = new IssueDifference(aggregation, CURRENT_BUILD, reference);
         assertThat(issueDifference).hasNoFixedIssues().hasNoNewIssues();
         assertThat(issueDifference.getOutstandingIssues()).hasSize(2);
     }

@@ -137,7 +137,7 @@ public abstract class AbstractParserTest extends ResourceTest {
     void shouldBeSerializable() throws IOException {
         IssueParser parser = createParser();
 
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        var out = new ByteArrayOutputStream();
         try (ObjectOutputStream stream = new ObjectOutputStream(out)) {
             stream.writeObject(parser);
         }
@@ -153,7 +153,7 @@ public abstract class AbstractParserTest extends ResourceTest {
     void shouldHandleEmptyFile() {
         boolean passed;
         try {
-            Report report = parseStringContent("");
+            var report = parseStringContent("");
             passed = report.isEmpty();
         }
         catch (ParsingException e) {

@@ -1121,7 +1121,7 @@ public class Report implements Iterable<Issue>, Serializable {
             var additionalProperties = (Serializable) input.readObject();
             var uuid = (UUID) input.readObject();
 
-            Issue issue = new Issue(path, fileName,
+            var issue = new Issue(path, fileName,
                     lineStart, lineEnd, columnStart, columnEnd,
                     lineRanges, category, type, packageName, moduleName,
                     severity, message, description,

@@ -140,12 +140,12 @@ class CppCheckAdapterTest extends AbstractParserTest {
      */
     @Test
     void shouldSkipDuplicatesJenkins61939() {
-        Report first = parse("cpp-check-1.xml");
+        var first = parse("cpp-check-1.xml");
         assertThat(first).hasSize(2);
-        Report second = parse("cpp-check-2.xml");
+        var second = parse("cpp-check-2.xml");
         assertThat(second).hasSize(3);
 
-        Report aggregation = new Report();
+        var aggregation = new Report();
         aggregation.addAll(first, second);
         assertThat(second).hasSize(3);
     }

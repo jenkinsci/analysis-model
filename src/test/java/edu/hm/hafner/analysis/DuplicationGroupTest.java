@@ -25,7 +25,7 @@ class DuplicationGroupTest extends SerializableTest<DuplicationGroup> {
 
     @Override
     protected DuplicationGroup createSerializable() {
-        DuplicationGroup group = new DuplicationGroup();
+        var group = new DuplicationGroup();
 
         try (IssueBuilder builder = new IssueBuilder()) {
             group.add(builder.setAdditionalProperties(group).setFileName("1").build());
@@ -54,7 +54,7 @@ class DuplicationGroupTest extends SerializableTest<DuplicationGroup> {
 
     @Test
     void shouldBeEmptyWhenCreated() {
-        DuplicationGroup group = new DuplicationGroup();
+        var group = new DuplicationGroup();
 
         assertThat(group.getCodeFragment()).isEmpty();
         assertThat(group.getDuplications()).isEmpty();
@@ -62,7 +62,7 @@ class DuplicationGroupTest extends SerializableTest<DuplicationGroup> {
 
     @Test
     void shouldNotOverwriteFragmentOnceItHasBeenSet() {
-        DuplicationGroup group = new DuplicationGroup();
+        var group = new DuplicationGroup();
 
         assertThat(group.getCodeFragment()).isEmpty();
 
@@ -72,7 +72,7 @@ class DuplicationGroupTest extends SerializableTest<DuplicationGroup> {
         group.setCodeFragment("other");
         assertThat(group.getCodeFragment()).isEqualTo(CODE_FRAGMENT);
 
-        DuplicationGroup groupWithFragment = new DuplicationGroup(CODE_FRAGMENT);
+        var groupWithFragment = new DuplicationGroup(CODE_FRAGMENT);
         assertThat(groupWithFragment.getCodeFragment()).isEqualTo(CODE_FRAGMENT);
 
         groupWithFragment.setCodeFragment("other");
@@ -82,7 +82,7 @@ class DuplicationGroupTest extends SerializableTest<DuplicationGroup> {
     @Test
     void shouldReferenceAllDuplications() {
         try (IssueBuilder builder = new IssueBuilder()) {
-            DuplicationGroup group = new DuplicationGroup(CODE_FRAGMENT);
+            var group = new DuplicationGroup(CODE_FRAGMENT);
 
             assertThat(group.getDuplications()).isEmpty();
 
@@ -100,9 +100,9 @@ class DuplicationGroupTest extends SerializableTest<DuplicationGroup> {
     @Test
     void shouldObeyEqualsContract() {
         try (IssueBuilder builder = new IssueBuilder()) {
-            LineRangeList red = new LineRangeList();
+            var red = new LineRangeList();
             red.add(new LineRange(1));
-            LineRangeList blue = new LineRangeList();
+            var blue = new LineRangeList();
             blue.add(new LineRange(2));
             EqualsVerifier
                     .forClass(DuplicationGroup.class)

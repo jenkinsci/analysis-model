@@ -28,7 +28,7 @@ public class FingerprintGeneratorBenchmark extends AbstractBenchmark {
      */
     @Benchmark
     public void benchmarkingOneIssue(final BenchmarkState state) {
-        FingerprintGenerator generator = new FingerprintGenerator();
+        var generator = new FingerprintGenerator();
 
         generator.run(state.getFullTextFingerprint(), state.getSingleIssueReport(), CHARSET_AFFECTED_FILE);
     }
@@ -41,7 +41,7 @@ public class FingerprintGeneratorBenchmark extends AbstractBenchmark {
      */
     @Benchmark
     public void benchmarkingMultipleIssues(final BenchmarkState state) {
-        FingerprintGenerator generator = new FingerprintGenerator();
+        var generator = new FingerprintGenerator();
 
         generator.run(new FullTextFingerprint(), state.getMultipleIssuesReport(), CHARSET_AFFECTED_FILE);
     }
@@ -57,6 +57,7 @@ public class FingerprintGeneratorBenchmark extends AbstractBenchmark {
         private Report singleIssueReport = new Report();
         private FullTextFingerprint fingerprint = new FullTextFingerprint();
         private Report multipleIssuesReport = new Report();
+        @SuppressWarnings("NullAway")
         private Random random;
 
         public Report getSingleIssueReport() {
@@ -87,7 +88,7 @@ public class FingerprintGeneratorBenchmark extends AbstractBenchmark {
 
         @SuppressFBWarnings("PREDICTABLE_RANDOM")
         private Report createMultipleIssues(final int number) {
-            Report report = new Report();
+            var report = new Report();
             try (IssueBuilder builder = new IssueBuilder()) {
                 builder.setFileName(AFFECTED_FILE_NAME);
                 for (int i = 0; i < number; i++) {

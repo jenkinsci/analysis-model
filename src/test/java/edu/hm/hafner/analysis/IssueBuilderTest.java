@@ -239,12 +239,12 @@ class IssueBuilderTest {
     void shouldCollectLineRanges() {
         try (IssueBuilder builder = new IssueBuilder()) {
             builder.setLineStart(1).setLineEnd(2);
-            LineRangeList lineRanges = new LineRangeList();
+            var lineRanges = new LineRangeList();
             lineRanges.add(new LineRange(3, 4));
             lineRanges.add(new LineRange(5, 6));
             builder.setLineRanges(lineRanges);
 
-            Issue issue = builder.build();
+            var issue = builder.build();
             assertThat(issue).hasLineStart(1).hasLineEnd(2);
             assertThat(issue).hasOnlyLineRanges(new LineRange(3, 4), new LineRange(5, 6));
 
@@ -258,11 +258,11 @@ class IssueBuilderTest {
     @Test
     void shouldMoveLineRangeToAttributes() {
         try (IssueBuilder builder = new IssueBuilder()) {
-            LineRangeList lineRanges = new LineRangeList();
+            var lineRanges = new LineRangeList();
             lineRanges.add(new LineRange(1, 2));
             builder.setLineRanges(lineRanges);
 
-            Issue issue = builder.build();
+            var issue = builder.build();
             assertThat(issue).hasLineStart(1).hasLineEnd(2);
             assertThat(issue).hasNoLineRanges();
         }
@@ -272,11 +272,11 @@ class IssueBuilderTest {
     void shouldMoveLineRangeToAttributesEvenIfLineEndIsSet() {
         try (IssueBuilder builder = new IssueBuilder()) {
             builder.setLineEnd(2);
-            LineRangeList lineRanges = new LineRangeList();
+            var lineRanges = new LineRangeList();
             lineRanges.add(new LineRange(1, 2));
             builder.setLineRanges(lineRanges);
 
-            Issue issue = builder.build();
+            var issue = builder.build();
             assertThat(issue).hasLineStart(1).hasLineEnd(2);
             assertThat(issue).hasNoLineRanges();
         }
@@ -286,11 +286,11 @@ class IssueBuilderTest {
     void shouldCleanupLineRanges() {
         try (IssueBuilder builder = new IssueBuilder()) {
             builder.setLineStart(1).setLineEnd(2);
-            LineRangeList lineRanges = new LineRangeList();
+            var lineRanges = new LineRangeList();
             lineRanges.add(new LineRange(1, 2));
             builder.setLineRanges(lineRanges);
 
-            Issue issue = builder.build();
+            var issue = builder.build();
             assertThat(issue).hasLineStart(1).hasLineEnd(2);
             assertThat(issue).hasNoLineRanges();
         }
@@ -300,11 +300,11 @@ class IssueBuilderTest {
     void shouldNotCleanupDifferentLineRanges() {
         try (IssueBuilder builder = new IssueBuilder()) {
             builder.setLineStart(1).setLineEnd(2);
-            LineRangeList lineRanges = new LineRangeList();
+            var lineRanges = new LineRangeList();
             lineRanges.add(new LineRange(1, 3));
             builder.setLineRanges(lineRanges);
 
-            Issue issue = builder.build();
+            var issue = builder.build();
             assertThat(issue).hasLineStart(1).hasLineEnd(2);
             assertThat(issue).hasOnlyLineRanges(new LineRange(1, 3));
         }
@@ -327,7 +327,7 @@ class IssueBuilderTest {
     @Test
     void testFileNameBackslashConversion() {
         try (IssueBuilder builder = new IssueBuilder()) {
-            Issue issue = builder.setFileName(FILE_NAME_WITH_BACKSLASHES).build();
+            var issue = builder.setFileName(FILE_NAME_WITH_BACKSLASHES).build();
 
             assertThat(issue).hasFileName(FILE_NAME);
         }
@@ -336,8 +336,8 @@ class IssueBuilderTest {
     @Test
     void shouldCacheFileName() {
         try (IssueBuilder builder = new IssueBuilder()) {
-            Issue issue = builder.setFileName("fileName").build();
-            Issue anotherIssue = builder.setFileName("fileName").build();
+            var issue = builder.setFileName("fileName").build();
+            var anotherIssue = builder.setFileName("fileName").build();
 
             assertThat(issue.getFileNameTreeString()).isSameAs(anotherIssue.getFileNameTreeString());
         }
@@ -346,8 +346,8 @@ class IssueBuilderTest {
     @Test
     void shouldCachePackageName() {
         try (IssueBuilder builder = new IssueBuilder()) {
-            Issue issue = builder.setPackageName("packageName").build();
-            Issue anotherIssue = builder.setFileName("packageName").build();
+            var issue = builder.setPackageName("packageName").build();
+            var anotherIssue = builder.setFileName("packageName").build();
 
             assertThat(issue.getPackageNameTreeString()).isSameAs(anotherIssue.getPackageNameTreeString());
         }

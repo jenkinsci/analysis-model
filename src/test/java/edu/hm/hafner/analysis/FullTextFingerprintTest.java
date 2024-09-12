@@ -24,9 +24,9 @@ class FullTextFingerprintTest extends ResourceTest {
      */
     @Test
     void shouldExtractCorrectLines() {
-        String affectedFile = new String(readAllBytes("context.txt"), StandardCharsets.UTF_8);
+        var affectedFile = new String(readAllBytes("context.txt"), StandardCharsets.UTF_8);
 
-        FullTextFingerprint fingerprint = new FullTextFingerprint();
+        var fingerprint = new FullTextFingerprint();
 
         assertThat(fingerprint.extractContext(-1, asIterator(affectedFile)))
                 .as("Fingerprint for illegal line numbers should be empty").isEmpty();
@@ -44,7 +44,7 @@ class FullTextFingerprintTest extends ResourceTest {
         assertThat(fingerprint.extractContext(29, asIterator(affectedFile))).isEqualTo("67890");
         assertThat(fingerprint.extractContext(30, asIterator(affectedFile))).isEqualTo("7890");
 
-        // actually illegal but we use the remaining lines:
+        // actually illegal, but we use the remaining lines:
         assertThat(fingerprint.extractContext(31, asIterator(affectedFile))).isEqualTo("890");
         assertThat(fingerprint.extractContext(32, asIterator(affectedFile))).isEqualTo("90");
         assertThat(fingerprint.extractContext(33, asIterator(affectedFile))).isEqualTo("0");
@@ -59,11 +59,11 @@ class FullTextFingerprintTest extends ResourceTest {
      */
     @Test
     void shouldAssignIdenticalFingerprints() {
-        String affectedFile = new String(readAllBytes("context.txt"), StandardCharsets.UTF_8);
+        var affectedFile = new String(readAllBytes("context.txt"), StandardCharsets.UTF_8);
 
-        FullTextFingerprint code = new FullTextFingerprint();
+        var code = new FullTextFingerprint();
 
-        String fingerprint = code.createFingerprint(10, getTextLinesAsStream(affectedFile), StandardCharsets.UTF_8);
+        var fingerprint = code.createFingerprint(10, getTextLinesAsStream(affectedFile), StandardCharsets.UTF_8);
         assertThat(fingerprint).isEqualTo("C10CFE4EC75F0C7F54980D432624D1C9");
 
         for (int line = 0; line < 34; line++) {
@@ -80,7 +80,7 @@ class FullTextFingerprintTest extends ResourceTest {
 
     @Test
     void shouldThrowNoSuchFileExceptionIfFileDoesNotExist() {
-        FullTextFingerprint fingerprint = new FullTextFingerprint();
+        var fingerprint = new FullTextFingerprint();
 
         assertThatExceptionOfType(NoSuchFileException.class)
                 .isThrownBy(() -> fingerprint.compute("/does/not/exist", 1, StandardCharsets.UTF_8));
