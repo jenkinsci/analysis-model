@@ -39,6 +39,6 @@ class YoctoScannerDescriptor extends ParserDescriptor {
 
     @Override
     public String getIconUrl() {
-        return "https://www.yoctoproject.org/wp-content/uploads/sites/32/2023/09/YoctoProject_Logo_RGB_White_small.svg";
+        return "https://upload.wikimedia.org/wikipedia/commons/0/00/Yocto_Project_logo.svg";
     }
 }
