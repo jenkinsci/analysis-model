@@ -6,7 +6,7 @@ skinparam rectangle {
   BackgroundColor<<runtime>> lightBlue
   BackgroundColor<<provided>> lightGray
 }
-rectangle "analysis-model\n\n12.5.0-SNAPSHOT" as edu_hm_hafner_analysis_model_jar
+rectangle "analysis-model\n\n12.4.2-SNAPSHOT" as edu_hm_hafner_analysis_model_jar
 rectangle "jsoup\n\n1.18.1" as org_jsoup_jsoup_jar
 rectangle "commons-io\n\n2.16.1" as commons_io_commons_io_jar
 rectangle "commons-digester3\n\n3.2" as org_apache_commons_commons_digester3_jar
@@ -19,34 +19,32 @@ rectangle "violations-lib\n\n1.157.3" as se_bjurr_violations_violations_lib_jar
 rectangle "j2html\n\n1.4.0" as com_j2html_j2html_jar
 rectangle "xercesImpl\n\n2.12.2" as xerces_xercesImpl_jar
 rectangle "xml-apis\n\n1.4.01" as xml_apis_xml_apis_jar
+rectangle "spotbugs\n\n4.8.6" as com_github_spotbugs_spotbugs_jar
 rectangle "asm\n\n9.7" as org_ow2_asm_asm_jar
 rectangle "asm-analysis\n\n9.7" as org_ow2_asm_asm_analysis_jar
 rectangle "asm-tree\n\n9.7" as org_ow2_asm_asm_tree_jar
-rectangle "spotbugs\n\n4.8.6" as com_github_spotbugs_spotbugs_jar
 rectangle "asm-commons\n\n9.7" as org_ow2_asm_asm_commons_jar
 rectangle "asm-util\n\n9.7" as org_ow2_asm_asm_util_jar
+rectangle "bcel\n\n6.9.0" as org_apache_bcel_bcel_jar
 rectangle "jcip-annotations\n\n1.0-1" as com_github_stephenc_jcip_jcip_annotations_jar
 rectangle "dom4j\n\n2.1.4" as org_dom4j_dom4j_jar
 rectangle "gson\n\n2.11.0" as com_google_code_gson_gson_jar
-rectangle "error_prone_annotations\n\n2.31.0" as com_google_errorprone_error_prone_annotations_jar
-rectangle "Saxon-HE\n\n12.4" as net_sf_saxon_Saxon_HE_jar
+rectangle "Saxon-HE\n\n12.5" as net_sf_saxon_Saxon_HE_jar
 rectangle "xmlresolver\n\n5.2.2" as org_xmlresolver_xmlresolver_jar
 rectangle "xmlresolver\ndata\n5.2.2" as org_xmlresolver_xmlresolver_jar_data
-rectangle "bcel\n\n6.10.0" as org_apache_bcel_bcel_jar
 rectangle "pmd-core\n\n7.5.0" as net_sourceforge_pmd_pmd_core_jar
 rectangle "slf4j-api\n\n2.0.16" as org_slf4j_slf4j_api_jar
-rectangle "jul-to-slf4j\n\n2.0.16" as org_slf4j_jul_to_slf4j_jar
 rectangle "antlr4-runtime\n\n4.9.3" as org_antlr_antlr4_runtime_jar
 rectangle "checker-qual\n\n2.11.1" as org_checkerframework_checker_qual_jar
 rectangle "pcollections\n\n4.0.2" as org_pcollections_pcollections_jar
 rectangle "nice-xml-messages\n\n3.1" as com_github_oowekyala_ooxml_nice_xml_messages_jar
-rectangle "jcommander\n\n1.82" as com_beust_jcommander_jar
 rectangle "pmd-java\n\n7.5.0" as net_sourceforge_pmd_pmd_java_jar
 rectangle "json\n\n20240303" as org_json_json_jar
 rectangle "json-smart\n\n2.5.1" as net_minidev_json_smart_jar
 rectangle "accessors-smart\n\n2.5.1" as net_minidev_accessors_smart_jar
-rectangle "codingstyle\n\n4.12.0" as edu_hm_hafner_codingstyle_jar
+rectangle "codingstyle\n\n4.13.0" as edu_hm_hafner_codingstyle_jar
 rectangle "spotbugs-annotations\n\n4.8.6" as com_github_spotbugs_spotbugs_annotations_jar
+rectangle "error_prone_annotations\n\n2.31.0" as com_google_errorprone_error_prone_annotations_jar
 rectangle "commons-lang3\n\n3.17.0" as org_apache_commons_commons_lang3_jar
 rectangle "streamex\n\n0.8.2" as one_util_streamex_jar
 edu_hm_hafner_analysis_model_jar -[#000000]-> org_jsoup_jsoup_jar
@@ -62,36 +60,36 @@ edu_hm_hafner_analysis_model_jar -[#000000]-> se_bjurr_violations_violations_lib
 edu_hm_hafner_analysis_model_jar -[#000000]-> com_j2html_j2html_jar
 xerces_xercesImpl_jar -[#000000]-> xml_apis_xml_apis_jar
 edu_hm_hafner_analysis_model_jar -[#000000]-> xerces_xercesImpl_jar
-edu_hm_hafner_analysis_model_jar -[#000000]-> org_ow2_asm_asm_jar
+com_github_spotbugs_spotbugs_jar -[#000000]-> org_ow2_asm_asm_jar
 org_ow2_asm_asm_analysis_jar .[#ABABAB].> org_ow2_asm_asm_tree_jar
 com_github_spotbugs_spotbugs_jar -[#000000]-> org_ow2_asm_asm_analysis_jar
+org_ow2_asm_asm_commons_jar .[#ABABAB].> org_ow2_asm_asm_jar
 org_ow2_asm_asm_commons_jar .[#ABABAB].> org_ow2_asm_asm_tree_jar
 com_github_spotbugs_spotbugs_jar -[#000000]-> org_ow2_asm_asm_commons_jar
+org_ow2_asm_asm_tree_jar .[#ABABAB].> org_ow2_asm_asm_jar
 com_github_spotbugs_spotbugs_jar -[#000000]-> org_ow2_asm_asm_tree_jar
+org_ow2_asm_asm_util_jar .[#ABABAB].> org_ow2_asm_asm_jar
 org_ow2_asm_asm_util_jar .[#ABABAB].> org_ow2_asm_asm_tree_jar
 org_ow2_asm_asm_util_jar .[#ABABAB].> org_ow2_asm_asm_analysis_jar
 com_github_spotbugs_spotbugs_jar -[#000000]-> org_ow2_asm_asm_util_jar
+com_github_spotbugs_spotbugs_jar -[#000000]-> org_apache_bcel_bcel_jar
 com_github_spotbugs_spotbugs_jar -[#000000]-> com_github_stephenc_jcip_jcip_annotations_jar
 com_github_spotbugs_spotbugs_jar -[#000000]-> org_dom4j_dom4j_jar
-com_google_code_gson_gson_jar .[#FF0000].> com_google_errorprone_error_prone_annotations_jar: 2.27.0
 com_github_spotbugs_spotbugs_jar -[#000000]-> com_google_code_gson_gson_jar
 net_sf_saxon_Saxon_HE_jar -[#000000]-> org_xmlresolver_xmlresolver_jar
 net_sf_saxon_Saxon_HE_jar -[#000000]-> org_xmlresolver_xmlresolver_jar_data
 com_github_spotbugs_spotbugs_jar -[#000000]-> net_sf_saxon_Saxon_HE_jar
 edu_hm_hafner_analysis_model_jar -[#000000]-> com_github_spotbugs_spotbugs_jar
-edu_hm_hafner_analysis_model_jar -[#000000]-> org_apache_bcel_bcel_jar
 net_sourceforge_pmd_pmd_core_jar .[#ABABAB].> org_slf4j_slf4j_api_jar
-net_sourceforge_pmd_pmd_core_jar .[#FF0000].> org_slf4j_jul_to_slf4j_jar: 1.7.36
 net_sourceforge_pmd_pmd_core_jar -[#000000]-> org_antlr_antlr4_runtime_jar
-net_sourceforge_pmd_pmd_core_jar .[#FF0000].> net_sf_saxon_Saxon_HE_jar: 12.5
+net_sourceforge_pmd_pmd_core_jar .[#ABABAB].> net_sf_saxon_Saxon_HE_jar
 net_sourceforge_pmd_pmd_core_jar -[#000000]-> org_checkerframework_checker_qual_jar
 net_sourceforge_pmd_pmd_core_jar -[#000000]-> org_pcollections_pcollections_jar
 net_sourceforge_pmd_pmd_core_jar -[#000000]-> com_github_oowekyala_ooxml_nice_xml_messages_jar
 edu_hm_hafner_analysis_model_jar -[#000000]-> net_sourceforge_pmd_pmd_core_jar
-edu_hm_hafner_analysis_model_jar -[#000000]-> com_beust_jcommander_jar
 net_sourceforge_pmd_pmd_java_jar .[#ABABAB].> net_sourceforge_pmd_pmd_core_jar
 net_sourceforge_pmd_pmd_java_jar .[#ABABAB].> org_checkerframework_checker_qual_jar
-net_sourceforge_pmd_pmd_java_jar .[#FF0000].> net_sf_saxon_Saxon_HE_jar: 12.5
+net_sourceforge_pmd_pmd_java_jar .[#ABABAB].> net_sf_saxon_Saxon_HE_jar
 net_sourceforge_pmd_pmd_java_jar .[#ABABAB].> org_pcollections_pcollections_jar
 edu_hm_hafner_analysis_model_jar -[#000000]-> net_sourceforge_pmd_pmd_java_jar
 edu_hm_hafner_analysis_model_jar -[#000000]-> org_json_json_jar
