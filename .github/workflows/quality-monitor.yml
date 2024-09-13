@@ -72,6 +72,10 @@ jobs:
                     "id": "spotbugs",
                     "sourcePath": "src/main/java",
                     "pattern": "**/target/spotbugsXml.xml"
+                  },
+                  {
+                    "id": "error-prone",
+                    "pattern": "**/maven.log"
                   }
                 ]
               }
