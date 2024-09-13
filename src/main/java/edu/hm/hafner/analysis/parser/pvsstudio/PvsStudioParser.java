@@ -7,13 +7,14 @@ import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
+import edu.hm.hafner.analysis.parser.pvsstudio.PlogMessagesReader.PlogMessage;
 
 /**
  * A parser for the PVS-Studio static analyzer.
  *
  * @author PVS-Studio Team
  */
-public class PVSStudioParser extends IssueParser {
+public class PvsStudioParser extends IssueParser {
     private static final long serialVersionUID = -7777775729854832128L;
     private static final String SEVERITY_HIGH = "1";
     private static final String SEVERITY_NORMAL = "2";
@@ -38,8 +39,9 @@ public class PVSStudioParser extends IssueParser {
     public Report parse(final ReaderFactory readerFactory) throws ParsingException, ParsingCanceledException {
         try (IssueBuilder issueBuilder = new IssueBuilder()) {
             var report = new Report();
+            var parser = new PlogMessagesReader();
 
-            for (PlogMessage plogMessage : PlogMessage.getMessagesFromReport(readerFactory)) {
+            for (PlogMessage plogMessage : parser.getMessagesFromReport(readerFactory)) {
                 issueBuilder.setFileName(plogMessage.getFilePath());
 
                 issueBuilder.setSeverity(getSeverity(plogMessage.getLevel()));
