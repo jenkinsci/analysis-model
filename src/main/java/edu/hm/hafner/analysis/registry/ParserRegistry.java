@@ -171,6 +171,7 @@ public class ParserRegistry {
             new VeraCodePipelineScannerDescriptor(),
             new XlcDescriptor(),
             new YamlLintDescriptor(),
+            new YoctoScannerDescriptor(),
             new XmlLintDescriptor(),
             new YuiCompressorDescriptor(),
             new ZptLintDescriptor()
