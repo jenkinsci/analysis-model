@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2024-09-13T08:11:08.507226036 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2024-09-13T08:42:31.834807827 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -2289,7 +2289,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 yoctocli
             </td>
             <td>
-                <img src="https://www.yoctoproject.org/wp-content/uploads/sites/32/2023/09/YoctoProject_Logo_RGB_White_small.svg" alt="Yocto Scanner" height="64" width="64">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/0/00/Yocto_Project_logo.svg" alt="Yocto Scanner" height="64" width="64">
             </td>
             <td>
                 <a href="https://docs.yoctoproject.org/dev/dev-manual/vulnerabilities.html">
