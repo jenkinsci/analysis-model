@@ -22,7 +22,7 @@ public class YoctoScannerParser extends JsonIssueParser {
 
     @Override
     protected void parseJsonObject(final Report report, final JSONObject jsonReport, final IssueBuilder issueBuilder) {
-        JSONArray packages = jsonReport.optJSONArray("package");
+        var packages = jsonReport.optJSONArray("package");
         if (packages != null) {
             parseResources(report, packages, issueBuilder);
         }
@@ -32,7 +32,7 @@ public class YoctoScannerParser extends JsonIssueParser {
         for (int i = 0; i < packages.length(); i++) {
             final Object item = packages.get(i);
             if (item instanceof JSONObject) {
-                final JSONObject resourceWrapper = (JSONObject) item;
+                var resourceWrapper = (JSONObject) item;
                 if (!resourceWrapper.isNull("issue")) {
                     parseVulnerabilities(report, issueBuilder, resourceWrapper);
                 }
@@ -45,8 +45,8 @@ public class YoctoScannerParser extends JsonIssueParser {
         final JSONArray vulnerabilities = resourceWrapper.getJSONArray("issue");
         for (Object vulnerability : vulnerabilities) {
             if (vulnerability instanceof JSONObject) {
-                final JSONObject obj = (JSONObject) vulnerability;
-                final String status = obj.getString("status");
+                var obj = (JSONObject) vulnerability;
+                String status = obj.getString("status");
                 boolean unpatched = "Unpatched".equals(status);
                 if (unpatched) {
                     report.add(convertToIssue(resourceWrapper, obj, issueBuilder));
