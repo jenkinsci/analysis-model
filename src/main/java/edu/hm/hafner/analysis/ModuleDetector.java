@@ -144,6 +144,7 @@ public class ModuleDetector {
          *
          * @return the found file names
          */
+        @SuppressWarnings("AvoidObjectArrays") // TODO: change to list in next major release
         String[] find(Path root, String pattern);
 
         /**

@@ -10,12 +10,12 @@ import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
 
 /**
- * Tests the class {@link PVSStudioParser}.
+ * Tests the class {@link PvsStudioParser}.
  *
  * @author PVS-Studio Team
  */
-class PVSStudioParserTest extends AbstractParserTest {
-    PVSStudioParserTest() {
+class PvsStudioParserTest extends AbstractParserTest {
+    PvsStudioParserTest() {
         super("TestReport.plog");
     }
 
@@ -55,6 +55,6 @@ class PVSStudioParserTest extends AbstractParserTest {
 
     @Override
     protected IssueParser createParser() {
-        return new PVSStudioParser();
+        return new PvsStudioParser();
     }
 }
