@@ -69,7 +69,7 @@ public class MavenConsoleParser extends AbstractMavenLogParser {
         String severity = matcher.group("severity");
         builder.setLineStart(lookahead.getLine()).guessSeverity(severity);
 
-        StringBuilder message = new StringBuilder(matcher.group("message"));
+        var message = new StringBuilder(matcher.group("message"));
 
         if (hasGoals(MAVEN_ENFORCER_PLUGIN)) {
             String timestamp = matcher.group("timestamp");

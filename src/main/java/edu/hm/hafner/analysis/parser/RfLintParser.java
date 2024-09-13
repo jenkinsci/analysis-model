@@ -159,7 +159,7 @@ public class RfLintParser extends IssueParser {
     @Override
     public Report parse(final ReaderFactory readerFactory) {
         try (Stream<String> lines = readerFactory.readStream(); IssueBuilder builder = new IssueBuilder()) {
-            Report warnings = new Report();
+            var warnings = new Report();
             lines.forEach(line -> parseLine(builder, warnings, line));
             return warnings;
         }

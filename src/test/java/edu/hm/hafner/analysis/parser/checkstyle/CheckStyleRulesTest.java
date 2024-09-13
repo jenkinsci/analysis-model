@@ -13,11 +13,13 @@ import static org.assertj.core.api.Assertions.*;
  */
 class CheckStyleRulesTest {
     private static final int NUMBER_OF_AVAILABLE_CHECKSTYLE_RULES = 163;
+    private static final Pattern EMPTY_ANNOTATION
+            = Pattern.compile(".*// empty annotation type\\s+</code></pre>.*", Pattern.MULTILINE | Pattern.DOTALL);
 
     /** Test whether we could parse the Checkstyle rule meta data. */
     @Test
     void shouldLoadAndParseAllRules() {
-        CheckStyleRules rules = new CheckStyleRules();
+        var rules = new CheckStyleRules();
 
         assertThat(rules.getRules()).hasSize(NUMBER_OF_AVAILABLE_CHECKSTYLE_RULES);
         assertThat(rules.getRule("EmptyBlock"))
@@ -42,7 +44,7 @@ class CheckStyleRulesTest {
         assertThat(rules.getRule("WhitespaceAround").getDescription())
                 .as("Wrong substitution of <source> tag.")
                 .contains("<pre><code>public MyClass() {}      // empty constructor")
-                .matches(Pattern.compile(".*// empty annotation type\\s+</code></pre>.*", Pattern.MULTILINE | Pattern.DOTALL));
+                .matches(EMPTY_ANNOTATION);
 
         for (Rule rule : rules.getRules()) {
             assertThat(rule.getDescription()).as("Rule %s has no description", rule.getName())

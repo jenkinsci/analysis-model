@@ -78,7 +78,7 @@ abstract class CompositeParserDescriptor extends ParserDescriptor {
 
         @Override
         public Report parse(final ReaderFactory readerFactory) {
-            Report aggregated = new Report();
+            var aggregated = new Report();
             for (IssueParser parser : parsers) {
                 if (parser.accepts(readerFactory)) {
                     aggregated.addAll(parser.parse(readerFactory));

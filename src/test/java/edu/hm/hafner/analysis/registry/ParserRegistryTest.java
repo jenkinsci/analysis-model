@@ -26,7 +26,7 @@ class ParserRegistryTest extends ResourceTest {
 
     @Test
     void shouldThrowExceptionIfParserNotFound() {
-        ParserRegistry parserRegistry = new ParserRegistry();
+        var parserRegistry = new ParserRegistry();
 
         assertThatExceptionOfType(NoSuchElementException.class)
                 .isThrownBy(() -> parserRegistry.get("-"));
@@ -34,7 +34,7 @@ class ParserRegistryTest extends ResourceTest {
 
     @Test
     void shouldFindSomeParsers() {
-        ParserRegistry parserRegistry = new ParserRegistry();
+        var parserRegistry = new ParserRegistry();
 
         assertThat(parserRegistry).hasIds(SPOTBUGS, CHECKSTYLE, PMD).hasNames("SpotBugs", "CheckStyle", "PMD");
         assertThat(parserRegistry.get(SPOTBUGS)).hasId(SPOTBUGS).hasName("SpotBugs");
@@ -47,8 +47,8 @@ class ParserRegistryTest extends ResourceTest {
 
     @Test
     void shouldConfigureCpdParser() {
-        ParserRegistry parserRegistry = new ParserRegistry();
-        ParserDescriptor cpdDescriptor = parserRegistry.get("cpd");
+        var parserRegistry = new ParserRegistry();
+        var cpdDescriptor = parserRegistry.get("cpd");
 
         IssueParser parser = cpdDescriptor.createParser();
 
@@ -78,8 +78,8 @@ class ParserRegistryTest extends ResourceTest {
 
     private void verifyPriority(final String type, final int expectedHighSize, final int expectedNormalSize,
             final int expectedLowSize) {
-        ParserRegistry parserRegistry = new ParserRegistry();
-        ParserDescriptor findbugsDescriptor = parserRegistry.get("findbugs");
+        var parserRegistry = new ParserRegistry();
+        var findbugsDescriptor = parserRegistry.get("findbugs");
 
         IssueParser parser = findbugsDescriptor.createParser(new Option(FindBugsDescriptor.PRIORITY_OPTION_KEY, type));
 

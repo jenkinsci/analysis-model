@@ -53,9 +53,9 @@ public class OsgiModuleDetector extends AbstractModuleDetector {
      */
     private String parseManifest(final String manifestFile) {
         try (InputStream file = getFactory().open(manifestFile)) {
-            Manifest manifest = new Manifest(file);
-            Attributes attributes = manifest.getMainAttributes();
-            Properties properties = readProperties(StringUtils.substringBefore(manifestFile, OSGI_BUNDLE));
+            var manifest = new Manifest(file);
+            var attributes = manifest.getMainAttributes();
+            var properties = readProperties(StringUtils.substringBefore(manifestFile, OSGI_BUNDLE));
             String name = getLocalizedValue(attributes, properties, BUNDLE_NAME);
             if (StringUtils.isNotBlank(name)) {
                 return name;
@@ -69,7 +69,7 @@ public class OsgiModuleDetector extends AbstractModuleDetector {
     }
 
     private Properties readProperties(final String path) {
-        Properties properties = new Properties();
+        var properties = new Properties();
         readProperties(path, properties, PLUGIN_PROPERTIES);
         readProperties(path, properties, BUNDLE_PROPERTIES);
 

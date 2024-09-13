@@ -46,7 +46,7 @@ class FileNameResolverTest {
     @ValueSource(strings = {"/does/not/exist", "!<>$&/&(", "\0 Null-Byte", "C:/!<>$&/&( \0", "/!<>$&/&( \0"})
     @DisplayName("Should not change path on errors")
     void shouldReturnFallbackOnError(final String fileName) {
-        Report report = createIssuesSingleton(fileName, new IssueBuilder());
+        var report = createIssuesSingleton(fileName, new IssueBuilder());
 
         resolvePaths(report, RESOURCE_FOLDER_PATH);
 
@@ -66,7 +66,7 @@ class FileNameResolverTest {
     @Test
     @DisplayName("Should skip processing if there are no issues")
     void shouldDoNothingIfNoIssuesPresent() {
-        Report report = new Report();
+        var report = new Report();
 
         resolvePaths(report, RESOURCE_FOLDER_PATH);
 
@@ -77,7 +77,7 @@ class FileNameResolverTest {
     @Test
     @DisplayName("Should set path if the relative file name exists")
     void shouldSetPath() {
-        Report report = new Report();
+        var report = new Report();
 
         try (IssueBuilder builder = new IssueBuilder()) {
             report.add(builder.setFileName(RELATIVE_FILE).build());
@@ -98,7 +98,7 @@ class FileNameResolverTest {
     @Test
     @DisplayName("Should not set path if the relative file name doe not exist")
     void shouldNotSetPath() {
-        Report report = new Report();
+        var report = new Report();
 
         try (IssueBuilder builder = new IssueBuilder()) {
             report.add(builder.setFileName("not here").build());
@@ -119,7 +119,7 @@ class FileNameResolverTest {
     @Test
     @DisplayName("Should skip existing absolute paths")
     void shouldNotTouchAbsolutePathOrEmptyPath() {
-        Report report = new Report();
+        var report = new Report();
 
         try (IssueBuilder builder = new IssueBuilder()) {
             report.add(builder.setFileName("").build());
@@ -170,8 +170,7 @@ class FileNameResolverTest {
     @DisplayName("Should normalize different relative paths to the same file (file name is relative)")
     void shouldResolveRelativePath(final String fileName) {
         try (IssueBuilder builder = new IssueBuilder()) {
-            Report report;
-            report = createIssuesSingleton(fileName, builder.setOrigin(ID));
+            var report = createIssuesSingleton(fileName, builder.setOrigin(ID));
             resolvePaths(report, RESOURCE_FOLDER_PATH);
 
             assertThatFileResolvesToRelativeFile(report, fileName);
@@ -183,12 +182,11 @@ class FileNameResolverTest {
     @DisplayName("Should normalize different relative paths to the same file (file name is absolute)")
     void shouldNormalizePaths(final String fileName) {
         try (IssueBuilder issueBuilder = new IssueBuilder()) {
-            Report report = new Report();
-            Issue issue;
-            issue = issueBuilder
+            Issue issue = issueBuilder
                     .setDirectory(RESOURCE_FOLDER_STRING)
                     .setFileName(normalize(fileName))
                     .build();
+            var report = new Report();
             report.add(issue);
 
             resolvePaths(report, Paths.get(RESOURCE_FOLDER));
@@ -252,7 +250,7 @@ class FileNameResolverTest {
     }
 
     private Report createIssuesSingleton(final String fileName, final IssueBuilder issueBuilder) {
-        Report report = new Report();
+        var report = new Report();
         Issue issue = issueBuilder.setFileName(fileName).build();
         report.add(issue);
         return report;

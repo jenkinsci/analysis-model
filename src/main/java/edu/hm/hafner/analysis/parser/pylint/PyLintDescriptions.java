@@ -24,12 +24,12 @@ public class PyLintDescriptions {
      */
     @SuppressWarnings("PMD.LooseCoupling")
     public PyLintDescriptions() {
-        JSONParser parser = new JSONParser(JSONParser.MODE_JSON_SIMPLE);
+        var parser = new JSONParser(JSONParser.MODE_JSON_SIMPLE);
 
         try (InputStream inputStream = PyLintDescriptions.class.getResourceAsStream("pylint-descriptions.json")) {
-            JSONArray elements = (JSONArray) parser.parse(inputStream);
+            var elements = (JSONArray) parser.parse(inputStream);
             for (Object element : elements) {
-                JSONObject object = (JSONObject) element;
+                var object = (JSONObject) element;
                 String description = object.getAsString("description");
                 descriptionByName.put(object.getAsString("name"), description);
                 descriptionById.put(object.getAsString("code"), description);

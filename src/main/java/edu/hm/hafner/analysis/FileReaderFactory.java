@@ -40,7 +40,7 @@ public class FileReaderFactory extends ReaderFactory {
      * @param charset
      *         the charset to use when reading the file (or {@code null} if the charset should be detected)
      */
-    public FileReaderFactory(final Path file, final @CheckForNull Charset charset) {
+    public FileReaderFactory(final Path file, @CheckForNull final Charset charset) {
         super(StandardCharsets.UTF_8);
 
         this.file = file;

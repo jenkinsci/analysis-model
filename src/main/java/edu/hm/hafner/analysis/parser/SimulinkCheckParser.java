@@ -3,7 +3,6 @@ package edu.hm.hafner.analysis.parser;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.io.input.ReaderInputStream;
@@ -40,14 +39,14 @@ public class SimulinkCheckParser extends IssueParser {
         try (IssueBuilder issueBuilder = new IssueBuilder();
                 Reader reader = readerFactory.create();
                 InputStream targetStream = ReaderInputStream.builder().setReader(reader).setCharset(readerFactory.getCharset()).get()) {
-            Document document = Jsoup.parse(targetStream, readerFactory.getCharset().name(), EMPTY_BASE_URI);
+            var document = Jsoup.parse(targetStream, readerFactory.getCharset().name(), EMPTY_BASE_URI);
 
-            Elements systemElements = document.select(REPORT_CONTENT);
-            Element systemElement = systemElements.first();
+            var systemElements = document.select(REPORT_CONTENT);
+            var systemElement = systemElements.first();
             if (systemElement == null) {
                 throw new ParsingException("No system element found");
             }
-            Report report = new Report();
+            var report = new Report();
 
             String system = systemElement.id();
             parseIssues(report, document, issueBuilder, system, WARNING);
@@ -67,8 +66,8 @@ public class SimulinkCheckParser extends IssueParser {
         setSeverity(check, issueBuilder);
 
         for (Element element : document.select(check)) {
-            Elements headings = element.select("span.CheckHeading");
-            Element heading = headings.first();
+            var headings = element.select("span.CheckHeading");
+            var heading = headings.first();
             if (heading != null) {
                 parseHeading(report, issueBuilder, system, element, headings, heading.id());
             }
@@ -77,10 +76,10 @@ public class SimulinkCheckParser extends IssueParser {
 
     private static void parseHeading(final Report report, final IssueBuilder issueBuilder, final String system,
             final Element element, final Elements headings, final String headingElement) {
-        String[] headingSplit = headingElement.split("\\.");
+        var headingSplit = headingElement.split("\\.");
         if (headingSplit.length > 0) {
             String issueTxt = headings.text();
-            Matcher textMatcher = TEXT_PATTERN.matcher(issueTxt);
+            var textMatcher = TEXT_PATTERN.matcher(issueTxt);
 
             if (textMatcher.matches()) {
                 issueBuilder.setModuleName(textMatcher.group(1) + "." + headingSplit[headingSplit.length - 1]);

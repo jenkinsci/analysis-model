@@ -40,25 +40,25 @@ public class ClangAnalyzerPlistParser extends IssueParser {
         try (IssueBuilder issueBuilder = new IssueBuilder()) {
             Document doc = readerFactory.readDocument();
 
-            XPathFactory xPathFactory = XPathFactory.newInstance();
-            XPath xPath = xPathFactory.newXPath();
+            var xPathFactory = XPathFactory.newInstance();
+            var xPath = xPathFactory.newXPath();
 
-            XPathExpression filesPath = xPath.compile(
+            var filesPath = xPath.compile(
                     "/plist/dict/key[text()='files']/following-sibling::array/string");
-            XPathExpression diagnosticsPath = xPath.compile(
+            var diagnosticsPath = xPath.compile(
                     "/plist/dict/key[text()='diagnostics']/following-sibling::array/dict");
-            XPathExpression diagDescriptionPath = compileDiagStrPath(xPath, "description");
-            XPathExpression diagCategoryPath = compileDiagStrPath(xPath, "category");
-            XPathExpression diagTypePath = compileDiagStrPath(xPath, "type");
-            XPathExpression diagLocationLinePath = compileDiagLocationPath(xPath, "line");
-            XPathExpression diagLocationColPath = compileDiagLocationPath(xPath, "col");
-            XPathExpression diagLocationFilePath = compileDiagLocationPath(xPath, "file");
+            var diagDescriptionPath = compileDiagStrPath(xPath, "description");
+            var diagCategoryPath = compileDiagStrPath(xPath, "category");
+            var diagTypePath = compileDiagStrPath(xPath, "type");
+            var diagLocationLinePath = compileDiagLocationPath(xPath, "line");
+            var diagLocationColPath = compileDiagLocationPath(xPath, "col");
+            var diagLocationFilePath = compileDiagLocationPath(xPath, "file");
 
-            Report report = new Report();
+            var report = new Report();
 
-            List<String> files = getFilesList(doc, filesPath);
+            var files = getFilesList(doc, filesPath);
 
-            NodeList diagnostics = (NodeList) diagnosticsPath.evaluate(doc, XPathConstants.NODESET);
+            var diagnostics = (NodeList) diagnosticsPath.evaluate(doc, XPathConstants.NODESET);
             for (Element diag : XmlElementUtil.nodeListToList(diagnostics)) {
                 issueBuilder.setFileName(getFileName(files, diag, diagLocationFilePath))
                         .guessSeverity("Warning")
@@ -82,7 +82,7 @@ public class ClangAnalyzerPlistParser extends IssueParser {
             throws XPathExpressionException {
         List<String> files = new ArrayList<>();
 
-        NodeList nodes = (NodeList) filesPath.evaluate(doc, XPathConstants.NODESET);
+        var nodes = (NodeList) filesPath.evaluate(doc, XPathConstants.NODESET);
         for (Element filePathStr : XmlElementUtil.nodeListToList(nodes)) {
             files.add(filePathStr.getTextContent());
         }
@@ -116,7 +116,7 @@ public class ClangAnalyzerPlistParser extends IssueParser {
     }
 
     private static String extractField(final Element diag, final XPathExpression expr) throws XPathExpressionException {
-        NodeList keys = (NodeList) expr.evaluate(diag, XPathConstants.NODESET);
+        var keys = (NodeList) expr.evaluate(diag, XPathConstants.NODESET);
 
         List<Element> elements = XmlElementUtil.nodeListToList(keys);
         if (elements.isEmpty()) {

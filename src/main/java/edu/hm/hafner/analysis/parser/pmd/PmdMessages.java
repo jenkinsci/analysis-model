@@ -24,8 +24,8 @@ public class PmdMessages {
      * Loads the available rules into a map.
      */
     public PmdMessages() {
-        RuleSetLoader loader = new RuleSetLoader();
-        List<RuleSet> ruleSets = loader.getStandardRuleSets();
+        var loader = new RuleSetLoader();
+        var ruleSets = loader.getStandardRuleSets();
         for (RuleSet ruleSet : ruleSets) {
             rules.put(ruleSet.getName(), ruleSet);
         }
@@ -55,8 +55,8 @@ public class PmdMessages {
      */
     public String getMessage(final String ruleSetName, final String ruleName) {
         if (rules.containsKey(ruleSetName)) {
-            RuleSet ruleSet = rules.get(ruleSetName);
-            Rule rule = ruleSet.getRuleByName(ruleName);
+            var ruleSet = rules.get(ruleSetName);
+            var rule = ruleSet.getRuleByName(ruleName);
             if (rule != null) {
                 return createMessage(rule);
             }
@@ -73,7 +73,7 @@ public class PmdMessages {
      * @return the message string to be shown for the specified rule
      */
     private String createMessage(final Rule rule) {
-        StringBuilder message = new StringBuilder(rule.getDescription());
+        var message = new StringBuilder(rule.getDescription());
         List<String> examples = rule.getExamples();
         if (!examples.isEmpty()) {
             message.append(pre().with(code(examples.get(0))).renderFormatted());

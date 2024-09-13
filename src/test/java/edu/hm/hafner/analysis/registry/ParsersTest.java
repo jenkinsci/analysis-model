@@ -348,8 +348,8 @@ class ParsersTest extends ResourceTest {
 
     private void assertThatDescriptionOfIssueIsSet(final String tool, final Issue issue,
             final String expectedDescription) {
-        ParserRegistry parserRegistry = new ParserRegistry();
-        ParserDescriptor descriptor = parserRegistry.get(tool);
+        var parserRegistry = new ParserRegistry();
+        var descriptor = parserRegistry.get(tool);
 
         assertThat(issue).hasDescription("");
         assertThat(descriptor.getDescription(issue)).contains(expectedDescription);
@@ -359,7 +359,7 @@ class ParsersTest extends ResourceTest {
     @Test
     void shouldFindAllFindBugsIssues() {
         String findbugs = "findbugs";
-        Report report = findIssuesOfTool(2, findbugs, "findbugs-native.xml");
+        var report = findIssuesOfTool(2, findbugs, "findbugs-native.xml");
 
         assertThatDescriptionOfIssueIsSet(findbugs, report.get(0),
                 "<p> The fields of this class appear to be accessed inconsistently with respect\n"
@@ -406,7 +406,7 @@ class ParsersTest extends ResourceTest {
                         + "</p>";
 
         String spotBugs = "spotbugs";
-        Report report = findIssuesOfTool(2, spotBugs, "spotbugsXml.xml");
+        var report = findIssuesOfTool(2, spotBugs, "spotbugsXml.xml");
         assertThatDescriptionOfIssueIsSet(spotBugs, report.get(0), expectedDescription);
     }
 
@@ -420,8 +420,8 @@ class ParsersTest extends ResourceTest {
                         + "by the user. If that is the case, the reported instance is a false positive.</p>";
 
         String spotBugs = "spotbugs";
-        Report report = findIssuesOfTool(1, spotBugs, "issue55707.xml");
-        Issue issue = report.get(0);
+        var report = findIssuesOfTool(1, spotBugs, "issue55707.xml");
+        var issue = report.get(0);
         assertThatDescriptionOfIssueIsSet(spotBugs, issue, expectedDescription);
         assertThat(issue).hasMessage(
                 "java/nio/file/Paths.get(Ljava/lang/String;[Ljava/lang/String;)Ljava/nio/file/Path; reads a file whose location might be specified by user input");
@@ -868,10 +868,10 @@ class ParsersTest extends ResourceTest {
     }
 
     private Report findIssuesOfTool(final int expectedSizeOfIssues, final String tool, final String... fileNames) {
-        ParserRegistry registry = new ParserRegistry();
-        ParserDescriptor descriptor = registry.get(tool);
+        var registry = new ParserRegistry();
+        var descriptor = registry.get(tool);
 
-        Report allIssues = new Report();
+        var allIssues = new Report();
         for (String fileName : fileNames) {
             IssueParser parser = descriptor.createParser();
             Report report = parser.parse(new FileReaderFactory(getResourceAsFile("../parser/").resolve(fileName)));

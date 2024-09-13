@@ -13,6 +13,7 @@ import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.util.IntegerParser;
 import edu.hm.hafner.util.LookaheadStream;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import static j2html.TagCreator.*;
 
@@ -83,32 +84,32 @@ public class CargoClippyParser extends LookaheadParser {
      */
     @SuppressWarnings("PMD.CognitiveComplexity")
     private FileInformation createRecommendationMessage(final LookaheadStream lookahead) {
-        StringBuilder description = new StringBuilder();
-        FileInformation fileInformation = new FileInformation();
+        var description = new StringBuilder();
+        var fileInformation = new FileInformation();
 
         while (lookahead.hasNext(CARGO_CLIPP_CONTEXT_CONTINUES)) {
-            final String line = lookahead.next();
+            String line = lookahead.next();
 
-            Matcher fileInfoMatcher = CARGO_CLIPPY_FILE_PATTERN.matcher(line);
+            var fileInfoMatcher = CARGO_CLIPPY_FILE_PATTERN.matcher(line);
             if (fileInfoMatcher.matches()) {
-                fileInformation.setFile(fileInfoMatcher.group("file"));
-                fileInformation.setLine(IntegerParser.parseInt(fileInfoMatcher.group("line")));
+                fileInformation.setFileName(fileInfoMatcher.group("file"));
+                fileInformation.setFileLine(IntegerParser.parseInt(fileInfoMatcher.group("line")));
                 fileInformation.setColumnStart(IntegerParser.parseInt(fileInfoMatcher.group("column")));
             }
             else {
-                Matcher clippyRecommendationMatcher = CARGO_CLIPPY_REC_PATTERN.matcher(line);
+                var clippyRecommendationMatcher = CARGO_CLIPPY_REC_PATTERN.matcher(line);
                 if (clippyRecommendationMatcher.matches()) {
                     description.append(line);
                     continue;
                 }
 
-                Matcher clippyHelpMatcher = CARGO_CLIPPY_HELP_PATTERN.matcher(line);
+                var clippyHelpMatcher = CARGO_CLIPPY_HELP_PATTERN.matcher(line);
                 if (clippyHelpMatcher.matches()) {
                     fileInformation.setHelp(clippyHelpMatcher.group(1), clippyHelpMatcher.group(2));
                     continue;
                 }
 
-                Matcher clippyNotePatcher = CARGO_CLIPPY_NOTE_PATTERN.matcher(line);
+                var clippyNotePatcher = CARGO_CLIPPY_NOTE_PATTERN.matcher(line);
                 if (clippyNotePatcher.matches()) {
                     fileInformation.setCategory(clippyNotePatcher.group(2));
                     fileInformation.setLevel(clippyNotePatcher.group(1));
@@ -153,11 +154,12 @@ public class CargoClippyParser extends LookaheadParser {
         /**
          * Set the filename where the recommendation originated.
          *
-         * @param filename
+         * @param fileName
          *         the filename of the recommendation.
          */
-        public void setFile(final String filename) {
-            this.fileName = filename;
+        @SuppressFBWarnings("NM")
+        public void setFileName(final String fileName) {
+            this.fileName = fileName;
         }
 
         /**
@@ -172,11 +174,11 @@ public class CargoClippyParser extends LookaheadParser {
         /**
          * Set the file line where the recommendation originated.
          *
-         * @param fileline
+         * @param fileLine
          *         The line number.
          */
-        public void setLine(final Integer fileline) {
-            this.fileLine = fileline;
+        public void setFileLine(final Integer fileLine) {
+            this.fileLine = fileLine;
         }
 
         /**

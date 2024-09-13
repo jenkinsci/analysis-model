@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.*;
 class PyLintDescriptionsTest {
     @Test
     void shouldReadAllRules() {
-        PyLintDescriptions descriptions = new PyLintDescriptions();
+        var descriptions = new PyLintDescriptions();
 
         assertThat(descriptions.size()).isEqualTo(274);
         assertThat(descriptions.getDescription("C0112"))

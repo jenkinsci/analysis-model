@@ -17,7 +17,7 @@ class ModuleResolverTest {
     @SuppressFBWarnings("DMI")
     void shouldAssignModuleName() {
         try (IssueBuilder builder = new IssueBuilder()) {
-            Report report = new Report();
+            var report = new Report();
             String fileName = "/file/with/warnings.txt";
             builder.setFileName(fileName);
             Issue noModule = builder.build();
@@ -27,10 +27,10 @@ class ModuleResolverTest {
             Issue withModule = builder.build();
             report.add(withModule);
 
-            ModuleDetector detector = mock(ModuleDetector.class);
+            var detector = mock(ModuleDetector.class);
             when(detector.guessModuleName(fileName)).thenReturn("module1");
 
-            ModuleResolver resolver = new ModuleResolver();
+            var resolver = new ModuleResolver();
             resolver.run(report, detector);
 
             assertThat(report.get(0)).hasModuleName("module1");

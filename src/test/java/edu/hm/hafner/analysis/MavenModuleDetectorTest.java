@@ -36,7 +36,7 @@ class MavenModuleDetectorTest extends AbstractModuleDetectorTest {
             when(stub.open(anyString())).thenAnswer(fileName -> read(MavenModuleDetector.MAVEN_POM));
         });
 
-        ModuleDetector detector = new ModuleDetector(ROOT, factory);
+        var detector = new ModuleDetector(ROOT, factory);
 
         assertThat(detector.guessModuleName(PREFIX + PATH_PREFIX_MAVEN + "something.txt")).isEqualTo(
                 EXPECTED_MAVEN_MODULE);
@@ -52,7 +52,7 @@ class MavenModuleDetectorTest extends AbstractModuleDetectorTest {
             when(stub.open(anyString())).thenAnswer(filename -> read("no-name-pom.xml"));
         });
 
-        ModuleDetector detector = new ModuleDetector(ROOT, factory);
+        var detector = new ModuleDetector(ROOT, factory);
 
         String artifactId = "com.avaloq.adt.core";
         assertThat(detector.guessModuleName(PREFIX + PATH_PREFIX_MAVEN + "something.txt"))

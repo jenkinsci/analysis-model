@@ -3,7 +3,6 @@ package edu.hm.hafner.analysis.parser;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
@@ -69,7 +68,7 @@ public class CargoCheckParser extends IssueParser {
 
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingException, ParsingCanceledException {
-        Report report = new Report();
+        var report = new Report();
 
         try (Stream<String> lines = readerFactory.readStream(); IssueBuilder issueBuilder = new IssueBuilder()) {
             lines.map(line -> (JSONObject) new JSONTokener(line).nextValue())
@@ -124,10 +123,10 @@ public class CargoCheckParser extends IssueParser {
     }
 
     private Optional<CompilerMessageDetails> parseDetails(final JSONObject message) {
-        JSONArray spans = message.getJSONArray(MESSAGE_SPANS);
+        var spans = message.getJSONArray(MESSAGE_SPANS);
 
         for (int index = 0; index < spans.length(); index++) {
-            JSONObject span = spans.getJSONObject(index);
+            var span = spans.getJSONObject(index);
 
             if (span.getBoolean(MESSAGE_SPAN_IS_PRIMARY)) {
                 String fileName = span.getString(MESSAGE_SPAN_FILE_NAME);

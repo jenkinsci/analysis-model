@@ -64,7 +64,7 @@ public class CheckStyleParser extends IssueParser {
      */
     private Report convert(final CheckStyle collection) {
         try (IssueBuilder issueBuilder = new IssueBuilder()) {
-            Report report = new Report();
+            var report = new Report();
 
             for (File file : collection.getFiles()) {
                 if (isValidWarning(file)) {

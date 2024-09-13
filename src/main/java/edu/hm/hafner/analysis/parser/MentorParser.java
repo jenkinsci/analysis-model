@@ -128,7 +128,7 @@ public class MentorParser extends LookaheadParser {
 
     @SuppressFBWarnings(value = "POTENTIAL_XML_INJECTION", justification = "Message is cleaned in UI")
     private String parseSimTime(final LookaheadStream lookahead, final IssueBuilder builder) {
-        StringBuilder description = new StringBuilder();
+        var description = new StringBuilder();
         String timeLine = "";
         while (lookahead.hasNext()
                 && lookahead.peekNext().startsWith("# ")

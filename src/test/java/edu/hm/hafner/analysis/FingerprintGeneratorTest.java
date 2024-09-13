@@ -27,7 +27,7 @@ class FingerprintGeneratorTest extends ResourceTest {
 
     @Test
     void shouldSkipFingerprintingIfEncodingIsWrong() throws IOException {
-        FingerprintGenerator generator = new FingerprintGenerator();
+        var generator = new FingerprintGenerator();
 
         Report report;
         try (IssueBuilder issueBuilder = new IssueBuilder()) {
@@ -50,7 +50,7 @@ class FingerprintGeneratorTest extends ResourceTest {
     @Test
     void shouldNotChangeIssuesWithFingerPrint() {
         try (IssueBuilder issueBuilder = new IssueBuilder()) {
-            FingerprintGenerator generator = new FingerprintGenerator();
+            var generator = new FingerprintGenerator();
 
             issueBuilder.setFileName(AFFECTED_FILE_NAME);
             Report report = createIssues();
@@ -70,9 +70,9 @@ class FingerprintGeneratorTest extends ResourceTest {
     @Test
     void shouldSetDefaultFingerprintIfNoFileIsGiven() {
         try (IssueBuilder issueBuilder = new IssueBuilder()) {
-            FingerprintGenerator generator = new FingerprintGenerator();
+            var generator = new FingerprintGenerator();
 
-            Report report = new Report();
+            var report = new Report();
             report.add(issueBuilder.build());
 
             generator.run(new FullTextFingerprint(), report, CHARSET_AFFECTED_FILE);
@@ -84,14 +84,14 @@ class FingerprintGeneratorTest extends ResourceTest {
 
     @Test
     void shouldAssignIdenticalFingerprint() {
-        Report report = createTwoIssues();
-        FingerprintGenerator generator = new FingerprintGenerator();
-        FullTextFingerprint fingerprint = createFullTextFingerprint("fingerprint-one.txt");
+        var report = createTwoIssues();
+        var generator = new FingerprintGenerator();
+        var fingerprint = createFullTextFingerprint("fingerprint-one.txt");
 
         generator.run(fingerprint, report, CHARSET_AFFECTED_FILE);
 
-        Issue referenceIssue = report.get(0);
-        Issue currentIssue = report.get(1);
+        var referenceIssue = report.get(0);
+        var currentIssue = report.get(1);
 
         assertThat(referenceIssue).isNotEqualTo(currentIssue);
         assertThat(referenceIssue.getFingerprint()).isEqualTo(currentIssue.getFingerprint());
@@ -105,7 +105,7 @@ class FingerprintGeneratorTest extends ResourceTest {
     @SuppressWarnings("MustBeClosedChecker")
     private FileSystem stubFileSystem(final String firstFile, final String secondFile) {
         try {
-            FileSystem fileSystem = mock(FileSystem.class);
+            var fileSystem = mock(FileSystem.class);
             when(fileSystem.readLinesFromFile(anyString(), any()))
                     .thenReturn(asStream(firstFile)).thenReturn(asStream(secondFile));
             return fileSystem;
@@ -117,9 +117,9 @@ class FingerprintGeneratorTest extends ResourceTest {
 
     @Test
     void shouldAssignDifferentFingerprint() {
-        Report report = createTwoIssues();
-        FingerprintGenerator generator = new FingerprintGenerator();
-        FullTextFingerprint fingerprint = createFullTextFingerprint("fingerprint-two.txt");
+        var report = createTwoIssues();
+        var generator = new FingerprintGenerator();
+        var fingerprint = createFullTextFingerprint("fingerprint-two.txt");
 
         generator.run(fingerprint, report, CHARSET_AFFECTED_FILE);
 
@@ -135,7 +135,7 @@ class FingerprintGeneratorTest extends ResourceTest {
     void shouldUseFallbackFingerprintOnError(final String fileName) {
         var report = createReportWithOneIssueFor(fileName);
 
-        FingerprintGenerator generator = new FingerprintGenerator();
+        var generator = new FingerprintGenerator();
         generator.run(new FullTextFingerprint(), report, CHARSET_AFFECTED_FILE);
 
         assertThatIssueHasDefaultFingerprint(report);
@@ -148,7 +148,7 @@ class FingerprintGeneratorTest extends ResourceTest {
     void shouldUseFallbackFingerprintOnNonSourceFiles(final String fileName) {
         var report = createReportWithOneIssueFor(fileName);
 
-        FingerprintGenerator generator = new FingerprintGenerator();
+        var generator = new FingerprintGenerator();
         generator.run(createFullTextFingerprint("fingerprint-two.txt"),
                 report, CHARSET_AFFECTED_FILE);
 
@@ -162,7 +162,7 @@ class FingerprintGeneratorTest extends ResourceTest {
 
         var report = createReportWithOneIssueFor(fileName);
 
-        FingerprintGenerator generator = new FingerprintGenerator();
+        var generator = new FingerprintGenerator();
         generator.run(createFullTextFingerprint("fingerprint-two.txt"),
                 report, CHARSET_AFFECTED_FILE);
 
@@ -170,12 +170,11 @@ class FingerprintGeneratorTest extends ResourceTest {
     }
 
     private Report createReportWithOneIssueFor(final String fileName) {
-        Report report;
         try (IssueBuilder issueBuilder = new IssueBuilder()) {
-            report = new Report();
+            var report = new Report();
             report.add(issueBuilder.setFileName(fileName).build());
+            return report;
         }
-        return report;
     }
 
     private void assertThatIssueHasDefaultFingerprint(final Report report) {

@@ -47,13 +47,13 @@ public class DrMemoryParser extends LookaheadParser {
             throws ParsingException {
         String header = matcher.group(1);
 
-        StringBuilder messageBuilder = new StringBuilder(header);
+        var messageBuilder = new StringBuilder(header);
         while (lookahead.hasNext("Elapsed time")) {
             messageBuilder.append("<br>");
             messageBuilder.append(lookahead.next());
         }
 
-        StringBuilder stacktraceBuilder = new StringBuilder();
+        var stacktraceBuilder = new StringBuilder();
         while (lookahead.hasNext("^#.*")) {
             String stackTrace = lookahead.next();
             stacktraceBuilder.append(stackTrace);

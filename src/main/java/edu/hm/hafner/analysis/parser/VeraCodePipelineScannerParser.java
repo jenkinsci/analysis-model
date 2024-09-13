@@ -32,9 +32,9 @@ public class VeraCodePipelineScannerParser extends JsonIssueParser {
 
     private void parseFindings(final Report report, final JSONArray resources, final IssueBuilder issueBuilder) {
         for (int i = 0; i < resources.length(); i++) {
-            final Object item = resources.get(i);
+            Object item = resources.get(i);
             if (item instanceof JSONObject) {
-                final JSONObject finding = (JSONObject) item;
+                var finding = (JSONObject) item;
                 report.add(convertToIssue(finding, issueBuilder));
             }
         }
@@ -80,9 +80,7 @@ public class VeraCodePipelineScannerParser extends JsonIssueParser {
         else if (StringUtils.endsWith(rawFileName, ".kt") && !StringUtils.startsWith(rawFileName, "src/main/kotlin/")) {
             return "src/main/kotlin/" + rawFileName;
         }
-        else {
-            return rawFileName;
-        }
+        return rawFileName;
     }
 
     private String getPackageName(final String scope) {
@@ -96,19 +94,19 @@ public class VeraCodePipelineScannerParser extends JsonIssueParser {
 
     /**
      * Retrieve source file values in a null safe manner.
-     * Veracode has nested json objects representing a source file ( files -> source_file -> values) for which we need
+     * Veracode has nested JSON objects representing a source file (files -> source_file -> values) for which we need
      * to do null checking.
      *
      * @param finding
-     *         contains top level vulnerability information.
+     *         contains top level vulnerability information
      * @param key
-     *         used to retrieve values from nested source file.
+     *         used to retrieve values from the nested source file
      * @param altValue
-     *         in case there is a missing source file.
+     *         in case there is a missing source file
      * @param <T>
-     *         type of the return value.
+     *         type of the return value
      *
-     * @return field value of the source file.
+     * @return field value of the source file
      */
     private <T> T getSourceFileField(final JSONObject finding, final String key, final T altValue) {
         final JSONObject files = finding.optJSONObject("files");

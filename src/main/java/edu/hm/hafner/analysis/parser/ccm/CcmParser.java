@@ -2,6 +2,7 @@ package edu.hm.hafner.analysis.parser.ccm;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.util.Locale;
 
 import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.SAXException;
@@ -17,20 +18,20 @@ import edu.hm.hafner.analysis.Severity;
 /**
  * A parser for CCM XML files.
  *
- * @author Bruno P. Kinoshita - http://www.kinoshita.eti.br
+ * @author Bruno P. Kinoshita
  */
 public class CcmParser extends IssueParser {
     private static final long serialVersionUID = -5172155190810975806L;
 
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingException {
-        Ccm report = parseCCMXmlFile(readerFactory);
+        var report = parseCcmXmlFile(readerFactory);
 
         return convert(report);
     }
 
-    private Ccm parseCCMXmlFile(final ReaderFactory ccmXmlFile) {
-        SecureDigester digester = new SecureDigester(CcmParser.class);
+    private Ccm parseCcmXmlFile(final ReaderFactory ccmXmlFile) {
+        var digester = new SecureDigester(CcmParser.class);
 
         String rootXPath = "ccm";
         digester.addObjectCreate(rootXPath, Ccm.class);
@@ -62,12 +63,12 @@ public class CcmParser extends IssueParser {
 
     private Report convert(final Ccm collection) {
         try (IssueBuilder issueBuilder = new IssueBuilder()) {
-            Report report = new Report();
+            var report = new Report();
 
             for (Metric metric : collection.getMetrics()) {
                 Severity priority = calculateMetricPriority(metric);
 
-                String complexity = String.format("%s has a complexity of %d", metric.getUnit(),
+                String complexity = String.format(Locale.ENGLISH, "%s has a complexity of %d", metric.getUnit(),
                         metric.getComplexity());
 
                 issueBuilder.setSeverity(priority)

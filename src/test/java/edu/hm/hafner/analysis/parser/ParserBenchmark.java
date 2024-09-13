@@ -65,7 +65,9 @@ public class ParserBenchmark extends AbstractBenchmark {
      */
     @State(Scope.Benchmark)
     public static class BenchmarkState {
+        @SuppressWarnings("NullAway")
         private ReaderFactory checkstyleFileReaderFactory;
+        @SuppressWarnings("NullAway")
         private ReaderFactory pmdFileReaderFactory;
 
         private ReaderFactory createFileReaderFactory(final String fileName) throws URISyntaxException {

@@ -61,16 +61,15 @@ public class FlowParser extends JsonIssueParser {
         }
     }
 
-    private Report extractIssues(final JSONArray elements, final Report report,
+    private void extractIssues(final JSONArray elements, final Report report,
             final IssueBuilder issueBuilder) {
         for (Object object : elements) {
             if (object instanceof JSONObject) {
-                JSONObject issue = (JSONObject) object;
+                var issue = (JSONObject) object;
                 findFirstMessage(issue).ifPresent(
                         jsonObject -> report.add(createIssueFromJsonObject(issue, jsonObject, issueBuilder)));
             }
         }
-        return report;
     }
 
     /**
@@ -82,7 +81,7 @@ public class FlowParser extends JsonIssueParser {
      * @return first message
      */
     private Optional<JSONObject> findFirstMessage(final JSONObject issue) {
-        JSONArray message = issue.optJSONArray(ISSUE_MESSAGE);
+        var message = issue.optJSONArray(ISSUE_MESSAGE);
         if (message == null) {
             return Optional.empty();
         }

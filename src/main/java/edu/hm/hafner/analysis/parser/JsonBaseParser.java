@@ -105,7 +105,7 @@ abstract class JsonBaseParser extends IssueParser {
     }
 
     private LineRangeList convertToLineRangeList(final JSONArray jsonRanges) {
-        LineRangeList lineRanges = new LineRangeList();
+        var lineRanges = new LineRangeList();
         for (int i = 0; i < jsonRanges.length(); i++) {
             JSONObject jsonRange = jsonRanges.getJSONObject(i);
             if (jsonRange.has(LINE_RANGE_START)) {

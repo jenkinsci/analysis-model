@@ -36,7 +36,7 @@ public class PackageNameResolverBenchmark extends AbstractBenchmark {
     @BenchmarkMode(Mode.Throughput)
     @Fork(value = 5, warmups = 5)
     public void benchmark1000IssuesTest(final BenchmarkState state) throws IOException {
-        PackageNameResolver resolver = new PackageNameResolver(createFileSystemStub());
+        var resolver = new PackageNameResolver(createFileSystemStub());
         resolver.run(state.getReport(), StandardCharsets.UTF_8);
     }
 

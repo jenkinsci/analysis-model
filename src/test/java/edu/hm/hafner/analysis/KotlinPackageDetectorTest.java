@@ -36,14 +36,14 @@ class KotlinPackageDetectorTest extends ResourceTest {
     @ParameterizedTest(name = "{index} => Invalid package name: {0}")
     @ValueSource(strings = {"package EDU.hm.hafner.analysis;", "package 0123.hm.hafner.analysis;"})
     void shouldSkipPackagesThatDoNotStartWithLowerCase(final String name) throws IOException {
-        KotlinPackageDetector detector = new KotlinPackageDetector();
+        var detector = new KotlinPackageDetector();
 
         assertThat(detector.detectPackageName(IOUtils.toInputStream(name, UTF_8), UTF_8)).isEqualTo("-");
     }
 
     @Test
     void shouldAcceptCorrectFileSuffix() {
-        KotlinPackageDetector packageDetector = new KotlinPackageDetector();
+        var packageDetector = new KotlinPackageDetector();
         assertThat(packageDetector.accepts("Action.kt")).as("Does not accept a Kotlin file.")
                 .isTrue();
         assertThat(packageDetector.accepts("ActionBinding.cs")).as("Accepts a non-Java file.")

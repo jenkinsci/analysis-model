@@ -26,7 +26,7 @@ class FileReaderFactoryTest extends ResourceTest {
 
     @Test
     void shouldRemoveColorCodesAfterAllLineMappers() {
-        ConsoleLogReaderFactory factory = new ConsoleLogReaderFactory(
+        var factory = new ConsoleLogReaderFactory(
                 getResourceAsFile("ath-colored.log"));
 
         assertThat(factory.readString()).isEqualTo("[WARNING]\n"

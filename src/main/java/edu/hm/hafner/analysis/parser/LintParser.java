@@ -23,7 +23,7 @@ public class LintParser extends IssueParser {
 
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingException {
-        Report report = new Report();
+        var report = new Report();
         readerFactory.parse(new JSLintXmlSaxParser(report));
         return report;
     }

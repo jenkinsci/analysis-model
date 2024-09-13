@@ -31,7 +31,7 @@ public class ClairParser extends JsonIssueParser {
 
     private Issue convertToIssue(final JSONObject jsonIssue, @CheckForNull final String image,
             final IssueBuilder issueBuilder) {
-        StringBuilder message = new StringBuilder();
+        var message = new StringBuilder();
         appendIfNotEmpty(jsonIssue, message, "featurename", "");
         appendIfNotEmpty(jsonIssue, message, "featureversion", ":");
         appendIfNotEmpty(jsonIssue, message, "description", "");

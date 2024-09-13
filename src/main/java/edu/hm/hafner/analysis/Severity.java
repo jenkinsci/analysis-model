@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
@@ -14,6 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.google.errorprone.annotations.Immutable;
 
 import edu.hm.hafner.util.Ensure;
+import edu.hm.hafner.util.Generated;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -187,21 +189,21 @@ public class Severity implements Serializable {
     }
 
     @Override
-    public boolean equals(@CheckForNull final Object o) {
+    @Generated
+    public boolean equals(final Object o) {
         if (this == o) {
             return true;
         }
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-
-        Severity severity = (Severity) o;
-
-        return name.equals(severity.name);
+        var severity = (Severity) o;
+        return Objects.equals(name, severity.name);
     }
 
     @Override
+    @Generated
     public int hashCode() {
-        return name.hashCode();
+        return Objects.hashCode(name);
     }
 }

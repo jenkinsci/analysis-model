@@ -14,7 +14,7 @@ class PmdMessagesTest {
 
     @Test
     void shouldInitializeRuleSets() {
-        PmdMessages messages = new PmdMessages();
+        var messages = new PmdMessages();
         assertThat(messages.size())
                 .as("Wrong number of rule sets found")
                 .isEqualTo(EXPECTED_RULE_SETS_SIZE);

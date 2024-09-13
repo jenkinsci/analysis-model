@@ -41,7 +41,7 @@ public class PnpmAuditParser extends JsonIssueParser {
 
     @Override
     protected void parseJsonObject(final Report report, final JSONObject jsonReport, final IssueBuilder issueBuilder) {
-        JSONObject results = jsonReport.optJSONObject("advisories");
+        var results = jsonReport.optJSONObject("advisories");
         if (results != null) {
             parseResults(report, results, issueBuilder);
         }
@@ -49,7 +49,7 @@ public class PnpmAuditParser extends JsonIssueParser {
 
     private void parseResults(final Report report, final JSONObject jsonReport, final IssueBuilder issueBuilder) {
         for (String key : jsonReport.keySet()) {
-            JSONObject vulnerability = (JSONObject) jsonReport.get(key);
+            var vulnerability = (JSONObject) jsonReport.get(key);
 
             if (!vulnerability.isEmpty()) {
                 report.add(convertToIssue(vulnerability, issueBuilder));
@@ -68,7 +68,7 @@ public class PnpmAuditParser extends JsonIssueParser {
     }
 
     private String mapType(final JSONObject vulnerability) {
-        final JSONArray cves = vulnerability.optJSONArray("cves");
+        var cves = vulnerability.optJSONArray("cves");
 
         return cves != null && !cves.isNull(0) ? (String) cves.opt(0) : UNCATEGORIZED;
     }
@@ -101,20 +101,18 @@ public class PnpmAuditParser extends JsonIssueParser {
         else if (PNPM_VULNERABILITY_SEVERITY_CRITICAL.equalsIgnoreCase(string)) {
             return Severity.ERROR;
         }
-        else {
-            return Severity.WARNING_NORMAL;
-        }
+        return Severity.WARNING_NORMAL;
     }
 
     private String formatDescription(final JSONObject vulnerability) {
-        final List<ContainerTag> vulnerabilityTags = new ArrayList<>();
+        List<ContainerTag> vulnerabilityTags = new ArrayList<>();
 
         getValueAsContainerTag(vulnerability, "module_name", "Module").ifPresent(vulnerabilityTags::add);
 
         final JSONArray findings = vulnerability.optJSONArray("findings");
         if (findings != null && !findings.isEmpty()) {
-            final JSONObject firstFinding = (JSONObject) findings.opt(0);
-            final String installedVersion = firstFinding.optString("version");
+            var firstFinding = (JSONObject) findings.opt(0);
+            String installedVersion = firstFinding.optString("version");
 
             getValueAsContainerTag(installedVersion, "Installed Version").ifPresent(vulnerabilityTags::add);
         }
@@ -130,7 +128,7 @@ public class PnpmAuditParser extends JsonIssueParser {
     }
 
     private Optional<ContainerTag> getValueAsContainerTag(final JSONObject vulnerability, final String tagOfValue) {
-        final String value = vulnerability.optString(tagOfValue);
+        String value = vulnerability.optString(tagOfValue);
 
         if (value == null || value.isEmpty()) {
             return Optional.empty();
@@ -149,7 +147,7 @@ public class PnpmAuditParser extends JsonIssueParser {
 
     private Optional<ContainerTag> getValueAsContainerTag(final JSONObject vulnerability, final String tagOfValue,
             final String label) {
-        final String value = vulnerability.optString(tagOfValue);
+        String value = vulnerability.optString(tagOfValue);
 
         if (value == null || value.isEmpty()) {
             return Optional.empty();

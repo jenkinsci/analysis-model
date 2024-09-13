@@ -48,7 +48,7 @@ class FindBugsMessagesTest {
 
     @Test
     void shouldMapMessagesToTypes() {
-        FindBugsMessages messages = new FindBugsMessages();
+        var messages = new FindBugsMessages();
         String expectedMessage = "A value that could be null is stored into a field that has been annotated as @Nonnull.";
         assertThat(messages.getMessage(NP_STORE_INTO_NONNULL_FIELD))
                 .contains(expectedMessage);
@@ -64,7 +64,7 @@ class FindBugsMessagesTest {
 
     @Test
     void issue55707() {
-        FindBugsMessages messages = new FindBugsMessages();
+        var messages = new FindBugsMessages();
         assertThat(messages.getShortMessage(PATH_TRAVERSAL_IN))
                 .isEqualTo("Potential Path Traversal (file read)");
         assertThat(messages.getMessage(PATH_TRAVERSAL_IN))

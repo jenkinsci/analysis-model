@@ -56,7 +56,7 @@ public abstract class LookaheadParser extends IssueParser {
 
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingException, ParsingCanceledException {
-        Report report = new Report();
+        var report = new Report();
         try (Stream<String> lines = readerFactory.readStream()) {
             try (LookaheadStream lookahead = new LookaheadStream(lines, readerFactory.getFileName())) {
                 parse(report, lookahead);
@@ -148,7 +148,7 @@ public abstract class LookaheadParser extends IssueParser {
             builder.setDirectory(leaveDirectory());
         }
         else if (line.contains(CMAKE_PREFIX)) {
-            extractDirectory(line, CMAKE_PATH, log).map(builder::setDirectory);
+            extractDirectory(line, CMAKE_PATH, log).ifPresent(builder::setDirectory);
         }
     }
 

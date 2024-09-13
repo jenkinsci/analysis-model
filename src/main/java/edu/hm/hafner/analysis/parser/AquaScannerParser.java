@@ -36,9 +36,9 @@ public class AquaScannerParser extends JsonIssueParser {
         for (int i = 0; i < resources.length(); i++) {
             final Object item = resources.get(i);
             if (item instanceof JSONObject) {
-                final JSONObject resourceWrapper = (JSONObject) item;
+                var resourceWrapper = (JSONObject) item;
                 if (!resourceWrapper.isNull("vulnerabilities") && !resourceWrapper.isNull("resource")) {
-                    final JSONObject resource = resourceWrapper.getJSONObject("resource");
+                    var resource = resourceWrapper.getJSONObject("resource");
                     parseVulnerabilities(report, issueBuilder, resourceWrapper, resource);
                 }
             }
@@ -47,7 +47,7 @@ public class AquaScannerParser extends JsonIssueParser {
 
     private void parseVulnerabilities(final Report report, final IssueBuilder issueBuilder,
             final JSONObject resourceWrapper, final JSONObject resource) {
-        final JSONArray vulnerabilities = resourceWrapper.getJSONArray("vulnerabilities");
+        var vulnerabilities = resourceWrapper.getJSONArray("vulnerabilities");
         for (Object vulnerability : vulnerabilities) {
             if (vulnerability instanceof JSONObject) {
                 report.add(convertToIssue(resource, (JSONObject) vulnerability, issueBuilder));
@@ -57,7 +57,7 @@ public class AquaScannerParser extends JsonIssueParser {
 
     private Issue convertToIssue(final JSONObject resource, final JSONObject vulnerability,
             final IssueBuilder issueBuilder) {
-        final String fileName = resource.optString("path", resource.optString("name", VALUE_NOT_SET));
+        String fileName = resource.optString("path", resource.optString("name", VALUE_NOT_SET));
         return issueBuilder
                 .setFileName(fileName)
                 .setSeverity(mapSeverity(vulnerability.optString("aqua_severity", "UNKNOWN")))
@@ -76,15 +76,13 @@ public class AquaScannerParser extends JsonIssueParser {
         else if (StringUtils.equalsIgnoreCase(string, AQUA_VULNERABILITY_LEVEL_TAG_HIGH)) {
             return Severity.WARNING_HIGH;
         }
-        else {
-            return Severity.ERROR;
-        }
+        return Severity.ERROR;
     }
 
     private String formatDescription(final String fileName, final JSONObject resource, final JSONObject vulnerability) {
-        final String version = resource.optString("version", VALUE_NOT_SET);
-        final String severity = vulnerability.optString("aqua_severity", "UNKOWN");
-        final String description = vulnerability.optString("description", "");
+        String version = resource.optString("version", VALUE_NOT_SET);
+        String severity = vulnerability.optString("aqua_severity", "UNKOWN");
+        String description = vulnerability.optString("description", "");
         return join(div(b("Resource: "), text(fileName)),
                 div(b("Installed Version: "), text(version)),
                 div(b("Aqua Severity: "), text(severity)),

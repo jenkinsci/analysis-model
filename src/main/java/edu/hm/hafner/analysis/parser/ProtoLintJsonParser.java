@@ -32,7 +32,7 @@ public class ProtoLintJsonParser extends JsonIssueParser {
 
     private void parseResults(final Report report, final String basedir, final JSONArray jsonReport, final IssueBuilder issueBuilder) {
         for (int i = 0; i < jsonReport.length(); i++) {
-            JSONObject finding = (JSONObject) jsonReport.get(i);
+            var finding = (JSONObject) jsonReport.get(i);
             report.add(convertToIssue(basedir, finding, issueBuilder));
         }
     }
@@ -56,7 +56,7 @@ public class ProtoLintJsonParser extends JsonIssueParser {
     private Severity mapSeverity(final String aProtoLintSeverity) {
         // ProtoLint knows the following severities
         // https://github.com/yoheimuta/protolint/blob/master/linter/rule/rule.go#L9
-        // which can be mapped with the provided mapping method 
+        // which can be mapped with the provided mapping method
         return Severity.guessFromString(aProtoLintSeverity);
     }
 }

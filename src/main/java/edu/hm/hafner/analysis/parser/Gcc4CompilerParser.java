@@ -47,7 +47,7 @@ public class Gcc4CompilerParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        StringBuilder message = new StringBuilder(matcher.group(5));
+        var message = new StringBuilder(matcher.group(5));
 
         Matcher classMatcher = CLASS_PATTERN.matcher(message.toString());
         if (classMatcher.find() && classMatcher.group(1) != null) {

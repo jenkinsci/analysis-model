@@ -68,17 +68,17 @@ class PlogMessage {
     }
 
     private static void processNode(final List<PlogMessage> plogMessages, final Node node) {
-        Element eElement = (Element) node;
+        var eElement = (Element) node;
 
-        NodeList nodeFalseAlarm = eElement.getElementsByTagName("FalseAlarm");
+        var nodeFalseAlarm = eElement.getElementsByTagName("FalseAlarm");
         if (skipMessage(nodeFalseAlarm)) {
             ++falseAlarmCount;
             return;
         }
 
-        NodeList nodeFile = eElement.getElementsByTagName("File");
+        var nodeFile = eElement.getElementsByTagName("File");
 
-        PlogMessage msg = new PlogMessage();
+        var msg = new PlogMessage();
 
         if (nodeNotNull(nodeFile)) {
             msg.file = nodeFile.item(0).getTextContent().trim();
@@ -89,7 +89,7 @@ class PlogMessage {
             return;
         }
 
-        NodeList nodeErrorCode = eElement.getElementsByTagName("ErrorCode");
+        var nodeErrorCode = eElement.getElementsByTagName("ErrorCode");
 
         if (nodeNotNull(nodeErrorCode)) {
             msg.errorCode = nodeErrorCode.item(0).getTextContent().trim();

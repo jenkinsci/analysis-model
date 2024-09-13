@@ -9,9 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
@@ -38,13 +36,13 @@ public class GendarmeParser extends IssueParser {
 
     @Override
     public Report parse(final ReaderFactory factory) throws ParsingException {
-        Document document = factory.readDocument();
+        var document = factory.readDocument();
 
-        NodeList mainNode = document.getElementsByTagName("gendarme-output");
+        var mainNode = document.getElementsByTagName("gendarme-output");
 
-        Element rootElement = (Element) mainNode.item(0);
-        Element resultsElement = (Element) rootElement.getElementsByTagName("results").item(0);
-        Element rulesElement = (Element) rootElement.getElementsByTagName("rules").item(0);
+        var rootElement = (Element) mainNode.item(0);
+        var resultsElement = (Element) rootElement.getElementsByTagName("results").item(0);
+        var rulesElement = (Element) rootElement.getElementsByTagName("rules").item(0);
 
         Map<String, GendarmeRule> rules = parseRules(XmlElementUtil.getChildElementsByName(rulesElement, "rule"));
         return parseViolations(XmlElementUtil.getChildElementsByName(resultsElement, "rule"), rules);
@@ -52,16 +50,16 @@ public class GendarmeParser extends IssueParser {
 
     private Report parseViolations(final List<Element> ruleElements, final Map<String, GendarmeRule> rules) {
         try (IssueBuilder issueBuilder = new IssueBuilder()) {
-            Report warnings = new Report();
+            var warnings = new Report();
             for (Element ruleElement : ruleElements) {
                 String ruleName = ruleElement.getAttribute("Name");
                 String problem = ruleElement.getElementsByTagName("problem").item(0).getTextContent();
                 List<Element> targetElements = XmlElementUtil.getChildElementsByName(ruleElement, "target");
 
-                GendarmeRule rule = rules.get(ruleName);
+                var rule = rules.get(ruleName);
                 if (rule != null) {
                     for (Element targetElement : targetElements) {
-                        Element defectElement = (Element) targetElement.getElementsByTagName("defect").item(0);
+                        var defectElement = (Element) targetElement.getElementsByTagName("defect").item(0);
                         String source = defectElement.getAttribute("Source");
 
                         String fileName = extractFileNameMatch(rule, source, 1);
@@ -106,8 +104,8 @@ public class GendarmeParser extends IssueParser {
     private Map<String, GendarmeRule> parseRules(final List<Element> ruleElements) {
         Map<String, GendarmeRule> rules = new HashMap<>();
 
-        for (Element ruleElement : ruleElements) {
-            GendarmeRule rule = new GendarmeRule();
+        for (var ruleElement : ruleElements) {
+            var rule = new GendarmeRule();
             rule.setName(ruleElement.getAttribute("Name"));
             rule.setTypeName(ruleElement.getTextContent());
 

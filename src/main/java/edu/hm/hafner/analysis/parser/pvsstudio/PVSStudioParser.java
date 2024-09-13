@@ -1,7 +1,5 @@
 package edu.hm.hafner.analysis.parser.pvsstudio;
 
-import java.util.List;
-
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingCanceledException;
@@ -39,11 +37,9 @@ public class PVSStudioParser extends IssueParser {
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingException, ParsingCanceledException {
         try (IssueBuilder issueBuilder = new IssueBuilder()) {
-            List<PlogMessage> plogMessages = PlogMessage.getMessagesFromReport(readerFactory);
+            var report = new Report();
 
-            Report report = new Report();
-
-            for (PlogMessage plogMessage : plogMessages) {
+            for (PlogMessage plogMessage : PlogMessage.getMessagesFromReport(readerFactory)) {
                 issueBuilder.setFileName(plogMessage.getFilePath());
 
                 issueBuilder.setSeverity(getSeverity(plogMessage.getLevel()));

@@ -34,9 +34,9 @@ public class JsonParser extends JsonBaseParser {
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingException {
         try (Reader reader = readerFactory.create(); IssueBuilder builder = new IssueBuilder()) {
-            JSONObject jsonReport = (JSONObject) new JSONTokener(reader).nextValue();
+            var jsonReport = (JSONObject) new JSONTokener(reader).nextValue();
 
-            Report report = new Report();
+            var report = new Report();
             if (jsonReport.has(ISSUES)) {
                 JSONArray issues = jsonReport.getJSONArray(ISSUES);
                 StreamSupport.stream(issues.spliterator(), SEQUENTIAL)

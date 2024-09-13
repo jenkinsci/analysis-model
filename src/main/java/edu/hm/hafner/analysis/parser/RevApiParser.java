@@ -105,7 +105,7 @@ public class RevApiParser extends JsonIssueParser {
 
     @SuppressFBWarnings(value = "POTENTIAL_XML_INJECTION", justification = "Message is cleaned in UI")
     private String getDescription(final JSONObject jsonIssue) {
-        StringBuilder severityDescription = new StringBuilder(CAPACITY);
+        var severityDescription = new StringBuilder(CAPACITY);
         for  (Object severity :  jsonIssue.getJSONArray("classification")) {
             if (severity instanceof JSONObject) {
                 severityDescription.append("<p>Compatibility: ")

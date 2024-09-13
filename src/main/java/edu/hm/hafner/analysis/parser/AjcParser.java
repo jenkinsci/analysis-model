@@ -37,7 +37,7 @@ public class AjcParser extends IssueParser {
 
     private Report parse(final Stream<String> lines) {
         try (IssueBuilder builder = new IssueBuilder()) {
-            Report warnings = new Report();
+            var report = new Report();
 
             States state = States.START;
 
@@ -68,13 +68,13 @@ public class AjcParser extends IssueParser {
                         else if (line.isEmpty()) {
                             state = States.PARSING;
 
-                            warnings.add(builder.buildAndClean());
+                            report.add(builder.buildAndClean());
                         }
                         break;
                 }
             }
 
-            return warnings;
+            return report;
         }
     }
 

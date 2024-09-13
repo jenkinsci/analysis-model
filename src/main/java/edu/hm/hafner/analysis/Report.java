@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -28,10 +29,12 @@ import java.util.stream.Stream;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.FormatMethod;
 
 import edu.hm.hafner.util.Ensure;
 import edu.hm.hafner.util.FilteredLog;
+import edu.hm.hafner.util.Generated;
 import edu.hm.hafner.util.LineRangeList;
 import edu.hm.hafner.util.PathUtil;
 import edu.hm.hafner.util.TreeString;
@@ -259,6 +262,7 @@ public class Report implements Iterable<Issue>, Serializable {
      *
      * @return this
      */
+    @CanIgnoreReturnValue
     public Report add(final Issue issue) {
         if (hasId() && !issue.hasOrigin()) {
             issue.setOrigin(id, name);
@@ -286,6 +290,7 @@ public class Report implements Iterable<Issue>, Serializable {
      * @return this
      * @see #add(Issue)
      */
+    @CanIgnoreReturnValue
     public Report addAll(final Issue issue, final Issue... additionalIssues) {
         add(issue);
         for (Issue additional : additionalIssues) {
@@ -305,6 +310,7 @@ public class Report implements Iterable<Issue>, Serializable {
      * @return this
      * @see #add(Issue)
      */
+    @CanIgnoreReturnValue
     public Report addAll(final Collection<? extends Issue> issues) {
         for (Issue additional : issues) {
             add(additional);
@@ -322,6 +328,7 @@ public class Report implements Iterable<Issue>, Serializable {
      * @return this
      * @see #copyIssuesAndProperties(Report, Report)
      */
+    @CanIgnoreReturnValue
     public Report addAll(final Report... reports) {
         Ensure.that(reports).isNotEmpty("No reports given.");
 
@@ -613,7 +620,7 @@ public class Report implements Iterable<Issue>, Serializable {
 
     @Override
     public String toString() {
-        return String.format("%s (%s): %d issues (%d duplicates)", getEffectiveName(), getEffectiveId(),
+        return String.format(Locale.ENGLISH, "%s (%s): %d issues (%d duplicates)", getEffectiveName(), getEffectiveId(),
                 size(), getDuplicatesSize());
     }
 
@@ -833,17 +840,13 @@ public class Report implements Iterable<Issue>, Serializable {
      * @see #getProperties(Function)
      */
     public Map<String, Report> groupByProperty(final String propertyName) {
-        Map<String, List<Issue>> issues = stream()
+        var issues = stream()
                 .collect(Collectors.groupingBy(Issue.getPropertyValueGetter(propertyName)));
 
         return issues.entrySet().stream()
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
-                        e -> {
-                            Report report = new Report();
-                            report.addAll(e.getValue());
-                            return report;
-                        }));
+                        e -> new Report().addAll(e.getValue())));
     }
 
     /**
@@ -852,7 +855,7 @@ public class Report implements Iterable<Issue>, Serializable {
      * @return a new issue container that contains the same elements in the same order
      */
     public Report copy() {
-        Report copied = new Report();
+        var copied = new Report();
         copyIssuesAndProperties(this, copied);
         return copied;
     }
@@ -884,7 +887,7 @@ public class Report implements Iterable<Issue>, Serializable {
      * @return a new issue container that contains the same properties but no issues
      */
     public Report copyEmptyInstance() {
-        Report empty = new Report();
+        var empty = new Report();
         copyProperties(this, empty);
         return empty;
     }
@@ -991,56 +994,31 @@ public class Report implements Iterable<Issue>, Serializable {
     }
 
     @Override
-    @SuppressWarnings("PMD.NPathComplexity")
-    public boolean equals(@CheckForNull final Object o) {
+    @Generated
+    public boolean equals(final Object o) {
         if (this == o) {
             return true;
         }
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-
-        Report report = (Report) o;
-
-        if (duplicatesSize != report.duplicatesSize) {
-            return false;
-        }
-        if (!id.equals(report.id)) {
-            return false;
-        }
-        if (!name.equals(report.name)) {
-            return false;
-        }
-        if (!originReportFile.equals(report.originReportFile)) {
-            return false;
-        }
-        if (!subReports.equals(report.subReports)) {
-            return false;
-        }
-        if (!elements.equals(report.elements)) {
-            return false;
-        }
-        if (!infoMessages.equals(report.infoMessages)) {
-            return false;
-        }
-        if (!errorMessages.equals(report.errorMessages)) {
-            return false;
-        }
-        return countersByKey.equals(report.countersByKey);
+        var issues = (Report) o;
+        return duplicatesSize == issues.duplicatesSize
+                && Objects.equals(id, issues.id)
+                && Objects.equals(name, issues.name)
+                && Objects.equals(originReportFile, issues.originReportFile)
+                && Objects.equals(subReports, issues.subReports)
+                && Objects.equals(elements, issues.elements)
+                && Objects.equals(infoMessages, issues.infoMessages)
+                && Objects.equals(errorMessages, issues.errorMessages)
+                && Objects.equals(countersByKey, issues.countersByKey);
     }
 
     @Override
+    @Generated
     public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + name.hashCode();
-        result = 31 * result + originReportFile.hashCode();
-        result = 31 * result + subReports.hashCode();
-        result = 31 * result + elements.hashCode();
-        result = 31 * result + infoMessages.hashCode();
-        result = 31 * result + errorMessages.hashCode();
-        result = 31 * result + countersByKey.hashCode();
-        result = 31 * result + duplicatesSize;
-        return result;
+        return Objects.hash(id, name, originReportFile, subReports, elements, infoMessages, errorMessages,
+                countersByKey, duplicatesSize);
     }
 
     private void writeObject(final ObjectOutputStream output) throws IOException {
@@ -1112,7 +1090,7 @@ public class Report implements Iterable<Issue>, Serializable {
 
         int subReportCount = input.readInt();
         for (int i = 0; i < subReportCount; i++) {
-            Report subReport = (Report) input.readObject();
+            var subReport = (Report) input.readObject();
             subReports.add(subReport);
         }
     }
@@ -1120,7 +1098,7 @@ public class Report implements Iterable<Issue>, Serializable {
     @SuppressFBWarnings("OBJECT_DESERIALIZATION")
     @SuppressWarnings("BanSerializableRead")
     private void readIssues(final ObjectInputStream input, final int size) throws IOException, ClassNotFoundException {
-        final TreeStringBuilder builder = new TreeStringBuilder();
+        var builder = new TreeStringBuilder();
         for (int i = 0; i < size; i++) {
             String path = input.readUTF();
             TreeString fileName = builder.intern(input.readUTF());
@@ -1128,22 +1106,22 @@ public class Report implements Iterable<Issue>, Serializable {
             int lineEnd = input.readInt();
             int columnStart = input.readInt();
             int columnEnd = input.readInt();
-            LineRangeList lineRanges = (LineRangeList) input.readObject();
+            var lineRanges = (LineRangeList) input.readObject();
             String category = input.readUTF();
             String type = input.readUTF();
-            TreeString packageName = builder.intern(input.readUTF());
+            var packageName = builder.intern(input.readUTF());
             String moduleName = input.readUTF();
-            Severity severity = Severity.valueOf(input.readUTF());
-            TreeString message = builder.intern(readLongString(input));
+            var severity = Severity.valueOf(input.readUTF());
+            var message = builder.intern(readLongString(input));
             String description = readLongString(input);
             String origin = input.readUTF();
             String originName = input.readUTF();
             String reference = input.readUTF();
             String fingerprint = input.readUTF();
-            Serializable additionalProperties = (Serializable) input.readObject();
-            UUID uuid = (UUID) input.readObject();
+            var additionalProperties = (Serializable) input.readObject();
+            var uuid = (UUID) input.readObject();
 
-            Issue issue = new Issue(path, fileName,
+            var issue = new Issue(path, fileName,
                     lineStart, lineEnd, columnStart, columnEnd,
                     lineRanges, category, type, packageName, moduleName,
                     severity, message, description,
@@ -1290,7 +1268,7 @@ public class Report implements Iterable<Issue>, Serializable {
         }
 
         /**
-         * Adds a new filter for each patterns string. Adds the filter either to the include or exclude list.
+         * Adds a new filter for each pattern string. Adds the filter either to the include or exclude list.
          *
          * @param patterns
          *         filter patterns.
@@ -1299,7 +1277,8 @@ public class Report implements Iterable<Issue>, Serializable {
          * @param type
          *         type of the filter
          */
-        private void addNewFilter(final Collection<String> patterns, final Function<Issue, String> propertyToFilter,
+        private void addNewFilter(final Collection<String> patterns,
+                final Function<Issue, String> propertyToFilter,
                 final FilterType type) {
             Collection<Predicate<Issue>> filters = new ArrayList<>();
             for (String pattern : patterns) {
@@ -1320,9 +1299,9 @@ public class Report implements Iterable<Issue>, Serializable {
         }
 
         /**
-         * Create a IssueFilter. Combine by default all includes with or and all excludes with and.
+         * Creates a new {@link Issue} filter. Combines all includes with or and all excludes with and.
          *
-         * @return a IssueFilter which has all added filter as filter criteria.
+         * @return {@link Issue} filter which has all added filters as filter criteria
          */
         @SuppressWarnings("NoFunctionalReturnType")
         public Predicate<Issue> build() {
@@ -1333,322 +1312,346 @@ public class Report implements Iterable<Issue>, Serializable {
         //<editor-fold desc="File name">
 
         /**
-         * Add a new filter.
+         * Add a new filter for {@code Issue::getFileName}.
          *
-         * @param pattern
-         *         pattern
+         * @param patterns
+         *         the patterns to match
          *
-         * @return this.
+         * @return this
          */
-        public IssueFilterBuilder setIncludeFileNameFilter(final Collection<String> pattern) {
-            addNewFilter(pattern, Issue::getFileName, FilterType.INCLUDE);
+        @CanIgnoreReturnValue
+        public IssueFilterBuilder setIncludeFileNameFilter(final Collection<String> patterns) {
+            addNewFilter(patterns, Issue::getFileName, FilterType.INCLUDE);
             return this;
         }
 
         /**
-         * Add a new filter.
+         * Add a new filter for {@code Issue::getFileName}.
          *
-         * @param pattern
-         *         pattern
+         * @param patterns
+         *         the patterns to match
          *
-         * @return this.
+         * @return this
          */
-        public IssueFilterBuilder setIncludeFileNameFilter(final String... pattern) {
-            return setIncludeFileNameFilter(Arrays.asList(pattern));
+        @CanIgnoreReturnValue
+        public IssueFilterBuilder setIncludeFileNameFilter(final String... patterns) {
+            return setIncludeFileNameFilter(Arrays.asList(patterns));
         }
 
         /**
-         * Add a new filter.
+         * Add a new filter for {@code Issue::getFileName}.
          *
-         * @param pattern
-         *         pattern
+         * @param patterns
+         *         the patterns to match
          *
-         * @return this.
+         * @return this
          */
-        public IssueFilterBuilder setExcludeFileNameFilter(final Collection<String> pattern) {
-            addNewFilter(pattern, Issue::getFileName, FilterType.EXCLUDE);
+        @CanIgnoreReturnValue
+        public IssueFilterBuilder setExcludeFileNameFilter(final Collection<String> patterns) {
+            addNewFilter(patterns, Issue::getFileName, FilterType.EXCLUDE);
             return this;
         }
 
         /**
-         * Add a new filter.
+         * Add a new filter for {@code Issue::getFileName}.
          *
-         * @param pattern
-         *         pattern
+         * @param patterns
+         *         the patterns to match
          *
-         * @return this.
+         * @return this
          */
-        public IssueFilterBuilder setExcludeFileNameFilter(final String... pattern) {
-            return setExcludeFileNameFilter(Arrays.asList(pattern));
+        @CanIgnoreReturnValue
+        public IssueFilterBuilder setExcludeFileNameFilter(final String... patterns) {
+            return setExcludeFileNameFilter(Arrays.asList(patterns));
         }
         //</editor-fold>
 
         //<editor-fold desc="Package name">
 
         /**
-         * Add a new filter.
+         * Add a new filter for {@code Issue::getPackageName}.
          *
-         * @param pattern
-         *         pattern
+         * @param patterns
+         *         the patterns to match
          *
-         * @return this.
+         * @return this
          */
-        public IssueFilterBuilder setIncludePackageNameFilter(final Collection<String> pattern) {
-            addNewFilter(pattern, Issue::getPackageName, FilterType.INCLUDE);
+        @CanIgnoreReturnValue
+        public IssueFilterBuilder setIncludePackageNameFilter(final Collection<String> patterns) {
+            addNewFilter(patterns, Issue::getPackageName, FilterType.INCLUDE);
             return this;
         }
 
         /**
-         * Add a new filter.
+         * Add a new filter for {@code Issue::getPackageName}.
          *
-         * @param pattern
-         *         pattern
+         * @param patterns
+         *         the patterns to match
          *
-         * @return this.
+         * @return this
          */
-        public IssueFilterBuilder setIncludePackageNameFilter(final String... pattern) {
-            return setIncludePackageNameFilter(Arrays.asList(pattern));
+        @CanIgnoreReturnValue
+        public IssueFilterBuilder setIncludePackageNameFilter(final String... patterns) {
+            return setIncludePackageNameFilter(Arrays.asList(patterns));
         }
 
         /**
-         * Add a new filter.
+         * Add a new filter for {@code Issue::getPackageName}.
          *
-         * @param pattern
-         *         pattern
+         * @param patterns
+         *         the patterns to match
          *
-         * @return this.
+         * @return this
          */
-        public IssueFilterBuilder setExcludePackageNameFilter(final Collection<String> pattern) {
-            addNewFilter(pattern, Issue::getPackageName, FilterType.EXCLUDE);
+        @CanIgnoreReturnValue
+        public IssueFilterBuilder setExcludePackageNameFilter(final Collection<String> patterns) {
+            addNewFilter(patterns, Issue::getPackageName, FilterType.EXCLUDE);
             return this;
         }
 
         /**
-         * Add a new filter.
+         * Add a new filter for {@code Issue::getPackageName}.
          *
-         * @param pattern
-         *         pattern
+         * @param patterns
+         *         the patterns to match
          *
-         * @return this.
+         * @return this
          */
-        public IssueFilterBuilder setExcludePackageNameFilter(final String... pattern) {
-            return setExcludePackageNameFilter(Arrays.asList(pattern));
+        @CanIgnoreReturnValue
+        public IssueFilterBuilder setExcludePackageNameFilter(final String... patterns) {
+            return setExcludePackageNameFilter(Arrays.asList(patterns));
         }
         //</editor-fold>
 
         //<editor-fold desc="Module name">
 
         /**
-         * Add a new filter.
+         * Add a new filter for {@code Issue::getModuleName}.
          *
-         * @param pattern
-         *         pattern
+         * @param patterns
+         *         the patterns to match
          *
-         * @return this.
+         * @return this
          */
-        public IssueFilterBuilder setIncludeModuleNameFilter(final Collection<String> pattern) {
-            addNewFilter(pattern, Issue::getModuleName, FilterType.INCLUDE);
+        @CanIgnoreReturnValue
+        public IssueFilterBuilder setIncludeModuleNameFilter(final Collection<String> patterns) {
+            addNewFilter(patterns, Issue::getModuleName, FilterType.INCLUDE);
             return this;
         }
 
         /**
-         * Add a new filter.
+         * Add a new filter for {@code Issue::getModuleName}.
          *
-         * @param pattern
-         *         pattern
+         * @param patterns
+         *         the patterns to match
          *
-         * @return this.
+         * @return this
          */
-        public IssueFilterBuilder setIncludeModuleNameFilter(final String... pattern) {
-            return setIncludeModuleNameFilter(Arrays.asList(pattern));
+        @CanIgnoreReturnValue
+        public IssueFilterBuilder setIncludeModuleNameFilter(final String... patterns) {
+            return setIncludeModuleNameFilter(Arrays.asList(patterns));
         }
 
         /**
-         * Add a new filter.
+         * Add a new filter for {@code Issue::getModuleName}.
          *
-         * @param pattern
-         *         pattern
+         * @param patterns
+         *         the patterns to match
          *
-         * @return this.
+         * @return this
          */
-        public IssueFilterBuilder setExcludeModuleNameFilter(final Collection<String> pattern) {
-            addNewFilter(pattern, Issue::getModuleName, FilterType.EXCLUDE);
+        @CanIgnoreReturnValue
+        public IssueFilterBuilder setExcludeModuleNameFilter(final Collection<String> patterns) {
+            addNewFilter(patterns, Issue::getModuleName, FilterType.EXCLUDE);
             return this;
         }
 
         /**
-         * Add a new filter.
+         * Add a new filter for {@code Issue::getModuleName}.
          *
-         * @param pattern
-         *         pattern
+         * @param patterns
+         *         the patterns to match
          *
-         * @return this.
+         * @return this
          */
-        public IssueFilterBuilder setExcludeModuleNameFilter(final String... pattern) {
-            return setExcludeModuleNameFilter(Arrays.asList(pattern));
+        @CanIgnoreReturnValue
+        public IssueFilterBuilder setExcludeModuleNameFilter(final String... patterns) {
+            return setExcludeModuleNameFilter(Arrays.asList(patterns));
         }
         //</editor-fold>
 
         //<editor-fold desc="Category">
 
         /**
-         * Add a new filter.
+         * Add a new filter for {@code Issue::getCategory}.
          *
-         * @param pattern
-         *         pattern
+         * @param patterns
+         *         the patterns to match
          *
-         * @return this.
+         * @return this
          */
-        public IssueFilterBuilder setIncludeCategoryFilter(final Collection<String> pattern) {
-            addNewFilter(pattern, Issue::getCategory, FilterType.INCLUDE);
+        @CanIgnoreReturnValue
+        public IssueFilterBuilder setIncludeCategoryFilter(final Collection<String> patterns) {
+            addNewFilter(patterns, Issue::getCategory, FilterType.INCLUDE);
             return this;
         }
 
         /**
-         * Add a new filter.
+         * Add a new filter for {@code Issue::getCategory}.
          *
-         * @param pattern
-         *         pattern
+         * @param patterns
+         *         the patterns to match
          *
-         * @return this.
+         * @return this
          */
-        public IssueFilterBuilder setIncludeCategoryFilter(final String... pattern) {
-            return setIncludeCategoryFilter(Arrays.asList(pattern));
+        @CanIgnoreReturnValue
+        public IssueFilterBuilder setIncludeCategoryFilter(final String... patterns) {
+            return setIncludeCategoryFilter(Arrays.asList(patterns));
         }
 
         /**
-         * Add a new filter.
+         * Add a new filter for {@code Issue::getCategory}.
          *
-         * @param pattern
-         *         pattern
+         * @param patterns
+         *         the patterns to match
          *
-         * @return this.
+         * @return this
          */
-        public IssueFilterBuilder setExcludeCategoryFilter(final Collection<String> pattern) {
-            addNewFilter(pattern, Issue::getCategory, FilterType.EXCLUDE);
+        @CanIgnoreReturnValue
+        public IssueFilterBuilder setExcludeCategoryFilter(final Collection<String> patterns) {
+            addNewFilter(patterns, Issue::getCategory, FilterType.EXCLUDE);
             return this;
         }
 
         /**
-         * Add a new filter.
+         * Add a new filter for {@code Issue::getCategory}.
          *
-         * @param pattern
-         *         pattern
+         * @param patterns
+         *         the patterns to match
          *
-         * @return this.
+         * @return this
          */
-        public IssueFilterBuilder setExcludeCategoryFilter(final String... pattern) {
-            return setExcludeCategoryFilter(Arrays.asList(pattern));
+        @CanIgnoreReturnValue
+        public IssueFilterBuilder setExcludeCategoryFilter(final String... patterns) {
+            return setExcludeCategoryFilter(Arrays.asList(patterns));
         }
         //</editor-fold>
 
         //<editor-fold desc="Type">
 
         /**
-         * Add a new filter.
+         * Add a new filter for {@code Issue::getCategory}.
          *
-         * @param pattern
-         *         pattern
+         * @param patterns
+         *         the patterns to match
          *
-         * @return this.
+         * @return this
          */
-        public IssueFilterBuilder setIncludeTypeFilter(final Collection<String> pattern) {
-            addNewFilter(pattern, Issue::getType, FilterType.INCLUDE);
+        @CanIgnoreReturnValue
+        public IssueFilterBuilder setIncludeTypeFilter(final Collection<String> patterns) {
+            addNewFilter(patterns, Issue::getType, FilterType.INCLUDE);
             return this;
         }
 
         /**
-         * Add a new filter.
+         * Add a new filter for {@code Issue::getType}.
          *
-         * @param pattern
-         *         pattern
+         * @param patterns
+         *         the patterns to match
          *
-         * @return this.
+         * @return this
          */
-        public IssueFilterBuilder setIncludeTypeFilter(final String... pattern) {
-            return setIncludeTypeFilter(Arrays.asList(pattern));
+        @CanIgnoreReturnValue
+        public IssueFilterBuilder setIncludeTypeFilter(final String... patterns) {
+            return setIncludeTypeFilter(Arrays.asList(patterns));
         }
 
         /**
-         * Add a new filter.
+         * Add a new filter for {@code Issue::getType}.
          *
-         * @param pattern
-         *         pattern
+         * @param patterns
+         *         the patterns to match
          *
-         * @return this.
+         * @return this
          */
-        public IssueFilterBuilder setExcludeTypeFilter(final Collection<String> pattern) {
-            addNewFilter(pattern, Issue::getType, FilterType.EXCLUDE);
+        @CanIgnoreReturnValue
+        public IssueFilterBuilder setExcludeTypeFilter(final Collection<String> patterns) {
+            addNewFilter(patterns, Issue::getType, FilterType.EXCLUDE);
             return this;
         }
 
         /**
-         * Add a new filter.
+         * Add a new filter for {@code Issue::getType}.
          *
-         * @param pattern
-         *         pattern
+         * @param patterns
+         *         the patterns to match
          *
-         * @return this.
+         * @return this
          */
-        public IssueFilterBuilder setExcludeTypeFilter(final String... pattern) {
-            return setExcludeTypeFilter(Arrays.asList(pattern));
+        @CanIgnoreReturnValue
+        public IssueFilterBuilder setExcludeTypeFilter(final String... patterns) {
+            return setExcludeTypeFilter(Arrays.asList(patterns));
         }
         //</editor-fold>
 
         //<editor-fold desc="Message">
 
         /**
-         * Add a new filter to include issues with matching issue message.
+         * Add a new filter for {@code Issue::getMessage}.
          *
-         * @param pattern
-         *         pattern
+         * @param patterns
+         *         the patterns to match
          *
-         * @return this.
+         * @return this
          */
-        public IssueFilterBuilder setIncludeMessageFilter(final Collection<String> pattern) {
-            addMessageFilter(pattern, FilterType.INCLUDE);
+        @CanIgnoreReturnValue
+        public IssueFilterBuilder setIncludeMessageFilter(final Collection<String> patterns) {
+            addMessageFilter(patterns, FilterType.INCLUDE);
             return this;
         }
 
         /**
-         * Add a new filter to include issues with matching issue message.
+         * Add a new filter for {@code Issue::getMessage}.
          *
-         * @param pattern
-         *         pattern
+         * @param patterns
+         *         the patterns to match
          *
-         * @return this.
+         * @return this
          */
-        public IssueFilterBuilder setIncludeMessageFilter(final String... pattern) {
-            return setIncludeMessageFilter(Arrays.asList(pattern));
+        @CanIgnoreReturnValue
+        public IssueFilterBuilder setIncludeMessageFilter(final String... patterns) {
+            return setIncludeMessageFilter(Arrays.asList(patterns));
         }
 
         /**
-         * Add a new filter to exclude issues with matching issue message.
+         * Add a new filter for {@code Issue::getMessage}.
          *
-         * @param pattern
-         *         pattern
+         * @param patterns
+         *         the patterns to match
          *
-         * @return this.
+         * @return this
          */
-        public IssueFilterBuilder setExcludeMessageFilter(final Collection<String> pattern) {
-            addMessageFilter(pattern, FilterType.EXCLUDE);
+        @CanIgnoreReturnValue
+        public IssueFilterBuilder setExcludeMessageFilter(final Collection<String> patterns) {
+            addMessageFilter(patterns, FilterType.EXCLUDE);
             return this;
         }
 
         /**
-         * Add a new filter to exclude issues with matching issue message.
+         * Add a new filter for {@code Issue::getMessage}.
          *
-         * @param pattern
-         *         pattern
+         * @param patterns
+         *         the patterns to match
          *
-         * @return this.
+         * @return this
          */
-        public IssueFilterBuilder setExcludeMessageFilter(final String... pattern) {
-            return setExcludeMessageFilter(Arrays.asList(pattern));
+        @CanIgnoreReturnValue
+        public IssueFilterBuilder setExcludeMessageFilter(final String... patterns) {
+            return setExcludeMessageFilter(Arrays.asList(patterns));
         }
 
-        private void addMessageFilter(final Collection<String> pattern, final FilterType filterType) {
-            addNewFilter(pattern, issue -> String.format("%s%n%s", issue.getMessage(), issue.getDescription()),
+        private void addMessageFilter(final Collection<String> patterns, final FilterType filterType) {
+            addNewFilter(patterns, issue -> String.format("%s%n%s", issue.getMessage(), issue.getDescription()),
                     filterType);
         }
         //</editor-fold>

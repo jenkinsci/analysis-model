@@ -13,6 +13,7 @@ import static edu.hm.hafner.analysis.assertions.Assertions.*;
  *
  * @author Raphael Furch
  */
+@SuppressWarnings("resource")
 class IssueFilterTest {
     private static final Issue ISSUE1 = new IssueBuilder()
             .setFileName("FileName1")
@@ -47,21 +48,21 @@ class IssueFilterTest {
      */
     @Test
     void shouldHandleApostrophe() {
-        Predicate<? super Issue> predicate = new IssueFilterBuilder().setExcludeMessageFilter(
+        var predicate = new IssueFilterBuilder().setExcludeMessageFilter(
                 "'tools.jar' was not found, kapt may work unreliably").build();
 
-        Report report = new Report();
+        var report = new Report();
         report.add(new IssueBuilder().setMessage("'tools.jar' was not found, kapt may work unreliably").build());
 
-        Report filtered = report.filter(predicate);
+        var filtered = report.filter(predicate);
         assertThat(filtered).hasSize(0);
     }
 
     @Test
     void shouldUseFindRatherThanMatch() {
-        Predicate<? super Issue> predicate = new IssueFilterBuilder().setIncludeMessageFilter("something").build();
+        var predicate = new IssueFilterBuilder().setIncludeMessageFilter("something").build();
 
-        Report report = new Report();
+        var report = new Report();
         report.add(new IssueBuilder().setLineStart(1).setMessage("something").build());
         report.add(new IssueBuilder().setLineStart(2).setMessage(" something").build());
         report.add(new IssueBuilder().setLineStart(3).setMessage("something ").build());
@@ -70,21 +71,20 @@ class IssueFilterTest {
         report.add(new IssueBuilder().setLineStart(6).setMessage("Before something").build());
         report.add(new IssueBuilder().setLineStart(7).setMessage("something After").build());
 
-        Report filtered = report.filter(predicate);
+        var filtered = report.filter(predicate);
         assertThat(filtered).hasSize(7);
     }
 
     @Test
     void shouldMatchMultiLinesInMessage() {
-        Predicate<? super Issue> predicate
-                = new IssueFilterBuilder().setExcludeMessageFilter(".*something.*").build();
+        var predicate = new IssueFilterBuilder().setExcludeMessageFilter(".*something.*").build();
 
-        Report report = new Report();
+        var report = new Report();
         report.add(new IssueBuilder().setMessage("something").build());
         report.add(new IssueBuilder().setMessage("something\nelse").build());
         report.add(new IssueBuilder().setMessage("else\nsomething").build());
 
-        Report filtered = report.filter(predicate);
+        var filtered = report.filter(predicate);
         assertThat(filtered).hasSize(0);
     }
 
@@ -95,15 +95,14 @@ class IssueFilterTest {
      */
     @Test
     void shouldMatchMultiLinesInDescription() {
-        Predicate<? super Issue> predicate
-                = new IssueFilterBuilder().setExcludeMessageFilter(".*something.*").build();
+        var predicate = new IssueFilterBuilder().setExcludeMessageFilter(".*something.*").build();
 
-        Report report = new Report();
+        var report = new Report();
         report.add(new IssueBuilder().setDescription("something").build());
         report.add(new IssueBuilder().setDescription("something\nelse").build());
         report.add(new IssueBuilder().setDescription("else\nsomething").build());
 
-        Report filtered = report.filter(predicate);
+        var filtered = report.filter(predicate);
         assertThat(filtered).hasSize(0);
     }
 
@@ -114,28 +113,27 @@ class IssueFilterTest {
      */
     @Test
     void shouldMatchMessageOrDescriptionInIncludeFilter() {
-        Predicate<? super Issue> predicate
-                = new IssueFilterBuilder().setIncludeMessageFilter(".*something.*").build();
+        var predicate = new IssueFilterBuilder().setIncludeMessageFilter(".*something.*").build();
 
-        Report report = new Report();
+        var report = new Report();
         report.add(new IssueBuilder().setDescription("something").setMessage("else").build());
         report.add(new IssueBuilder().setDescription("else").setMessage("something").build());
         report.add(new IssueBuilder().setDescription("else").setMessage("else").build());
         report.add(new IssueBuilder().setDescription("something").setMessage("something").build());
 
-        Report filtered = report.filter(predicate);
+        var filtered = report.filter(predicate);
         assertThat(filtered).hasSize(3);
     }
 
     @Test
     void shouldNothingChangeWhenNoFilterIsAdded() {
-        Predicate<? super Issue> filter = new IssueFilterBuilder().build();
+        var filter = new IssueFilterBuilder().build();
         applyFilterAndCheckResult(filter, getIssues(), ISSUE1, ISSUE2, ISSUE3);
     }
 
     @Test
     void shouldPassAllWhenUselessFilterIsAdded() {
-        Predicate<? super Issue> filter = new IssueFilterBuilder()
+        var filter = new IssueFilterBuilder()
                 .setIncludeFileNameFilter("[a-zA-Z1]*")
                 .setIncludeFileNameFilter("[a-zA-Z2]*")
                 .setIncludeFileNameFilter("[a-zA-Z3]*")
@@ -145,7 +143,7 @@ class IssueFilterTest {
 
     @Test
     void shouldPassAllWhenUselessFilterIsAddedAsList() {
-        Predicate<? super Issue> filter = new IssueFilterBuilder()
+        var filter = new IssueFilterBuilder()
                 .setIncludeFileNameFilter("[a-zA-Z1]*", "[a-zA-Z2]*", "[a-zA-Z3]*")
                 .build();
         applyFilterAndCheckResult(filter, getIssues(), ISSUE1, ISSUE2, ISSUE3);
@@ -153,7 +151,7 @@ class IssueFilterTest {
 
     @Test
     void shouldPassNoWhenMasterFilterIsAdded() {
-        Predicate<? super Issue> filter = new IssueFilterBuilder()
+        var filter = new IssueFilterBuilder()
                 .setExcludeFileNameFilter("[a-zA-Z_1-3]*")
                 .build();
         applyFilterAndCheckResult(filter, getIssues());
@@ -161,7 +159,7 @@ class IssueFilterTest {
 
     @Test
     void shouldPassNoWhenMasterFilterIsAddedAsList() {
-        Predicate<? super Issue> filter = new IssueFilterBuilder()
+        var filter = new IssueFilterBuilder()
                 .setExcludeFileNameFilter("[a-zA-Z1]*", "[a-zA-Z2]*", "[a-zA-Z3]*")
                 .build();
         applyFilterAndCheckResult(filter, getIssues());
@@ -169,7 +167,7 @@ class IssueFilterTest {
 
     @Test
     void shouldFindIssue1ByAFileNameIncludeMatch() {
-        Predicate<? super Issue> filter = new IssueFilterBuilder()
+        var filter = new IssueFilterBuilder()
                 .setIncludeFileNameFilter("FileName1")
                 .build();
         applyFilterAndCheckResult(filter, getIssues(), ISSUE1);
@@ -177,7 +175,7 @@ class IssueFilterTest {
 
     @Test
     void shouldFindIssue1ByAFileNameExcludeMatch() {
-        Predicate<? super Issue> filter = new IssueFilterBuilder()
+        var filter = new IssueFilterBuilder()
                 .setExcludeFileNameFilter("FileName1")
                 .build();
         applyFilterAndCheckResult(filter, getIssues(), ISSUE2, ISSUE3);
@@ -185,7 +183,7 @@ class IssueFilterTest {
 
     @Test
     void shouldFindIssue2ByAPackageNameIncludeMatch() {
-        Predicate<? super Issue> filter = new IssueFilterBuilder()
+        var filter = new IssueFilterBuilder()
                 .setIncludePackageNameFilter("PackageName2")
                 .build();
 
@@ -194,7 +192,7 @@ class IssueFilterTest {
 
     @Test
     void shouldFindIssue2ByAPackageNameExcludeMatch() {
-        Predicate<? super Issue> filter = new IssueFilterBuilder()
+        var filter = new IssueFilterBuilder()
                 .setExcludePackageNameFilter("PackageName2")
                 .build();
         applyFilterAndCheckResult(filter, getIssues(), ISSUE1, ISSUE3);
@@ -202,7 +200,7 @@ class IssueFilterTest {
 
     @Test
     void shouldFindIssue3ByAModuleNameIncludeMatch() {
-        Predicate<? super Issue> filter = new IssueFilterBuilder()
+        var filter = new IssueFilterBuilder()
                 .setIncludeModuleNameFilter("ModuleName3")
                 .build();
 
@@ -211,7 +209,7 @@ class IssueFilterTest {
 
     @Test
     void shouldFindIssue3ByAModuleNameExcludeMatch() {
-        Predicate<? super Issue> filter = new IssueFilterBuilder()
+        var filter = new IssueFilterBuilder()
                 .setExcludeModuleNameFilter("ModuleName3")
                 .build();
         applyFilterAndCheckResult(filter, getIssues(), ISSUE1, ISSUE2);
@@ -219,7 +217,7 @@ class IssueFilterTest {
 
     @Test
     void shouldFindIssue1ByACategoryIncludeMatch() {
-        Predicate<? super Issue> filter = new IssueFilterBuilder()
+        var filter = new IssueFilterBuilder()
                 .setIncludeCategoryFilter("CategoryName1")
                 .build();
         applyFilterAndCheckResult(filter, getIssues(), ISSUE1);
@@ -227,7 +225,7 @@ class IssueFilterTest {
 
     @Test
     void shouldFindIssue1ByACategoryExcludeMatch() {
-        Predicate<? super Issue> filter = new IssueFilterBuilder()
+        var filter = new IssueFilterBuilder()
                 .setExcludeCategoryFilter("CategoryName1")
                 .build();
         applyFilterAndCheckResult(filter, getIssues(), ISSUE2, ISSUE3);
@@ -235,7 +233,7 @@ class IssueFilterTest {
 
     @Test
     void shouldFindIssue2ByATypeIncludeMatch() {
-        Predicate<? super Issue> filter = new IssueFilterBuilder()
+        var filter = new IssueFilterBuilder()
                 .setIncludeTypeFilter("Type2")
                 .build();
         applyFilterAndCheckResult(filter, getIssues(), ISSUE2);
@@ -243,7 +241,7 @@ class IssueFilterTest {
 
     @Test
     void shouldFindIssue2ByACategoryExcludeMatch() {
-        Predicate<? super Issue> filter = new IssueFilterBuilder()
+        var filter = new IssueFilterBuilder()
                 .setExcludeTypeFilter("Type2")
                 .build();
         applyFilterAndCheckResult(filter, getIssues(), ISSUE1, ISSUE3);
@@ -251,7 +249,7 @@ class IssueFilterTest {
 
     @Test
     void shouldFindIntersectionFromIncludeAndExcludeBySameProperty() {
-        Predicate<? super Issue> filter = new IssueFilterBuilder()
+        var filter = new IssueFilterBuilder()
                 .setIncludeFileNameFilter("FileName1")
                 .setIncludeFileNameFilter("FileName2")
                 .setExcludeFileNameFilter("FileName2")
@@ -261,7 +259,7 @@ class IssueFilterTest {
 
     @Test
     void shouldFindIntersectionFromIncludeAndExcludeByOtherProperty() {
-        Predicate<? super Issue> filter = new IssueFilterBuilder()
+        var filter = new IssueFilterBuilder()
                 .setIncludeFileNameFilter("FileName1")
                 .setIncludeFileNameFilter("FileName2")
                 .setExcludeTypeFilter("Type2")
@@ -271,7 +269,7 @@ class IssueFilterTest {
 
     @Test
     void shouldFindNoIntersectionFromEmptyIncludeAndExclude() {
-        Predicate<? super Issue> filter = new IssueFilterBuilder()
+        var filter = new IssueFilterBuilder()
                 .setIncludeFileNameFilter("FileNameNotExisting")
                 .setExcludeTypeFilter("Type2")
                 .build();
@@ -280,7 +278,7 @@ class IssueFilterTest {
 
     @Test
     void shouldFindIssue1ByAMessageIncludeMatch() {
-        Predicate<? super Issue> filter = new IssueFilterBuilder()
+        var filter = new IssueFilterBuilder()
                 .setIncludeMessageFilter("Message1")
                 .build();
         applyFilterAndCheckResult(filter, getIssues(), ISSUE1);
@@ -288,7 +286,7 @@ class IssueFilterTest {
 
     @Test
     void shouldRemoveIssue2ByAMessageExcludeMatch() {
-        Predicate<? super Issue> filter = new IssueFilterBuilder()
+        var filter = new IssueFilterBuilder()
                 .setExcludeMessageFilter("Message2")
                 .build();
         applyFilterAndCheckResult(filter, getIssues(), ISSUE1, ISSUE3);

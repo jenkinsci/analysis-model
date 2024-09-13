@@ -35,7 +35,7 @@ public class NagFortranParser extends LookaheadParser {
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder)
             throws ParsingException {
-        StringBuilder messageBuilder = new StringBuilder(matcher.group(5));
+        var messageBuilder = new StringBuilder(matcher.group(5));
 
         while (lookahead.hasNext("\\s+ .+")) {
             messageBuilder.append("\n");

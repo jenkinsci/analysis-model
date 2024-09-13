@@ -39,15 +39,15 @@ public class PolyspaceParser extends IssueParser {
 
     private Report parse(final Stream<String> lines) {
         try (IssueBuilder builder = new IssueBuilder()) {
-            Report report = new Report();
+            var report = new Report();
 
-            Iterator<String> lineIterator = lines.iterator();
+            var lineIterator = lines.iterator();
             int offset = detectLineOffset(lineIterator);
 
             while (lineIterator.hasNext()) {
                 String line = lineIterator.next();
 
-                String[] attributes = line.split("\\t", 15 + offset);
+                var attributes = line.split("\\t", 15 + offset);
                 if (containsAnyIgnoreCase(attributes[9], "Unreviewed", "To investigate", "To fix", "Other")) {
                     builder.setFileName(attributes[8]);
                     builder.setCategory(attributes[2]);
