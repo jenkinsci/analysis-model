@@ -44,9 +44,9 @@ rectangle "json-smart\n\n2.5.1" as net_minidev_json_smart_jar
 rectangle "accessors-smart\n\n2.5.1" as net_minidev_accessors_smart_jar
 rectangle "codingstyle\n\n4.13.0" as edu_hm_hafner_codingstyle_jar
 rectangle "spotbugs-annotations\n\n4.8.6" as com_github_spotbugs_spotbugs_annotations_jar
-rectangle "error_prone_annotations\n\n2.31.0" as com_google_errorprone_error_prone_annotations_jar
+rectangle "error_prone_annotations\n\n2.32.0" as com_google_errorprone_error_prone_annotations_jar
 rectangle "commons-lang3\n\n3.17.0" as org_apache_commons_commons_lang3_jar
-rectangle "streamex\n\n0.8.2" as one_util_streamex_jar
+rectangle "streamex\n\n0.8.3" as one_util_streamex_jar
 edu_hm_hafner_analysis_model_jar -[#000000]-> org_jsoup_jsoup_jar
 edu_hm_hafner_analysis_model_jar -[#000000]-> commons_io_commons_io_jar
 org_apache_commons_commons_digester3_jar -[#000000]-> cglib_cglib_jar
