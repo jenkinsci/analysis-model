@@ -130,6 +130,18 @@ public abstract class ParserDescriptor {
     }
 
     /**
+     * Returns the type of the parser. The type is used to customize parsers in the UI.
+     */
+    public enum Type {
+        /** A parser that scans the output of a build tool to find warnings. */
+        WARNING,
+        /** A parser that scans the output of a build tool to find bugs. */
+        BUG,
+        /** A parser that scans the output of a build tool to find vulnerabilities. */
+        VULNERABILITY
+    }
+
+    /**
      * A parser configuration option. Basically an immutable key and value pair.
      */
     public static class Option extends SimpleImmutableEntry<String, String> {
