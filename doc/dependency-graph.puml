@@ -42,7 +42,7 @@ rectangle "pmd-java\n\n7.5.0" as net_sourceforge_pmd_pmd_java_jar
 rectangle "json\n\n20240303" as org_json_json_jar
 rectangle "json-smart\n\n2.5.1" as net_minidev_json_smart_jar
 rectangle "accessors-smart\n\n2.5.1" as net_minidev_accessors_smart_jar
-rectangle "codingstyle\n\n4.13.0" as edu_hm_hafner_codingstyle_jar
+rectangle "codingstyle\n\n4.14.0" as edu_hm_hafner_codingstyle_jar
 rectangle "spotbugs-annotations\n\n4.8.6" as com_github_spotbugs_spotbugs_annotations_jar
 rectangle "error_prone_annotations\n\n2.32.0" as com_google_errorprone_error_prone_annotations_jar
 rectangle "commons-lang3\n\n3.17.0" as org_apache_commons_commons_lang3_jar
