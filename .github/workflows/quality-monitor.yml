@@ -24,10 +24,16 @@ jobs:
         uses: stCarolas/setup-maven@v5
         with:
           maven-version: 3.9.9
+      - name: Cache the NVD database
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository/org/owasp/dependency-check-data
+          key: dependency-check
       - name: Build with Maven
         env:
           BROWSER: chrome-container
-        run: mvn -V --color always -ntp clean verify -Pci | tee maven.log
+          NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
+        run: mvn -V --color always -ntp clean verify -Pci -Powasp | tee maven.log
       - name: Extract pull request number
         uses: jwalton/gh-find-current-pr@v1
         id: pr
@@ -39,14 +45,14 @@ jobs:
           config: >
             {
             "tests": {
-              "name": "Tests",
               "tools": [
                 {
                   "id": "test",
                   "name": "Tests",
                   "pattern": "**/target/*-reports/TEST*.xml"
                 }
-              ]
+                ],
+                "name": "Tests"
             },
             "analysis": [
               {
@@ -78,6 +84,17 @@ jobs:
                     "pattern": "**/maven.log"
                   }
                 ]
+                },
+                {
+                  "name": "Vulnerabilities",
+                  "id": "vulnerabilities",
+                  "icon": "shield",
+                  "tools": [
+                    {
+                      "id": "owasp-dependency-check",
+                      "pattern": "**/target/dependency-check-report.json"                    
+                    }
+                  ]
               }
             ],
             "coverage": [
