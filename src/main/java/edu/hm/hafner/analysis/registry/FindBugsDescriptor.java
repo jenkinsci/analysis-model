@@ -49,4 +49,9 @@ class FindBugsDescriptor extends ParserDescriptor {
     public String getDescription(final Issue issue) {
         return messages.get().getMessage(issue.getType());
     }
+
+    @Override
+    public Type getType() {
+        return Type.BUG;
+    }
 }

@@ -33,4 +33,9 @@ class ClairDescriptor extends ParserDescriptor {
     public String getUrl() {
         return "https://github.com/arminc/clair-scanner";
     }
+
+    @Override
+    public Type getType() {
+        return Type.VULNERABILITY;
+    }
 }

@@ -4,7 +4,7 @@ import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.CodeCheckerParser;
 
 /**
- * A descriptor for the Codechecker parser.
+ * A descriptor for the CodeChecker parser.
  *
  */
 class CodeCheckerDescriptor extends ParserDescriptor {

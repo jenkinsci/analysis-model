@@ -48,6 +48,17 @@ public abstract class ParserDescriptor {
     }
 
     /**
+     * Returns the type of the parser. The type is used to customize parsers in the UI.
+     * This default implementation returns {@link Type#WARNING}.
+     * Override this method if your parser is of a different type.
+     *
+     * @return the type of the parser
+     */
+    public Type getType() {
+        return Type.WARNING;
+    }
+
+    /**
      * Creates a new {@link IssueParser} instance.
      *
      * @param options
@@ -127,6 +138,20 @@ public abstract class ParserDescriptor {
      */
     public String getDescription(final Issue issue) {
         return issue.getDescription();
+    }
+
+    /**
+     * Returns the type of the parser. The type is used to customize parsers in the UI.
+     */
+    public enum Type {
+        /** A parser that scans the output of a build tool to find warnings. */
+        WARNING,
+        /** A parser that scans the output of a build tool to find bugs. */
+        BUG,
+        /** A parser that scans the output of a build tool to find vulnerabilities. */
+        VULNERABILITY,
+        /** A parser that scans the output of a build tool to find vulnerabilities. */
+        DUPLICATION
     }
 
     /**

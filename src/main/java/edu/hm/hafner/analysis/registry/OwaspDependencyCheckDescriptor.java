@@ -33,4 +33,9 @@ class OwaspDependencyCheckDescriptor extends ParserDescriptor {
     public String getIconUrl() {
         return "https://raw.githubusercontent.com/jeremylong/DependencyCheck/main/src/site/resources/images/logo.svg";
     }
+
+    @Override
+    public Type getType() {
+        return Type.VULNERABILITY;
+    }
 }

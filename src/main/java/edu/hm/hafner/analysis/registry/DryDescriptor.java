@@ -67,4 +67,9 @@ public abstract class DryDescriptor extends ParserDescriptor {
     public String getDescription(final Issue issue) {
         return getDuplicateCode(issue.getAdditionalProperties());
     }
+
+    @Override
+    public Type getType() {
+        return Type.DUPLICATION;
+    }
 }

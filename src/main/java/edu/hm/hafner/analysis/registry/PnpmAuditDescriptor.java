@@ -41,4 +41,9 @@ class PnpmAuditDescriptor extends ParserDescriptor {
     public String getIconUrl() {
         return "https://pnpm.io/img/pnpm-no-name-with-frame.svg";
     }
+
+    @Override
+    public Type getType() {
+        return Type.VULNERABILITY;
+    }
 }
