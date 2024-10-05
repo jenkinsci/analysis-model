@@ -265,11 +265,11 @@ public class ParserRegistry {
                     + "\n"
                     + "The static analysis model supports the following report formats.\n"
                     + "\n"
-                    + "If your tool is not yet supported you can\n"
+                    + "If your tool is not yet supported, you can\n"
                     + "1. export the issues of your tool to the native XML or JSON format (or any other format).\n"
                     + "2. provide a [pull request](https://github.com/jenkinsci/analysis-model/pulls) with a new parser.\n"
                     + "\n"
-                    + "If your tool is supported, but some properties are missing (icon, URL, etc.), please file a\n"
+                    + "If your tool is supported, but some properties are missing (icon, URL, etc.), please file a "
                     + "[pull request](https://github.com/jenkinsci/analysis-model/pulls).\n"
                     + "\n");
 

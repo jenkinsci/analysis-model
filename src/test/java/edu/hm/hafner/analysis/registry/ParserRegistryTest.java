@@ -2,6 +2,7 @@ package edu.hm.hafner.analysis.registry;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 
@@ -21,6 +22,13 @@ import static edu.hm.hafner.analysis.assertions.Assertions.*;
  * @author Ullrich Hafner
  */
 class ParserRegistryTest extends ResourceTest {
+    // Note for parser developers: if you add a new parser,
+    // please check if you are using the correct type and increment the corresponding count
+    private static final long WARNING_PARSERS_COUNT = 127L;
+    private static final long BUG_PARSERS_COUNT = 3L;
+    private static final long VULNERABILITY_PARSERS_COUNT = 7L;
+    private static final long DUPLICATION_PARSERS_COUNT = 3L;
+
     public static final String SPOTBUGS = "spotbugs";
     public static final String CHECKSTYLE = "checkstyle";
     public static final String PMD = "pmd";
@@ -31,6 +39,21 @@ class ParserRegistryTest extends ResourceTest {
 
         assertThatExceptionOfType(NoSuchElementException.class)
                 .isThrownBy(() -> parserRegistry.get("-"));
+    }
+
+    /**
+     * Ensures that new parsers have the correct type assigned.
+     */
+    @Test
+    void shouldAssignCorrectParserType() {
+        var parserRegistry = new ParserRegistry();
+        var typeCountMap = parserRegistry.getAllDescriptors().stream()
+                .collect(Collectors.groupingBy(ParserDescriptor::getType, Collectors.counting()));
+        assertThat(typeCountMap)
+                .containsEntry(Type.WARNING, WARNING_PARSERS_COUNT)
+                .containsEntry(Type.BUG, BUG_PARSERS_COUNT)
+                .containsEntry(Type.VULNERABILITY, VULNERABILITY_PARSERS_COUNT)
+                .containsEntry(Type.DUPLICATION, DUPLICATION_PARSERS_COUNT);
     }
 
     @Test
