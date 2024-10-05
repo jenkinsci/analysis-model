@@ -50,10 +50,10 @@ class ParserRegistryTest extends ResourceTest {
         var typeCountMap = parserRegistry.getAllDescriptors().stream()
                 .collect(Collectors.groupingBy(ParserDescriptor::getType, Collectors.counting()));
         assertThat(typeCountMap)
-                .containsEntry(Type.WARNING, WARNING_PARSERS_COUNT)
-                .containsEntry(Type.BUG, BUG_PARSERS_COUNT)
-                .containsEntry(Type.VULNERABILITY, VULNERABILITY_PARSERS_COUNT)
-                .containsEntry(Type.DUPLICATION, DUPLICATION_PARSERS_COUNT);
+                .containsEntry(ParserDescriptor.Type.WARNING, WARNING_PARSERS_COUNT)
+                .containsEntry(ParserDescriptor.Type.BUG, BUG_PARSERS_COUNT)
+                .containsEntry(ParserDescriptor.Type.VULNERABILITY, VULNERABILITY_PARSERS_COUNT)
+                .containsEntry(ParserDescriptor.Type.DUPLICATION, DUPLICATION_PARSERS_COUNT);
     }
 
     @Test
