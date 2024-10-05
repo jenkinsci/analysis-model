@@ -4,7 +4,7 @@ import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.violations.ZptLintAdapter;
 
 /**
- * A descriptor for the Yui Compressor parser.
+ * A descriptor for the ZPT Lint parser.
  *
  * @author Lorenz Munsch
  */

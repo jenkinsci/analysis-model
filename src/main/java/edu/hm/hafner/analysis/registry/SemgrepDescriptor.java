@@ -35,4 +35,9 @@ class SemgrepDescriptor extends ParserDescriptor {
     public String getIconUrl() {
         return "https://raw.githubusercontent.com/returntocorp/semgrep/develop/semgrep.svg";
     }
+
+    @Override
+    public Type getType() {
+        return Type.VULNERABILITY;
+    }
 }

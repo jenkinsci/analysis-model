@@ -10,6 +10,7 @@ import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.registry.ParserDescriptor.Option;
+import edu.hm.hafner.analysis.registry.ParserDescriptor.Type;
 import edu.hm.hafner.util.ResourceTest;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
@@ -37,7 +38,8 @@ class ParserRegistryTest extends ResourceTest {
         var parserRegistry = new ParserRegistry();
 
         assertThat(parserRegistry).hasIds(SPOTBUGS, CHECKSTYLE, PMD).hasNames("SpotBugs", "CheckStyle", "PMD");
-        assertThat(parserRegistry.get(SPOTBUGS)).hasId(SPOTBUGS).hasName("SpotBugs");
+        assertThat(parserRegistry.get(SPOTBUGS)).hasId(SPOTBUGS).hasName("SpotBugs").hasType(Type.BUG);
+        assertThat(parserRegistry.get("owasp-dependency-check")).hasName("OWASP Dependency Check").hasType(Type.VULNERABILITY);
         assertThat(parserRegistry.contains(SPOTBUGS)).isTrue();
         assertThat(parserRegistry.contains("nothing")).isFalse();
         List<ParserDescriptor> descriptors = parserRegistry.getAllDescriptors();
@@ -49,6 +51,7 @@ class ParserRegistryTest extends ResourceTest {
     void shouldConfigureCpdParser() {
         var parserRegistry = new ParserRegistry();
         var cpdDescriptor = parserRegistry.get("cpd");
+        assertThat(cpdDescriptor).hasType(Type.DUPLICATION).hasName("CPD");
 
         IssueParser parser = cpdDescriptor.createParser();
 
