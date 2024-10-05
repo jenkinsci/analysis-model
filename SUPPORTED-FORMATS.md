@@ -1,14 +1,13 @@
-<!--- DO NOT EDIT -- Generated at 2024-10-05T12:44:00.924470562 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2024-10-05T14:35:54.481913256 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
 
-If your tool is not yet supported you can
+If your tool is not yet supported, you can
 1. export the issues of your tool to the native XML or JSON format (or any other format).
 2. provide a [pull request](https://github.com/jenkinsci/analysis-model/pulls) with a new parser.
 
-If your tool is supported, but some properties are missing (icon, URL, etc.), please file a
-[pull request](https://github.com/jenkinsci/analysis-model/pulls).
+If your tool is supported, but some properties are missing (icon, URL, etc.), please file a [pull request](https://github.com/jenkinsci/analysis-model/pulls).
 
 
 <table>
