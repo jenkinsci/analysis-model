@@ -65,7 +65,6 @@ class SarifAdapterTest extends AbstractParserTest {
         }
     }
 
-
     @Override
     protected SarifAdapter createParser() {
         return new SarifAdapter();

@@ -1,8 +1,6 @@
 package edu.hm.hafner.analysis.parser.violations;
 
-import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.util.PathUtil;
 import se.bjurr.violations.lib.model.Violation;
 import se.bjurr.violations.lib.parsers.SarifParser;
 
@@ -23,19 +21,10 @@ public class SarifAdapter extends AbstractViolationAdapter {
         return new SarifParser();
     }
 
-    private static final PathUtil PATH_UTIL = new PathUtil();
-
     @Override
     void updateIssueBuilder(final Violation violation, final IssueBuilder builder) {
-        builder.setSeverity(convertSeverity(violation.getSeverity(), violation))
-                .setFileName(convertFileUriSchemeToPath(violation.getFile()))
-                .setMessage(violation.getMessage())
-                .setLineStart(toValidInt(violation.getStartLine()))
-                .setLineEnd(toValidInt(violation.getEndLine()))
-                .setColumnStart(toValidInt(violation.getColumn()))
-                .setColumnEnd(toValidInt(violation.getEndColumn()))
-                .setType(violation.getRule())
-                .setCategory(violation.getCategory());
+        super.updateIssueBuilder(violation, builder);
+        builder.setFileName(convertFileUriSchemeToPath(violation.getFile()));
     }
 
     String convertFileUriSchemeToPath(final String fileName) {
@@ -46,10 +35,11 @@ public class SarifAdapter extends AbstractViolationAdapter {
         try {
             Path path = Paths.get(new URI(fileName));
             return path.toString();
-        } catch (Exception e) {
+        } 
+        catch (Exception e) 
+        {
             // ignore
         }
         return fileName;
     }
-
 }
