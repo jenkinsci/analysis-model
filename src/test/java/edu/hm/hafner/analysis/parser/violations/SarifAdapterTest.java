@@ -46,6 +46,26 @@ class SarifAdapterTest extends AbstractParserTest {
         assertThat(report.getSizeOf(Severity.WARNING_LOW)).isEqualTo(3);
     }
 
+    @Test
+    void handleFilePathsInFileURIschemeFormat() {
+        Report report = parse("filePathInFileUriScheme.sarif");
+        try (SoftAssertions softly = new SoftAssertions()) {
+            softly.assertThat(report).hasSize(2);
+            assertThatReportHasSeverities(report, 0, 0, 2, 0);
+            softly.assertThat(report.get(0))
+                    .hasSeverity(Severity.WARNING_NORMAL)
+                    .hasLineStart(6)
+                    .hasLineEnd(6)
+                    .hasFileName("C:/my/workspace/project/this/dir/file.cs");
+            softly.assertThat(report.get(1))
+                    .hasSeverity(Severity.WARNING_NORMAL)
+                    .hasLineStart(5)
+                    .hasLineEnd(5)
+                    .hasFileName("C:/my/workspace/project/whatever/path.cs");
+        }
+    }
+
+
     @Override
     protected SarifAdapter createParser() {
         return new SarifAdapter();
