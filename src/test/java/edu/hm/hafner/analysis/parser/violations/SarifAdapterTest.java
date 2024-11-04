@@ -61,7 +61,7 @@ class SarifAdapterTest extends AbstractParserTest {
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasLineStart(5)
                     .hasLineEnd(5)
-                    .hasFileName("C:/my/workspace/project/whatever/path.cs");
+                    .hasFileName("C:/my/workspace/project/whatever/€path.cs");
         }
     }
 

@@ -15,7 +15,7 @@
               {
                 "physicalLocation": {
                   "artifactLocation": {
-                    "uri": "whatever/path.cs",
+                    "uri": "whatever/%E2%82%ACpath.cs",
                     "uriBaseId": "solutionDir",
                     "index": 0
                   },
@@ -196,7 +196,7 @@
         "artifacts": [
           {
             "location": {
-              "uri": "whatever/path.cs",
+              "uri": "whatever/%E2%82%ACpath.cs",
               "uriBaseId": "solutionDir"
             }
           },

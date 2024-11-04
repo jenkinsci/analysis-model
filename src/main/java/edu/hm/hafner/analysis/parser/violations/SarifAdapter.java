@@ -5,6 +5,8 @@ import se.bjurr.violations.lib.model.Violation;
 import se.bjurr.violations.lib.parsers.SarifParser;
 
 import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -36,7 +38,7 @@ public class SarifAdapter extends AbstractViolationAdapter {
             Path path = Paths.get(new URI(fileName));
             return path.toString();
         } 
-        catch (Exception e) 
+        catch (URISyntaxException | InvalidPathException e)
         {
             // ignore
         }
