@@ -4,11 +4,10 @@ import edu.hm.hafner.analysis.IssueBuilder;
 import se.bjurr.violations.lib.model.Violation;
 import se.bjurr.violations.lib.parsers.SarifParser;
 
+import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.InvalidPathException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 /**
  * Parses SARIF files.
@@ -35,8 +34,8 @@ public class SarifAdapter extends AbstractViolationAdapter {
         }
 
         try {
-            Path path = Paths.get(new URI(fileName));
-            return path.toString();
+            File file = new File(new URI(fileName));
+            return file.toPath().toString();
         } 
         catch (URISyntaxException | InvalidPathException e)
         {
