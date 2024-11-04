@@ -37,8 +37,7 @@ public class SarifAdapter extends AbstractViolationAdapter {
             File file = new File(new URI(fileName));
             return file.toPath().toString();
         } 
-        catch (URISyntaxException | InvalidPathException e)
-        {
+        catch (URISyntaxException | InvalidPathException ignored) {
             // ignore
         }
         return fileName;
