@@ -1,6 +1,8 @@
 package edu.hm.hafner.analysis.parser.violations;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
@@ -62,6 +64,18 @@ class SarifAdapterTest extends AbstractParserTest {
                     .hasLineStart(5)
                     .hasLineEnd(5)
                     .hasFileName("C:/my/workspace/project/whatever/€path.cs");
+        }
+    }
+
+    @ParameterizedTest(name = "[{index}] Filename with invalid path: {0}")
+    @ValueSource(strings = {"brokenfilePath.sarif", "emptyfilePath.sarif"})
+    void handleBrokenPathsInFileURIschemeFormat(final String fileName) {
+        Report report = parse(fileName);
+        try (SoftAssertions softly = new SoftAssertions()) {
+            softly.assertThat(report).hasSize(2);
+            assertThatReportHasSeverities(report, 0, 0, 2, 0);
+            softly.assertThat(report.get(0).getFileName()).endsWith("this/dir/file.cs");
+            softly.assertThat(report.get(1).getFileName()).endsWith("path.cs");
         }
     }
 

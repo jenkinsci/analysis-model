@@ -27,9 +27,11 @@ public class SarifAdapter extends AbstractViolationAdapter {
     @Override
     void extractAdditionalProperties(final IssueBuilder builder, final Violation violation) {
         try {
-            var fileName = violation.getFile();
-            var uri = new URI(fileName);
-            builder.setFileName(removePrefix(uri.getPath()));
+            var uri = new URI(violation.getFile());
+            var path = uri.getPath();
+            if (path != null) {
+                builder.setFileName(removePrefix(path));
+            }
         }
         catch (URISyntaxException exception) {
             // ignore
