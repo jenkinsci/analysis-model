@@ -1,0 +1,213 @@
+{
+    "$schema": "https://schemastore.azurewebsites.net/schemas/json/sarif-2.1.0-rtm.6.json",
+    "version": "2.1.0",
+    "runs": [
+      {
+        "results": [
+          {
+            "ruleId": "FirstRule",
+            "ruleIndex": 0,
+            "level": "warning",
+            "message": {
+              "text": "You should keep an eye on this code"
+            },
+            "locations": [
+              {
+                "physicalLocation": {
+                  "artifactLocation": {
+                    "uri": "whatever/%E2%82%ACpath.cs",
+                    "uriBaseId": "solutionDir",
+                    "index": 0
+                  },
+                  "region": {
+                    "startLine": 5,
+                    "startColumn": 1,
+                    "endLine": 5,
+                    "endColumn": 23,
+                    "charOffset": 143,
+                    "charLength": 22
+                  }
+                }
+              }
+            ],
+            "partialFingerprints": {
+            },
+            "properties": {
+              "tags": [
+                "C#",
+                ".NET 8.0"
+              ]
+            }
+          },
+          {
+            "ruleId": "secondRule",
+            "ruleIndex": 0,
+            "level": "warning",
+            "message": {
+              "text": "This is bad code!"
+            },
+            "locations": [
+              {
+                "physicalLocation": {
+                  "artifactLocation": {
+                    "uri": "this/dir/file.cs",
+                    "uriBaseId": "solutionDir",
+                    "index": 1
+                  },
+                  "region": {
+                    "startLine": 6,
+                    "startColumn": 1,
+                    "endLine": 6,
+                    "endColumn": 23,
+                    "charOffset": 192,
+                    "charLength": 22
+                  }
+                }
+              }
+            ],
+            "partialFingerprints": {
+            },
+            "properties": {
+              "tags": [
+                "C#",
+                ".NET 8.0"
+              ]
+            }
+          }
+        ],
+        "tool": {
+          "driver": {
+            "name": "InspectCode",
+            "organization": "JetBrains, Inc",
+            "fullName": "JetBrains Inspect Code 2024.2",
+            "semanticVersion": "242.0.20240814.114127",
+            "informationUri": "http://www.jetbrains.com/resharper/features/command-line.html",
+            "rules": [
+              {
+                "id": "RedundantUsingDirective",
+                "fullDescription": {
+                  "text": "Using directive is not required by the code and can be safely removed"
+                },
+                "help": {
+                  "text": "https://www.jetbrains.com/help/resharper/RedundantUsingDirective.html"
+                },
+                "shortDescription": {
+                  "text": "Redundant using directive"
+                },
+                "defaultConfiguration": {
+                  "level": "warning"
+                },
+                "helpUri": "https://www.jetbrains.com/help/resharper/RedundantUsingDirective.html",
+                "relationships": [
+                  {
+                    "target": {
+                      "id": "CSHARP.CodeRedundancy",
+                      "toolComponent": {
+                        "name": "InspectCode"
+                      }
+                    },
+                    "kinds": [
+                      "superset"
+                    ]
+                  },
+                  {
+                    "target": {
+                      "id": "ASPX.CodeRedundancy",
+                      "toolComponent": {
+                        "name": "InspectCode"
+                      }
+                    },
+                    "kinds": [
+                      "superset"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "taxa": [
+              {
+                "id": "ASPX",
+                "name": "Aspx"
+              },
+              {
+                "id": "ASPX.CodeRedundancy",
+                "name": "Redundancies in Code",
+                "relationships": [
+                  {
+                    "target": {
+                      "id": "ASPX",
+                      "toolComponent": {
+                        "name": "InspectCode"
+                      }
+                    },
+                    "kinds": [
+                      "superset"
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "CSHARP",
+                "name": "C#"
+              },
+              {
+                "id": "CSHARP.CodeRedundancy",
+                "name": "Redundancies in Code",
+                "relationships": [
+                  {
+                    "target": {
+                      "id": "CSHARP",
+                      "toolComponent": {
+                        "name": "InspectCode"
+                      }
+                    },
+                    "kinds": [
+                      "superset"
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "invocations": [
+          {
+            "executionSuccessful": true
+          }
+        ],
+        "versionControlProvenance": [
+          {
+            "repositoryUri": "https://gitlab.com/ourRepo.git",
+            "revisionId": "970f02980ede09609791feca6bf8cdcd72bbe217",
+            "branch": "HEAD",
+            "mappedTo": {
+              "uriBaseId": "solutionDir"
+            }
+          }
+        ],
+        "originalUriBaseIds": {
+          "solutionDir": {
+            "uri": "::::::/",
+            "description": {
+              "text": "Solution Directory"
+            }
+          }
+        },
+        "artifacts": [
+          {
+            "location": {
+              "uri": "whatever/%E2%82%ACpath.cs",
+              "uriBaseId": "solutionDir"
+            }
+          },
+          {
+            "location": {
+              "uri": "this/dir/file.cs",
+              "uriBaseId": "solutionDir"
+            }
+          }
+        ],
+        "columnKind": "utf16CodeUnits"
+      }
+    ]
+  }
