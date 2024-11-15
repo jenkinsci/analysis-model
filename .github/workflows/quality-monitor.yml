@@ -44,40 +44,40 @@ jobs:
           pr-number: ${{ steps.pr.outputs.number }}
           config: >
             {
-            "tests": {
-              "tools": [
-                {
-                  "id": "test",
-                  "name": "Tests",
-                  "pattern": "**/target/*-reports/TEST*.xml"
-                }
+              "tests": {
+                "tools": [
+                  {
+                    "id": "test",
+                    "name": "Tests",
+                    "pattern": "**/target/*-reports/TEST*.xml"
+                  }
                 ],
                 "name": "Tests"
-            },
-            "analysis": [
-              {
-                "name": "Style",
-                "id": "style",
-                "tools": [
-                  {
-                    "id": "checkstyle",
-                    "pattern": "**/target/checkstyle-*/checkstyle-result.xml"
-                  },
-                  {
-                    "id": "pmd",
-                    "pattern": "**/target/pmd-*/pmd.xml"
-                  }
-                ]
               },
-              {
-                "name": "Bugs",
-                "id": "bugs",
-                "icon": "bug",
-                "tools": [
-                  {
-                    "id": "spotbugs",
-                    "sourcePath": "src/main/java",
-                    "pattern": "**/target/spotbugsXml.xml"
+              "analysis": [
+                {
+                  "name": "Style",
+                  "id": "style",
+                  "tools": [
+                    {
+                      "id": "checkstyle",
+                    "pattern": "**/target/checkstyle-*/checkstyle-result.xml"
+                    },
+                    {
+                      "id": "pmd",
+                      "pattern": "**/target/pmd-*/pmd.xml"
+                    }
+                  ]
+                },
+                {
+                  "name": "Bugs",
+                  "id": "bugs",
+                  "icon": "bug",
+                  "tools": [
+                    {
+                      "id": "spotbugs",
+                      "sourcePath": "src/main/java",
+                      "pattern": "**/target/spotbugsXml.xml"
                   },
                   {
                     "id": "error-prone",
@@ -95,27 +95,99 @@ jobs:
                       "pattern": "**/target/dependency-check-report.json"                    
                     }
                   ]
-              }
-            ],
-            "coverage": [
-              {
-                "name": "Code Coverage",
-                "tools": [
-                  {
-                    "id": "jacoco",
-                    "name": "Line Coverage",
-                    "metric": "line",
-                    "sourcePath": "src/main/java",
-                    "pattern": "**/target/site/jacoco/jacoco.xml"
-                  },
-                  {
-                    "id": "jacoco",
-                    "name": "Branch Coverage",
-                    "metric": "branch",
-                    "sourcePath": "src/main/java",
-                    "pattern": "**/target/site/jacoco/jacoco.xml"
-                  }
-                ]
-              }
-             ]
+                }
+              ],
+              "coverage": [
+                {
+                  "name": "Code Coverage",
+                  "tools": [
+                    {
+                      "id": "jacoco",
+                      "name": "Line Coverage",
+                      "metric": "line",
+                      "sourcePath": "src/main/java",
+                      "pattern": "**/target/site/jacoco/jacoco.xml"
+                    },
+                    {
+                      "id": "jacoco",
+                      "name": "Branch Coverage",
+                      "metric": "branch",
+                      "sourcePath": "src/main/java",
+                      "pattern": "**/target/site/jacoco/jacoco.xml"
+                    }
+                  ]
+                }
+              ],
+              "metrics": 
+                {
+                  "name": "Toplevel Metrics",
+                  "tools": [
+                    {
+                      "name": "Cyclomatic Complexity",
+                      "id": "metrics",
+                      "pattern": "**/metrics/pmd.xml",
+                      "metric": "CYCLOMATIC_COMPLEXITY"
+                    },
+                    {
+                      "name": "Cognitive Complexity",
+                      "id": "metrics",
+                      "pattern": "**/metrics/pmd.xml",
+                      "metric": "COGNITIVE_COMPLEXITY"
+                    },
+                    {
+                      "name": "Lines of Code",
+                      "id": "metrics",
+                      "pattern": "**/metrics/pmd.xml",
+                      "metric": "LOC"
+                    },
+                    {
+                      "name": "Non Commenting Source Statements",
+                      "id": "metrics",
+                      "pattern": "**/metrics/pmd.xml",
+                      "metric": "NCSS"
+                    },
+                    {
+                      "name": "Access to foreign data",
+                      "id": "metrics",
+                      "pattern": "**/metrics/pmd.xml",
+                      "metric": "ACCESS_TO_FOREIGN_DATA"
+                    },
+                    {
+                      "name": "Class cohesion",
+                      "id": "metrics",
+                      "pattern": "**/metrics/pmd.xml",
+                      "metric": "COHESION"
+                    },
+                    {
+                      "name": "Fan out",
+                      "id": "metrics",
+                      "pattern": "**/metrics/pmd.xml",
+                      "metric": "FAN_OUT"
+                    },
+                    {
+                      "name": "Number of accessors",
+                      "id": "metrics",
+                      "pattern": "**/metrics/pmd.xml",
+                      "metric": "NUMBER_OF_ACCESSORS"
+                    },
+                    {
+                      "name": "Weight of a class",
+                      "id": "metrics",
+                      "pattern": "**/metrics/pmd.xml",
+                      "metric": "WEIGHT_OF_CLASS"
+                    },
+                    {
+                      "name": "Weighted method count",
+                      "id": "metrics",
+                      "pattern": "**/metrics/pmd.xml",
+                      "metric": "WEIGHED_METHOD_COUNT"
+                    },
+                    {
+                      "name": "N-Path Complexity",
+                      "id": "metrics",
+                      "pattern": "**/metrics/pmd.xml",
+                      "metric": "NPATH_COMPLEXITY"
+                    }
+                  ]
+                }
             }
