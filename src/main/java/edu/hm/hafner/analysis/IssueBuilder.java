@@ -21,7 +21,9 @@ import static edu.hm.hafner.analysis.util.IntegerParser.*;
 /**
  * Creates new {@link Issue issues} using the builder pattern. All properties that have not been set in the builder will
  * be set to their default value.
+ *
  * <p>Example:</p>
+ *
  * <blockquote><pre>
  * Issue issue = new IssueBuilder()
  *                      .setFileName("affected.file")

@@ -104,8 +104,8 @@ public abstract class IssueParser implements Serializable {
     }
 
     /**
-     * <p>Compares two CharSequences, returning {@code true} if they represent
-     * equal sequences of characters, ignoring case.</p>
+     * Compares two CharSequences, returning {@code true} if they represent
+     * equal sequences of characters, ignoring case.
      *
      * <p>{@code null}s are handled without exceptions. Two {@code null}
      * references are considered equal. The comparison is <strong>case insensitive</strong>.</p>

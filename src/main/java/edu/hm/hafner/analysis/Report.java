@@ -49,6 +49,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * mathematical <i>set</i> abstraction. This report provides a <i>total ordering</i> on its elements. I.e., the issues
  * in this report are ordered by their index: the first added issue is at position 0, the second added issues is at
  * position 1, and so on.
+ *
  * <p>
  * Additionally, this report provides methods to find and filter issues based on different properties. In order to
  * create issues use the provided {@link IssueBuilder builder} class.

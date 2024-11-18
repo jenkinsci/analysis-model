@@ -18,9 +18,8 @@ import j2html.tags.ContainerTag;
 import static j2html.TagCreator.*;
 
 /**
- * <p>
  * Parser for reports of pnpm audit scans.
- * </p>
+ *
  * <p>
  * <strong>Usage: </strong>pnpm audit --json &gt; pnpm-audit.json
  * </p>

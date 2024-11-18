@@ -12,9 +12,8 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import static j2html.TagCreator.*;
 
 /**
- * <p>
  * Parser for reports of aquasec trivy container vulnerability scanner.
- * </p>
+ *
  * <p>
  * <strong>Usage: </strong>trivy image -f json -o results.json golang:1.12-alpine
  * </p>
