@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -25,6 +27,7 @@ import edu.hm.hafner.analysis.Severity;
  * @see <a href="https://github.com/projectatomic/dockerfile_lint">dockerlint</a>
  */
 public class DockerLintParser extends JsonIssueParser {
+    @Serial
     private static final long serialVersionUID = -4077698163775928314L;
 
     @Override

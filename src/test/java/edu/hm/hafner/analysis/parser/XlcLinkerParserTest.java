@@ -134,4 +134,3 @@ class XlcLinkerParserTest extends AbstractParserTest {
         return report;
     }
 }
-

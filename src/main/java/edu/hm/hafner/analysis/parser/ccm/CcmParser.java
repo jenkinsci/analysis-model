@@ -2,6 +2,7 @@ package edu.hm.hafner.analysis.parser.ccm;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.io.Serial;
 import java.util.Locale;
 
 import org.apache.commons.lang3.StringUtils;
@@ -21,6 +22,7 @@ import edu.hm.hafner.analysis.Severity;
  * @author Bruno P. Kinoshita
  */
 public class CcmParser extends IssueParser {
+    @Serial
     private static final long serialVersionUID = -5172155190810975806L;
 
     @Override

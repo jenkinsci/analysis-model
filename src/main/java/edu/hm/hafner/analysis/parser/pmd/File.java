@@ -59,4 +59,3 @@ public class File {
         this.name = name;
     }
 }
-

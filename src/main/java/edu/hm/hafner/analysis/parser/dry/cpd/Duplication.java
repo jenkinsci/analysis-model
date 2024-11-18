@@ -100,4 +100,3 @@ public class Duplication {
         this.codeFragment = codeFragment;
     }
 }
-

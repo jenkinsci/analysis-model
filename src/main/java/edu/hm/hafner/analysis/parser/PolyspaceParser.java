@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Iterator;
 import java.util.stream.Stream;
 
@@ -20,6 +21,7 @@ import static org.apache.commons.lang3.StringUtils.*;
  * @author Eva Habeeb
  */
 public class PolyspaceParser extends IssueParser {
+    @Serial
     private static final long serialVersionUID = -1251248150596418714L;
 
     static final int SEVERITY_INDEX = 10;

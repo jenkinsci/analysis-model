@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashMap;
@@ -13,6 +14,7 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  */
 @SuppressWarnings("PMD.DataClass")
 public final class RevApiInfoExtension implements Serializable {
+    @Serial
     private static final long serialVersionUID = 6058160289391492934L;
     private final Map<String, String> severities = new HashMap<>();
     private final String issueName;

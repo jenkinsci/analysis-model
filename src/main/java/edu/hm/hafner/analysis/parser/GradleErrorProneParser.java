@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
@@ -17,6 +18,7 @@ import static edu.hm.hafner.analysis.parser.ErrorProneParser.*;
  * @author Ullrich Hafner
  */
 public class GradleErrorProneParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = -3776472281369602440L;
 
     private static final String WARNINGS_PATTERN

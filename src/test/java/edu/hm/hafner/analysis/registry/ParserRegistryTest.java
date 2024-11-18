@@ -65,8 +65,8 @@ class ParserRegistryTest extends ResourceTest {
         assertThat(parserRegistry.contains(SPOTBUGS)).isTrue();
         assertThat(parserRegistry.contains("nothing")).isFalse();
         List<ParserDescriptor> descriptors = parserRegistry.getAllDescriptors();
-        assertThat(descriptors).filteredOn(d-> "spotbugs".equals(d.getId())).hasSize(1);
-        descriptors.forEach(d-> assertThat(d.createParser()).isNotNull());
+        assertThat(descriptors).filteredOn(d -> "spotbugs".equals(d.getId())).hasSize(1);
+        descriptors.forEach(d -> assertThat(d.createParser()).isNotNull());
     }
 
     @Test

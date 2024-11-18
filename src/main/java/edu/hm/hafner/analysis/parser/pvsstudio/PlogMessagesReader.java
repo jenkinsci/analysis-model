@@ -119,7 +119,7 @@ class PlogMessagesReader {
 
     static class PlogMessage {
         private String file = StringUtils.EMPTY;
-        private int lineNumber = 0;
+        private int lineNumber;
         private String errorCode = StringUtils.EMPTY;
         private String message = StringUtils.EMPTY;
         private String level = StringUtils.EMPTY;
@@ -150,4 +150,3 @@ class PlogMessagesReader {
         }
     }
 }
-

@@ -2,6 +2,7 @@ package edu.hm.hafner.analysis.parser.pmd;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.io.Serial;
 
 import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.SAXException;
@@ -20,6 +21,7 @@ import edu.hm.hafner.analysis.Severity;
  * @author Ullrich Hafner
  */
 public class PmdParser extends IssueParser {
+    @Serial
     private static final long serialVersionUID = 6507147028628714706L;
 
     /** PMD priorities smaller than this value are mapped to {@link Severity#WARNING_HIGH}. */
@@ -150,4 +152,3 @@ public class PmdParser extends IssueParser {
         }
     }
 }
-

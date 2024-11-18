@@ -84,4 +84,3 @@ class CppLintParserTest extends AbstractParserTest {
         return new CppLintParser();
     }
 }
-

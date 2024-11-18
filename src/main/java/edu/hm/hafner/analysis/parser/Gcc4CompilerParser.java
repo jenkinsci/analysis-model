@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -18,6 +19,7 @@ import edu.hm.hafner.util.LookaheadStream;
  * @author Frederic Chateau
  */
 public class Gcc4CompilerParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = 5490211629355204910L;
 
     private static final String GCC_WARNING_PATTERN =

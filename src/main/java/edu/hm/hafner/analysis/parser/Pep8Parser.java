@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
@@ -17,6 +18,7 @@ import static edu.hm.hafner.analysis.Categories.*;
  * @author Marvin Schütz
  */
 public class Pep8Parser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = -8444940209330966997L;
 
     private static final String PEP8_WARNING_PATTERN = "(.*):(\\d+):(\\d+): (\\D\\d*) (.*)";
@@ -57,4 +59,3 @@ public class Pep8Parser extends LookaheadParser {
         }
     }
 }
-

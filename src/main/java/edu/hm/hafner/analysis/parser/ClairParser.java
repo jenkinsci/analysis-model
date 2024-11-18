@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -16,6 +18,7 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  * @see <a href="https://github.com/arminc/clair-scanner">clair-scanner</a>
  */
 public class ClairParser extends JsonIssueParser {
+    @Serial
     private static final long serialVersionUID = 371390072777545322L;
 
     @Override

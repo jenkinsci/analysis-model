@@ -39,4 +39,3 @@ class ErlcParserTest extends AbstractParserTest {
         return new ErlcParser();
     }
 }
-

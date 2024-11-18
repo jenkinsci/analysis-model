@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,6 +15,7 @@ import edu.hm.hafner.analysis.LookaheadParser;
  * @author Jagruti Tiwari
  */
 public abstract class AbstractMavenLogParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = -3768790896172545192L;
 
     /** Regular expression to parse the start of maven plugin in console. */

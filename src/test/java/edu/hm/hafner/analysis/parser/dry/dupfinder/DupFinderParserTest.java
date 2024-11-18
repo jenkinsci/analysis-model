@@ -130,4 +130,3 @@ class DupFinderParserTest extends AbstractParserTest {
         return parser.parse(createReaderFactory("without-sourcecode.xml"));
     }
 }
-

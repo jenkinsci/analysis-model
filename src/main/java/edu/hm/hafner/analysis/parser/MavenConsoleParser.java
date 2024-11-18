@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
@@ -20,6 +21,7 @@ import static j2html.TagCreator.*;
  * @author Ullrich Hafner
  */
 public class MavenConsoleParser extends AbstractMavenLogParser {
+    @Serial
     private static final long serialVersionUID = 1737791073711198075L;
 
     private static final String WARNING = "WARNING";
@@ -102,4 +104,3 @@ public class MavenConsoleParser extends AbstractMavenLogParser {
                 .buildOptional();
     }
 }
-

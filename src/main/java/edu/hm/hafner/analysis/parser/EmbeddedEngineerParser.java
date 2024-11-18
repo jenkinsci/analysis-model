@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.io.UncheckedIOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -21,6 +22,7 @@ import edu.hm.hafner.util.LookaheadStream;
  * @author Eva Habeeb
  */
 public class EmbeddedEngineerParser extends IssueParser {
+    @Serial
     private static final long serialVersionUID = -1251248150731418714L;
 
     private static final String LOG_BEGINNING_PATTERN = "^\\[.*?\\].*";

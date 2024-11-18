@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
@@ -17,6 +18,7 @@ import static edu.hm.hafner.analysis.util.IntegerParser.*;
  * @author Mihail Menev, menev@hm.edu
  */
 public class PerlCriticParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = -6481203155449490873L;
 
     private static final String PERLCRITIC_WARNING_PATTERN = "(?:(.*?):)?(.*)\\s+at\\s+line\\s+(\\d+),\\s+column\\s+"

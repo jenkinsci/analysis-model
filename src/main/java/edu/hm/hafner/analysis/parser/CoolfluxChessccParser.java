@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
@@ -15,6 +16,7 @@ import edu.hm.hafner.util.LookaheadStream;
  * @author Vangelis Livadiotis
  */
 public class CoolfluxChessccParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = 4742509996511002391L;
 
     private static final String CHESSCC_PATTERN = "^.*?Warning in \"([^\"]+)\", line (\\d+),.*?:\\s*(.*)$";
@@ -41,5 +43,3 @@ public class CoolfluxChessccParser extends LookaheadParser {
                 .buildOptional();
     }
 }
-
-

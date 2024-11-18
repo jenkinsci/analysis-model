@@ -50,4 +50,3 @@ class AcuCobolParserTest extends AbstractParserTest {
         return new AcuCobolParser();
     }
 }
-

@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
@@ -17,6 +18,7 @@ import static edu.hm.hafner.analysis.Categories.*;
  * @author David van Laatum
  */
 public class RuboCopParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = 7199325311690082783L;
 
     private static final String RUBOCOP_WARNING_PATTERN =
@@ -52,4 +54,3 @@ public class RuboCopParser extends LookaheadParser {
                 .buildOptional();
     }
 }
-

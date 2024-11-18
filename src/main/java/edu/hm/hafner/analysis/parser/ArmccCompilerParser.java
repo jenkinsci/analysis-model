@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
@@ -17,6 +18,7 @@ import static edu.hm.hafner.analysis.util.IntegerParser.*;
  * @author Emanuele Zattin
  */
 public class ArmccCompilerParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = -2677728927938443703L;
 
     private static final String ARMCC_WARNING_PATTERN = "^\"(.+)\", line (\\d+): ([A-Z][a-z]+):\\D*(\\d+)\\D*?:\\s+(.+)$";
@@ -47,4 +49,3 @@ public class ArmccCompilerParser extends LookaheadParser {
                       .setSeverity(priority).buildOptional();
     }
 }
-

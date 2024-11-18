@@ -81,4 +81,3 @@ class SunCParserTest extends AbstractParserTest {
                 .hasFileName("warner.cpp");
     }
 }
-

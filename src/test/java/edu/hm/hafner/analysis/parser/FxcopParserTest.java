@@ -55,4 +55,3 @@ class FxcopParserTest extends AbstractParserTest {
         assertThat(result).hasSize(44);
     }
 }
-

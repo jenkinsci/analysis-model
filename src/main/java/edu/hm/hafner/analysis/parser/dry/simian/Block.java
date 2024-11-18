@@ -74,4 +74,3 @@ public class Block {
         this.endLineNumber = endLineNumber;
     }
 }
-

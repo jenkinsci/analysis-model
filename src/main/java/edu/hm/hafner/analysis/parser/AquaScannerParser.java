@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
+
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -22,6 +24,7 @@ public class AquaScannerParser extends JsonIssueParser {
     private static final String AQUA_VULNERABILITY_LEVEL_TAG_MEDIUM = "medium";
     private static final String AQUA_VULNERABILITY_LEVEL_TAG_LOW = "low";
     private static final String AQUA_VULNERABILITY_LEVEL_TAG_NEGLIGIBLE = "negligible";
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Override

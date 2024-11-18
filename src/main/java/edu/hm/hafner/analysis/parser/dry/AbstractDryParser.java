@@ -2,6 +2,7 @@ package edu.hm.hafner.analysis.parser.dry;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +26,7 @@ import edu.hm.hafner.analysis.Severity;
  */
 public abstract class AbstractDryParser<T> extends IssueParser {
     /** Unique ID of this class. */
+    @Serial
     private static final long serialVersionUID = 6328121785037117886L;
 
     /** Minimum number of duplicate lines for high priority warnings. */

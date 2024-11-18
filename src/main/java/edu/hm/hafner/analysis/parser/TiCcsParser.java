@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
@@ -17,6 +18,7 @@ import edu.hm.hafner.util.LookaheadStream;
  * @author Jan Linnenkohl
  */
 public class TiCcsParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = -8253481365175984661L;
 
     private static final String TI_CCS_WARNING_PATTERN = "^((\"(.*)\",\\s*)(line\\s*(\\d+)(\\s*\\(.*\\))?:)?\\s*)?"
@@ -70,4 +72,3 @@ public class TiCcsParser extends LookaheadParser {
         return StringUtils.containsIgnoreCase(matcher.group(7), type);
     }
 }
-

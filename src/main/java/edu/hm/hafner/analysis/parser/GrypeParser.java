@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -17,6 +19,7 @@ import static j2html.TagCreator.*;
  * @see  <a href="https://github.com/anchore/grype">grype</a>
  */
 public class GrypeParser extends JsonIssueParser {
+    @Serial
     private static final long serialVersionUID = -1369431674771459756L;
 
     private static final String MATCHES_TAG = "matches";

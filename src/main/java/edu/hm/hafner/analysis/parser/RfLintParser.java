@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.nio.file.Paths;
 import java.util.Objects;
 import java.util.regex.Matcher;
@@ -149,6 +150,7 @@ public class RfLintParser extends IssueParser {
         }
     }
 
+    @Serial
     private static final long serialVersionUID = -7903991158616386226L;
 
     private String fileName = StringUtils.EMPTY;

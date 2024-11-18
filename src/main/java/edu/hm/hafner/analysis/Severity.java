@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,6 +29,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  */
 @Immutable
 public class Severity implements Serializable {
+    @Serial
     private static final long serialVersionUID = 8921726169259131484L;
 
     /** An error, e.g. a compile error. */

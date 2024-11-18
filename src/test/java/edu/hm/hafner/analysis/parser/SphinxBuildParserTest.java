@@ -109,4 +109,3 @@ class SphinxBuildParserTest extends AbstractParserTest {
         return new SphinxBuildParser();
     }
 }
-

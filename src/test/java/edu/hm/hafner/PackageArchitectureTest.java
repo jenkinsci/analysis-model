@@ -18,11 +18,14 @@ import static com.tngtech.archunit.library.plantuml.rules.PlantUmlArchCondition.
  */
 @SuppressWarnings("hideutilityclassconstructor")
 @AnalyzeClasses(packages = "edu.hm.hafner.analysis", importOptions = DoNotIncludeTests.class)
-class PackageArchitectureTest {
+final class PackageArchitectureTest {
     private static final URL PACKAGE_DESIGN = PackageArchitectureTest.class.getResource("/design.puml");
 
     @ArchTest
     static final ArchRule ADHERES_TO_PACKAGE_DESIGN
             = classes().should(adhereToPlantUmlDiagram(PACKAGE_DESIGN,
             consideringOnlyDependenciesInAnyPackage("edu.hm.hafner..")));
+
+    private PackageArchitectureTest() {
+    }
 }

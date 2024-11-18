@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -19,6 +20,7 @@ import edu.hm.hafner.util.LookaheadStream;
  * @author Ullrich Hafner
  */
 public class MsBuildParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = -2141974437420906595L;
 
     private static final String MS_BUILD_WARNING_PATTERN
@@ -137,4 +139,3 @@ public class MsBuildParser extends LookaheadParser {
                 && !MSBUILD.equals(fileName.trim());
     }
 }
-

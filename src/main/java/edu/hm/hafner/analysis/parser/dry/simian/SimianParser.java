@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser.dry.simian;
 
+import java.io.Serial;
 import java.util.List;
 
 import org.apache.commons.digester3.Digester;
@@ -17,6 +18,7 @@ import edu.hm.hafner.analysis.parser.dry.AbstractDryParser;
  */
 public class SimianParser extends AbstractDryParser<Set> {
     /** Unique ID of this class. */
+    @Serial
     private static final long serialVersionUID = 6507147028628714706L;
 
     /**

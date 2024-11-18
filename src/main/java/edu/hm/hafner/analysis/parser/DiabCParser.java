@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
@@ -15,6 +16,7 @@ import edu.hm.hafner.util.LookaheadStream;
  * @author Yuta Namiki
  */
 public class DiabCParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = -1251248150596418456L;
 
     private static final String DIAB_CPP_WARNING_PATTERN = "^\\s*\"(.*)\"\\s*,\\s*line\\s*(\\d+)\\s*:\\s*"
@@ -48,4 +50,3 @@ public class DiabCParser extends LookaheadParser {
         return Severity.WARNING_HIGH;
     }
 }
-

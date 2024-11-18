@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -20,6 +21,7 @@ import static edu.hm.hafner.analysis.Categories.*;
  * @author Ullrich Hafner
  */
 public class JavacParser extends AbstractMavenLogParser {
+    @Serial
     private static final long serialVersionUID = 7199325311690082782L;
 
     private static final String ERROR_PRONE_URL_PATTERN = "\\s+\\(see https?://\\S+\\s*\\)";
@@ -84,4 +86,3 @@ public class JavacParser extends AbstractMavenLogParser {
                 .buildOptional();
     }
 }
-

@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
@@ -15,6 +16,7 @@ import edu.hm.hafner.util.LookaheadStream;
  * @author Shimi Kiviti
  */
 public class PhpParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = -5154327854315791181L;
 
     private static final String PHP_WARNING_PATTERN = "^.*(PHP Warning|PHP Notice|PHP Fatal error|PHP Parse error)"

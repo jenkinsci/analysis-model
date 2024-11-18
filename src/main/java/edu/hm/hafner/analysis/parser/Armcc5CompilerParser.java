@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
@@ -15,6 +16,7 @@ import edu.hm.hafner.util.LookaheadStream;
  * @author Dmytro Kutianskyi
  */
 public class Armcc5CompilerParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = -2677728927938443701L;
 
     private static final String ARMCC5_WARNING_PATTERN = "^(.+)\\((\\d+)\\): (warning|error):  #(.+): (.+)$";
@@ -52,4 +54,3 @@ public class Armcc5CompilerParser extends LookaheadParser {
                 .setSeverity(priority).buildOptional();
     }
 }
-

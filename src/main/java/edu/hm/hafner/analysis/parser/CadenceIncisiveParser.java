@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
@@ -19,6 +20,7 @@ import static edu.hm.hafner.analysis.util.IntegerParser.*;
  * @author Andrew 'Necromant' Andrianov
  */
 public class CadenceIncisiveParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = -3251791089328958452L;
 
     private static final String CADENCE_MESSAGE_PATTERN = "(" + "(^[a-zA-Z]+): \\*([a-zA-Z]),([a-zA-Z]+): (.*) "

@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,6 +17,7 @@ import edu.hm.hafner.util.LookaheadStream;
  * @author Neil Davis
  */
 public class ClangParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = -3015592762345283182L;
 
     private static final String CLANG_WARNING_PATTERN = "^\\s*(?:\\d+%)?(C\\/C\\+\\+: )?([^%]*?):(\\d+):(?:(\\d+):)?" + "(?:"

@@ -1,11 +1,14 @@
 package hudson.plugins.tasks.util;
 
+import java.io.Serial;
+
 /**
  * Indicates an orderly abortion of the processing.
  */
 // FIXME: here is something to fix
 public final class AbortException extends RuntimeException {
     /** Generated ID. */
+    @Serial
     private static final long serialVersionUID = -5897876033901702893L;
 
     /**

@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -17,6 +18,7 @@ import edu.hm.hafner.util.LookaheadStream;
  * @author Ullrich Hafner
  */
 public class JavaDocParser extends AbstractMavenLogParser {
+    @Serial
     private static final long serialVersionUID = 7127568148333474921L;
     private static final String JAVA_DOC_WARNING_PATTERN = "(?:\\s*\\[(?:javadoc|WARNING|ERROR)\\]\\s*)?(?:(?:(?:Exit"
             + " code: \\d* - )?(.*):(\\d+))|(?:\\s*javadoc\\s*)):\\s*(warning|error)\\s*[-:]\\s*(.*)";
@@ -72,4 +74,3 @@ public class JavaDocParser extends AbstractMavenLogParser {
                 .buildOptional();
     }
 }
-

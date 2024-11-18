@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
+
 import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -18,6 +20,7 @@ import edu.hm.hafner.analysis.Severity;
  * @author Gavin Mogan
  */
 public class LintParser extends IssueParser {
+    @Serial
     private static final long serialVersionUID = 3341424685245834156L;
     private static final String FILE = "file";
 

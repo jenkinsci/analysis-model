@@ -53,4 +53,3 @@ class ResharperInspectCodeAdapterTest extends AbstractParserTest {
         return new ResharperInspectCodeAdapter();
     }
 }
-

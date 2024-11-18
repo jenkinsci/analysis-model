@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
+
 import org.json.JSONObject;
 
 /**
@@ -8,6 +10,7 @@ import org.json.JSONObject;
  * @author Carles Capdevila
  */
 public class SonarQubeIssuesParser extends SonarQubeParser {
+    @Serial
     private static final long serialVersionUID = -8213765181968340929L;
 
     private static final String ISSUE_SUB_PROJECT = "subProject";

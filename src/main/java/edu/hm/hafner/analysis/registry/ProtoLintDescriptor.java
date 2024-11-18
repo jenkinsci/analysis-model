@@ -1,15 +1,12 @@
 package edu.hm.hafner.analysis.registry;
 
-import static j2html.TagCreator.a;
-import static j2html.TagCreator.code;
-import static j2html.TagCreator.join;
-import static j2html.TagCreator.text;
-
 import java.util.Collection;
 
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.ProtoLintJsonParser;
 import edu.hm.hafner.analysis.parser.ProtoLintParser;
+
+import static j2html.TagCreator.*;
 
 /**
  * A descriptor for ProtoLint.

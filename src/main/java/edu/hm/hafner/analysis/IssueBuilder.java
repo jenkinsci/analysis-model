@@ -47,10 +47,10 @@ public class IssueBuilder implements AutoCloseable {
     private final TreeStringBuilder packageNameBuilder = new TreeStringBuilder();
     private final TreeStringBuilder messageBuilder = new TreeStringBuilder();
 
-    private int lineStart = 0;
-    private int lineEnd = 0;
-    private int columnStart = 0;
-    private int columnEnd = 0;
+    private int lineStart;
+    private int lineEnd;
+    private int columnStart;
+    private int columnEnd;
 
     @CheckForNull
     private LineRangeList lineRanges;

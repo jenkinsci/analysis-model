@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
@@ -16,6 +17,7 @@ import edu.hm.hafner.util.LookaheadStream;
  * @author Hochak Hung
  */
 public class SbtScalacParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = -4233964844965517977L;
 
     private static final String SBT_WARNING_PATTERN = "^(\\[warn\\]|\\[error\\](?!\\s+Total\\stime:))\\s*(.*?):(\\d+)(?::\\d+)?:\\s*(.*)$";

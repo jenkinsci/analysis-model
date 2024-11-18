@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
@@ -17,6 +18,7 @@ import edu.hm.hafner.util.LookaheadStream;
  * @author Vangelis Livadiotis
  */
 public class IntelParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = 8409744276858003050L;
     private static final String INTEL_PATTERN = "^(\\d+>)?(.*)\\((\\d*)\\)?:(?:\\s*\\(col\\. (\\d+)\\))?.*("
             + "(?:message|remark|warning|error)\\s*#*\\d*)\\s*:\\s*(.*)$";

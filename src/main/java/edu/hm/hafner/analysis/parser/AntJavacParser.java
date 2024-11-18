@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
@@ -18,6 +19,7 @@ import static edu.hm.hafner.analysis.Categories.*;
  * @author Ullrich Hafner
  */
 public class AntJavacParser extends AbstractMavenLogParser {
+    @Serial
     private static final long serialVersionUID = 1737791073711198075L;
 
     private static final String ANT_JAVAC_WARNING_PATTERN = ANT_TASK + "\\s*(.*java):(\\d*):\\s*"
@@ -73,4 +75,3 @@ public class AntJavacParser extends AbstractMavenLogParser {
         return equalsIgnoreCase(type, "error") ? Severity.ERROR : Severity.WARNING_NORMAL;
     }
 }
-

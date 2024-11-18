@@ -48,4 +48,3 @@ class CodeAnalysisParserTest extends AbstractParserTest {
         return new CodeAnalysisParser();
     }
 }
-

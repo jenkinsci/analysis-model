@@ -60,4 +60,3 @@ class SonarQubeIssuesParserTest extends AbstractParserTest {
         return new SonarQubeIssuesParser();
     }
 }
-

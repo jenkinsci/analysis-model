@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser.violations;
 
+import java.io.Serial;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.regex.Pattern;
@@ -15,6 +16,7 @@ import se.bjurr.violations.lib.parsers.SarifParser;
  * @author Ullrich Hafner
  */
 public class SarifAdapter extends AbstractViolationAdapter {
+    @Serial
     private static final long serialVersionUID = -5699747899173867285L;
 
     private static final Pattern WINDOWS_PATH_ON_UNIX = Pattern.compile("^/[a-zA-Z]:.*");

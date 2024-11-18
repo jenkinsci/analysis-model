@@ -163,4 +163,3 @@ public class ModuleDetector {
         InputStream open(String fileName) throws IOException, InvalidPathException;
     }
 }
-

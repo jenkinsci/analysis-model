@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser.dry.dupfinder;
 
+import java.io.Serial;
 import java.util.List;
 
 import org.apache.commons.digester3.Digester;
@@ -17,6 +18,7 @@ import edu.hm.hafner.analysis.parser.dry.AbstractDryParser;
  */
 public class DupFinderParser extends AbstractDryParser<Duplicate> {
     /** Unique ID of this class. */
+    @Serial
     private static final long serialVersionUID = 1357147358617711901L;
 
     /**

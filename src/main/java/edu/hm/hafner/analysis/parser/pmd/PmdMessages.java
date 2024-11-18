@@ -84,4 +84,3 @@ public class PmdMessages {
         return message.toString();
     }
 }
-

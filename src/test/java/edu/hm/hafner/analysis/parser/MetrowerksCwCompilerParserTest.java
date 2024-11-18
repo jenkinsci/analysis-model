@@ -66,4 +66,3 @@ class MetrowerksCwCompilerParserTest extends AbstractParserTest {
         return new MetrowerksCwCompilerParser();
     }
 }
-

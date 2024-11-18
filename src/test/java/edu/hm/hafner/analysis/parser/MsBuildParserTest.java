@@ -945,4 +945,3 @@ class MsBuildParserTest extends AbstractParserTest {
         return new MsBuildParser();
     }
 }
-

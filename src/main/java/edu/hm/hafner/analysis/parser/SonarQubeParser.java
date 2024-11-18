@@ -2,6 +2,7 @@ package edu.hm.hafner.analysis.parser;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.io.Serial;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -20,6 +21,7 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  * @author Carles Capdevila
  */
 public abstract class SonarQubeParser extends JsonIssueParser {
+    @Serial
     private static final long serialVersionUID = 1958805067002376816L;
 
     //Arrays
@@ -311,4 +313,3 @@ public abstract class SonarQubeParser extends JsonIssueParser {
         return priority;
     }
 }
-

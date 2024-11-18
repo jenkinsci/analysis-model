@@ -91,4 +91,3 @@ class StyleCopParserTest extends AbstractParserTest {
         assertThat(result).hasSize(2);
     }
 }
-

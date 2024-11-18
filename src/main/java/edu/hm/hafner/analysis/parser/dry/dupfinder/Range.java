@@ -46,4 +46,3 @@ public class Range {
         this.end = end;
     }
 }
-

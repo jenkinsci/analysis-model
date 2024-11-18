@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -20,6 +21,7 @@ import edu.hm.hafner.analysis.util.XmlElementUtil;
  * @author Sebastian Seidl
  */
 public class StyleCopParser extends IssueParser {
+    @Serial
     private static final long serialVersionUID = 7846052338159003458L;
 
     @Override

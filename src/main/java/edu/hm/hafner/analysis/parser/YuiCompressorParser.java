@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -14,6 +15,7 @@ import edu.hm.hafner.util.LookaheadStream;
  * A parser for the YUI Compressor warnings.
  */
 public class YuiCompressorParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = -4807932429496693096L;
     private static final String YUI_COMPRESSOR_WARNING_PATTERN = "\\[WARNING\\] (.*)";
 

@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis.parser.fxcop;
 
+import java.io.Serial;
+
 import org.w3c.dom.Element;
 
 import edu.hm.hafner.analysis.IssueBuilder;
@@ -15,6 +17,7 @@ import edu.hm.hafner.analysis.util.XmlElementUtil;
  */
 @SuppressWarnings("unused")
 public class FxCopParser extends IssueParser {
+    @Serial
     private static final long serialVersionUID = -7208558002331355408L;
     private static final int CAPACITY = 1024;
 

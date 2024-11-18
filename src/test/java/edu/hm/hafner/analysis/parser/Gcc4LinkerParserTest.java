@@ -144,4 +144,3 @@ class Gcc4LinkerParserTest extends AbstractParserTest {
         assertThat(warnings).isEmpty();
     }
 }
-

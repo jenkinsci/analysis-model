@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
@@ -17,6 +18,7 @@ import static edu.hm.hafner.analysis.Categories.*;
  * @author Davide Mancusi
  */
 public class SphinxBuildLinkCheckParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     private static final String SPHINX_BUILD_LINK_CHECK_WARNING_PATTERN = "^(.*):(\\d+|None|): \\[(.*?)\\] (.*)";
@@ -51,4 +53,3 @@ public class SphinxBuildLinkCheckParser extends LookaheadParser {
         }
     }
 }
-

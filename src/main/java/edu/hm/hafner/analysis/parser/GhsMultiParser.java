@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
@@ -17,6 +18,7 @@ import edu.hm.hafner.util.LookaheadStream;
  * @author Joseph Boulos
  */
 public class GhsMultiParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = 8149238560432255036L;
 
     /**
@@ -94,4 +96,3 @@ public class GhsMultiParser extends LookaheadParser {
         return line.contains("warning") || line.contains("error");
     }
 }
-

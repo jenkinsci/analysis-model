@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
@@ -18,6 +19,7 @@ import edu.hm.hafner.util.LookaheadStream;
  * @see <a href="https://github.com/yoheimuta/protolint">https://github.com/yoheimuta/protolint</a>
  */
 public class ProtoLintParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = -8347619672754062010L;
 
     private static final String PROTO_LINT_PATTERN = "^\\[(?<file>[^:]+):(?<line>\\d+):(?<column>\\d+)\\] (?<message>.+)$";

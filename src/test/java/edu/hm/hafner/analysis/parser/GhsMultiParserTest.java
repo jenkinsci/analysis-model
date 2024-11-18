@@ -121,4 +121,3 @@ class GhsMultiParserTest extends AbstractParserTest {
         return new GhsMultiParser();
     }
 }
-

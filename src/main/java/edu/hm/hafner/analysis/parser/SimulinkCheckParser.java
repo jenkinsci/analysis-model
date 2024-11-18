@@ -3,6 +3,7 @@ package edu.hm.hafner.analysis.parser;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
+import java.io.Serial;
 import java.util.regex.Pattern;
 
 import org.apache.commons.io.input.ReaderInputStream;
@@ -24,6 +25,7 @@ import edu.hm.hafner.analysis.Severity;
  * @author Eva Habeeb
  */
 public class SimulinkCheckParser extends IssueParser {
+    @Serial
     private static final long serialVersionUID = -8099258658775128275L;
     private static final String WARNING = "div.WarningCheck";
     private static final String FAILED = "div.FailedCheck";

@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis;
 
+import java.io.Serial;
+
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import com.google.errorprone.annotations.FormatMethod;
@@ -10,6 +12,7 @@ import com.google.errorprone.annotations.FormatMethod;
  * @author Ullrich Hafner
  */
 public class ParsingException extends RuntimeException {
+    @Serial
     private static final long serialVersionUID = -9016364685084958944L;
 
     /**

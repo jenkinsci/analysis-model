@@ -2,6 +2,7 @@ package edu.hm.hafner.analysis.parser;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.io.Serial;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,6 +21,7 @@ import edu.hm.hafner.analysis.Report;
  * @author Ullrich Hafner
  */
 public abstract class JsonIssueParser extends IssueParser {
+    @Serial
     private static final long serialVersionUID = -4062256623915009878L;
 
     @Override

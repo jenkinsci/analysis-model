@@ -2,6 +2,7 @@ package edu.hm.hafner.analysis.parser.checkstyle;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.io.Serial;
 
 import org.apache.commons.digester3.Digester;
 import org.apache.commons.lang3.StringUtils;
@@ -21,6 +22,7 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  * @author Ullrich Hafner
  */
 public class CheckStyleParser extends IssueParser {
+    @Serial
     private static final long serialVersionUID = -3187275729854832128L;
 
     @Override
@@ -111,4 +113,3 @@ public class CheckStyleParser extends IssueParser {
         return !StringUtils.endsWith(file.getName(), "package.html");
     }
 }
-

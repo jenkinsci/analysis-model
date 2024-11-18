@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
@@ -18,6 +19,7 @@ import static edu.hm.hafner.analysis.Severity.*;
  * @author Frederic Chateau
  */
 public class Gcc4LinkerParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = -2792019431810134790L;
 
     /** A GCC error. */
@@ -79,4 +81,3 @@ public class Gcc4LinkerParser extends LookaheadParser {
         builder.setMessage(matcher.group(7));
     }
 }
-

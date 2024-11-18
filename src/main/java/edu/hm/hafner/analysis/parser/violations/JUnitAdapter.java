@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser.violations;
 
+import java.io.Serial;
 import java.util.stream.Stream;
 
 import edu.hm.hafner.analysis.ParsingCanceledException;
@@ -15,6 +16,7 @@ import se.bjurr.violations.lib.parsers.JUnitParser;
  * @author Gyanesha Prajjwal
  */
 public class JUnitAdapter extends AbstractViolationAdapter {
+    @Serial
     private static final long serialVersionUID = -1595503635554896281L;
 
     /** Report property key to obtain the total number of tests. */

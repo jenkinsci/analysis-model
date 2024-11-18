@@ -103,4 +103,3 @@ class GnatParserTest extends AbstractParserTest {
         return new GnatParser();
     }
 }
-

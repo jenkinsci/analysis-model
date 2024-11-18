@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
@@ -19,6 +20,7 @@ import edu.hm.hafner.util.LookaheadStream;
  * </p>
  */
 public class CodeCheckerParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = -3015592762345283582L;
     private static final String CODE_CHECKER_DEFECT_PATTERN =
             "^\\[(?<severity>CRITICAL|HIGH|MEDIUM|LOW|UNSPECIFIED|STYLE)\\] (?<path>.+):(?<line>\\d+):(?<column>\\d+): (?<message>.*?) \\[(?<category>[^\\s]*?)\\]$";

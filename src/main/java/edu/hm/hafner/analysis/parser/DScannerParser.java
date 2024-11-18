@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 
 import org.json.JSONObject;
@@ -14,6 +15,7 @@ import edu.hm.hafner.analysis.Severity;
  * @author Andre Pany
  */
 public class DScannerParser extends JsonParser {
+    @Serial
     private static final long serialVersionUID = -3396574381502866972L;
     private static final String KEY = "key";
     private static final String LINE = "line";

@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
@@ -26,6 +27,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * @author Raphael Furch
  */
 public class XmlParser extends IssueParser {
+    @Serial
     private static final long serialVersionUID = -8099458358775144575L;
 
     private static final String LINE_RANGES_PATH = "lineRanges/lineRange";
@@ -142,4 +144,3 @@ public class XmlParser extends IssueParser {
         return ranges;
     }
 }
-

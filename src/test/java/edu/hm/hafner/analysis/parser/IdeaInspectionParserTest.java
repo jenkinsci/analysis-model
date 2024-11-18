@@ -112,4 +112,3 @@ class IdeaInspectionParserTest extends AbstractParserTest {
         }
     }
 }
-

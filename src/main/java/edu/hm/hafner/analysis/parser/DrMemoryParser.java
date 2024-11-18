@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -23,6 +24,7 @@ import static edu.hm.hafner.analysis.util.IntegerParser.*;
  * @author Wade Penson
  */
 public class DrMemoryParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = 7195239138601238590L;
     private static final String DR_MEMORY_WARNING_PATTERN = "Error #\\d+: (.*)";
 
@@ -147,4 +149,3 @@ public class DrMemoryParser extends LookaheadParser {
         }
     }
 }
-

@@ -312,4 +312,3 @@ class DoxygenParserTest extends AbstractParserTest {
         return new DoxygenParser();
     }
 }
-

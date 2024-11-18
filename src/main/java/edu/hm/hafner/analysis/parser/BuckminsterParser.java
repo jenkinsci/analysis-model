@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
@@ -17,6 +18,7 @@ import static edu.hm.hafner.analysis.Categories.*;
  * @author Johannes Utzig
  */
 public class BuckminsterParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = -3723799140297979579L;
 
     private static final String BUCKMINSTER_WARNING_PATTERN = "^.*(Warning|Error): file (.*?)(, line )?(\\d*): (.*)$";
@@ -37,4 +39,3 @@ public class BuckminsterParser extends LookaheadParser {
                       .setSeverity(priority).buildOptional();
     }
 }
-

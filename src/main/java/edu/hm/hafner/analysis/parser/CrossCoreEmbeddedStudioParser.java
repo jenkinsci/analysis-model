@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
@@ -13,6 +14,7 @@ import edu.hm.hafner.util.LookaheadStream;
  * A parser for the CrossCoreEmbeddedStudio (CCES) log files.
  */
 public class CrossCoreEmbeddedStudioParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /* Regex to match the CCES warnings.

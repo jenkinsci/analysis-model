@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -19,6 +20,7 @@ import edu.hm.hafner.util.LineRangeList;
  * @author Jeremie Bresson
  */
 abstract class JsonBaseParser extends IssueParser {
+    @Serial
     private static final long serialVersionUID = -2318844382394973833L;
 
     /**

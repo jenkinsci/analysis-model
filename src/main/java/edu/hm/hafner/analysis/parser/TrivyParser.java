@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -25,6 +27,7 @@ public class TrivyParser extends JsonIssueParser {
     private static final String TRIVY_VULNERABILITY_LEVEL_TAG_HIGH = "high";
     private static final String TRIVY_VULNERABILITY_LEVEL_TAG_MEDIUM = "medium";
     private static final String TRIVY_VULNERABILITY_LEVEL_TAG_LOW = "low";
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**

@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,7 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  * detector like CPD, DupFinder, or Simian.
  */
 public final class DuplicationGroup implements Serializable {
+    @Serial
     private static final long serialVersionUID = -5005784523279541971L;
 
     private final List<Issue> occurrences = new ArrayList<>();

@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -23,6 +24,7 @@ import static j2html.TagCreator.*;
  * @author Mike Delaney
  */
 public class CargoClippyParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = -2677728927938443703L;
 
     /** First line in a cargo-clippy message should just be the level and summary of the issue. */

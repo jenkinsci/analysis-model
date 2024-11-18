@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -36,6 +37,7 @@ public class PnpmAuditParser extends JsonIssueParser {
     private static final String PNPM_VULNERABILITY_SEVERITY_HIGH = "high";
     private static final String PNPM_VULNERABILITY_SEVERITY_CRITICAL = "critical";
 
+    @Serial
     private static final long serialVersionUID = 4140706319863200922L;
 
     @Override

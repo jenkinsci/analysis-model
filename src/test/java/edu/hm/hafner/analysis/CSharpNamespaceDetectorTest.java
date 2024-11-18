@@ -46,4 +46,3 @@ class CSharpNamespaceDetectorTest extends ResourceTest {
                 .as("Accepts a non-C# file.").isFalse();
     }
 }
-

@@ -2,6 +2,7 @@ package edu.hm.hafner.analysis.parser;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.io.Serial;
 import java.util.Optional;
 
 import org.json.JSONArray;
@@ -21,6 +22,7 @@ import edu.hm.hafner.analysis.Severity;
  * @author PCTao
  */
 public class FlowParser extends JsonIssueParser {
+    @Serial
     private static final long serialVersionUID = 2379734578953758L;
 
     /** Determines whether the flow report has been passed or not. */

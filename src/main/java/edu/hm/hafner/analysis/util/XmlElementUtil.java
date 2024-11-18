@@ -17,7 +17,7 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  */
 //CHECKSTYLE:OFF
 @SuppressWarnings({"PMD", "all"})
-public class XmlElementUtil {
+public final class XmlElementUtil {
     /**
      * Returns all elements in the parent that match the specified name.
      *
@@ -29,7 +29,7 @@ public class XmlElementUtil {
      * @return the elements, the list might be empty if there is no match
      */
     public static List<Element> getChildElementsByName(final Element parent, final String name) {
-        List<Element> elements = new ArrayList<Element>();
+        List<Element> elements = new ArrayList<>();
         if (parent != null) {
             Node child = parent.getFirstChild();
             while (child != null) {

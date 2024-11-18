@@ -207,4 +207,3 @@ class MavenConsoleParserTest extends AbstractParserTest {
         return new MavenConsoleParser();
     }
 }
-

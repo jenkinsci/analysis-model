@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,6 +18,7 @@ import edu.hm.hafner.analysis.Severity;
  * @see <a href="https://brakemanscanner.org">Brakeman</a>
  */
 public class BrakemanParser extends JsonIssueParser {
+    @Serial
     private static final long serialVersionUID = 1374428573878091300L;
 
     @Override

@@ -2,6 +2,7 @@ package edu.hm.hafner.analysis.parser.jcreport;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.io.Serial;
 
 import org.xml.sax.SAXException;
 
@@ -18,6 +19,7 @@ import edu.hm.hafner.analysis.SecureDigester;
  * @author Johann Vierthaler, johann.vierthaler@web.de
  */
 public class JcReportParser extends IssueParser {
+    @Serial
     private static final long serialVersionUID = -1302787609831475403L;
 
     @Override

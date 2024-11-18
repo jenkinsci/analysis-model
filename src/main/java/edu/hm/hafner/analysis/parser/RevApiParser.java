@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -20,6 +21,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  *  Parser for Revapi reports.
  */
 public class RevApiParser extends JsonIssueParser {
+    @Serial
     private static final long serialVersionUID = -2452699725595063377L;
     private static final int CAPACITY = 1024;
 

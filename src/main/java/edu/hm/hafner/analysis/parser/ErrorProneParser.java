@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -20,6 +21,7 @@ import static j2html.TagCreator.*;
  * @author Ullrich Hafner
  */
 public class ErrorProneParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = 8434408068719510740L;
 
     private static final Pattern URL_PATTERN = Pattern.compile("\\s+\\(see (?<url>http\\S+)\\s*\\)");

@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
@@ -15,6 +16,7 @@ import edu.hm.hafner.util.LookaheadStream;
  * @author Sven Lübke
  */
 public class MetrowerksCwCompilerParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = 4317595592384426180L;
 
     /** Pattern of MW CodeWarrior compiler warnings. */
@@ -55,4 +57,3 @@ public class MetrowerksCwCompilerParser extends LookaheadParser {
                 .buildOptional();
     }
 }
-

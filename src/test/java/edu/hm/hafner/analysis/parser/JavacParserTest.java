@@ -386,4 +386,3 @@ class JavacParserTest extends AbstractParserTest {
                 .hasMessage("'PackageStats' is deprecated. Deprecated in Java");
     }
 }
-

@@ -129,4 +129,3 @@ class DiabCParserTest extends AbstractParserTest {
         return new DiabCParser();
     }
 }
-

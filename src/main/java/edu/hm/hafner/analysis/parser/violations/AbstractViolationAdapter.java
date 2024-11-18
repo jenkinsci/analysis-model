@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser.violations;
 
+import java.io.Serial;
 import java.util.Set;
 import java.util.logging.Level;
 
@@ -27,6 +28,7 @@ import static se.bjurr.violations.lib.model.SEVERITY.*;
  * @author Ullrich Hafner
  */
 public abstract class AbstractViolationAdapter extends IssueParser {
+    @Serial
     private static final long serialVersionUID = 7203311857999721045L;
 
     @SuppressWarnings({"illegalcatch", "OverlyBroadCatchBlock"})

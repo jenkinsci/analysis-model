@@ -99,4 +99,3 @@ public class Fragment {
         this.offsetRange = offsetRange;
     }
 }
-

@@ -91,4 +91,3 @@ class TaskingVxCompilerParserTest extends AbstractParserTest {
                 .hasFileName("C:/Projects/a/b/c/BRBL.c");
     }
 }
-

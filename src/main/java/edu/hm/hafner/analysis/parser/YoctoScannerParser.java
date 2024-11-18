@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -17,6 +19,7 @@ import static j2html.TagCreator.*;
  */
 public class YoctoScannerParser extends JsonIssueParser {
     private static final String VALUE_NOT_SET = "-";
+    @Serial
     private static final long serialVersionUID = 1L;
     private static final Double INVALID_SCORE = -1.0;
 

@@ -93,4 +93,3 @@ class PolyspaceParserTest extends AbstractParserTest {
         }
     }
 }
-

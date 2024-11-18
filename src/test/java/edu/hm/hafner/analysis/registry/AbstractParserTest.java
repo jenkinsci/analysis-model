@@ -90,8 +90,8 @@ public abstract class AbstractParserTest extends ResourceTest {
                 .collect(Collectors.toSet());
 
         var compositeParsers = parserRegistry.getAllDescriptors().stream()
-                .filter(descriptor -> descriptor instanceof CompositeParserDescriptor)
-                .map(descriptor -> (CompositeParserDescriptor) descriptor)
+                .filter(CompositeParserDescriptor.class::isInstance)
+                .map(CompositeParserDescriptor.class::cast)
                 .map(CompositeParserDescriptor::createParsers)
                 .flatMap(Collection::stream)
                 .map(IssueParser::getClass)

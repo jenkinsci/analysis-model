@@ -59,4 +59,3 @@ class SonarQubeDiffParserTest extends AbstractParserTest {
         return new SonarQubeDiffParser();
     }
 }
-

@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -23,6 +24,7 @@ import edu.hm.hafner.analysis.util.XmlElementUtil;
  * @author Alex Lopashev, alexlopashev@gmail.com
  */
 public class IdeaInspectionParser extends IssueParser {
+    @Serial
     private static final long serialVersionUID = 3307389086106375473L;
     private static final String PATH_PREFIX = "file://";
     private static final String WARNING = "WARNING";
@@ -87,4 +89,3 @@ public class IdeaInspectionParser extends IssueParser {
         return "-";
     }
 }
-

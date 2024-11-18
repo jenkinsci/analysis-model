@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
@@ -15,6 +16,7 @@ import edu.hm.hafner.util.LookaheadStream;
  * @author Shaohua Wen
  */
 public class TnsdlParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = -7740789998865369930L;
 
     private static final String TNSDL_WARNING_PATTERN = "^tnsdl((.*)?):\\(.*\\) (.*) \\((.*)\\):(.*)$";
@@ -50,4 +52,3 @@ public class TnsdlParser extends LookaheadParser {
         }
     }
 }
-

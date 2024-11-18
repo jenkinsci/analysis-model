@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +23,7 @@ import edu.hm.hafner.util.LookaheadStream;
  * @author Jason Faust
  */
 public class EclipseParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = 425883472788422955L;
 
     private static final String ECLIPSE_FIRST_LINE_REGEXP =

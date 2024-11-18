@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser.violations;
 
+import java.io.Serial;
 import java.util.Map;
 import java.util.Set;
 
@@ -26,6 +27,7 @@ import static j2html.TagCreator.*;
  * @author Tony Ciavarella
  */
 public class ValgrindAdapter extends AbstractViolationAdapter {
+    @Serial
     private static final long serialVersionUID = -6117336551972081612L;
     private static final int NUMBERED_STACK_THRESHOLD = 2;
     private static final int NO_LINE = -1;
@@ -75,7 +77,7 @@ public class ValgrindAdapter extends AbstractViolationAdapter {
                 );
 
         if (auxWhats != null && !auxWhats.isEmpty()) {
-            for (int auxwhatIndex = 0; auxwhatIndex < auxWhats.length(); ++auxwhatIndex) {
+            for (int auxwhatIndex = 0; auxwhatIndex < auxWhats.length(); auxwhatIndex++) {
                 generalTable.with(maybeGenerateTableRowHtml("Auxiliary", auxWhats.getString(auxwhatIndex)));
             }
         }
@@ -96,7 +98,7 @@ public class ValgrindAdapter extends AbstractViolationAdapter {
 
             stackTraces.with(generateStackTraceHtml("Primary Stack Trace", message, stacks.getJSONArray(0)));
 
-            for (int stackIndex = 1; stackIndex < stacks.length(); ++stackIndex) {
+            for (int stackIndex = 1; stackIndex < stacks.length(); stackIndex++) {
                 String msg = null;
 
                 if (auxWhats != null && auxWhats.length() >= stackIndex) {
@@ -126,7 +128,7 @@ public class ValgrindAdapter extends AbstractViolationAdapter {
                         iff(StringUtils.isNotBlank(message), p(message))
                 );
 
-        for (int frameIndex = 0; frameIndex < frames.length(); ++frameIndex) {
+        for (int frameIndex = 0; frameIndex < frames.length(); frameIndex++) {
             var frame = frames.getJSONObject(frameIndex);
 
             if (frameIndex > 0) {

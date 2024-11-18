@@ -238,4 +238,3 @@ class AntJavacParserTest extends AbstractParserTest {
         assertThat(warnings).hasSize(0);
     }
 }
-

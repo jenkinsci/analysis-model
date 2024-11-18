@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
@@ -16,6 +17,7 @@ import static edu.hm.hafner.analysis.Categories.*;
  * @author Ryan Cox
  */
 public class GoLintParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = -5895416507693444713L;
 
     // conn.go:360:3: should replace c.writeSeq += 1 with c.writeSeq++
@@ -42,4 +44,3 @@ public class GoLintParser extends LookaheadParser {
                 .buildOptional();
     }
 }
-

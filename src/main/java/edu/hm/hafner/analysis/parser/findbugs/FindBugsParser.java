@@ -2,6 +2,7 @@ package edu.hm.hafner.analysis.parser.findbugs; // NOPMD
 
 import java.io.IOException;
 import java.io.Reader;
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -39,6 +40,7 @@ import static edu.hm.hafner.analysis.parser.findbugs.FindBugsParser.PriorityProp
  */
 @SuppressWarnings("ClassFanOutComplexity")
 public class FindBugsParser extends IssueParser {
+    @Serial
     private static final long serialVersionUID = 8306319007761954027L;
 
     /**

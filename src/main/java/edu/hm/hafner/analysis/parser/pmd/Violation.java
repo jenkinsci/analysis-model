@@ -95,4 +95,3 @@ public class Violation {
         this.begincolumn = begincolumn;
     }
 }
-

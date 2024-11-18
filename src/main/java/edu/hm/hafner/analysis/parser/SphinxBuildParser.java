@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
@@ -17,6 +18,7 @@ import static edu.hm.hafner.analysis.Categories.*;
  * @author Robert Williams
  */
 public class SphinxBuildParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = 1483050615340274588L;
 
     private static final String SPHINX_BUILD_WARNING_PATTERN = "^([a-zA-Z]:\\\\.*?|/.*?|[^\\/].*?):(?:|(?:.* of .*:)?(\\d+|None|):) (ERROR|WARNING): (.*)";
@@ -51,4 +53,3 @@ public class SphinxBuildParser extends LookaheadParser {
         }
     }
 }
-

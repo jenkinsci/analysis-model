@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Locale;
 import java.util.stream.Stream;
@@ -16,6 +17,7 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  */
 @SuppressWarnings("checkstyle:JavadocVariable")
 public abstract class IssueParser implements Serializable {
+    @Serial
     private static final long serialVersionUID = 200992696185460268L;
 
     protected static final String ADDITIONAL_PROPERTIES = "additionalProperties";
@@ -133,4 +135,3 @@ public abstract class IssueParser implements Serializable {
         return StringUtils.defaultString(input).toUpperCase(Locale.ENGLISH);
     }
 }
-

@@ -27,7 +27,7 @@ abstract class AbstractModuleDetectorTest extends ResourceTest {
     @Test
     void shouldIgnoreExceptionsDuringParsing() {
         FileSystem fileSystem = createFileSystemStub(stub -> {
-            when(stub.find(any(), anyString())).thenReturn(new String[] {
+            when(stub.find(any(), anyString())).thenReturn(new String[]{
                     getPathPrefix() + getProjectFileName()
             });
             when(stub.open(anyString())).thenThrow(new FileNotFoundException("File not found"));

@@ -611,4 +611,3 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
         }
     }
 }
-

@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
@@ -40,6 +41,7 @@ public class EclipseXMLParser extends IssueParser {
     static final String BUILDPATH = "Buildpath";
     static final String UNSPECIFIED = "Unspecified";
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Override
@@ -60,12 +62,12 @@ public class EclipseXMLParser extends IssueParser {
 
             var report = new Report();
 
-            var sources = (NodeList)sourcePath.evaluate(doc, XPathConstants.NODESET);
+            var sources = (NodeList) sourcePath.evaluate(doc, XPathConstants.NODESET);
             for (Element source : XmlElementUtil.nodeListToList(sources)) {
                 String fileName = fileNamePath.evaluate(source);
                 issueBuilder.setFileName(fileName);
 
-                var problems = (NodeList)problemsPath.evaluate(source, XPathConstants.NODESET);
+                var problems = (NodeList) problemsPath.evaluate(source, XPathConstants.NODESET);
                 for (Element problem : XmlElementUtil.nodeListToList(problems)) {
                     issueBuilder.guessSeverity(extractSeverity(problem))
                             .setLineStart(extractLineStart(problem))

@@ -355,4 +355,3 @@ class GccParserTest extends AbstractParserTest {
         return new GccParser();
     }
 }
-

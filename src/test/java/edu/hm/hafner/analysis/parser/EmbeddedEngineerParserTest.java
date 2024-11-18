@@ -75,4 +75,3 @@ class EmbeddedEngineerParserTest extends AbstractParserTest {
                 .hasSeverity(Severity.ERROR);
     }
 }
-

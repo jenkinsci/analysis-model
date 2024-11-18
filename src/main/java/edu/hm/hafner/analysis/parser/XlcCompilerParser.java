@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -18,6 +19,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  */
 @SuppressFBWarnings("REDOS")
 public class XlcCompilerParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = 5490211629355204910L;
 
     private static final String XLC_WARNING_PATTERN = ANT_TASK + ".*((?:[A-Z]+|[0-9]+-)[0-9]+)* ?\\([USEWI]\\)\\s*("
@@ -82,4 +84,3 @@ public class XlcCompilerParser extends LookaheadParser {
         return Optional.empty();
     }
 }
-

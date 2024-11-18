@@ -152,4 +152,3 @@ class IntelParserTest extends AbstractParserTest {
         }
     }
 }
-

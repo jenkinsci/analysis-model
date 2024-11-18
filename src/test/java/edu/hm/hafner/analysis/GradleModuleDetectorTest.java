@@ -35,7 +35,7 @@ class GradleModuleDetectorTest extends AbstractModuleDetectorTest {
     void shouldIdentifyModuleByReadingGradlePath() {
         FileSystem factory = createFileSystemStub(stub ->
                 when(stub.find(any(), anyString())).thenReturn(
-                        new String[] {PATH_PREFIX_GRADLE + GradleModuleDetector.BUILD_GRADLE}));
+                        new String[]{PATH_PREFIX_GRADLE + GradleModuleDetector.BUILD_GRADLE}));
 
         var detector = new ModuleDetector(ROOT, factory);
 
@@ -48,7 +48,7 @@ class GradleModuleDetectorTest extends AbstractModuleDetectorTest {
     @Test
     void shouldIdentifyModuleByFindingClosestGradlePath() {
         FileSystem factory = createFileSystemStub(stub ->
-                when(stub.find(any(), anyString())).thenReturn(new String[] {
+                when(stub.find(any(), anyString())).thenReturn(new String[]{
                         PATH_PREFIX_GRADLE + GradleModuleDetector.BUILD_GRADLE,
                         PATH_PREFIX_GRADLE + "moduleB/" + GradleModuleDetector.BUILD_GRADLE,
                         PATH_PREFIX_GRADLE + "a-module/" + GradleModuleDetector.BUILD_GRADLE,
@@ -73,7 +73,7 @@ class GradleModuleDetectorTest extends AbstractModuleDetectorTest {
     void shouldIdentifyModuleByReadingGradleKtsPath() {
         FileSystem factory = createFileSystemStub(stub ->
                 when(stub.find(any(), anyString())).thenReturn(
-                        new String[] {PATH_PREFIX_GRADLE + GradleModuleDetector.BUILD_GRADLE_KTS}));
+                        new String[]{PATH_PREFIX_GRADLE + GradleModuleDetector.BUILD_GRADLE_KTS}));
 
         var detector = new ModuleDetector(ROOT, factory);
 
@@ -86,7 +86,7 @@ class GradleModuleDetectorTest extends AbstractModuleDetectorTest {
     @Test
     void shouldIdentifyModuleByReadingGradleSettings() {
         FileSystem factory = createFileSystemStub(stub -> {
-            when(stub.find(any(), anyString())).thenReturn(new String[] {
+            when(stub.find(any(), anyString())).thenReturn(new String[]{
                     PATH_PREFIX_GRADLE + GradleModuleDetector.SETTINGS_GRADLE,
                     PATH_PREFIX_GRADLE + "moduleB/" + GradleModuleDetector.BUILD_GRADLE,
                     PATH_PREFIX_GRADLE + "a-module/" + GradleModuleDetector.BUILD_GRADLE,
@@ -112,7 +112,7 @@ class GradleModuleDetectorTest extends AbstractModuleDetectorTest {
     @Test
     void shouldIdentifyModuleByReadingGradleSettingsKts() {
         FileSystem factory = createFileSystemStub(stub -> {
-            when(stub.find(any(), anyString())).thenReturn(new String[] {
+            when(stub.find(any(), anyString())).thenReturn(new String[]{
                     PATH_PREFIX_GRADLE + GradleModuleDetector.SETTINGS_GRADLE_KTS,
             });
             when(stub.open(anyString())).thenAnswer(filename -> read("settings-1.gradle"));
@@ -130,7 +130,7 @@ class GradleModuleDetectorTest extends AbstractModuleDetectorTest {
     @Test
     void shouldEnsureThatGradleSettingsHasPrecedenceOverRootBuild() {
         FileSystem factory = createFileSystemStub(stub -> {
-            when(stub.find(any(), anyString())).thenReturn(new String[] {
+            when(stub.find(any(), anyString())).thenReturn(new String[]{
                     PATH_PREFIX_GRADLE + GradleModuleDetector.BUILD_GRADLE,
                     PATH_PREFIX_GRADLE + GradleModuleDetector.SETTINGS_GRADLE,
                     PATH_PREFIX_GRADLE + "moduleB/" + GradleModuleDetector.BUILD_GRADLE,
@@ -157,7 +157,7 @@ class GradleModuleDetectorTest extends AbstractModuleDetectorTest {
     @Test
     void shouldEnsureThatGradleSettingsCanParseFormat1() {
         FileSystem factory = createFileSystemStub(stub -> {
-            when(stub.find(any(), anyString())).thenReturn(new String[] {
+            when(stub.find(any(), anyString())).thenReturn(new String[]{
                     PATH_PREFIX_GRADLE + GradleModuleDetector.SETTINGS_GRADLE,
             });
             when(stub.open(anyString())).thenAnswer(fileName -> read("settings-1.gradle"));
@@ -173,7 +173,7 @@ class GradleModuleDetectorTest extends AbstractModuleDetectorTest {
     @Test
     void shouldEnsureThatGradleSettingsCanParseFormat2() {
         FileSystem factory = createFileSystemStub(stub -> {
-            when(stub.find(any(), anyString())).thenReturn(new String[] {
+            when(stub.find(any(), anyString())).thenReturn(new String[]{
                     PATH_PREFIX_GRADLE + GradleModuleDetector.SETTINGS_GRADLE,
             });
             when(stub.open(anyString())).thenAnswer(fileName -> read("settings-2.gradle"));
@@ -189,7 +189,7 @@ class GradleModuleDetectorTest extends AbstractModuleDetectorTest {
     @Test
     void shouldEnsureThatGradleSettingsCanParseFormat3() {
         FileSystem factory = createFileSystemStub(stub -> {
-            when(stub.find(any(), anyString())).thenReturn(new String[] {
+            when(stub.find(any(), anyString())).thenReturn(new String[]{
                     PATH_PREFIX_GRADLE + GradleModuleDetector.SETTINGS_GRADLE,
             });
             when(stub.open(anyString())).thenAnswer(fileName -> read("settings-3.gradle"));
@@ -205,7 +205,7 @@ class GradleModuleDetectorTest extends AbstractModuleDetectorTest {
     @Test
     void shouldEnsureThatGradleSettingsCanParseFormat4() {
         FileSystem factory = createFileSystemStub(stub -> {
-            when(stub.find(any(), anyString())).thenReturn(new String[] {
+            when(stub.find(any(), anyString())).thenReturn(new String[]{
                     PATH_PREFIX_GRADLE + GradleModuleDetector.SETTINGS_GRADLE,
             });
             when(stub.open(anyString())).thenAnswer(fileName -> read("settings-4.gradle"));
@@ -221,7 +221,7 @@ class GradleModuleDetectorTest extends AbstractModuleDetectorTest {
     @Test
     void shouldIgnoreGradleSettingsWithoutProjectName() {
         FileSystem factory = createFileSystemStub(stub -> {
-            when(stub.find(any(), anyString())).thenReturn(new String[] {
+            when(stub.find(any(), anyString())).thenReturn(new String[]{
                     PATH_PREFIX_GRADLE + GradleModuleDetector.BUILD_GRADLE,
                     PATH_PREFIX_GRADLE + GradleModuleDetector.SETTINGS_GRADLE,
             });
@@ -238,7 +238,7 @@ class GradleModuleDetectorTest extends AbstractModuleDetectorTest {
     @Test
     void shouldIgnoreGradleFileWithNoParentPath() {
         FileSystem factory = createFileSystemStub(stub ->
-                when(stub.find(any(), anyString())).thenReturn(new String[] {
+                when(stub.find(any(), anyString())).thenReturn(new String[]{
                         GradleModuleDetector.BUILD_GRADLE,
                 }));
 

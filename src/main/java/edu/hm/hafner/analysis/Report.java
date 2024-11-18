@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintStream;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -60,6 +61,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 @SuppressWarnings({"PMD.ExcessivePublicCount", "PMD.ExcessiveClassLength", "PMD.GodClass", "PMD.CognitiveComplexity", "PMD.CyclomaticComplexity", "checkstyle:ClassFanOutComplexity"})
 // TODO: provide a readResolve method to check the instance and improve the performance (TreeString, etc.)
 public class Report implements Iterable<Issue>, Serializable {
+    @Serial
     private static final long serialVersionUID = 4L; // release 10.0.0
 
     @VisibleForTesting
@@ -81,7 +83,7 @@ public class Report implements Iterable<Issue>, Serializable {
     @CheckForNull @SuppressWarnings({"all", "UnusedVariable"})
     private transient Map<String, String> namesByOrigin; // Not needed anymore since  10.0.0
 
-    private int duplicatesSize = 0;
+    private int duplicatesSize;
 
     /**
      * Creates an empty {@link Report}.

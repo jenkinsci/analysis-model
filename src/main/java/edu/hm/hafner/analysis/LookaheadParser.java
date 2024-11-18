@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis;
 
+import java.io.Serial;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Optional;
@@ -21,6 +22,7 @@ import edu.hm.hafner.util.LookaheadStream;
  * @author Ullrich Hafner
  */
 public abstract class LookaheadParser extends IssueParser {
+    @Serial
     private static final long serialVersionUID = 3240719494150024894L;
 
     /** Pattern identifying an ant task debug output prefix. */

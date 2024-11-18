@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser.gendarme;
 
+import java.io.Serial;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
@@ -27,6 +28,7 @@ import static edu.hm.hafner.analysis.util.IntegerParser.*;
  * @author mathias.kluba@gmail.com
  */
 public class GendarmeParser extends IssueParser {
+    @Serial
     private static final long serialVersionUID = 1677715364464119907L;
 
     private static final Pattern FILE_PATTERN = Pattern.compile("^(.*)\\(.(\\d+)\\).*$");

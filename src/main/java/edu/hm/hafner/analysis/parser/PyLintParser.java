@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
@@ -17,6 +18,7 @@ import edu.hm.hafner.util.LookaheadStream;
  * @author Björn Pedersen
  */
 public class PyLintParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = 4464053085862883240L;
 
     // the default pattern matches "--output-format=parseable" output.

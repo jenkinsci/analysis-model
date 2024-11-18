@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -17,6 +18,7 @@ import edu.hm.hafner.analysis.Report;
  * @author Jeremie Bresson
  */
 public class JsonLogParser extends JsonBaseParser {
+    @Serial
     private static final long serialVersionUID = 1349282064371959197L;
 
     @Override
