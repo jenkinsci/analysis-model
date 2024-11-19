@@ -17,7 +17,6 @@ import org.openjdk.jmh.infra.Blackhole;
 import edu.hm.hafner.analysis.AbstractBenchmark;
 import edu.hm.hafner.analysis.FileReaderFactory;
 import edu.hm.hafner.analysis.ReaderFactory;
-import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.parser.checkstyle.CheckStyleParser;
 import edu.hm.hafner.analysis.parser.pmd.PmdParser;
 

@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
 import java.io.IOException;
-import java.io.Reader;
 import java.io.Serial;
 import java.util.Optional;
 
@@ -49,7 +48,7 @@ public class FlowParser extends JsonIssueParser {
     public boolean accepts(final ReaderFactory readerFactory) {
         try (var reader = readerFactory.create()) {
             var value = new JSONTokener(reader).nextValue();
-            return value instanceof JSONObject jsono && jsono.has(FLOW_VERSION);
+            return value instanceof final JSONObject jsono && jsono.has(FLOW_VERSION);
         }
         catch (IOException | JSONException ignored) {
             return false;
@@ -66,7 +65,7 @@ public class FlowParser extends JsonIssueParser {
     private void extractIssues(final JSONArray elements, final Report report,
             final IssueBuilder issueBuilder) {
         for (Object object : elements) {
-            if (object instanceof JSONObject issue) {
+            if (object instanceof final JSONObject issue) {
                 findFirstMessage(issue).ifPresent(
                         jsonObject -> report.add(createIssueFromJsonObject(issue, jsonObject, issueBuilder)));
             }

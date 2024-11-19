@@ -1,12 +1,10 @@
 package edu.hm.hafner.analysis.parser;
 
 import java.io.IOException;
-import java.io.Reader;
 import java.io.Serial;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;

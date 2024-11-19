@@ -2,7 +2,6 @@ package edu.hm.hafner.analysis.parser;
 
 import java.io.Serial;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 

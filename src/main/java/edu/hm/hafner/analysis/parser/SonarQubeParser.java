@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
 import java.io.IOException;
-import java.io.Reader;
 import java.io.Serial;
 
 import org.json.JSONArray;
@@ -94,10 +93,8 @@ public abstract class SonarQubeParser extends JsonIssueParser {
 
     private void extractIssues(final JSONArray elements, final Report report, final IssueBuilder issueBuilder) {
         for (Object object : elements) {
-            if (object instanceof JSONObject issue) {
-                if (filterIssue(issue)) {
-                    report.add(createIssueFromJsonObject(issue, issueBuilder));
-                }
+            if (object instanceof final JSONObject issue && filterIssue(issue)) {
+                report.add(createIssueFromJsonObject(issue, issueBuilder));
             }
         }
     }
@@ -231,8 +228,7 @@ public abstract class SonarQubeParser extends JsonIssueParser {
      * @return the priority.
      */
     private Severity parsePriority(final JSONObject issue) {
-        var severity = issue.optString(ISSUE_SEVERITY, null);
-        return severityToPriority(severity);
+        return severityToPriority(issue.optString(ISSUE_SEVERITY, SEVERITY_MINOR));
     }
 
     //UTILITIES
@@ -271,10 +267,9 @@ public abstract class SonarQubeParser extends JsonIssueParser {
     private JSONObject findComponentByKey(final String key) {
         if (components != null && key != null) {
             for (Object component : components) {
-                if (component instanceof JSONObject jsonComponent) {
-                    if (key.equals(jsonComponent.optString(COMPONENT_KEY))) {
-                        return jsonComponent;
-                    }
+                if (component instanceof final JSONObject jsonComponent
+                        && key.equals(jsonComponent.optString(COMPONENT_KEY))) {
+                    return jsonComponent;
                 }
             }
         }
@@ -298,16 +293,13 @@ public abstract class SonarQubeParser extends JsonIssueParser {
      * @return a priority object corresponding to the passed severity.
      */
     private Severity severityToPriority(final String severity) {
-        var priority = Severity.WARNING_NORMAL;
         // Severity MAJOR is omitted as it corresponds with default Severity: NORMAL
-        if (severity != null) {
-            if (SEVERITY_BLOCKER.equals(severity) || SEVERITY_CRITICAL.equals(severity)) {
-                priority = Severity.WARNING_HIGH;
-            }
-            else if (SEVERITY_MINOR.equals(severity) || SEVERITY_INFO.equals(severity)) {
-                priority = Severity.WARNING_LOW;
-            }
+        if (SEVERITY_BLOCKER.equals(severity) || SEVERITY_CRITICAL.equals(severity)) {
+            return Severity.WARNING_HIGH;
         }
-        return priority;
+        else if (SEVERITY_MINOR.equals(severity) || SEVERITY_INFO.equals(severity)) {
+            return Severity.WARNING_LOW;
+        }
+        return Severity.WARNING_NORMAL;
     }
 }

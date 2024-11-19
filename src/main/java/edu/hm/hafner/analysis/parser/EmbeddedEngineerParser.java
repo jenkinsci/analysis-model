@@ -2,7 +2,6 @@ package edu.hm.hafner.analysis.parser;
 
 import java.io.Serial;
 import java.io.UncheckedIOException;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 

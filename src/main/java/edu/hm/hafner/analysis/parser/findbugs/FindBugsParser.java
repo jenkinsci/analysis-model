@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.digester3.Digester;
 import org.apache.commons.lang3.StringUtils;
 import org.dom4j.DocumentException;
 import org.xml.sax.SAXException;
@@ -247,7 +246,7 @@ public class FindBugsParser extends IssueParser {
         var lineRanges = new LineRangeList();
         while (annotationIterator.hasNext()) {
             var bugAnnotation = annotationIterator.next();
-            if (bugAnnotation instanceof SourceLineAnnotation annotation) {
+            if (bugAnnotation instanceof final SourceLineAnnotation annotation) {
                 var lineRange = new LineRange(annotation.getStartLine(), annotation.getEndLine());
                 if (!lineRanges.contains(lineRange) && !primary.equals(lineRange)) {
                     lineRanges.add(lineRange);

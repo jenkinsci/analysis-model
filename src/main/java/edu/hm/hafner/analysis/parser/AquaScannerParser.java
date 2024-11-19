@@ -37,12 +37,12 @@ public class AquaScannerParser extends JsonIssueParser {
 
     private void parseResources(final Report report, final JSONArray resources, final IssueBuilder issueBuilder) {
         for (int i = 0; i < resources.length(); i++) {
-            final var item = resources.get(i);
-            if (item instanceof JSONObject resourceWrapper) {
-                if (!resourceWrapper.isNull("vulnerabilities") && !resourceWrapper.isNull("resource")) {
-                    var resource = resourceWrapper.getJSONObject("resource");
-                    parseVulnerabilities(report, issueBuilder, resourceWrapper, resource);
-                }
+            var item = resources.get(i);
+            if (item instanceof JSONObject resourceWrapper
+                    && !resourceWrapper.isNull("vulnerabilities")
+                    && !resourceWrapper.isNull("resource")) {
+                var resource = resourceWrapper.getJSONObject("resource");
+                parseVulnerabilities(report, issueBuilder, resourceWrapper, resource);
             }
         }
     }
@@ -69,7 +69,8 @@ public class AquaScannerParser extends JsonIssueParser {
     }
 
     private Severity mapSeverity(final String string) {
-        if (StringUtils.containsAnyIgnoreCase(string, AQUA_VULNERABILITY_LEVEL_TAG_LOW, AQUA_VULNERABILITY_LEVEL_TAG_NEGLIGIBLE)) {
+        if (StringUtils.containsAnyIgnoreCase(string, AQUA_VULNERABILITY_LEVEL_TAG_LOW,
+                AQUA_VULNERABILITY_LEVEL_TAG_NEGLIGIBLE)) {
             return Severity.WARNING_LOW;
         }
         else if (StringUtils.equalsIgnoreCase(string, AQUA_VULNERABILITY_LEVEL_TAG_MEDIUM)) {

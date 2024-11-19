@@ -81,42 +81,42 @@ class PmdParserTest extends AbstractParserTest {
                 .hasFileName(
                         "/Users/jordillach/DemoTenants/Tenants/vhosts/pre.elperiodico.com/themes/default/articleTemplates/forceOpinion.s.jsp")
                 .hasMessage(
-                        "Error while parsing /Users/jordillach/DemoTenants/Tenants/vhosts/pre.elperiodico.com/themes/default/articleTemplates/forceOpinion.s.jsp")
-                .hasDescription(
-                        """
-                                "<!--" ...net.sourceforge.pmd.PMDException: Error while parsing /Users/jordillach/DemoTenants/Tenants/vhosts/pre.elperiodico.com/themes/default/articleTemplates/forceOpinion.s.jsp
-                                	at net.sourceforge.pmd.SourceCodeProcessor.processSourceCode(SourceCodeProcessor.java:99)
-                                	at net.sourceforge.pmd.SourceCodeProcessor.processSourceCode(SourceCodeProcessor.java:51)
-                                	at net.sourceforge.pmd.processor.PmdRunnable.call(PmdRunnable.java:78)
-                                	at net.sourceforge.pmd.processor.PmdRunnable.call(PmdRunnable.java:24)
-                                	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
-                                	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
-                                	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
-                                	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
-                                	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
-                                	at java.lang.Thread.run(Thread.java:748)
-                                Caused by: net.sourceforge.pmd.lang.jsp.ast.ParseException: Encountered " "</" "</ "" at line 22, column 1.
-                                Was expecting one of:
-                                    <EOF>
-                                    "<" ...
-                                    "<![CDATA[" ...
-                                    "<%--" ...
-                                    "<%!" ...
-                                    "<%=" ...
-                                    "<%" ...
-                                    "<%@" ...
-                                    "<script" ...
-                                    <EL_EXPRESSION> ...
-                                    <UNPARSED_TEXT> ...
-                                   \s
-                                	at net.sourceforge.pmd.lang.jsp.ast.JspParser.generateParseException(JspParser.java:1846)
-                                	at net.sourceforge.pmd.lang.jsp.ast.JspParser.jj_consume_token(JspParser.java:1725)
-                                	at net.sourceforge.pmd.lang.jsp.ast.JspParser.CompilationUnit(JspParser.java:55)
-                                	at net.sourceforge.pmd.lang.jsp.JspParser.parse(JspParser.java:41)
-                                	at net.sourceforge.pmd.SourceCodeProcessor.parse(SourceCodeProcessor.java:111)
-                                	at net.sourceforge.pmd.SourceCodeProcessor.processSource(SourceCodeProcessor.java:175)
-                                	at net.sourceforge.pmd.SourceCodeProcessor.processSourceCode(SourceCodeProcessor.java:96)
-                                	... 9 more""");
+                        "Error while parsing /Users/jordillach/DemoTenants/Tenants/vhosts/pre.elperiodico.com/themes/default/articleTemplates/forceOpinion.s.jsp");
+        assertThat(report.get(4).getDescription()).isEqualToIgnoringWhitespace(
+                """
+                        "<!--" ...net.sourceforge.pmd.PMDException: Error while parsing /Users/jordillach/DemoTenants/Tenants/vhosts/pre.elperiodico.com/themes/default/articleTemplates/forceOpinion.s.jsp
+                            at net.sourceforge.pmd.SourceCodeProcessor.processSourceCode(SourceCodeProcessor.java:99)
+                            at net.sourceforge.pmd.SourceCodeProcessor.processSourceCode(SourceCodeProcessor.java:51)
+                            at net.sourceforge.pmd.processor.PmdRunnable.call(PmdRunnable.java:78)
+                            at net.sourceforge.pmd.processor.PmdRunnable.call(PmdRunnable.java:24)
+                            at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+                            at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+                            at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+                            at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+                            at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+                            at java.lang.Thread.run(Thread.java:748)
+                        Caused by: net.sourceforge.pmd.lang.jsp.ast.ParseException: Encountered " "</" "</ "" at line 22, column 1.
+                        Was expecting one of:
+                            <EOF>
+                            "<" ...
+                            "<![CDATA[" ...
+                            "<%--" ...
+                            "<%!" ...
+                            "<%=" ...
+                            "<%" ...
+                            "<%@" ...
+                            "<script" ...
+                            <EL_EXPRESSION> ...
+                            <UNPARSED_TEXT> ...
+                           \s
+                            at net.sourceforge.pmd.lang.jsp.ast.JspParser.generateParseException(JspParser.java:1846)
+                            at net.sourceforge.pmd.lang.jsp.ast.JspParser.jj_consume_token(JspParser.java:1725)
+                            at net.sourceforge.pmd.lang.jsp.ast.JspParser.CompilationUnit(JspParser.java:55)
+                            at net.sourceforge.pmd.lang.jsp.JspParser.parse(JspParser.java:41)
+                            at net.sourceforge.pmd.SourceCodeProcessor.parse(SourceCodeProcessor.java:111)
+                            at net.sourceforge.pmd.SourceCodeProcessor.processSource(SourceCodeProcessor.java:175)
+                            at net.sourceforge.pmd.SourceCodeProcessor.processSourceCode(SourceCodeProcessor.java:96)
+                            ... 9 more""");
     }
 
     /**

@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis.parser.jcreport;
 
 import java.io.IOException;
-import java.io.Reader;
 import java.io.Serial;
 
 import org.xml.sax.SAXException;

@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser.dry.dupfinder;
 
-import java.io.Serializable;
 import java.util.Objects;
 
 import org.junit.jupiter.api.Test;

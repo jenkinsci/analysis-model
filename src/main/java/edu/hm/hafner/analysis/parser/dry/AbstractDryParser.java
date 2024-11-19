@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis.parser.dry;
 
 import java.io.IOException;
-import java.io.Reader;
 import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;

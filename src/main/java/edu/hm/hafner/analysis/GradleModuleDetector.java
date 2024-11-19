@@ -1,7 +1,7 @@
 package edu.hm.hafner.analysis;
 
 import java.io.IOException;
-import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.InvalidPathException;
 import java.util.List;
 import java.util.Map;
@@ -76,7 +76,7 @@ public class GradleModuleDetector extends AbstractModuleDetector {
         String name = null;
 
         try (var input = getFactory().open(settingsFile);
-                var scan = new Scanner(input, "UTF-8")) {
+                var scan = new Scanner(input, StandardCharsets.UTF_8)) {
             while (scan.hasNextLine()) {
                 var line = scan.findInLine(RE_GRADLE_SET_PROJECT_NAME);
 

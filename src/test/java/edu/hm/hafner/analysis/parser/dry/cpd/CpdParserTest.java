@@ -1,7 +1,5 @@
 package edu.hm.hafner.analysis.parser.dry.cpd;
 
-import java.io.Serializable;
-
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.DuplicationGroup;

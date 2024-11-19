@@ -6,7 +6,6 @@ import java.util.List;
 import org.apache.commons.digester3.Digester;
 
 import edu.hm.hafner.analysis.DuplicationGroup;
-import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.parser.dry.AbstractDryParser;

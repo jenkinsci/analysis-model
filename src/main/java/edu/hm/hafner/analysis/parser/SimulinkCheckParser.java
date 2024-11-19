@@ -1,8 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.Reader;
 import java.io.Serial;
 import java.util.regex.Pattern;
 

@@ -33,18 +33,16 @@ public class YoctoScannerParser extends JsonIssueParser {
 
     private void parseResources(final Report report, final JSONArray packages, final IssueBuilder issueBuilder) {
         for (int i = 0; i < packages.length(); i++) {
-            final var item = packages.get(i);
-            if (item instanceof JSONObject resourceWrapper) {
-                if (!resourceWrapper.isNull("issue")) {
-                    parseVulnerabilities(report, issueBuilder, resourceWrapper);
-                }
+            var item = packages.get(i);
+            if (item instanceof JSONObject resourceWrapper && !resourceWrapper.isNull("issue")) {
+                parseVulnerabilities(report, issueBuilder, resourceWrapper);
             }
         }
     }
 
     private void parseVulnerabilities(final Report report, final IssueBuilder issueBuilder,
             final JSONObject resourceWrapper) {
-        final var vulnerabilities = resourceWrapper.getJSONArray("issue");
+        var vulnerabilities = resourceWrapper.getJSONArray("issue");
         for (Object vulnerability : vulnerabilities) {
             if (vulnerability instanceof JSONObject obj) {
                 var status = obj.getString("status");
@@ -70,11 +68,14 @@ public class YoctoScannerParser extends JsonIssueParser {
     }
 
     private Severity mapSeverity(final JSONObject vulnerability) {
-        var score = INVALID_SCORE;
         boolean hasScoreV3 = vulnerability.has("scorev3");
 
+        double score;
         if (hasScoreV3) {
             score = vulnerability.getDouble("scorev3");
+        }
+        else {
+            score = INVALID_SCORE;
         }
 
         if (score <= 0) {
@@ -94,7 +95,8 @@ public class YoctoScannerParser extends JsonIssueParser {
         return Severity.ERROR;
     }
 
-    private String formatDescription(final String packageName, final JSONObject resource, final JSONObject vulnerability) {
+    private String formatDescription(final String packageName, final JSONObject resource,
+            final JSONObject vulnerability) {
         final var version = resource.optString("version", VALUE_NOT_SET);
         final var layer = resource.optString("layer", "UNKOWN");
         final var vector = vulnerability.optString("vector", "UNKOWN");

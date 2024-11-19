@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,12 +10,13 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import edu.hm.hafner.analysis.PackageDetectors.FileSystem;
 import edu.hm.hafner.util.ResourceTest;
+
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 /**
  * Tests the class {@link PackageDetectors}.
- * 
+ *
  * @author Ullrich Hafner
  */
 class PackageDetectorsTest extends ResourceTest {
