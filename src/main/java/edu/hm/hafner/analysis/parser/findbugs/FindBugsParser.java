@@ -2,13 +2,13 @@ package edu.hm.hafner.analysis.parser.findbugs; // NOPMD
 
 import java.io.IOException;
 import java.io.Reader;
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.digester3.Digester;
 import org.apache.commons.lang3.StringUtils;
 import org.dom4j.DocumentException;
 import org.xml.sax.SAXException;
@@ -39,6 +39,7 @@ import static edu.hm.hafner.analysis.parser.findbugs.FindBugsParser.PriorityProp
  */
 @SuppressWarnings("ClassFanOutComplexity")
 public class FindBugsParser extends IssueParser {
+    @Serial
     private static final long serialVersionUID = 8306319007761954027L;
 
     /**
@@ -78,9 +79,9 @@ public class FindBugsParser extends IssueParser {
 
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingException {
-        try (IssueBuilder builder = new IssueBuilder()) {
+        try (var builder = new IssueBuilder()) {
             List<String> sources = new ArrayList<>();
-            String moduleRoot = StringUtils.substringBefore(readerFactory.getFileName(), "/target/");
+            var moduleRoot = StringUtils.substringBefore(readerFactory.getFileName(), "/target/");
             sources.add(moduleRoot + "/src/main/java");
             sources.add(moduleRoot + "/src/test/java");
             sources.add(moduleRoot + "/src");
@@ -95,7 +96,7 @@ public class FindBugsParser extends IssueParser {
         Map<String, String> hashToMessageMapping = new HashMap<>();
         Map<String, String> categories = new HashMap<>();
 
-        try (Reader input = readerFactory.create()) {
+        try (var input = readerFactory.create()) {
             List<XmlBugInstance> bugs = preParse(input);
             for (XmlBugInstance bug : bugs) {
                 hashToMessageMapping.put(bug.getInstanceHash(), bug.getMessage());
@@ -128,10 +129,10 @@ public class FindBugsParser extends IssueParser {
     private Report parse(final ReaderFactory readerFactory, final Collection<String> sources,
             final IssueBuilder builder, final Map<String, String> hashToMessageMapping,
             final Map<String, String> categories) {
-        try (Reader input = readerFactory.create()) {
-            SortedBugCollection bugs = readXml(input);
+        try (var input = readerFactory.create()) {
+            var bugs = readXml(input);
 
-            try (Project project = bugs.getProject()) {
+            try (var project = bugs.getProject()) {
                 return convertBugsToIssues(sources, builder, hashToMessageMapping, categories, bugs, project);
             }
         }
@@ -145,18 +146,18 @@ public class FindBugsParser extends IssueParser {
             final SortedBugCollection collection, final Project project) {
         project.addSourceDirs(sources);
 
-        try (SourceFinder sourceFinder = new SourceFinder(project)) {
+        try (var sourceFinder = new SourceFinder(project)) {
             if (StringUtils.isNotBlank(project.getProjectName())) {
                 builder.setModuleName(project.getProjectName());
             }
 
             var report = new Report();
             for (BugInstance warning : collection.getCollection()) {
-                SourceLineAnnotation sourceLine = warning.getPrimarySourceLineAnnotation();
+                var sourceLine = warning.getPrimarySourceLineAnnotation();
 
-                String message = warning.getMessage();
-                String type = warning.getType();
-                String category = categories.get(type);
+                var message = warning.getMessage();
+                var type = warning.getType();
+                var category = categories.get(type);
                 if (category == null) { // alternately, only if warning.getBugPattern().getType().equals("UNKNOWN")
                     category = warning.getBugPattern().getCategory();
                 }
@@ -194,13 +195,13 @@ public class FindBugsParser extends IssueParser {
      */
     @VisibleForTesting
     List<XmlBugInstance> preParse(final Reader file) throws SAXException, IOException {
-        Digester digester = new SecureDigester(FindBugsParser.class);
+        var digester = new SecureDigester(FindBugsParser.class);
 
-        String rootXPath = "BugCollection/BugInstance";
+        var rootXPath = "BugCollection/BugInstance";
         digester.addObjectCreate(rootXPath, XmlBugInstance.class);
         digester.addSetProperties(rootXPath);
 
-        String fileXPath = rootXPath + "/LongMessage";
+        var fileXPath = rootXPath + "/LongMessage";
         digester.addCallMethod(fileXPath, "setMessage", 0);
 
         digester.addSetNext(rootXPath, "add", Object.class.getName());
@@ -245,8 +246,7 @@ public class FindBugsParser extends IssueParser {
         var lineRanges = new LineRangeList();
         while (annotationIterator.hasNext()) {
             var bugAnnotation = annotationIterator.next();
-            if (bugAnnotation instanceof SourceLineAnnotation) {
-                var annotation = (SourceLineAnnotation) bugAnnotation;
+            if (bugAnnotation instanceof final SourceLineAnnotation annotation) {
                 var lineRange = new LineRange(annotation.getStartLine(), annotation.getEndLine());
                 if (!lineRanges.contains(lineRange) && !primary.equals(lineRange)) {
                     lineRanges.add(lineRange);

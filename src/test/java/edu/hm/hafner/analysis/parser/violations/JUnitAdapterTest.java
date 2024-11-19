@@ -54,8 +54,8 @@ class JUnitAdapterTest extends AbstractParserTest {
      */
     @Test
     void shouldParseWithJUnit2() {
-        Report report = parse("TEST-org.jenkinsci.plugins.jvctb.perform.JvctbPerformerTest.xml");
-        try (SoftAssertions softly = new SoftAssertions()) {
+        var report = parse("TEST-org.jenkinsci.plugins.jvctb.perform.JvctbPerformerTest.xml");
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(report.get(0))
                     .hasFileName("org/jenkinsci/plugins/jvctb/perform/JvctbPerformerTest.java")
                     .hasSeverity(Severity.WARNING_HIGH);
@@ -70,7 +70,7 @@ class JUnitAdapterTest extends AbstractParserTest {
      */
     @Test
     void shouldCountSkipped() {
-        Report report = parse("junit-skipped.xml");
+        var report = parse("junit-skipped.xml");
         assertThat(report).isEmpty();
         assertThat(report.getCounter(TOTAL_TESTS)).isEqualTo(5);
         assertThat(report.getCounter(SKIPPED_TESTS)).isEqualTo(1);
@@ -83,7 +83,7 @@ class JUnitAdapterTest extends AbstractParserTest {
      */
     @Test
     void shouldStoreReportFileName() {
-        Report report = parse(ASSIGNMENT);
+        var report = parse(ASSIGNMENT);
         assertThat(report).hasSize(1);
         assertThat(report.getCounter(TOTAL_TESTS)).isEqualTo(1);
         assertThat(report.getCounter(SKIPPED_TESTS)).isEqualTo(0);
@@ -99,7 +99,7 @@ class JUnitAdapterTest extends AbstractParserTest {
      */
     @Test
     void issue63527() {
-        Report report = parse("report.junit");
+        var report = parse("report.junit");
         assertThat(report).hasSize(1);
     }
 
@@ -110,14 +110,14 @@ class JUnitAdapterTest extends AbstractParserTest {
      */
     @Test
     void issue64117() {
-        Report report = parse("issue64117.junit");
+        var report = parse("issue64117.junit");
 
         assertThat(report).hasSize(1);
     }
 
     @Test
     void shouldParseArchitectureTests() {
-        Report report = parse("TEST-Aufgabe3Test.xml");
+        var report = parse("TEST-Aufgabe3Test.xml");
 
         assertThat(report.getCounter(TOTAL_TESTS)).as("Total tests").isEqualTo(3);
         assertThat(report.getCounter(SKIPPED_TESTS)).as("Skipped tests").isEqualTo(0);
@@ -133,7 +133,7 @@ class JUnitAdapterTest extends AbstractParserTest {
     }
 
     private void shouldParseExceptions(final String fileName) {
-        Report report = parse(fileName);
+        var report = parse(fileName);
 
         assertThat(report.getCounter(TOTAL_TESTS)).as("Total tests").isEqualTo(5);
         assertThat(report.getCounter(SKIPPED_TESTS)).as("Skipped tests").isEqualTo(0);

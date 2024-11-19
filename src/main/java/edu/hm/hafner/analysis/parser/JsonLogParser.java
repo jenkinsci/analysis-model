@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -17,11 +18,12 @@ import edu.hm.hafner.analysis.Report;
  * @author Jeremie Bresson
  */
 public class JsonLogParser extends JsonBaseParser {
+    @Serial
     private static final long serialVersionUID = 1349282064371959197L;
 
     @Override
     public boolean accepts(final ReaderFactory readerFactory) {
-        String fileName = readerFactory.getFileName();
+        var fileName = readerFactory.getFileName();
         return !fileName.endsWith(".xml") && !fileName.endsWith(".json");
     }
 
@@ -34,8 +36,7 @@ public class JsonLogParser extends JsonBaseParser {
                     .filter(line -> !line.startsWith("//"))
                     .filter(line -> line.charAt(0) != '#')
                     .map(line -> parseIssue(line, report))
-                    .filter(Optional::isPresent)
-                    .map(Optional::get)
+                    .flatMap(Optional::stream)
                     .forEach(report::add);
             return report;
         }

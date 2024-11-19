@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -23,6 +24,7 @@ import static edu.hm.hafner.analysis.util.IntegerParser.*;
  * @author Wade Penson
  */
 public class DrMemoryParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = 7195239138601238590L;
     private static final String DR_MEMORY_WARNING_PATTERN = "Error #\\d+: (.*)";
 
@@ -45,7 +47,7 @@ public class DrMemoryParser extends LookaheadParser {
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder)
             throws ParsingException {
-        String header = matcher.group(1);
+        var header = matcher.group(1);
 
         var messageBuilder = new StringBuilder(header);
         while (lookahead.hasNext("Elapsed time")) {
@@ -55,7 +57,7 @@ public class DrMemoryParser extends LookaheadParser {
 
         var stacktraceBuilder = new StringBuilder();
         while (lookahead.hasNext("^#.*")) {
-            String stackTrace = lookahead.next();
+            var stackTrace = lookahead.next();
             stacktraceBuilder.append(stackTrace);
             stacktraceBuilder.append("<br>");
 
@@ -132,14 +134,14 @@ public class DrMemoryParser extends LookaheadParser {
         builder.setFileName("-");
         builder.setLineStart(0);
         for (String line : stackTrace.split("<br>", -1)) {
-            Matcher pathMatcher = FILE_PATH_PATTERN.matcher(line);
+            var pathMatcher = FILE_PATH_PATTERN.matcher(line);
 
             if (pathMatcher.find()) {
-                String path = pathMatcher.group("file");
+                var path = pathMatcher.group("file");
                 builder.setFileName(path);
                 builder.setLineStart(parseInt(pathMatcher.group("line")));
 
-                Matcher jenkinsPathMatcher = JENKINS_PATH_PATTERN.matcher(path);
+                var jenkinsPathMatcher = JENKINS_PATH_PATTERN.matcher(path);
                 if (jenkinsPathMatcher.find()) {
                     return;
                 }
@@ -147,4 +149,3 @@ public class DrMemoryParser extends LookaheadParser {
         }
     }
 }
-

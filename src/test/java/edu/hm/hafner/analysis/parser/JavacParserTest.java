@@ -30,21 +30,21 @@ class JavacParserTest extends AbstractParserTest {
 
     @Test
     void issue70658RemovePrefixAndSuffixFromMavenPlugins() {
-        Report warnings = parse("maven.3.9.1.log");
+        var warnings = parse("maven.3.9.1.log");
 
         assertThat(warnings).hasSize(1);
     }
 
     @Test @org.junitpioneer.jupiter.Issue("JENKINS-72077")
     void issue72077IgnoreTestWarnings() {
-        Report warnings = parse("issue72077.txt");
+        var warnings = parse("issue72077.txt");
 
         assertThat(warnings).isEmpty();
     }
 
     @Test
     void issue67521IgnoreJavaDocWarnings() {
-        Report warnings = parse("javadoc-in-java.log");
+        var warnings = parse("javadoc-in-java.log");
 
         assertThat(warnings).isEmpty();
     }
@@ -70,7 +70,7 @@ class JavacParserTest extends AbstractParserTest {
      */
     @Test
     void issue63346() {
-        Report report = parse("issue63346.txt");
+        var report = parse("issue63346.txt");
 
         assertThat(report).isEmpty();
     }
@@ -82,10 +82,10 @@ class JavacParserTest extends AbstractParserTest {
      */
     @Test
     void issue66738() {
-        Report report = parse("issue66738.txt");
+        var report = parse("issue66738.txt");
         assertThat(report).hasSize(2);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(report.get(1))
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory("")
@@ -115,7 +115,7 @@ class JavacParserTest extends AbstractParserTest {
      */
     @Test
     void shouldParseAnsiColorCodedLog() {
-        Report report = parse("maven-ansi.txt");
+        var report = parse("maven-ansi.txt");
 
         assertThat(report).hasSize(4);
     }
@@ -125,7 +125,7 @@ class JavacParserTest extends AbstractParserTest {
      */
     @Test
     void shouldParseErrors() {
-        Report warnings = parse("javac-errors.txt");
+        var warnings = parse("javac-errors.txt");
 
         assertThat(warnings).hasSize(4);
         assertThat(warnings.get(0)).hasSeverity(Severity.ERROR);
@@ -138,7 +138,7 @@ class JavacParserTest extends AbstractParserTest {
      */
     @Test
     void shouldParseTimestamps() {
-        Report warnings = parse("javac-timestamps.txt");
+        var warnings = parse("javac-timestamps.txt");
 
         assertThat(warnings).hasSize(5);
         assertThat(warnings.get(0)).hasMessage("Test1");
@@ -155,7 +155,7 @@ class JavacParserTest extends AbstractParserTest {
      */
     @Test
     void issue14043() {
-        Report warnings = parse("issue14043.txt");
+        var warnings = parse("issue14043.txt");
 
         assertThat(warnings).isEmpty();
     }
@@ -163,7 +163,7 @@ class JavacParserTest extends AbstractParserTest {
     /** Verifies that the Kotlin maven plugin warnings are correctly parsed. */
     @Test
     void kotlinMavenPlugin() {
-        Report warnings = parse("kotlin-maven-plugin.txt");
+        var warnings = parse("kotlin-maven-plugin.txt");
 
         assertThat(warnings).hasSize(4);
     }
@@ -173,7 +173,7 @@ class JavacParserTest extends AbstractParserTest {
      */
     @Test
     void kotlinGradle() {
-        Report warnings = parse("kotlin-gradle.txt");
+        var warnings = parse("kotlin-gradle.txt");
 
         assertThat(warnings).hasSize(4);
     }
@@ -183,7 +183,7 @@ class JavacParserTest extends AbstractParserTest {
      */
     @Test
     void kotlinGradleError() {
-        Report errors = parse("kotlin-gradle-error.txt");
+        var errors = parse("kotlin-gradle-error.txt");
 
         assertThat(errors).hasSize(1);
     }
@@ -193,11 +193,11 @@ class JavacParserTest extends AbstractParserTest {
      */
     @Test
     void parseArrayInDeprecatedMethod() {
-        Report warnings = parse("issue5868.txt");
+        var warnings = parse("issue5868.txt");
 
         assertThat(warnings).hasSize(1);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory("Deprecation")
@@ -213,11 +213,11 @@ class JavacParserTest extends AbstractParserTest {
      */
     @Test
     void parseParallelPipelineOutput() {
-        Report warnings = parse("javac-parallel-pipeline.txt");
+        var warnings = parse("javac-parallel-pipeline.txt");
 
         assertThat(warnings).hasSize(2);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory(Categories.DEPRECATION)
@@ -240,7 +240,7 @@ class JavacParserTest extends AbstractParserTest {
      */
     @Test
     void parseMaven() {
-        Report warnings = parse("maven.txt");
+        var warnings = parse("maven.txt");
 
         assertThat(warnings).hasSize(5);
 
@@ -254,7 +254,7 @@ class JavacParserTest extends AbstractParserTest {
 
     @Test
     void shouldNotIncludeErrorprone() {
-        Report warnings = parse("javac-errorprone.txt");
+        var warnings = parse("javac-errorprone.txt");
 
         assertThat(warnings).hasSize(2);
         assertThat(warnings.get(0)).hasSeverity(Severity.ERROR);
@@ -274,7 +274,7 @@ class JavacParserTest extends AbstractParserTest {
      *         the line number of the warning
      */
     private void assertThatWarningIsAtLine(final Issue annotation, final int lineNumber) {
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(annotation)
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory(Categories.PROPRIETARY_API)
@@ -287,7 +287,7 @@ class JavacParserTest extends AbstractParserTest {
 
     @Test
     void shouldParseJavaWarningsInMavenCompilerPlugin() {
-        Report warnings = parse("issue63346.log");
+        var warnings = parse("issue63346.log");
         assertThat(warnings).hasSize(4);
 
         assertThat(warnings.get(0)).hasSeverity(Severity.WARNING_NORMAL)
@@ -313,7 +313,7 @@ class JavacParserTest extends AbstractParserTest {
      */
     @Test
     void kotlin18WarningStyle() {
-        Report warnings = parse("kotlin-1_8.txt");
+        var warnings = parse("kotlin-1_8.txt");
 
         assertThat(warnings).hasSize(7);
 
@@ -356,7 +356,7 @@ class JavacParserTest extends AbstractParserTest {
      */
     @Test
     void kotlinAndCmakeDirectoryOutput() {
-        Report warnings = parse("kotlin-cmake.txt");
+        var warnings = parse("kotlin-cmake.txt");
 
         assertThat(warnings).hasSize(5);
 
@@ -386,4 +386,3 @@ class JavacParserTest extends AbstractParserTest {
                 .hasMessage("'PackageStats' is deprecated. Deprecated in Java");
     }
 }
-

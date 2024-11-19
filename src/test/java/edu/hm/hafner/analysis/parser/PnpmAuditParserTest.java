@@ -35,14 +35,14 @@ class PnpmAuditParserTest extends AbstractParserTest {
 
     @Test
     void shouldHandleEmptyResultsJenkins67296() {
-        Report report = parse("issue67296.json");
+        var report = parse("issue67296.json");
 
         assertThat(report).isEmpty();
     }
 
     @Test
     void shouldMapCorrectly() {
-        Report report = parse("pnpm-audit.json");
+        var report = parse("pnpm-audit.json");
 
         assertThat(report).hasSize(14);
 
@@ -66,7 +66,7 @@ class PnpmAuditParserTest extends AbstractParserTest {
                 .hasType("Uncategorized");
 
         // read specific issue description, which was prepared for test purposes
-        String description = report.get(5).getDescription();
+        var description = report.get(5).getDescription();
         assertThat(description).doesNotContain("Module");
         assertThat(description).doesNotContain("Installed Version");
         assertThat(description).contains("Patched Versions");

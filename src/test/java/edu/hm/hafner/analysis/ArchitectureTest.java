@@ -25,7 +25,7 @@ import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.*;
  */
 @SuppressWarnings("hideutilityclassconstructor")
 @AnalyzeClasses(packages = "edu.hm.hafner.analysis")
-class ArchitectureTest {
+final class ArchitectureTest {
     /** Replace all calls of {@link Integer#parseInt(String)} with IntegerParser alternative. */
     @ArchTest
     static final ArchRule NO_INTEGER_PARSE_INT =
@@ -67,4 +67,7 @@ class ArchitectureTest {
 
     @ArchTest
     static final ArchRule READ_RESOLVE_SHOULD_BE_PROTECTED = ArchitectureRules.READ_RESOLVE_SHOULD_BE_PROTECTED;
+
+    private ArchitectureTest() {
+    }
 }

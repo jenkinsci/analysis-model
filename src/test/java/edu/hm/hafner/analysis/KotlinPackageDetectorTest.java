@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis;
 
 import java.io.IOException;
-import java.io.InputStream;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
@@ -27,7 +26,7 @@ class KotlinPackageDetectorTest extends ResourceTest {
             "pom.xml, -",
             "ActionBinding.cs, -"})
     void shouldExtractPackageNameFromKotlinSource(final String fileName, final String expectedPackage) throws IOException {
-        try (InputStream stream = asInputStream(fileName)) {
+        try (var stream = asInputStream(fileName)) {
             assertThat(new KotlinPackageDetector().detectPackageName(stream, UTF_8))
                     .isEqualTo(expectedPackage);
         }

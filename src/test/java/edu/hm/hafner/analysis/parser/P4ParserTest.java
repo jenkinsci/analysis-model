@@ -72,4 +72,3 @@ class P4ParserTest extends AbstractParserTest {
         return new P4Parser();
     }
 }
-

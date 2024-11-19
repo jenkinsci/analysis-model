@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser.violations;
 
+import java.io.Serial;
 import java.util.Set;
 import java.util.logging.Level;
 
@@ -27,6 +28,7 @@ import static se.bjurr.violations.lib.model.SEVERITY.*;
  * @author Ullrich Hafner
  */
 public abstract class AbstractViolationAdapter extends IssueParser {
+    @Serial
     private static final long serialVersionUID = 7203311857999721045L;
 
     @SuppressWarnings({"illegalcatch", "OverlyBroadCatchBlock"})
@@ -34,7 +36,7 @@ public abstract class AbstractViolationAdapter extends IssueParser {
     public Report parse(final ReaderFactory readerFactory)
             throws ParsingCanceledException, ParsingException {
         try {
-            ViolationsParser parser = createParser();
+            var parser = createParser();
             Set<Violation> violations = parser.parseReportOutput(readerFactory.readString(),
                     new NullViolationsLogger());
             return convertToReport(violations);
@@ -60,7 +62,7 @@ public abstract class AbstractViolationAdapter extends IssueParser {
      * @return the report
      */
     Report convertToReport(final Set<Violation> violations) {
-        try (IssueBuilder builder = new IssueBuilder()) {
+        try (var builder = new IssueBuilder()) {
             var report = new Report();
 
             for (Violation violation : violations) {

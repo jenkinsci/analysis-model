@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.HashMap;
@@ -24,6 +25,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * @author Heiko Thiel
  */
 public class QtTranslationParser extends IssueParser {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     static final String TRANSLATION_TYPE_OBSOLETE = "obsolete";
@@ -76,9 +78,9 @@ public class QtTranslationParser extends IssueParser {
         private String contextName = "";
         private String sourceValue = "";
         private String translationType = "";
-        private boolean hasTranslatedString = false;
-        private boolean translationTagFound = false;
-        private boolean messageIsNumerus = false;
+        private boolean hasTranslatedString;
+        private boolean translationTagFound;
+        private boolean messageIsNumerus;
         private int lastColumnNumber;
 
         /**
@@ -216,7 +218,7 @@ public class QtTranslationParser extends IssueParser {
         }
 
         private void verifyElementTypeRelation(final String element) {
-            String parent = expectedElementTypeParents.getOrDefault(element, "");
+            var parent = expectedElementTypeParents.getOrDefault(element, "");
             if (parent == null) {
                 if (!elementTypeStack.isEmpty()) {
                     throw new ParsingException("Element type \"%s\" does not expect to be a root element (line %d).",

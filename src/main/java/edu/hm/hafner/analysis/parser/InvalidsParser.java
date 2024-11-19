@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
@@ -17,6 +18,7 @@ import edu.hm.hafner.util.LookaheadStream;
  * @author Ullrich Hafner
  */
 public class InvalidsParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = 440910718005095427L;
     static final String WARNING_PREFIX = "Oracle ";
     private static final String INVALIDS_PATTERN = "^\\s*(\\w+),([a-zA-Z#_0-9/]*),([A-Z_ ]*),(.*),(\\d+),\\d+,([^:]*)"
@@ -32,8 +34,8 @@ public class InvalidsParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        String type = WARNING_PREFIX + StringUtils.capitalize(StringUtils.lowerCase(matcher.group(4)));
-        String category = matcher.group(6);
+        var type = WARNING_PREFIX + StringUtils.capitalize(StringUtils.lowerCase(matcher.group(4)));
+        var category = matcher.group(6);
         Severity priority;
         if (StringUtils.contains(category, "PLW-07")) {
             priority = Severity.WARNING_LOW;
@@ -50,4 +52,3 @@ public class InvalidsParser extends LookaheadParser {
                       .buildOptional();
     }
 }
-

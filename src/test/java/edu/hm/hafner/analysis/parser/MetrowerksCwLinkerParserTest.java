@@ -51,4 +51,3 @@ class MetrowerksCwLinkerParserTest extends AbstractParserTest {
         return new MetrowerksCwLinkerParser();
     }
 }
-

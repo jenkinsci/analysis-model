@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser.violations;
 
+import java.io.Serial;
 import java.util.Map;
 import java.util.Set;
 
@@ -20,6 +21,7 @@ import se.bjurr.violations.lib.parsers.PiTestParser;
  * @author Ullrich Hafner
  */
 public class PitAdapter extends AbstractViolationAdapter {
+    @Serial
     private static final long serialVersionUID = -7811207963029906228L;
 
     private static final String STATUS = "status";

@@ -49,4 +49,3 @@ class RobocopyParserTest extends AbstractParserTest {
         return new RobocopyParser();
     }
 }
-

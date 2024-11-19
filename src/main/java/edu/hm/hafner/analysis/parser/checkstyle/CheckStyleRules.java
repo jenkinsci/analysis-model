@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis.parser.checkstyle;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -34,8 +33,8 @@ public class CheckStyleRules {
                 "imports", "javadoc", "metrics", "misc", "modifier", "naming", "regexp",
                 "reporting", "sizes", "whitespace"};
         for (String ruleFile : ruleFiles) {
-            try (InputStream inputStream = CheckStyleRules.class.getResourceAsStream("config_" + ruleFile + ".xml")) {
-                Digester digester = createDigester();
+            try (var inputStream = CheckStyleRules.class.getResourceAsStream("config_" + ruleFile + ".xml")) {
+                var digester = createDigester();
                 List<Rule> rules = new ArrayList<>();
                 digester.push(rules);
                 digester.parse(inputStream);
@@ -66,12 +65,12 @@ public class CheckStyleRules {
     private Digester createDigester() throws ParserConfigurationException {
         var digester = new SecureDigester(CheckStyleRules.class);
 
-        String section = "*/section";
+        var section = "*/section";
         digester.addObjectCreate(section, Rule.class);
         digester.addSetProperties(section);
         digester.addSetNext(section, "add");
 
-        String subSection = "*/section/subsection";
+        var subSection = "*/section/subsection";
         digester.addObjectCreate(subSection, Topic.class);
         digester.addSetProperties(subSection);
         digester.addSetNext(subSection, "setDescription");
@@ -97,7 +96,7 @@ public class CheckStyleRules {
      * @return the Checkstyle rule with the specified name.
      */
     public Rule getRule(final String name) {
-        Rule rule = rulesByName.get(name);
+        var rule = rulesByName.get(name);
         if (rule == null) {
             rule = rulesByName.get(StringUtils.removeEnd(name, "Check"));
         }

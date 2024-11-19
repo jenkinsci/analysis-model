@@ -1,7 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
 import java.io.IOException;
-import java.io.Reader;
+import java.io.Serial;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,21 +20,18 @@ import edu.hm.hafner.analysis.Report;
  * @author Ullrich Hafner
  */
 public abstract class JsonIssueParser extends IssueParser {
+    @Serial
     private static final long serialVersionUID = -4062256623915009878L;
 
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingException {
         var report = new Report();
-        try (Reader reader = readerFactory.create(); IssueBuilder issueBuilder = new IssueBuilder()) {
+        try (var reader = readerFactory.create(); var issueBuilder = new IssueBuilder()) {
             var parsedValue = new JSONTokener(reader).nextValue();
-            if (parsedValue instanceof JSONObject) {
-                var jsonReport = (JSONObject) parsedValue;
-
+            if (parsedValue instanceof final JSONObject jsonReport) {
                 parseJsonObject(report, jsonReport, issueBuilder);
             }
-            else if (parsedValue instanceof JSONArray) {
-                var jsonReport = (JSONArray) parsedValue;
-
+            else if (parsedValue instanceof final JSONArray jsonReport) {
                 parseJsonArray(report, jsonReport, issueBuilder);
             }
             else {

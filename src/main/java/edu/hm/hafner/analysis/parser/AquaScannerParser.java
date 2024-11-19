@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
+
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -22,11 +24,12 @@ public class AquaScannerParser extends JsonIssueParser {
     private static final String AQUA_VULNERABILITY_LEVEL_TAG_MEDIUM = "medium";
     private static final String AQUA_VULNERABILITY_LEVEL_TAG_LOW = "low";
     private static final String AQUA_VULNERABILITY_LEVEL_TAG_NEGLIGIBLE = "negligible";
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Override
     protected void parseJsonObject(final Report report, final JSONObject jsonReport, final IssueBuilder issueBuilder) {
-        JSONArray resources = jsonReport.optJSONArray("resources");
+        var resources = jsonReport.optJSONArray("resources");
         if (resources != null) {
             parseResources(report, resources, issueBuilder);
         }
@@ -34,13 +37,12 @@ public class AquaScannerParser extends JsonIssueParser {
 
     private void parseResources(final Report report, final JSONArray resources, final IssueBuilder issueBuilder) {
         for (int i = 0; i < resources.length(); i++) {
-            final Object item = resources.get(i);
-            if (item instanceof JSONObject) {
-                var resourceWrapper = (JSONObject) item;
-                if (!resourceWrapper.isNull("vulnerabilities") && !resourceWrapper.isNull("resource")) {
-                    var resource = resourceWrapper.getJSONObject("resource");
-                    parseVulnerabilities(report, issueBuilder, resourceWrapper, resource);
-                }
+            var item = resources.get(i);
+            if (item instanceof JSONObject resourceWrapper
+                    && !resourceWrapper.isNull("vulnerabilities")
+                    && !resourceWrapper.isNull("resource")) {
+                var resource = resourceWrapper.getJSONObject("resource");
+                parseVulnerabilities(report, issueBuilder, resourceWrapper, resource);
             }
         }
     }
@@ -49,15 +51,15 @@ public class AquaScannerParser extends JsonIssueParser {
             final JSONObject resourceWrapper, final JSONObject resource) {
         var vulnerabilities = resourceWrapper.getJSONArray("vulnerabilities");
         for (Object vulnerability : vulnerabilities) {
-            if (vulnerability instanceof JSONObject) {
-                report.add(convertToIssue(resource, (JSONObject) vulnerability, issueBuilder));
+            if (vulnerability instanceof JSONObject object) {
+                report.add(convertToIssue(resource, object, issueBuilder));
             }
         }
     }
 
     private Issue convertToIssue(final JSONObject resource, final JSONObject vulnerability,
             final IssueBuilder issueBuilder) {
-        String fileName = resource.optString("path", resource.optString("name", VALUE_NOT_SET));
+        var fileName = resource.optString("path", resource.optString("name", VALUE_NOT_SET));
         return issueBuilder
                 .setFileName(fileName)
                 .setSeverity(mapSeverity(vulnerability.optString("aqua_severity", "UNKNOWN")))
@@ -67,7 +69,8 @@ public class AquaScannerParser extends JsonIssueParser {
     }
 
     private Severity mapSeverity(final String string) {
-        if (StringUtils.containsAnyIgnoreCase(string, AQUA_VULNERABILITY_LEVEL_TAG_LOW, AQUA_VULNERABILITY_LEVEL_TAG_NEGLIGIBLE)) {
+        if (StringUtils.containsAnyIgnoreCase(string, AQUA_VULNERABILITY_LEVEL_TAG_LOW,
+                AQUA_VULNERABILITY_LEVEL_TAG_NEGLIGIBLE)) {
             return Severity.WARNING_LOW;
         }
         else if (StringUtils.equalsIgnoreCase(string, AQUA_VULNERABILITY_LEVEL_TAG_MEDIUM)) {
@@ -80,9 +83,9 @@ public class AquaScannerParser extends JsonIssueParser {
     }
 
     private String formatDescription(final String fileName, final JSONObject resource, final JSONObject vulnerability) {
-        String version = resource.optString("version", VALUE_NOT_SET);
-        String severity = vulnerability.optString("aqua_severity", "UNKOWN");
-        String description = vulnerability.optString("description", "");
+        var version = resource.optString("version", VALUE_NOT_SET);
+        var severity = vulnerability.optString("aqua_severity", "UNKOWN");
+        var description = vulnerability.optString("description", "");
         return join(div(b("Resource: "), text(fileName)),
                 div(b("Installed Version: "), text(version)),
                 div(b("Aqua Severity: "), text(severity)),

@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
@@ -15,6 +16,7 @@ import edu.hm.hafner.util.LookaheadStream;
  * @see <a href="http://msdn.microsoft.com/en-us/library/ms173498.aspx" ></a>
  */
 public class PreFastParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = 1409381677034028504L;
 
     /*

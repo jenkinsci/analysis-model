@@ -3,10 +3,11 @@ package edu.hm.hafner.analysis.parser.ccm;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
- * <p>Entity representing the Metric from CCM.exe output.</p>
+ * Entity representing the Metric from CCM.exe output.
  *
- * <p>It has the {@link #complexity}, {@link #unit}, {@link #classification}
- * and {@link #file} fields.</p>
+ * <p>
+ *     It has the {@link #complexity}, {@link #unit}, {@link #classification} and {@link #file} fields.
+ * </p>
  *
  * @author Bruno P. Kinoshita - http://www.kinoshita.eti.br
  * @since 1.0

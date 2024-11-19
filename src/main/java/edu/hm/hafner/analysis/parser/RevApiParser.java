@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -20,14 +21,15 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  *  Parser for Revapi reports.
  */
 public class RevApiParser extends JsonIssueParser {
+    @Serial
     private static final long serialVersionUID = -2452699725595063377L;
     private static final int CAPACITY = 1024;
 
     @Override
     protected void parseJsonArray(final Report report, final JSONArray jsonReport, final IssueBuilder issueBuilder) {
         for (Object issue : jsonReport) {
-            if (issue instanceof JSONObject) {
-                report.add(convertToIssue((JSONObject) issue, issueBuilder));
+            if (issue instanceof JSONObject object) {
+                report.add(convertToIssue(object, issueBuilder));
             }
             else {
                 report.logError("RevApi issues no instance of JSON");
@@ -54,22 +56,22 @@ public class RevApiParser extends JsonIssueParser {
     private static Map<String, String> extractSeverities(final JSONObject jsonIssue) {
         Map<String, String> allSeverities = new HashMap<>();
         for (Object severity : jsonIssue.getJSONArray("classification")) {
-            if (severity instanceof JSONObject) {
-                allSeverities.put(((JSONObject) severity).getString("compatibility"), ((JSONObject) severity).getString("severity"));
+            if (severity instanceof JSONObject object) {
+                allSeverities.put(object.getString("compatibility"), object.getString("severity"));
             }
         }
         return allSeverities;
     }
 
     private static String extractChange(final JSONObject jsonIssue, final String key) {
-        String value = jsonIssue.get(key).toString();
+        var value = jsonIssue.get(key).toString();
         return "null".equals(value) ? "-" : value;
     }
 
     private void addAttachments(final JSONArray attachments, final IssueBuilder builder) {
-        String packageName = attachments.getJSONObject(0).getString("value");
-        String classSimpleName = attachments.getJSONObject(2).getString("value");
-        String elementKind = attachments.getJSONObject(3).getString("value");
+        var packageName = attachments.getJSONObject(0).getString("value");
+        var classSimpleName = attachments.getJSONObject(2).getString("value");
+        var elementKind = attachments.getJSONObject(3).getString("value");
         builder.setFileName(classSimpleName);
         builder.setPackageName(packageName);
         builder.setCategory(elementKind);
@@ -78,8 +80,8 @@ public class RevApiParser extends JsonIssueParser {
     private Severity evaluateSeverity(final JSONArray classification) {
         Set<Severity> allSeverities = new HashSet<>();
         for  (Object severity : classification) {
-            if (severity instanceof JSONObject) {
-                allSeverities.add(toSeverity(((JSONObject) severity).getString("severity")));
+            if (severity instanceof JSONObject object) {
+                allSeverities.add(toSeverity(object.getString("severity")));
             }
         }
         if (allSeverities.contains(Severity.WARNING_HIGH)) {
@@ -107,11 +109,11 @@ public class RevApiParser extends JsonIssueParser {
     private String getDescription(final JSONObject jsonIssue) {
         var severityDescription = new StringBuilder(CAPACITY);
         for  (Object severity :  jsonIssue.getJSONArray("classification")) {
-            if (severity instanceof JSONObject) {
+            if (severity instanceof JSONObject object) {
                 severityDescription.append("<p>Compatibility: ")
-                        .append(((JSONObject) severity).getString("compatibility"))
+                        .append(object.getString("compatibility"))
                         .append(" Severity: ")
-                        .append(((JSONObject) severity).getString("severity"))
+                        .append(object.getString("severity"))
                         .append("</p>");
             }
         }

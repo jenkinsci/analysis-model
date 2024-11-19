@@ -62,7 +62,7 @@ public class PackageNameResolver {
                 .collect(Collectors.toMap(identity(),
                         fileName -> packageDetectors.detectPackageName(fileName, charset)));
 
-        try (IssueBuilder builder = new IssueBuilder()) {
+        try (var builder = new IssueBuilder()) {
             report.stream().forEach(issue -> {
                 if (!issue.hasPackageName()) {
                     issue.setPackageName(builder.internPackageName(packagesOfFiles.get(issue.getAbsolutePath())));

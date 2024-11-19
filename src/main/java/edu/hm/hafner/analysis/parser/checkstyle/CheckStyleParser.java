@@ -1,9 +1,8 @@
 package edu.hm.hafner.analysis.parser.checkstyle;
 
 import java.io.IOException;
-import java.io.Reader;
+import java.io.Serial;
 
-import org.apache.commons.digester3.Digester;
 import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.SAXException;
 
@@ -21,27 +20,28 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  * @author Ullrich Hafner
  */
 public class CheckStyleParser extends IssueParser {
+    @Serial
     private static final long serialVersionUID = -3187275729854832128L;
 
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingException {
-        Digester digester = new SecureDigester(CheckStyleParser.class);
+        var digester = new SecureDigester(CheckStyleParser.class);
 
-        String rootXPath = "checkstyle";
+        var rootXPath = "checkstyle";
         digester.addObjectCreate(rootXPath, CheckStyle.class);
         digester.addSetProperties(rootXPath);
 
-        String fileXPath = "checkstyle/file";
+        var fileXPath = "checkstyle/file";
         digester.addObjectCreate(fileXPath, File.class);
         digester.addSetProperties(fileXPath);
         digester.addSetNext(fileXPath, "addFile", File.class.getName());
 
-        String bugXPath = "checkstyle/file/error";
+        var bugXPath = "checkstyle/file/error";
         digester.addObjectCreate(bugXPath, Error.class);
         digester.addSetProperties(bugXPath);
         digester.addSetNext(bugXPath, "addError", Error.class.getName());
 
-        try (Reader reader = readerFactory.create()) {
+        try (var reader = readerFactory.create()) {
             CheckStyle checkStyle = digester.parse(reader);
             if (checkStyle == null) {
                 throw new ParsingException("Input stream is not a Checkstyle file.");
@@ -63,14 +63,14 @@ public class CheckStyleParser extends IssueParser {
      * @return a maven module of the annotations API
      */
     private Report convert(final CheckStyle collection) {
-        try (IssueBuilder issueBuilder = new IssueBuilder()) {
+        try (var issueBuilder = new IssueBuilder()) {
             var report = new Report();
 
             for (File file : collection.getFiles()) {
                 if (isValidWarning(file)) {
                     for (Error error : file.getErrors()) {
                         issueBuilder.guessSeverity(error.getSeverity());
-                        String source = error.getSource();
+                        var source = error.getSource();
                         issueBuilder.setType(getType(source));
                         issueBuilder.setCategory(getCategory(source));
                         issueBuilder.setMessage(error.getMessage());
@@ -111,4 +111,3 @@ public class CheckStyleParser extends IssueParser {
         return !StringUtils.endsWith(file.getName(), "package.html");
     }
 }
-

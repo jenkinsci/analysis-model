@@ -41,7 +41,7 @@ public class PackageNameResolverBenchmark extends AbstractBenchmark {
     }
 
     private FileSystem createFileSystemStub() throws IOException {
-        FileSystem fileSystemStub = mock(FileSystem.class);
+        var fileSystemStub = mock(FileSystem.class);
         when(fileSystemStub.openFile(FILE_NO_PACKAGE))
                 .thenReturn(new ByteArrayInputStream("package a.name;".getBytes(StandardCharsets.UTF_8)));
         return fileSystemStub;

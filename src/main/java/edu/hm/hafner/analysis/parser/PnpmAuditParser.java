@@ -1,10 +1,10 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import edu.hm.hafner.analysis.Issue;
@@ -18,9 +18,8 @@ import j2html.tags.ContainerTag;
 import static j2html.TagCreator.*;
 
 /**
- * <p>
  * Parser for reports of pnpm audit scans.
- * </p>
+ *
  * <p>
  * <strong>Usage: </strong>pnpm audit --json &gt; pnpm-audit.json
  * </p>
@@ -37,6 +36,7 @@ public class PnpmAuditParser extends JsonIssueParser {
     private static final String PNPM_VULNERABILITY_SEVERITY_HIGH = "high";
     private static final String PNPM_VULNERABILITY_SEVERITY_CRITICAL = "critical";
 
+    @Serial
     private static final long serialVersionUID = 4140706319863200922L;
 
     @Override
@@ -74,8 +74,8 @@ public class PnpmAuditParser extends JsonIssueParser {
     }
 
     private String formatCategory(final JSONObject vulnerability) {
-        String moduleName = vulnerability.optString("module_name");
-        String title = vulnerability.optString("title");
+        var moduleName = vulnerability.optString("module_name");
+        var title = vulnerability.optString("title");
 
         if (moduleName != null && title != null) {
             return title.replace(moduleName, "").replace(" in ", "");
@@ -109,10 +109,10 @@ public class PnpmAuditParser extends JsonIssueParser {
 
         getValueAsContainerTag(vulnerability, "module_name", "Module").ifPresent(vulnerabilityTags::add);
 
-        final JSONArray findings = vulnerability.optJSONArray("findings");
+        final var findings = vulnerability.optJSONArray("findings");
         if (findings != null && !findings.isEmpty()) {
             var firstFinding = (JSONObject) findings.opt(0);
-            String installedVersion = firstFinding.optString("version");
+            var installedVersion = firstFinding.optString("version");
 
             getValueAsContainerTag(installedVersion, "Installed Version").ifPresent(vulnerabilityTags::add);
         }
@@ -128,7 +128,7 @@ public class PnpmAuditParser extends JsonIssueParser {
     }
 
     private Optional<ContainerTag> getValueAsContainerTag(final JSONObject vulnerability, final String tagOfValue) {
-        String value = vulnerability.optString(tagOfValue);
+        var value = vulnerability.optString(tagOfValue);
 
         if (value == null || value.isEmpty()) {
             return Optional.empty();
@@ -147,7 +147,7 @@ public class PnpmAuditParser extends JsonIssueParser {
 
     private Optional<ContainerTag> getValueAsContainerTag(final JSONObject vulnerability, final String tagOfValue,
             final String label) {
-        String value = vulnerability.optString(tagOfValue);
+        var value = vulnerability.optString(tagOfValue);
 
         if (value == null || value.isEmpty()) {
             return Optional.empty();

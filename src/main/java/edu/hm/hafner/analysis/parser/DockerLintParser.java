@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -25,17 +27,18 @@ import edu.hm.hafner.analysis.Severity;
  * @see <a href="https://github.com/projectatomic/dockerfile_lint">dockerlint</a>
  */
 public class DockerLintParser extends JsonIssueParser {
+    @Serial
     private static final long serialVersionUID = -4077698163775928314L;
 
     @Override
     protected void parseJsonObject(final Report report, final JSONObject jsonReport, final IssueBuilder issueBuilder) {
         for (String severityGroupName : jsonReport.keySet()) {
-            Object severityGroup = jsonReport.get(severityGroupName);
-            if (severityGroup instanceof JSONObject) {
-                JSONArray data = ((JSONObject) severityGroup).optJSONArray("data");
+            var severityGroup = jsonReport.get(severityGroupName);
+            if (severityGroup instanceof final JSONObject object) {
+                var data = object.optJSONArray("data");
                 for (Object issue : data) {
-                    if (issue instanceof JSONObject) {
-                        report.add(convertToIssue((JSONObject) issue, issueBuilder));
+                    if (issue instanceof final JSONObject jsonObject) {
+                        report.add(convertToIssue(jsonObject, issueBuilder));
                     }
                 }
             }
@@ -50,7 +53,7 @@ public class DockerLintParser extends JsonIssueParser {
             message.append(jsonIssue.getString("description"));
         }
         if (jsonIssue.has("reference_url")) {
-            Object refUrl = jsonIssue.get("reference_url");
+            var refUrl = jsonIssue.get("reference_url");
             message.append(" See ");
             message.append(collapseReferenceUrl(refUrl));
         }
@@ -65,8 +68,8 @@ public class DockerLintParser extends JsonIssueParser {
 
     private String collapseReferenceUrl(final Object refUrl) {
         var referenceUrl = new StringBuilder();
-        if (refUrl instanceof JSONArray) {
-            for (Object part : (JSONArray) refUrl) {
+        if (refUrl instanceof final JSONArray array) {
+            for (Object part : array) {
                 referenceUrl.append(part);
             }
         }

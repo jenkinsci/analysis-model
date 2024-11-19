@@ -1,5 +1,8 @@
 package edu.hm.hafner.analysis.parser;
 
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
@@ -7,9 +10,6 @@ import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
-
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 
 /**
  * Test class for {@link ProtoLintJsonParser}.
@@ -58,11 +58,11 @@ class ProtoLintJsonParserTest extends AbstractParserTest {
     @Test
     @DisplayName("Parsing json report generated with protolint 0.49.8")
     void json0498() {
-        Report report = parse("protolint_0.49.8.json");
+        var report = parse("protolint_0.49.8.json");
 
         assertThat(report).hasSize(352);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(report.get(2))
                     .hasSeverity(Severity.WARNING_LOW)
                     .hasLineStart(3)

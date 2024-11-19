@@ -37,11 +37,11 @@ class PlogMessagesReader {
         var plogDoc = readerFactory.readDocument();
         plogDoc.getDocumentElement().normalize();
 
-        NodeList nList = plogDoc.getElementsByTagName("PVS-Studio_Analysis_Log");
+        var nList = plogDoc.getElementsByTagName("PVS-Studio_Analysis_Log");
 
         List<PlogMessage> plogMessages = new ArrayList<>();
         for (int nodeCount = 0; nodeCount < nList.getLength(); nodeCount++) {
-            Node nNode = nList.item(nodeCount);
+            var nNode = nList.item(nodeCount);
 
             if (nNode.getNodeType() == Node.ELEMENT_NODE) {
                 processNode(plogMessages, nNode);
@@ -119,7 +119,7 @@ class PlogMessagesReader {
 
     static class PlogMessage {
         private String file = StringUtils.EMPTY;
-        private int lineNumber = 0;
+        private int lineNumber;
         private String errorCode = StringUtils.EMPTY;
         private String message = StringUtils.EMPTY;
         private String level = StringUtils.EMPTY;
@@ -150,4 +150,3 @@ class PlogMessagesReader {
         }
     }
 }
-

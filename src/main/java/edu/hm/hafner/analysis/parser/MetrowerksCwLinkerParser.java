@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
@@ -15,6 +16,7 @@ import edu.hm.hafner.util.LookaheadStream;
  * @author Sven Lübke
  */
 public class MetrowerksCwLinkerParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = 5993528761040876178L;
 
     /** Pattern of MW CodeWarrior linker warnings. */
@@ -30,8 +32,8 @@ public class MetrowerksCwLinkerParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        String message = matcher.group(2);
-        String messageCategory = matcher.group(1);
+        var message = matcher.group(2);
+        var messageCategory = matcher.group(1);
 
         Severity priority;
         String category;
@@ -55,4 +57,3 @@ public class MetrowerksCwLinkerParser extends LookaheadParser {
                 .buildOptional();
     }
 }
-

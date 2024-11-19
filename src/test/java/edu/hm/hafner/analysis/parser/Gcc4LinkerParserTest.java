@@ -97,7 +97,7 @@ class Gcc4LinkerParserTest extends AbstractParserTest {
     /** Should not report warnings already detected by {@link Gcc4CompilerParser}. */
     @Test
     void shouldNotReportGccWarnings() {
-        Report warnings = parse("gcc4.txt");
+        var warnings = parse("gcc4.txt");
 
         assertThat(warnings).hasSize(2);
         assertThatMessageHasUndefinedReference(warnings, 0);
@@ -115,7 +115,7 @@ class Gcc4LinkerParserTest extends AbstractParserTest {
      */
     @Test
     void issue5445() {
-        Report warnings = parse("issue5445.txt");
+        var warnings = parse("issue5445.txt");
 
         assertThat(warnings).isEmpty();
     }
@@ -127,7 +127,7 @@ class Gcc4LinkerParserTest extends AbstractParserTest {
      */
     @Test
     void issue5870() {
-        Report warnings = parse("issue5870.txt");
+        var warnings = parse("issue5870.txt");
 
         assertThat(warnings).isEmpty();
     }
@@ -139,9 +139,8 @@ class Gcc4LinkerParserTest extends AbstractParserTest {
      */
     @Test
     void issue6563() {
-        Report warnings = parse("issue6563.txt");
+        var warnings = parse("issue6563.txt");
 
         assertThat(warnings).isEmpty();
     }
 }
-

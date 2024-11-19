@@ -1,6 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.util.regex.Matcher;
+import java.io.Serial;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
@@ -14,6 +14,7 @@ import edu.hm.hafner.analysis.LookaheadParser;
  * @author Jagruti Tiwari
  */
 public abstract class AbstractMavenLogParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = -3768790896172545192L;
 
     /** Regular expression to parse the start of maven plugin in console. */
@@ -45,16 +46,16 @@ public abstract class AbstractMavenLogParser extends LookaheadParser {
 
     @Override
     protected void preprocessLine(final String line) {
-        Matcher goalMatcher = MAVEN_PLUGIN_START.matcher(line);
+        var goalMatcher = MAVEN_PLUGIN_START.matcher(line);
 
         if (goalMatcher.find()) {
-            goal = String.format("%s:%s", goalMatcher.group("id"), goalMatcher.group("goal"));
+            goal = "%s:%s".formatted(goalMatcher.group("id"), goalMatcher.group("goal"));
         }
         else if (line.contains("[INFO] BUILD ")) {
             goal = StringUtils.EMPTY; // reset goal after build
         }
 
-        Matcher moduleMatcher = MAVEN_MODULE_START.matcher(line);
+        var moduleMatcher = MAVEN_MODULE_START.matcher(line);
         if (moduleMatcher.find()) {
             module = moduleMatcher.group("id");
         }

@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis.parser.fxcop;
 
+import java.io.Serial;
+
 import org.w3c.dom.Element;
 
 import edu.hm.hafner.analysis.IssueBuilder;
@@ -15,6 +17,7 @@ import edu.hm.hafner.analysis.util.XmlElementUtil;
  */
 @SuppressWarnings("unused")
 public class FxCopParser extends IssueParser {
+    @Serial
     private static final long serialVersionUID = -7208558002331355408L;
     private static final int CAPACITY = 1024;
 
@@ -31,7 +34,7 @@ public class FxCopParser extends IssueParser {
         private final FxCopRuleSet ruleSet = new FxCopRuleSet();
 
         public Report parse(final ReaderFactory readerFactory) throws ParsingException, ParsingCanceledException {
-            try (IssueBuilder issueBuilder = new IssueBuilder()) {
+            try (var issueBuilder = new IssueBuilder()) {
                 var doc = readerFactory.readDocument();
 
                 var mainNode = doc.getElementsByTagName("FxCopReport");
@@ -58,7 +61,7 @@ public class FxCopParser extends IssueParser {
             var targetsElement = XmlElementUtil.getFirstChildElementByName(rootElement, "Targets");
             if (targetsElement.isPresent()) {
                 for (Element target : XmlElementUtil.getChildElementsByName(targetsElement.get(), "Target")) {
-                    String name = getString(target, "Name");
+                    var name = getString(target, "Name");
                     parseMessages(target, name, issueBuilder);
                     parseModules(target, name, issueBuilder);
                     parseResources(target, name, issueBuilder);
@@ -71,7 +74,7 @@ public class FxCopParser extends IssueParser {
             var resources = XmlElementUtil.getFirstChildElementByName(target, "Resources");
             if (resources.isPresent()) {
                 for (Element resource : XmlElementUtil.getChildElementsByName(resources.get(), "Resource")) {
-                    String name = getString(resource, "Name");
+                    var name = getString(resource, "Name");
                     parseMessages(resource, name, issueBuilder);
                 }
             }
@@ -82,7 +85,7 @@ public class FxCopParser extends IssueParser {
             var modulesElement = XmlElementUtil.getFirstChildElementByName(target, "Modules");
             if (modulesElement.isPresent()) {
                 for (Element module : XmlElementUtil.getChildElementsByName(modulesElement.get(), "Module")) {
-                    String name = getString(module, "Name");
+                    var name = getString(module, "Name");
                     parseMessages(module, name, issueBuilder);
                     parseNamespaces(module, issueBuilder);
                 }
@@ -93,7 +96,7 @@ public class FxCopParser extends IssueParser {
             var namespacesElement = XmlElementUtil.getFirstChildElementByName(rootElement, "Namespaces");
             if (namespacesElement.isPresent()) {
                 for (Element namespace : XmlElementUtil.getChildElementsByName(namespacesElement.get(), "Namespace")) {
-                    String name = getString(namespace, "Name");
+                    var name = getString(namespace, "Name");
 
                     parseMessages(namespace, name, issueBuilder);
                     parseTypes(namespace, name, issueBuilder);
@@ -106,7 +109,7 @@ public class FxCopParser extends IssueParser {
             var types = XmlElementUtil.getFirstChildElementByName(typesElement, "Types");
             if (types.isPresent()) {
                 for (Element type : XmlElementUtil.getChildElementsByName(types.get(), "Type")) {
-                    String name = parentName + "." + getString(type, "Name");
+                    var name = parentName + "." + getString(type, "Name");
 
                     parseMessages(type, name, issueBuilder);
                     parseMembers(type, name, issueBuilder);
@@ -154,10 +157,10 @@ public class FxCopParser extends IssueParser {
 
         private void parseIssue(final Element issue, final Element parent, final String parentName,
                 final IssueBuilder issueBuilder) {
-            String typeName = getString(parent, "TypeName");
-            String category = getString(parent, "Category");
-            String checkId = getString(parent, "CheckId");
-            String issueLevel = getString(issue, "Level");
+            var typeName = getString(parent, "TypeName");
+            var category = getString(parent, "Category");
+            var checkId = getString(parent, "CheckId");
+            var issueLevel = getString(issue, "Level");
 
             var msgBuilder = new StringBuilder(CAPACITY);
             var rule = ruleSet.getRule(category, checkId);
@@ -174,9 +177,9 @@ public class FxCopParser extends IssueParser {
             msgBuilder.append(" - ");
             msgBuilder.append(issue.getTextContent());
 
-            String filePath = getString(issue, "Path");
-            String fileName = getString(issue, "File");
-            String fileLine = getString(issue, "Line");
+            var filePath = getString(issue, "Path");
+            var fileName = getString(issue, "File");
+            var fileLine = getString(issue, "Line");
 
             issueBuilder.setFileName(filePath + "/" + fileName)
                     .setLineStart(fileLine)

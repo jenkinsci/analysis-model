@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser.dry.dupfinder;
 
-import java.io.Serializable;
 import java.util.Objects;
 
 import org.junit.jupiter.api.Test;
@@ -45,12 +44,12 @@ class DupFinderParserTest extends AbstractParserTest {
             final SoftAssertions softly) {
         softly.assertThat(report).hasSize(2);
 
-        Issue publisher = report.get(0);
-        Issue reporter = report.get(1);
+        var publisher = report.get(0);
+        var reporter = report.get(1);
 
         assertThatReporterAndPublisherDuplicationsAreCorrectlyLinked(publisher, reporter);
 
-        Serializable additionalProperties = publisher.getAdditionalProperties();
+        var additionalProperties = publisher.getAdditionalProperties();
         softly.assertThat(additionalProperties).isEqualTo(reporter.getAdditionalProperties());
         softly.assertThat(additionalProperties).isInstanceOf(DuplicationGroup.class);
         softly.assertThat(((DuplicationGroup) Objects.requireNonNull(additionalProperties)).getCodeFragment())
@@ -84,12 +83,12 @@ class DupFinderParserTest extends AbstractParserTest {
      */
     @Test
     void scanFileWithoutSourceCode() {
-        Report report = parse("without-sourcecode.xml");
+        var report = parse("without-sourcecode.xml");
 
         assertThat(report).hasSize(2);
 
-        Issue publisher = report.get(0);
-        Issue reporter = report.get(1);
+        var publisher = report.get(0);
+        var reporter = report.get(1);
 
         assertThatReporterAndPublisherDuplicationsAreCorrectlyLinked(publisher, reporter);
 
@@ -99,7 +98,7 @@ class DupFinderParserTest extends AbstractParserTest {
 
     @Test
     void shouldIgnoreOtherFile() {
-        Report report = parse("otherfile.xml");
+        var report = parse("otherfile.xml");
 
         assertThat(report).hasSize(0);
     }
@@ -130,4 +129,3 @@ class DupFinderParserTest extends AbstractParserTest {
         return parser.parse(createReaderFactory("without-sourcecode.xml"));
     }
 }
-

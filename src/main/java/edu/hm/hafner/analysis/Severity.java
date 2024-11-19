@@ -1,11 +1,9 @@
 package edu.hm.hafner.analysis;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -28,6 +26,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  */
 @Immutable
 public class Severity implements Serializable {
+    @Serial
     private static final long serialVersionUID = 8921726169259131484L;
 
     /** An error, e.g. a compile error. */
@@ -39,8 +38,7 @@ public class Severity implements Serializable {
     /** A warning with priority low. Mapping of warning priorities is determined by the corresponding tool. */
     public static final Severity WARNING_LOW = new Severity("LOW");
 
-    private static final Set<Severity> ALL_SEVERITIES = Collections.unmodifiableSet(new LinkedHashSet<>(
-                    Arrays.asList(ERROR, WARNING_HIGH, WARNING_NORMAL, WARNING_LOW)));
+    private static final Set<Severity> ALL_SEVERITIES = Set.of(ERROR, WARNING_HIGH, WARNING_NORMAL, WARNING_LOW);
 
     /**
      * Creates a new {@link Severity} with the specified name. If the name is the same as the name of one of the

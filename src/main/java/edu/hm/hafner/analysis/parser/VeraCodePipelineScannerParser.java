@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
+
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -20,11 +22,12 @@ public class VeraCodePipelineScannerParser extends JsonIssueParser {
     private static final String VALUE_NOT_SET = "-";
     private static final int VERACODE_LOW_THRESHOLD = 2;
     private static final int VERACODE_HIGH_THRESHOLD = 4;
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Override
     protected void parseJsonObject(final Report report, final JSONObject jsonReport, final IssueBuilder issueBuilder) {
-        JSONArray findings = jsonReport.optJSONArray("findings");
+        var findings = jsonReport.optJSONArray("findings");
         if (findings != null) {
             parseFindings(report, findings, issueBuilder);
         }
@@ -32,24 +35,23 @@ public class VeraCodePipelineScannerParser extends JsonIssueParser {
 
     private void parseFindings(final Report report, final JSONArray resources, final IssueBuilder issueBuilder) {
         for (int i = 0; i < resources.length(); i++) {
-            Object item = resources.get(i);
-            if (item instanceof JSONObject) {
-                var finding = (JSONObject) item;
+            var item = resources.get(i);
+            if (item instanceof JSONObject finding) {
                 report.add(convertToIssue(finding, issueBuilder));
             }
         }
     }
 
     private Issue convertToIssue(final JSONObject finding, final IssueBuilder issueBuilder) {
-        final String rawFileName = getSourceFileField(finding, "file", VALUE_NOT_SET);
-        final String enrichedFileName = getEnrichedFileName(rawFileName);
+        final var rawFileName = getSourceFileField(finding, "file", VALUE_NOT_SET);
+        final var enrichedFileName = getEnrichedFileName(rawFileName);
         final int line = getSourceFileField(finding, "line", 0);
         final int severity = finding.getInt("severity");
-        final String title = finding.getString("title");
-        final String issueType = finding.getString("issue_type");
-        final String issueTypeId = finding.getString("issue_type_id");
-        final String scope = getSourceFileField(finding, "scope", VALUE_NOT_SET);
-        final String packageName = getPackageName(scope);
+        final var title = finding.getString("title");
+        final var issueType = finding.getString("issue_type");
+        final var issueTypeId = finding.getString("issue_type_id");
+        final var scope = getSourceFileField(finding, "scope", VALUE_NOT_SET);
+        final var packageName = getPackageName(scope);
         return issueBuilder
                 .setFileName(enrichedFileName)
                 .setLineStart(line)
@@ -109,9 +111,9 @@ public class VeraCodePipelineScannerParser extends JsonIssueParser {
      * @return field value of the source file
      */
     private <T> T getSourceFileField(final JSONObject finding, final String key, final T altValue) {
-        final JSONObject files = finding.optJSONObject("files");
+        final var files = finding.optJSONObject("files");
         if (files != null) {
-            final JSONObject sourceFile = files.optJSONObject("source_file");
+            final var sourceFile = files.optJSONObject("source_file");
             if (sourceFile != null) {
                 return (T) sourceFile.get(key);
             }
@@ -143,10 +145,10 @@ public class VeraCodePipelineScannerParser extends JsonIssueParser {
     }
 
     private String formatDescription(final String fileName, final JSONObject finding) {
-        final String cweId = finding.optString("cwe_id", VALUE_NOT_SET);
-        final String flawLink = finding.optString("flaw_details_link", VALUE_NOT_SET);
-        final String severity = finding.optString("severity", VALUE_NOT_SET);
-        final String displayHtml = finding.optString("display_text", VALUE_NOT_SET);
+        final var cweId = finding.optString("cwe_id", VALUE_NOT_SET);
+        final var flawLink = finding.optString("flaw_details_link", VALUE_NOT_SET);
+        final var severity = finding.optString("severity", VALUE_NOT_SET);
+        final var displayHtml = finding.optString("display_text", VALUE_NOT_SET);
         return join(div(b("Resource: "), text(fileName)),
                 div(b("CWE Id: "), text(cweId)),
                 div(b("Flaw Details: "), text(flawLink)),

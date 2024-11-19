@@ -1,6 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.Iterator;
 
 import edu.hm.hafner.analysis.Issue;
@@ -101,8 +101,8 @@ class RfLintParserTest extends AbstractParserTest {
                 .hasCategory(CUSTOM_CATEGORY)
                 .hasSeverity(Severity.WARNING_LOW);
 
-        String filename = "./foo/MyLinter.Testing.robot";
-        String packageName = Paths.get(".", "foo").toString();
+        var filename = "./foo/MyLinter.Testing.robot";
+        var packageName = Path.of(".", "foo").toString();
 
         softly.assertThat(iterator.next())
                 .hasLineStart(2)

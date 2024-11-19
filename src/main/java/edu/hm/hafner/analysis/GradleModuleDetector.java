@@ -1,7 +1,7 @@
 package edu.hm.hafner.analysis;
 
 import java.io.IOException;
-import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.InvalidPathException;
 import java.util.List;
 import java.util.Map;
@@ -59,8 +59,8 @@ public class GradleModuleDetector extends AbstractModuleDetector {
      * @return the project name or an empty string if the name could not be resolved
      */
     private String parseGradle(final String buildScript) {
-        String basePath = FilenameUtils.getPathNoEndSeparator(buildScript);
-        String parentDirName = FilenameUtils.getName(basePath);
+        var basePath = FilenameUtils.getPathNoEndSeparator(buildScript);
+        var parentDirName = FilenameUtils.getName(basePath);
         return StringUtils.trimToEmpty(parentDirName);
     }
 
@@ -75,10 +75,10 @@ public class GradleModuleDetector extends AbstractModuleDetector {
     private String parseGradleSettings(final String settingsFile) {
         String name = null;
 
-        try (InputStream input = getFactory().open(settingsFile);
-                Scanner scan = new Scanner(input, "UTF-8")) {
+        try (var input = getFactory().open(settingsFile);
+                var scan = new Scanner(input, StandardCharsets.UTF_8)) {
             while (scan.hasNextLine()) {
-                String line = scan.findInLine(RE_GRADLE_SET_PROJECT_NAME);
+                var line = scan.findInLine(RE_GRADLE_SET_PROJECT_NAME);
 
                 if (line != null) {
                     name = scan.match().group(2);

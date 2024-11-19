@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis.parser.pylint;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,11 +25,11 @@ public class PyLintDescriptions {
     public PyLintDescriptions() {
         var parser = new JSONParser(JSONParser.MODE_JSON_SIMPLE);
 
-        try (InputStream inputStream = PyLintDescriptions.class.getResourceAsStream("pylint-descriptions.json")) {
+        try (var inputStream = PyLintDescriptions.class.getResourceAsStream("pylint-descriptions.json")) {
             var elements = (JSONArray) parser.parse(inputStream);
             for (Object element : elements) {
                 var object = (JSONObject) element;
-                String description = object.getAsString("description");
+                var description = object.getAsString("description");
                 descriptionByName.put(object.getAsString("name"), description);
                 descriptionById.put(object.getAsString("code"), description);
             }

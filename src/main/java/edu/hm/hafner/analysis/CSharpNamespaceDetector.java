@@ -32,4 +32,3 @@ class CSharpNamespaceDetector extends AbstractPackageDetector {
         return NAMESPACE_PATTERN;
     }
 }
-

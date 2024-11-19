@@ -32,4 +32,3 @@ class CoolfluxChessccParserTest extends AbstractParserTest {
         return new CoolfluxChessccParser();
     }
 }
-

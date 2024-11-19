@@ -48,4 +48,3 @@ class TnsdlParserTest extends AbstractParserTest {
                 .hasFileName("s_dat:dty0132c.sdt");
     }
 }
-

@@ -4,7 +4,6 @@ import java.io.StringWriter;
 import java.lang.reflect.InvocationTargetException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
@@ -39,7 +38,7 @@ public class TopicRule extends NodeCreateRule {
     public void end(final String namespace, final String name)
             throws TransformerException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         Element subsection = getDigester().pop();
-        String description = extractNodeContent(subsection);
+        var description = extractNodeContent(subsection);
 
         MethodUtils.invokeExactMethod(getDigester().peek(), "setValue", description);
     }
@@ -58,14 +57,14 @@ public class TopicRule extends NodeCreateRule {
     private String extractNodeContent(final Element subsection) throws TransformerException {
         var content = new StringWriter();
 
-        Transformer transformer = new SecureXmlParserFactory().createTransformer();
+        var transformer = new SecureXmlParserFactory().createTransformer();
         transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
         transformer.transform(new DOMSource(subsection), new StreamResult(content));
-        String text = content.toString();
-        String prefixRemoved = StringUtils.substringAfter(text, ">");
-        String suffixRemoved = StringUtils.substringBeforeLast(prefixRemoved, "<");
+        var text = content.toString();
+        var prefixRemoved = StringUtils.substringAfter(text, ">");
+        var suffixRemoved = StringUtils.substringBeforeLast(prefixRemoved, "<");
 
-        String endSourceRemoved = StringUtils.replace(suffixRemoved, "</source>", "</code></pre>");
+        var endSourceRemoved = StringUtils.replace(suffixRemoved, "</source>", "</code></pre>");
 
         return StringUtils.replace(endSourceRemoved, "<source>", "<pre><code>");
     }

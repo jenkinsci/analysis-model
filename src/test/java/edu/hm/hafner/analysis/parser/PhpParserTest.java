@@ -34,11 +34,11 @@ class PhpParserTest extends AbstractParserTest {
      */
     @Test
     void issue27681() {
-        Report report = parse("issue27681.txt");
+        var report = parse("issue27681.txt");
 
         assertThat(report).hasSize(1);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(report.get(0))
                     .hasSeverity(Severity.WARNING_HIGH)
                     .hasCategory(FATAL_ERROR_CATEGORY)

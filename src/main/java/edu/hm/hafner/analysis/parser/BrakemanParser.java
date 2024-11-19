@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.json.JSONArray;
+import java.io.Serial;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -16,27 +17,28 @@ import edu.hm.hafner.analysis.Severity;
  * @see <a href="https://brakemanscanner.org">Brakeman</a>
  */
 public class BrakemanParser extends JsonIssueParser {
+    @Serial
     private static final long serialVersionUID = 1374428573878091300L;
 
     @Override
     protected void parseJsonObject(final Report report, final JSONObject jsonReport, final IssueBuilder issueBuilder) {
-        JSONArray warnings = jsonReport.getJSONArray("warnings");
+        var warnings = jsonReport.getJSONArray("warnings");
         for (Object warning : warnings) {
             report.add(convertToIssue((JSONObject) warning, issueBuilder));
         }
     }
 
     private Issue convertToIssue(final JSONObject warning, final IssueBuilder issueBuilder) throws JSONException {
-        String fileName = warning.getString("file");
-        String category = warning.getString("warning_type");
-        Severity severity = getSeverity(warning.getString("confidence"));
-        String fingerprint = warning.getString("fingerprint");
-        String warningType = warning.getString("check_name");
+        var fileName = warning.getString("file");
+        var category = warning.getString("warning_type");
+        var severity = getSeverity(warning.getString("confidence"));
+        var fingerprint = warning.getString("fingerprint");
+        var warningType = warning.getString("check_name");
         var message = new StringBuilder();
         message.append(warning.getString("message"));
 
         if (warning.has("code")) {
-            String code = warning.optString("code", "");
+            var code = warning.optString("code", "");
 
             if (!code.isEmpty()) {
                 message.append(": ").append(warning.getString("code"));

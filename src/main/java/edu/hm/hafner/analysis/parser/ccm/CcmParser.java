@@ -1,7 +1,7 @@
 package edu.hm.hafner.analysis.parser.ccm;
 
 import java.io.IOException;
-import java.io.Reader;
+import java.io.Serial;
 import java.util.Locale;
 
 import org.apache.commons.lang3.StringUtils;
@@ -21,6 +21,7 @@ import edu.hm.hafner.analysis.Severity;
  * @author Bruno P. Kinoshita
  */
 public class CcmParser extends IssueParser {
+    @Serial
     private static final long serialVersionUID = -5172155190810975806L;
 
     @Override
@@ -33,11 +34,11 @@ public class CcmParser extends IssueParser {
     private Ccm parseCcmXmlFile(final ReaderFactory ccmXmlFile) {
         var digester = new SecureDigester(CcmParser.class);
 
-        String rootXPath = "ccm";
+        var rootXPath = "ccm";
         digester.addObjectCreate(rootXPath, Ccm.class);
         digester.addSetProperties(rootXPath);
 
-        String fileMetric = "ccm/metric";
+        var fileMetric = "ccm/metric";
         digester.addObjectCreate(fileMetric, Metric.class);
         digester.addSetProperties(fileMetric);
         digester.addBeanPropertySetter("ccm/metric/complexity");
@@ -48,7 +49,7 @@ public class CcmParser extends IssueParser {
         digester.addBeanPropertySetter("ccm/metric/endLineNumber");
         digester.addSetNext(fileMetric, "addMetric", Metric.class.getName());
 
-        try (Reader reader = ccmXmlFile.create()) {
+        try (var reader = ccmXmlFile.create()) {
             Ccm report = digester.parse(reader);
             if (report == null) {
                 throw new ParsingException("Input stream is not a CCM file.");
@@ -62,13 +63,13 @@ public class CcmParser extends IssueParser {
     }
 
     private Report convert(final Ccm collection) {
-        try (IssueBuilder issueBuilder = new IssueBuilder()) {
+        try (var issueBuilder = new IssueBuilder()) {
             var report = new Report();
 
             for (Metric metric : collection.getMetrics()) {
-                Severity priority = calculateMetricPriority(metric);
+                var priority = calculateMetricPriority(metric);
 
-                String complexity = String.format(Locale.ENGLISH, "%s has a complexity of %d", metric.getUnit(),
+                var complexity = String.format(Locale.ENGLISH, "%s has a complexity of %d", metric.getUnit(),
                         metric.getComplexity());
 
                 issueBuilder.setSeverity(priority)
@@ -97,7 +98,7 @@ public class CcmParser extends IssueParser {
     }
 
     private boolean isMetricHighPriority(final Metric metric) {
-        String metricClassification = metric.getClassification();
+        var metricClassification = metric.getClassification();
         if (StringUtils.contains(metricClassification, "high")) {
             return true;
         }
@@ -106,7 +107,7 @@ public class CcmParser extends IssueParser {
     }
 
     private boolean isMetricModeratePriority(final Metric metric) {
-        String metricClassification = metric.getClassification();
+        var metricClassification = metric.getClassification();
 
         return StringUtils.contains(metricClassification, "moderate")
                 || "B".equals(metricClassification);

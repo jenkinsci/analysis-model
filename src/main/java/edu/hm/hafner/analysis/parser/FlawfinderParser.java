@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
@@ -16,6 +17,7 @@ import edu.hm.hafner.util.LookaheadStream;
  * @author Dom Postorivo
  */
 public class FlawfinderParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = 8088991846076174837L;
 
     private static final String FLAWFINDER_WARNING_PATTERN =
@@ -34,8 +36,8 @@ public class FlawfinderParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        String message = matcher.group("message");
-        String category = matcher.group("category");
+        var message = matcher.group("message");
+        var category = matcher.group("category");
 
         var priority = extractPriority(IntegerParser.parseInt(matcher.group("severity")));
 

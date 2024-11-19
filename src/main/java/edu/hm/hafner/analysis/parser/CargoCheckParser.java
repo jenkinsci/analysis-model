@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -22,6 +23,7 @@ import edu.hm.hafner.analysis.Severity;
  * @author Gary Tierney
  */
 public class CargoCheckParser extends IssueParser {
+    @Serial
     private static final long serialVersionUID = 7953467739178377581L;
 
     /** The {@link #REASON} associated with messages that have code analysis information. */
@@ -70,11 +72,10 @@ public class CargoCheckParser extends IssueParser {
     public Report parse(final ReaderFactory readerFactory) throws ParsingException, ParsingCanceledException {
         var report = new Report();
 
-        try (Stream<String> lines = readerFactory.readStream(); IssueBuilder issueBuilder = new IssueBuilder()) {
+        try (Stream<String> lines = readerFactory.readStream(); var issueBuilder = new IssueBuilder()) {
             lines.map(line -> (JSONObject) new JSONTokener(line).nextValue())
                     .map(object -> extractIssue(object, issueBuilder))
-                    .filter(Optional::isPresent)
-                    .map(Optional::get)
+                    .flatMap(Optional::stream)
                     .forEach(report::add);
         }
 
@@ -92,22 +93,22 @@ public class CargoCheckParser extends IssueParser {
      * @return a built {@link Issue} object if any was present.
      */
     private Optional<Issue> extractIssue(final JSONObject object, final IssueBuilder issueBuilder) {
-        String reason = object.getString(REASON);
+        var reason = object.getString(REASON);
 
         if (!ANALYSIS_MESSAGE_REASON.equals(reason)) {
             return Optional.empty();
         }
 
-        JSONObject message = object.getJSONObject(MESSAGE);
+        var message = object.getJSONObject(MESSAGE);
 
         if (message.isNull(MESSAGE_CODE)) {
             return Optional.empty();
         }
 
-        JSONObject code = message.getJSONObject(MESSAGE_CODE);
-        String category = code.getString(MESSAGE_CODE_CATEGORY);
-        String renderedMessage = message.getString(MESSAGE_RENDERED);
-        Severity severity = Severity.guessFromString(message.getString(MESSAGE_LEVEL));
+        var code = message.getJSONObject(MESSAGE_CODE);
+        var category = code.getString(MESSAGE_CODE_CATEGORY);
+        var renderedMessage = message.getString(MESSAGE_RENDERED);
+        var severity = Severity.guessFromString(message.getString(MESSAGE_LEVEL));
 
         return parseDetails(message)
                 .map(details -> issueBuilder
@@ -129,7 +130,7 @@ public class CargoCheckParser extends IssueParser {
             var span = spans.getJSONObject(index);
 
             if (span.getBoolean(MESSAGE_SPAN_IS_PRIMARY)) {
-                String fileName = span.getString(MESSAGE_SPAN_FILE_NAME);
+                var fileName = span.getString(MESSAGE_SPAN_FILE_NAME);
                 int lineStart = span.getInt(MESSAGE_SPAN_LINE_START);
                 int lineEnd = span.getInt(MESSAGE_SPAN_LINE_END);
                 int columnStart = span.getInt(MESSAGE_SPAN_COLUMN_START);

@@ -1,7 +1,7 @@
 package edu.hm.hafner.analysis.parser.pmd;
 
 import java.io.IOException;
-import java.io.Reader;
+import java.io.Serial;
 
 import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.SAXException;
@@ -20,6 +20,7 @@ import edu.hm.hafner.analysis.Severity;
  * @author Ullrich Hafner
  */
 public class PmdParser extends IssueParser {
+    @Serial
     private static final long serialVersionUID = 6507147028628714706L;
 
     /** PMD priorities smaller than this value are mapped to {@link Severity#WARNING_HIGH}. */
@@ -29,7 +30,7 @@ public class PmdParser extends IssueParser {
 
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingException {
-        Report issues = parseIssues(readerFactory);
+        var issues = parseIssues(readerFactory);
         parseErrors(readerFactory).stream().forEach(issues::add);
         return issues;
     }
@@ -37,22 +38,22 @@ public class PmdParser extends IssueParser {
     private Report parseIssues(final ReaderFactory readerFactory) {
         var digester = new SecureDigester(PmdParser.class);
 
-        String rootXPath = "pmd";
+        var rootXPath = "pmd";
         digester.addObjectCreate(rootXPath, Pmd.class);
         digester.addSetProperties(rootXPath);
 
-        String fileXPath = "pmd/file";
+        var fileXPath = "pmd/file";
         digester.addObjectCreate(fileXPath, File.class);
         digester.addSetProperties(fileXPath);
         digester.addSetNext(fileXPath, "addFile", File.class.getName());
 
-        String bugXPath = "pmd/file/violation";
+        var bugXPath = "pmd/file/violation";
         digester.addObjectCreate(bugXPath, Violation.class);
         digester.addSetProperties(bugXPath);
         digester.addCallMethod(bugXPath, "setMessage", 0);
         digester.addSetNext(bugXPath, "addViolation", Violation.class.getName());
 
-        try (Reader reader = readerFactory.create()) {
+        try (var reader = readerFactory.create()) {
             Pmd pmd = digester.parse(reader);
             if (pmd == null) {
                 throw new ParsingException("Input stream is not a PMD file.");
@@ -68,17 +69,17 @@ public class PmdParser extends IssueParser {
     private Report parseErrors(final ReaderFactory readerFactory) {
         var digester = new SecureDigester(PmdParser.class);
 
-        String rootXPath = "pmd";
+        var rootXPath = "pmd";
         digester.addObjectCreate(rootXPath, Pmd.class);
         digester.addSetProperties(rootXPath);
 
-        String errorXPath = "pmd/error";
+        var errorXPath = "pmd/error";
         digester.addObjectCreate(errorXPath, PmdError.class);
         digester.addSetProperties(errorXPath);
         digester.addSetNext(errorXPath, "addError", PmdError.class.getName());
         digester.addCallMethod(errorXPath, "setDescription", 0);
 
-        try (Reader reader = readerFactory.create()) {
+        try (var reader = readerFactory.create()) {
             Pmd pmd = digester.parse(reader);
             if (pmd == null) {
                 throw new ParsingException("Input stream is not a PMD file.");
@@ -92,7 +93,7 @@ public class PmdParser extends IssueParser {
     }
 
     private Report convertIssues(final Pmd pmdIssues) {
-        try (IssueBuilder issueBuilder = new IssueBuilder()) {
+        try (var issueBuilder = new IssueBuilder()) {
             var report = new Report();
             for (File file : pmdIssues.getFiles()) {
                 for (Violation warning : file.getViolations()) {
@@ -114,7 +115,7 @@ public class PmdParser extends IssueParser {
     }
 
     private Report convertErrors(final Pmd pmdIssues) {
-        try (IssueBuilder issueBuilder = new IssueBuilder()) {
+        try (var issueBuilder = new IssueBuilder()) {
             var report = new Report();
             for (PmdError error : pmdIssues.getErrors()) {
                 issueBuilder.setSeverity(Severity.ERROR)
@@ -138,7 +139,7 @@ public class PmdParser extends IssueParser {
     }
 
     private String createMessage(final Violation warning) {
-        String original = warning.getMessage();
+        var original = warning.getMessage();
         if (original == null) {
             return StringUtils.EMPTY;
         }
@@ -150,4 +151,3 @@ public class PmdParser extends IssueParser {
         }
     }
 }
-

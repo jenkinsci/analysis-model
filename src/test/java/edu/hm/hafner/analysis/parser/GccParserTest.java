@@ -33,7 +33,7 @@ class GccParserTest extends AbstractParserTest {
      */
     @Test
     void issue34141() {
-        Report warnings = parse("issue34141.txt");
+        var warnings = parse("issue34141.txt");
 
         assertThat(warnings).isEmpty();
     }
@@ -45,11 +45,11 @@ class GccParserTest extends AbstractParserTest {
      */
     @Test
     void issue17309() {
-        Report warnings = parse("issue17309.txt");
+        var warnings = parse("issue17309.txt");
 
         assertThat(warnings).hasSize(1);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasLineStart(4)
                     .hasLineEnd(4)
@@ -67,11 +67,11 @@ class GccParserTest extends AbstractParserTest {
      */
     @Test
     void issue9926() {
-        Report warnings = parse("issue9926.txt");
+        var warnings = parse("issue9926.txt");
 
         assertThat(warnings).hasSize(1);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasLineStart(52)
                     .hasLineEnd(52)
@@ -161,13 +161,13 @@ class GccParserTest extends AbstractParserTest {
      */
     @Test
     void issue3897and3898() {
-        Report warnings = parse("issue3897.txt");
+        var warnings = parse("issue3897.txt");
 
         assertThat(warnings).hasSize(3);
 
         Iterator<? extends Issue> iterator = warnings.iterator();
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(iterator.next())
                     .hasLineStart(12)
                     .hasLineEnd(12)
@@ -201,13 +201,13 @@ class GccParserTest extends AbstractParserTest {
      */
     @Test
     void issue4712() {
-        Report warnings = parse("issue4712.txt");
+        var warnings = parse("issue4712.txt");
 
         assertThat(warnings).hasSize(2);
 
         Iterator<? extends Issue> iterator = warnings.iterator();
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(iterator.next())
                     .hasLineStart(352)
                     .hasLineEnd(352)
@@ -233,7 +233,7 @@ class GccParserTest extends AbstractParserTest {
      */
     @Test
     void issue4700() {
-        Report warnings = parse("issue4700.txt");
+        var warnings = parse("issue4700.txt");
 
         assertThat(warnings).isEmpty();
     }
@@ -245,11 +245,11 @@ class GccParserTest extends AbstractParserTest {
      */
     @Test
     void issue4707() {
-        Report warnings = parse("issue4707.txt");
+        var warnings = parse("issue4707.txt");
 
         assertThat(warnings).hasSize(11).hasDuplicatesSize(11);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasLineStart(1128)
                     .hasLineEnd(1128)
@@ -268,11 +268,11 @@ class GccParserTest extends AbstractParserTest {
      */
     @Test
     void issue4010() {
-        Report warnings = parse("issue4010.txt");
+        var warnings = parse("issue4010.txt");
 
         assertThat(warnings).hasSize(1);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasLineStart(0)
                     .hasLineEnd(0)
@@ -290,13 +290,13 @@ class GccParserTest extends AbstractParserTest {
      */
     @Test
     void issue4274() {
-        Report warnings = parse("issue4274.txt");
+        var warnings = parse("issue4274.txt");
 
         assertThat(warnings).hasSize(4);
 
         Iterator<? extends Issue> iterator = warnings.iterator();
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(iterator.next())
                     .hasLineStart(638)
                     .hasLineEnd(638)
@@ -338,14 +338,14 @@ class GccParserTest extends AbstractParserTest {
      */
     @Test
     void issue4260() {
-        Report warnings = parse("issue4260.txt");
+        var warnings = parse("issue4260.txt");
 
         assertThat(warnings).hasSize(1);
     }
 
     @Test @org.junitpioneer.jupiter.Issue("JENKINS-70996")
     void ignoreDirectoriesFromOtherTools() {
-        Report warnings = parse("issue70996.txt");
+        var warnings = parse("issue70996.txt");
 
         assertThat(warnings).hasSize(8);
     }
@@ -355,4 +355,3 @@ class GccParserTest extends AbstractParserTest {
         return new GccParser();
     }
 }
-

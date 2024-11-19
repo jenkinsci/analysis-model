@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
@@ -15,6 +16,7 @@ import edu.hm.hafner.util.LookaheadStream;
  * @author Adrian Deccico
  */
 public class RobocopyParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = -671744745118772873L;
 
     private static final String ROBOCOPY_WARNING_PATTERN = "^(.*)(EXTRA File|New File|same)\\s*(\\d*)\\s*(.*)$";
@@ -29,7 +31,7 @@ public class RobocopyParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        String file = matcher.group(4).split("\\s{11}", -1)[0];
+        var file = matcher.group(4).split("\\s{11}", -1)[0];
         return builder.setFileName(file)
                 .setLineStart(0)
                 .setCategory(matcher.group(2))
@@ -43,4 +45,3 @@ public class RobocopyParser extends LookaheadParser {
         return line.contains("        ");
     }
 }
-

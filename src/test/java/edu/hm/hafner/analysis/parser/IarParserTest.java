@@ -87,10 +87,10 @@ class IarParserTest extends AbstractParserTest {
      */
     @Test
     void issue58159Utf8() {
-        Report warnings = createParser().parse(
+        var warnings = createParser().parse(
                 new FileReaderFactory(getResourceAsFile("issue58159-2.txt")));
 
-        String collect = warnings.stream().map(Objects::toString).collect(Collectors.joining("\n"));
+        var collect = warnings.stream().map(Objects::toString).collect(Collectors.joining("\n"));
         assertThat(warnings).as(collect).hasDuplicatesSize(4).hasSize(61);
     }
 
@@ -101,10 +101,10 @@ class IarParserTest extends AbstractParserTest {
      */
     @Test
     void issue55750() {
-        Report warnings = parse("issue55750.txt");
+        var warnings = parse("issue55750.txt");
         assertThat(warnings).hasSize(4);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory("Pe852")

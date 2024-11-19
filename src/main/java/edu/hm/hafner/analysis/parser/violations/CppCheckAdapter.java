@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser.violations;
 
+import java.io.Serial;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -19,6 +20,7 @@ import se.bjurr.violations.lib.parsers.CPPCheckParser;
  * @author Ullrich Hafner
  */
 public class CppCheckAdapter extends AbstractViolationAdapter {
+    @Serial
     private static final long serialVersionUID = 2244442395053328008L;
 
     @Override
@@ -28,7 +30,7 @@ public class CppCheckAdapter extends AbstractViolationAdapter {
 
     @Override
     Report convertToReport(final Set<Violation> violations) {
-        try (IssueBuilder issueBuilder = new IssueBuilder()) {
+        try (var issueBuilder = new IssueBuilder()) {
             var violationsPerGroup = new LinkedHashSet<>(violations).stream()
                     .collect(Collectors.groupingBy(Violation::getGroup));
 

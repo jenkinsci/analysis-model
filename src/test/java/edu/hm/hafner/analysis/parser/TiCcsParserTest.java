@@ -88,4 +88,3 @@ class TiCcsParserTest extends AbstractParserTest {
                 .hasFileName("foo.asm");
     }
 }
-

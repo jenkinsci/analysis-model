@@ -64,10 +64,10 @@ public class FingerprintGenerator {
 
     private int computeFingerprint(final Issue issue, final FullTextFingerprint algorithm, final Charset charset,
             final FilteredLog log) {
-        String absolutePath = issue.getAbsolutePath();
+        var absolutePath = issue.getAbsolutePath();
         try {
             if (issue.hasFileName()) {
-                String digest = algorithm.compute(absolutePath, issue.getLineStart(), charset);
+                var digest = algorithm.compute(absolutePath, issue.getLineStart(), charset);
                 issue.setFingerprint(digest);
                 return 1;
             }

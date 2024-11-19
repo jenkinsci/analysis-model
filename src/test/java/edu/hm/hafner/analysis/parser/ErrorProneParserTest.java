@@ -45,7 +45,7 @@ class ErrorProneParserTest extends AbstractParserTest {
 
     @Test
     void shouldFindAllWarnings() {
-        Report report = parse("error-prone-maven.log");
+        var report = parse("error-prone-maven.log");
 
         assertThat(report).hasSize(1);
         assertThat(report.get(0))
@@ -59,7 +59,7 @@ class ErrorProneParserTest extends AbstractParserTest {
 
     @Test
     void shouldFindAllNewWarnings() {
-        Report report = parse("maven-error-prone.log");
+        var report = parse("maven-error-prone.log");
 
         assertThat(report).hasSize(37);
         assertThat(report.get(0))
@@ -72,7 +72,7 @@ class ErrorProneParserTest extends AbstractParserTest {
 
     @Test
     void shouldSkipJavacWarnings() {
-        Report report = parse("javac.log");
+        var report = parse("javac.log");
 
         assertThat(report).hasSize(4);
         assertThat(report.get(0))

@@ -41,4 +41,3 @@ class CodeGeneratorParserTest extends AbstractParserTest {
                 .hasCategory("File not found or permission denied");
     }
 }
-

@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
@@ -16,6 +17,7 @@ import static edu.hm.hafner.analysis.Categories.*;
  * @author Ryan Cox
  */
 public class GoVetParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = 1451787851164850844L;
 
     // ui_colored_test.go:59: missing argument for Fatalf("%#v"): format reads arg 2, have only 1 args

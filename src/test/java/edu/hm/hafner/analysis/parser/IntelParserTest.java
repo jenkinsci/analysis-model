@@ -109,11 +109,11 @@ class IntelParserTest extends AbstractParserTest {
      */
     @Test
     void issue5402() {
-        Report warnings = parse("issue5402.txt");
+        var warnings = parse("issue5402.txt");
 
         assertThat(warnings).hasSize(4);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory("Warning #177")
@@ -152,4 +152,3 @@ class IntelParserTest extends AbstractParserTest {
         }
     }
 }
-

@@ -73,4 +73,3 @@ class CMakeParserTest extends AbstractParserTest {
         return new CMakeParser();
     }
 }
-

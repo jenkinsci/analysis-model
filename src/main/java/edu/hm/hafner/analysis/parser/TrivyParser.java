@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -12,9 +14,8 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import static j2html.TagCreator.*;
 
 /**
- * <p>
  * Parser for reports of aquasec trivy container vulnerability scanner.
- * </p>
+ *
  * <p>
  * <strong>Usage: </strong>trivy image -f json -o results.json golang:1.12-alpine
  * </p>
@@ -26,6 +27,7 @@ public class TrivyParser extends JsonIssueParser {
     private static final String TRIVY_VULNERABILITY_LEVEL_TAG_HIGH = "high";
     private static final String TRIVY_VULNERABILITY_LEVEL_TAG_MEDIUM = "medium";
     private static final String TRIVY_VULNERABILITY_LEVEL_TAG_LOW = "low";
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**
@@ -33,7 +35,7 @@ public class TrivyParser extends JsonIssueParser {
      */
     @Override
     protected void parseJsonObject(final Report report, final JSONObject jsonReport, final IssueBuilder issueBuilder) {
-        JSONArray results = jsonReport.optJSONArray("Results");
+        var results = jsonReport.optJSONArray("Results");
         if (results != null) {
             parseResults(report, results, issueBuilder);
         }
@@ -84,11 +86,11 @@ public class TrivyParser extends JsonIssueParser {
     }
 
     private String formatDescription(final JSONObject vulnerability) {
-        String fileName = vulnerability.optString("PkgName", VALUE_NOT_SET);
-        String installedVersion = vulnerability.optString("InstalledVersion", VALUE_NOT_SET);
-        String fixedVersion = vulnerability.optString("FixedVersion", "still open");
-        String severity = vulnerability.optString("Severity", "UNKOWN");
-        String description = vulnerability.optString("Description", "");
+        var fileName = vulnerability.optString("PkgName", VALUE_NOT_SET);
+        var installedVersion = vulnerability.optString("InstalledVersion", VALUE_NOT_SET);
+        var fixedVersion = vulnerability.optString("FixedVersion", "still open");
+        var severity = vulnerability.optString("Severity", "UNKOWN");
+        var description = vulnerability.optString("Description", "");
         return join(p(div(b("File: "), text(fileName)),
                 div(b("Installed Version: "), text(installedVersion)),
                 div(b("Fixed Version: "), text(fixedVersion)),

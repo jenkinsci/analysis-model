@@ -8,7 +8,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
-import edu.hm.hafner.util.LineRange;
 import edu.hm.hafner.util.LineRangeList;
 import edu.hm.hafner.util.PathUtil;
 import edu.hm.hafner.util.TreeString;
@@ -21,7 +20,9 @@ import static edu.hm.hafner.analysis.util.IntegerParser.*;
 /**
  * Creates new {@link Issue issues} using the builder pattern. All properties that have not been set in the builder will
  * be set to their default value.
+ *
  * <p>Example:</p>
+ *
  * <blockquote><pre>
  * Issue issue = new IssueBuilder()
  *                      .setFileName("affected.file")
@@ -45,10 +46,10 @@ public class IssueBuilder implements AutoCloseable {
     private final TreeStringBuilder packageNameBuilder = new TreeStringBuilder();
     private final TreeStringBuilder messageBuilder = new TreeStringBuilder();
 
-    private int lineStart = 0;
-    private int lineEnd = 0;
-    private int columnStart = 0;
-    private int columnEnd = 0;
+    private int lineStart;
+    private int lineEnd;
+    private int columnStart;
+    private int columnEnd;
 
     @CheckForNull
     private LineRangeList lineRanges;
@@ -532,7 +533,7 @@ public class IssueBuilder implements AutoCloseable {
      * @return the created issue
      */
     public Issue build() {
-        Issue issue = buildWithConstructor();
+        var issue = buildWithConstructor();
         id = UUID.randomUUID(); // make sure that multiple invocations will create different IDs
         return issue;
     }
@@ -544,7 +545,7 @@ public class IssueBuilder implements AutoCloseable {
      * @return the created issue
      */
     public Issue buildAndClean() {
-        Issue issue = buildWithConstructor();
+        var issue = buildWithConstructor();
         clean();
         return issue;
     }
@@ -564,7 +565,7 @@ public class IssueBuilder implements AutoCloseable {
     @SuppressFBWarnings(value = "NP_NULL_ON_SOME_PATH", justification = "False positive, `lineRanges != null` avoids a NullPointerException")
     private void cleanupLineRanges() {
         if (lineRanges != null && !lineRanges.isEmpty()) {
-            LineRange firstRange = lineRanges.get(0);
+            var firstRange = lineRanges.get(0);
             if (lineStart == 0) {
                 this.lineStart = firstRange.getStart();
                 this.lineEnd = firstRange.getEnd();

@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis.parser.pvsstudio;
 
+import java.io.Serial;
+
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingCanceledException;
@@ -15,6 +17,7 @@ import edu.hm.hafner.analysis.parser.pvsstudio.PlogMessagesReader.PlogMessage;
  * @author PVS-Studio Team
  */
 public class PvsStudioParser extends IssueParser {
+    @Serial
     private static final long serialVersionUID = -7777775729854832128L;
     private static final String SEVERITY_HIGH = "1";
     private static final String SEVERITY_NORMAL = "2";
@@ -37,7 +40,7 @@ public class PvsStudioParser extends IssueParser {
 
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingException, ParsingCanceledException {
-        try (IssueBuilder issueBuilder = new IssueBuilder()) {
+        try (var issueBuilder = new IssueBuilder()) {
             var report = new Report();
             var parser = new PlogMessagesReader();
 
@@ -59,4 +62,3 @@ public class PvsStudioParser extends IssueParser {
         }
     }
 }
-

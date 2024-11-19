@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
@@ -17,6 +18,7 @@ import edu.hm.hafner.util.LookaheadStream;
  * @author Ryan Schaefer
  */
 public class ClangTidyParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = -3015592762345283182L;
     private static final String CLANG_TIDY_WARNING_PATTERN = "(?:clang-tidy\\S* (?:-\\S+ )*|)"
             + "((.+):(\\d+):(\\d+): |)(warning|error): (.*?) \\[([^\\s]*?)\\]$";

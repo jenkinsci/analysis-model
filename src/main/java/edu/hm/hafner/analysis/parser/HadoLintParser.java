@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -23,13 +25,14 @@ import edu.hm.hafner.analysis.Severity;
  * @see <a href="https://github.com/hadolint/hadolint">hadolint</a>
  */
 public class HadoLintParser extends JsonIssueParser {
+    @Serial
     private static final long serialVersionUID = 1618503559862246224L;
 
     @Override
     protected void parseJsonArray(final Report report, final JSONArray jsonReport, final IssueBuilder issueBuilder) {
         for (Object issue : jsonReport) {
-            if (issue instanceof JSONObject) {
-                report.add(convertToIssue((JSONObject) issue, issueBuilder));
+            if (issue instanceof JSONObject object) {
+                report.add(convertToIssue(object, issueBuilder));
             }
         }
     }

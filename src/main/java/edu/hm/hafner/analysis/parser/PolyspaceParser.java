@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Iterator;
 import java.util.stream.Stream;
 
@@ -20,6 +21,7 @@ import static org.apache.commons.lang3.StringUtils.*;
  * @author Eva Habeeb
  */
 public class PolyspaceParser extends IssueParser {
+    @Serial
     private static final long serialVersionUID = -1251248150596418714L;
 
     static final int SEVERITY_INDEX = 10;
@@ -38,14 +40,14 @@ public class PolyspaceParser extends IssueParser {
     }
 
     private Report parse(final Stream<String> lines) {
-        try (IssueBuilder builder = new IssueBuilder()) {
+        try (var builder = new IssueBuilder()) {
             var report = new Report();
 
             var lineIterator = lines.iterator();
             int offset = detectLineOffset(lineIterator);
 
             while (lineIterator.hasNext()) {
-                String line = lineIterator.next();
+                var line = lineIterator.next();
 
                 var attributes = line.split("\\t", 15 + offset);
                 if (containsAnyIgnoreCase(attributes[9], "Unreviewed", "To investigate", "To fix", "Other")) {

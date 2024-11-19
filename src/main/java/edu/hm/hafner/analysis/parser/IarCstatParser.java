@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
@@ -15,6 +16,7 @@ import edu.hm.hafner.util.LookaheadStream;
  * @author Lorenz Aebi
  */
 public class IarCstatParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = 7695540852439013425L;
 
     private static final String IAR_WARNING_PATTERN = ANT_TASK

@@ -1,11 +1,11 @@
 package edu.hm.hafner.analysis.parser.dry.simian;
 
+import java.io.Serial;
 import java.util.List;
 
 import org.apache.commons.digester3.Digester;
 
 import edu.hm.hafner.analysis.DuplicationGroup;
-import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.parser.dry.AbstractDryParser;
@@ -17,6 +17,7 @@ import edu.hm.hafner.analysis.parser.dry.AbstractDryParser;
  */
 public class SimianParser extends AbstractDryParser<Set> {
     /** Unique ID of this class. */
+    @Serial
     private static final long serialVersionUID = 6507147028628714706L;
 
     /**
@@ -41,12 +42,12 @@ public class SimianParser extends AbstractDryParser<Set> {
 
     @Override
     protected void configureParser(final Digester digester) {
-        String duplicationXPath = "*/simian/check/set";
+        var duplicationXPath = "*/simian/check/set";
         digester.addObjectCreate(duplicationXPath, Set.class);
         digester.addSetProperties(duplicationXPath);
         digester.addSetNext(duplicationXPath, "add");
 
-        String fileXPath = duplicationXPath + "/block";
+        var fileXPath = duplicationXPath + "/block";
         digester.addObjectCreate(fileXPath, Block.class);
         digester.addSetProperties(fileXPath);
         digester.addSetNext(fileXPath, "addBlock", Block.class.getName());
@@ -65,7 +66,7 @@ public class SimianParser extends AbstractDryParser<Set> {
                         .setFileName(file.getSourceFile())
                         .setAdditionalProperties(group)
                         .setType("Simian");
-                Issue issue = issueBuilder.build();
+                var issue = issueBuilder.build();
                 group.add(issue);
                 report.add(issue);
             }

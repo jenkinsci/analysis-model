@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
@@ -17,6 +18,7 @@ import edu.hm.hafner.util.LookaheadStream;
  * @author Uwe Brandt
  */
 public class CMakeParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = 8149238560432255036L;
 
     private static final String CMAKE_WARNING_PATTERN =
@@ -33,7 +35,7 @@ public class CMakeParser extends LookaheadParser {
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
                                           final IssueBuilder builder) {
         // if the category is contained in brackets, remove those brackets
-        String category = StringUtils.strip(matcher.group("category"), "()");
+        var category = StringUtils.strip(matcher.group("category"), "()");
         int prefixLength = matcher.group("prefix").length();
         return builder.setFileName(matcher.group("file"))
                 .setLineStart(matcher.group("line"))

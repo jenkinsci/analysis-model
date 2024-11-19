@@ -46,7 +46,7 @@ abstract class AbstractPackageDetector {
      */
     public String detectPackageName(final String fileName, final Charset charset) {
         if (accepts(fileName)) {
-            try (InputStream stream = fileSystem.openFile(fileName)) {
+            try (var stream = fileSystem.openFile(fileName)) {
                 return detectPackageName(stream, charset);
             }
             catch (IOException | InvalidPathException ignore) {
@@ -58,7 +58,7 @@ abstract class AbstractPackageDetector {
 
     @VisibleForTesting
     String detectPackageName(final InputStream stream, final Charset charset) throws IOException {
-        try (BufferedReader buffer = new BufferedReader(new InputStreamReader(BOMInputStream.builder().setInputStream(stream).get(), charset))) {
+        try (var buffer = new BufferedReader(new InputStreamReader(BOMInputStream.builder().setInputStream(stream).get(), charset))) {
             return detectPackageName(buffer.lines());
         }
     }
@@ -73,7 +73,7 @@ abstract class AbstractPackageDetector {
      * @return the detected package or namespace name
      */
     String detectPackageName(final Stream<String> lines) {
-        Pattern pattern = getPattern();
+        var pattern = getPattern();
         return lines.map(pattern::matcher)
                 .filter(Matcher::matches)
                 .findFirst()

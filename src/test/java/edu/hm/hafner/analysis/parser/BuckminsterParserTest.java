@@ -48,4 +48,3 @@ class BuckminsterParserTest extends AbstractParserTest {
         return new BuckminsterParser();
     }
 }
-

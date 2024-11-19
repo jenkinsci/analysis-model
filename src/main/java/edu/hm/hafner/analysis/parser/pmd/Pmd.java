@@ -52,4 +52,3 @@ public class Pmd {
         return Collections.unmodifiableCollection(errors);
     }
 }
-

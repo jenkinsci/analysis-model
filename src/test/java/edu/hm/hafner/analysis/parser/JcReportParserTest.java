@@ -4,12 +4,9 @@ import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
-import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
-import edu.hm.hafner.analysis.parser.jcreport.File;
-import edu.hm.hafner.analysis.parser.jcreport.Item;
 import edu.hm.hafner.analysis.parser.jcreport.JcReportParser;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
 
@@ -31,7 +28,7 @@ class JcReportParserTest extends AbstractParserTest {
      */
     @Test
     void testGetWarningList() {
-        Report warnings = parseDefaultFile();
+        var warnings = parseDefaultFile();
 
         assertThat(warnings).hasSize(6).hasDuplicatesSize(1);
     }
@@ -44,12 +41,12 @@ class JcReportParserTest extends AbstractParserTest {
      */
     @Test
     void testReportParserProperties() {
-        ReaderFactory factory = createReaderFactory("jcreport/testReportProps.xml");
-        edu.hm.hafner.analysis.parser.jcreport.Report testReportProps = new JcReportParser().createReport(factory);
+        var factory = createReaderFactory("jcreport/testReportProps.xml");
+        var testReportProps = new JcReportParser().createReport(factory);
 
         assertThat(testReportProps.getFiles()).hasSize(1);
 
-        File file = testReportProps.getFiles().get(0);
+        var file = testReportProps.getFiles().get(0);
         assertThat(file.getClassname()).isEqualTo("SomeClass");
         assertThat(file.getLevel()).isEqualTo("SomeLevel");
         assertThat(file.getLoc()).isEqualTo("173");
@@ -57,7 +54,7 @@ class JcReportParserTest extends AbstractParserTest {
         assertThat(file.getPackageName()).isEqualTo("SomePackage");
         assertThat(file.getSrcdir()).isEqualTo("SomeDirectory");
 
-        Item item = file.getItems().get(0);
+        var item = file.getItems().get(0);
         assertThat(item.getColumn()).isEqualTo("0");
         assertThat(item.getEndcolumn()).isEqualTo("3");
         assertThat(item.getFindingtype()).isEqualTo("SomeType");

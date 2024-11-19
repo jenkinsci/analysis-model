@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -18,6 +19,7 @@ import edu.hm.hafner.util.LookaheadStream;
  * @author Jan Vansteenkiste
  */
 public class PuppetLintParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = 7492869677427430346L;
 
     private static final String SEPARATOR = "::";
@@ -46,7 +48,7 @@ public class PuppetLintParser extends LookaheadParser {
     }
 
     private Severity mapPriority(final String level) {
-        Severity priority = Severity.WARNING_NORMAL;
+        var priority = Severity.WARNING_NORMAL;
         if (level.contains("error") || level.contains("ERROR")) {
             priority = Severity.WARNING_HIGH;
         }
@@ -61,11 +63,11 @@ public class PuppetLintParser extends LookaheadParser {
     }
 
     private String splitFileName(final String fileName) {
-        Matcher matcher = PACKAGE_PATTERN.matcher(fileName);
+        var matcher = PACKAGE_PATTERN.matcher(fileName);
         if (matcher.find()) {
-            String main = matcher.group(2);
-            String subclassed = matcher.group(3);
-            String module = SEPARATOR + main;
+            var main = matcher.group(2);
+            var subclassed = matcher.group(3);
+            var module = SEPARATOR + main;
             if (StringUtils.isNotBlank(subclassed)) {
                 module += StringUtils.replace(subclassed, "/", SEPARATOR);
             }

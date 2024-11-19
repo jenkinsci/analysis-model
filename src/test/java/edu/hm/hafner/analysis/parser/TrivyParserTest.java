@@ -32,7 +32,7 @@ class TrivyParserTest extends AbstractParserTest {
 
     @Test
     void parseResultsForSchemaVersion2() {
-        Report report = parse("trivy_result_0.20.0.json");
+        var report = parse("trivy_result_0.20.0.json");
 
         assertThat(report).hasSize(4);
 
@@ -45,14 +45,14 @@ class TrivyParserTest extends AbstractParserTest {
 
     @Test
     void shouldHandleEmptyResultsJenkins67296() {
-        Report report = parse("issue67296.json");
+        var report = parse("issue67296.json");
 
         assertThat(report).isEmpty();
     }
 
     @Test
     void shouldMapCorrectly() {
-        Report report = parse("trivy_result_0.20.0.json");
+        var report = parse("trivy_result_0.20.0.json");
 
         assertThat(report).hasSize(4);
 

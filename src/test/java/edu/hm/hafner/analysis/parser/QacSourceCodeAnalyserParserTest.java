@@ -111,4 +111,3 @@ class QacSourceCodeAnalyserParserTest extends AbstractParserTest {
         return new QacSourceCodeAnalyserParser();
     }
 }
-

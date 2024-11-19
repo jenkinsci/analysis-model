@@ -74,4 +74,3 @@ class SphinxBuildLinkCheckParserTest extends AbstractParserTest {
         return new SphinxBuildLinkCheckParser();
     }
 }
-

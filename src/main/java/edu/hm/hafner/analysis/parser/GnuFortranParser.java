@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,6 +17,7 @@ import edu.hm.hafner.util.LookaheadStream;
  * @author Mat Cross.
  */
 public class GnuFortranParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = 0L;
 
     /**
@@ -87,8 +89,8 @@ public class GnuFortranParser extends LookaheadParser {
             return Optional.empty();
         }
 
-        String errorMessageLine = lookahead.peekNext();
-        Matcher messageMatcher = ERROR_MESSAGE_PATTERN.matcher(errorMessageLine);
+        var errorMessageLine = lookahead.peekNext();
+        var messageMatcher = ERROR_MESSAGE_PATTERN.matcher(errorMessageLine);
         if (!messageMatcher.matches()) {
             // Invalid message line.
             return Optional.empty();
@@ -96,8 +98,8 @@ public class GnuFortranParser extends LookaheadParser {
         lookahead.next();
 
         // Get the category (warning, error, ...) and message and trim location references.
-        String category = MESSAGE_TRIM_PATTERN.matcher(messageMatcher.group(1)).replaceAll("");
-        String message = MESSAGE_TRIM_PATTERN.matcher(messageMatcher.group(2)).replaceAll("");
+        var category = MESSAGE_TRIM_PATTERN.matcher(messageMatcher.group(1)).replaceAll("");
+        var message = MESSAGE_TRIM_PATTERN.matcher(messageMatcher.group(2)).replaceAll("");
 
         // If the message was not directly in the previous line, interpret the last line of the matched text as message.
         if (message.isEmpty() && lookahead.hasNext()) {

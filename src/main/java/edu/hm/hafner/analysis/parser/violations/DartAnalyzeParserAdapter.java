@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis.parser.violations;
 
+import java.io.Serial;
+
 import se.bjurr.violations.lib.parsers.MachineParser;
 
 /**
@@ -8,6 +10,7 @@ import se.bjurr.violations.lib.parsers.MachineParser;
  * @author Ullrich Hafner
  */
 public class DartAnalyzeParserAdapter extends AbstractViolationAdapter {
+    @Serial
     private static final long serialVersionUID = 50827863228591461L;
 
     @Override

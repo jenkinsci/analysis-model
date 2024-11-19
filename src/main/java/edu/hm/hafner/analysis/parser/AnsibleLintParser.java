@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
@@ -19,6 +20,7 @@ import edu.hm.hafner.util.LookaheadStream;
  * @author Ce Qi
  */
 public class AnsibleLintParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = 8481090596321427484L;
 
     private static final String ANSIBLE_LINT_WARNING_PATTERN = "(?<file>.*)\\:(?<lineno>[0-9]*)\\:\\s*(\\[(?<cat>[a-zA-Z0-9\\-\\[\\]]+)\\]|(?<newcat>[^\\[][a-zA-Z0-9\\[\\]\\-]+)):?\\s(?<msg>.*)";
@@ -57,4 +59,3 @@ public class AnsibleLintParser extends LookaheadParser {
                 .buildOptional();
     }
 }
-

@@ -1,11 +1,11 @@
 package edu.hm.hafner.analysis.parser.dry.cpd;
 
+import java.io.Serial;
 import java.util.List;
 
 import org.apache.commons.digester3.Digester;
 
 import edu.hm.hafner.analysis.DuplicationGroup;
-import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.parser.dry.AbstractDryParser;
@@ -17,6 +17,7 @@ import edu.hm.hafner.analysis.parser.dry.AbstractDryParser;
  */
 public class CpdParser extends AbstractDryParser<Duplication> {
     /** Unique ID of this class. */
+    @Serial
     private static final long serialVersionUID = 6507147028628714706L;
 
     /**
@@ -41,13 +42,13 @@ public class CpdParser extends AbstractDryParser<Duplication> {
 
     @Override
     protected void configureParser(final Digester digester) {
-        String duplicationXPath = "*/pmd-cpd/duplication";
+        var duplicationXPath = "*/pmd-cpd/duplication";
         digester.addObjectCreate(duplicationXPath, Duplication.class);
         digester.addSetProperties(duplicationXPath);
         digester.addCallMethod(duplicationXPath + "/codefragment", "setCodeFragment", 0);
         digester.addSetNext(duplicationXPath, "add");
 
-        String fileXPath = duplicationXPath + "/file";
+        var fileXPath = duplicationXPath + "/file";
         digester.addObjectCreate(fileXPath, SourceFile.class);
         digester.addSetProperties(fileXPath);
         digester.addSetNext(fileXPath, "addFile", SourceFile.class.getName());
@@ -66,7 +67,7 @@ public class CpdParser extends AbstractDryParser<Duplication> {
                         .setFileName(file.getPath())
                         .setType("CPD")
                         .setAdditionalProperties(group);
-                Issue issue = issueBuilder.build();
+                var issue = issueBuilder.build();
                 group.add(issue);
                 report.add(issue);
             }

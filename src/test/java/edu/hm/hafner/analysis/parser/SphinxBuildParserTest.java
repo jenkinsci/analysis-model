@@ -27,7 +27,7 @@ class SphinxBuildParserTest extends AbstractParserTest {
      */
     @Test
     void issue60033() {
-        Report warnings = parse("issue60033.txt");
+        var warnings = parse("issue60033.txt");
 
         assertThat(warnings).hasSize(7);
         assertThat(warnings.getFiles()).containsExactly("C:/path/to/prj/foo/legacy.py");
@@ -35,7 +35,7 @@ class SphinxBuildParserTest extends AbstractParserTest {
 
     @Test
     void issue63216() {
-        Report warnings = parse("issue63216.txt");
+        var warnings = parse("issue63216.txt");
 
         assertThat(warnings).hasSize(1);
         assertThat(warnings).hasOnlyAbsolutePaths("/src/be/doc/_sub/_classTest/05_test.rst");
@@ -109,4 +109,3 @@ class SphinxBuildParserTest extends AbstractParserTest {
         return new SphinxBuildParser();
     }
 }
-

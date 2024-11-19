@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
@@ -16,6 +17,7 @@ import static edu.hm.hafner.analysis.Categories.*;
  * @author jerryshea
  */
 public class AcuCobolParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = -894639209290549425L;
 
     private static final String ACU_COBOL_WARNING_PATTERN = "^\\s*(\\[.*\\])?\\s*?(.*), line ([0-9]*): Warning: (.*)$";
@@ -42,4 +44,3 @@ public class AcuCobolParser extends LookaheadParser {
                 .buildOptional();
     }
 }
-

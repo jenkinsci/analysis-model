@@ -28,7 +28,7 @@ class EclipseParserTest extends AbstractParserTest {
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
         assertThat(report).hasSize(8);
 
-        Issue annotation = report.get(0);
+        var annotation = report.get(0);
         softly.assertThat(annotation)
                 .hasSeverity(Severity.WARNING_NORMAL)
                 .hasLineStart(3)
@@ -46,11 +46,11 @@ class EclipseParserTest extends AbstractParserTest {
      */
     @Test
     void issue55358() {
-        Report warnings = parse("java-eclipse-ant.log");
+        var warnings = parse("java-eclipse-ant.log");
 
         assertThat(warnings).hasSize(27);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasLineStart(82)
@@ -68,7 +68,7 @@ class EclipseParserTest extends AbstractParserTest {
      */
     @Test
     void issue12822() {
-        Report warnings = parse("issue12822.txt");
+        var warnings = parse("issue12822.txt");
 
         assertThat(warnings).hasSize(15);
     }
@@ -80,10 +80,10 @@ class EclipseParserTest extends AbstractParserTest {
      */
     @Test
     void issue6427() {
-        Report warnings = parse("issue6427.txt");
+        var warnings = parse("issue6427.txt");
 
         assertThat(warnings).hasSize(18);
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasLineStart(10)
@@ -103,11 +103,11 @@ class EclipseParserTest extends AbstractParserTest {
      */
     @Test
     void issue7077() {
-        Report warnings = parse("issue7077.txt");
+        var warnings = parse("issue7077.txt");
 
         assertThat(warnings).hasSize(2);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0)).hasSeverity(Severity.WARNING_NORMAL)
                     .hasLineStart(90)
                     .hasLineEnd(90)
@@ -134,7 +134,7 @@ class EclipseParserTest extends AbstractParserTest {
      */
     @Test
     void issue7077all() {
-        Report sorted = parse("issue7077-all.txt");
+        var sorted = parse("issue7077-all.txt");
 
         assertThat(sorted).hasSize(45);
 
@@ -148,10 +148,10 @@ class EclipseParserTest extends AbstractParserTest {
 
     @Test
     void issue57379() {
-        Report report = parse("issue57379.txt");
+        var report = parse("issue57379.txt");
 
         assertThat(report).hasSize(1);
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(report.get(0))
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasLineStart(3)
@@ -168,11 +168,11 @@ class EclipseParserTest extends AbstractParserTest {
      */
     @Test
     void infoLogLevel() {
-        Report report = parse("eclipse-withinfo.txt");
+        var report = parse("eclipse-withinfo.txt");
 
         assertThat(report).hasSize(6);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(report.get(0))
                     .hasSeverity(Severity.ERROR)
                     .hasLineStart(8)
@@ -229,13 +229,13 @@ class EclipseParserTest extends AbstractParserTest {
      */
     @Test
     void javadocCategory() {
-        Report warnings = parse("eclipse-withjavadoc.log");
+        var warnings = parse("eclipse-withjavadoc.log");
         EclipseSharedChecks.verifyCategory(warnings);
     }
 
     @Test
     void shouldOnlyAcceptTextFiles() {
-        EclipseParser parser = createParser();
+        var parser = createParser();
 
         assertThat(parser.accepts(createReaderFactory("eclipse-withinfo.txt"))).isTrue();
         assertThat(parser.accepts(createReaderFactory("eclipse-withinfo.xml"))).isFalse();

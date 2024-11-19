@@ -72,7 +72,7 @@ public class IssueDifference {
         }
 
         List<UUID> removed = matchIssuesByEquals(currentIssues);
-        Report secondPass = currentIssues.copy();
+        var secondPass = currentIssues.copy();
         removed.forEach(secondPass::remove);
         matchIssuesByFingerprint(secondPass);
 
@@ -128,8 +128,8 @@ public class IssueDifference {
     }
 
     private UUID remove(final Issue current, final Issue oldIssue) {
-        UUID id = current.getId();
-        Issue issueWithLatestProperties = newIssues.remove(id);
+        var id = current.getId();
+        var issueWithLatestProperties = newIssues.remove(id);
         issueWithLatestProperties.setReference(oldIssue.getReference());
         outstandingIssues.add(issueWithLatestProperties);
         fixedIssues.remove(oldIssue.getId());

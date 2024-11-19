@@ -33,7 +33,7 @@ public final class Deferred<T> {
      * @return the instance
      */
     public T get() {
-        T tmp = object;
+        var tmp = object;
         if (tmp == null) {
             tmp = supplier.get();
         }

@@ -24,8 +24,8 @@ pipeline {
     }
     post {
         always {
-            recordIssues tools: [[tool: java()], 
-                [tool: javaDoc()], 
+            recordIssues tools: [[tool: java()],
+                [tool: javaDoc()],
                 [tool: taskScanner(includePattern:'**/*.java', highTags:'FIXME', normalTags:'TODO')]]
         }
     }

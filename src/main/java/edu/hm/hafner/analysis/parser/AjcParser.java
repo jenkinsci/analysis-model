@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.io.UncheckedIOException;
 import java.util.Iterator;
 import java.util.regex.Pattern;
@@ -18,6 +19,7 @@ import edu.hm.hafner.analysis.Report;
  * @author Tom Diamond
  */
 public class AjcParser extends IssueParser {
+    @Serial
     private static final long serialVersionUID = -9123765511497052454L;
 
     private static final Pattern ESCAPE_CHARACTERS = Pattern.compile((char) 27 + "\\[.*" + (char) 27 + "\\[0m");
@@ -36,14 +38,14 @@ public class AjcParser extends IssueParser {
     }
 
     private Report parse(final Stream<String> lines) {
-        try (IssueBuilder builder = new IssueBuilder()) {
+        try (var builder = new IssueBuilder()) {
             var report = new Report();
 
-            States state = States.START;
+            var state = States.START;
 
             Iterator<String> lineIterator = lines.iterator();
             while (lineIterator.hasNext()) {
-                String line = lineIterator.next();
+                var line = lineIterator.next();
                 // clean up any ESC characters (e.g. terminal colors)
                 line = ESCAPE_CHARACTERS.matcher(line).replaceAll("");
 

@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
@@ -15,6 +16,7 @@ import edu.hm.hafner.util.LookaheadStream;
  * @author Sven Lübke
  */
 public class TaskingVxCompilerParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = -5225265084645449716L;
 
     /** Pattern of TASKING VX compiler warnings. */
@@ -31,7 +33,7 @@ public class TaskingVxCompilerParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        String type = matcher.group(1);
+        var type = matcher.group(1);
         Severity priority;
         String category;
 

@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -20,6 +21,7 @@ import static j2html.TagCreator.*;
  * @author Ullrich Hafner
  */
 public class ErrorProneParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = 8434408068719510740L;
 
     private static final Pattern URL_PATTERN = Pattern.compile("\\s+\\(see (?<url>http\\S+)\\s*\\)");
@@ -43,7 +45,7 @@ public class ErrorProneParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) throws ParsingException {
-        String description = createDescription(lookahead);
+        var description = createDescription(lookahead);
         if (description.contains(SEE_ERROR_PRONE_DOCUMENTATION)) {
             builder.setFileName(matcher.group("file"))
                     .setLineStart(matcher.group("line"))
@@ -74,8 +76,8 @@ public class ErrorProneParser extends LookaheadParser {
         var url = new StringBuilder();
         boolean urlFound = false; // skip all text before the URL
         while (lookahead.hasNext("^\\s+.*")) {
-            String line = lookahead.next();
-            Matcher urlMatcher = URL_PATTERN.matcher(line);
+            var line = lookahead.next();
+            var urlMatcher = URL_PATTERN.matcher(line);
             if (urlMatcher.matches()) {
                 url.append(p().with(a()
                         .withHref(urlMatcher.group("url"))
@@ -83,7 +85,7 @@ public class ErrorProneParser extends LookaheadParser {
                 urlFound = true;
             }
             else {
-                Matcher fixMatcher = FIX_PATTERN.matcher(line);
+                var fixMatcher = FIX_PATTERN.matcher(line);
                 if (fixMatcher.matches()) {
                     description.append("Did you mean: ");
                     description.append(pre().with(

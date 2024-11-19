@@ -28,11 +28,11 @@ class JSLintParserTest extends AbstractParserTest {
      */
     @Test
     void issue19127() {
-        Report warnings = parse("jslint/jslint.xml");
+        var warnings = parse("jslint/jslint.xml");
 
         assertThat(warnings).hasSize(197);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasSeverity(Severity.WARNING_HIGH)
                     .hasCategory(LintParser.JSLintXmlSaxParser.CATEGORY_UNDEFINED_VARIABLE)
@@ -49,7 +49,7 @@ class JSLintParserTest extends AbstractParserTest {
      */
     @Test
     void testParseWithSingleFile() {
-        Report results = parse("jslint/single.xml");
+        var results = parse("jslint/single.xml");
 
         assertThat(results).hasSize(51);
     }
@@ -59,7 +59,7 @@ class JSLintParserTest extends AbstractParserTest {
      */
     @Test
     void testCssLint() {
-        Report results = parse("jslint/csslint.xml");
+        var results = parse("jslint/csslint.xml");
 
         assertThat(results).hasSize(51);
     }

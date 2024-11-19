@@ -257,21 +257,23 @@ public class ParserRegistry {
         List<ParserDescriptor> descriptors = new ParserRegistry().getAllDescriptors();
         descriptors.sort(Comparator.comparing(ParserDescriptor::getName));
 
-        try (PrintWriter file = new PrintWriter("SUPPORTED-FORMATS.md", StandardCharsets.UTF_8)) {
+        try (var file = new PrintWriter("SUPPORTED-FORMATS.md", StandardCharsets.UTF_8)) {
             file.printf("<!--- DO NOT EDIT -- Generated at %s - Run the `main` method of `%s` to regenerate after changing parsers -- DO NOT EDIT --->%n",
                     LocalDateTime.now(ZoneId.of("Europe/Berlin")),
                     ParserRegistry.class.getSimpleName());
-            file.println("# Supported Report Formats\n"
-                    + "\n"
-                    + "The static analysis model supports the following report formats.\n"
-                    + "\n"
-                    + "If your tool is not yet supported, you can\n"
-                    + "1. export the issues of your tool to the native XML or JSON format (or any other format).\n"
-                    + "2. provide a [pull request](https://github.com/jenkinsci/analysis-model/pulls) with a new parser.\n"
-                    + "\n"
-                    + "If your tool is supported, but some properties are missing (icon, URL, etc.), please file a "
-                    + "[pull request](https://github.com/jenkinsci/analysis-model/pulls).\n"
-                    + "\n");
+            file.println("""
+                    # Supported Report Formats
+                    
+                    The static analysis model supports the following report formats.
+                    
+                    If your tool is not yet supported, you can
+                    1. export the issues of your tool to the native XML or JSON format (or any other format).
+                    2. provide a [pull request](https://github.com/jenkinsci/analysis-model/pulls) with a new parser.
+                    
+                    If your tool is supported, but some properties are missing (icon, URL, etc.), please file a \
+                    [pull request](https://github.com/jenkinsci/analysis-model/pulls).
+                    
+                    """);
 
             List<ContainerTag> lines = descriptors.stream()
                     .map(ParserRegistry::getTableRows)
@@ -302,8 +304,8 @@ public class ParserRegistry {
     }
 
     private static DomContent getName(final ParserDescriptor descriptor) {
-        String name = descriptor.getName();
-        String url = descriptor.getUrl();
+        var name = descriptor.getName();
+        var url = descriptor.getUrl();
         if (url.isEmpty()) {
             return text(name);
         }
@@ -311,7 +313,7 @@ public class ParserRegistry {
     }
 
     private static DomContent getIcon(final ParserDescriptor descriptor) {
-        String url = descriptor.getIconUrl();
+        var url = descriptor.getIconUrl();
         if (url.isEmpty()) {
             return text("-");
         }

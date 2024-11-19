@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
@@ -18,6 +19,7 @@ import edu.hm.hafner.util.LookaheadStream;
  * @author Greg Roth
  */
 public class GccParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = 2020182274225690532L;
 
     static final String GCC_ERROR = "GCC error";
@@ -45,7 +47,7 @@ public class GccParser extends LookaheadParser {
                     .buildOptional();
         }
 
-        String fileName = matcher.group(1);
+        var fileName = matcher.group(1);
         if (StringUtils.contains(fileName, "cleartool")) {
             return Optional.empty();
         }
@@ -87,4 +89,3 @@ public class GccParser extends LookaheadParser {
                 .buildOptional();
     }
 }
-

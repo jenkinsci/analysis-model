@@ -3,13 +3,11 @@ package edu.hm.hafner.analysis;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
-import java.util.UUID;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -143,7 +141,7 @@ class ReportTest extends SerializableTest<Report> {
         assertThat(report.hasTypes()).isFalse();
         assertThat(report.hasSeverities()).isFalse();
 
-        try (IssueBuilder builder = new IssueBuilder()) {
+        try (var builder = new IssueBuilder()) {
             report.add(builder.build()); // add the first issue
         }
         assertThat(report.hasTools()).isFalse();
@@ -166,8 +164,8 @@ class ReportTest extends SerializableTest<Report> {
     }
 
     private void verifySeverity(final Report report) {
-        try (IssueBuilder issueBuilder = new IssueBuilder()) {
-            Issue additional = issueBuilder.setSeverity(Severity.WARNING_HIGH).build();
+        try (var issueBuilder = new IssueBuilder()) {
+            var additional = issueBuilder.setSeverity(Severity.WARNING_HIGH).build();
             report.add(additional);
             assertThat(report.hasTools()).isFalse();
             assertThat(report.hasModules()).isFalse();
@@ -182,8 +180,8 @@ class ReportTest extends SerializableTest<Report> {
     }
 
     private void verifyType(final Report report) {
-        try (IssueBuilder issueBuilder = new IssueBuilder()) {
-            Issue additional = issueBuilder.setType("type").build();
+        try (var issueBuilder = new IssueBuilder()) {
+            var additional = issueBuilder.setType("type").build();
             report.add(additional);
             assertThat(report.hasTools()).isFalse();
             assertThat(report.hasModules()).isFalse();
@@ -198,8 +196,8 @@ class ReportTest extends SerializableTest<Report> {
     }
 
     private void verifyCategory(final Report report) {
-        try (IssueBuilder issueBuilder = new IssueBuilder()) {
-            Issue additional = issueBuilder.setCategory("category").build();
+        try (var issueBuilder = new IssueBuilder()) {
+            var additional = issueBuilder.setCategory("category").build();
             report.add(additional);
             assertThat(report.hasTools()).isFalse();
             assertThat(report.hasModules()).isFalse();
@@ -214,8 +212,8 @@ class ReportTest extends SerializableTest<Report> {
     }
 
     private void verifyFile(final Report report) {
-        try (IssueBuilder issueBuilder = new IssueBuilder()) {
-            Issue additional = issueBuilder.setFileName("file").build();
+        try (var issueBuilder = new IssueBuilder()) {
+            var additional = issueBuilder.setFileName("file").build();
             report.add(additional);
             assertThat(report.hasTools()).isFalse();
             assertThat(report.hasModules()).isFalse();
@@ -231,8 +229,8 @@ class ReportTest extends SerializableTest<Report> {
 
     @SuppressFBWarnings("DMI")
     private void verifyFolder(final Report report) {
-        try (IssueBuilder builder = new IssueBuilder()) {
-            Issue additional = builder.setFileName("/tmp/file.txt").build();
+        try (var builder = new IssueBuilder()) {
+            var additional = builder.setFileName("/tmp/file.txt").build();
             report.add(additional);
             assertThat(report.hasTools()).isFalse();
             assertThat(report.hasModules()).isFalse();
@@ -243,7 +241,7 @@ class ReportTest extends SerializableTest<Report> {
             assertThat(report.hasTypes()).isFalse();
             assertThat(report.hasSeverities()).isFalse();
 
-            Issue withPackageName = builder.setPackageName("something").build();
+            var withPackageName = builder.setPackageName("something").build();
             report.add(withPackageName);
             assertThat(report.hasPackages()).isTrue();
             assertThat(report.hasFolders()).isFalse();
@@ -254,8 +252,8 @@ class ReportTest extends SerializableTest<Report> {
     }
 
     private void verifyPackage(final Report report) {
-        try (IssueBuilder issueBuilder = new IssueBuilder()) {
-            Issue additional = issueBuilder.setPackageName("package").build();
+        try (var issueBuilder = new IssueBuilder()) {
+            var additional = issueBuilder.setPackageName("package").build();
             report.add(additional);
             assertThat(report.hasTools()).isFalse();
             assertThat(report.hasModules()).isFalse();
@@ -270,8 +268,8 @@ class ReportTest extends SerializableTest<Report> {
     }
 
     private void verifyModule(final Report report) {
-        try (IssueBuilder issueBuilder = new IssueBuilder()) {
-            Issue additional = issueBuilder.setModuleName("module").build();
+        try (var issueBuilder = new IssueBuilder()) {
+            var additional = issueBuilder.setModuleName("module").build();
             report.add(additional);
             assertThat(report.hasTools()).isFalse();
             assertThat(report.hasModules()).isTrue();
@@ -286,8 +284,8 @@ class ReportTest extends SerializableTest<Report> {
     }
 
     private void verifyOrigin(final Report report) {
-        try (IssueBuilder issueBuilder = new IssueBuilder()) {
-            Issue additional = issueBuilder.setOrigin("origin").build();
+        try (var issueBuilder = new IssueBuilder()) {
+            var additional = issueBuilder.setOrigin("origin").build();
             report.add(additional);
             assertThat(report.hasTools()).isTrue();
             assertThat(report.hasModules()).isFalse();
@@ -385,7 +383,7 @@ class ReportTest extends SerializableTest<Report> {
         assertThat(empty.getCounter("other")).isZero();
         assertThat(empty.hasCounter("other")).isFalse();
 
-        Report filtered = expected.filter(issue -> true);
+        var filtered = expected.filter(issue -> true);
         assertThat(filtered).isEqualTo(expected);
         assertThatAllIssuesHaveBeenAdded(filtered);
     }
@@ -540,7 +538,7 @@ class ReportTest extends SerializableTest<Report> {
     }
 
     private void assertThatAllIssuesHaveBeenAdded(final Report report) {
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(report)
                     .hasSize(6)
                     .hasDuplicatesSize(0);
@@ -600,7 +598,7 @@ class ReportTest extends SerializableTest<Report> {
     void shouldThrowExceptionWhenRemovingWithWrongKey() {
         var report = new Report();
 
-        UUID id = HIGH.getId();
+        var id = HIGH.getId();
         assertThatThrownBy(() -> report.remove(id))
                 .isInstanceOf(NoSuchElementException.class)
                 .hasMessageContaining(id.toString());
@@ -609,9 +607,9 @@ class ReportTest extends SerializableTest<Report> {
     @Test
     void shouldFindIfOnlyOneIssue() {
         var report = new Report();
-        report.addAll(Collections.singletonList(HIGH));
+        report.addAll(List.of(HIGH));
 
-        Issue found = report.findById(HIGH.getId());
+        var found = report.findById(HIGH.getId());
 
         assertThat(found).isSameAs(HIGH);
     }
@@ -627,7 +625,7 @@ class ReportTest extends SerializableTest<Report> {
         var report = new Report();
         report.addAll(asList(elements));
 
-        Issue found = report.findById(HIGH.getId());
+        var found = report.findById(HIGH.getId());
 
         assertThat(found).isSameAs(HIGH);
     }
@@ -642,7 +640,7 @@ class ReportTest extends SerializableTest<Report> {
         var report = new Report();
         report.addAll(asList(elements));
 
-        UUID id = NORMAL_2.getId();
+        var id = NORMAL_2.getId();
         assertThatThrownBy(() -> report.findById(id))
                 .isInstanceOf(NoSuchElementException.class)
                 .hasMessageContaining(id.toString());
@@ -753,12 +751,12 @@ class ReportTest extends SerializableTest<Report> {
     private void assertFilterFor(final BiFunction<IssueBuilder, String, IssueBuilder> builderSetter,
             final Function<Report, Set<String>> propertyGetter, final String propertyName,
             final Function<String, Predicate<Issue>> predicate) {
-        try (IssueBuilder builder = new IssueBuilder()) {
+        try (var builder = new IssueBuilder()) {
             var report = new Report();
 
             for (int i = 1; i < 4; i++) {
                 for (int j = i; j < 4; j++) {
-                    Issue build = builderSetter.apply(builder, "name " + i).setMessage(i + " " + j).build();
+                    var build = builderSetter.apply(builder, "name " + i).setMessage(i + " " + j).build();
                     report.add(build);
                 }
             }
@@ -832,20 +830,20 @@ class ReportTest extends SerializableTest<Report> {
      */
     @Test
     void shouldReadIssueFromOldSerialization() {
-        byte[] restored = readAllBytes(SERIALIZATION_NAME);
+        var restored = readAllBytes(SERIALIZATION_NAME);
 
         assertThatSerializableCanBeRestoredFrom(restored);
     }
 
     @Test
     void shouldWriteLongMessages() {
-        try (IssueBuilder builder = new IssueBuilder()) {
+        try (var builder = new IssueBuilder()) {
             var report = new Report();
 
             report.add(builder.setMessage(createLongMessage()).build());
 
-            byte[] bytes = toByteArray(report);
-            Report restored = restore(bytes);
+            var bytes = toByteArray(report);
+            var restored = restore(bytes);
 
             assertThat(report).isEqualTo(restored);
         }
@@ -885,7 +883,7 @@ class ReportTest extends SerializableTest<Report> {
     void shouldPrintAllIssuesToPrintStream() {
         var report = readCheckStyleReport();
 
-        try (PrintStream printStream = mock(PrintStream.class)) {
+        try (var printStream = mock(PrintStream.class)) {
             report.print(new StandardOutputPrinter(printStream));
 
             for (Issue issue : report) {
@@ -895,7 +893,7 @@ class ReportTest extends SerializableTest<Report> {
     }
 
     private Report readCheckStyleReport() {
-        String fileName = "parser/checkstyle/all-severities.xml";
+        var fileName = "parser/checkstyle/all-severities.xml";
         var report = new CheckStyleParser().parseFile(read(fileName));
         report.add(new IssueBuilder().setSeverity(Severity.WARNING_HIGH).setMessage("Severity High warning").build());
         assertThat(report).hasSize(4);
@@ -926,9 +924,9 @@ class ReportTest extends SerializableTest<Report> {
 
     @Test
     void shouldSetOriginAndReference() {
-        try (IssueBuilder builder = new IssueBuilder()) {
+        try (var builder = new IssueBuilder()) {
             var report = new Report();
-            Issue checkstyleWarning = builder.setFileName("A.java")
+            var checkstyleWarning = builder.setFileName("A.java")
                     .setCategory("Style")
                     .setLineStart(1)
                     .buildAndClean();
@@ -1033,7 +1031,7 @@ class ReportTest extends SerializableTest<Report> {
 
     @Test
     void shouldAddSubReports() {
-        try (IssueBuilder builder = new IssueBuilder()) {
+        try (var builder = new IssueBuilder()) {
             var checkStyle = new Report(CHECKSTYLE_ID, CHECKSTYLE_NAME, "checkstyle.xml");
             var checkstyleWarning = builder.setFileName("A.java")
                     .setCategory("Style")

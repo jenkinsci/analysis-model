@@ -61,4 +61,3 @@ public class Error {
         this.line = line;
     }
 }
-

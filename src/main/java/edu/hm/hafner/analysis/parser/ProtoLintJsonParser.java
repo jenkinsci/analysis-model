@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -20,12 +22,13 @@ import edu.hm.hafner.analysis.Severity;
  * @see <a href="https://github.com/yoheimuta/protolint">https://github.com/yoheimuta/protolint</a>
  */
 public class ProtoLintJsonParser extends JsonIssueParser {
+    @Serial
     private static final long serialVersionUID = 573706779074579673L;
 
     @Override
     protected void parseJsonObject(final Report report, final JSONObject jsonReport, final IssueBuilder issueBuilder) {
-        String basedir = jsonReport.optString("basedir");
-        JSONArray results = jsonReport.optJSONArray("lints", new JSONArray(0));
+        var basedir = jsonReport.optString("basedir");
+        var results = jsonReport.optJSONArray("lints", new JSONArray(0));
 
         parseResults(report, basedir, results, issueBuilder);
     }
@@ -40,7 +43,7 @@ public class ProtoLintJsonParser extends JsonIssueParser {
     private Issue convertToIssue(final String basedir, final JSONObject finding, final IssueBuilder issueBuilder) {
         // The filename is always relative to the working dir the protoLint process was started with.
         // In order to get the absolute filename we need to prepend the basedir which is available with protoLint >= 0.50.2
-        String filename = finding.getString("filename");
+        var filename = finding.getString("filename");
         if (!basedir.isEmpty()) {
             filename = basedir + "/" + filename;
         }

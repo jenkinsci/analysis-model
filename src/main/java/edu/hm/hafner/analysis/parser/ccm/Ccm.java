@@ -17,7 +17,7 @@ public class Ccm {
     /**
      * List of metrics present in the XML file.
      */
-    private List<Metric> metrics = new ArrayList<Metric>();
+    private List<Metric> metrics = new ArrayList<>();
 
     public List<Metric> getMetrics() {
         return metrics;

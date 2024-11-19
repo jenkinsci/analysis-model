@@ -33,15 +33,16 @@ class DoxygenParserTest extends AbstractParserTest {
      */
     @Test
     void issue64657() {
-        Report report = parse("issue64657.txt");
+        var report = parse("issue64657.txt");
         assertThat(report).hasSize(3);
 
         assertThat(report.get(0))
                 .hasLineStart(0)
                 .hasMessage(
-                        "doxygen no longer ships with the FreeSans font.\n"
-                                + "         You may want to clear or change DOT_FONTNAME.\n"
-                                + "         Otherwise you run the risk that the wrong font is being used for dot generated graphs.")
+                        """
+                        doxygen no longer ships with the FreeSans font.
+                                 You may want to clear or change DOT_FONTNAME.
+                                 Otherwise you run the risk that the wrong font is being used for dot generated graphs.""")
                 .hasFileName("-")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
@@ -66,17 +67,18 @@ class DoxygenParserTest extends AbstractParserTest {
      */
     @Test
     void issue7178() {
-        Report report = parse("issue7178.txt");
+        var report = parse("issue7178.txt");
         assertThat(report).hasSize(1);
 
         assertThat(report.get(0))
                 .hasLineStart(977)
                 .hasMessage(
-                        "‘t_day_of_year.boost::CV::constrained_value<boost::CV::simple_exception_policy<short unsigned int, 1u, 366u, boost::gregorian::bad_day_of_year> >::value_’ may be used uninitialized in this function\n"
-                                + "Compiling library/datetimelib/Timezone.cpp\n"
-                                + "Compiling library/datetimelib/TimezoneDB.cpp\n"
-                                + "Creating libdatetimelib.a\n"
-                                + "ar: creating /home/hudson_slave/workspace/RX-kernel-daily_i686-linux-gcc41/trunk/src/arch/i686-linux-gcc41/build/Debug/libdatetimelib.a")
+                        """
+                        ‘t_day_of_year.boost::CV::constrained_value<boost::CV::simple_exception_policy<short unsigned int, 1u, 366u, boost::gregorian::bad_day_of_year> >::value_’ may be used uninitialized in this function
+                        Compiling library/datetimelib/Timezone.cpp
+                        Compiling library/datetimelib/TimezoneDB.cpp
+                        Creating libdatetimelib.a
+                        ar: creating /home/hudson_slave/workspace/RX-kernel-daily_i686-linux-gcc41/trunk/src/arch/i686-linux-gcc41/build/Debug/libdatetimelib.a""")
                 .hasFileName(
                         "/home/hudson_slave/workspace/RX-kernel-daily_i686-linux-gcc41/trunk/src/3rdparty/boost/exp/boost/date_time/time_facet.hpp")
                 .hasSeverity(Severity.WARNING_NORMAL);
@@ -89,13 +91,13 @@ class DoxygenParserTest extends AbstractParserTest {
      */
     @Test
     void issue55840() {
-        Report linuxReport = parse("issue55840.linux.txt");
+        var linuxReport = parse("issue55840.linux.txt");
         assertThat(linuxReport).hasSize(14);
         for (Issue issue : linuxReport) {
             assertThat(issue.getFileName()).startsWith("/srv/www/jenkins/workspace/code_master/pump/");
         }
 
-        Report windowsReport = parse("issue55840.windows.txt");
+        var windowsReport = parse("issue55840.windows.txt");
         assertThat(windowsReport).hasSize(15);
         for (Issue issue : windowsReport) {
             assertThat(issue.getFileName()).startsWith("C:/jenkins/workspace/24-Test-Jenkins-WinTen-Extension@2/pump");
@@ -109,8 +111,8 @@ class DoxygenParserTest extends AbstractParserTest {
      */
     @Test
     void issue6971() {
-        Report warnings = parse("issue6971.txt");
-        try (SoftAssertions softly = new SoftAssertions()) {
+        var warnings = parse("issue6971.txt");
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings).hasSize(4);
 
             Iterator<? extends Issue> iterator = warnings.iterator();
@@ -197,21 +199,23 @@ class DoxygenParserTest extends AbstractParserTest {
         softly.assertThat(iterator.next())
                 .hasLineEnd(1351)
                 .hasLineStart(1351)
-                .hasMessage("no matching file member found for \n"
-                        + "defaulttype::RigidDeriv< 3, double > sofa::core::componentmodel::behavior::inertiaForce< defaulttype::RigidCoord< 3, double >, defaulttype::RigidDeriv< 3, double >, objectmodel::BaseContext::Vec3, defaulttype::RigidMass< 3, double >, objectmodel::BaseContext::SpatialVector >(const sofa::defaulttype::SolidTypes::SpatialVector &vframe, const objectmodel::BaseContext::Vec3 &aframe, const defaulttype::RigidMass< 3, double > &mass, const defaulttype::RigidCoord< 3, double > &x, const defaulttype::RigidDeriv< 3, double > &v)\n"
-                        + "Possible candidates:\n"
-                        + "  Deriv inertiaForce(const SV &, const Vec &, const M &, const Coord &, const Deriv &)")
+                .hasMessage("""
+                        no matching file member found for\s
+                        defaulttype::RigidDeriv< 3, double > sofa::core::componentmodel::behavior::inertiaForce< defaulttype::RigidCoord< 3, double >, defaulttype::RigidDeriv< 3, double >, objectmodel::BaseContext::Vec3, defaulttype::RigidMass< 3, double >, objectmodel::BaseContext::SpatialVector >(const sofa::defaulttype::SolidTypes::SpatialVector &vframe, const objectmodel::BaseContext::Vec3 &aframe, const defaulttype::RigidMass< 3, double > &mass, const defaulttype::RigidCoord< 3, double > &x, const defaulttype::RigidDeriv< 3, double > &v)
+                        Possible candidates:
+                          Deriv inertiaForce(const SV &, const Vec &, const M &, const Coord &, const Deriv &)""")
                 .hasFileName("/home/user/myproject/defaulttype/RigidTypes.h")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(iterator.next())
                 .hasLineEnd(569)
                 .hasLineStart(569)
-                .hasMessage("no uniquely matching class member found for\n"
-                        + "  template < R >\n"
-                        + "  SolidTypes< R >::Vec sofa::defaulttype::SolidTypes< R >::mult(const typename sofa::defaulttype::Mat< 3, 3, Real > &m, const typename SolidTypes< R >::Vec &v)\n"
-                        + "Possible candidates:\n"
-                        + "  static Vec sofa::defaulttype::SolidTypes< R >::mult(const Mat &m, const Vec &v) at line 404 of file /home/user/myprojeOdeSolverct/defaulttype/SolidTypes.h")
+                .hasMessage("""
+                        no uniquely matching class member found for
+                          template < R >
+                          SolidTypes< R >::Vec sofa::defaulttype::SolidTypes< R >::mult(const typename sofa::defaulttype::Mat< 3, 3, Real > &m, const typename SolidTypes< R >::Vec &v)
+                        Possible candidates:
+                          static Vec sofa::defaulttype::SolidTypes< R >::mult(const Mat &m, const Vec &v) at line 404 of file /home/user/myprojeOdeSolverct/defaulttype/SolidTypes.h""")
                 .hasFileName("/home/user/myproject/defaulttype/SolidTypes.inl")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
@@ -226,11 +230,12 @@ class DoxygenParserTest extends AbstractParserTest {
         softly.assertThat(iterator.next())
                 .hasLineEnd(496)
                 .hasLineStart(496)
-                .hasMessage("no matching file member found for \n"
-                        + "void sofa::helper::lcp_lexicolemke(int *nn, double *vec, double *q, double *zlem, double *wlem, int *info, int *iparamLCP, double *dparamLCP)\n"
-                        + "Possible candidates:\n"
-                        + "  int lcp_lexicolemke(int dim, double *q, double **M, double *res)\n"
-                        + "  int lcp_lexicolemke(int dim, double *q, double **M, double **A, double *res)")
+                .hasMessage("""
+                        no matching file member found for\s
+                        void sofa::helper::lcp_lexicolemke(int *nn, double *vec, double *q, double *zlem, double *wlem, int *info, int *iparamLCP, double *dparamLCP)
+                        Possible candidates:
+                          int lcp_lexicolemke(int dim, double *q, double **M, double *res)
+                          int lcp_lexicolemke(int dim, double *q, double **M, double **A, double *res)""")
                 .hasFileName("/home/user/myproject/helper/LCPcalc.cpp")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
@@ -312,4 +317,3 @@ class DoxygenParserTest extends AbstractParserTest {
         return new DoxygenParser();
     }
 }
-

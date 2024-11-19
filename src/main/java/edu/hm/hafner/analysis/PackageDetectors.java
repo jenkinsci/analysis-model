@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.List;
 
 import com.google.errorprone.annotations.MustBeClosed;
@@ -54,7 +54,7 @@ class PackageDetectors {
     static class FileSystem {
         @MustBeClosed
         InputStream openFile(final String fileName) throws IOException, InvalidPathException {
-            return Files.newInputStream(Paths.get(fileName));
+            return Files.newInputStream(Path.of(fileName));
         }
     }
 }

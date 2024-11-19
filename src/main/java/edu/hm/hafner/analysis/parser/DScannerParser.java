@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 
 import org.json.JSONObject;
@@ -14,6 +15,7 @@ import edu.hm.hafner.analysis.Severity;
  * @author Andre Pany
  */
 public class DScannerParser extends JsonParser {
+    @Serial
     private static final long serialVersionUID = -3396574381502866972L;
     private static final String KEY = "key";
     private static final String LINE = "line";
@@ -22,7 +24,7 @@ public class DScannerParser extends JsonParser {
     @Override
     Optional<Issue> convertToIssue(final JSONObject jsonIssue, final IssueBuilder builder) {
         if (jsonIssue.has(KEY)) {
-            String key = jsonIssue.getString(KEY);
+            var key = jsonIssue.getString(KEY);
             builder.setCategory(key);
             builder.setSeverity(getSeverityByKey(key));
         }
@@ -42,7 +44,7 @@ public class DScannerParser extends JsonParser {
     }
 
     private Severity getSeverityByKey(final String key) {
-        String[] parts = key.split("\\.", -1);
+        var parts = key.split("\\.", -1);
 
         switch (parts[1]) {
             case "confusing":

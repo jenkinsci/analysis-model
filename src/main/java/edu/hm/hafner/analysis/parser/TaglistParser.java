@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
@@ -23,32 +24,33 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  * @see <a href= "https://www.mojohaus.org/taglist-maven-plugin/">https://www.mojohaus.org/taglist-maven-plugin/</a>
  */
 public class TaglistParser extends IssueParser {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingException {
-        try (IssueBuilder issueBuilder = new IssueBuilder()) {
+        try (var issueBuilder = new IssueBuilder()) {
             var xPathFactory = XPathFactory.newInstance();
             var xPath = xPathFactory.newXPath();
 
             var report = new Report();
 
             var document = readerFactory.readDocument();
-            var tags = (NodeList)xPath.evaluate("/report/tags/tag", document, XPathConstants.NODESET);
+            var tags = (NodeList) xPath.evaluate("/report/tags/tag", document, XPathConstants.NODESET);
             for (Element tag : XmlElementUtil.nodeListToList(tags)) {
-                String category = xPath.evaluate("@name", tag);
+                var category = xPath.evaluate("@name", tag);
                 issueBuilder.setCategory(category);
 
-                var files = (NodeList)xPath.evaluate("files/file", tag, XPathConstants.NODESET);
+                var files = (NodeList) xPath.evaluate("files/file", tag, XPathConstants.NODESET);
                 for (Element file : XmlElementUtil.nodeListToList(files)) {
-                    String clazz = xPath.evaluate("@name", file);
+                    var clazz = xPath.evaluate("@name", file);
                     if (clazz != null) {
                         issueBuilder.setFileName(class2file(clazz));
                         issueBuilder.setPackageName(class2package(clazz));
                         issueBuilder.setAdditionalProperties(clazz);
                     }
 
-                    var comments = (NodeList)xPath.evaluate("comments/comment", file, XPathConstants.NODESET);
+                    var comments = (NodeList) xPath.evaluate("comments/comment", file, XPathConstants.NODESET);
                     for (Element comment : XmlElementUtil.nodeListToList(comments)) {
                         issueBuilder.setLineStart(xPath.evaluate("lineNumber", comment));
                         issueBuilder.setMessage(xPath.evaluate("comment", comment));

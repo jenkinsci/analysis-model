@@ -1,8 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.Reader;
+import java.io.Serial;
 import java.util.regex.Pattern;
 
 import org.apache.commons.io.input.ReaderInputStream;
@@ -24,6 +23,7 @@ import edu.hm.hafner.analysis.Severity;
  * @author Eva Habeeb
  */
 public class SimulinkCheckParser extends IssueParser {
+    @Serial
     private static final long serialVersionUID = -8099258658775128275L;
     private static final String WARNING = "div.WarningCheck";
     private static final String FAILED = "div.FailedCheck";
@@ -36,9 +36,9 @@ public class SimulinkCheckParser extends IssueParser {
 
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingException {
-        try (IssueBuilder issueBuilder = new IssueBuilder();
-                Reader reader = readerFactory.create();
-                InputStream targetStream = ReaderInputStream.builder().setReader(reader).setCharset(readerFactory.getCharset()).get()) {
+        try (var issueBuilder = new IssueBuilder();
+                var reader = readerFactory.create();
+                var targetStream = ReaderInputStream.builder().setReader(reader).setCharset(readerFactory.getCharset()).get()) {
             var document = Jsoup.parse(targetStream, readerFactory.getCharset().name(), EMPTY_BASE_URI);
 
             var systemElements = document.select(REPORT_CONTENT);
@@ -48,7 +48,7 @@ public class SimulinkCheckParser extends IssueParser {
             }
             var report = new Report();
 
-            String system = systemElement.id();
+            var system = systemElement.id();
             parseIssues(report, document, issueBuilder, system, WARNING);
             parseIssues(report, document, issueBuilder, system, FAILED);
             parseIssues(report, document, issueBuilder, system, NOT_RUN);
@@ -78,7 +78,7 @@ public class SimulinkCheckParser extends IssueParser {
             final Element element, final Elements headings, final String headingElement) {
         var headingSplit = headingElement.split("\\.");
         if (headingSplit.length > 0) {
-            String issueTxt = headings.text();
+            var issueTxt = headings.text();
             var textMatcher = TEXT_PATTERN.matcher(issueTxt);
 
             if (textMatcher.matches()) {
@@ -86,7 +86,7 @@ public class SimulinkCheckParser extends IssueParser {
                 issueBuilder.setDescription(textMatcher.group(3));
             }
             else {
-                Element parent = element.parent();
+                var parent = element.parent();
                 if (parent != null) {
                     parseParent(issueBuilder, headingSplit, issueTxt, parent);
                 }
@@ -98,7 +98,7 @@ public class SimulinkCheckParser extends IssueParser {
 
     private static void parseParent(final IssueBuilder issueBuilder, final String[] headingSplit, final String issueTxt,
             final Element parent) {
-        String parentId = parent.id();
+        var parentId = parent.id();
         int prefix = parentId.indexOf(SW_PREFIX);
         if (prefix >= 0) {
             issueBuilder.setModuleName(parentId.substring(prefix) + "." + headingSplit[headingSplit.length - 1]);

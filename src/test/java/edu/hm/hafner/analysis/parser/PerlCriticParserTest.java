@@ -32,13 +32,13 @@ class PerlCriticParserTest extends AbstractParserTest {
      */
     @Test
     void testPerlCriticParserCreateWarning() {
-        Report warnings = parse("issue17792.txt");
+        var warnings = parse("issue17792.txt");
 
         assertThat(warnings).hasSize(3);
 
         Iterator<? extends Issue> iterator = warnings.iterator();
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(iterator.next())
                     .hasSeverity(Severity.WARNING_LOW)
                     .hasCategory("33 of PBP")
@@ -73,12 +73,12 @@ class PerlCriticParserTest extends AbstractParserTest {
      */
     @Test
     void testPerlCriticParserCreateWarningNoFileName() {
-        Report warnings = parse("issue17792-nofilename.txt");
+        var warnings = parse("issue17792-nofilename.txt");
         assertThat(warnings).hasSize(3);
 
         Iterator<? extends Issue> iterator = warnings.iterator();
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(iterator.next())
                     .hasSeverity(Severity.WARNING_LOW)
                     .hasCategory("Don't use whitespace at the end of lines")

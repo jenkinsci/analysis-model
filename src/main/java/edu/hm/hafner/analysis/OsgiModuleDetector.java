@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.InvalidPathException;
 import java.util.List;
 import java.util.Map;
@@ -52,11 +51,11 @@ public class OsgiModuleDetector extends AbstractModuleDetector {
      * @return the project name or an empty string if the name could not be resolved
      */
     private String parseManifest(final String manifestFile) {
-        try (InputStream file = getFactory().open(manifestFile)) {
+        try (var file = getFactory().open(manifestFile)) {
             var manifest = new Manifest(file);
             var attributes = manifest.getMainAttributes();
             var properties = readProperties(StringUtils.substringBefore(manifestFile, OSGI_BUNDLE));
-            String name = getLocalizedValue(attributes, properties, BUNDLE_NAME);
+            var name = getLocalizedValue(attributes, properties, BUNDLE_NAME);
             if (StringUtils.isNotBlank(name)) {
                 return name;
             }
@@ -78,7 +77,7 @@ public class OsgiModuleDetector extends AbstractModuleDetector {
 
     @SuppressWarnings("OverlyBroadCatchBlock")
     private void readProperties(final String path, final Properties properties, final String fileName) {
-        try (InputStream file = getFactory().open(path + SLASH + fileName)) {
+        try (var file = getFactory().open(path + SLASH + fileName)) {
             properties.load(file);
         }
         catch (IOException | InvalidPathException ignored) {
@@ -88,7 +87,7 @@ public class OsgiModuleDetector extends AbstractModuleDetector {
 
     private String getLocalizedValue(final Attributes attributes, final Properties properties,
             final String bundleName) {
-        String value = attributes.getValue(bundleName);
+        var value = attributes.getValue(bundleName);
         if (StringUtils.startsWith(StringUtils.trim(value), REPLACEMENT_CHAR)) {
             return properties.getProperty(StringUtils.substringAfter(value, REPLACEMENT_CHAR));
         }
@@ -96,9 +95,9 @@ public class OsgiModuleDetector extends AbstractModuleDetector {
     }
 
     private String getSymbolicName(final Attributes attributes, final Properties properties) {
-        String symbolicName = StringUtils.substringBefore(attributes.getValue(BUNDLE_SYMBOLIC_NAME), ";");
+        var symbolicName = StringUtils.substringBefore(attributes.getValue(BUNDLE_SYMBOLIC_NAME), ";");
         if (StringUtils.isNotBlank(symbolicName)) {
-            String vendor = getLocalizedValue(attributes, properties, BUNDLE_VENDOR);
+            var vendor = getLocalizedValue(attributes, properties, BUNDLE_VENDOR);
             if (StringUtils.isNotBlank(vendor)) {
                 return symbolicName + " (" + vendor + ")";
             }

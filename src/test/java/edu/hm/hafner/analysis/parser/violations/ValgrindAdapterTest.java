@@ -58,7 +58,7 @@ class ValgrindAdapterTest extends AbstractParserTest {
 
         report.forEach(
                 issue -> {
-                    final String description = issue.getDescription();
+                    final var description = issue.getDescription();
                     if (Violation.NO_FILE.equals(issue.getFileName())) {
                         softly.assertThat(description).doesNotContain("Primary Stack Trace");
                     }

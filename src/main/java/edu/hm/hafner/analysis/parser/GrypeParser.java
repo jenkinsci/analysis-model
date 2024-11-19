@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.json.JSONArray;
+import java.io.Serial;
+
 import org.json.JSONObject;
 
 import edu.hm.hafner.analysis.Issue;
@@ -17,6 +18,7 @@ import static j2html.TagCreator.*;
  * @see  <a href="https://github.com/anchore/grype">grype</a>
  */
 public class GrypeParser extends JsonIssueParser {
+    @Serial
     private static final long serialVersionUID = -1369431674771459756L;
 
     private static final String MATCHES_TAG = "matches";
@@ -34,22 +36,22 @@ public class GrypeParser extends JsonIssueParser {
 
     @Override
     protected void parseJsonObject(final Report report, final JSONObject jsonReport, final IssueBuilder issueBuilder) {
-        final JSONArray matches = jsonReport.getJSONArray(MATCHES_TAG);
+        final var matches = jsonReport.getJSONArray(MATCHES_TAG);
         for (int i = 0; i < matches.length(); i++) {
-            final JSONObject match = matches.getJSONObject(i);
+            final var match = matches.getJSONObject(i);
             if (match.has(VULNERABILIY_TAG)) {
-                Issue issue = getIssue(issueBuilder, match);
+                var issue = getIssue(issueBuilder, match);
                 report.add(issue);
             }
         }
     }
 
     private Issue getIssue(final IssueBuilder issueBuilder, final JSONObject match) {
-        JSONObject vulnerability = match.getJSONObject(VULNERABILIY_TAG);
-        JSONObject artifact = match.getJSONObject(ARTIFACT_TAG);
-        String fileName = artifact.getJSONArray(LOCATIONS_TAG).getJSONObject(0).getString(PATH_TAG);
-        String packageName = artifact.optString(NAME_TAG, "Unknown");
-        String version = artifact.optString(VERSION_TAG, "");
+        var vulnerability = match.getJSONObject(VULNERABILIY_TAG);
+        var artifact = match.getJSONObject(ARTIFACT_TAG);
+        var fileName = artifact.getJSONArray(LOCATIONS_TAG).getJSONObject(0).getString(PATH_TAG);
+        var packageName = artifact.optString(NAME_TAG, "Unknown");
+        var version = artifact.optString(VERSION_TAG, "");
         if (!version.isEmpty()) {
             packageName = packageName + " " + version;
         }

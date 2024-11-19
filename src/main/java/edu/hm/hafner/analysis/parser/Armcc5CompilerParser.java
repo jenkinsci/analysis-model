@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
@@ -15,6 +16,7 @@ import edu.hm.hafner.util.LookaheadStream;
  * @author Dmytro Kutianskyi
  */
 public class Armcc5CompilerParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = -2677728927938443701L;
 
     private static final String ARMCC5_WARNING_PATTERN = "^(.+)\\((\\d+)\\): (warning|error):  #(.+): (.+)$";
@@ -34,7 +36,7 @@ public class Armcc5CompilerParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        String type = matcher.group(3);
+        var type = matcher.group(3);
         Severity priority;
 
         if (equalsIgnoreCase(type, "error")) {
@@ -44,12 +46,11 @@ public class Armcc5CompilerParser extends LookaheadParser {
             priority = Severity.WARNING_NORMAL;
         }
 
-        String errorCode = matcher.group(4);
-        String message = matcher.group(5);
+        var errorCode = matcher.group(4);
+        var message = matcher.group(5);
         return builder.setFileName(matcher.group(1))
                 .setLineStart(matcher.group(2))
                 .setMessage(errorCode + " - " + message)
                 .setSeverity(priority).buildOptional();
     }
 }
-

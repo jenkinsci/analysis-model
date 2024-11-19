@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.xpath.XPath;
@@ -27,6 +28,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * @author Andrey Danin
  */
 public class ClangAnalyzerPlistParser extends IssueParser {
+    @Serial
     private static final long serialVersionUID = 1L;
     static final String ID = "ClangAnalyzer Plist Parser";
 
@@ -37,8 +39,8 @@ public class ClangAnalyzerPlistParser extends IssueParser {
 
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingException {
-        try (IssueBuilder issueBuilder = new IssueBuilder()) {
-            Document doc = readerFactory.readDocument();
+        try (var issueBuilder = new IssueBuilder()) {
+            var doc = readerFactory.readDocument();
 
             var xPathFactory = XPathFactory.newInstance();
             var xPath = xPathFactory.newXPath();
@@ -103,14 +105,14 @@ public class ClangAnalyzerPlistParser extends IssueParser {
     @SuppressFBWarnings(value = "XPATH_INJECTION", justification = "parameter is a constant")
     private static XPathExpression compileDiagStrPath(final XPath xPath, final String field)
             throws XPathExpressionException {
-        String search = "./key[text()='" + field + "']/following-sibling::string";
+        var search = "./key[text()='" + field + "']/following-sibling::string";
         return xPath.compile(search);
     }
 
     @SuppressFBWarnings(value = "XPATH_INJECTION", justification = "parameter is a constant")
     private static XPathExpression compileDiagLocationPath(final XPath xPath, final String field)
             throws XPathExpressionException {
-        String search = "./key[text()='location']/following-sibling::dict/key[text()='" + field
+        var search = "./key[text()='location']/following-sibling::dict/key[text()='" + field
                 + "']/following-sibling::integer";
         return xPath.compile(search);
     }

@@ -1,12 +1,11 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
@@ -23,6 +22,7 @@ import edu.hm.hafner.analysis.util.XmlElementUtil;
  * @author Alex Lopashev, alexlopashev@gmail.com
  */
 public class IdeaInspectionParser extends IssueParser {
+    @Serial
     private static final long serialVersionUID = 3307389086106375473L;
     private static final String PATH_PREFIX = "file://";
     private static final String WARNING = "WARNING";
@@ -30,7 +30,7 @@ public class IdeaInspectionParser extends IssueParser {
 
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingException {
-        Document document = readerFactory.readDocument();
+        var document = readerFactory.readDocument();
 
         var rootElement = (Element) document.getElementsByTagName("problems").item(0);
         return parseProblems(XmlElementUtil.getChildElementsByName(rootElement, "problem"));
@@ -38,12 +38,12 @@ public class IdeaInspectionParser extends IssueParser {
 
     private Report parseProblems(final List<Element> elements) {
         var problems = new Report();
-        try (IssueBuilder issueBuilder = new IssueBuilder()) {
+        try (var issueBuilder = new IssueBuilder()) {
             for (Element element : elements) {
-                String file = getChildValue(element, "file");
+                var file = getChildValue(element, "file");
                 var problemClass = XmlElementUtil.getFirstChildElementByName(element, "problem_class");
                 if (problemClass.isPresent()) {
-                    Element problem = problemClass.get();
+                    var problem = problemClass.get();
                     issueBuilder.setFileName(stripPathPrefix(file))
                             .setLineStart(IntegerParser.parseInt(getChildValue(element, "line")))
                             .setCategory(StringEscapeUtils.unescapeXml(getValue(problem)))
@@ -58,7 +58,7 @@ public class IdeaInspectionParser extends IssueParser {
     }
 
     private Severity getPriority(final String severity) {
-        Severity priority = Severity.WARNING_LOW;
+        var priority = Severity.WARNING_LOW;
         if (WARNING.equals(severity)) {
             priority = Severity.WARNING_NORMAL;
         }
@@ -79,7 +79,7 @@ public class IdeaInspectionParser extends IssueParser {
     private String getChildValue(final Element element, final String childTag) {
         var firstElement = XmlElementUtil.getFirstChildElementByName(element, childTag);
         if (firstElement.isPresent()) {
-            Node child = firstElement.get().getFirstChild();
+            var child = firstElement.get().getFirstChild();
             if (child != null) {
                 return child.getNodeValue();
             }
@@ -87,4 +87,3 @@ public class IdeaInspectionParser extends IssueParser {
         return "-";
     }
 }
-

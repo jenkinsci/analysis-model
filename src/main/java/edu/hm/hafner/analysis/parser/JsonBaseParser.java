@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -19,6 +20,7 @@ import edu.hm.hafner.util.LineRangeList;
  * @author Jeremie Bresson
  */
 abstract class JsonBaseParser extends IssueParser {
+    @Serial
     private static final long serialVersionUID = -2318844382394973833L;
 
     /**
@@ -30,7 +32,7 @@ abstract class JsonBaseParser extends IssueParser {
      * @return issue instance
      */
     Optional<Issue> convertToIssue(final JSONObject jsonIssue) {
-        try (IssueBuilder builder = new IssueBuilder()) {
+        try (var builder = new IssueBuilder()) {
             return convertToIssue(jsonIssue, builder);
         }
     }
@@ -76,8 +78,8 @@ abstract class JsonBaseParser extends IssueParser {
             builder.setLineEnd(jsonIssue.getInt(LINE_END));
         }
         if (jsonIssue.has(LINE_RANGES)) {
-            JSONArray jsonRanges = jsonIssue.getJSONArray(LINE_RANGES);
-            LineRangeList lineRanges = convertToLineRangeList(jsonRanges);
+            var jsonRanges = jsonIssue.getJSONArray(LINE_RANGES);
+            var lineRanges = convertToLineRangeList(jsonRanges);
             builder.setLineRanges(lineRanges);
         }
         if (jsonIssue.has(LINE_START)) {
@@ -107,7 +109,7 @@ abstract class JsonBaseParser extends IssueParser {
     private LineRangeList convertToLineRangeList(final JSONArray jsonRanges) {
         var lineRanges = new LineRangeList();
         for (int i = 0; i < jsonRanges.length(); i++) {
-            JSONObject jsonRange = jsonRanges.getJSONObject(i);
+            var jsonRange = jsonRanges.getJSONObject(i);
             if (jsonRange.has(LINE_RANGE_START)) {
                 if (jsonRange.has(LINE_RANGE_END)) {
                     lineRanges.add(new LineRange(jsonRange.getInt(LINE_RANGE_START),

@@ -66,7 +66,7 @@ class CodeCheckerParserTest extends AbstractParserTest {
 
     @Test
     void shouldParseWindowsPaths() {
-        Report report = parse("CodeChecker_with_windows_paths.txt");
+        var report = parse("CodeChecker_with_windows_paths.txt");
         assertThat(report).hasSize(5);
         assertThat(report.get(0))
                 .hasLineStart(15)

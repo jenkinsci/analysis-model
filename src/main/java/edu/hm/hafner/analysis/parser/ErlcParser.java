@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
@@ -15,6 +16,7 @@ import edu.hm.hafner.util.LookaheadStream;
  * @author Stefan Brausch
  */
 public class ErlcParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = 8986478184830773892L;
 
     private static final String ERLC_WARNING_PATTERN = "^(.+\\.(?:erl|yrl|mib|bin|rel|asn1|idl)):(\\d*): ([wW]arning:"
@@ -32,7 +34,7 @@ public class ErlcParser extends LookaheadParser {
             final IssueBuilder builder) {
         Severity priority;
         String category;
-        String categoryMatch = matcher.group(3);
+        var categoryMatch = matcher.group(3);
 
         if (equalsIgnoreCase(categoryMatch, "warning: ")) {
             priority = Severity.WARNING_NORMAL;
@@ -50,4 +52,3 @@ public class ErlcParser extends LookaheadParser {
                 .buildOptional();
     }
 }
-

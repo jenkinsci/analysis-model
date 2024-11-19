@@ -56,7 +56,7 @@ class ClangAnalyzerPlistParserTest extends AbstractParserTest {
 
     @Test
     void shouldOnlyAcceptXmlFiles() {
-        ClangAnalyzerPlistParser parser = createParser();
+        var parser = createParser();
 
         assertThat(parser.accepts(createReaderFactory("clang-analyzer-test.txt"))).isTrue();
 

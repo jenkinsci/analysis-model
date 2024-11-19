@@ -17,14 +17,14 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  */
 @SuppressWarnings({"PMD", "all", "CheckStyle"})
 public class FxCopRuleSet {
-    private final Map<String, FxCopRule> rules = new HashMap<String, FxCopRule>();
+    private final Map<String, FxCopRule> rules = new HashMap<>();
 
     /***
      * Parse the element and insert the rule into the rule set.
      * @param element the element
      */
     public void addRule(final Element element) {
-        FxCopRule rule = new FxCopRule(element.getAttribute("TypeName"), element.getAttribute("Category"), element
+        var rule = new FxCopRule(element.getAttribute("TypeName"), element.getAttribute("Category"), element
                 .getAttribute("CheckId"));
         rule.setUrl(getNamedTagText(element, "Url"));
         rule.setDescription(getNamedTagText(element, "Description"));
@@ -64,7 +64,7 @@ public class FxCopRuleSet {
      * @return {@code true}  if the rule set contains a rule for the specified category and id, {@code false} otherwise
      */
     public boolean contains(final String category, final String checkId) {
-        return (rules.containsKey(getRuleKey(category, checkId)));
+        return rules.containsKey(getRuleKey(category, checkId));
     }
 
     /**
@@ -79,7 +79,7 @@ public class FxCopRuleSet {
      */
     @CheckForNull
     public FxCopRule getRule(final String category, final String checkId) {
-        String key = getRuleKey(category, checkId);
+        var key = getRuleKey(category, checkId);
         FxCopRule rule = null;
         if (rules.containsKey(key)) {
             rule = rules.get(key);

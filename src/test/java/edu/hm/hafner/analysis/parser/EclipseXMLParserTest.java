@@ -95,11 +95,11 @@ class EclipseXMLParserTest extends StructuredFileParserTest {
      */
     @Test
     void javadocCategory() {
-        Report warnings = parse("eclipse-withjavadoc.xml");
+        var warnings = parse("eclipse-withjavadoc.xml");
 
         assertThat(warnings).hasSize(5);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasLineStart(1)
@@ -139,7 +139,7 @@ class EclipseXMLParserTest extends StructuredFileParserTest {
 
     @Test
     void shouldOnlyAcceptXmlFiles() {
-        EclipseXMLParser parser = createParser();
+        var parser = createParser();
 
         assertThat(parser.accepts(createReaderFactory("eclipse-withinfo.xml"))).isTrue();
 

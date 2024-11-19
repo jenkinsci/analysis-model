@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -20,6 +21,7 @@ import static edu.hm.hafner.analysis.Categories.*;
  * @author Ullrich Hafner
  */
 public class JavacParser extends AbstractMavenLogParser {
+    @Serial
     private static final long serialVersionUID = 7199325311690082782L;
 
     private static final String ERROR_PRONE_URL_PATTERN = "\\s+\\(see https?://\\S+\\s*\\)";
@@ -63,7 +65,7 @@ public class JavacParser extends AbstractMavenLogParser {
             return Optional.empty();
         }
 
-        String type = matcher.group(1);
+        var type = matcher.group(1);
         if (SEVERITY_ERROR.equals(type) || SEVERITY_ERROR_SHORT.equals(type)) {
             builder.setSeverity(Severity.ERROR);
         }
@@ -71,8 +73,8 @@ public class JavacParser extends AbstractMavenLogParser {
             builder.setSeverity(Severity.WARNING_NORMAL);
         }
 
-        String message = matcher.group(10);
-        String category = guessCategoryIfEmpty(matcher.group(9), message);
+        var message = matcher.group(10);
+        var category = guessCategoryIfEmpty(matcher.group(9), message);
 
         // get rid of leading / from windows compiler output JENKINS-66738
         return builder.setFileName(RegExUtils.replaceAll(matcher.group(2), "^/([a-zA-Z]):", "$1:"))
@@ -84,4 +86,3 @@ public class JavacParser extends AbstractMavenLogParser {
                 .buildOptional();
     }
 }
-

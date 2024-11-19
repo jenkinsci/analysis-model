@@ -70,11 +70,11 @@ class GnuFortranParserTest extends AbstractParserTest {
      */
     @Test
     void testWarningParser() {
-        Report warnings = parse("GnuFortranWarning.txt");
+        var warnings = parse("GnuFortranWarning.txt");
 
         assertThat(warnings).hasSize(1);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory("Warning")
@@ -90,11 +90,11 @@ class GnuFortranParserTest extends AbstractParserTest {
      */
     @Test
     void testErrorParser() {
-        Report warnings = parse("GnuFortranError.txt");
+        var warnings = parse("GnuFortranError.txt");
 
         assertThat(warnings).hasSize(1);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasSeverity(Severity.ERROR)
                     .hasCategory("Error")
@@ -112,11 +112,11 @@ class GnuFortranParserTest extends AbstractParserTest {
      */
     @Test
     void testFatalErrorParser() {
-        Report warnings = parse("GnuFortranFatalError.txt");
+        var warnings = parse("GnuFortranFatalError.txt");
 
         assertThat(warnings).hasSize(1);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasSeverity(Severity.ERROR)
                     .hasCategory("Fatal Error")
@@ -133,11 +133,11 @@ class GnuFortranParserTest extends AbstractParserTest {
      */
     @Test
     void testInternalErrorParser() {
-        Report warnings = parse("GnuFortranInternalError.txt");
+        var warnings = parse("GnuFortranInternalError.txt");
 
         assertThat(warnings).hasSize(1);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasSeverity(Severity.ERROR)
                     .hasCategory("Internal Error")
@@ -154,7 +154,7 @@ class GnuFortranParserTest extends AbstractParserTest {
      */
     @Test
     void testInvalidParser() {
-        Report warnings = parse("GnuFortranInvalid.txt");
+        var warnings = parse("GnuFortranInvalid.txt");
 
         assertThat(warnings).hasSize(0);
     }

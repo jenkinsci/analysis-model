@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Locale;
@@ -26,6 +27,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  */
 @SuppressWarnings({"PMD.TooManyFields", "PMD.GodClass", "PMD.CyclomaticComplexity", "NoFunctionalReturnType"})
 public class Issue implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L; // release 1.0.0
 
     private static final PathUtil PATH_UTIL = new PathUtil();
@@ -486,7 +488,7 @@ public class Issue implements Serializable {
      */
     public String getFolder() {
         try {
-            String folder = FilenameUtils.getPath(getFileName());
+            var folder = FilenameUtils.getPath(getFileName());
             if (StringUtils.isBlank(folder)) {
                 return UNDEFINED;
             }
@@ -832,6 +834,7 @@ public class Issue implements Serializable {
      * Returns the fingerprint for this issue. Used to decide if two issues are equal even if the equals method returns
      * {@code false} since some properties differ due to code refactorings. The fingerprint is created by
      * analyzing the content of the affected file.
+     *
      * <p>
      * Note: the fingerprint is not part of the equals method since the fingerprint might change due to an unrelated
      * refactoring of the source code.
@@ -902,7 +905,7 @@ public class Issue implements Serializable {
             return false;
         }
 
-        Issue issue = (Issue) o;
+        var issue = (Issue) o;
 
         if (lineStart != issue.lineStart) {
             return false;
@@ -934,8 +937,8 @@ public class Issue implements Serializable {
         if (!description.equals(issue.description)) {
             return false;
         }
-        if (additionalProperties != null ? !additionalProperties.equals(issue.additionalProperties) :
-                issue.additionalProperties != null) {
+        if (additionalProperties != null ? !additionalProperties.equals(issue.additionalProperties)
+                : issue.additionalProperties != null) {
             return false;
         }
         if (!origin.equals(issue.origin)) {

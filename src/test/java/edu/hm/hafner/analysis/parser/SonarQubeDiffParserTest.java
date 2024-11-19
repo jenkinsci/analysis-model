@@ -35,11 +35,11 @@ class SonarQubeDiffParserTest extends AbstractParserTest {
      */
     @Test
     void reportDifferentialMultiModuleTest() {
-        Report warnings = parse(FILENAME_DIFF_MULTIMODULE);
+        var warnings = parse(FILENAME_DIFF_MULTIMODULE);
 
         assertThat(warnings).hasSize(8);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasFileName("cart-appclient-folder/src/main/java/javaeetutorial/cart/client/CartClient.java")
                     .hasLineStart(16);
@@ -48,7 +48,7 @@ class SonarQubeDiffParserTest extends AbstractParserTest {
 
     @Test
     void shouldAcceptDifferentialFile() {
-        SonarQubeParser parser = createParser();
+        var parser = createParser();
 
         assertThat(parser.accepts(createReaderFactory("sonarqube-differential.json"))).isTrue();
         assertThat(parser.accepts(createReaderFactory("sonarqube-api.json"))).isFalse();
@@ -59,4 +59,3 @@ class SonarQubeDiffParserTest extends AbstractParserTest {
         return new SonarQubeDiffParser();
     }
 }
-

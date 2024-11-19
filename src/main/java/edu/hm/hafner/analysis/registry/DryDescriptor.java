@@ -50,8 +50,8 @@ public abstract class DryDescriptor extends ParserDescriptor {
     }
 
     private String getDuplicateCode(@CheckForNull final Serializable properties) {
-        if (properties instanceof DuplicationGroup) {
-            return pre().with(new UnescapedText(getCodeFragment((DuplicationGroup) properties)))
+        if (properties instanceof DuplicationGroup group) {
+            return pre().with(new UnescapedText(getCodeFragment(group)))
                     .renderFormatted();
         }
         else {

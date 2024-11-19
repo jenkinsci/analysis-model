@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
@@ -15,6 +16,7 @@ import edu.hm.hafner.util.LookaheadStream;
  * @author Sven Lübke
  */
 public class QacSourceCodeAnalyserParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = -8104046102312005968L;
 
     /** Pattern of QA-C Sourcecode Analyser warnings. */
@@ -49,4 +51,3 @@ public class QacSourceCodeAnalyserParser extends LookaheadParser {
                 .buildOptional();
     }
 }
-

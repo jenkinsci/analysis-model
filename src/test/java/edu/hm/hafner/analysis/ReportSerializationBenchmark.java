@@ -46,7 +46,7 @@ public class ReportSerializationBenchmark extends AbstractBenchmark {
     }
 
     private static Report createReportWith(final int number) {
-        try (IssueBuilder builder = new IssueBuilder()) {
+        try (var builder = new IssueBuilder()) {
             var report = new Report();
             builder.setFileName(AFFECTED_FILE_NAME);
             builder.setLineStart(5);
@@ -67,7 +67,7 @@ public class ReportSerializationBenchmark extends AbstractBenchmark {
      * @return bytes
      */
     private static byte[] toByteArray(final Report report) {
-        try (var out = new ByteArrayOutputStream(); ObjectOutputStream stream = new ObjectOutputStream(out)) {
+        try (var out = new ByteArrayOutputStream(); var stream = new ObjectOutputStream(out)) {
             stream.writeObject(report);
             return out.toByteArray();
         }
@@ -87,7 +87,7 @@ public class ReportSerializationBenchmark extends AbstractBenchmark {
     @SuppressFBWarnings("OBJECT_DESERIALIZATION")
     @SuppressWarnings("BanSerializableRead")
     private static Report toReport(final byte[] bytes) {
-        try (var in = new ByteArrayInputStream(bytes); ObjectInputStream stream = new ObjectInputStream(in)) {
+        try (var in = new ByteArrayInputStream(bytes); var stream = new ObjectInputStream(in)) {
             return (Report) stream.readObject();
         }
         catch (IOException | ClassNotFoundException exception) {

@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
@@ -15,6 +16,7 @@ import edu.hm.hafner.util.LookaheadStream;
  * @author Adrian Deccico
  */
 public class P4Parser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = -8106854254745366432L;
 
     private static final String ALREADY_OPENED = "already opened for edit";
@@ -38,8 +40,8 @@ public class P4Parser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        String category = matcher.group(2).trim();
-        Severity p = mapPriority(category);
+        var category = matcher.group(2).trim();
+        var p = mapPriority(category);
         return builder.setFileName(matcher.group(1).trim()).setLineStart(0).setCategory(category).setMessage(
                 matcher.group(1).trim())
                 .setSeverity(p).buildOptional();
@@ -57,4 +59,3 @@ public class P4Parser extends LookaheadParser {
         return line.contains(" - ");
     }
 }
-

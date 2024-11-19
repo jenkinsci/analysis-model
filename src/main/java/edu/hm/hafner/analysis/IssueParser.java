@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Locale;
 import java.util.stream.Stream;
@@ -16,6 +17,7 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  */
 @SuppressWarnings("checkstyle:JavadocVariable")
 public abstract class IssueParser implements Serializable {
+    @Serial
     private static final long serialVersionUID = 200992696185460268L;
 
     protected static final String ADDITIONAL_PROPERTIES = "additionalProperties";
@@ -66,7 +68,7 @@ public abstract class IssueParser implements Serializable {
      *         Signals that the user has aborted the parsing
      */
     public Report parseFile(final ReaderFactory readerFactory) throws ParsingException, ParsingCanceledException {
-        Report report = parse(readerFactory);
+        var report = parse(readerFactory);
         report.setOriginReportFile(readerFactory.getFileName());
         return report;
     }
@@ -104,8 +106,8 @@ public abstract class IssueParser implements Serializable {
     }
 
     /**
-     * <p>Compares two CharSequences, returning {@code true} if they represent
-     * equal sequences of characters, ignoring case.</p>
+     * Compares two CharSequences, returning {@code true} if they represent
+     * equal sequences of characters, ignoring case.
      *
      * <p>{@code null}s are handled without exceptions. Two {@code null}
      * references are considered equal. The comparison is <strong>case insensitive</strong>.</p>
@@ -133,4 +135,3 @@ public abstract class IssueParser implements Serializable {
         return StringUtils.defaultString(input).toUpperCase(Locale.ENGLISH);
     }
 }
-

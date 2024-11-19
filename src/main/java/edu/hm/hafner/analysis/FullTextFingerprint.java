@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Iterator;
@@ -83,7 +83,7 @@ public class FullTextFingerprint {
 
     @VisibleForTesting
     String createFingerprint(final int line, final Stream<String> lines, final Charset charset) {
-        String context = extractContext(line, lines.iterator());
+        var context = extractContext(line, lines.iterator());
         lines.close();
         digest.update(context.getBytes(charset));
 
@@ -137,8 +137,7 @@ public class FullTextFingerprint {
         @MustBeClosed
         Stream<String> readLinesFromFile(final String fileName, final Charset charset)
                 throws IOException, InvalidPathException {
-            return Files.lines(Paths.get(fileName), charset);
+            return Files.lines(Path.of(fileName), charset);
         }
     }
 }
-

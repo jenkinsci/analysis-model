@@ -45,7 +45,7 @@ public final class FindBugsMessages {
 
     private void loadMessages(final String fileName, final Map<String, String> messagesCache,
             final Map<String, String> shortMessagesCache) throws IOException, SAXException {
-        try (InputStream file = FindBugsMessages.class.getResourceAsStream(fileName)) {
+        try (var file = FindBugsMessages.class.getResourceAsStream(fileName)) {
             List<Pattern> patterns = parse(file);
             for (Pattern pattern : patterns) {
                 messagesCache.put(pattern.getType(), pattern.getDescription());
@@ -71,7 +71,7 @@ public final class FindBugsMessages {
         List<Pattern> patterns = new ArrayList<>();
         digester.push(patterns);
 
-        String startPattern = "*/BugPattern";
+        var startPattern = "*/BugPattern";
         digester.addObjectCreate(startPattern, Pattern.class);
         digester.addSetProperties(startPattern);
         digester.addCallMethod("*/BugPattern/Details", "setDescription", 0);
@@ -185,4 +185,3 @@ public final class FindBugsMessages {
         }
     }
 }
-

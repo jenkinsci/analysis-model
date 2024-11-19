@@ -49,7 +49,7 @@ class FindBugsMessagesTest {
     @Test
     void shouldMapMessagesToTypes() {
         var messages = new FindBugsMessages();
-        String expectedMessage = "A value that could be null is stored into a field that has been annotated as @Nonnull.";
+        var expectedMessage = "A value that could be null is stored into a field that has been annotated as @Nonnull.";
         assertThat(messages.getMessage(NP_STORE_INTO_NONNULL_FIELD))
                 .contains(expectedMessage);
 
@@ -72,7 +72,7 @@ class FindBugsMessagesTest {
     }
 
     private List<Pattern> readMessages(final String fileName) {
-        try (InputStream file = read(fileName)) {
+        try (var file = read(fileName)) {
             return new FindBugsMessages().parse(file);
         }
         catch (IOException | SAXException e) {

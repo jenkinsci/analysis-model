@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
 import org.junit.jupiter.api.Test;
@@ -27,7 +26,7 @@ class CSharpNamespaceDetectorTest extends ResourceTest {
             "pom.xml, -",
             "MavenJavaTest.txt, -"})
     void shouldExtractPackageNameFromJavaSource(final String fileName, final String expectedPackage) throws IOException {
-        try (InputStream stream = asInputStream(fileName)) {
+        try (var stream = asInputStream(fileName)) {
             assertThat(new CSharpNamespaceDetector().detectPackageName(stream, StandardCharsets.UTF_8))
                     .isEqualTo(expectedPackage);
         }
@@ -46,4 +45,3 @@ class CSharpNamespaceDetectorTest extends ResourceTest {
                 .as("Accepts a non-C# file.").isFalse();
     }
 }
-

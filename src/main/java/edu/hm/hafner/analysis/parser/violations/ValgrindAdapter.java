@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser.violations;
 
+import java.io.Serial;
 import java.util.Map;
 import java.util.Set;
 
@@ -26,6 +27,7 @@ import static j2html.TagCreator.*;
  * @author Tony Ciavarella
  */
 public class ValgrindAdapter extends AbstractViolationAdapter {
+    @Serial
     private static final long serialVersionUID = -6117336551972081612L;
     private static final int NUMBERED_STACK_THRESHOLD = 2;
     private static final int NO_LINE = -1;
@@ -37,7 +39,7 @@ public class ValgrindAdapter extends AbstractViolationAdapter {
 
     @Override
     Report convertToReport(final Set<Violation> violations) {
-        try (IssueBuilder issueBuilder = new IssueBuilder()) {
+        try (var issueBuilder = new IssueBuilder()) {
             var report = new Report();
 
             for (Violation violation: violations) {
@@ -65,17 +67,16 @@ public class ValgrindAdapter extends AbstractViolationAdapter {
     }
 
     private ContainerTag generateGeneralTableHtml(final String executable, final String uniqueId, @CheckForNull final String threadId, @CheckForNull final String threadName, @CheckForNull final JSONArray auxWhats) {
-        ContainerTag generalTable =
-                table(
-                        attrs(".table.table-striped"),
-                        maybeGenerateTableRowHtml("Executable", executable),
-                        maybeGenerateTableRowHtml("Unique Id", uniqueId),
-                        maybeGenerateTableRowHtml("Thread Id", threadId),
-                        maybeGenerateTableRowHtml("Thread Name", threadName)
-                );
+        var generalTable = table(
+                attrs(".table.table-striped"),
+                maybeGenerateTableRowHtml("Executable", executable),
+                maybeGenerateTableRowHtml("Unique Id", uniqueId),
+                maybeGenerateTableRowHtml("Thread Id", threadId),
+                maybeGenerateTableRowHtml("Thread Name", threadName)
+        );
 
         if (auxWhats != null && !auxWhats.isEmpty()) {
-            for (int auxwhatIndex = 0; auxwhatIndex < auxWhats.length(); ++auxwhatIndex) {
+            for (int auxwhatIndex = 0; auxwhatIndex < auxWhats.length(); auxwhatIndex++) {
                 generalTable.with(maybeGenerateTableRowHtml("Auxiliary", auxWhats.getString(auxwhatIndex)));
             }
         }
@@ -96,14 +97,14 @@ public class ValgrindAdapter extends AbstractViolationAdapter {
 
             stackTraces.with(generateStackTraceHtml("Primary Stack Trace", message, stacks.getJSONArray(0)));
 
-            for (int stackIndex = 1; stackIndex < stacks.length(); ++stackIndex) {
+            for (int stackIndex = 1; stackIndex < stacks.length(); stackIndex++) {
                 String msg = null;
 
                 if (auxWhats != null && auxWhats.length() >= stackIndex) {
                     msg = auxWhats.getString(stackIndex - 1);
                 }
 
-                String title = "Auxiliary Stack Trace";
+                var title = "Auxiliary Stack Trace";
 
                 if (stacks.length() > NUMBERED_STACK_THRESHOLD) {
                     title += " #" + stackIndex;
@@ -126,7 +127,7 @@ public class ValgrindAdapter extends AbstractViolationAdapter {
                         iff(StringUtils.isNotBlank(message), p(message))
                 );
 
-        for (int frameIndex = 0; frameIndex < frames.length(); ++frameIndex) {
+        for (int frameIndex = 0; frameIndex < frames.length(); frameIndex++) {
             var frame = frames.getJSONObject(frameIndex);
 
             if (frameIndex > 0) {
@@ -162,10 +163,10 @@ public class ValgrindAdapter extends AbstractViolationAdapter {
 
     @CheckForNull
     private ContainerTag maybeGenerateStackFrameFileTableRowHtml(final JSONObject frame) throws JSONException {
-        String file = frame.optString("file");
+        var file = frame.optString("file");
 
         if (StringUtils.isNotBlank(file)) {
-            String dir = frame.optString("dir");
+            var dir = frame.optString("dir");
             int line = frame.optInt("line", NO_LINE);
             var fileBuilder = new StringBuilder(256);
 
@@ -187,7 +188,7 @@ public class ValgrindAdapter extends AbstractViolationAdapter {
 
     @CheckForNull
     private JSONArray getAuxWhatsArray(final Map<String, String> specifics) {
-        String auxWhatsJson = specifics.get("auxwhats");
+        var auxWhatsJson = specifics.get("auxwhats");
         return StringUtils.isNotBlank(auxWhatsJson) ? new JSONArray(new JSONTokener(auxWhatsJson)) : null;
     }
 }

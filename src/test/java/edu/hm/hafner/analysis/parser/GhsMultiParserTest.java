@@ -78,23 +78,25 @@ class GhsMultiParserTest extends AbstractParserTest {
      */
     @Test
     void issue59118() {
-        Report warnings = parse("issue59118.txt");
+        var warnings = parse("issue59118.txt");
 
         assertThat(warnings).hasSize(2);
 
         assertThat(warnings.get(0))
                 .hasLineStart(19)
-                .hasMessage("[2019-08-28T08:44:26.749Z]           operands of logical && or || must be primary expressions\n"
-                                + "\n"
-                                + "[2019-08-28T08:44:26.749Z]   #if !defined(_STDARG_H) && !defined(_STDIO_H) && !defined(_GHS_WCHAR_H)")
+                .hasMessage("""
+                                [2019-08-28T08:44:26.749Z]           operands of logical && or || must be primary expressions
+                                
+                                [2019-08-28T08:44:26.749Z]   #if !defined(_STDARG_H) && !defined(_STDIO_H) && !defined(_GHS_WCHAR_H)""")
                 .hasFileName("C:/Path/To/bar.h")
                 .hasCategory("#1729-D")
                 .hasSeverity(Severity.WARNING_NORMAL);
         assertThat(warnings.get(1))
                 .hasLineStart(491)
-                .hasMessage("[2019-08-28T08:44:28.122Z]           operands of logical && or || must be primary expressions\n"
-                                + "\n"
-                                + "[2019-08-28T08:44:28.122Z]                       if(t_deltaInterval != t_u4Interval && t_deltaInterval != 0)")
+                .hasMessage("""
+                                [2019-08-28T08:44:28.122Z]           operands of logical && or || must be primary expressions
+                                
+                                [2019-08-28T08:44:28.122Z]                       if(t_deltaInterval != t_u4Interval && t_deltaInterval != 0)""")
                 .hasFileName("../../../../Sources/Foo/Bar/Test.c")
                 .hasCategory("#1729-D")
                 .hasSeverity(Severity.WARNING_NORMAL);
@@ -102,7 +104,7 @@ class GhsMultiParserTest extends AbstractParserTest {
 
     @Test
     void issue66130() {
-        Report warnings = parse("issue66130.log");
+        var warnings = parse("issue66130.log");
         assertThat(warnings).hasSize(2);
 
         assertThat(warnings.get(0)).hasMessage("extra \";\" ignored\nSome Description")
@@ -121,4 +123,3 @@ class GhsMultiParserTest extends AbstractParserTest {
         return new GhsMultiParser();
     }
 }
-

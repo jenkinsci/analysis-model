@@ -7,7 +7,6 @@ import org.openjdk.jmh.annotations.Mode;
 import org.openjdk.jmh.profile.StackProfiler;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
-import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 
 /**
@@ -27,7 +26,7 @@ public abstract class AbstractBenchmark {
      */
     @Test
     public void benchmark() throws RunnerException {
-        Options opt = new OptionsBuilder()
+        var opt = new OptionsBuilder()
                 .include(this.getClass().getName() + ".*")
                 .addProfiler(StackProfiler.class)
                 .build();

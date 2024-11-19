@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
@@ -15,6 +16,7 @@ import edu.hm.hafner.util.LookaheadStream;
  * @author Rich Schumacher
  */
 public class FoodcriticParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = -5338881031392241140L;
 
     private static final String FOODCRITIC_WARNING_PATTERN =

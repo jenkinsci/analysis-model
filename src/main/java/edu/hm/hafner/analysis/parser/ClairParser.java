@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -16,15 +18,16 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  * @see <a href="https://github.com/arminc/clair-scanner">clair-scanner</a>
  */
 public class ClairParser extends JsonIssueParser {
+    @Serial
     private static final long serialVersionUID = 371390072777545322L;
 
     @Override
     protected void parseJsonObject(final Report report, final JSONObject jsonReport, final IssueBuilder issueBuilder) {
-        String image = optStringIgnoreCase(jsonReport, "image");
-        JSONArray vulnerabilities = optJsonArrayIgnoreCase(jsonReport, "vulnerabilities");
+        var image = optStringIgnoreCase(jsonReport, "image");
+        var vulnerabilities = optJsonArrayIgnoreCase(jsonReport, "vulnerabilities");
         for (Object vulnerability : vulnerabilities) {
-            if (vulnerability instanceof JSONObject) {
-                report.add(convertToIssue((JSONObject) vulnerability, image, issueBuilder));
+            if (vulnerability instanceof JSONObject object) {
+                report.add(convertToIssue(object, image, issueBuilder));
             }
         }
     }
@@ -47,7 +50,7 @@ public class ClairParser extends JsonIssueParser {
 
     private void appendIfNotEmpty(final JSONObject issue, final StringBuilder message, final String key,
             final String head) {
-        final String text = optStringIgnoreCase(issue, key);
+        final var text = optStringIgnoreCase(issue, key);
         if (text != null && !text.isEmpty()) {
             if (message.length() > 0 && !":".equals(head)) {
                 message.append(' ');
@@ -70,19 +73,19 @@ public class ClairParser extends JsonIssueParser {
     }
 
     private JSONArray optJsonArrayIgnoreCase(final JSONObject json, final String searchKey) {
-        final Object result = optIgnoreCase(json, searchKey);
-        return result instanceof JSONArray ? (JSONArray) result : new JSONArray();
+        final var result = optIgnoreCase(json, searchKey);
+        return result instanceof JSONArray jsona ? jsona : new JSONArray();
     }
 
     @CheckForNull
     private String optStringIgnoreCase(final JSONObject json, final String searchKey) {
-        final Object result = optIgnoreCase(json, searchKey);
-        return result instanceof String ? (String) result : null;
+        final var result = optIgnoreCase(json, searchKey);
+        return result instanceof String s ? s : null;
     }
 
     @CheckForNull
     private Object optIgnoreCase(final JSONObject json, final String searchKey) {
-        Object result = json.opt(searchKey);
+        var result = json.opt(searchKey);
         if (result == null) {
             result = searchIgnoreCase(json, searchKey);
         }

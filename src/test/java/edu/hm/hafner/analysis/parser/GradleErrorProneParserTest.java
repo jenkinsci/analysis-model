@@ -33,7 +33,7 @@ class GradleErrorProneParserTest extends AbstractParserTest {
 
     @Test
     void shouldParseGradleLogWithWindowsDrive() {
-        Report report = parse("issue55846.log");
+        var report = parse("issue55846.log");
 
         assertThat(report).hasSize(2);
         assertThat(report.get(0))

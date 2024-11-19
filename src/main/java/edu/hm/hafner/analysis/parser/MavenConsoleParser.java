@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
@@ -20,6 +21,7 @@ import static j2html.TagCreator.*;
  * @author Ullrich Hafner
  */
 public class MavenConsoleParser extends AbstractMavenLogParser {
+    @Serial
     private static final long serialVersionUID = 1737791073711198075L;
 
     private static final String WARNING = "WARNING";
@@ -66,23 +68,23 @@ public class MavenConsoleParser extends AbstractMavenLogParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) throws ParsingException {
-        String severity = matcher.group("severity");
+        var severity = matcher.group("severity");
         builder.setLineStart(lookahead.getLine()).guessSeverity(severity);
 
         var message = new StringBuilder(matcher.group("message"));
 
         if (hasGoals(MAVEN_ENFORCER_PLUGIN)) {
-            String timestamp = matcher.group("timestamp");
+            var timestamp = matcher.group("timestamp");
             int length = StringUtils.length(timestamp);
 
-            String continuation = "^(?:.*\\s|)\\[(INFO|WARNING|ERROR)";
+            var continuation = "^(?:.*\\s|)\\[(INFO|WARNING|ERROR)";
             while (lookahead.hasNext() && !lookahead.hasNext(continuation)) {
                 message.append('\n');
                 message.append(StringUtils.substring(lookahead.next(), length));
             }
         }
         else {
-            String continuation = "^(?:.*\\s\\s|)\\[" + severity + "\\] ";
+            var continuation = "^(?:.*\\s\\s|)\\[" + severity + "\\] ";
             while (lookahead.hasNext(continuation)) {
                 message.append('\n');
                 message.append(RegExUtils.removeFirst(lookahead.next(), continuation));
@@ -102,4 +104,3 @@ public class MavenConsoleParser extends AbstractMavenLogParser {
                 .buildOptional();
     }
 }
-

@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
@@ -17,6 +18,7 @@ import edu.hm.hafner.util.LookaheadStream;
  * @author Björn Pedersen
  */
 public class PyLintParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = 4464053085862883240L;
 
     // the default pattern matches "--output-format=parseable" output.
@@ -40,12 +42,12 @@ public class PyLintParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        String category = matcher.group("category");
+        var category = matcher.group("category");
         builder.setSeverity(mapPriority(category));
         builder.setCategory(mapCategory(category));
         builder.setType(StringUtils.firstNonBlank(matcher.group("symbol"), matcher.group("type"), UNKNOWN_TYPE));
 
-        String moduleName = matcher.group("module");
+        var moduleName = matcher.group("module");
         if (moduleName == null) {
             builder.setPackageName("-").setModuleName("-");
         }

@@ -36,7 +36,7 @@ class IssueBuilderTest {
     @SuppressFBWarnings("DMI")
     @Test
     void shouldCreateAbsolutePath() {
-        try (IssueBuilder builder = new IssueBuilder()) {
+        try (var builder = new IssueBuilder()) {
             builder.setFileName(RELATIVE_FILE);
 
             assertThat(builder.build())
@@ -85,15 +85,15 @@ class IssueBuilderTest {
             "C:\\file.txt"
     })
     void shouldGetBaseName(final String fullPath) {
-        try (IssueBuilder issueBuilder = new IssueBuilder()) {
+        try (var issueBuilder = new IssueBuilder()) {
             assertThat(issueBuilder.setFileName(fullPath).build()).hasBaseName("file.txt");
         }
     }
 
     @Test
     void shouldCreateDefaultIssueIfNothingSpecified() {
-        try (IssueBuilder builder = new IssueBuilder()) {
-            Issue issue = builder.build();
+        try (var builder = new IssueBuilder()) {
+            var issue = builder.build();
 
             assertThat(issue).isEqualTo(DEFAULT_ISSUE);
         }
@@ -114,7 +114,7 @@ class IssueBuilderTest {
             "-1, -1, 0, 0"})
     void shouldHaveValidLineRange(
             final int start, final int end, final int expectedStart, final int expectedEnd) {
-        try (IssueBuilder builder = new IssueBuilder()) {
+        try (var builder = new IssueBuilder()) {
             builder.setLineStart(start).setLineEnd(end);
             assertThat(builder.build()).hasLineStart(expectedStart).hasLineEnd(expectedEnd);
         }
@@ -135,7 +135,7 @@ class IssueBuilderTest {
             "-1, -1, 0, 0"})
     void shouldHaveValidColumnRange(
             final int start, final int end, final int expectedStart, final int expectedEnd) {
-        try (IssueBuilder builder = new IssueBuilder()) {
+        try (var builder = new IssueBuilder()) {
             builder.setColumnStart(start).setColumnEnd(end);
             assertThat(builder.build()).hasColumnStart(expectedStart).hasColumnEnd(expectedEnd);
         }
@@ -143,25 +143,25 @@ class IssueBuilderTest {
 
     @Test
     void shouldMapStringNumbers() {
-        try (IssueBuilder builder = new IssueBuilder()) {
+        try (var builder = new IssueBuilder()) {
             assertThat(builder.setLineStart("nix").build()).hasLineStart(0);
             assertThat(builder.setLineStart("-1").build()).hasLineStart(0);
             assertThat(builder.setLineStart("0").build()).hasLineStart(0);
             assertThat(builder.setLineStart("1").build()).hasLineStart(1);
         }
-        try (IssueBuilder builder = new IssueBuilder()) {
+        try (var builder = new IssueBuilder()) {
             assertThat(builder.setLineEnd("nix").build()).hasLineEnd(0);
             assertThat(builder.setLineEnd("-1").build()).hasLineEnd(0);
             assertThat(builder.setLineEnd("0").build()).hasLineEnd(0);
             assertThat(builder.setLineEnd("1").build()).hasLineEnd(1);
         }
-        try (IssueBuilder builder = new IssueBuilder()) {
+        try (var builder = new IssueBuilder()) {
             assertThat(builder.setColumnStart("nix").build()).hasColumnStart(0);
             assertThat(builder.setColumnStart("-1").build()).hasColumnStart(0);
             assertThat(builder.setColumnStart("0").build()).hasColumnStart(0);
             assertThat(builder.setColumnStart("1").build()).hasColumnStart(1);
         }
-        try (IssueBuilder builder = new IssueBuilder()) {
+        try (var builder = new IssueBuilder()) {
             assertThat(builder.setColumnEnd("nix").build()).hasColumnEnd(0);
             assertThat(builder.setColumnEnd("-1").build()).hasColumnEnd(0);
             assertThat(builder.setColumnEnd("0").build()).hasColumnEnd(0);
@@ -172,8 +172,8 @@ class IssueBuilderTest {
     @Test
     @SuppressFBWarnings("DMI")
     void shouldCreateIssueWithAllPropertiesInitialized() {
-        try (IssueBuilder builder = new IssueBuilder()) {
-            Issue issue = builder
+        try (var builder = new IssueBuilder()) {
+            var issue = builder
                     .setFileName(FILE_NAME)
                     .setLineStart(LINE_START)
                     .setLineEnd(LINE_END)
@@ -199,7 +199,7 @@ class IssueBuilderTest {
             assertThatIssueIsEqualToFilled(builder.build()); // same result because builder is not cleaned
             assertThatIssueIsEqualToFilled(builder.buildAndClean());
 
-            try (IssueBuilder emptyBuilder = new IssueBuilder()) {
+            try (var emptyBuilder = new IssueBuilder()) {
                 emptyBuilder.setOrigin(ORIGIN);
                 emptyBuilder.setOriginName(ORIGIN_NAME);
                 assertThat(builder.build()).isEqualTo(emptyBuilder.build());
@@ -215,8 +215,8 @@ class IssueBuilderTest {
 
     @Test
     void shouldCopyAllPropertiesOfAnIssue() {
-        try (IssueBuilder builder = new IssueBuilder()) {
-            Issue copy = builder.copy(FILLED_ISSUE).build();
+        try (var builder = new IssueBuilder()) {
+            var copy = builder.copy(FILLED_ISSUE).build();
 
             assertThat(copy).isNotSameAs(FILLED_ISSUE);
             assertThatIssueIsEqualToFilled(copy);
@@ -225,10 +225,10 @@ class IssueBuilderTest {
 
     @Test
     void shouldCreateNewInstanceOnEveryCall() {
-        try (IssueBuilder builder = new IssueBuilder()) {
+        try (var builder = new IssueBuilder()) {
             builder.copy(FILLED_ISSUE);
-            Issue issue1 = builder.build();
-            Issue issue2 = builder.build();
+            var issue1 = builder.build();
+            var issue2 = builder.build();
 
             assertThat(issue1).isNotSameAs(issue2);
             assertThat(issue1).isEqualTo(issue2);
@@ -237,7 +237,7 @@ class IssueBuilderTest {
 
     @Test
     void shouldCollectLineRanges() {
-        try (IssueBuilder builder = new IssueBuilder()) {
+        try (var builder = new IssueBuilder()) {
             builder.setLineStart(1).setLineEnd(2);
             var lineRanges = new LineRangeList();
             lineRanges.add(new LineRange(3, 4));
@@ -248,7 +248,7 @@ class IssueBuilderTest {
             assertThat(issue).hasLineStart(1).hasLineEnd(2);
             assertThat(issue).hasOnlyLineRanges(new LineRange(3, 4), new LineRange(5, 6));
 
-            try (IssueBuilder copy = new IssueBuilder()) {
+            try (var copy = new IssueBuilder()) {
                 copy.copy(issue);
                 assertThat(copy.build()).hasOnlyLineRanges(new LineRange(3, 4), new LineRange(5, 6));
             }
@@ -257,7 +257,7 @@ class IssueBuilderTest {
 
     @Test
     void shouldMoveLineRangeToAttributes() {
-        try (IssueBuilder builder = new IssueBuilder()) {
+        try (var builder = new IssueBuilder()) {
             var lineRanges = new LineRangeList();
             lineRanges.add(new LineRange(1, 2));
             builder.setLineRanges(lineRanges);
@@ -270,7 +270,7 @@ class IssueBuilderTest {
 
     @Test
     void shouldMoveLineRangeToAttributesEvenIfLineEndIsSet() {
-        try (IssueBuilder builder = new IssueBuilder()) {
+        try (var builder = new IssueBuilder()) {
             builder.setLineEnd(2);
             var lineRanges = new LineRangeList();
             lineRanges.add(new LineRange(1, 2));
@@ -284,7 +284,7 @@ class IssueBuilderTest {
 
     @Test
     void shouldCleanupLineRanges() {
-        try (IssueBuilder builder = new IssueBuilder()) {
+        try (var builder = new IssueBuilder()) {
             builder.setLineStart(1).setLineEnd(2);
             var lineRanges = new LineRangeList();
             lineRanges.add(new LineRange(1, 2));
@@ -298,7 +298,7 @@ class IssueBuilderTest {
 
     @Test
     void shouldNotCleanupDifferentLineRanges() {
-        try (IssueBuilder builder = new IssueBuilder()) {
+        try (var builder = new IssueBuilder()) {
             builder.setLineStart(1).setLineEnd(2);
             var lineRanges = new LineRangeList();
             lineRanges.add(new LineRange(1, 3));
@@ -312,8 +312,8 @@ class IssueBuilderTest {
 
     @Test
     void shouldUseProvidedId() {
-        try (IssueBuilder builder = new IssueBuilder()) {
-            UUID id = UUID.randomUUID();
+        try (var builder = new IssueBuilder()) {
+            var id = UUID.randomUUID();
             builder.setId(id);
 
             assertThat(builder.build()).hasId(id);
@@ -326,7 +326,7 @@ class IssueBuilderTest {
 
     @Test
     void testFileNameBackslashConversion() {
-        try (IssueBuilder builder = new IssueBuilder()) {
+        try (var builder = new IssueBuilder()) {
             var issue = builder.setFileName(FILE_NAME_WITH_BACKSLASHES).build();
 
             assertThat(issue).hasFileName(FILE_NAME);
@@ -335,7 +335,7 @@ class IssueBuilderTest {
 
     @Test
     void shouldCacheFileName() {
-        try (IssueBuilder builder = new IssueBuilder()) {
+        try (var builder = new IssueBuilder()) {
             var issue = builder.setFileName("fileName").build();
             var anotherIssue = builder.setFileName("fileName").build();
 
@@ -345,7 +345,7 @@ class IssueBuilderTest {
 
     @Test
     void shouldCachePackageName() {
-        try (IssueBuilder builder = new IssueBuilder()) {
+        try (var builder = new IssueBuilder()) {
             var issue = builder.setPackageName("packageName").build();
             var anotherIssue = builder.setFileName("packageName").build();
 
@@ -355,9 +355,9 @@ class IssueBuilderTest {
 
     @Test
     void shouldCacheMessage() {
-        try (IssueBuilder builder = new IssueBuilder()) {
-            Issue issue = builder.setMessage("message").build();
-            Issue anotherIssue = builder.setMessage("message").build();
+        try (var builder = new IssueBuilder()) {
+            var issue = builder.setMessage("message").build();
+            var anotherIssue = builder.setMessage("message").build();
 
             assertThat(issue.getMessageTreeString()).isSameAs(anotherIssue.getMessageTreeString());
         }
@@ -365,9 +365,9 @@ class IssueBuilderTest {
 
     @Test
     void testMessageDescriptionStripped() {
-        try (IssueBuilder builder = new IssueBuilder()) {
-            Issue issue = builder.setMessage("    message  ").setDescription("    description  ").build();
-            Issue anotherIssue = builder.setMessage("message").setDescription("description").build();
+        try (var builder = new IssueBuilder()) {
+            var issue = builder.setMessage("    message  ").setDescription("    description  ").build();
+            var anotherIssue = builder.setMessage("message").setDescription("description").build();
 
             assertThat(issue.getMessageTreeString()).isSameAs(anotherIssue.getMessageTreeString());
             assertThat(issue.getDescription()).isSameAs(anotherIssue.getDescription());

@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
@@ -17,6 +18,7 @@ import static edu.hm.hafner.analysis.util.IntegerParser.*;
  * @author Ullrich Hafner
  */
 public class CppLintParser extends LookaheadParser {
+    @Serial
     private static final long serialVersionUID = 1737791073711198075L;
 
     private static final String PATTERN = "^\\s*(.*)\\s*[(:](\\d+)\\)?:\\s*(.*)\\s*\\[(.*)\\] \\[(.*)\\]$";
@@ -33,7 +35,7 @@ public class CppLintParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        Severity priority = mapPriority(matcher.group(5));
+        var priority = mapPriority(matcher.group(5));
 
         return builder.setFileName(matcher.group(1))
                 .setLineStart(matcher.group(2))
@@ -54,4 +56,3 @@ public class CppLintParser extends LookaheadParser {
         return Severity.WARNING_LOW;
     }
 }
-
