@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
@@ -16,7 +17,6 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import nl.jqno.equalsverifier.EqualsVerifier;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
-import static java.util.Collections.*;
 
 /**
  * Unit tests for {@link Issue}.
@@ -55,7 +55,7 @@ class IssueTest extends SerializableTest<Issue> {
     static final String ORIGIN_NAME = "Origin";
     static final String REFERENCE = "reference";
     static final String ADDITIONAL_PROPERTIES = "additional";
-    static final LineRangeList LINE_RANGES = new LineRangeList(singletonList(new LineRange(5, 6)));
+    static final LineRangeList LINE_RANGES = new LineRangeList(List.of(new LineRange(5, 6)));
     private static final String WINDOWS_PATH = "C:/Windows";
 
     @Test

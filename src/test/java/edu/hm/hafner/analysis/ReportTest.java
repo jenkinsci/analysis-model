@@ -3,7 +3,6 @@ package edu.hm.hafner.analysis;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -608,7 +607,7 @@ class ReportTest extends SerializableTest<Report> {
     @Test
     void shouldFindIfOnlyOneIssue() {
         var report = new Report();
-        report.addAll(Collections.singletonList(HIGH));
+        report.addAll(List.of(HIGH));
 
         var found = report.findById(HIGH.getId());
 

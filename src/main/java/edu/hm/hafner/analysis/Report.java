@@ -1366,6 +1366,7 @@ public class Report implements Iterable<Issue>, Serializable {
         public IssueFilterBuilder setExcludeFileNameFilter(final String... patterns) {
             return setExcludeFileNameFilter(Arrays.asList(patterns));
         }
+
         //</editor-fold>
 
         //<editor-fold desc="Package name">
@@ -1423,6 +1424,7 @@ public class Report implements Iterable<Issue>, Serializable {
         public IssueFilterBuilder setExcludePackageNameFilter(final String... patterns) {
             return setExcludePackageNameFilter(Arrays.asList(patterns));
         }
+
         //</editor-fold>
 
         //<editor-fold desc="Module name">
@@ -1480,6 +1482,7 @@ public class Report implements Iterable<Issue>, Serializable {
         public IssueFilterBuilder setExcludeModuleNameFilter(final String... patterns) {
             return setExcludeModuleNameFilter(Arrays.asList(patterns));
         }
+
         //</editor-fold>
 
         //<editor-fold desc="Category">
@@ -1537,6 +1540,7 @@ public class Report implements Iterable<Issue>, Serializable {
         public IssueFilterBuilder setExcludeCategoryFilter(final String... patterns) {
             return setExcludeCategoryFilter(Arrays.asList(patterns));
         }
+
         //</editor-fold>
 
         //<editor-fold desc="Type">
@@ -1594,6 +1598,7 @@ public class Report implements Iterable<Issue>, Serializable {
         public IssueFilterBuilder setExcludeTypeFilter(final String... patterns) {
             return setExcludeTypeFilter(Arrays.asList(patterns));
         }
+
         //</editor-fold>
 
         //<editor-fold desc="Message">
