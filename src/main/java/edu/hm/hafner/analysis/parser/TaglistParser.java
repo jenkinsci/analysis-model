@@ -29,7 +29,7 @@ public class TaglistParser extends IssueParser {
 
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingException {
-        try (IssueBuilder issueBuilder = new IssueBuilder()) {
+        try (var issueBuilder = new IssueBuilder()) {
             var xPathFactory = XPathFactory.newInstance();
             var xPath = xPathFactory.newXPath();
 
@@ -38,12 +38,12 @@ public class TaglistParser extends IssueParser {
             var document = readerFactory.readDocument();
             var tags = (NodeList) xPath.evaluate("/report/tags/tag", document, XPathConstants.NODESET);
             for (Element tag : XmlElementUtil.nodeListToList(tags)) {
-                String category = xPath.evaluate("@name", tag);
+                var category = xPath.evaluate("@name", tag);
                 issueBuilder.setCategory(category);
 
                 var files = (NodeList) xPath.evaluate("files/file", tag, XPathConstants.NODESET);
                 for (Element file : XmlElementUtil.nodeListToList(files)) {
-                    String clazz = xPath.evaluate("@name", file);
+                    var clazz = xPath.evaluate("@name", file);
                     if (clazz != null) {
                         issueBuilder.setFileName(class2file(clazz));
                         issueBuilder.setPackageName(class2package(clazz));

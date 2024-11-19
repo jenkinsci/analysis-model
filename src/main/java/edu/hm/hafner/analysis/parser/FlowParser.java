@@ -47,9 +47,9 @@ public class FlowParser extends JsonIssueParser {
 
     @Override
     public boolean accepts(final ReaderFactory readerFactory) {
-        try (Reader reader = readerFactory.create()) {
-            Object value = new JSONTokener(reader).nextValue();
-            return value instanceof JSONObject && ((JSONObject) value).has(FLOW_VERSION);
+        try (var reader = readerFactory.create()) {
+            var value = new JSONTokener(reader).nextValue();
+            return value instanceof JSONObject jsono && jsono.has(FLOW_VERSION);
         }
         catch (IOException | JSONException ignored) {
             return false;
@@ -66,8 +66,7 @@ public class FlowParser extends JsonIssueParser {
     private void extractIssues(final JSONArray elements, final Report report,
             final IssueBuilder issueBuilder) {
         for (Object object : elements) {
-            if (object instanceof JSONObject) {
-                var issue = (JSONObject) object;
+            if (object instanceof JSONObject issue) {
                 findFirstMessage(issue).ifPresent(
                         jsonObject -> report.add(createIssueFromJsonObject(issue, jsonObject, issueBuilder)));
             }
@@ -114,7 +113,7 @@ public class FlowParser extends JsonIssueParser {
      * @return the severity.
      */
     private Severity parseSeverity(final JSONObject issue) {
-        String level = issue.optString(ISSUE_LEVEL);
+        var level = issue.optString(ISSUE_LEVEL);
         if (LEVEL_ERROR.equals(level)) {
             return Severity.ERROR;
         }

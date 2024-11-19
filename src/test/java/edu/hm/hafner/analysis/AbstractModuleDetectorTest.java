@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
@@ -18,15 +17,15 @@ import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 abstract class AbstractModuleDetectorTest extends ResourceTest {
-    static final Path ROOT = Paths.get(File.pathSeparatorChar == ';' ? "C:\\Windows" : "/tmp");
-    static final Path ROOT_ABSOLUTE = Paths.get(File.pathSeparatorChar == ';' ? "C:\\" : "/");
+    static final Path ROOT = Path.of(File.pathSeparatorChar == ';' ? "C:\\Windows" : "/tmp");
+    static final Path ROOT_ABSOLUTE = Path.of(File.pathSeparatorChar == ';' ? "C:\\" : "/");
     static final String PREFIX = new PathUtil().getAbsolutePath(ROOT) + "/";
     static final String MANIFEST = "MANIFEST.MF";
     static final String MANIFEST_NAME = "MANIFEST-NAME.MF";
 
     @Test
     void shouldIgnoreExceptionsDuringParsing() {
-        FileSystem fileSystem = createFileSystemStub(stub -> {
+        var fileSystem = createFileSystemStub(stub -> {
             when(stub.find(any(), anyString())).thenReturn(new String[]{
                     getPathPrefix() + getProjectFileName()
             });
@@ -46,7 +45,7 @@ abstract class AbstractModuleDetectorTest extends ResourceTest {
 
     protected FileSystem createFileSystemStub(final Stub stub) {
         try {
-            FileSystem fileSystem = mock(FileSystem.class);
+            var fileSystem = mock(FileSystem.class);
             stub.apply(fileSystem);
             return fileSystem;
         }

@@ -91,8 +91,9 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
         softly.assertThat(iterator.next())
                 .hasLineStart(352)
                 .hasLineEnd(352)
-                .hasMessage("'s2.mepSector2::lubrications' may be used uninitialized in this function\n"
-                        + "main/mep.cpp:1477: note: 's2.mepSector2::lubrications' was declared here")
+                .hasMessage("""
+                        's2.mepSector2::lubrications' may be used uninitialized in this function
+                        main/mep.cpp:1477: note: 's2.mepSector2::lubrications' was declared here""")
                 .hasFileName("main/mep.cpp")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
@@ -129,8 +130,9 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
         softly.assertThat(iterator.next())
                 .hasLineStart(12)
                 .hasLineEnd(12)
-                .hasMessage("expected ';' before 'return'\n"
-                        + "foo bar.hello*world:12:")
+                .hasMessage("""
+                        expected ';' before 'return'
+                        foo bar.hello*world:12:""")
                 .hasFileName("fo:oo.cpp")
                 .hasSeverity(Severity.ERROR);
 
@@ -145,8 +147,8 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
 
     @Test
     void shouldAssignAbsolutePath() {
-        Report report = parse("gnuMakeGcc.txt");
-        try (SoftAssertions softly = new SoftAssertions()) {
+        var report = parse("gnuMakeGcc.txt");
+        try (var softly = new SoftAssertions()) {
             Iterator<Issue> iterator = report.iterator();
             softly.assertThat(report).hasSize(12);
             softly.assertThat(iterator.next())
@@ -195,8 +197,9 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasLineStart(352)
                     .hasLineEnd(352)
-                    .hasMessage("'s2.mepSector2::lubrications' may be used uninitialized in this function\n"
-                            + "main/mep.cpp:1477: note: 's2.mepSector2::lubrications' was declared here")
+                    .hasMessage("""
+                            's2.mepSector2::lubrications' may be used uninitialized in this function
+                            main/mep.cpp:1477: note: 's2.mepSector2::lubrications' was declared here""")
                     .hasFileName("/dir1/dir2/main/mep.cpp");
 
             softly.assertThat(iterator.next())
@@ -243,14 +246,14 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
     /** Should not report warnings already detected by {@link Gcc4LinkerParser}. */
     @Test
     void shouldNotReportGccWarnings() {
-        Report warnings = parse("gcc4ld.txt");
+        var warnings = parse("gcc4ld.txt");
 
         assertThat(warnings).isEmpty();
     }
 
     @Test
     void shouldResolveAbsolutePaths() {
-        Report warnings = createParser().parse(createReaderFactory("absolute-paths.txt"));
+        var warnings = createParser().parse(createReaderFactory("absolute-paths.txt"));
 
         assertThat(warnings).hasSize(188);
 
@@ -266,7 +269,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
      */
     @Test
     void issue66835() {
-        Report warnings = createParser().parse(createReaderFactory("issue66835.makefile.log"));
+        var warnings = createParser().parse(createReaderFactory("issue66835.makefile.log"));
 
         assertThat(warnings).hasSize(3);
 
@@ -290,7 +293,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
      */
     @Test
     void issue66923() {
-        Report warnings = createParser().parse(createReaderFactory("issue66923.txt"));
+        var warnings = createParser().parse(createReaderFactory("issue66923.txt"));
 
         assertThat(warnings).hasSize(0);
         assertThat(warnings).doesNotHaveErrors();
@@ -303,7 +306,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
      */
     @Test
     void issue69242() {
-        Report warnings = createParser().parse(createReaderFactory("issue69242.txt"));
+        var warnings = createParser().parse(createReaderFactory("issue69242.txt"));
 
         assertThat(warnings).hasSize(2);
         assertThat(warnings).doesNotHaveErrors();
@@ -319,33 +322,35 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
      */
     @Test
     void issue56020() {
-        Report makefileReport = parse("issue56020.makefile.log");
+        var makefileReport = parse("issue56020.makefile.log");
 
         assertThat(makefileReport).hasSize(1);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(makefileReport.get(0))
                     .hasLineStart(1)
                     .hasColumnStart(26)
-                    .hasMessage("unused variable ‘a’ [-Wunused-variable]\n"
-                            + " void doSomething() { int a; }\n"
-                            + "                          ^")
+                    .hasMessage("""
+                            unused variable ‘a’ [-Wunused-variable]
+                             void doSomething() { int a; }
+                                                      ^""")
                     .hasFileName("/shd/CTC/TOOLS/Jenkins/workspace/ChrisTest/main.cpp")
                     .hasCategory("unused-variable")
                     .hasSeverity(Severity.WARNING_NORMAL);
         }
 
-        Report ninjaReport = parse("issue56020.ninja.log");
+        var ninjaReport = parse("issue56020.ninja.log");
 
         assertThat(ninjaReport).hasSize(1);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(ninjaReport.get(0))
                     .hasLineStart(1)
                     .hasColumnStart(26)
-                    .hasMessage("unused variable ‘a’ [-Wunused-variable]\n"
-                            + " void doSomething() { int a; }\n"
-                            + "                          ^")
+                    .hasMessage("""
+                            unused variable ‘a’ [-Wunused-variable]
+                             void doSomething() { int a; }
+                                                      ^""")
                     .hasFileName("/shd/CTC/TOOLS/Jenkins/workspace/ChrisTest/main.cpp")
                     .hasCategory("unused-variable")
                     .hasSeverity(Severity.WARNING_NORMAL);
@@ -359,17 +364,18 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
      */
     @Test
     void issue18081() {
-        Report warnings = parse("issue18081.txt");
+        var warnings = parse("issue18081.txt");
 
         assertThat(warnings).hasSize(1);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasLineStart(10)
                     .hasLineEnd(10)
-                    .hasMessage("'test.h' file not found\n"
-                            + "#include \"test.h\"\n"
-                            + "         ^")
+                    .hasMessage("""
+                            'test.h' file not found
+                            #include "test.h"
+                                     ^""")
                     .hasFileName("./test.h")
                     .hasSeverity(Severity.ERROR);
         }
@@ -382,11 +388,11 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
      */
     @Test
     void issue9926() {
-        Report warnings = parse("issue9926.txt");
+        var warnings = parse("issue9926.txt");
 
         assertThat(warnings).hasSize(1);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasLineStart(52)
                     .hasLineEnd(52)
@@ -403,7 +409,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
      */
     @Test
     void issue6563() {
-        Report warnings = parse("issue6563.txt");
+        var warnings = parse("issue6563.txt");
 
         assertThat(warnings).hasSize(10);
     }
@@ -415,7 +421,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
      */
     @Test
     void issue5606() {
-        Report warnings = parse("issue5606.txt");
+        var warnings = parse("issue5606.txt");
 
         assertThat(warnings).hasSize(5).hasDuplicatesSize(5);
     }
@@ -427,7 +433,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
      */
     @Test
     void issue5605() {
-        Report warnings = parse("issue5605.txt");
+        var warnings = parse("issue5605.txt");
 
         assertThat(warnings).hasSize(2).hasDuplicatesSize(4);
     }
@@ -439,7 +445,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
      */
     @Test
     void issue5445() {
-        Report warnings = parse("issue5445.txt");
+        var warnings = parse("issue5445.txt");
 
         assertThat(warnings).isEmpty();
     }
@@ -451,7 +457,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
      */
     @Test
     void issue5870() {
-        Report warnings = parse("issue5870.txt");
+        var warnings = parse("issue5870.txt");
 
         assertThat(warnings)
                 .isEmpty();
@@ -464,14 +470,14 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
      */
     @Test
     void issue11799() {
-        Report warnings = parse("issue11799.txt");
+        var warnings = parse("issue11799.txt");
 
         assertThat(warnings)
                 .hasSize(4);
 
         Iterator<? extends Issue> iterator = warnings.iterator();
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(iterator.next())
                     .hasLineStart(4)
                     .hasLineEnd(4)
@@ -514,7 +520,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
      */
     @Test
     void issue56612() {
-        Report warnings = parse("issue56612.log");
+        var warnings = parse("issue56612.log");
 
         assertThat(warnings).hasSize(6);
 
@@ -528,7 +534,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
         Predicate<Issue> predicate = new IssueFilterBuilder()
                 .setExcludeMessageFilter(".*QVTKWidget.*", ".*tmpnam.*")
                 .setExcludeFileNameFilter(".*qrc_icons\\.cpp.*").build();
-        Report filtered = warnings.filter(predicate);
+        var filtered = warnings.filter(predicate);
         assertThat(filtered).hasSize(0);
     }
 
@@ -539,18 +545,19 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
      */
     @Test
     void issue55221() {
-        Report warnings = parse("issue55221.txt");
+        var warnings = parse("issue55221.txt");
 
         assertThat(warnings).hasSize(6).hasDuplicatesSize(2);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasLineStart(204)
                     .hasColumnStart(26)
                     .hasMessage(
-                            "‘StarLibs::Camelot::ScBitTrue::StarUlPhyRxCommonCamelot::SectorDLCAL’ will be initialized after [-Wreorder]\n"
-                                    + "ParamNumeric<unsigned> SectorDLCAL;\n"
-                                    + "^~~~~~~~~~~")
+                            """
+                            ‘StarLibs::Camelot::ScBitTrue::StarUlPhyRxCommonCamelot::SectorDLCAL’ will be initialized after [-Wreorder]
+                            ParamNumeric<unsigned> SectorDLCAL;
+                            ^~~~~~~~~~~""")
                     .hasFileName(
                             "/data/hudsonuser/workspace/Regression_test_SystemC_gcc@2/StarLibs/Camelot/ScBitTrue/StarUlPhyRxCommonCamelot.h")
                     .hasCategory("reorder")
@@ -560,9 +567,10 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
                     .hasLineStart(179)
                     .hasColumnStart(32)
                     .hasMessage(
-                            "‘ParamNumeric<unsigned int> StarLibs::Camelot::ScBitTrue::StarUlPhyRxCommonCamelot::UseDSPBuilderFFT’ [-Wreorder]\n"
-                                    + "ParamNumeric<unsigned> UseDSPBuilderFFT;\n"
-                                    + "^~~~~~~~~~~~~~~~")
+                            """
+                            ‘ParamNumeric<unsigned int> StarLibs::Camelot::ScBitTrue::StarUlPhyRxCommonCamelot::UseDSPBuilderFFT’ [-Wreorder]
+                            ParamNumeric<unsigned> UseDSPBuilderFFT;
+                            ^~~~~~~~~~~~~~~~""")
                     .hasFileName(
                             "/data/hudsonuser/workspace/Regression_test_SystemC_gcc@2/StarLibs/Camelot/ScBitTrue/StarUlPhyRxCommonCamelot.h")
                     .hasCategory("reorder")
@@ -590,11 +598,12 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
                     .hasLineStart(168)
                     .hasColumnStart(21)
                     .hasMessage(
-                            "dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]\n"
-                                    + "In file included from ../../../StarLibs/Camelot/ScBitTrue/AlteraDspBuilderFFT/csl/steps.h:4:0,\n"
-                                    + "                 from ../../../StarLibs/Camelot/ScBitTrue/AlteraDspBuilderFFT/csl/csl.h:4,\n"
-                                    + "                 from vfft_fft_core_VFFT1_CModel.h:2,\n"
-                                    + "                 from vfft_fft_core_VFFT1_CModel.cpp:2:")
+                            """
+                            dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+                            In file included from ../../../StarLibs/Camelot/ScBitTrue/AlteraDspBuilderFFT/csl/steps.h:4:0,
+                                             from ../../../StarLibs/Camelot/ScBitTrue/AlteraDspBuilderFFT/csl/csl.h:4,
+                                             from vfft_fft_core_VFFT1_CModel.h:2,
+                                             from vfft_fft_core_VFFT1_CModel.cpp:2:""")
                     .hasFileName(
                             "/data/hudsonuser/workspace/Regression_test_SystemC_gcc/StarLibs/Camelot/ScBitTrue/AlteraDspBuilderFFT/csl/stimulus_file.h")
                     .hasCategory("strict-aliasing")

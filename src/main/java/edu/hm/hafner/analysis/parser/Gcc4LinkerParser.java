@@ -57,7 +57,7 @@ public class Gcc4LinkerParser extends LookaheadParser {
                 else {
                     builder.setSeverity(WARNING_HIGH);
                 }
-                String message = matcher.group(5);
+                var message = matcher.group(5);
                 builder.setMessage(message);
                 if (StringUtils.endsWith(message, ":")) {
                     return Optional.empty();

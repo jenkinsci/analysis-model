@@ -45,14 +45,14 @@ class JavaDocParserTest extends AbstractParserTest {
 
     @Test
     void issue67521IgnoreJavaDocWarnings() {
-        Report warnings = parse("javadoc-in-java.log");
+        var warnings = parse("javadoc-in-java.log");
 
         assertThat(warnings).hasSize(12);
     }
 
     @Test
     void issue70658RemovePrefixAndSuffixFromMavenPlugins() {
-        Report warnings = parse("maven.3.9.1.log");
+        var warnings = parse("maven.3.9.1.log");
         assertThat(warnings).hasSize(1);
 
         assertThat(warnings.get(0))
@@ -67,7 +67,7 @@ class JavaDocParserTest extends AbstractParserTest {
      */
     @Test
     void shouldHaveCategory() {
-        Report warnings = parse("javadoc-category.txt");
+        var warnings = parse("javadoc-category.txt");
 
         assertThat(warnings).hasSize(4);
         assertThat(warnings.filter(Issue.byCategory("JavaDoc @return"))).hasSize(4);
@@ -78,7 +78,7 @@ class JavaDocParserTest extends AbstractParserTest {
      */
     @Test
     void falseJavaDocPositives() {
-        Report warnings = parse("all.txt");
+        var warnings = parse("all.txt");
 
         assertThat(warnings).hasSize(8);
     }
@@ -90,10 +90,10 @@ class JavaDocParserTest extends AbstractParserTest {
      */
     @Test
     void issue37975() {
-        Report warnings = parse("issue37975.txt");
+        var warnings = parse("issue37975.txt");
         assertThat(warnings).hasSize(3);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasSeverity(Severity.ERROR)
                     .hasLineStart(79)
@@ -124,10 +124,10 @@ class JavaDocParserTest extends AbstractParserTest {
      */
     @Test
     void issue32298() {
-        Report warnings = parse("issue32298.txt");
+        var warnings = parse("issue32298.txt");
         assertThat(warnings).hasSize(7);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory(JAVA_DOC_PARAM)
@@ -190,11 +190,11 @@ class JavaDocParserTest extends AbstractParserTest {
      */
     @Test
     void issue4576() {
-        Report warnings = parse("issue4576.txt");
+        var warnings = parse("issue4576.txt");
 
         assertThat(warnings).hasSize(2);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasLineStart(0)
@@ -219,7 +219,7 @@ class JavaDocParserTest extends AbstractParserTest {
      */
     @Test
     void issue8630() {
-        Report warnings = parse("issue8630.txt");
+        var warnings = parse("issue8630.txt");
 
         assertThat(warnings).isEmpty();
     }
@@ -231,11 +231,11 @@ class JavaDocParserTest extends AbstractParserTest {
      */
     @Test
     void issue7718() {
-        Report warnings = parse("issue7718.txt");
+        var warnings = parse("issue7718.txt");
         assertThat(warnings).hasSize(7);
 
         Iterator<Issue> iterator = warnings.iterator();
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(iterator.next())
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory("JavaDoc @sys")
@@ -301,7 +301,7 @@ class JavaDocParserTest extends AbstractParserTest {
      */
     @Test
     void issue54506() {
-        Report warnings = parse("issue54506.txt");
+        var warnings = parse("issue54506.txt");
 
         assertThat(warnings).isEmpty();
     }
@@ -318,7 +318,7 @@ class JavaDocParserTest extends AbstractParserTest {
 
     @Test
     void shouldParseJavaDocsWarningsWithMavenSourcePlugin() {
-        Report warnings = parse("issue63346.log");
+        var warnings = parse("issue63346.log");
         assertThat(warnings).hasSize(3);
 
         assertThat(warnings.get(0)).hasSeverity(Severity.WARNING_NORMAL)

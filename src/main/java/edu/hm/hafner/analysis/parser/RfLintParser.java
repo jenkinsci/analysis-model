@@ -1,7 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
 import java.io.Serial;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -160,7 +160,7 @@ public class RfLintParser extends IssueParser {
 
     @Override
     public Report parse(final ReaderFactory readerFactory) {
-        try (Stream<String> lines = readerFactory.readStream(); IssueBuilder builder = new IssueBuilder()) {
+        try (Stream<String> lines = readerFactory.readStream(); var builder = new IssueBuilder()) {
             var warnings = new Report();
             lines.forEach(line -> parseLine(builder, warnings, line));
             return warnings;
@@ -169,11 +169,11 @@ public class RfLintParser extends IssueParser {
 
     @SuppressWarnings("PMD.DoNotUseThreads")
     private void parseLine(final IssueBuilder builder, final Report warnings, final String line) {
-        Matcher fileMatcher = FILE_PATTERN.matcher(line);
+        var fileMatcher = FILE_PATTERN.matcher(line);
         if (fileMatcher.find()) {
             fileName = fileMatcher.group(1);
         }
-        Matcher matcher = WARNING_PATTERN.matcher(line);
+        var matcher = WARNING_PATTERN.matcher(line);
         if (matcher.find()) {
             warnings.add(createIssue(matcher, builder));
         }
@@ -183,15 +183,15 @@ public class RfLintParser extends IssueParser {
     }
 
     private Issue createIssue(final Matcher matcher, final IssueBuilder builder) {
-        String message = matcher.group("message");
-        String severityStr = guessCategoryIfEmpty(matcher.group("severity"), message);
-        Severity priority = RfLintSeverity.fromCharacter(severityStr.charAt(0)).getSeverityLevel();
-        String ruleName = matcher.group("ruleName");
+        var message = matcher.group("message");
+        var severityStr = guessCategoryIfEmpty(matcher.group("severity"), message);
+        var priority = RfLintSeverity.fromCharacter(severityStr.charAt(0)).getSeverityLevel();
+        var ruleName = matcher.group("ruleName");
 
-        RfLintCategory category = RfLintRuleName.fromName(ruleName).getCategory();
+        var category = RfLintRuleName.fromName(ruleName).getCategory();
 
         return builder.setFileName(fileName)
-                .setPackageName(Objects.toString(Paths.get(fileName).getParent()))
+                .setPackageName(Objects.toString(Path.of(fileName).getParent()))
                 .setLineStart(matcher.group("lineNumber"))
                 .setColumnStart(matcher.group("columnNumber"))
                 .setCategory(category.getName())

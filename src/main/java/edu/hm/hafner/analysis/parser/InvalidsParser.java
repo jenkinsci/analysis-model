@@ -34,8 +34,8 @@ public class InvalidsParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        String type = WARNING_PREFIX + StringUtils.capitalize(StringUtils.lowerCase(matcher.group(4)));
-        String category = matcher.group(6);
+        var type = WARNING_PREFIX + StringUtils.capitalize(StringUtils.lowerCase(matcher.group(4)));
+        var category = matcher.group(6);
         Severity priority;
         if (StringUtils.contains(category, "PLW-07")) {
             priority = Severity.WARNING_LOW;

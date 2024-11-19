@@ -35,17 +35,16 @@ public class JsonParser extends JsonBaseParser {
 
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingException {
-        try (Reader reader = readerFactory.create(); IssueBuilder builder = new IssueBuilder()) {
+        try (var reader = readerFactory.create(); var builder = new IssueBuilder()) {
             var jsonReport = (JSONObject) new JSONTokener(reader).nextValue();
 
             var report = new Report();
             if (jsonReport.has(ISSUES)) {
-                JSONArray issues = jsonReport.getJSONArray(ISSUES);
+                var issues = jsonReport.getJSONArray(ISSUES);
                 StreamSupport.stream(issues.spliterator(), SEQUENTIAL)
                         .filter(JSONObject.class::isInstance)
                         .map(o -> convertToIssue((JSONObject) o, builder))
-                        .filter(Optional::isPresent)
-                        .map(Optional::get)
+                        .flatMap(Optional::stream)
                         .forEach(report::add);
             }
             return report;

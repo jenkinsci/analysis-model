@@ -69,7 +69,7 @@ public class MentorParser extends LookaheadParser {
 
         builder.guessSeverity(matcher.group("priority"));
 
-        String message = matcher.group("message");
+        var message = matcher.group("message");
         if (message.contains("while parsing file")) {
             parseLongVlogMessage(lookahead, builder);
         }
@@ -91,7 +91,7 @@ public class MentorParser extends LookaheadParser {
     }
 
     private void parseVlogMessage(final IssueBuilder builder, final String message) {
-        String parsedMessage = message;
+        var parsedMessage = message;
         builder.setCategory("vlog");
         // If we can refine the message, the do.
         // Else just return what we got passed.
@@ -113,10 +113,10 @@ public class MentorParser extends LookaheadParser {
     private void parseVsimMessage(final LookaheadStream lookahead, final IssueBuilder builder, final String message) {
         builder.setDescription(parseSimTime(lookahead, builder));
 
-        String parsedMessage = message;
+        var parsedMessage = message;
         // If we can refine the message, the do.
         // Else just return what we got passed.
-        Matcher vsim = VSIM_PATTERN.matcher(message);
+        var vsim = VSIM_PATTERN.matcher(message);
         if (vsim.matches()) {
             builder.setCategory(vsim.group("category"));
             builder.setFileName(vsim.group("filename"));
@@ -129,7 +129,7 @@ public class MentorParser extends LookaheadParser {
     @SuppressFBWarnings(value = "POTENTIAL_XML_INJECTION", justification = "Message is cleaned in UI")
     private String parseSimTime(final LookaheadStream lookahead, final IssueBuilder builder) {
         var description = new StringBuilder();
-        String timeLine = "";
+        var timeLine = "";
         while (lookahead.hasNext()
                 && lookahead.peekNext().startsWith("# ")
                 && !lookahead.peekNext().startsWith("# **")) {
@@ -140,7 +140,7 @@ public class MentorParser extends LookaheadParser {
             description.append("<br>");
             description.append(timeLine);
         }
-        Matcher tf = TIME_FILE_PATTERN.matcher(timeLine);
+        var tf = TIME_FILE_PATTERN.matcher(timeLine);
         if (tf.matches()) {
             builder.setModuleName(tf.group("module"));
             builder.setFileName(tf.group("filename"));

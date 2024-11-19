@@ -6,7 +6,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -29,7 +28,7 @@ import static edu.hm.hafner.analysis.assertions.Assertions.*;
 @SuppressFBWarnings("DMI")
 class FileNameResolverTest {
     private static final URI RESOURCE_FOLDER = getResourceFolder();
-    private static final Path RESOURCE_FOLDER_PATH = Paths.get(RESOURCE_FOLDER);
+    private static final Path RESOURCE_FOLDER_PATH = Path.of(RESOURCE_FOLDER);
     private static final String RESOURCE_FOLDER_STRING = getResourcePath();
 
     private static final String ID = "ID";
@@ -79,7 +78,7 @@ class FileNameResolverTest {
     void shouldSetPath() {
         var report = new Report();
 
-        try (IssueBuilder builder = new IssueBuilder()) {
+        try (var builder = new IssueBuilder()) {
             report.add(builder.setFileName(RELATIVE_FILE).build());
         }
 
@@ -100,7 +99,7 @@ class FileNameResolverTest {
     void shouldNotSetPath() {
         var report = new Report();
 
-        try (IssueBuilder builder = new IssueBuilder()) {
+        try (var builder = new IssueBuilder()) {
             report.add(builder.setFileName("not here").build());
         }
 
@@ -121,7 +120,7 @@ class FileNameResolverTest {
     void shouldNotTouchAbsolutePathOrEmptyPath() {
         var report = new Report();
 
-        try (IssueBuilder builder = new IssueBuilder()) {
+        try (var builder = new IssueBuilder()) {
             report.add(builder.setFileName("").build());
             report.add(builder.setFileName("skip").build());
             report.add(builder.setFileName(RELATIVE_FILE).build());
@@ -169,7 +168,7 @@ class FileNameResolverTest {
     @ValueSource(strings = {"../analysis/relative.txt", "./relative.txt", "../../hafner/analysis/relative.txt"})
     @DisplayName("Should normalize different relative paths to the same file (file name is relative)")
     void shouldResolveRelativePath(final String fileName) {
-        try (IssueBuilder builder = new IssueBuilder()) {
+        try (var builder = new IssueBuilder()) {
             var report = createIssuesSingleton(fileName, builder.setOrigin(ID));
             resolvePaths(report, RESOURCE_FOLDER_PATH);
 
@@ -181,22 +180,22 @@ class FileNameResolverTest {
     @ValueSource(strings = {"../analysis/relative.txt", "./relative.txt", "../../hafner/analysis/relative.txt"})
     @DisplayName("Should normalize different relative paths to the same file (file name is absolute)")
     void shouldNormalizePaths(final String fileName) {
-        try (IssueBuilder issueBuilder = new IssueBuilder()) {
-            Issue issue = issueBuilder
+        try (var issueBuilder = new IssueBuilder()) {
+            var issue = issueBuilder
                     .setDirectory(RESOURCE_FOLDER_STRING)
                     .setFileName(normalize(fileName))
                     .build();
             var report = new Report();
             report.add(issue);
 
-            resolvePaths(report, Paths.get(RESOURCE_FOLDER));
+            resolvePaths(report, Path.of(RESOURCE_FOLDER));
 
             assertThatFileResolvesToRelativeFile(report, fileName);
         }
     }
 
     private void assertThatFileResolvesToRelativeFile(final Report report, final String fileName) {
-        String description = String.format("Resolving file '%s'", normalize(fileName));
+        var description = "Resolving file '%s'".formatted(normalize(fileName));
         assertThat(report.get(0).getFileName()).as(description).isEqualTo(RELATIVE_FILE);
         assertThat(report.getErrorMessages()).as(description).isEmpty();
         assertThat(report.getInfoMessages()).as(description).hasSize(1);
@@ -206,10 +205,10 @@ class FileNameResolverTest {
     @Test
     @DisplayName("Should replace relative issue path with absolute path in relative path of workspace")
     void shouldResolveRelativePathInWorkspaceSubFolder() {
-        try (IssueBuilder builder = new IssueBuilder()) {
+        try (var builder = new IssueBuilder()) {
             Report report;
 
-            String fileName = "child.txt";
+            var fileName = "child.txt";
             report = createIssuesSingleton(fileName, builder.setOrigin(ID));
 
             resolvePaths(report, RESOURCE_FOLDER_PATH);
@@ -233,7 +232,7 @@ class FileNameResolverTest {
     }
 
     private static String getResourcePath() {
-        String workspace = RESOURCE_FOLDER.getPath();
+        var workspace = RESOURCE_FOLDER.getPath();
         if (isWindows() && workspace.charAt(0) == SLASH) {
             workspace = workspace.substring(1);
         }
@@ -251,7 +250,7 @@ class FileNameResolverTest {
 
     private Report createIssuesSingleton(final String fileName, final IssueBuilder issueBuilder) {
         var report = new Report();
-        Issue issue = issueBuilder.setFileName(fileName).build();
+        var issue = issueBuilder.setFileName(fileName).build();
         report.add(issue);
         return report;
     }
@@ -262,8 +261,8 @@ class FileNameResolverTest {
 
     private static URI getResourceFolder() {
         try {
-            URL resource = FileNameResolverTest.class.getResource(RELATIVE_FILE);
-            String fileName = resource.toExternalForm();
+            var resource = FileNameResolverTest.class.getResource(RELATIVE_FILE);
+            var fileName = resource.toExternalForm();
             return new URL(fileName.replace(RELATIVE_FILE, "")).toURI();
         }
         catch (MalformedURLException | URISyntaxException e) {

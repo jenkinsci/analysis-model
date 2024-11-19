@@ -54,7 +54,7 @@ public class EclipseMavenParser extends LookaheadParser {
                 .setFileName(matcher.group("file"))
                 .setLineStart(matcher.group("line"));
 
-        String message = matcher.group("message");
+        var message = matcher.group("message");
         if (StringUtils.isNotBlank(message)) { // single line format
             builder.setMessage(message);
             extractCategory(builder, message);

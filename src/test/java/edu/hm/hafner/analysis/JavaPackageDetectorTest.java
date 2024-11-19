@@ -27,7 +27,7 @@ class JavaPackageDetectorTest extends ResourceTest {
             "pom.xml, -",
             "ActionBinding.cs, -"})
     void shouldExtractPackageNameFromJavaSource(final String fileName, final String expectedPackage) throws IOException {
-        try (InputStream stream = asInputStream(fileName)) {
+        try (var stream = asInputStream(fileName)) {
             assertThat(new JavaPackageDetector().detectPackageName(stream, UTF_8))
                     .isEqualTo(expectedPackage);
         }

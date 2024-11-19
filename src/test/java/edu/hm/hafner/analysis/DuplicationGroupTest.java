@@ -27,7 +27,7 @@ class DuplicationGroupTest extends SerializableTest<DuplicationGroup> {
     protected DuplicationGroup createSerializable() {
         var group = new DuplicationGroup();
 
-        try (IssueBuilder builder = new IssueBuilder()) {
+        try (var builder = new IssueBuilder()) {
             group.add(builder.setAdditionalProperties(group).setFileName("1").build());
             group.add(builder.setAdditionalProperties(group).setFileName("2").build());
         }
@@ -47,7 +47,7 @@ class DuplicationGroupTest extends SerializableTest<DuplicationGroup> {
      */
     @Test
     void shouldReadIssueFromOldSerialization() {
-        byte[] restored = readAllBytes(SERIALIZATION_NAME);
+        var restored = readAllBytes(SERIALIZATION_NAME);
 
         assertThatSerializableCanBeRestoredFrom(restored);
     }
@@ -81,13 +81,13 @@ class DuplicationGroupTest extends SerializableTest<DuplicationGroup> {
 
     @Test
     void shouldReferenceAllDuplications() {
-        try (IssueBuilder builder = new IssueBuilder()) {
+        try (var builder = new IssueBuilder()) {
             var group = new DuplicationGroup(CODE_FRAGMENT);
 
             assertThat(group.getDuplications()).isEmpty();
 
-            Issue first = builder.setAdditionalProperties(group).build();
-            Issue second = builder.setAdditionalProperties(group).build();
+            var first = builder.setAdditionalProperties(group).build();
+            var second = builder.setAdditionalProperties(group).build();
 
             group.add(first);
             group.add(second);
@@ -99,7 +99,7 @@ class DuplicationGroupTest extends SerializableTest<DuplicationGroup> {
 
     @Test
     void shouldObeyEqualsContract() {
-        try (IssueBuilder builder = new IssueBuilder()) {
+        try (var builder = new IssueBuilder()) {
             var red = new LineRangeList();
             red.add(new LineRange(1));
             var blue = new LineRangeList();

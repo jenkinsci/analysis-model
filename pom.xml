@@ -293,6 +293,21 @@
   <build>
     <plugins>
       <plugin>
+        <groupId>org.openrewrite.maven</groupId>
+        <artifactId>rewrite-maven-plugin</artifactId>
+        <version>${rewrite-maven-plugin.version}</version>
+        <configuration>
+          <activeRecipes>
+            <recipe>org.openrewrite.java.migrate.UpgradeToJava17</recipe>
+            <recipe>org.openrewrite.java.migrate.util.SequencedCollection</recipe>
+            <recipe>org.openrewrite.java.migrate.lang.var.UseVarForObject</recipe>
+            <recipe>org.openrewrite.java.migrate.net.JavaNetAPIs</recipe>
+            <recipe>org.openrewrite.java.migrate.util.JavaUtilAPIs</recipe>
+            <recipe>org.openrewrite.java.migrate.lang.StringRulesRecipes</recipe>
+          </activeRecipes>
+        </configuration>
+      </plugin>
+      <plugin>
         <groupId>org.owasp</groupId>
         <artifactId>dependency-check-maven</artifactId>
         <version>11.1.0</version>

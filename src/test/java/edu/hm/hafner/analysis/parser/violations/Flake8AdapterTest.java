@@ -42,7 +42,7 @@ class Flake8AdapterTest extends AbstractParserTest {
      */
     @Test
     void shouldParseFileWithColumns() {
-        Report report = parse("flake8-issue53786");
+        var report = parse("flake8-issue53786");
 
         assertThat(report).hasSize(9);
         assertThat(report.get(8)).hasFileName("../devopsloft/application.py")
@@ -54,10 +54,10 @@ class Flake8AdapterTest extends AbstractParserTest {
 
     @Test
     void shouldParseWithCurrentDirPrefix() {
-        Report report = parse("flake8.log");
+        var report = parse("flake8.log");
 
         assertThat(report).hasSize(2);
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(report.get(0)).hasFileName("./src/init.py")
                     .hasLineStart(254)
                     .hasColumnStart(58)

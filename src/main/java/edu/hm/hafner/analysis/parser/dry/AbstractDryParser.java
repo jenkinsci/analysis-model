@@ -69,15 +69,15 @@ public abstract class AbstractDryParser<T> extends IssueParser {
 
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingCanceledException, ParsingException {
-        Digester digester = new SecureDigester(AbstractDryParser.class);
+        var digester = new SecureDigester(AbstractDryParser.class);
 
         configureParser(digester);
 
         List<T> duplications = new ArrayList<>();
         digester.push(duplications);
 
-        try (Reader reader = readerFactory.create(); IssueBuilder issueBuilder = new IssueBuilder()) {
-            Object result = digester.parse(reader);
+        try (var reader = readerFactory.create(); var issueBuilder = new IssueBuilder()) {
+            var result = digester.parse(reader);
             if (result != duplications) { // NOPMD
                 throw new ParsingException("Input stream is not a valid duplications file.");
             }

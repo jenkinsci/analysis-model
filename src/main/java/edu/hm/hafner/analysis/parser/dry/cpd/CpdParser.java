@@ -43,13 +43,13 @@ public class CpdParser extends AbstractDryParser<Duplication> {
 
     @Override
     protected void configureParser(final Digester digester) {
-        String duplicationXPath = "*/pmd-cpd/duplication";
+        var duplicationXPath = "*/pmd-cpd/duplication";
         digester.addObjectCreate(duplicationXPath, Duplication.class);
         digester.addSetProperties(duplicationXPath);
         digester.addCallMethod(duplicationXPath + "/codefragment", "setCodeFragment", 0);
         digester.addSetNext(duplicationXPath, "add");
 
-        String fileXPath = duplicationXPath + "/file";
+        var fileXPath = duplicationXPath + "/file";
         digester.addObjectCreate(fileXPath, SourceFile.class);
         digester.addSetProperties(fileXPath);
         digester.addSetNext(fileXPath, "addFile", SourceFile.class.getName());
@@ -68,7 +68,7 @@ public class CpdParser extends AbstractDryParser<Duplication> {
                         .setFileName(file.getPath())
                         .setType("CPD")
                         .setAdditionalProperties(group);
-                Issue issue = issueBuilder.build();
+                var issue = issueBuilder.build();
                 group.add(issue);
                 report.add(issue);
             }

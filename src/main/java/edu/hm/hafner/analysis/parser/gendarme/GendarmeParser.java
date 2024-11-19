@@ -51,21 +51,21 @@ public class GendarmeParser extends IssueParser {
     }
 
     private Report parseViolations(final List<Element> ruleElements, final Map<String, GendarmeRule> rules) {
-        try (IssueBuilder issueBuilder = new IssueBuilder()) {
+        try (var issueBuilder = new IssueBuilder()) {
             var warnings = new Report();
             for (Element ruleElement : ruleElements) {
-                String ruleName = ruleElement.getAttribute("Name");
-                String problem = ruleElement.getElementsByTagName("problem").item(0).getTextContent();
+                var ruleName = ruleElement.getAttribute("Name");
+                var problem = ruleElement.getElementsByTagName("problem").item(0).getTextContent();
                 List<Element> targetElements = XmlElementUtil.getChildElementsByName(ruleElement, "target");
 
                 var rule = rules.get(ruleName);
                 if (rule != null) {
                     for (Element targetElement : targetElements) {
                         var defectElement = (Element) targetElement.getElementsByTagName("defect").item(0);
-                        String source = defectElement.getAttribute("Source");
+                        var source = defectElement.getAttribute("Source");
 
-                        String fileName = extractFileNameMatch(rule, source, 1);
-                        Severity priority = extractPriority(defectElement);
+                        var fileName = extractFileNameMatch(rule, source, 1);
+                        var priority = extractPriority(defectElement);
                         int line = parseInt(extractFileNameMatch(rule, source, 2));
 
                         issueBuilder.setFileName(fileName)
@@ -93,9 +93,9 @@ public class GendarmeParser extends IssueParser {
     }
 
     private String extractFileNameMatch(final GendarmeRule rule, final String source, final int group) {
-        String fileName = StringUtils.EMPTY;
+        var fileName = StringUtils.EMPTY;
         if (rule.getType() == GendarmeRuleType.Method) {
-            Matcher matcher = FILE_PATTERN.matcher(source);
+            var matcher = FILE_PATTERN.matcher(source);
             if (matcher.matches()) {
                 fileName = matcher.group(group);
             }
@@ -111,7 +111,7 @@ public class GendarmeParser extends IssueParser {
             rule.setName(ruleElement.getAttribute("Name"));
             rule.setTypeName(ruleElement.getTextContent());
 
-            String typeString = ruleElement.getAttribute(TYPE);
+            var typeString = ruleElement.getAttribute(TYPE);
             switch (typeString) {
                 case TYPE:
                     rule.setType(GendarmeRuleType.Type);

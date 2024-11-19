@@ -40,7 +40,7 @@ public class StyleCopParser extends IssueParser {
     }
 
     private Report parseViolations(final List<Element> elements) {
-        try (IssueBuilder issueBuilder = new IssueBuilder()) {
+        try (var issueBuilder = new IssueBuilder()) {
             var report = new Report();
             for (Element element : elements) {
                 issueBuilder.setFileName(getString(element, "Source"))
@@ -65,7 +65,7 @@ public class StyleCopParser extends IssueParser {
      * @return category of violation
      */
     private String getCategory(final Element element) {
-        String ruleNameSpace = getString(element, "RuleNamespace");
+        var ruleNameSpace = getString(element, "RuleNamespace");
 
         int i = ruleNameSpace.lastIndexOf('.');
         if (i == -1) {

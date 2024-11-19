@@ -44,19 +44,19 @@ public class MavenModuleDetector extends AbstractModuleDetector {
      * @return the project name or an empty string if the name could not be resolved
      */
     private String parsePom(final String pom) {
-        String name = parsePomAttribute(pom, "name");
+        var name = parsePomAttribute(pom, "name");
 
         return StringUtils.defaultIfBlank(name, parsePomAttribute(pom, "artifactId"));
     }
 
     @SuppressWarnings("OverlyBroadCatchBlock")
     private String parsePomAttribute(final String pom, final String tagName) {
-        try (InputStream file = getFactory().open(pom)) {
+        try (var file = getFactory().open(pom)) {
             var digester = new SecureDigester(ModuleDetector.class);
             digester.push(new StringBuilder());
             digester.addCallMethod("project/" + tagName, "append", 0);
 
-            StringBuilder result = digester.parse(file);
+            var result = digester.parse(file);
             return result.toString();
         }
         catch (IOException | SAXException | InvalidPathException ignored) {

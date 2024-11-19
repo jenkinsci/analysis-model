@@ -65,7 +65,7 @@ class XmlParserTest extends StructuredFileParserTest {
         var parser = new XmlParser(CUSTOM_PATH);
         var report = parser.parse(createReaderFactory(ISSUES_CUSTOM_PATH_FILE));
         var iterator = report.iterator();
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(report)
                     .hasSize(2);
             softly.assertThat(iterator.next())
@@ -113,9 +113,9 @@ class XmlParserTest extends StructuredFileParserTest {
 
     @Test
     void shouldProduceIssuesEvenIfThereAreIncompatibleValues() {
-        Report report = createParser().parse(createReaderFactory(ISSUES_INCOMPATIBLE_VALUE));
+        var report = createParser().parse(createReaderFactory(ISSUES_INCOMPATIBLE_VALUE));
         Iterator<Issue> iterator = report.iterator();
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(report)
                     .hasSize(1);
             softly.assertThat(iterator.next())

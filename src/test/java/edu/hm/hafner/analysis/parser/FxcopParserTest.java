@@ -50,7 +50,7 @@ class FxcopParserTest extends AbstractParserTest {
      */
     @Test
     void testJenkins14172() {
-        Report result = parse("issue14172.xml");
+        var result = parse("issue14172.xml");
 
         assertThat(result).hasSize(44);
     }

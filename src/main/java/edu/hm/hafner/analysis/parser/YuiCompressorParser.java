@@ -40,12 +40,12 @@ public class YuiCompressorParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        String messageHeader = matcher.group(1);
+        var messageHeader = matcher.group(1);
         String messageDetails = lookahead.hasNext() ? lookahead.next() : "";
 
-        CategoryAndPriority categoryAndPriority = getCategoryAndPriority(messageHeader);
+        var categoryAndPriority = getCategoryAndPriority(messageHeader);
 
-        String message = messageHeader + " [" + messageDetails + "]";
+        var message = messageHeader + " [" + messageDetails + "]";
 
         return builder.setFileName("unknown.file").setLineStart(0).setCategory(categoryAndPriority.getCategory())
                 .setMessage(message).setSeverity(categoryAndPriority.getPriority()).buildOptional();

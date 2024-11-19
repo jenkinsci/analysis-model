@@ -49,7 +49,7 @@ public final class Categories {
      * @return the actual category
      */
     public static String guessCategoryIfEmpty(@CheckForNull final String category, @CheckForNull final String message) {
-        String capitalized = StringUtils.capitalize(category);
+        var capitalized = StringUtils.capitalize(category);
         if (StringUtils.isEmpty(capitalized)) {
             capitalized = guessCategory(message);
         }

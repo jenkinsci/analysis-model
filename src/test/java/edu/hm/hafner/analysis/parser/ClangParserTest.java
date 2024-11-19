@@ -110,11 +110,11 @@ class ClangParserTest extends AbstractParserTest {
      */
     @Test
     void issue31936() {
-        Report warnings = parse("issue31936.txt");
+        var warnings = parse("issue31936.txt");
 
         assertThat(warnings).hasSize(1);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0)).hasLineStart(1211)
                     .hasLineEnd(1211)
                     .hasColumnStart(26)
@@ -134,7 +134,7 @@ class ClangParserTest extends AbstractParserTest {
      */
     @Test
     void shouldNotDetectTestResults() {
-        Report warnings = parse("timestamps.log");
+        var warnings = parse("timestamps.log");
 
         assertThat(warnings).isEmpty();
     }
@@ -146,7 +146,7 @@ class ClangParserTest extends AbstractParserTest {
      */
     @Test
     void issue36817() {
-        Report warnings = parse("issue36817.txt");
+        var warnings = parse("issue36817.txt");
 
         assertThat(warnings).isEmpty();
     }
@@ -158,11 +158,11 @@ class ClangParserTest extends AbstractParserTest {
      */
     @Test
     void issue18084() {
-        Report warnings = parse("issue18084.txt");
+        var warnings = parse("issue18084.txt");
 
         assertThat(warnings).hasSize(1);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0)).hasLineStart(10)
                     .hasLineEnd(10)
                     .hasColumnStart(10)
@@ -181,11 +181,11 @@ class ClangParserTest extends AbstractParserTest {
      */
     @Test
     void issue14333() {
-        Report warnings = parse("issue14333.txt");
+        var warnings = parse("issue14333.txt");
 
         assertThat(warnings).hasSize(1);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0)).hasLineStart(1518)
                     .hasLineEnd(1518)
                     .hasColumnStart(28)
@@ -199,11 +199,11 @@ class ClangParserTest extends AbstractParserTest {
 
     @Test
     void assertThatClangPathsAreCorrectForAllPlatforms() {
-        Report warnings = parse("llvm-clang.txt");
+        var warnings = parse("llvm-clang.txt");
 
         assertThat(warnings).hasSize(3);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0)).hasLineStart(35)
                     .hasLineEnd(35)
                     .hasColumnStart(15)

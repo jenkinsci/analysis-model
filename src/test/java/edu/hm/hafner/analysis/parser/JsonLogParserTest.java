@@ -82,7 +82,7 @@ class JsonLogParserTest extends AbstractParserTest {
 
     @Test
     void shouldReportDuplicateKey() {
-        Report report = parse("json-issues-duplicate.log");
+        var report = parse("json-issues-duplicate.log");
         assertThat(report).hasSize(0);
         assertThat(report.getErrorMessages()).contains(
                 "Could not parse line: «{\"fileName\":\"invalid1.xml\",\"fileName\":\"invalid2.xml\"}»");
@@ -90,7 +90,7 @@ class JsonLogParserTest extends AbstractParserTest {
 
     @Test
     void shouldReportLineBreak() {
-        Report report = parse("json-issues-lineBreak.log");
+        var report = parse("json-issues-lineBreak.log");
         assertThat(report).hasSize(0);
         assertThat(report.getErrorMessages()).contains(
                 "Could not parse line: «\"description\":\"an \\\"important\\\" description\"}»");
@@ -98,8 +98,8 @@ class JsonLogParserTest extends AbstractParserTest {
 
     @Test
     void emptyReport() {
-        JsonLogParser parser = createParser();
-        Report report = parser.parse(createReaderFactory("json-issues-empty.txt"));
+        var parser = createParser();
+        var report = parser.parse(createReaderFactory("json-issues-empty.txt"));
         assertThat(report).hasSize(0);
     }
 

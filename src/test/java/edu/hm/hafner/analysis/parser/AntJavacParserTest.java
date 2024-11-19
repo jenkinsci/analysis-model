@@ -25,7 +25,7 @@ class AntJavacParserTest extends AbstractParserTest {
 
     @Test
     void issue67521IgnoreJavaDocWarnings() {
-        Report warnings = parse("javadoc-in-java.log");
+        var warnings = parse("javadoc-in-java.log");
 
         assertThat(warnings).isEmpty();
     }
@@ -47,7 +47,7 @@ class AntJavacParserTest extends AbstractParserTest {
      */
     @Test
     void issue63346() {
-        Report report = parse("issue63346.txt");
+        var report = parse("issue63346.txt");
 
         assertThat(report).isEmpty();
     }
@@ -59,7 +59,7 @@ class AntJavacParserTest extends AbstractParserTest {
      */
     @Test
     void testIssue24611() {
-        Report warnings = parse("issue24611.txt");
+        var warnings = parse("issue24611.txt");
 
         assertThat(warnings).hasSize(2);
     }
@@ -71,11 +71,11 @@ class AntJavacParserTest extends AbstractParserTest {
      */
     @Test
     void issue21240() {
-        Report warnings = parse("issue21240.txt");
+        var warnings = parse("issue21240.txt");
 
         assertThat(warnings).hasSize(1);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasLineStart(0)
@@ -93,11 +93,11 @@ class AntJavacParserTest extends AbstractParserTest {
      */
     @Test
     void issue2133() {
-        Report warnings = parse("issue2133.txt");
+        var warnings = parse("issue2133.txt");
 
         assertThat(warnings).hasSize(2);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory(DEFAULT_CATEGORY)
@@ -125,11 +125,11 @@ class AntJavacParserTest extends AbstractParserTest {
      */
     @Test
     void issue4098() {
-        Report warnings = parse("issue4098.txt");
+        var warnings = parse("issue4098.txt");
 
         assertThat(warnings).hasSize(1);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory("Path")
@@ -148,7 +148,7 @@ class AntJavacParserTest extends AbstractParserTest {
      */
     @Test
     void issue2316() {
-        Report warnings = parse("issue2316.txt");
+        var warnings = parse("issue2316.txt");
 
         assertThat(warnings)
                 .hasSize(18)
@@ -160,7 +160,7 @@ class AntJavacParserTest extends AbstractParserTest {
      */
     @Test
     void parseDifferentTaskNames() {
-        Report warnings = parse("taskname.txt");
+        var warnings = parse("taskname.txt");
 
         assertThat(warnings).hasSize(1).hasDuplicatesSize(2);
     }
@@ -170,11 +170,11 @@ class AntJavacParserTest extends AbstractParserTest {
      */
     @Test
     void parseArrayInDeprecatedMethod() {
-        Report warnings = parse("issue5868.txt");
+        var warnings = parse("issue5868.txt");
 
         assertThat(warnings).hasSize(1);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0)).hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory("Deprecation")
                     .hasLineStart(225)
@@ -187,11 +187,11 @@ class AntJavacParserTest extends AbstractParserTest {
 
     @Test
     void shouldReadErrors() {
-        Report warnings = parse("gradle.java.log");
+        var warnings = parse("gradle.java.log");
 
         assertThat(warnings).hasSize(1);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0)).hasSeverity(Severity.ERROR)
                     .hasLineStart(59)
                     .hasMessage("';' expected")
@@ -207,7 +207,7 @@ class AntJavacParserTest extends AbstractParserTest {
     @Test
     void parseJapaneseWarnings() {
         // force to use windows-31j - the default encoding on Windows Japanese.
-        Report warnings = createParser().parse(
+        var warnings = createParser().parse(
                 new FileReaderFactory(getResourceAsFile("ant-javac-japanese.txt"),
                         Charset.forName("windows-31j")));
 
@@ -234,7 +234,7 @@ class AntJavacParserTest extends AbstractParserTest {
 
     @Test
     void shouldNotParseJavaCompilerAndJavaDocWarnings() {
-        Report warnings = parse("issue63346.log");
+        var warnings = parse("issue63346.log");
         assertThat(warnings).hasSize(0);
     }
 }

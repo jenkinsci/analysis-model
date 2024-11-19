@@ -67,8 +67,8 @@ public abstract class AbstractParserTest extends ResourceTest {
      */
     @Test
     void shouldParseAllIssues() {
-        Report report = parseDefaultFile();
-        try (SoftAssertions softAssertions = new SoftAssertions()) {
+        var report = parseDefaultFile();
+        try (var softAssertions = new SoftAssertions()) {
             assertThatIssuesArePresent(report, softAssertions);
         }
     }
@@ -123,8 +123,8 @@ public abstract class AbstractParserTest extends ResourceTest {
      * @return the issues in the default file
      */
     protected Report parseDefaultFile() {
-        IssueParser parser = createParser();
-        ReaderFactory factory = getDefaultFileFactory();
+        var parser = createParser();
+        var factory = getDefaultFileFactory();
         assertThat(parser.accepts(factory)).isTrue();
         return parser.parse(factory);
     }
@@ -135,10 +135,10 @@ public abstract class AbstractParserTest extends ResourceTest {
      */
     @Test
     void shouldBeSerializable() throws IOException {
-        IssueParser parser = createParser();
+        var parser = createParser();
 
         var out = new ByteArrayOutputStream();
-        try (ObjectOutputStream stream = new ObjectOutputStream(out)) {
+        try (var stream = new ObjectOutputStream(out)) {
             stream.writeObject(parser);
         }
 

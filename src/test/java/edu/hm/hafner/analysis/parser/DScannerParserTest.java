@@ -58,7 +58,7 @@ class DScannerParserTest extends StructuredFileParserTest {
 
     @Test
     void shouldHandleIncompleteReports() {
-        Report report = createParser().parse(createReaderFactory("dscanner-incomplete-report.json"));
+        var report = createParser().parse(createReaderFactory("dscanner-incomplete-report.json"));
         assertThat(report).hasSize(2);
         assertThat(report.getErrorMessages()).isEmpty();
     }

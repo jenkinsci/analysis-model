@@ -36,7 +36,7 @@ public abstract class AbstractViolationAdapter extends IssueParser {
     public Report parse(final ReaderFactory readerFactory)
             throws ParsingCanceledException, ParsingException {
         try {
-            ViolationsParser parser = createParser();
+            var parser = createParser();
             Set<Violation> violations = parser.parseReportOutput(readerFactory.readString(),
                     new NullViolationsLogger());
             return convertToReport(violations);
@@ -62,7 +62,7 @@ public abstract class AbstractViolationAdapter extends IssueParser {
      * @return the report
      */
     Report convertToReport(final Set<Violation> violations) {
-        try (IssueBuilder builder = new IssueBuilder()) {
+        try (var builder = new IssueBuilder()) {
             var report = new Report();
 
             for (Violation violation : violations) {

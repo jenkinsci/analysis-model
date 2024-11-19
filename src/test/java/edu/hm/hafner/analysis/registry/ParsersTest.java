@@ -20,51 +20,53 @@ import static edu.hm.hafner.analysis.assertions.Assertions.*;
  */
 @SuppressWarnings({"PMD.CouplingBetweenObjects", "PMD.ExcessivePublicCount", "PMD.CyclomaticComplexity", "PMD.GodClass", "ClassDataAbstractionCoupling", "ClassFanOutComplexity"})
 class ParsersTest extends ResourceTest {
-    private static final String CODE_FRAGMENT = "<pre><code>\n"
-            + "    #\n"
-            + "\n"
-            + "    ERROR HANDLING: N/A\n"
-            + "    #\n"
-            + "    REMARKS: N/A\n"
-            + "    #\n"
-            + "    ****************************** END HEADER *************************************\n"
-            + "    #\n"
-            + "\n"
-            + "    ***************************** BEGIN PDL ***************************************\n"
-            + "    #\n"
-            + "    ****************************** END PDL ****************************************\n"
-            + "    #\n"
-            + "\n"
-            + "    ***************************** BEGIN CODE **************************************\n"
-            + "    **\n"
-            + "    *******************************************************************************\n"
-            + "\n"
-            + "    *******************************************************************************\n"
-            + "    *******************************************************************************\n"
-            + "\n"
-            + "if [ $# -lt 3 ]\n"
-            + "then\n"
-            + "exit 1\n"
-            + "fi\n"
-            + "\n"
-            + "    *******************************************************************************\n"
-            + "    initialize local variables\n"
-            + "    shift input parameter (twice) to leave only files to copy\n"
-            + "    *******************************************************************************\n"
-            + "\n"
-            + "files=&quot;&quot;\n"
-            + "shift\n"
-            + "shift\n"
-            + "\n"
-            + "    *******************************************************************************\n"
-            + "    *******************************************************************************\n"
-            + "\n"
-            + "for i in $*\n"
-            + "do\n"
-            + "files=&quot;$files $directory/$i&quot;\n"
-            + "done\n"
-            + "</code>\n"
-            + "</pre>\n";
+    private static final String CODE_FRAGMENT = """
+            <pre><code>
+                #
+            
+                ERROR HANDLING: N/A
+                #
+                REMARKS: N/A
+                #
+                ****************************** END HEADER *************************************
+                #
+            
+                ***************************** BEGIN PDL ***************************************
+                #
+                ****************************** END PDL ****************************************
+                #
+            
+                ***************************** BEGIN CODE **************************************
+                **
+                *******************************************************************************
+            
+                *******************************************************************************
+                *******************************************************************************
+            
+            if [ $# -lt 3 ]
+            then
+            exit 1
+            fi
+            
+                *******************************************************************************
+                initialize local variables
+                shift input parameter (twice) to leave only files to copy
+                *******************************************************************************
+            
+            files=&quot;&quot;
+            shift
+            shift
+            
+                *******************************************************************************
+                *******************************************************************************
+            
+            for i in $*
+            do
+            files=&quot;$files $directory/$i&quot;
+            done
+            </code>
+            </pre>
+            """;
 
     /** Verifies that a broken file does not fail. */
     @Test
@@ -272,8 +274,8 @@ class ParsersTest extends ResourceTest {
     /** Runs the CPD parser on an output file that contains 2 issues. */
     @Test
     void shouldFindAllCpdIssues() {
-        String cpd = "cpd";
-        Report report = findIssuesOfTool(2, cpd, "cpd.xml");
+        var cpd = "cpd";
+        var report = findIssuesOfTool(2, cpd, "cpd.xml");
         assertThatDescriptionOfIssueIsSet(cpd, report.get(0), CODE_FRAGMENT);
     }
 
@@ -286,13 +288,15 @@ class ParsersTest extends ResourceTest {
     /** Runs the DupFinder parser on an output file that contains 2 issues. */
     @Test
     void shouldFindAllDupFinderIssues() {
-        String dupfinder = "dupfinder";
-        Report report = findIssuesOfTool(2, dupfinder, "dupfinder.xml");
+        var dupfinder = "dupfinder";
+        var report = findIssuesOfTool(2, dupfinder, "dupfinder.xml");
         assertThatDescriptionOfIssueIsSet(dupfinder, report.get(0),
-                "<pre><code>\n"
-                        + "    if (items == null) throw new ArgumentNullException(&quot;items&quot;);\n"
-                        + "</code>\n"
-                        + "</pre>\n");
+                """
+                <pre><code>
+                    if (items == null) throw new ArgumentNullException(&quot;items&quot;);
+                </code>
+                </pre>
+                """);
     }
 
     /** Runs the Armcc parser on output files that contain 3 + 3 issues. */
@@ -328,8 +332,8 @@ class ParsersTest extends ResourceTest {
     /** Runs the PMD parser on an output file that contains 262 issues (PMD 6.1.0). */
     @Test
     void shouldFindAllPmdIssues() {
-        String pmd = "pmd";
-        Report report = findIssuesOfTool(262, pmd, "pmd-6.xml");
+        var pmd = "pmd";
+        var report = findIssuesOfTool(262, pmd, "pmd-6.xml");
         assertThatDescriptionOfIssueIsSet(pmd, report.get(0),
                 "A high number of imports can indicate a high degree of coupling within an object.");
     }
@@ -337,8 +341,8 @@ class ParsersTest extends ResourceTest {
     /** Runs the CheckStyle parser on an output file that contains 6 issues. */
     @Test
     void shouldFindAllCheckStyleIssues() {
-        String checkstyle = "checkstyle";
-        Report report = findIssuesOfTool(4, checkstyle, "checkstyle.xml");
+        var checkstyle = "checkstyle";
+        var report = findIssuesOfTool(4, checkstyle, "checkstyle.xml");
 
         assertThatDescriptionOfIssueIsSet(checkstyle, report.get(2),
                 "<p>Since Checkstyle 3.1</p><p>");
@@ -358,54 +362,55 @@ class ParsersTest extends ResourceTest {
     /** Runs the FindBugs parser on an output file that contains 2 issues. */
     @Test
     void shouldFindAllFindBugsIssues() {
-        String findbugs = "findbugs";
+        var findbugs = "findbugs";
         var report = findIssuesOfTool(2, findbugs, "findbugs-native.xml");
 
         assertThatDescriptionOfIssueIsSet(findbugs, report.get(0),
-                "<p> The fields of this class appear to be accessed inconsistently with respect\n"
-                        + "  to synchronization.&nbsp; This bug report indicates that the bug pattern detector\n"
-                        + "  judged that\n"
-                        + "  </p>\n"
-                        + "  <ul>\n"
-                        + "  <li> The class contains a mix of locked and unlocked accesses,</li>\n"
-                        + "  <li> The class is <b>not</b> annotated as javax.annotation.concurrent.NotThreadSafe,</li>\n"
-                        + "  <li> At least one locked access was performed by one of the class's own methods, and</li>\n"
-                        + "  <li> The number of unsynchronized field accesses (reads and writes) was no more than\n"
-                        + "       one third of all accesses, with writes being weighed twice as high as reads</li>\n"
-                        + "  </ul>\n"
-                        + "\n"
-                        + "  <p> A typical bug matching this bug pattern is forgetting to synchronize\n"
-                        + "  one of the methods in a class that is intended to be thread-safe.</p>\n"
-                        + "\n"
-                        + "  <p> You can select the nodes labeled \"Unsynchronized access\" to show the\n"
-                        + "  code locations where the detector believed that a field was accessed\n"
-                        + "  without synchronization.</p>\n"
-                        + "\n"
-                        + "  <p> Note that there are various sources of inaccuracy in this detector;\n"
-                        + "  for example, the detector cannot statically detect all situations in which\n"
-                        + "  a lock is held.&nbsp; Also, even when the detector is accurate in\n"
-                        + "  distinguishing locked vs. unlocked accesses, the code in question may still\n"
-                        + "  be correct.</p>");
+                """
+                <p> The fields of this class appear to be accessed inconsistently with respect
+                  to synchronization.&nbsp; This bug report indicates that the bug pattern detector
+                  judged that
+                  </p>
+                  <ul>
+                  <li> The class contains a mix of locked and unlocked accesses,</li>
+                  <li> The class is <b>not</b> annotated as javax.annotation.concurrent.NotThreadSafe,</li>
+                  <li> At least one locked access was performed by one of the class's own methods, and</li>
+                  <li> The number of unsynchronized field accesses (reads and writes) was no more than
+                       one third of all accesses, with writes being weighed twice as high as reads</li>
+                  </ul>
+                
+                  <p> A typical bug matching this bug pattern is forgetting to synchronize
+                  one of the methods in a class that is intended to be thread-safe.</p>
+                
+                  <p> You can select the nodes labeled "Unsynchronized access" to show the
+                  code locations where the detector believed that a field was accessed
+                  without synchronization.</p>
+                
+                  <p> Note that there are various sources of inaccuracy in this detector;
+                  for example, the detector cannot statically detect all situations in which
+                  a lock is held.&nbsp; Also, even when the detector is accurate in
+                  distinguishing locked vs. unlocked accesses, the code in question may still
+                  be correct.</p>""");
     }
 
     /** Runs the SpotBugs parser on an output file that contains 2 issues. */
     @Test
     void shouldFindAllSpotBugsIssues() {
-        String expectedDescription =
-                "<p>This code calls a method and ignores the return value. However our analysis shows that\n"
-                        + "the method (including its implementations in subclasses if any) does not produce any effect\n"
-                        + "other than return value. Thus this call can be removed.\n"
-                        + "</p>\n"
-                        + "<p>We are trying to reduce the false positives as much as possible, but in some cases this warning might be wrong.\n"
-                        + "Common false-positive cases include:</p>\n"
-                        + "<p>- The method is designed to be overridden and produce a side effect in other projects which are out of the scope of the analysis.</p>\n"
-                        + "<p>- The method is called to trigger the class loading which may have a side effect.</p>\n"
-                        + "<p>- The method is called just to get some exception.</p>\n"
-                        + "<p>If you feel that our assumption is incorrect, you can use a @CheckReturnValue annotation\n"
-                        + "to instruct SpotBugs that ignoring the return value of this method is acceptable.\n"
-                        + "</p>";
+        var expectedDescription = """
+                <p>This code calls a method and ignores the return value. However our analysis shows that
+                the method (including its implementations in subclasses if any) does not produce any effect
+                other than return value. Thus this call can be removed.
+                </p>
+                <p>We are trying to reduce the false positives as much as possible, but in some cases this warning might be wrong.
+                Common false-positive cases include:</p>
+                <p>- The method is designed to be overridden and produce a side effect in other projects which are out of the scope of the analysis.</p>
+                <p>- The method is called to trigger the class loading which may have a side effect.</p>
+                <p>- The method is called just to get some exception.</p>
+                <p>If you feel that our assumption is incorrect, you can use a @CheckReturnValue annotation
+                to instruct SpotBugs that ignoring the return value of this method is acceptable.
+                </p>""";
 
-        String spotBugs = "spotbugs";
+        var spotBugs = "spotbugs";
         var report = findIssuesOfTool(2, spotBugs, "spotbugsXml.xml");
         assertThatDescriptionOfIssueIsSet(spotBugs, report.get(0), expectedDescription);
     }
@@ -413,13 +418,13 @@ class ParsersTest extends ResourceTest {
     /** Runs the SpotBugs parser on an output file that contains 2 issues. */
     @Test
     void shouldProvideMessagesAndDescriptionForSecurityIssuesWithSpotBugs() {
-        String expectedDescription =
-                "<p>A file is opened to read its content. The filename comes from an <b>input</b> parameter.\n"
-                        + "If an unfiltered parameter is passed to this file API, files from an arbitrary filesystem location could be read.</p>\n"
-                        + "<p>This rule identifies <b>potential</b> path traversal vulnerabilities. In many cases, the constructed file path cannot be controlled\n"
-                        + "by the user. If that is the case, the reported instance is a false positive.</p>";
+        var expectedDescription = """
+                <p>A file is opened to read its content. The filename comes from an <b>input</b> parameter.
+                If an unfiltered parameter is passed to this file API, files from an arbitrary filesystem location could be read.</p>
+                <p>This rule identifies <b>potential</b> path traversal vulnerabilities. In many cases, the constructed file path cannot be controlled
+                by the user. If that is the case, the reported instance is a false positive.</p>""";
 
-        String spotBugs = "spotbugs";
+        var spotBugs = "spotbugs";
         var report = findIssuesOfTool(1, spotBugs, "issue55707.xml");
         var issue = report.get(0);
         assertThatDescriptionOfIssueIsSet(spotBugs, issue, expectedDescription);
@@ -676,7 +681,7 @@ class ParsersTest extends ResourceTest {
     /** Runs the Eclipse parser on an output file that contains 8 issues. */
     @Test
     void shouldFindAllEclipseIssues() {
-        String eclipse = "eclipse";
+        var eclipse = "eclipse";
         findIssuesOfTool(8, eclipse, "eclipse.txt");
 
         // FIXME: fails if offline
@@ -688,8 +693,8 @@ class ParsersTest extends ResourceTest {
     /** Runs the PyLint parser on output files that contains 6 + 19 issues. */
     @Test
     void shouldFindAllPyLintParserIssues() {
-        String pylint = "pylint";
-        Report report = findIssuesOfTool(9 + 22, pylint, "pyLint.txt", "pylint_parseable.txt");
+        var pylint = "pylint";
+        var report = findIssuesOfTool(9 + 22, pylint, "pyLint.txt", "pylint_parseable.txt");
 
         assertThatDescriptionOfIssueIsSet(pylint, report.get(1),
                 "Used when the name doesn't match the regular expression associated to its type(constant, variable, class...).");
@@ -873,8 +878,8 @@ class ParsersTest extends ResourceTest {
 
         var allIssues = new Report();
         for (String fileName : fileNames) {
-            IssueParser parser = descriptor.createParser();
-            Report report = parser.parse(new FileReaderFactory(getResourceAsFile("../parser/").resolve(fileName)));
+            var parser = descriptor.createParser();
+            var report = parser.parse(new FileReaderFactory(getResourceAsFile("../parser/").resolve(fileName)));
             allIssues.addAll(report);
         }
 

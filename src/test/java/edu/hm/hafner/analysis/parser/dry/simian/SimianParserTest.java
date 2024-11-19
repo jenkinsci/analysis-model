@@ -33,7 +33,7 @@ class SimianParserTest extends AbstractParserTest {
             final SoftAssertions softly) {
         softly.assertThat(report).hasSize(2);
 
-        Issue firstIssue = report.get(0);
+        var firstIssue = report.get(0);
         softly.assertThat(firstIssue)
                 .hasLineStart(93).hasLineEnd(98)
                 .hasFileName(MAVEN_BUILD)
@@ -43,7 +43,7 @@ class SimianParserTest extends AbstractParserTest {
                 .hasType("Simian");
         softly.assertThat(firstIssue.getDescription()).isEmpty();
 
-        Issue secondIssue = report.get(1);
+        var secondIssue = report.get(1);
         softly.assertThat(secondIssue)
                 .hasLineStart(76).hasLineEnd(81)
                 .hasFileName(MAVEN_BUILD)
@@ -56,7 +56,7 @@ class SimianParserTest extends AbstractParserTest {
 
     @Test
     void shouldFindOneDuplicationInTwoFiles() {
-        Report report = parse("twofile.xml");
+        var report = parse("twofile.xml");
 
         assertThat(report).hasSize(2);
 
@@ -72,7 +72,7 @@ class SimianParserTest extends AbstractParserTest {
 
     @Test
     void shouldFindTwoDuplicationsInTwoFiles() {
-        Report report = parse("twosets.xml");
+        var report = parse("twosets.xml");
 
         assertThat(report).hasSize(4);
 
@@ -99,7 +99,7 @@ class SimianParserTest extends AbstractParserTest {
 
     @Test
     void shouldFindOneDuplicationInFourFiles() {
-        Report report = parse("fourfile.xml");
+        var report = parse("fourfile.xml");
 
         assertThat(report).hasSize(4);
 
@@ -115,14 +115,14 @@ class SimianParserTest extends AbstractParserTest {
 
     @Test
     void shouldSupportSimianParserVersion2331() {
-        Report report = parse("simian-2.3.31.xml");
+        var report = parse("simian-2.3.31.xml");
 
         assertThat(report).hasSize(132);
     }
 
     @Test
     void shouldIgnoreOtherFile() {
-        Report report = parse("otherfile.xml");
+        var report = parse("otherfile.xml");
 
         assertThat(report).hasSize(0);
     }

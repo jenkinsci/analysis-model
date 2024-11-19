@@ -54,7 +54,7 @@ class DocFxAdapterTest extends AbstractParserTest {
      */
     @Test
     void issue55750() {
-        Report warnings = parse("issue55345.json");
+        var warnings = parse("issue55345.json");
         assertThat(warnings).isEmpty();
     }
 }

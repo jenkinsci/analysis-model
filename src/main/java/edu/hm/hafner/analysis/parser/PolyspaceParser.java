@@ -40,14 +40,14 @@ public class PolyspaceParser extends IssueParser {
     }
 
     private Report parse(final Stream<String> lines) {
-        try (IssueBuilder builder = new IssueBuilder()) {
+        try (var builder = new IssueBuilder()) {
             var report = new Report();
 
             var lineIterator = lines.iterator();
             int offset = detectLineOffset(lineIterator);
 
             while (lineIterator.hasNext()) {
-                String line = lineIterator.next();
+                var line = lineIterator.next();
 
                 var attributes = line.split("\\t", 15 + offset);
                 if (containsAnyIgnoreCase(attributes[9], "Unreviewed", "To investigate", "To fix", "Other")) {

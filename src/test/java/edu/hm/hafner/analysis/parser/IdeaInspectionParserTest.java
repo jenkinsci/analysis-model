@@ -49,12 +49,12 @@ class IdeaInspectionParserTest extends AbstractParserTest {
      */
     @Test
     void issue56235() {
-        Report warnings = parse("issue56235.xml");
+        var warnings = parse("issue56235.xml");
         assertThat(warnings).hasSize(7);
 
         Iterator<Issue> iterator = warnings.iterator();
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(iterator.next())
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory("Optional.isPresent() can be replaced with functional-style expression")

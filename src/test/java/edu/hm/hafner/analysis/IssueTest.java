@@ -65,7 +65,7 @@ class IssueTest extends SerializableTest<Issue> {
                 MESSAGE_TS, DESCRIPTION, ORIGIN, ORIGIN_NAME, REFERENCE, FINGERPRINT, ADDITIONAL_PROPERTIES,
                 UUID.randomUUID());
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(issue)
                     .hasFileName(FILE_NAME)
                     .hasPath(PATH_NAME)
@@ -75,7 +75,7 @@ class IssueTest extends SerializableTest<Issue> {
 
         var newName = TreeString.valueOf("new.txt");
         issue.setFileName("/new", newName);
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(issue)
                     .hasFileName("new.txt")
                     .hasPath("/new")
@@ -94,7 +94,7 @@ class IssueTest extends SerializableTest<Issue> {
                 MESSAGE_TS, DESCRIPTION, ORIGIN, ORIGIN_NAME, REFERENCE, FINGERPRINT, ADDITIONAL_PROPERTIES,
                 UUID.randomUUID());
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(emptyPath)
                     .hasFileName(FILE_NAME)
                     .hasPath(UNDEFINED)
@@ -110,7 +110,7 @@ class IssueTest extends SerializableTest<Issue> {
                 MESSAGE_TS, DESCRIPTION, ORIGIN, ORIGIN_NAME, REFERENCE, FINGERPRINT, ADDITIONAL_PROPERTIES,
                 UUID.randomUUID());
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(issue)
                     .hasFileName(FILE_NAME)
                     .hasPath(WINDOWS_PATH)
@@ -160,7 +160,7 @@ class IssueTest extends SerializableTest<Issue> {
     void shouldSetAllPropertiesInConstructor() {
         var issue = createFilledIssue();
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(issue.getId()).isNotNull();
             softly.assertThat(issue)
                     .hasFileName(FILE_NAME)
@@ -183,7 +183,7 @@ class IssueTest extends SerializableTest<Issue> {
             softly.assertThat(issue.hasModuleName()).isTrue();
         }
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(Issue.getPropertyValueAsString(issue, "fileName"))
                     .isEqualTo(issue.getFileName());
             softly.assertThat(Issue.getPropertyValueAsString(issue, "category"))
@@ -199,21 +199,21 @@ class IssueTest extends SerializableTest<Issue> {
     void shouldChangeMutableProperties() {
         var issue = createFilledIssue();
 
-        String origin = "new-origin";
+        var origin = "new-origin";
         issue.setOrigin(origin);
-        String reference = "new-reference";
+        var reference = "new-reference";
         issue.setReference(reference);
-        String moduleName = "new-module";
+        var moduleName = "new-module";
         issue.setModuleName(moduleName);
-        String packageName = "new-package";
+        var packageName = "new-package";
         issue.setPackageName(TREE_STRING_BUILDER.intern(packageName));
-        TreeString fileName = TREE_STRING_BUILDER.intern("new-file");
-        String pathName = "new-path";
+        var fileName = TREE_STRING_BUILDER.intern("new-file");
+        var pathName = "new-path";
         issue.setFileName(pathName, fileName);
-        String fingerprint = "new-fingerprint";
+        var fingerprint = "new-fingerprint";
         issue.setFingerprint(fingerprint);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(issue)
                     .hasOrigin(origin)
                     .hasReference(reference)
@@ -225,10 +225,10 @@ class IssueTest extends SerializableTest<Issue> {
                     .hasFingerprint(fingerprint);
         }
 
-        String originName = "new-origin-name";
+        var originName = "new-origin-name";
         issue.setOrigin(origin, originName);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(issue)
                     .hasOrigin(origin)
                     .hasOriginName(originName)
@@ -263,7 +263,7 @@ class IssueTest extends SerializableTest<Issue> {
     }
 
     private void assertIsDefaultIssue(final Issue issue) {
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(issue.getId()).isNotNull();
             softly.assertThat(issue)
                     .hasFileName(UNDEFINED)
@@ -291,7 +291,7 @@ class IssueTest extends SerializableTest<Issue> {
                 FINGERPRINT,
                 ADDITIONAL_PROPERTIES, UUID.randomUUID());
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(issue)
                     .hasLineStart(LINE_START)
                     .hasLineEnd(LINE_START)
@@ -313,8 +313,8 @@ class IssueTest extends SerializableTest<Issue> {
 
     @Test
     void testIdRandomlyGenerated() {
-        Issue one = createFilledIssue();
-        Issue another = createFilledIssue();
+        var one = createFilledIssue();
+        var another = createFilledIssue();
 
         assertThat(one.getId()).isNotEqualTo(another.getId());
     }
@@ -362,7 +362,7 @@ class IssueTest extends SerializableTest<Issue> {
      */
     @Test
     void shouldReadIssueFromOldSerialization() {
-        byte[] restored = readAllBytes(SERIALIZATION_NAME);
+        var restored = readAllBytes(SERIALIZATION_NAME);
 
         assertThatSerializableCanBeRestoredFrom(restored);
     }

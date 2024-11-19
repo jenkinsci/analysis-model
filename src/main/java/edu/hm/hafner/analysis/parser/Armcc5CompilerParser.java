@@ -36,7 +36,7 @@ public class Armcc5CompilerParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        String type = matcher.group(3);
+        var type = matcher.group(3);
         Severity priority;
 
         if (equalsIgnoreCase(type, "error")) {
@@ -46,8 +46,8 @@ public class Armcc5CompilerParser extends LookaheadParser {
             priority = Severity.WARNING_NORMAL;
         }
 
-        String errorCode = matcher.group(4);
-        String message = matcher.group(5);
+        var errorCode = matcher.group(4);
+        var message = matcher.group(5);
         return builder.setFileName(matcher.group(1))
                 .setLineStart(matcher.group(2))
                 .setMessage(errorCode + " - " + message)

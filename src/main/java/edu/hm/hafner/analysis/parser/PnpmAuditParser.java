@@ -75,8 +75,8 @@ public class PnpmAuditParser extends JsonIssueParser {
     }
 
     private String formatCategory(final JSONObject vulnerability) {
-        String moduleName = vulnerability.optString("module_name");
-        String title = vulnerability.optString("title");
+        var moduleName = vulnerability.optString("module_name");
+        var title = vulnerability.optString("title");
 
         if (moduleName != null && title != null) {
             return title.replace(moduleName, "").replace(" in ", "");
@@ -110,10 +110,10 @@ public class PnpmAuditParser extends JsonIssueParser {
 
         getValueAsContainerTag(vulnerability, "module_name", "Module").ifPresent(vulnerabilityTags::add);
 
-        final JSONArray findings = vulnerability.optJSONArray("findings");
+        final var findings = vulnerability.optJSONArray("findings");
         if (findings != null && !findings.isEmpty()) {
             var firstFinding = (JSONObject) findings.opt(0);
-            String installedVersion = firstFinding.optString("version");
+            var installedVersion = firstFinding.optString("version");
 
             getValueAsContainerTag(installedVersion, "Installed Version").ifPresent(vulnerabilityTags::add);
         }
@@ -129,7 +129,7 @@ public class PnpmAuditParser extends JsonIssueParser {
     }
 
     private Optional<ContainerTag> getValueAsContainerTag(final JSONObject vulnerability, final String tagOfValue) {
-        String value = vulnerability.optString(tagOfValue);
+        var value = vulnerability.optString(tagOfValue);
 
         if (value == null || value.isEmpty()) {
             return Optional.empty();
@@ -148,7 +148,7 @@ public class PnpmAuditParser extends JsonIssueParser {
 
     private Optional<ContainerTag> getValueAsContainerTag(final JSONObject vulnerability, final String tagOfValue,
             final String label) {
-        String value = vulnerability.optString(tagOfValue);
+        var value = vulnerability.optString(tagOfValue);
 
         if (value == null || value.isEmpty()) {
             return Optional.empty();

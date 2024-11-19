@@ -71,10 +71,10 @@ public class LintParser extends IssueParser {
         }
 
         private void createWarning(final Attributes attributes) {
-            String category = StringUtils.EMPTY;
-            Severity priority = Severity.WARNING_NORMAL;
+            var category = StringUtils.EMPTY;
+            var priority = Severity.WARNING_NORMAL;
 
-            String message = extractFrom(attributes, "reason", "message");
+            var message = extractFrom(attributes, "reason", "message");
             if (message.startsWith("Expected")) {
                 priority = Severity.WARNING_HIGH;
                 category = CATEGORY_PARSING;
@@ -105,7 +105,7 @@ public class LintParser extends IssueParser {
         }
 
         private String extractFrom(final Attributes atts, final String first, final String second) {
-            String value = atts.getValue(first);
+            var value = atts.getValue(first);
             if (StringUtils.isEmpty(value)) {
                 value = atts.getValue(second);
             }

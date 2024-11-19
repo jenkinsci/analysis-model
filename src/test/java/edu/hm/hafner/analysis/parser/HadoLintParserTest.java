@@ -55,7 +55,7 @@ class HadoLintParserTest extends AbstractParserTest {
 
     @Test
     void unusualInput() {
-        Report report = parse("hadolint-unsual.json");
+        var report = parse("hadolint-unsual.json");
         assertThat(report).hasSize(4);
         assertThat(report.get(1))
                 .hasSeverity(Severity.ERROR);

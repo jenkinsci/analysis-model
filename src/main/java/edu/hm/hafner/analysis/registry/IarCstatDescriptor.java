@@ -23,14 +23,15 @@ class IarCstatDescriptor extends ParserDescriptor {
 
     @Override
     public String getHelp() {
-        return "<p>The IAR C-STAT static analysis tool finds potential issues in code by doing an analysis "
-                + "on the source code level. Use the following icstat command to generate the output on "
-                + "stdout in the correct format: <pre><code>"
-                + "icstat --db a.db --checks checks.ch commands commands.txt"
-                + "</code></pre> where the commands.txt contains: <pre><code>"
-                + "analyze - iccxxxxcompiler_opts cstat1.c\n"
-                + "analyze - iccxxxxcompiler_opts cstat2.c"
-                + "</pre></code>"
-                + "For details check the IAR C-STAT guide.</p>";
+        return """
+                <p>The IAR C-STAT static analysis tool finds potential issues in code by doing an analysis \
+                on the source code level. Use the following icstat command to generate the output on \
+                stdout in the correct format: <pre><code>\
+                icstat --db a.db --checks checks.ch commands commands.txt\
+                </code></pre> where the commands.txt contains: <pre><code>\
+                analyze - iccxxxxcompiler_opts cstat1.c
+                analyze - iccxxxxcompiler_opts cstat2.c\
+                </pre></code>\
+                For details check the IAR C-STAT guide.</p>""";
     }
 }

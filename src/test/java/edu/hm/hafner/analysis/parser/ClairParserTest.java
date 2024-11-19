@@ -54,7 +54,7 @@ class ClairParserTest extends AbstractParserTest {
 
     @Test
     void unusualInput() {
-        Report report = parse("clair-unusual.json");
+        var report = parse("clair-unusual.json");
         assertThat(report).hasSize(5);
         assertThat(report.get(0))
                 .hasSeverity(Severity.WARNING_LOW)

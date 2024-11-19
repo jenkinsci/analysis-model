@@ -33,8 +33,8 @@ public class Pep8Parser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        String message = matcher.group(5);
-        String category = guessCategoryIfEmpty(matcher.group(4), message);
+        var message = matcher.group(5);
+        var category = guessCategoryIfEmpty(matcher.group(4), message);
 
         return builder.setFileName(matcher.group(1))
                 .setLineStart(matcher.group(2))

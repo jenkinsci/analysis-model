@@ -27,7 +27,7 @@ public abstract class AbstractBenchmark {
      */
     @Test
     public void benchmark() throws RunnerException {
-        Options opt = new OptionsBuilder()
+        var opt = new OptionsBuilder()
                 .include(this.getClass().getName() + ".*")
                 .addProfiler(StackProfiler.class)
                 .build();

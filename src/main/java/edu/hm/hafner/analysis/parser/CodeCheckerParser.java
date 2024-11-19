@@ -35,7 +35,7 @@ public class CodeCheckerParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        Severity severity = getSeverity(matcher.group("severity"));
+        var severity = getSeverity(matcher.group("severity"));
         return builder.setFileName(matcher.group("path"))
                 .setSeverity(severity)
                 .setLineStart(matcher.group("line"))

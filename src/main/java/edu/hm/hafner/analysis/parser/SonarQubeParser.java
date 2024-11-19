@@ -65,7 +65,7 @@ public abstract class SonarQubeParser extends JsonIssueParser {
 
     @Override
     public boolean accepts(final ReaderFactory readerFactory) {
-        try (Reader reader = readerFactory.create()) {
+        try (var reader = readerFactory.create()) {
             return accepts((JSONObject) new JSONTokener(reader).nextValue());
         }
         catch (IOException ignored) {
@@ -94,8 +94,7 @@ public abstract class SonarQubeParser extends JsonIssueParser {
 
     private void extractIssues(final JSONArray elements, final Report report, final IssueBuilder issueBuilder) {
         for (Object object : elements) {
-            if (object instanceof JSONObject) {
-                var issue = (JSONObject) object;
+            if (object instanceof JSONObject issue) {
                 if (filterIssue(issue)) {
                     report.add(createIssueFromJsonObject(issue, issueBuilder));
                 }
@@ -150,19 +149,19 @@ public abstract class SonarQubeParser extends JsonIssueParser {
      */
     private String parseFilename(final JSONObject issue) {
         // Get component
-        String componentKey = issue.optString(ISSUE_COMPONENT, null);
-        JSONObject component = findComponentByKey(componentKey);
+        var componentKey = issue.optString(ISSUE_COMPONENT, null);
+        var component = findComponentByKey(componentKey);
 
         if (component == null) {
-            String issueComponentKey = issue.optString(ISSUE_COMPONENT);
+            var issueComponentKey = issue.optString(ISSUE_COMPONENT);
             return issueComponentKey.substring(issueComponentKey.lastIndexOf(':'));
         }
         else {
             // Get file path inside module
-            String filePath = component.optString(COMPONENT_PATH);
+            var filePath = component.optString(COMPONENT_PATH);
 
             // Get module file path
-            String modulePath = getModulePath(component, issue);
+            var modulePath = getModulePath(component, issue);
             return modulePath + filePath;
         }
     }
@@ -232,7 +231,7 @@ public abstract class SonarQubeParser extends JsonIssueParser {
      * @return the priority.
      */
     private Severity parsePriority(final JSONObject issue) {
-        String severity = issue.optString(ISSUE_SEVERITY, null);
+        var severity = issue.optString(ISSUE_SEVERITY, null);
         return severityToPriority(severity);
     }
 
@@ -249,10 +248,10 @@ public abstract class SonarQubeParser extends JsonIssueParser {
      * @return the module path.
      */
     String parseModulePath(final JSONObject moduleKeyObject, final String componentKey) {
-        String modulePath = "";
+        var modulePath = "";
         if (moduleKeyObject.has(componentKey)) {
-            String moduleKey = moduleKeyObject.getString(componentKey);
-            JSONObject moduleComponent = findComponentByKey(moduleKey);
+            var moduleKey = moduleKeyObject.getString(componentKey);
+            var moduleComponent = findComponentByKey(moduleKey);
             if (moduleComponent != null && moduleComponent.has(COMPONENT_PATH)) {
                 modulePath = moduleComponent.getString(COMPONENT_PATH) + "/";
             }
@@ -272,10 +271,9 @@ public abstract class SonarQubeParser extends JsonIssueParser {
     private JSONObject findComponentByKey(final String key) {
         if (components != null && key != null) {
             for (Object component : components) {
-                if (component instanceof JSONObject) {
-                    var jsonComponent = (JSONObject) component;
+                if (component instanceof JSONObject jsonComponent) {
                     if (key.equals(jsonComponent.optString(COMPONENT_KEY))) {
-                        return (JSONObject) component;
+                        return jsonComponent;
                     }
                 }
             }
@@ -300,7 +298,7 @@ public abstract class SonarQubeParser extends JsonIssueParser {
      * @return a priority object corresponding to the passed severity.
      */
     private Severity severityToPriority(final String severity) {
-        Severity priority = Severity.WARNING_NORMAL;
+        var priority = Severity.WARNING_NORMAL;
         // Severity MAJOR is omitted as it corresponds with default Severity: NORMAL
         if (severity != null) {
             if (SEVERITY_BLOCKER.equals(severity) || SEVERITY_CRITICAL.equals(severity)) {

@@ -32,7 +32,7 @@ public class BluePearlParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
                                           final IssueBuilder builder) {
-        String priority = matcher.group("severity");
+        var priority = matcher.group("severity");
         if (equalsIgnoreCase(priority, "F")) {
             builder.setSeverity(Severity.ERROR);
         }

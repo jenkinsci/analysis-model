@@ -27,38 +27,40 @@ class CppCheckAdapterTest extends AbstractParserTest {
         softly.assertThat(report).hasSize(3);
         softly.assertThat(report.get(0))
                 .hasMessage(
-                        "The scope of the variable 'i' can be reduced. Warning: It can be unsafe to fix this message. Be careful. Especially when there are inner loops. Here is an example where cppcheck will write that the scope for 'i' can be reduced:\n"
-                                + "void f(int x)\n"
-                                + "{\n"
-                                + "    int i = 0;\n"
-                                + "    if (x) {\n"
-                                + "        // it's safe to move 'int i = 0' here\n"
-                                + "        for (int n = 0; n < 10; ++n) {\n"
-                                + "            // it is possible but not safe to move 'int i = 0' here\n"
-                                + "            do_something(&i);\n"
-                                + "        }\n"
-                                + "    }\n"
-                                + "}\n"
-                                + "When you see this message it is always safe to reduce the variable scope 1 level.")
+                        """
+                        The scope of the variable 'i' can be reduced. Warning: It can be unsafe to fix this message. Be careful. Especially when there are inner loops. Here is an example where cppcheck will write that the scope for 'i' can be reduced:
+                        void f(int x)
+                        {
+                            int i = 0;
+                            if (x) {
+                                // it's safe to move 'int i = 0' here
+                                for (int n = 0; n < 10; ++n) {
+                                    // it is possible but not safe to move 'int i = 0' here
+                                    do_something(&i);
+                                }
+                            }
+                        }
+                        When you see this message it is always safe to reduce the variable scope 1 level.""")
                 .hasFileName("api.c")
                 .hasType("variableScope")
                 .hasLineStart(498)
                 .hasSeverity(Severity.WARNING_LOW);
         softly.assertThat(report.get(2))
                 .hasMessage(
-                        "The scope of the variable 'i' can be reduced. Warning: It can be unsafe to fix this message. Be careful. Especially when there are inner loops. Here is an example where cppcheck will write that the scope for 'i' can be reduced:\n"
-                                + "void f(int x)\n"
-                                + "{\n"
-                                + "    int i = 0;\n"
-                                + "    if (x) {\n"
-                                + "        // it's safe to move 'int i = 0' here\n"
-                                + "        for (int n = 0; n < 10; ++n) {\n"
-                                + "            // it is possible but not safe to move 'int i = 0' here\n"
-                                + "            do_something(&i);\n"
-                                + "        }\n"
-                                + "    }\n"
-                                + "}\n"
-                                + "When you see this message it is always safe to reduce the variable scope 1 level.")
+                        """
+                        The scope of the variable 'i' can be reduced. Warning: It can be unsafe to fix this message. Be careful. Especially when there are inner loops. Here is an example where cppcheck will write that the scope for 'i' can be reduced:
+                        void f(int x)
+                        {
+                            int i = 0;
+                            if (x) {
+                                // it's safe to move 'int i = 0' here
+                                for (int n = 0; n < 10; ++n) {
+                                    // it is possible but not safe to move 'int i = 0' here
+                                    do_something(&i);
+                                }
+                            }
+                        }
+                        When you see this message it is always safe to reduce the variable scope 1 level.""")
                 .hasFileName("api_storage.c")
                 .hasType("variableScope")
                 .hasLineStart(104)
@@ -72,7 +74,7 @@ class CppCheckAdapterTest extends AbstractParserTest {
      */
     @Test
     void shouldFindMultipleLocations() {
-        Report report = parse("issue55733.xml");
+        var report = parse("issue55733.xml");
 
         assertThat(report).hasSize(2);
 
@@ -98,7 +100,7 @@ class CppCheckAdapterTest extends AbstractParserTest {
      */
     @Test
     void shouldFindMultipleLocationsWithSameId() {
-        Report report = parse("issue55733-multiple-tags-with-same-id.xml");
+        var report = parse("issue55733-multiple-tags-with-same-id.xml");
 
         assertThat(report).hasSize(2);
 
@@ -124,10 +126,10 @@ class CppCheckAdapterTest extends AbstractParserTest {
      */
     @Test
     void shouldFindErrorWithoutLocation() {
-        Report report = parse("issue64519.xml");
+        var report = parse("issue64519.xml");
 
         assertThat(report).hasSize(1);
-        Issue issue = report.get(0);
+        var issue = report.get(0);
 
         assertThat(issue).hasFileName("-")
                 .hasMessage("Cppcheck cannot find all the include files (use --check-config for details). Cppcheck cannot find all the include files. Cppcheck can check the code without the include files found. But the results will probably be more accurate if all the include files are found. Please check your project's include directories and add all of them as include directories for Cppcheck. To see what files Cppcheck cannot find use --check-config.");

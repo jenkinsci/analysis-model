@@ -45,8 +45,8 @@ public class GhsMultiParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        String type = StringUtils.capitalize(matcher.group("severity"));
-        String messageStart = matcher.group("message");
+        var type = StringUtils.capitalize(matcher.group("severity"));
+        var messageStart = matcher.group("message");
 
         String message;
 
@@ -82,7 +82,7 @@ public class GhsMultiParser extends LookaheadParser {
      * @return concatenated message string
      */
     private String extractMessage(final String messageStart, final LookaheadStream lookahead) {
-        StringBuilder messageBuilder = new StringBuilder(messageStart).append("\n");
+        var messageBuilder = new StringBuilder(messageStart).append("\n");
 
         while (!lookahead.hasNext(MESSAGE_END_REGEX) && lookahead.hasNext()) {
             messageBuilder.append(lookahead.next()).append("\n");

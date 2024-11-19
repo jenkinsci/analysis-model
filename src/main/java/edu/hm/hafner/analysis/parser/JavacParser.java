@@ -65,7 +65,7 @@ public class JavacParser extends AbstractMavenLogParser {
             return Optional.empty();
         }
 
-        String type = matcher.group(1);
+        var type = matcher.group(1);
         if (SEVERITY_ERROR.equals(type) || SEVERITY_ERROR_SHORT.equals(type)) {
             builder.setSeverity(Severity.ERROR);
         }
@@ -73,8 +73,8 @@ public class JavacParser extends AbstractMavenLogParser {
             builder.setSeverity(Severity.WARNING_NORMAL);
         }
 
-        String message = matcher.group(10);
-        String category = guessCategoryIfEmpty(matcher.group(9), message);
+        var message = matcher.group(10);
+        var category = guessCategoryIfEmpty(matcher.group(9), message);
 
         // get rid of leading / from windows compiler output JENKINS-66738
         return builder.setFileName(RegExUtils.replaceAll(matcher.group(2), "^/([a-zA-Z]):", "$1:"))

@@ -38,7 +38,7 @@ public class IntelParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        String category = StringUtils.capitalize(matcher.group(5));
+        var category = StringUtils.capitalize(matcher.group(5));
 
         Severity priority;
         if (StringUtils.startsWith(category, "Remark") || StringUtils.startsWith(category, "Message")) {

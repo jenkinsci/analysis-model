@@ -75,23 +75,23 @@ class ParserRegistryTest extends ResourceTest {
         var cpdDescriptor = parserRegistry.get("cpd");
         assertThat(cpdDescriptor).hasType(ParserDescriptor.Type.DUPLICATION).hasName("CPD");
 
-        IssueParser parser = cpdDescriptor.createParser();
+        var parser = cpdDescriptor.createParser();
 
-        Report report = parser.parse(new FileReaderFactory(getResourceAsFile("one-cpd.xml")));
+        var report = parser.parse(new FileReaderFactory(getResourceAsFile("one-cpd.xml")));
         assertThat(report).hasSize(2).hasSeverities(Severity.WARNING_NORMAL);
 
-        IssueParser highParser = cpdDescriptor.createParser(
+        var highParser = cpdDescriptor.createParser(
                 new Option(CpdDescriptor.HIGH_OPTION_KEY, "20"),
                 new Option(CpdDescriptor.NORMAL_OPTION_KEY, "10"));
 
-        Report highReport = highParser.parse(new FileReaderFactory(getResourceAsFile("one-cpd.xml")));
+        var highReport = highParser.parse(new FileReaderFactory(getResourceAsFile("one-cpd.xml")));
         assertThat(highReport).hasSize(2).hasSeverities(Severity.WARNING_HIGH);
 
-        IssueParser lowParser = cpdDescriptor.createParser(
+        var lowParser = cpdDescriptor.createParser(
                 new Option(CpdDescriptor.HIGH_OPTION_KEY, "100"),
                 new Option(CpdDescriptor.NORMAL_OPTION_KEY, "50"));
 
-        Report lowReport = lowParser.parse(new FileReaderFactory(getResourceAsFile("one-cpd.xml")));
+        var lowReport = lowParser.parse(new FileReaderFactory(getResourceAsFile("one-cpd.xml")));
         assertThat(lowReport).hasSize(2).hasSeverities(Severity.WARNING_LOW);
     }
 
@@ -106,9 +106,9 @@ class ParserRegistryTest extends ResourceTest {
         var parserRegistry = new ParserRegistry();
         var findbugsDescriptor = parserRegistry.get("findbugs");
 
-        IssueParser parser = findbugsDescriptor.createParser(new Option(FindBugsDescriptor.PRIORITY_OPTION_KEY, type));
+        var parser = findbugsDescriptor.createParser(new Option(FindBugsDescriptor.PRIORITY_OPTION_KEY, type));
 
-        Report confidenceReport = parser.parse(new FileReaderFactory(getResourceAsFile("findbugs-severities.xml")));
+        var confidenceReport = parser.parse(new FileReaderFactory(getResourceAsFile("findbugs-severities.xml")));
         assertThat(confidenceReport).hasSize(12);
         assertThat(confidenceReport.getSizeOf(Severity.WARNING_HIGH)).isEqualTo(expectedHighSize);
         assertThat(confidenceReport.getSizeOf(Severity.WARNING_NORMAL)).isEqualTo(expectedNormalSize);

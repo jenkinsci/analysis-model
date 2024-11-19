@@ -89,7 +89,7 @@ class VeraCodePipelineScannerParserTest extends StructuredFileParserTest {
 
     @Test
     void shouldHandleEmptyResultsJenkins67296() {
-        Report report = parse("issue67296.json");
+        var report = parse("issue67296.json");
 
         assertThat(report).isEmpty();
     }

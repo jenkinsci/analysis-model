@@ -47,7 +47,7 @@ public class GccParser extends LookaheadParser {
                     .buildOptional();
         }
 
-        String fileName = matcher.group(1);
+        var fileName = matcher.group(1);
         if (StringUtils.contains(fileName, "cleartool")) {
             return Optional.empty();
         }

@@ -50,7 +50,7 @@ class PitAdapterTest extends AbstractParserTest {
      */
     @Test
     void shouldNotSkipDuplicates() {
-        Report report = parse("pit-with-duplicates.xml");
+        var report = parse("pit-with-duplicates.xml");
 
         assertThat(report).hasSize(22);
     }

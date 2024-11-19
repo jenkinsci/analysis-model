@@ -254,7 +254,7 @@ class PylintParserTest extends AbstractParserTest {
 
     @Test
     void shouldParseAbsolutePathsFromWindows() {
-        Report report = parse("pylint-absolute-paths.txt");
+        var report = parse("pylint-absolute-paths.txt");
 
         assertThat(report).hasSize(2);
         assertThat(report.get(0))
@@ -275,12 +275,12 @@ class PylintParserTest extends AbstractParserTest {
 
     @Test
     void shouldParseReportWithoutSymbol() {
-        Report report = parse("pyLint.txt");
+        var report = parse("pyLint.txt");
 
         assertThat(report).hasSize(9);
 
         Iterator<Issue> iterator = report.iterator();
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(iterator.next())
                     .hasLineStart(3)
                     .hasLineEnd(3)

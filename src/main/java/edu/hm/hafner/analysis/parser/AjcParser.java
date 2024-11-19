@@ -38,14 +38,14 @@ public class AjcParser extends IssueParser {
     }
 
     private Report parse(final Stream<String> lines) {
-        try (IssueBuilder builder = new IssueBuilder()) {
+        try (var builder = new IssueBuilder()) {
             var report = new Report();
 
-            States state = States.START;
+            var state = States.START;
 
             Iterator<String> lineIterator = lines.iterator();
             while (lineIterator.hasNext()) {
-                String line = lineIterator.next();
+                var line = lineIterator.next();
                 // clean up any ESC characters (e.g. terminal colors)
                 line = ESCAPE_CHARACTERS.matcher(line).replaceAll("");
 

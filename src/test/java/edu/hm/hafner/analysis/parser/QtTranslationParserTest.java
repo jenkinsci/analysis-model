@@ -26,7 +26,7 @@ class QtTranslationParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-        String fileName = new FileReaderFactory(getResourceAsFile(getFileWithIssuesName())).getFileName();
+        var fileName = new FileReaderFactory(getResourceAsFile(getFileWithIssuesName())).getFileName();
 
         softly.assertThat(report).hasSize(6);
 
@@ -93,11 +93,11 @@ class QtTranslationParserTest extends AbstractParserTest {
 
     @Test
     void shouldParseAllIssuesSingleLine() {
-        String relativeFileName = "qttranslation/shouldParseAllIssuesSingleLine.ts";
-        Report report = parse(relativeFileName);
-        String fileName = new FileReaderFactory(getResourceAsFile(relativeFileName)).getFileName();
+        var relativeFileName = "qttranslation/shouldParseAllIssuesSingleLine.ts";
+        var report = parse(relativeFileName);
+        var fileName = new FileReaderFactory(getResourceAsFile(relativeFileName)).getFileName();
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(report).hasSize(6);
 
             softly.assertThat(report.get(0))
@@ -212,11 +212,11 @@ class QtTranslationParserTest extends AbstractParserTest {
 
     @Test
     void multilineTranslation() {
-        String relativeFileName = "qttranslation/multilineTranslation.ts";
-        Report report = parse(relativeFileName);
-        String fileName = new FileReaderFactory(getResourceAsFile(relativeFileName)).getFileName();
+        var relativeFileName = "qttranslation/multilineTranslation.ts";
+        var report = parse(relativeFileName);
+        var fileName = new FileReaderFactory(getResourceAsFile(relativeFileName)).getFileName();
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(report).hasSize(1);
 
             softly.assertThat(report.get(0))

@@ -58,10 +58,10 @@ class PolyspaceParserTest extends AbstractParserTest {
 
     @Test
     void polyspaceCPTest() {
-        Report warnings = parse("polyspace_cp.csv");
+        var warnings = parse("polyspace_cp.csv");
         assertThat(warnings).hasSize(4);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0)).hasLineStart(30)
                     .hasFileName("D:/workspace/math.c")
                     .hasCategory("Data flow")

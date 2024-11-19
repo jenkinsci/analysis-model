@@ -57,9 +57,9 @@ public class CargoClippyParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        final Severity defaultSeverity = Severity.guessFromString(matcher.group("level").trim());
+        final var defaultSeverity = Severity.guessFromString(matcher.group("level").trim());
 
-        FileInformation description = createRecommendationMessage(lookahead);
+        var description = createRecommendationMessage(lookahead);
         description.setLevel(matcher.group("level"));
         description.setSummary(matcher.group("summary"));
 
@@ -90,7 +90,7 @@ public class CargoClippyParser extends LookaheadParser {
         var fileInformation = new FileInformation();
 
         while (lookahead.hasNext(CARGO_CLIPP_CONTEXT_CONTINUES)) {
-            String line = lookahead.next();
+            var line = lookahead.next();
 
             var fileInfoMatcher = CARGO_CLIPPY_FILE_PATTERN.matcher(line);
             if (fileInfoMatcher.matches()) {

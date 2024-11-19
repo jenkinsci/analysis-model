@@ -27,8 +27,8 @@ class PackageDetectorsTest extends ResourceTest {
             "MavenJavaTest.txt, -",
             "pom.xml, -"})
     void shouldExtractPackageNames(final String fileName, final String expectedPackage) throws IOException {
-        try (InputStream stream = asInputStream(fileName)) {
-            FileSystem fileSystem = mock(FileSystem.class);
+        try (var stream = asInputStream(fileName)) {
+            var fileSystem = mock(FileSystem.class);
             when(fileSystem.openFile(fileName)).thenReturn(stream);
 
             ArrayList<AbstractPackageDetector> detectors =  new ArrayList<>(Arrays.asList(

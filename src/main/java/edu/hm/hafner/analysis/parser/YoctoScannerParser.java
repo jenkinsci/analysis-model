@@ -33,9 +33,8 @@ public class YoctoScannerParser extends JsonIssueParser {
 
     private void parseResources(final Report report, final JSONArray packages, final IssueBuilder issueBuilder) {
         for (int i = 0; i < packages.length(); i++) {
-            final Object item = packages.get(i);
-            if (item instanceof JSONObject) {
-                var resourceWrapper = (JSONObject) item;
+            final var item = packages.get(i);
+            if (item instanceof JSONObject resourceWrapper) {
                 if (!resourceWrapper.isNull("issue")) {
                     parseVulnerabilities(report, issueBuilder, resourceWrapper);
                 }
@@ -45,11 +44,10 @@ public class YoctoScannerParser extends JsonIssueParser {
 
     private void parseVulnerabilities(final Report report, final IssueBuilder issueBuilder,
             final JSONObject resourceWrapper) {
-        final JSONArray vulnerabilities = resourceWrapper.getJSONArray("issue");
+        final var vulnerabilities = resourceWrapper.getJSONArray("issue");
         for (Object vulnerability : vulnerabilities) {
-            if (vulnerability instanceof JSONObject) {
-                var obj = (JSONObject) vulnerability;
-                String status = obj.getString("status");
+            if (vulnerability instanceof JSONObject obj) {
+                var status = obj.getString("status");
                 boolean unpatched = "Unpatched".equals(status);
                 if (unpatched) {
                     report.add(convertToIssue(resourceWrapper, obj, issueBuilder));
@@ -60,8 +58,8 @@ public class YoctoScannerParser extends JsonIssueParser {
 
     private Issue convertToIssue(final JSONObject resource, final JSONObject vulnerability,
             final IssueBuilder issueBuilder) {
-        final String packageName = resource.getString("name");
-        final String fileName = vulnerability.optString("id", "UNKNOWN");
+        final var packageName = resource.getString("name");
+        final var fileName = vulnerability.optString("id", "UNKNOWN");
         return issueBuilder
                 .setType(fileName)
                 .setFileName(packageName)
@@ -72,7 +70,7 @@ public class YoctoScannerParser extends JsonIssueParser {
     }
 
     private Severity mapSeverity(final JSONObject vulnerability) {
-        Double score = INVALID_SCORE;
+        var score = INVALID_SCORE;
         boolean hasScoreV3 = vulnerability.has("scorev3");
 
         if (hasScoreV3) {
@@ -97,11 +95,11 @@ public class YoctoScannerParser extends JsonIssueParser {
     }
 
     private String formatDescription(final String packageName, final JSONObject resource, final JSONObject vulnerability) {
-        final String version = resource.optString("version", VALUE_NOT_SET);
-        final String layer = resource.optString("layer", "UNKOWN");
-        final String vector = vulnerability.optString("vector", "UNKOWN");
-        final String link = vulnerability.optString("link", "UNKOWN");
-        final String description = vulnerability.optString("summary", "");
+        final var version = resource.optString("version", VALUE_NOT_SET);
+        final var layer = resource.optString("layer", "UNKOWN");
+        final var vector = vulnerability.optString("vector", "UNKOWN");
+        final var link = vulnerability.optString("link", "UNKOWN");
+        final var description = vulnerability.optString("summary", "");
 
         return join(div(b("Package: "), text(packageName)),
                 div(b("Version: "), text(version)),

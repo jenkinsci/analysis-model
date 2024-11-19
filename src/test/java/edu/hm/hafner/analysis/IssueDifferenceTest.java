@@ -93,7 +93,7 @@ class IssueDifferenceTest extends ResourceTest {
         assertThat(issueDifference.getNewIssues()).isEmpty();
         assertThat(issueDifference.getOutstandingIssues()).isEmpty();
 
-        Report fixed = issueDifference.getFixedIssues();
+        var fixed = issueDifference.getFixedIssues();
 
         assertThat(fixed).hasSize(2);
         assertThat(fixed.get(0)).hasMessage("OLD 1").hasReference(REFERENCE_BUILD);
@@ -111,7 +111,7 @@ class IssueDifferenceTest extends ResourceTest {
         assertThat(issueDifference.getFixedIssues()).isEmpty();
         assertThat(issueDifference.getOutstandingIssues()).isEmpty();
 
-        Report newIssues = issueDifference.getNewIssues();
+        var newIssues = issueDifference.getNewIssues();
         assertThat(newIssues).hasSize(2);
         assertThat(newIssues.get(0)).hasMessage("NEW 1").hasReference(CURRENT_BUILD);
         assertThat(newIssues.get(1)).hasMessage("NEW 2").hasReference(CURRENT_BUILD);
@@ -120,9 +120,9 @@ class IssueDifferenceTest extends ResourceTest {
     @Test
     @org.junitpioneer.jupiter.Issue("JENKINS-56324")
     void shouldAlsoUseFingerprintIfIssuesAreEqual() {
-        Report referenceIssues = new Report().addAll(
+        var referenceIssues = new Report().addAll(
                 createIssue("OLD 1", "FP"));
-        Report currentIssues = new Report().addAll(
+        var currentIssues = new Report().addAll(
                 createIssue("NEW 1", "FP"),
                 createIssue("OLD 1", "FP"));
 
@@ -130,21 +130,21 @@ class IssueDifferenceTest extends ResourceTest {
 
         assertThat(issueDifference.getFixedIssues()).isEmpty();
 
-        Report outstandingIssues = issueDifference.getOutstandingIssues();
+        var outstandingIssues = issueDifference.getOutstandingIssues();
         assertThat(outstandingIssues).hasSize(1);
         assertThat(outstandingIssues.get(0)).hasMessage("OLD 1").hasReference(REFERENCE_BUILD);
 
-        Report newIssues = issueDifference.getNewIssues();
+        var newIssues = issueDifference.getNewIssues();
         assertThat(newIssues).hasSize(1);
         assertThat(newIssues.get(0)).hasMessage("NEW 1").hasReference(CURRENT_BUILD);
     }
 
     @Test
     void shouldRemoveForSecondPass() {
-        Report referenceIssues = new Report().addAll(
+        var referenceIssues = new Report().addAll(
                 createIssue("NEW 1", "FP1"),
                 createIssue("NEW 2", "FP1"));
-        Report currentIssues = new Report().addAll(
+        var currentIssues = new Report().addAll(
                 createIssue("NEW 1", "FP1"),
                 createIssue("NEW 3", "FP2"));
 
@@ -160,7 +160,7 @@ class IssueDifferenceTest extends ResourceTest {
     }
 
     private Issue createIssue(final String message, final String fingerprint, final String fileName) {
-        try (IssueBuilder builder = new IssueBuilder()) {
+        try (var builder = new IssueBuilder()) {
             builder.setFileName(fileName)
                     .setLineStart(1)
                     .setLineEnd(2)

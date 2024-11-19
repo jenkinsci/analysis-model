@@ -24,7 +24,7 @@ public class FxCopRuleSet {
      * @param element the element
      */
     public void addRule(final Element element) {
-        FxCopRule rule = new FxCopRule(element.getAttribute("TypeName"), element.getAttribute("Category"), element
+        var rule = new FxCopRule(element.getAttribute("TypeName"), element.getAttribute("Category"), element
                 .getAttribute("CheckId"));
         rule.setUrl(getNamedTagText(element, "Url"));
         rule.setDescription(getNamedTagText(element, "Description"));
@@ -79,7 +79,7 @@ public class FxCopRuleSet {
      */
     @CheckForNull
     public FxCopRule getRule(final String category, final String checkId) {
-        String key = getRuleKey(category, checkId);
+        var key = getRuleKey(category, checkId);
         FxCopRule rule = null;
         if (rules.containsKey(key)) {
             rule = rules.get(key);

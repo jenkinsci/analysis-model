@@ -57,12 +57,12 @@ public class JavaDocParser extends AbstractMavenLogParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        String type = matcher.group(3);
+        var type = matcher.group(3);
 
-        String message = matcher.group(4);
-        Matcher tagMatcher = TAG_PATTERN.matcher(message);
+        var message = matcher.group(4);
+        var tagMatcher = TAG_PATTERN.matcher(message);
         if (tagMatcher.matches()) {
-            builder.setCategory(String.format("JavaDoc %s", tagMatcher.group(1)));
+            builder.setCategory("JavaDoc %s".formatted(tagMatcher.group(1)));
         }
         else {
             builder.setCategory("-");

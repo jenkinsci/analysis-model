@@ -60,7 +60,7 @@ public abstract class LookaheadParser extends IssueParser {
     public Report parse(final ReaderFactory readerFactory) throws ParsingException, ParsingCanceledException {
         var report = new Report();
         try (Stream<String> lines = readerFactory.readStream()) {
-            try (LookaheadStream lookahead = new LookaheadStream(lines, readerFactory.getFileName())) {
+            try (var lookahead = new LookaheadStream(lines, readerFactory.getFileName())) {
                 parse(report, lookahead);
             }
         }
@@ -70,13 +70,13 @@ public abstract class LookaheadParser extends IssueParser {
 
     @SuppressWarnings("PMD.DoNotUseThreads")
     private void parse(final Report report, final LookaheadStream lookahead) {
-        try (IssueBuilder builder = new IssueBuilder()) {
+        try (var builder = new IssueBuilder()) {
             while (lookahead.hasNext()) {
-                String line = lookahead.next();
+                var line = lookahead.next();
                 handleDirectoryChanges(builder, line, report);
                 preprocessLine(line);
                 if (isLineInteresting(line)) {
-                    Matcher matcher = pattern.matcher(line);
+                    var matcher = pattern.matcher(line);
                     if (matcher.find()) {
                         createIssue(matcher, lookahead, builder).ifPresent(report::add);
                     }
@@ -174,10 +174,10 @@ public abstract class LookaheadParser extends IssueParser {
             throws ParsingException {
         if (!makePath.toString().contains("<dir>")) {
             throw new IllegalArgumentException(
-                    String.format("%s does not contain a capture group named 'dir'", makePath));
+                    "%s does not contain a capture group named 'dir'".formatted(makePath));
         }
 
-        Matcher makeLineMatcher = makePath.matcher(line);
+        var makeLineMatcher = makePath.matcher(line);
         if (makeLineMatcher.matches()) {
             return Optional.of(removeHyphen(makeLineMatcher.group("dir")));
         }
@@ -239,7 +239,7 @@ public abstract class LookaheadParser extends IssueParser {
      * @return directory path without leading or trailing hyphen
      */
     private String removeHyphen(final String dir) {
-        String path = dir;
+        var path = dir;
         path = StringUtils.stripStart(path, HYPHEN);
         path = StringUtils.stripEnd(path, HYPHEN);
         return path;

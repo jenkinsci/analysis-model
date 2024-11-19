@@ -534,7 +534,7 @@ public class IssueBuilder implements AutoCloseable {
      * @return the created issue
      */
     public Issue build() {
-        Issue issue = buildWithConstructor();
+        var issue = buildWithConstructor();
         id = UUID.randomUUID(); // make sure that multiple invocations will create different IDs
         return issue;
     }
@@ -546,7 +546,7 @@ public class IssueBuilder implements AutoCloseable {
      * @return the created issue
      */
     public Issue buildAndClean() {
-        Issue issue = buildWithConstructor();
+        var issue = buildWithConstructor();
         clean();
         return issue;
     }
@@ -566,7 +566,7 @@ public class IssueBuilder implements AutoCloseable {
     @SuppressFBWarnings(value = "NP_NULL_ON_SOME_PATH", justification = "False positive, `lineRanges != null` avoids a NullPointerException")
     private void cleanupLineRanges() {
         if (lineRanges != null && !lineRanges.isEmpty()) {
-            LineRange firstRange = lineRanges.get(0);
+            var firstRange = lineRanges.get(0);
             if (lineStart == 0) {
                 this.lineStart = firstRange.getStart();
                 this.lineEnd = firstRange.getEnd();

@@ -488,7 +488,7 @@ public class Issue implements Serializable {
      */
     public String getFolder() {
         try {
-            String folder = FilenameUtils.getPath(getFileName());
+            var folder = FilenameUtils.getPath(getFileName());
             if (StringUtils.isBlank(folder)) {
                 return UNDEFINED;
             }
@@ -905,7 +905,7 @@ public class Issue implements Serializable {
             return false;
         }
 
-        Issue issue = (Issue) o;
+        var issue = (Issue) o;
 
         if (lineStart != issue.lineStart) {
             return false;

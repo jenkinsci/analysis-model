@@ -88,9 +88,9 @@ public class ModuleDetector {
      * @return a module name or an empty string
      */
     public String guessModuleName(final String originalFileName) {
-        String fullPath = originalFileName.replace('\\', '/');
+        var fullPath = originalFileName.replace('\\', '/');
 
-        String guessedModule = StringUtils.EMPTY;
+        var guessedModule = StringUtils.EMPTY;
         for (String path : prefixes) {
             if (fullPath.startsWith(path) && fileNameToModuleName.containsKey(path)) {
                 guessedModule = fileNameToModuleName.get(path);
@@ -111,9 +111,9 @@ public class ModuleDetector {
         List<String> absoluteFileNames = new ArrayList<>();
 
         for (AbstractModuleDetector moduleDetector : moduleDetectors) {
-            String[] relativeFileNames = factory.find(path, moduleDetector.getPattern());
+            var relativeFileNames = factory.find(path, moduleDetector.getPattern());
             for (String relativeFileName : relativeFileNames) {
-                String relativePath = normalizePath(relativeFileName);
+                var relativePath = normalizePath(relativeFileName);
                 if (relativePath.startsWith(SLASH)) {
                     absoluteFileNames.add(relativePath);
                 }

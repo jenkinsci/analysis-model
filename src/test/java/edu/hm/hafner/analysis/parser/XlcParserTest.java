@@ -41,9 +41,9 @@ class XlcParserTest extends AbstractParserTest {
      */
     @Test
     void testWarningsParserSevereError() {
-        Report warnings = parseString("file.c, line 11.18: 1506-189 (S) Floating point constant 10.23.3 is not valid");
+        var warnings = parseString("file.c, line 11.18: 1506-189 (S) Floating point constant 10.23.3 is not valid");
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasSeverity(Severity.WARNING_HIGH)
                     .hasCategory("1506-189")
@@ -59,10 +59,10 @@ class XlcParserTest extends AbstractParserTest {
      */
     @Test
     void testWarningsParserSevereErrorZOS() {
-        Report warnings = parseString(
+        var warnings = parseString(
                 "\"./Testapi.cpp\", line 4000.22: CCN5217 (S) \"AEUPD_RQ_UPDT\" is not a member of \"struct AEUPD_RQ\".");
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasSeverity(Severity.WARNING_HIGH)
                     .hasCategory("CCN5217")
@@ -78,9 +78,9 @@ class XlcParserTest extends AbstractParserTest {
      */
     @Test
     void testWarningsParserUnrecoverableError() {
-        Report warnings2 = parseString("file.c, line 5.1: 1506-001 (U) INTERNAL COMPILER ERROR");
+        var warnings2 = parseString("file.c, line 5.1: 1506-001 (U) INTERNAL COMPILER ERROR");
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings2.get(0))
                     .hasSeverity(Severity.WARNING_HIGH)
                     .hasCategory("1506-001")
@@ -90,10 +90,10 @@ class XlcParserTest extends AbstractParserTest {
                     .hasFileName("file.c");
         }
 
-        Report warnings1 = parseString(
+        var warnings1 = parseString(
                 "1586-346 (U) An error occurred during code generation.  The code generation return code was 1.");
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings1.get(0))
                     .hasSeverity(Severity.WARNING_HIGH)
                     .hasCategory("1586-346")
@@ -103,10 +103,10 @@ class XlcParserTest extends AbstractParserTest {
                     .hasFileName(FILE_NAME);
         }
 
-        Report warnings = parseString(
+        var warnings = parseString(
                 "    1500-004: (U) INTERNAL COMPILER ERROR while compiling ----.  Compilation ended.  Contact your Service Representative and provide the following information: Internal abort. For more information visit: http://www.ibm.com/support/docview.wss?uid=swg21110810");
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasSeverity(Severity.WARNING_HIGH)
                     .hasCategory("1500-004")
@@ -123,9 +123,9 @@ class XlcParserTest extends AbstractParserTest {
      */
     @Test
     void testWarningsParserWarning() {
-        Report warnings = parseString("file.c, line 5.9: 1506-304 (W) No function prototype given for \"printf\".");
+        var warnings = parseString("file.c, line 5.9: 1506-304 (W) No function prototype given for \"printf\".");
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory("1506-304")
@@ -141,10 +141,10 @@ class XlcParserTest extends AbstractParserTest {
      */
     @Test
     void testWarningsParserWarningZOS() {
-        Report warnings1 = parseString(
+        var warnings1 = parseString(
                 "\"./Testapi.cpp\", line 130.13: CCN5053 (W) The declaration of a class member within the class definition must not be qualified.");
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings1.get(0))
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory("CCN5053")
@@ -154,10 +154,10 @@ class XlcParserTest extends AbstractParserTest {
                     .hasFileName("./Testapi.cpp");
         }
 
-        Report warnings = parseString(
+        var warnings = parseString(
                 "CCN7504(W) \"//''\" is not a valid suboption for \"SEARCH\".  The option is ignored.");
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory("CCN7504")
@@ -173,10 +173,10 @@ class XlcParserTest extends AbstractParserTest {
      */
     @Test
     void testWarningsParserInfo() {
-        Report warnings2 = parseString(
+        var warnings2 = parseString(
                 "file.c, line 12.9: 1506-478 (I) The then branch of conditional is an empty statement.");
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings2.get(0))
                     .hasSeverity(Severity.WARNING_LOW)
                     .hasCategory("1506-478")
@@ -186,10 +186,10 @@ class XlcParserTest extends AbstractParserTest {
                     .hasFileName("file.c");
         }
 
-        Report warnings1 = parseString(
+        var warnings1 = parseString(
                 "    1500-030: (I) INFORMATION: clazz::fun(): Additional optimization may be attained by recompiling and specifying MAXMEM option with a value greater than 8192.");
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings1.get(0))
                     .hasSeverity(Severity.WARNING_LOW)
                     .hasCategory("1500-030")
@@ -200,10 +200,10 @@ class XlcParserTest extends AbstractParserTest {
                     .hasFileName(FILE_NAME);
         }
 
-        Report warnings = parseString(
+        var warnings = parseString(
                 "1540-5336 (I) Global variable \"__td __td__Q2_3std13runtime_error\" is not used.");
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasSeverity(Severity.WARNING_LOW)
                     .hasCategory("1540-5336")
@@ -219,10 +219,10 @@ class XlcParserTest extends AbstractParserTest {
      */
     @Test
     void testWarningsParserInfoZOS1() {
-        Report warnings1 = parseString(
+        var warnings1 = parseString(
                 "\"./Testapi.cpp\", line 372.8: CCN6283 (I) \"Testapi::Test(long, long)\" is not a viable candidate.");
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings1.get(0))
                     .hasSeverity(Severity.WARNING_LOW)
                     .hasCategory("CCN6283")
@@ -232,9 +232,9 @@ class XlcParserTest extends AbstractParserTest {
                     .hasFileName("./Testapi.cpp");
         }
 
-        Report warnings = parseString("CCN8151(I) The option \"TARGET(0x410D0000)\" sets \"ARCH(5)\".");
+        var warnings = parseString("CCN8151(I) The option \"TARGET(0x410D0000)\" sets \"ARCH(5)\".");
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasSeverity(Severity.WARNING_LOW)
                     .hasCategory("CCN8151")
@@ -246,7 +246,7 @@ class XlcParserTest extends AbstractParserTest {
     }
 
     private Report parseString(final String log) {
-        Report report = parseStringContent(log);
+        var report = parseStringContent(log);
 
         assertThat(report).hasSize(1);
 

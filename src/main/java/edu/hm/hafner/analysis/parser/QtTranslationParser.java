@@ -218,7 +218,7 @@ public class QtTranslationParser extends IssueParser {
         }
 
         private void verifyElementTypeRelation(final String element) {
-            String parent = expectedElementTypeParents.getOrDefault(element, "");
+            var parent = expectedElementTypeParents.getOrDefault(element, "");
             if (parent == null) {
                 if (!elementTypeStack.isEmpty()) {
                     throw new ParsingException("Element type \"%s\" does not expect to be a root element (line %d).",

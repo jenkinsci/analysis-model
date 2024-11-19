@@ -32,8 +32,8 @@ public class MetrowerksCwLinkerParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        String message = matcher.group(2);
-        String messageCategory = matcher.group(1);
+        var message = matcher.group(2);
+        var messageCategory = matcher.group(1);
 
         Severity priority;
         String category;

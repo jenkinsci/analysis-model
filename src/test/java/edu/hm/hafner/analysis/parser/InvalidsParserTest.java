@@ -24,7 +24,7 @@ class InvalidsParserTest extends AbstractParserTest {
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
         assertThat(report).hasSize(3);
 
-        String type = "Oracle Invalid";
+        var type = "Oracle Invalid";
         softly.assertThat(report.get(0))
                 .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory("PLW-05004")

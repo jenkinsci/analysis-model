@@ -40,7 +40,7 @@ class SeverityTest {
 
     @Test @SuppressWarnings("PMD.LiteralsFirstInComparisons")
     void shouldCreateNewSeverityThatOverridesEqualsAndToString() {
-        String name = "severity";
+        var name = "severity";
         var severity = new Severity(name);
 
         assertThat(severity.getName()).isEqualTo(name);
@@ -57,7 +57,7 @@ class SeverityTest {
         assertThat(Severity.valueOf("normal")).isSameAs(Severity.WARNING_NORMAL);
         assertThat(Severity.valueOf("low")).isSameAs(Severity.WARNING_LOW);
 
-        String name = "severity";
+        var name = "severity";
         assertThat(Severity.valueOf(name)).isEqualTo(new Severity(name));
     }
 

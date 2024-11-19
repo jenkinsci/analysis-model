@@ -35,7 +35,7 @@ public class CMakeParser extends LookaheadParser {
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
                                           final IssueBuilder builder) {
         // if the category is contained in brackets, remove those brackets
-        String category = StringUtils.strip(matcher.group("category"), "()");
+        var category = StringUtils.strip(matcher.group("category"), "()");
         int prefixLength = matcher.group("prefix").length();
         return builder.setFileName(matcher.group("file"))
                 .setLineStart(matcher.group("line"))

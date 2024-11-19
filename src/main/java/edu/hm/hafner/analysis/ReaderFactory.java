@@ -141,7 +141,7 @@ public abstract class ReaderFactory {
      *         if the file could not be parsed
      */
     public Document readDocument() {
-        try (Reader reader = create()) {
+        try (var reader = create()) {
             var parserFactory = new SecureXmlParserFactory();
             return parserFactory.readDocument(reader, getCharset());
         }
@@ -169,7 +169,7 @@ public abstract class ReaderFactory {
      *         if the file could not be parsed
      */
     public void parse(final DefaultHandler handler) {
-        try (Reader reader = create()) {
+        try (var reader = create()) {
             new SecureXmlParserFactory().parse(reader, getCharset(), handler);
         }
         catch (IOException | SecureXmlParserFactory.ParsingException exception) {

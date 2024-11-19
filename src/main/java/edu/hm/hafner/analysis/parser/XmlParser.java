@@ -72,7 +72,7 @@ public class XmlParser extends IssueParser {
 
     @Override @SuppressFBWarnings("XPATH_INJECTION")
     public Report parse(final ReaderFactory readerFactory) {
-        try (IssueBuilder issueBuilder = new IssueBuilder()) {
+        try (var issueBuilder = new IssueBuilder()) {
             var doc = readerFactory.readDocument();
             var xPathFactory = XPathFactory.newInstance();
             var path = xPathFactory.newXPath();
@@ -128,8 +128,8 @@ public class XmlParser extends IssueParser {
                 var endNode = (Element) path.evaluate(LINE_RANGE_END, lineRangeNode, XPathConstants.NODE);
                 if (startNode != null && startNode.getFirstChild() != null
                         && endNode != null && endNode.getFirstChild() != null) {
-                    String startValue = startNode.getFirstChild().getNodeValue().trim();
-                    String endValue = endNode.getFirstChild().getNodeValue().trim();
+                    var startValue = startNode.getFirstChild().getNodeValue().trim();
+                    var endValue = endNode.getFirstChild().getNodeValue().trim();
                     try {
                         int start = Integer.parseInt(startValue);
                         int end = Integer.parseInt(endValue);

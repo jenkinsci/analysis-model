@@ -30,7 +30,7 @@ class PmdParserTest extends AbstractParserTest {
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
         softly.assertThat(report).hasSize(4);
 
-        Report actionIssues = report.filter(Issue.byPackageName("com.avaloq.adt.env.internal.ui.actions"));
+        var actionIssues = report.filter(Issue.byPackageName("com.avaloq.adt.env.internal.ui.actions"));
         softly.assertThat(actionIssues).hasSize(1);
         softly.assertThat(report.filter(Issue.byPackageName("com.avaloq.adt.env.internal.ui.actions"))).hasSize(1);
         softly.assertThat(report.filter(Issue.byPackageName("com.avaloq.adt.env.internal.ui.dialogs"))).hasSize(2);
@@ -51,7 +51,7 @@ class PmdParserTest extends AbstractParserTest {
 
     @Test
     void shouldCorrectlyMapLinesAndColumns() {
-        Report report = parseInPmdFolder("lines-columns.xml");
+        var report = parseInPmdFolder("lines-columns.xml");
 
         assertThat(report).hasSize(1);
 
@@ -73,7 +73,7 @@ class PmdParserTest extends AbstractParserTest {
      */
     @Test
     void issue54736() {
-        Report report = parseInPmdFolder("issue54736.xml");
+        var report = parseInPmdFolder("issue54736.xml");
 
         assertThat(report).hasSize(4 + 21);
         assertThatReportHasSeverities(report, 21, 0, 4, 0);
@@ -83,39 +83,40 @@ class PmdParserTest extends AbstractParserTest {
                 .hasMessage(
                         "Error while parsing /Users/jordillach/DemoTenants/Tenants/vhosts/pre.elperiodico.com/themes/default/articleTemplates/forceOpinion.s.jsp")
                 .hasDescription(
-                        "\"<!--\" ...net.sourceforge.pmd.PMDException: Error while parsing /Users/jordillach/DemoTenants/Tenants/vhosts/pre.elperiodico.com/themes/default/articleTemplates/forceOpinion.s.jsp\n"
-                                + "\tat net.sourceforge.pmd.SourceCodeProcessor.processSourceCode(SourceCodeProcessor.java:99)\n"
-                                + "\tat net.sourceforge.pmd.SourceCodeProcessor.processSourceCode(SourceCodeProcessor.java:51)\n"
-                                + "\tat net.sourceforge.pmd.processor.PmdRunnable.call(PmdRunnable.java:78)\n"
-                                + "\tat net.sourceforge.pmd.processor.PmdRunnable.call(PmdRunnable.java:24)\n"
-                                + "\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n"
-                                + "\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n"
-                                + "\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n"
-                                + "\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)\n"
-                                + "\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)\n"
-                                + "\tat java.lang.Thread.run(Thread.java:748)\n"
-                                + "Caused by: net.sourceforge.pmd.lang.jsp.ast.ParseException: Encountered \" \"</\" \"</ \"\" at line 22, column 1.\n"
-                                + "Was expecting one of:\n"
-                                + "    <EOF>\n"
-                                + "    \"<\" ...\n"
-                                + "    \"<![CDATA[\" ...\n"
-                                + "    \"<%--\" ...\n"
-                                + "    \"<%!\" ...\n"
-                                + "    \"<%=\" ...\n"
-                                + "    \"<%\" ...\n"
-                                + "    \"<%@\" ...\n"
-                                + "    \"<script\" ...\n"
-                                + "    <EL_EXPRESSION> ...\n"
-                                + "    <UNPARSED_TEXT> ...\n"
-                                + "    \n"
-                                + "\tat net.sourceforge.pmd.lang.jsp.ast.JspParser.generateParseException(JspParser.java:1846)\n"
-                                + "\tat net.sourceforge.pmd.lang.jsp.ast.JspParser.jj_consume_token(JspParser.java:1725)\n"
-                                + "\tat net.sourceforge.pmd.lang.jsp.ast.JspParser.CompilationUnit(JspParser.java:55)\n"
-                                + "\tat net.sourceforge.pmd.lang.jsp.JspParser.parse(JspParser.java:41)\n"
-                                + "\tat net.sourceforge.pmd.SourceCodeProcessor.parse(SourceCodeProcessor.java:111)\n"
-                                + "\tat net.sourceforge.pmd.SourceCodeProcessor.processSource(SourceCodeProcessor.java:175)\n"
-                                + "\tat net.sourceforge.pmd.SourceCodeProcessor.processSourceCode(SourceCodeProcessor.java:96)\n"
-                                + "\t... 9 more");
+                        """
+                                "<!--" ...net.sourceforge.pmd.PMDException: Error while parsing /Users/jordillach/DemoTenants/Tenants/vhosts/pre.elperiodico.com/themes/default/articleTemplates/forceOpinion.s.jsp
+                                	at net.sourceforge.pmd.SourceCodeProcessor.processSourceCode(SourceCodeProcessor.java:99)
+                                	at net.sourceforge.pmd.SourceCodeProcessor.processSourceCode(SourceCodeProcessor.java:51)
+                                	at net.sourceforge.pmd.processor.PmdRunnable.call(PmdRunnable.java:78)
+                                	at net.sourceforge.pmd.processor.PmdRunnable.call(PmdRunnable.java:24)
+                                	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+                                	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+                                	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+                                	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+                                	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+                                	at java.lang.Thread.run(Thread.java:748)
+                                Caused by: net.sourceforge.pmd.lang.jsp.ast.ParseException: Encountered " "</" "</ "" at line 22, column 1.
+                                Was expecting one of:
+                                    <EOF>
+                                    "<" ...
+                                    "<![CDATA[" ...
+                                    "<%--" ...
+                                    "<%!" ...
+                                    "<%=" ...
+                                    "<%" ...
+                                    "<%@" ...
+                                    "<script" ...
+                                    <EL_EXPRESSION> ...
+                                    <UNPARSED_TEXT> ...
+                                   \s
+                                	at net.sourceforge.pmd.lang.jsp.ast.JspParser.generateParseException(JspParser.java:1846)
+                                	at net.sourceforge.pmd.lang.jsp.ast.JspParser.jj_consume_token(JspParser.java:1725)
+                                	at net.sourceforge.pmd.lang.jsp.ast.JspParser.CompilationUnit(JspParser.java:55)
+                                	at net.sourceforge.pmd.lang.jsp.JspParser.parse(JspParser.java:41)
+                                	at net.sourceforge.pmd.SourceCodeProcessor.parse(SourceCodeProcessor.java:111)
+                                	at net.sourceforge.pmd.SourceCodeProcessor.processSource(SourceCodeProcessor.java:175)
+                                	at net.sourceforge.pmd.SourceCodeProcessor.processSourceCode(SourceCodeProcessor.java:96)
+                                	... 9 more""");
     }
 
     /**
@@ -125,7 +126,7 @@ class PmdParserTest extends AbstractParserTest {
      */
     @Test
     void issue12801() {
-        Report report = parseInPmdFolder("issue12801.xml");
+        var report = parseInPmdFolder("issue12801.xml");
 
         assertThat(report).hasSize(2);
     }
@@ -135,7 +136,7 @@ class PmdParserTest extends AbstractParserTest {
      */
     @Test
     void scanFileWithSeveralWarnings() {
-        Report report = parseInPmdFolder("pmd-report.xml");
+        var report = parseInPmdFolder("pmd-report.xml");
 
         assertThat(report).hasSize(669);
     }
@@ -145,8 +146,8 @@ class PmdParserTest extends AbstractParserTest {
      */
     @Test
     void verifySingleDot() {
-        String fileName = "warning-message-with-dot.xml";
-        Report report = parseInPmdFolder(fileName);
+        var fileName = "warning-message-with-dot.xml";
+        var report = parseInPmdFolder(fileName);
 
         assertThat(report).hasSize(2);
         assertThat(report.get(0)).hasMessage("Avoid really long parameter lists.");
@@ -157,7 +158,7 @@ class PmdParserTest extends AbstractParserTest {
      */
     @Test
     void scanFileWithNoBugs() {
-        Report report = parseInPmdFolder("empty.xml");
+        var report = parseInPmdFolder("empty.xml");
 
         assertThat(report).isEmpty();
     }
@@ -167,7 +168,7 @@ class PmdParserTest extends AbstractParserTest {
      */
     @Test
     void testEquals() {
-        Report report = parseInPmdFolder("equals-test.xml");
+        var report = parseInPmdFolder("equals-test.xml");
 
         int expectedSize = 4;
         assertThat(report).hasSize(expectedSize);

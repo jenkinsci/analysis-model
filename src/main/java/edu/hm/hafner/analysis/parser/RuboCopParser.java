@@ -36,11 +36,11 @@ public class RuboCopParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        String message = matcher.group("message");
-        String category = guessCategoryIfEmpty(matcher.group("category"), message);
+        var message = matcher.group("message");
+        var category = guessCategoryIfEmpty(matcher.group("category"), message);
 
-        String severity = matcher.group("severity");
-        Severity priority = Severity.WARNING_NORMAL;
+        var severity = matcher.group("severity");
+        var priority = Severity.WARNING_NORMAL;
         if (ERROR.equals(severity) || FATAL.equals(severity)) {
             priority = Severity.WARNING_HIGH;
         }

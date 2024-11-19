@@ -109,7 +109,7 @@ class ClangTidyParserTest extends AbstractParserTest {
 
     @Test
     void issue56915() {
-        Report warnings = parse("issue56915.txt");
+        var warnings = parse("issue56915.txt");
         assertThat(warnings).hasSize(3);
     }
 }

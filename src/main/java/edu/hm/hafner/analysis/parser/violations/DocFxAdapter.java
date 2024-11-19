@@ -6,7 +6,7 @@ import se.bjurr.violations.lib.model.SEVERITY;
 import se.bjurr.violations.lib.model.Violation;
 import se.bjurr.violations.lib.parsers.DocFXParser;
 
-import static se.bjurr.violations.lib.model.SEVERITY.*;
+import static se.bjurr.violations.lib.model.SEVERITY.INFO;
 
 /**
  * Parses DocFX files.
@@ -24,7 +24,7 @@ public class DocFxAdapter extends AbstractViolationAdapter {
 
     @Override
     boolean isValid(final Violation violation) {
-        SEVERITY severity = violation.getSeverity();
+        var severity = violation.getSeverity();
         return severity != INFO;
     }
 }

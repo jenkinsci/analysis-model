@@ -33,7 +33,7 @@ public class ArmccCompilerParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        String type = matcher.group(3);
+        var type = matcher.group(3);
         int errorCode = parseInt(matcher.group(4));
         Severity priority;
 
@@ -43,7 +43,7 @@ public class ArmccCompilerParser extends LookaheadParser {
         else {
             priority = Severity.WARNING_NORMAL;
         }
-        String message = matcher.group(5);
+        var message = matcher.group(5);
 
         return builder.setFileName(matcher.group(1)).setLineStart(matcher.group(2)).setMessage(errorCode + " - " + message)
                       .setSeverity(priority).buildOptional();

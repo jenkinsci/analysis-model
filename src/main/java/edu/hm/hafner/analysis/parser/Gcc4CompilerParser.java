@@ -51,7 +51,7 @@ public class Gcc4CompilerParser extends LookaheadParser {
             final IssueBuilder builder) {
         var message = new StringBuilder(matcher.group(5));
 
-        Matcher classMatcher = CLASS_PATTERN.matcher(message.toString());
+        var classMatcher = CLASS_PATTERN.matcher(message.toString());
         if (classMatcher.find() && classMatcher.group(1) != null) {
             builder.setCategory(classMatcher.group(1));
         }
@@ -71,7 +71,7 @@ public class Gcc4CompilerParser extends LookaheadParser {
 
     @SuppressWarnings("PMD.AvoidLiteralsInIfCondition")
     private boolean isMessageContinuation(final LookaheadStream lookahead) {
-        String peek = lookahead.peekNext();
+        var peek = lookahead.peekNext();
         if (peek.length() < 3) {
             return false;
         }

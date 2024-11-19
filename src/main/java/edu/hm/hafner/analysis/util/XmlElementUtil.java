@@ -31,7 +31,7 @@ public final class XmlElementUtil {
     public static List<Element> getChildElementsByName(final Element parent, final String name) {
         List<Element> elements = new ArrayList<>();
         if (parent != null) {
-            Node child = parent.getFirstChild();
+            var child = parent.getFirstChild();
             while (child != null) {
                 if (child.getNodeType() == Node.ELEMENT_NODE && child.getNodeName().equals(name)) {
                     elements.add((Element) child);
@@ -71,7 +71,7 @@ public final class XmlElementUtil {
         int length = nodeList.getLength();
         List<Element> elements = new ArrayList<>(length);
         for (int i = 0; i < length; i++) {
-            Node node = nodeList.item(i);
+            var node = nodeList.item(i);
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 elements.add((Element) node);
             }

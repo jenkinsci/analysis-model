@@ -33,7 +33,7 @@ class FindBugsParserTest {
     private static final String FINDBUGS_NATIVE_XML = "findbugs-native.xml";
 
     private Report parseFile(final String fileName, final PriorityProperty priorityProperty) {
-        ReaderFactory readerFactory = mock(ReaderFactory.class);
+        var readerFactory = mock(ReaderFactory.class);
         when(readerFactory.create()).thenAnswer(
                 mock -> new InputStreamReader(read(fileName), StandardCharsets.UTF_8));
         return new FindBugsParser(priorityProperty).parse(readerFactory,
@@ -51,12 +51,12 @@ class FindBugsParserTest {
      */
     @Test
     void shouldAssignCorrectSeverity() {
-        Report confidenceReport = parseFile("findbugs-severities.xml", CONFIDENCE);
+        var confidenceReport = parseFile("findbugs-severities.xml", CONFIDENCE);
         assertThat(confidenceReport).hasSize(12);
         assertThatReportHasSeverities(confidenceReport,
                 0, 1, 11, 0);
 
-        Report rankReport = parseFile("findbugs-severities.xml", RANK);
+        var rankReport = parseFile("findbugs-severities.xml", RANK);
         assertThat(rankReport).hasSize(12);
         assertThatReportHasSeverities(rankReport,
                 0, 0, 0, 12);
@@ -77,10 +77,10 @@ class FindBugsParserTest {
      */
     @Test
     void issue46975() {
-        Report report = parseFile("spotbugsXml.xml", CONFIDENCE);
+        var report = parseFile("spotbugsXml.xml", CONFIDENCE);
         assertThat(report).hasSize(2);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(report.get(0))
                     .hasFileName("edu/hm/hafner/analysis/IssuesTest.java")
                     .hasCategory("STYLE")
@@ -113,7 +113,7 @@ class FindBugsParserTest {
      */
     @Test
     void issue7238() {
-        Report report = parseFile("issue7238.xml", CONFIDENCE);
+        var report = parseFile("issue7238.xml", CONFIDENCE);
 
         assertThat(report).hasSize(1808)
                 .hasDuplicatesSize(12); // 12 issues are skipped (same attributes, but different instance hash)
@@ -126,10 +126,10 @@ class FindBugsParserTest {
      */
     @Test
     void issue12314() {
-        Report report = parseFile("issue12314.xml", CONFIDENCE);
+        var report = parseFile("issue12314.xml", CONFIDENCE);
         assertThat(report).hasSize(1);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(report.get(0))
                     .hasFileName("com/sedsystems/core/valid/Transformers.java")
                     .hasPackageName("com.sedsystems.core.valid")
@@ -145,7 +145,7 @@ class FindBugsParserTest {
      */
     @Test
     void testMessageMapping() throws Exception {
-        try (Reader stream = new InputStreamReader(read(FINDBUGS_NATIVE_XML), StandardCharsets.UTF_8)) {
+        try (var stream = new InputStreamReader(read(FINDBUGS_NATIVE_XML), StandardCharsets.UTF_8)) {
             Map<String, String> mapping = new HashMap<>();
             for (XmlBugInstance bug : new FindBugsParser(CONFIDENCE).preParse(stream)) {
                 mapping.put(bug.getInstanceHash(), bug.getMessage());
@@ -193,7 +193,7 @@ class FindBugsParserTest {
      */
     @Test
     void scanFbContribFile() {
-        Report report = parseFile("fbcontrib.xml", CONFIDENCE);
+        var report = parseFile("fbcontrib.xml", CONFIDENCE);
         assertThat(report.filter(Issue.byPackageName("hudson.plugins.tasks"))).hasSize(16);
         assertThat(report.filter(Issue.byFileName("hudson/plugins/tasks/ResultSummary.java"))).hasSize(2);
     }
@@ -203,7 +203,7 @@ class FindBugsParserTest {
      */
     @Test
     void handleFilesWithoutMessages() {
-        Report report = parseFile("findbugs-nomessage.xml", CONFIDENCE);
+        var report = parseFile("findbugs-nomessage.xml", CONFIDENCE);
         assertThat(report).hasSize(1);
 
         assertThat(report.get(0))
@@ -217,7 +217,7 @@ class FindBugsParserTest {
      */
     @Test
     void thirdPartyCategory() {
-        Report report = parseFile("findbugs-3rd-party-category.xml", CONFIDENCE);
+        var report = parseFile("findbugs-3rd-party-category.xml", CONFIDENCE);
         assertThat(report).hasSize(2);
         assertThat(report.get(0)).hasCategory("BAD_PRACTICE").hasType("SE_NO_SERIALVERSIONID");
         assertThat(report.get(1)).hasCategory("SECURITY").hasType("WEAK_MESSAGE_DIGEST");
@@ -230,14 +230,14 @@ class FindBugsParserTest {
             final String fileName2, final String packageName2,
             final int start2, final int end2, final int ranges2,
             final PriorityProperty priorityProperty) {
-        Report report = parseFile(findbugsFile, priorityProperty);
+        var report = parseFile(findbugsFile, priorityProperty);
         assertThat(report.getModules()).containsExactly(projectName);
         assertThat(report).hasSize(2);
 
-        Issue first = report.filter(Issue.byFileName(fileName1)).get(0);
-        Issue second = report.filter(Issue.byFileName(fileName2)).get(0);
+        var first = report.filter(Issue.byFileName(fileName1)).get(0);
+        var second = report.filter(Issue.byFileName(fileName2)).get(0);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(first)
                     .hasFileName(fileName1)
                     .hasPackageName(packageName1)

@@ -37,7 +37,7 @@ public class PhpParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        String category = matcher.group(1);
+        var category = matcher.group(1);
         builder.setCategory(category).setSeverity(mapPriority(category));
 
         if (matcher.group(5) == null) {

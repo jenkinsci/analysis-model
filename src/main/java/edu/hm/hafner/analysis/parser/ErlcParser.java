@@ -34,7 +34,7 @@ public class ErlcParser extends LookaheadParser {
             final IssueBuilder builder) {
         Severity priority;
         String category;
-        String categoryMatch = matcher.group(3);
+        var categoryMatch = matcher.group(3);
 
         if (equalsIgnoreCase(categoryMatch, "warning: ")) {
             priority = Severity.WARNING_NORMAL;

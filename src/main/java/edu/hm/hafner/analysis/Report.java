@@ -352,7 +352,7 @@ public class Report implements Iterable<Issue>, Serializable {
         }
 
         for (Report report : reportsToAdd) {
-            Report copyWithoutDuplicates = report.copyEmptyInstance();
+            var copyWithoutDuplicates = report.copyEmptyInstance();
             for (Issue issue : report) {
                 if (contains(issue)) {
                     duplicatesSize++; // elements are marked as duplicate if the fingerprint is different
@@ -419,7 +419,7 @@ public class Report implements Iterable<Issue>, Serializable {
         if (issue.isPresent()) {
             return issue.get();
         }
-        throw new NoSuchElementException(String.format("No removed found with id %s.", issueId));
+        throw new NoSuchElementException("No removed found with id %s.".formatted(issueId));
     }
 
     private Optional<Issue> removeIfContained(final UUID issueId) {
@@ -459,7 +459,7 @@ public class Report implements Iterable<Issue>, Serializable {
         return stream().filter(issue -> issue.getId().equals(issueId))
                 .findAny()
                 .orElseThrow(() -> new NoSuchElementException(
-                        String.format("No issue found with id %s.", issueId)));
+                "No issue found with id %s.".formatted(issueId)));
     }
 
     /**
@@ -483,7 +483,7 @@ public class Report implements Iterable<Issue>, Serializable {
      * @return the found issues
      */
     public Report filter(final Predicate<? super Issue> criterion) {
-        Report filtered = copyEmptyInstance();
+        var filtered = copyEmptyInstance();
         filtered.addAll(elements.stream().filter(criterion).collect(Collectors.toList()));
         for (Report subReport : subReports) {
             filtered.addAll(subReport.filter(criterion));
@@ -921,7 +921,7 @@ public class Report implements Iterable<Issue>, Serializable {
      */
     @FormatMethod
     public void logInfo(final String format, final Object... args) {
-        infoMessages.add(String.format(format, args));
+        infoMessages.add(format.formatted(args));
     }
 
     /**
@@ -938,7 +938,7 @@ public class Report implements Iterable<Issue>, Serializable {
      */
     @FormatMethod
     public void logError(final String format, final Object... args) {
-        errorMessages.add(String.format(format, args));
+        errorMessages.add(format.formatted(args));
     }
 
     /**
@@ -1103,24 +1103,24 @@ public class Report implements Iterable<Issue>, Serializable {
     private void readIssues(final ObjectInputStream input, final int size) throws IOException, ClassNotFoundException {
         var builder = new TreeStringBuilder();
         for (int i = 0; i < size; i++) {
-            String path = input.readUTF();
-            TreeString fileName = builder.intern(input.readUTF());
+            var path = input.readUTF();
+            var fileName = builder.intern(input.readUTF());
             int lineStart = input.readInt();
             int lineEnd = input.readInt();
             int columnStart = input.readInt();
             int columnEnd = input.readInt();
             var lineRanges = (LineRangeList) input.readObject();
-            String category = input.readUTF();
-            String type = input.readUTF();
+            var category = input.readUTF();
+            var type = input.readUTF();
             var packageName = builder.intern(input.readUTF());
-            String moduleName = input.readUTF();
+            var moduleName = input.readUTF();
             var severity = Severity.valueOf(input.readUTF());
             var message = builder.intern(readLongString(input));
-            String description = readLongString(input);
-            String origin = input.readUTF();
-            String originName = input.readUTF();
-            String reference = input.readUTF();
-            String fingerprint = input.readUTF();
+            var description = readLongString(input);
+            var origin = input.readUTF();
+            var originName = input.readUTF();
+            var reference = input.readUTF();
+            var fingerprint = input.readUTF();
             var additionalProperties = (Serializable) input.readObject();
             var uuid = (UUID) input.readObject();
 
@@ -1161,7 +1161,7 @@ public class Report implements Iterable<Issue>, Serializable {
         }
 
         for (Report subReport : subReports) {
-            String nameOfSubReport = subReport.getNameOfOrigin(origin);
+            var nameOfSubReport = subReport.getNameOfOrigin(origin);
             if (!DEFAULT_ID.equals(nameOfSubReport)) {
                 return nameOfSubReport;
             }
@@ -1654,7 +1654,7 @@ public class Report implements Iterable<Issue>, Serializable {
         }
 
         private void addMessageFilter(final Collection<String> patterns, final FilterType filterType) {
-            addNewFilter(patterns, issue -> String.format("%s%n%s", issue.getMessage(), issue.getDescription()),
+            addNewFilter(patterns, issue -> "%s%n%s".formatted(issue.getMessage(), issue.getDescription()),
                     filterType);
         }
         //</editor-fold>

@@ -68,7 +68,7 @@ public abstract class IssueParser implements Serializable {
      *         Signals that the user has aborted the parsing
      */
     public Report parseFile(final ReaderFactory readerFactory) throws ParsingException, ParsingCanceledException {
-        Report report = parse(readerFactory);
+        var report = parse(readerFactory);
         report.setOriginReportFile(readerFactory.getFileName());
         return report;
     }

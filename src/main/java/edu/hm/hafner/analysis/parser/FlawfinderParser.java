@@ -36,8 +36,8 @@ public class FlawfinderParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        String message = matcher.group("message");
-        String category = matcher.group("category");
+        var message = matcher.group("message");
+        var category = matcher.group("category");
 
         var priority = extractPriority(IntegerParser.parseInt(matcher.group("severity")));
 

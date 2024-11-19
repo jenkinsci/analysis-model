@@ -34,7 +34,7 @@ public class ClangParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        String message = matcher.group(6);
+        var message = matcher.group(6);
         if (IGNORE_FORMAT.matcher(message).matches()) {
             return Optional.empty();
         }

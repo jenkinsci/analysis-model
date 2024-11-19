@@ -35,7 +35,7 @@ public class CppLintParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        Severity priority = mapPriority(matcher.group(5));
+        var priority = mapPriority(matcher.group(5));
 
         return builder.setFileName(matcher.group(1))
                 .setLineStart(matcher.group(2))

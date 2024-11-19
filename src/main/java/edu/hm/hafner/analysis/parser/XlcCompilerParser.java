@@ -56,9 +56,9 @@ public class XlcCompilerParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        String line = matcher.group(0);
+        var line = matcher.group(0);
 
-        Matcher lineMatcher = PATTERN_WITH_LINE.matcher(line);
+        var lineMatcher = PATTERN_WITH_LINE.matcher(line);
         if (lineMatcher.find()) {
             return builder.setFileName(lineMatcher.group(1))
                     .setLineStart(lineMatcher.group(2))
@@ -72,7 +72,7 @@ public class XlcCompilerParser extends LookaheadParser {
     }
 
     private Optional<Issue> createIssueWithoutLine(final IssueBuilder builder, final String line) {
-        Matcher matcher = PATTERN_WITHOUT_LINE.matcher(line);
+        var matcher = PATTERN_WITHOUT_LINE.matcher(line);
         if (matcher.find()) {
             return builder.setFileName("")
                     .setLineStart(0)

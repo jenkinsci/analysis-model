@@ -42,12 +42,12 @@ public class PyLintParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        String category = matcher.group("category");
+        var category = matcher.group("category");
         builder.setSeverity(mapPriority(category));
         builder.setCategory(mapCategory(category));
         builder.setType(StringUtils.firstNonBlank(matcher.group("symbol"), matcher.group("type"), UNKNOWN_TYPE));
 
-        String moduleName = matcher.group("module");
+        var moduleName = matcher.group("module");
         if (moduleName == null) {
             builder.setPackageName("-").setModuleName("-");
         }

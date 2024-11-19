@@ -35,7 +35,7 @@ public class TrivyParser extends JsonIssueParser {
      */
     @Override
     protected void parseJsonObject(final Report report, final JSONObject jsonReport, final IssueBuilder issueBuilder) {
-        JSONArray results = jsonReport.optJSONArray("Results");
+        var results = jsonReport.optJSONArray("Results");
         if (results != null) {
             parseResults(report, results, issueBuilder);
         }
@@ -86,11 +86,11 @@ public class TrivyParser extends JsonIssueParser {
     }
 
     private String formatDescription(final JSONObject vulnerability) {
-        String fileName = vulnerability.optString("PkgName", VALUE_NOT_SET);
-        String installedVersion = vulnerability.optString("InstalledVersion", VALUE_NOT_SET);
-        String fixedVersion = vulnerability.optString("FixedVersion", "still open");
-        String severity = vulnerability.optString("Severity", "UNKOWN");
-        String description = vulnerability.optString("Description", "");
+        var fileName = vulnerability.optString("PkgName", VALUE_NOT_SET);
+        var installedVersion = vulnerability.optString("InstalledVersion", VALUE_NOT_SET);
+        var fixedVersion = vulnerability.optString("FixedVersion", "still open");
+        var severity = vulnerability.optString("Severity", "UNKOWN");
+        var description = vulnerability.optString("Description", "");
         return join(p(div(b("File: "), text(fileName)),
                 div(b("Installed Version: "), text(installedVersion)),
                 div(b("Fixed Version: "), text(fixedVersion)),

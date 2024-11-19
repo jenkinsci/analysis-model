@@ -33,7 +33,7 @@ class OsgiModuleDetectorTest extends AbstractModuleDetectorTest {
 
     @Test
     void shouldIdentifyModuleByReadingOsgiBundle() {
-        FileSystem factory = createFileSystemStub(stub -> {
+        var factory = createFileSystemStub(stub -> {
             when(stub.find(any(), anyString())).thenReturn(new String[]{PATH_PREFIX_OSGI + OsgiModuleDetector.OSGI_BUNDLE});
             when(stub.open(anyString())).thenReturn(read(MANIFEST));
         });
@@ -50,14 +50,14 @@ class OsgiModuleDetectorTest extends AbstractModuleDetectorTest {
 
     @Test
     void shouldIdentifyModuleByReadingOsgiBundleWithVendorInL10nProperties() {
-        FileSystem factory = createFileSystemStub(stub -> {
+        var factory = createFileSystemStub(stub -> {
             when(stub.find(any(), anyString())).thenReturn(new String[]{PATH_PREFIX_OSGI + OsgiModuleDetector.OSGI_BUNDLE});
             when(stub.open(anyString())).thenReturn(read(MANIFEST), read("l10n.properties"));
         });
 
         var detector = new ModuleDetector(ROOT, factory);
 
-        String expectedName = "de.faktorlogik.prototyp (My Vendor)";
+        var expectedName = "de.faktorlogik.prototyp (My Vendor)";
         assertThat(detector.guessModuleName(PREFIX + PATH_PREFIX_OSGI + "something.txt"))
                 .isEqualTo(expectedName);
         assertThat(detector.guessModuleName(PREFIX + PATH_PREFIX_OSGI + "in/between/something.txt"))
@@ -68,7 +68,7 @@ class OsgiModuleDetectorTest extends AbstractModuleDetectorTest {
 
     @Test
     void shouldIdentifyModuleByReadingOsgiBundleWithManifestName() {
-        FileSystem fileSystem = createFileSystemStub(stub -> {
+        var fileSystem = createFileSystemStub(stub -> {
             when(stub.find(any(), anyString())).thenReturn(
                     new String[]{PATH_PREFIX_OSGI + OsgiModuleDetector.OSGI_BUNDLE});
             when(stub.open(anyString())).thenReturn(read(MANIFEST_NAME), read("l10n.properties"));
@@ -76,7 +76,7 @@ class OsgiModuleDetectorTest extends AbstractModuleDetectorTest {
 
         var detector = new ModuleDetector(ROOT, fileSystem);
 
-        String expectedName = "My Bundle";
+        var expectedName = "My Bundle";
         assertThat(detector.guessModuleName(PREFIX + PATH_PREFIX_OSGI + "something.txt"))
                 .isEqualTo(expectedName);
         assertThat(detector.guessModuleName(PREFIX + PATH_PREFIX_OSGI + "in/between/something.txt"))

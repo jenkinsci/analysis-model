@@ -40,8 +40,8 @@ public class P4Parser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        String category = matcher.group(2).trim();
-        Severity p = mapPriority(category);
+        var category = matcher.group(2).trim();
+        var p = mapPriority(category);
         return builder.setFileName(matcher.group(1).trim()).setLineStart(0).setCategory(category).setMessage(
                 matcher.group(1).trim())
                 .setSeverity(p).buildOptional();

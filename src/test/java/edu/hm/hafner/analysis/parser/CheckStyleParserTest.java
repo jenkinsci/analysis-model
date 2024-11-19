@@ -49,7 +49,7 @@ class CheckStyleParserTest extends AbstractParserTest {
      */
     @Test
     void issue25511() {
-        Report report = parseInCheckStyleFolder("issue25511.xml");
+        var report = parseInCheckStyleFolder("issue25511.xml");
 
         assertThat(report).hasSize(2);
 
@@ -64,7 +64,7 @@ class CheckStyleParserTest extends AbstractParserTest {
      */
     @Test
     void testColumnPositions() {
-        Report report = parseInCheckStyleFolder("issue19122.xml");
+        var report = parseInCheckStyleFolder("issue19122.xml");
 
         assertThat(report).hasSize(58);
     }
@@ -76,7 +76,7 @@ class CheckStyleParserTest extends AbstractParserTest {
      */
     @Test
     void shouldExtractTypeEvenIfNoDotPresent() {
-        Report report = parseInCheckStyleFolder("issue60859.xml");
+        var report = parseInCheckStyleFolder("issue60859.xml");
 
         assertThat(report).hasSize(3);
         assertThat(report.get(0)).hasMessage(
@@ -104,7 +104,7 @@ class CheckStyleParserTest extends AbstractParserTest {
      */
     @Test
     void testParsingOfScalaStyleFormat() {
-        Report report = parseInCheckStyleFolder("scalastyle-output.xml");
+        var report = parseInCheckStyleFolder("scalastyle-output.xml");
 
         assertThat(report).hasSize(2);
     }
@@ -116,7 +116,7 @@ class CheckStyleParserTest extends AbstractParserTest {
      */
     @Test
     void shouldParseErrorToSeverityError() {
-        Report report = parseInCheckStyleFolder(REPORT_WITH_ALL_SEVERITES);
+        var report = parseInCheckStyleFolder(REPORT_WITH_ALL_SEVERITES);
         assertThat(report.get(0)).hasSeverity(Severity.ERROR);
     }
 
@@ -125,7 +125,7 @@ class CheckStyleParserTest extends AbstractParserTest {
      */
     @Test
     void shouldParseWarningToSeverityWarningNormal() {
-        Report report = parseInCheckStyleFolder(REPORT_WITH_ALL_SEVERITES);
+        var report = parseInCheckStyleFolder(REPORT_WITH_ALL_SEVERITES);
         assertThat(report.get(1)).hasSeverity(Severity.WARNING_NORMAL);
     }
 
@@ -134,7 +134,7 @@ class CheckStyleParserTest extends AbstractParserTest {
      */
     @Test
     void shouldParseInfoToSeverityWarningLow() {
-        Report report = parseInCheckStyleFolder(REPORT_WITH_ALL_SEVERITES);
+        var report = parseInCheckStyleFolder(REPORT_WITH_ALL_SEVERITES);
         assertThat(report.get(2)).hasSeverity(Severity.WARNING_LOW);
     }
 

@@ -27,14 +27,14 @@ class MsBuildParserTest extends AbstractParserTest {
      */
     @Test
     void shouldRemoveAnsiColors() {
-        Report warnings = parse("MSBuildANSIColor.txt");
+        var warnings = parse("MSBuildANSIColor.txt");
 
         assertThat(warnings)
                 .hasSize(1);
 
         assertThatReportHasSeverities(warnings, 0, 0, 1, 0);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasFileName("C:/j/6aa722/src/CodeRunner/GenericCodeRunner/CompositeCode.cs")
                     .hasCategory("CS1591")
@@ -66,7 +66,7 @@ class MsBuildParserTest extends AbstractParserTest {
      */
     @Test
     void issue42823() {
-        Report warnings = parse("issue42823.txt");
+        var warnings = parse("issue42823.txt");
         assertThat(warnings).isEmpty();
     }
 
@@ -77,11 +77,11 @@ class MsBuildParserTest extends AbstractParserTest {
      */
     @Test
     void issue56193() {
-        Report warnings = parse("issue56193.log");
+        var warnings = parse("issue56193.log");
 
         assertThat(warnings).hasSize(1);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasFileName("G:/Jenkins-Alserver-Slave/workspace/ninjamgs/Lesson1/bubble.cpp")
                     .hasCategory("C4101")
@@ -98,11 +98,11 @@ class MsBuildParserTest extends AbstractParserTest {
      */
     @Test
     void issue56030() {
-        Report warnings = parse("issue56030.log");
+        var warnings = parse("issue56030.log");
 
         assertThat(warnings).hasSize(2);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasFileName(
                             "C:/DVR/workspace/_Branch_build_updates-SDSYGOEWO53Z6ASKV6W4GSRWQU4DXCNNDGKGTWMQJ4O7LTMGYQVQ/live555/transport/include/TransportRTCP.h")
@@ -129,12 +129,12 @@ class MsBuildParserTest extends AbstractParserTest {
      */
     @Test
     void issue38215() {
-        Report warnings = parse("issue38215.txt");
+        var warnings = parse("issue38215.txt");
 
         assertThat(warnings).hasSize(1);
         assertThatReportHasSeverities(warnings, 0, 0, 1, 0);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasFileName("C:/J/workspace/ci_windows/ws/build/rmw/test/test_error_handling.vcxproj")
                     .hasCategory("D9002")
@@ -156,12 +156,12 @@ class MsBuildParserTest extends AbstractParserTest {
      */
     @Test
     void issue22386() {
-        Report warnings = parse("issue22386.txt");
+        var warnings = parse("issue22386.txt");
 
         assertThat(warnings).hasSize(2);
         assertThatReportHasSeverities(warnings, 0, 0, 2, 0);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasFileName("C:/solutiondir/projectdir/src/main.cpp")
                     .hasCategory("C4996")
@@ -197,12 +197,12 @@ class MsBuildParserTest extends AbstractParserTest {
      */
     @Test
     void issue51485() {
-        Report warnings = parse("issue51485.txt");
+        var warnings = parse("issue51485.txt");
 
         assertThat(warnings).hasSize(2);
         assertThatReportHasSeverities(warnings, 0, 0, 2, 0);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasFileName("src/search-list.component.scss")
                     .hasCategory("shorthand-values")
@@ -228,12 +228,12 @@ class MsBuildParserTest extends AbstractParserTest {
      */
     @Test
     void issue27914() {
-        Report warnings = parse("issue27914.txt");
+        var warnings = parse("issue27914.txt");
 
         assertThat(warnings).hasSize(3);
         assertThatReportHasSeverities(warnings, 0, 0, 3, 0);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasFileName("E:/workspace/TreeSize release nightly/DelphiLib/Jam.UI.Dialogs.pas")
                     .hasCategory("H2164")
@@ -279,7 +279,7 @@ class MsBuildParserTest extends AbstractParserTest {
      */
     @Test
     void issue26441() {
-        Report warnings = parse("issue26441.txt");
+        var warnings = parse("issue26441.txt");
 
         assertThat(warnings).isEmpty();
     }
@@ -291,7 +291,7 @@ class MsBuildParserTest extends AbstractParserTest {
      */
     @Test
     void issue20544() {
-        Report warnings = parse("issue20544.txt");
+        var warnings = parse("issue20544.txt");
 
         assertThat(warnings).isEmpty();
     }
@@ -303,12 +303,12 @@ class MsBuildParserTest extends AbstractParserTest {
      */
     @Test
     void issue20154() {
-        Report warnings = parse("issue20154.txt");
+        var warnings = parse("issue20154.txt");
 
         assertThat(warnings).hasSize(2).hasDuplicatesSize(2);
         assertThatReportHasSeverities(warnings, 0, 0, 2, 0);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasFileName("I:/devel/projects/SampleCodeAnalysis/SampleCodeAnalysis/Program.cs")
                     .hasCategory("CA1801")
@@ -346,12 +346,12 @@ class MsBuildParserTest extends AbstractParserTest {
      */
     @Test
     void issue14888() {
-        Report warnings = parse("issue14888.txt");
+        var warnings = parse("issue14888.txt");
 
         assertThat(warnings).hasSize(4);
         assertThatReportHasSeverities(warnings, 4, 0, 0, 0);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasFileName("F:/AC_working/new-wlanac/ac/np/capwap/source/capwap_data.c")
                     .hasCategory("40")
@@ -409,12 +409,12 @@ class MsBuildParserTest extends AbstractParserTest {
      */
     @Test
     void issue10566() {
-        Report warnings = parse("issue10566.txt");
+        var warnings = parse("issue10566.txt");
 
         assertThat(warnings).hasSize(1);
         assertThatReportHasSeverities(warnings, 1, 0, 0, 0);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasFileName("..//..//..//xx_Source//file.c")
                     .hasCategory("c1083")
@@ -436,12 +436,12 @@ class MsBuildParserTest extends AbstractParserTest {
      */
     @Test
     void issue3582() {
-        Report errors = parse("issue3582.txt");
+        var errors = parse("issue3582.txt");
 
         assertThat(errors).hasSize(1);
         assertThatReportHasSeverities(errors, 1, 0, 0, 0);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(errors.get(0))
                     .hasFileName("TestLib.lib")
                     .hasCategory("LNK1181")
@@ -463,12 +463,12 @@ class MsBuildParserTest extends AbstractParserTest {
      */
     @Test
     void issue63580() {
-        Report warnings = parse("issue63580.txt");
+        var warnings = parse("issue63580.txt");
 
         assertThat(warnings).hasSize(1);
         assertThatReportHasSeverities(warnings, 0, 0, 1, 0);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasFileName("def.obj")
                     .hasCategory("LNK4217")
@@ -490,12 +490,12 @@ class MsBuildParserTest extends AbstractParserTest {
      */
     @Test
     void issue8347() {
-        Report warnings = parse("issue8347.txt");
+        var warnings = parse("issue8347.txt");
 
         assertThat(warnings).hasSize(5);
         assertThatReportHasSeverities(warnings, 0, 0, 5, 0);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasFileName("C:/hudsonSlave/workspace/MyProject/Source/MoqExtensions.cs")
                     .hasCategory("SA1210")
@@ -566,12 +566,12 @@ class MsBuildParserTest extends AbstractParserTest {
      */
     @Test
     void issue6709() {
-        Report warnings = parse("issue6709.txt");
+        var warnings = parse("issue6709.txt");
 
         assertThat(warnings).hasSize(1);
         assertThatReportHasSeverities(warnings, 0, 0, 1, 0);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasFileName("Rules/TaskRules.cs")
                     .hasCategory("CS0168")
@@ -593,12 +593,12 @@ class MsBuildParserTest extends AbstractParserTest {
      */
     @Test
     void issue9926() {
-        Report warnings = parse("issue9926.txt");
+        var warnings = parse("issue9926.txt");
 
         assertThat(warnings).hasSize(1);
         assertThatReportHasSeverities(warnings, 0, 0, 1, 0);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasFileName(
                             "C:/jci/jobs/external_nvtristrip/workspace/compiler/cl/config/debug/platform/win32/tfields/live/external/nvtristrip/nvtristrip.cpp")
@@ -621,12 +621,12 @@ class MsBuildParserTest extends AbstractParserTest {
      */
     @Test
     void issue4932() {
-        Report warnings = parse("issue4932.txt");
+        var warnings = parse("issue4932.txt");
 
         assertThat(warnings).hasSize(1);
         assertThatReportHasSeverities(warnings, 1, 0, 0, 0);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasFileName("SynchronisationHeure.obj")
                     .hasCategory("LNK2001")
@@ -648,12 +648,12 @@ class MsBuildParserTest extends AbstractParserTest {
      */
     @Test
     void issue4731() {
-        Report warnings = parse("issue4731.txt");
+        var warnings = parse("issue4731.txt");
 
         assertThat(warnings).hasSize(11).hasDuplicatesSize(1);
         assertThatReportHasSeverities(warnings, 0, 0, 11, 0);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasFileName("C:/playpens/Catalyst/Platform/src/Ptc.Platform.Web/Package/Package.package")
                     .hasCategory("SPT6")
@@ -718,12 +718,12 @@ class MsBuildParserTest extends AbstractParserTest {
      */
     @Test
     void shouldDetectKeywordsInRegexCaseInsensitive() {
-        Report warnings = parse("issue2383.txt");
+        var warnings = parse("issue2383.txt");
 
         assertThat(warnings).hasSize(2);
         assertThatReportHasSeverities(warnings, 1, 0, 1, 0);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasFileName("Src/Parser/CSharp/cs.ATG")
                     .hasCategory("CS0168")
@@ -757,12 +757,12 @@ class MsBuildParserTest extends AbstractParserTest {
      */
     @Test
     void issue48647() {
-        Report warnings = parse("issue48647.txt");
+        var warnings = parse("issue48647.txt");
 
         assertThat(warnings).hasSize(1);
         assertThatReportHasSeverities(warnings, 0, 0, 1, 0);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasFileName("Filters/FilterBuilder.cs")
                     .hasCategory("CS0168")
@@ -784,9 +784,9 @@ class MsBuildParserTest extends AbstractParserTest {
      */
     @Test
     void issue56450() {
-        Report report = parse("issue56450.txt");
+        var report = parse("issue56450.txt");
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             Iterator<Issue> iterator = report.iterator();
             softly.assertThat(report).hasSize(2);
             assertThatReportHasSeverities(report, 0, 0, 2, 0);
@@ -821,7 +821,7 @@ class MsBuildParserTest extends AbstractParserTest {
      */
     @Test
     void issue57365() {
-        Report warnings = parse("issue57365.txt");
+        var warnings = parse("issue57365.txt");
 
         assertThat(warnings).isEmpty();
     }
@@ -834,7 +834,7 @@ class MsBuildParserTest extends AbstractParserTest {
      */
     @Test
     void issue66950() {
-        Report report = parse("issue66950.txt");
+        var report = parse("issue66950.txt");
 
         assertThat(report).isEmpty().doesNotHaveErrors();
     }

@@ -26,7 +26,7 @@ final class EclipseSharedChecks {
     static void verifyCategory(final Report warnings) {
         assertThat(warnings).hasSize(5);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasLineStart(1)

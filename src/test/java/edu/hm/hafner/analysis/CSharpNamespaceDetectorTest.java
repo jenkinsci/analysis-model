@@ -27,7 +27,7 @@ class CSharpNamespaceDetectorTest extends ResourceTest {
             "pom.xml, -",
             "MavenJavaTest.txt, -"})
     void shouldExtractPackageNameFromJavaSource(final String fileName, final String expectedPackage) throws IOException {
-        try (InputStream stream = asInputStream(fileName)) {
+        try (var stream = asInputStream(fileName)) {
             assertThat(new CSharpNamespaceDetector().detectPackageName(stream, StandardCharsets.UTF_8))
                     .isEqualTo(expectedPackage);
         }

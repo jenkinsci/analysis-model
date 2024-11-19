@@ -41,9 +41,9 @@ class XlcLinkerParserTest extends AbstractParserTest {
      */
     @Test
     void shouldParseAnotherLinkerError() {
-        Report report = parseString("ld: 0711-317 ERROR: Undefined symbol: nofun()");
+        var report = parseString("ld: 0711-317 ERROR: Undefined symbol: nofun()");
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(report.get(0))
                     .hasSeverity(Severity.WARNING_HIGH)
                     .hasCategory("0711-317")
@@ -59,9 +59,9 @@ class XlcLinkerParserTest extends AbstractParserTest {
      */
     @Test
     void shouldParseSevereError() {
-        Report report = parseString("ld: 0711-634 SEVERE ERROR: EXEC binder commands nested too deeply.");
+        var report = parseString("ld: 0711-634 SEVERE ERROR: EXEC binder commands nested too deeply.");
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(report.get(0))
                     .hasSeverity(Severity.WARNING_HIGH)
                     .hasCategory("0711-634")
@@ -77,9 +77,9 @@ class XlcLinkerParserTest extends AbstractParserTest {
      */
     @Test
     void shouldParseWarning() {
-        Report report = parseString("ld: 0706-012 The -9 flag is not recognized.");
+        var report = parseString("ld: 0706-012 The -9 flag is not recognized.");
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(report.get(0))
                     .hasSeverity(Severity.WARNING_LOW)
                     .hasCategory("0706-012")
@@ -95,9 +95,9 @@ class XlcLinkerParserTest extends AbstractParserTest {
      */
     @Test
     void shouldPareAnotherWarning() {
-        Report report = parseString("ld: 0711-224 WARNING: Duplicate symbol: dupe");
+        var report = parseString("ld: 0711-224 WARNING: Duplicate symbol: dupe");
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(report.get(0))
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory("0711-224")
@@ -113,9 +113,9 @@ class XlcLinkerParserTest extends AbstractParserTest {
      */
     @Test
     void shouldParseInformation() {
-        Report report = parseString("ld: 0711-345 Use the -bloadmap or -bnoquiet option to obtain more information.");
+        var report = parseString("ld: 0711-345 Use the -bloadmap or -bnoquiet option to obtain more information.");
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(report.get(0))
                     .hasSeverity(Severity.WARNING_LOW)
                     .hasCategory("0711-345")
@@ -127,7 +127,7 @@ class XlcLinkerParserTest extends AbstractParserTest {
     }
 
     private Report parseString(final String log) {
-        Report report = parseStringContent(log);
+        var report = parseStringContent(log);
 
         assertThat(report).hasSize(1);
 

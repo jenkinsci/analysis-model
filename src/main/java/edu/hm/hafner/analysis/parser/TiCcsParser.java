@@ -34,7 +34,7 @@ public class TiCcsParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        String lineNumber = matcher.group(5);
+        var lineNumber = matcher.group(5);
         if (StringUtils.isBlank(lineNumber)) {
             lineNumber = matcher.group(10);
         }

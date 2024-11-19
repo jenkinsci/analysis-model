@@ -53,9 +53,9 @@ public class MsBuildParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        String fileName = determineFileName(matcher);
+        var fileName = determineFileName(matcher);
 
-        Matcher fileExtensionMatcher = IGNORED_TOOLS_PATTERN.matcher(fileName);
+        var fileExtensionMatcher = IGNORED_TOOLS_PATTERN.matcher(fileName);
         if (!fileExtensionMatcher.find()) {
             return Optional.empty();
         }
@@ -79,7 +79,7 @@ public class MsBuildParser extends LookaheadParser {
                     .buildOptional();
         }
 
-        String category = matcher.group(9);
+        var category = matcher.group(9);
         if (EXPECTED_CATEGORY.equals(category)) {
             return Optional.empty();
         }
@@ -124,7 +124,7 @@ public class MsBuildParser extends LookaheadParser {
             fileName = "unknown.file";
         }
 
-        String projectDir = matcher.group(12);
+        var projectDir = matcher.group(12);
         if (canResolveRelativeFileName(fileName, projectDir)) {
             fileName = FilenameUtils.concat(projectDir, fileName);
         }

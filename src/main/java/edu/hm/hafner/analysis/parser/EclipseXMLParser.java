@@ -51,7 +51,7 @@ public class EclipseXMLParser extends IssueParser {
 
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingException {
-        try (IssueBuilder issueBuilder = new IssueBuilder()) {
+        try (var issueBuilder = new IssueBuilder()) {
             var doc = readerFactory.readDocument();
 
             var xPathFactory = XPathFactory.newInstance();
@@ -64,7 +64,7 @@ public class EclipseXMLParser extends IssueParser {
 
             var sources = (NodeList) sourcePath.evaluate(doc, XPathConstants.NODESET);
             for (Element source : XmlElementUtil.nodeListToList(sources)) {
-                String fileName = fileNamePath.evaluate(source);
+                var fileName = fileNamePath.evaluate(source);
                 issueBuilder.setFileName(fileName);
 
                 var problems = (NodeList) problemsPath.evaluate(source, XPathConstants.NODESET);

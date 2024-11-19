@@ -62,7 +62,7 @@ class EclipseMavenParserTest extends AbstractParserTest {
      */
     @Test
     void shouldNotFindAntIssues() {
-        Report warnings = parse("eclipse.txt");
+        var warnings = parse("eclipse.txt");
 
         assertThat(warnings).hasSize(0);
     }
@@ -74,11 +74,11 @@ class EclipseMavenParserTest extends AbstractParserTest {
      */
     @Test
     void issue21377() {
-        Report warnings = parse("issue21377.txt");
+        var warnings = parse("issue21377.txt");
 
         assertThat(warnings).hasSize(1);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasLineStart(13)
@@ -96,11 +96,11 @@ class EclipseMavenParserTest extends AbstractParserTest {
      */
     @Test
     void issue55368() {
-        Report warnings = parse("issue55368.txt");
+        var warnings = parse("issue55368.txt");
 
         assertThat(warnings).hasSize(3);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasLineStart(9)
@@ -127,13 +127,13 @@ class EclipseMavenParserTest extends AbstractParserTest {
      */
     @Test
     void javadocCategory() {
-        Report warnings = parse("eclipse-maven-withjavadoc.log");
+        var warnings = parse("eclipse-maven-withjavadoc.log");
         EclipseSharedChecks.verifyCategory(warnings);
     }
 
     @Test
     void shouldOnlyAcceptTextFiles() {
-        EclipseMavenParser parser = createParser();
+        var parser = createParser();
 
         assertThat(parser.accepts(createReaderFactory("eclipse-withinfo.txt"))).isTrue();
         assertThat(parser.accepts(createReaderFactory("eclipse-withinfo.xml"))).isFalse();

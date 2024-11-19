@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
@@ -24,7 +23,7 @@ import static org.mockito.Mockito.*;
 @SuppressFBWarnings("DMI")
 class ModuleDetectorTest extends ResourceTest {
     private static final String MANIFEST = "MANIFEST.MF";
-    private static final Path ROOT = Paths.get(File.pathSeparatorChar == ';' ? "C:\\Windows" : "/tmp");
+    private static final Path ROOT = Path.of(File.pathSeparatorChar == ';' ? "C:\\Windows" : "/tmp");
     private static final String PREFIX = new PathUtil().getAbsolutePath(ROOT) + "/";
 
     private static final String PATH_PREFIX_MAVEN = "path/to/maven/";
@@ -40,9 +39,9 @@ class ModuleDetectorTest extends ResourceTest {
 
     @Test
     void shouldIdentifyModuleIfThereAreMoreEntries() {
-        FileSystem factory = createFileSystemStub(stub -> {
-            String ant = PATH_PREFIX_ANT + AntModuleDetector.ANT_PROJECT;
-            String maven = PATH_PREFIX_MAVEN + MavenModuleDetector.MAVEN_POM;
+        var factory = createFileSystemStub(stub -> {
+            var ant = PATH_PREFIX_ANT + AntModuleDetector.ANT_PROJECT;
+            var maven = PATH_PREFIX_MAVEN + MavenModuleDetector.MAVEN_POM;
             when(stub.find(any(), anyString())).thenReturn(new String[]{ant, maven});
             when(stub.open(PREFIX + ant)).thenReturn(read(AntModuleDetector.ANT_PROJECT));
             when(stub.open(PREFIX + maven)).thenAnswer(filename -> read(MavenModuleDetector.MAVEN_POM));
@@ -58,9 +57,9 @@ class ModuleDetectorTest extends ResourceTest {
 
     @Test
     void shouldEnsureThatMavenHasPrecedenceOverAnt() {
-        String prefix = "/prefix/";
-        String ant = prefix + AntModuleDetector.ANT_PROJECT;
-        String maven = prefix + MavenModuleDetector.MAVEN_POM;
+        var prefix = "/prefix/";
+        var ant = prefix + AntModuleDetector.ANT_PROJECT;
+        var maven = prefix + MavenModuleDetector.MAVEN_POM;
 
         verifyOrder(prefix, ant, maven, new String[]{ant, maven});
         verifyOrder(prefix, ant, maven, new String[]{maven, ant});
@@ -68,10 +67,10 @@ class ModuleDetectorTest extends ResourceTest {
 
     @Test
     void shouldEnsureThatOsgiHasPrecedenceOverMavenAndAnt() {
-        String prefix = "/prefix/";
-        String ant = prefix + AntModuleDetector.ANT_PROJECT;
-        String maven = prefix + MavenModuleDetector.MAVEN_POM;
-        String osgi = prefix + OsgiModuleDetector.OSGI_BUNDLE;
+        var prefix = "/prefix/";
+        var ant = prefix + AntModuleDetector.ANT_PROJECT;
+        var maven = prefix + MavenModuleDetector.MAVEN_POM;
+        var osgi = prefix + OsgiModuleDetector.OSGI_BUNDLE;
 
         verifyOrder(prefix, ant, maven, osgi, ant, maven, osgi);
         verifyOrder(prefix, ant, maven, osgi, ant, osgi, maven);
@@ -83,7 +82,7 @@ class ModuleDetectorTest extends ResourceTest {
 
     @SuppressWarnings("PMD.UseVarargs")
     private void verifyOrder(final String prefix, final String ant, final String maven, final String[] foundFiles) {
-        FileSystem factory = createFileSystemStub(stub -> {
+        var factory = createFileSystemStub(stub -> {
             when(stub.find(any(), anyString())).thenReturn(foundFiles);
             when(stub.open(ant)).thenReturn(read(AntModuleDetector.ANT_PROJECT));
             when(stub.open(maven)).thenAnswer(filename -> read(MavenModuleDetector.MAVEN_POM));
@@ -96,7 +95,7 @@ class ModuleDetectorTest extends ResourceTest {
 
     private void verifyOrder(final String prefix, final String ant, final String maven, final String osgi,
             final String... foundFiles) {
-        FileSystem fileSystem = createFileSystemStub(stub -> {
+        var fileSystem = createFileSystemStub(stub -> {
             when(stub.find(any(), anyString())).thenReturn(foundFiles);
             when(stub.open(ant)).thenAnswer(filename -> read(AntModuleDetector.ANT_PROJECT));
             when(stub.open(maven)).thenAnswer(filename -> read(MavenModuleDetector.MAVEN_POM));
@@ -116,7 +115,7 @@ class ModuleDetectorTest extends ResourceTest {
 
     private FileSystem createFileSystemStub(final Stub stub) {
         try {
-            FileSystem fileSystem = mock(FileSystem.class);
+            var fileSystem = mock(FileSystem.class);
             stub.apply(fileSystem);
             return fileSystem;
         }

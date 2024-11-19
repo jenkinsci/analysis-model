@@ -31,8 +31,8 @@ public class HadoLintParser extends JsonIssueParser {
     @Override
     protected void parseJsonArray(final Report report, final JSONArray jsonReport, final IssueBuilder issueBuilder) {
         for (Object issue : jsonReport) {
-            if (issue instanceof JSONObject) {
-                report.add(convertToIssue((JSONObject) issue, issueBuilder));
+            if (issue instanceof JSONObject object) {
+                report.add(convertToIssue(object, issueBuilder));
             }
         }
     }

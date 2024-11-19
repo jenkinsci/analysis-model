@@ -16,15 +16,15 @@ class ModuleResolverTest {
     @Test
     @SuppressFBWarnings("DMI")
     void shouldAssignModuleName() {
-        try (IssueBuilder builder = new IssueBuilder()) {
+        try (var builder = new IssueBuilder()) {
             var report = new Report();
-            String fileName = "/file/with/warnings.txt";
+            var fileName = "/file/with/warnings.txt";
             builder.setFileName(fileName);
-            Issue noModule = builder.build();
+            var noModule = builder.build();
             report.add(noModule);
 
             builder.setModuleName("module2");
-            Issue withModule = builder.build();
+            var withModule = builder.build();
             report.add(withModule);
 
             var detector = mock(ModuleDetector.class);

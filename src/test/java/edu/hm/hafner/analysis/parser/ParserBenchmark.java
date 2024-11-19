@@ -1,7 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
 import java.net.URISyntaxException;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.Objects;
 
 import org.openjdk.jmh.annotations.Benchmark;
@@ -40,7 +40,7 @@ public class ParserBenchmark extends AbstractBenchmark {
      */
     @Benchmark
     public void benchmarkCheckStyleParser(final BenchmarkState state, final Blackhole blackhole) {
-        Report report = new CheckStyleParser().parse(state.getCheckstyleFileReaderFactory());
+        var report = new CheckStyleParser().parse(state.getCheckstyleFileReaderFactory());
 
         blackhole.consume(report);
     }
@@ -55,7 +55,7 @@ public class ParserBenchmark extends AbstractBenchmark {
      */
     @Benchmark
     public void benchmarkPmdParser(final BenchmarkState state, final Blackhole blackhole) {
-        Report report = new PmdParser().parse(state.getPmdFileReaderFactory());
+        var report = new PmdParser().parse(state.getPmdFileReaderFactory());
 
         blackhole.consume(report);
     }
@@ -72,7 +72,7 @@ public class ParserBenchmark extends AbstractBenchmark {
 
         private ReaderFactory createFileReaderFactory(final String fileName) throws URISyntaxException {
             return new FileReaderFactory(
-                    Paths.get(Objects.requireNonNull(BenchmarkState.class.getResource(fileName)).toURI()));
+                    Path.of(Objects.requireNonNull(BenchmarkState.class.getResource(fileName)).toURI()));
         }
 
         public ReaderFactory getCheckstyleFileReaderFactory() {

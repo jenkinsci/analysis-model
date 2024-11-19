@@ -44,15 +44,15 @@ public class AntModuleDetector extends AbstractModuleDetector {
      * @return the project name or an empty string if the name could not be resolved
      */
     private String parseBuildXml(final String buildXml) {
-        try (InputStream file = getFactory().open(buildXml)) {
+        try (var file = getFactory().open(buildXml)) {
             var digester = new SecureDigester(ModuleDetector.class);
 
             digester.push(new StringBuilder());
-            String xPath = "project";
+            var xPath = "project";
             digester.addCallMethod(xPath, "append", 1);
             digester.addCallParam(xPath, 0, "name");
 
-            StringBuilder result = digester.parse(file);
+            var result = digester.parse(file);
             return result.toString();
         }
         catch (IOException | SAXException | InvalidPathException ignored) {

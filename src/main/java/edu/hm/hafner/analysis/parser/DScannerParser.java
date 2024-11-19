@@ -24,7 +24,7 @@ public class DScannerParser extends JsonParser {
     @Override
     Optional<Issue> convertToIssue(final JSONObject jsonIssue, final IssueBuilder builder) {
         if (jsonIssue.has(KEY)) {
-            String key = jsonIssue.getString(KEY);
+            var key = jsonIssue.getString(KEY);
             builder.setCategory(key);
             builder.setSeverity(getSeverityByKey(key));
         }
@@ -44,7 +44,7 @@ public class DScannerParser extends JsonParser {
     }
 
     private Severity getSeverityByKey(final String key) {
-        String[] parts = key.split("\\.", -1);
+        var parts = key.split("\\.", -1);
 
         switch (parts[1]) {
             case "confusing":

@@ -33,7 +33,7 @@ public class TaskingVxCompilerParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        String type = matcher.group(1);
+        var type = matcher.group(1);
         Severity priority;
         String category;
 

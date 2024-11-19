@@ -72,7 +72,7 @@ public class IssueDifferenceBenchmark extends AbstractBenchmark {
         }
 
         private Issue createIssue(final String message, final String fingerprint) {
-            try (IssueBuilder builder = new IssueBuilder()) {
+            try (var builder = new IssueBuilder()) {
                 builder.setFileName("file-name")
                         .setLineStart(1)
                         .setLineEnd(2)

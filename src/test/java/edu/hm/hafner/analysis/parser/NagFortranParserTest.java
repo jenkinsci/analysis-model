@@ -22,12 +22,12 @@ class NagFortranParserTest extends AbstractParserTest {
      */
     @Test
     void testInfoParser() {
-        Report warnings = parse("NagFortranInfo.txt");
+        var warnings = parse("NagFortranInfo.txt");
 
         assertThat(warnings).hasSize(1);
         assertThatReportHasSeverities(warnings, 0, 0, 0, 1);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasFileName("C:/file1.inc")
                     .hasCategory("Info")
@@ -42,12 +42,12 @@ class NagFortranParserTest extends AbstractParserTest {
      */
     @Test
     void testWarningParser() {
-        Report warnings = parse("NagFortranWarning.txt");
+        var warnings = parse("NagFortranWarning.txt");
 
         assertThat(warnings).hasSize(1);
         assertThatReportHasSeverities(warnings, 0, 0, 1, 0);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasFileName("C:/file2.f90")
                     .hasCategory("Warning")
@@ -62,12 +62,12 @@ class NagFortranParserTest extends AbstractParserTest {
      */
     @Test
     void testQuestionableParser() {
-        Report warnings = parse("NagFortranQuestionable.txt");
+        var warnings = parse("NagFortranQuestionable.txt");
 
         assertThat(warnings).hasSize(1);
         assertThatReportHasSeverities(warnings, 0, 0, 1, 0);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasFileName("/file3.f90")
                     .hasCategory("Questionable")
@@ -83,12 +83,12 @@ class NagFortranParserTest extends AbstractParserTest {
      */
     @Test
     void testExtensionParser() {
-        Report warnings = parse("NagFortranExtension.txt");
+        var warnings = parse("NagFortranExtension.txt");
 
         assertThat(warnings).hasSize(1);
         assertThatReportHasSeverities(warnings, 0, 0, 1, 0);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasFileName("file4.f90")
                     .hasCategory("Extension")
@@ -103,12 +103,12 @@ class NagFortranParserTest extends AbstractParserTest {
      */
     @Test
     void testObsolescentParser() {
-        Report warnings = parse("NagFortranObsolescent.txt");
+        var warnings = parse("NagFortranObsolescent.txt");
 
         assertThat(warnings).hasSize(1);
         assertThatReportHasSeverities(warnings, 0, 0, 1, 0);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasFileName("file5.f")
                     .hasCategory("Obsolescent")
@@ -123,12 +123,12 @@ class NagFortranParserTest extends AbstractParserTest {
      */
     @Test
     void testDeletedFeatureUsedParser() {
-        Report warnings = parse("NagFortranDeletedFeatureUsed.txt");
+        var warnings = parse("NagFortranDeletedFeatureUsed.txt");
 
         assertThat(warnings).hasSize(1);
         assertThatReportHasSeverities(warnings, 0, 0, 1, 0);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasFileName("file6.f90")
                     .hasCategory("Deleted feature used")
@@ -143,12 +143,12 @@ class NagFortranParserTest extends AbstractParserTest {
      */
     @Test
     void testErrorParser() {
-        Report warnings = parse("NagFortranError.txt");
+        var warnings = parse("NagFortranError.txt");
 
         assertThat(warnings).hasSize(1);
         assertThatReportHasSeverities(warnings, 0, 1, 0, 0);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasFileName("file7.f90")
                     .hasCategory("Error")
@@ -164,12 +164,12 @@ class NagFortranParserTest extends AbstractParserTest {
      */
     @Test
     void testRuntimeErrorParser() {
-        Report warnings = parse("NagFortranRuntimeError.txt");
+        var warnings = parse("NagFortranRuntimeError.txt");
 
         assertThat(warnings).hasSize(1);
         assertThatReportHasSeverities(warnings, 0, 1, 0, 0);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasFileName("file8.f90")
                     .hasCategory("Runtime Error")
@@ -184,12 +184,12 @@ class NagFortranParserTest extends AbstractParserTest {
      */
     @Test
     void testFatalErrorParser() {
-        Report warnings = parse("NagFortranFatalError.txt");
+        var warnings = parse("NagFortranFatalError.txt");
 
         assertThat(warnings).hasSize(1);
         assertThatReportHasSeverities(warnings, 0, 1, 0, 0);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasFileName("file9.f90")
                     .hasCategory("Fatal Error")
@@ -204,12 +204,12 @@ class NagFortranParserTest extends AbstractParserTest {
      */
     @Test
     void testPanicParser() {
-        Report warnings = parse("NagFortranPanic.txt");
+        var warnings = parse("NagFortranPanic.txt");
 
         assertThat(warnings).hasSize(1);
         assertThatReportHasSeverities(warnings, 0, 1, 0, 0);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasFileName("file10.f90")
                     .hasCategory("Panic")
@@ -224,12 +224,12 @@ class NagFortranParserTest extends AbstractParserTest {
      */
     @Test
     void testNonStandardObsoleteParser() {
-        Report warnings = parse("NagFortranNonStandardObsolete.txt");
+        var warnings = parse("NagFortranNonStandardObsolete.txt");
 
         assertThat(warnings).hasSize(1);
         assertThatReportHasSeverities(warnings, 0, 0, 1, 0);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasFileName("msgs71.f90")
                     .hasCategory("Non-standard(Obsolete)")
@@ -244,12 +244,12 @@ class NagFortranParserTest extends AbstractParserTest {
      */
     @Test
     void testExtensionNAGParser() {
-        Report warnings = parse("NagFortranExtensionNAG.txt");
+        var warnings = parse("NagFortranExtensionNAG.txt");
 
         assertThat(warnings).hasSize(1);
         assertThatReportHasSeverities(warnings, 0, 0, 1, 0);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasFileName("msgs71.f90")
                     .hasCategory("Extension(NAG)")
@@ -264,12 +264,12 @@ class NagFortranParserTest extends AbstractParserTest {
      */
     @Test
     void testExtensionF2018Parser() {
-        Report warnings = parse("NagFortranExtensionF2018.txt");
+        var warnings = parse("NagFortranExtensionF2018.txt");
 
         assertThat(warnings).hasSize(1);
         assertThatReportHasSeverities(warnings, 0, 0, 1, 0);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasFileName("msgs71.f90")
                     .hasCategory("Extension(F2018)")
@@ -284,12 +284,12 @@ class NagFortranParserTest extends AbstractParserTest {
      */
     @Test
     void testExtensionF2008Parser() {
-        Report warnings = parse("NagFortranExtensionF2008.txt");
+        var warnings = parse("NagFortranExtensionF2008.txt");
 
         assertThat(warnings).hasSize(1);
         assertThatReportHasSeverities(warnings, 0, 0, 1, 0);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasFileName("msgs71.f90")
                     .hasCategory("Extension(F2008)")

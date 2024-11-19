@@ -40,7 +40,7 @@ public class PvsStudioParser extends IssueParser {
 
     @Override
     public Report parse(final ReaderFactory readerFactory) throws ParsingException, ParsingCanceledException {
-        try (IssueBuilder issueBuilder = new IssueBuilder()) {
+        try (var issueBuilder = new IssueBuilder()) {
             var report = new Report();
             var parser = new PlogMessagesReader();
 

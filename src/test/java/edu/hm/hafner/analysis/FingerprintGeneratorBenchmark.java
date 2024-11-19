@@ -89,7 +89,7 @@ public class FingerprintGeneratorBenchmark extends AbstractBenchmark {
         @SuppressFBWarnings("PREDICTABLE_RANDOM")
         private Report createMultipleIssues(final int number) {
             var report = new Report();
-            try (IssueBuilder builder = new IssueBuilder()) {
+            try (var builder = new IssueBuilder()) {
                 builder.setFileName(AFFECTED_FILE_NAME);
                 for (int i = 0; i < number; i++) {
                     builder.setLineStart(random.nextInt() * 26);

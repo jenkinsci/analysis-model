@@ -26,11 +26,11 @@ class CppLintParserTest extends AbstractParserTest {
      */
     @Test
     void issue18290() {
-        Report warnings = parse("issue18290.txt");
+        var warnings = parse("issue18290.txt");
 
         assertThat(warnings).hasSize(2);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0)).hasLineStart(399)
                     .hasLineEnd(399)
                     .hasMessage("Missing space before {")
@@ -64,11 +64,11 @@ class CppLintParserTest extends AbstractParserTest {
      */
     @Test
     void cpplintMessageWithColon() {
-        Report warnings = parse("cpplint-message-with-colon.txt");
+        var warnings = parse("cpplint-message-with-colon.txt");
 
         assertThat(warnings).hasSize(1);
 
-        try (SoftAssertions softly = new SoftAssertions()) {
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasLineStart(1)
                     .hasLineEnd(1)

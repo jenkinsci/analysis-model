@@ -74,9 +74,9 @@ public class EclipseParser extends LookaheadParser {
     }
 
     static void extractMessage(final IssueBuilder builder, final String message) {
-        Matcher messageMatcher = ANT_PREFIX.matcher(message);
+        var messageMatcher = ANT_PREFIX.matcher(message);
         if (messageMatcher.matches()) {
-            String msg = messageMatcher.group(1);
+            var msg = messageMatcher.group(1);
             builder.setMessage(msg);
             extractCategory(builder, msg);
         }

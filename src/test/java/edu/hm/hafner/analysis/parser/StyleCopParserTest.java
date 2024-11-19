@@ -76,7 +76,7 @@ class StyleCopParserTest extends AbstractParserTest {
      */
     @Test
     void testStyleCopOneFile() {
-        Report result = parse("stylecop/onefile.xml");
+        var result = parse("stylecop/onefile.xml");
 
         assertThat(result).hasSize(3);
     }
@@ -86,7 +86,7 @@ class StyleCopParserTest extends AbstractParserTest {
      */
     @Test
     void testStyleCop43() {
-        Report result = parse("stylecop/stylecop-v4.3.xml");
+        var result = parse("stylecop/stylecop-v4.3.xml");
 
         assertThat(result).hasSize(2);
     }

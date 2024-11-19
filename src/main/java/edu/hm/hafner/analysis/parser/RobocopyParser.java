@@ -31,7 +31,7 @@ public class RobocopyParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        String file = matcher.group(4).split("\\s{11}", -1)[0];
+        var file = matcher.group(4).split("\\s{11}", -1)[0];
         return builder.setFileName(file)
                 .setLineStart(0)
                 .setCategory(matcher.group(2))

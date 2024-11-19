@@ -33,8 +33,8 @@ public class GoLintParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        String message = matcher.group(4);
-        String category = guessCategory(message);
+        var message = matcher.group(4);
+        var category = guessCategory(message);
 
         return builder.setFileName(matcher.group(1))
                 .setLineStart(matcher.group(2))

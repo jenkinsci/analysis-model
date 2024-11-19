@@ -30,7 +30,7 @@ public class CppCheckAdapter extends AbstractViolationAdapter {
 
     @Override
     Report convertToReport(final Set<Violation> violations) {
-        try (IssueBuilder issueBuilder = new IssueBuilder()) {
+        try (var issueBuilder = new IssueBuilder()) {
             var violationsPerGroup = new LinkedHashSet<>(violations).stream()
                     .collect(Collectors.groupingBy(Violation::getGroup));
 

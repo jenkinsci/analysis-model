@@ -26,7 +26,7 @@ class PackageNameResolverTest {
 
     @Test
     void shouldDoNothingForEmptyIssues() {
-        Report report = createIssues();
+        var report = createIssues();
 
         var resolver = new PackageNameResolver();
         resolver.run(report, StandardCharsets.UTF_8);
@@ -36,7 +36,7 @@ class PackageNameResolverTest {
 
     @Test
     void shouldSkipExistingPackage() {
-        Report report = createIssues();
+        var report = createIssues();
         report.add(ISSUE_WITH_PACKAGE);
 
         var resolver = new PackageNameResolver();
@@ -48,7 +48,7 @@ class PackageNameResolverTest {
 
     @Test
     void shouldResolvePackage() throws IOException {
-        Report report = createIssues();
+        var report = createIssues();
         report.add(ISSUE_WITHOUT_PACKAGE);
 
         var resolver = new PackageNameResolver(createFileSystemStub());
@@ -61,7 +61,7 @@ class PackageNameResolverTest {
 
     @Test
     void shouldResolvePackageAndSkipExistingPackage() throws IOException {
-        Report report = createIssues();
+        var report = createIssues();
         report.add(ISSUE_WITHOUT_PACKAGE);
         report.add(ISSUE_WITH_PACKAGE);
 
@@ -75,7 +75,7 @@ class PackageNameResolverTest {
     }
 
     private FileSystem createFileSystemStub() throws IOException {
-        FileSystem fileSystemStub = mock(FileSystem.class);
+        var fileSystemStub = mock(FileSystem.class);
         when(fileSystemStub.openFile(FILE_NO_PACKAGE))
                 .thenReturn(new ByteArrayInputStream("package a.name;".getBytes(StandardCharsets.UTF_8)));
         return fileSystemStub;

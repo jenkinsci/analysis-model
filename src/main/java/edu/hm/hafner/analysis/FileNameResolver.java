@@ -47,7 +47,7 @@ public class FileNameResolver {
                 .filter(entry -> PATH_UTIL.exists(entry.getValue(), sourceDirectoryPrefix))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
-        try (IssueBuilder builder = new IssueBuilder()) {
+        try (var builder = new IssueBuilder()) {
             report.stream()
                     .filter(issue -> pathMapping.containsKey(issue.getFileName()))
                     .forEach(issue -> issue.setFileName(sourceDirectoryPrefix,

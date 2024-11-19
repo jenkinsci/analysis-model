@@ -24,14 +24,14 @@ public class JcReportParser extends IssueParser {
 
     @Override
     public Report parse(final ReaderFactory reader) {
-        try (IssueBuilder issueBuilder = new IssueBuilder()) {
-            edu.hm.hafner.analysis.parser.jcreport.Report report = createReport(reader);
+        try (var issueBuilder = new IssueBuilder()) {
+            var report = createReport(reader);
             var warnings = new Report();
             for (int i = 0; i < report.getFiles().size(); i++) {
-                File file = report.getFiles().get(i);
+                var file = report.getFiles().get(i);
 
                 for (int j = 0; j < file.getItems().size(); j++) {
-                    Item item = file.getItems().get(j);
+                    var item = file.getItems().get(j);
                     issueBuilder.setFileName(file.getName())
                             .setLineStart(item.getLine())
                             .setColumnStart(item.getColumn())
@@ -62,18 +62,18 @@ public class JcReportParser extends IssueParser {
             throws ParsingException {
         var digester = new SecureDigester(JcReportParser.class);
 
-        String report = "report";
+        var report = "report";
         digester.addObjectCreate(report, edu.hm.hafner.analysis.parser.jcreport.Report.class);
         digester.addSetProperties(report);
 
-        String file = "report/file";
+        var file = "report/file";
         digester.addObjectCreate(file, File.class);
         digester.addSetProperties(file, "package", "packageName");
         digester.addSetProperties(file, "src-dir", "srcdir");
         digester.addSetProperties(file);
         digester.addSetNext(file, "addFile", File.class.getName());
 
-        String item = "report/file/item";
+        var item = "report/file/item";
         digester.addObjectCreate(item, Item.class);
         digester.addSetProperties(item);
         digester.addSetProperties(item, "finding-type", "findingtype");
@@ -81,7 +81,7 @@ public class JcReportParser extends IssueParser {
         digester.addSetProperties(item, "end-column", "endcolumn");
         digester.addSetNext(item, "addItem", Item.class.getName());
 
-        try (Reader reader = readerFactory.create()) {
+        try (var reader = readerFactory.create()) {
             return digester.parse(reader);
         }
         catch (IOException | SAXException e) {

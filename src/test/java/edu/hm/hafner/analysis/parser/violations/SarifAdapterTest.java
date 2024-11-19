@@ -40,7 +40,7 @@ class SarifAdapterTest extends AbstractParserTest {
 
     @Test
     void shouldReportDifferentSeverities() {
-        Report report = parse("security-scan.sarif");
+        var report = parse("security-scan.sarif");
 
         assertThat(report).hasSize(51);
         assertThat(report.getSizeOf(Severity.WARNING_HIGH)).isEqualTo(3);
@@ -50,8 +50,8 @@ class SarifAdapterTest extends AbstractParserTest {
 
     @Test
     void handleFilePathsInFileURIschemeFormat() {
-        Report report = parse("filePathInFileUriScheme.sarif");
-        try (SoftAssertions softly = new SoftAssertions()) {
+        var report = parse("filePathInFileUriScheme.sarif");
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(report).hasSize(2);
             assertThatReportHasSeverities(report, 0, 0, 2, 0);
             softly.assertThat(report.get(0))
@@ -70,8 +70,8 @@ class SarifAdapterTest extends AbstractParserTest {
     @ParameterizedTest(name = "[{index}] Filename with invalid path: {0}")
     @ValueSource(strings = {"brokenfilePath.sarif", "emptyfilePath.sarif"})
     void handleBrokenPathsInFileURIschemeFormat(final String fileName) {
-        Report report = parse(fileName);
-        try (SoftAssertions softly = new SoftAssertions()) {
+        var report = parse(fileName);
+        try (var softly = new SoftAssertions()) {
             softly.assertThat(report).hasSize(2);
             assertThatReportHasSeverities(report, 0, 0, 2, 0);
             softly.assertThat(report.get(0).getFileName()).endsWith("this/dir/file.cs");

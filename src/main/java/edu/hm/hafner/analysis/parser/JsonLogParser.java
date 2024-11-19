@@ -23,7 +23,7 @@ public class JsonLogParser extends JsonBaseParser {
 
     @Override
     public boolean accepts(final ReaderFactory readerFactory) {
-        String fileName = readerFactory.getFileName();
+        var fileName = readerFactory.getFileName();
         return !fileName.endsWith(".xml") && !fileName.endsWith(".json");
     }
 
@@ -36,8 +36,7 @@ public class JsonLogParser extends JsonBaseParser {
                     .filter(line -> !line.startsWith("//"))
                     .filter(line -> line.charAt(0) != '#')
                     .map(line -> parseIssue(line, report))
-                    .filter(Optional::isPresent)
-                    .map(Optional::get)
+                    .flatMap(Optional::stream)
                     .forEach(report::add);
             return report;
         }
