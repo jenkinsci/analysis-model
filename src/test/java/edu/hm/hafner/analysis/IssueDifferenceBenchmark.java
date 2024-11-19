@@ -2,7 +2,6 @@ package edu.hm.hafner.analysis;
 
 import java.util.List;
 
-
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Level;
 import org.openjdk.jmh.annotations.Scope;
