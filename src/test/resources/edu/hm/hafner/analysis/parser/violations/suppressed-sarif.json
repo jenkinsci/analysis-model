@@ -59,6 +59,56 @@
           "taxa": []
         },
         {
+          "ruleId": "abcdef",
+          "ruleIndex": -1,
+          "kind": "FAIL",
+          "level": "note",
+          "message": {
+            "text": "asdasd",
+            "arguments": []
+          },
+          "locations": [
+            {
+              "id": -1,
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/whatever/path.c",
+                  "index": -1
+                },
+                "region": {
+                  "startLine": 123,
+                  "endLine": 123,
+                  "charOffset": -1,
+                  "byteOffset": -1,
+                  "message": {
+                    "text": "asdasd",
+                    "arguments": []
+                  }
+                }
+              },
+              "logicalLocations": [],
+              "annotations": [],
+              "relationships": []
+            }
+          ],
+          "stacks": [],
+          "codeFlows": [],
+          "graphs": [],
+          "graphTraversals": [],
+          "relatedLocations": [],
+          "suppressions": [
+            {
+              "state": "rejected",
+              "justification": "bla"
+            }
+          ],
+          "rank": -1.0,
+          "attachments": [],
+          "workItemUris": [],
+          "fixes": [],
+          "taxa": []
+        },
+        {
           "ruleId": "Cyclomatic complexity",
           "ruleIndex": -1,
           "kind": "FAIL",
