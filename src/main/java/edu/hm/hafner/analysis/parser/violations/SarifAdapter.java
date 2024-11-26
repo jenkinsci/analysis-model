@@ -40,6 +40,12 @@ public class SarifAdapter extends AbstractViolationAdapter {
         }
     }
 
+    @Override
+    boolean isValid(final Violation violation) {
+        return !(violation.getSpecifics().containsKey("suppressed")
+            && violation.getSpecifics().get("suppressed").equals("true"));
+    }
+
     private String removePrefix(final String fileName) {
         if (WINDOWS_PATH_ON_UNIX.matcher(fileName).matches()) {
             return fileName.substring(1);
