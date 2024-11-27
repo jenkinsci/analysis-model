@@ -79,6 +79,26 @@ class SarifAdapterTest extends AbstractParserTest {
         }
     }
 
+    @Test
+    void shouldIgnoreSuppressedIssues() {
+        var report = parse("suppressed-sarif.json");
+        try (var softly = new SoftAssertions()) {
+            softly.assertThat(report).hasSize(2);
+            softly.assertThat(report.get(0))
+                    .hasFileName("/whatever/path.c")
+                    .hasLineStart(123)
+                    .hasType("Cyclomatic complexity")
+                    .hasSeverity(Severity.WARNING_HIGH);
+            softly.assertThat(report.get(0).getMessage()).matches("asdasd");
+            softly.assertThat(report.get(1))
+                    .hasFileName("/whatever/path.c")
+                    .hasLineStart(123)
+                    .hasType("abcdef")
+                    .hasSeverity(Severity.WARNING_LOW);
+            softly.assertThat(report.get(1).getMessage()).matches("asdasd");
+        }
+    }
+
     @Override
     protected SarifAdapter createParser() {
         return new SarifAdapter();
