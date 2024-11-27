@@ -42,8 +42,7 @@ public class SarifAdapter extends AbstractViolationAdapter {
 
     @Override
     boolean isValid(final Violation violation) {
-        return !(violation.getSpecifics().containsKey("suppressed")
-            && violation.getSpecifics().get("suppressed").equals("true"));
+        return violation.getSpecifics().getOrDefault("suppressed", "false").equals("false");
     }
 
     private String removePrefix(final String fileName) {
