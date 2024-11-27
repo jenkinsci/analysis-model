@@ -13,6 +13,7 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
+import edu.hm.hafner.analysis.Report.Type;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.parser.findbugs.FindBugsParser.PriorityProperty;
@@ -35,7 +36,9 @@ class FindBugsParserTest {
         var readerFactory = mock(ReaderFactory.class);
         when(readerFactory.create()).thenAnswer(
                 mock -> new InputStreamReader(read(fileName), StandardCharsets.UTF_8));
-        return new FindBugsParser(priorityProperty).parse(readerFactory,
+        var parser = new FindBugsParser(priorityProperty);
+        assertThat(parser).hasType(Type.BUG);
+        return parser.parse(readerFactory,
                 Collections.emptyList(), new IssueBuilder());
     }
 
@@ -59,6 +62,8 @@ class FindBugsParserTest {
         assertThat(rankReport).hasSize(12);
         assertThatReportHasSeverities(rankReport,
                 0, 0, 0, 12);
+        assertThat(rankReport).hasToString(
+                "FindBugs: 12 warnings (12 low)");
     }
 
     private void assertThatReportHasSeverities(final Report report, final int expectedSizeError,

@@ -40,28 +40,26 @@ import edu.hm.hafner.util.LineRangeList;
 import edu.hm.hafner.util.PathUtil;
 import edu.hm.hafner.util.TreeStringBuilder;
 import edu.hm.hafner.util.VisibleForTesting;
-import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
- * A report contains a set of unique {@link Issue issues}: it contains no duplicate elements, i.e. it models the
+ * A report contains a set of unique {@link Issue issues}: it contains no duplicate elements, i.e., it models the
  * mathematical <i>set</i> abstraction. This report provides a <i>total ordering</i> on its elements. I.e., the issues
- * in this report are ordered by their index: the first added issue is at position 0, the second added issues is at
+ * in this report are ordered by their index: the first added issue is at position 0, the second added issue is at
  * position 1, and so on.
  *
  * <p>
- * Additionally, this report provides methods to find and filter issues based on different properties. In order to
+ * Additionally, this report provides methods to find and filter issues based on different properties. To
  * create issues use the provided {@link IssueBuilder builder} class.
  * </p>
  *
  * @author Ullrich Hafner
  */
 @SuppressWarnings({"PMD.ExcessivePublicCount", "PMD.ExcessiveClassLength", "PMD.GodClass", "PMD.CognitiveComplexity", "PMD.CyclomaticComplexity", "checkstyle:ClassFanOutComplexity"})
-// TODO: provide a readResolve method to check the instance and improve the performance (TreeString, etc.)
 public class Report implements Iterable<Issue>, Serializable {
     @Serial
-    private static final long serialVersionUID = 4L; // release 10.0.0
+    private static final long serialVersionUID = 5L; // release 13.0.0
 
     @VisibleForTesting
     static final String DEFAULT_ID = "-";
@@ -69,6 +67,9 @@ public class Report implements Iterable<Issue>, Serializable {
     private String id;
     private String name;
     private String originReportFile;
+    private String icon = StringUtils.EMPTY; // since 13.0.0
+    private String parserId = DEFAULT_ID; // since 13.0.0
+    private Type type = Type.WARNING; // since 13.0.0
 
     private List<Report> subReports = new ArrayList<>(); // almost final
 
@@ -76,11 +77,6 @@ public class Report implements Iterable<Issue>, Serializable {
     private List<String> infoMessages = new ArrayList<>();
     private List<String> errorMessages = new ArrayList<>();
     private Map<String, Integer> countersByKey = new HashMap<>();
-
-    @CheckForNull @SuppressWarnings({"all", "UnusedVariable"})
-    private transient Set<String> fileNames; // Not needed anymore since  10.0.0
-    @CheckForNull @SuppressWarnings({"all", "UnusedVariable"})
-    private transient Map<String, String> namesByOrigin; // Not needed anymore since  10.0.0
 
     private int duplicatesSize;
 
@@ -119,7 +115,6 @@ public class Report implements Iterable<Issue>, Serializable {
         this.name = name;
         this.originReportFile = originReportFile;
     }
-
 
     /**
      * Creates a new {@link Report} that is an aggregation of the specified {@link Report reports}. The created report
@@ -256,6 +251,32 @@ public class Report implements Iterable<Issue>, Serializable {
     }
 
     /**
+     * Returns the type of the report. The type might be used to customize reports in the UI.
+     *
+     * @return the type of the parser
+     */
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(final Type type) {
+        this.type = type;
+    }
+
+    /**
+     * Returns the icon of the report. The icon might be used to customize reports in the UI.
+     *
+     * @return the name of te icon
+     */
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(final String icon) {
+        this.icon = icon;
+    }
+
+    /**
      * Appends the specified issue to the end of this report. Duplicates will be skipped (the number of skipped elements
      * is available using the method {@link #getDuplicatesSize()}.
      *
@@ -383,11 +404,12 @@ public class Report implements Iterable<Issue>, Serializable {
     }
 
     /**
-     * Called after de-serialization to improve the memory usage and to initialize fields that have been introduced
+     * Called after deserialization to improve the memory usage and to initialize fields that have been introduced
      * after the first release.
      *
      * @return this
      */
+    @Serial
     @SuppressFBWarnings(value = "RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE", justification = "Deserialization of instances that do not have all fields yet")
     protected Object readResolve() {
         if (countersByKey == null) {
@@ -398,6 +420,11 @@ public class Report implements Iterable<Issue>, Serializable {
             id = DEFAULT_ID;
             name = DEFAULT_ID;
             originReportFile = DEFAULT_ID;
+        }
+        if (parserId == null) { // release 13.0.0
+            parserId = DEFAULT_ID;
+            icon = DEFAULT_ID;
+            type = Type.WARNING;
         }
         return this;
     }
@@ -622,8 +649,49 @@ public class Report implements Iterable<Issue>, Serializable {
 
     @Override
     public String toString() {
-        return String.format(Locale.ENGLISH, "%s (%s): %d issues (%d duplicates)", getEffectiveName(), getEffectiveId(),
-                size(), getDuplicatesSize());
+        return String.format(Locale.ENGLISH, "%s (%s): %s%s", getEffectiveName(), getEffectiveId(),
+                getItemName(size()), getDuplicates());
+    }
+
+    private String getItemName(final int size) {
+        var items = getItemCount(size);
+        if (size == 0) {
+            return String.format("No %s", items);
+        }
+        return String.format(Locale.ENGLISH, "%d %s", size, items);
+    }
+
+    // Open as API?
+    private String getItemCount(final int count) {
+        if (count == 1) {
+            return switch (getType()) {
+                case WARNING -> "warning";
+                case BUG -> "bug";
+                case DUPLICATION -> "duplication";
+                case VULNERABILITY -> "vulnerability";
+            };
+        } else {
+            return switch (getType()) {
+                case WARNING -> "warnings";
+                case BUG -> "bugs";
+                case DUPLICATION -> "duplications";
+                case VULNERABILITY -> "vulnerabilities";
+            };
+        }
+    }
+
+    private String getDuplicates() {
+        if (duplicatesSize > 0) {
+            return String.format(Locale.ENGLISH, " (%d duplicates)", duplicatesSize);
+        }
+        return StringUtils.EMPTY;
+    }
+
+    private static String plural(final int score) {
+        if (score == 1) {
+            return StringUtils.EMPTY;
+        }
+        return "s";
     }
 
     /**
@@ -1008,6 +1076,9 @@ public class Report implements Iterable<Issue>, Serializable {
         return duplicatesSize == issues.duplicatesSize
                 && Objects.equals(id, issues.id)
                 && Objects.equals(name, issues.name)
+                && Objects.equals(icon, issues.icon)
+                && Objects.equals(type, issues.type)
+                && Objects.equals(parserId, issues.parserId)
                 && Objects.equals(originReportFile, issues.originReportFile)
                 && Objects.equals(subReports, issues.subReports)
                 && Objects.equals(elements, issues.elements)
@@ -1019,10 +1090,11 @@ public class Report implements Iterable<Issue>, Serializable {
     @Override
     @Generated
     public int hashCode() {
-        return Objects.hash(id, name, originReportFile, subReports, elements, infoMessages, errorMessages,
-                countersByKey, duplicatesSize);
+        return Objects.hash(id, name, icon, type, parserId, originReportFile, subReports, elements,
+                infoMessages, errorMessages, countersByKey, duplicatesSize);
     }
 
+    @Serial
     private void writeObject(final ObjectOutputStream output) throws IOException {
         output.writeInt(elements.size());
         writeIssues(output);
@@ -1035,6 +1107,10 @@ public class Report implements Iterable<Issue>, Serializable {
 
         output.writeUTF(id);
         output.writeUTF(name);
+        output.writeUTF(icon);
+        output.writeUTF(parserId);
+        output.writeObject(type);
+
         output.writeUTF(originReportFile);
         output.writeInt(subReports.size());
         for (Report subReport : subReports) {
@@ -1075,6 +1151,7 @@ public class Report implements Iterable<Issue>, Serializable {
     @SuppressWarnings("unchecked")
     @SuppressFBWarnings(value = "MC_OVERRIDABLE_METHOD_CALL_IN_READ_OBJECT",
             justification = "False positive, the overridden method is in already initialized objects")
+    @Serial
     private void readObject(final ObjectInputStream input) throws IOException, ClassNotFoundException {
         elements = new LinkedHashSet<>();
         readIssues(input, input.readInt());
@@ -1087,6 +1164,11 @@ public class Report implements Iterable<Issue>, Serializable {
 
         id = input.readUTF();
         name = input.readUTF();
+
+        icon = input.readUTF();
+        parserId = input.readUTF();
+        type = (Type) input.readObject();
+
         originReportFile = input.readUTF();
         subReports = new ArrayList<>();
 
@@ -1662,5 +1744,19 @@ public class Report implements Iterable<Issue>, Serializable {
                     filterType);
         }
         //</editor-fold>
+    }
+
+    /**
+     * Returns the type of the issues. The type is used to customize reports in the UI.
+     */
+    public enum Type {
+        /** A parser that scans the output of a build tool to find warnings. */
+        WARNING,
+        /** A parser that scans the output of a build tool to find bugs. */
+        BUG,
+        /** A parser that scans the output of a build tool to find vulnerabilities. */
+        VULNERABILITY,
+        /** A parser that scans the output of a build tool to find vulnerabilities. */
+        DUPLICATION
     }
 }

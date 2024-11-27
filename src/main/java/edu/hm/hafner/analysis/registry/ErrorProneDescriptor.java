@@ -28,9 +28,4 @@ class ErrorProneDescriptor extends CompositeParserDescriptor {
     public String getUrl() {
         return "https://errorprone.info";
     }
-
-    @Override
-    public Type getType() {
-        return Type.BUG;
-    }
 }

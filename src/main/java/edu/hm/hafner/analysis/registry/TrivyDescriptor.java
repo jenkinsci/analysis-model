@@ -41,9 +41,4 @@ class TrivyDescriptor extends ParserDescriptor {
     public String getIconUrl() {
         return "https://github.com/aquasecurity/trivy/blob/main/docs/imgs/logo.png?raw=true";
     }
-
-    @Override
-    public Type getType() {
-        return Type.VULNERABILITY;
-    }
 }
