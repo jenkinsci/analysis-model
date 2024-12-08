@@ -30,9 +30,4 @@ class FlawfinderDescriptor extends ParserDescriptor {
     public String getUrl() {
         return "https://dwheeler.com/flawfinder/";
     }
-
-    @Override
-    public Type getType() {
-        return Type.VULNERABILITY;
-    }
 }

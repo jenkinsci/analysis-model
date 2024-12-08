@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.registry;
 
+import java.io.Serial;
 import java.util.AbstractMap.SimpleImmutableEntry;
 
 import org.apache.commons.lang3.StringUtils;
@@ -45,17 +46,6 @@ public abstract class ParserDescriptor {
      */
     public String getName() {
         return name;
-    }
-
-    /**
-     * Returns the type of the parser. The type is used to customize parsers in the UI.
-     * This default implementation returns {@link Type#WARNING}.
-     * Override this method if your parser is of a different type.
-     *
-     * @return the type of the parser
-     */
-    public Type getType() {
-        return Type.WARNING;
     }
 
     /**
@@ -141,23 +131,10 @@ public abstract class ParserDescriptor {
     }
 
     /**
-     * Returns the type of the parser. The type is used to customize parsers in the UI.
-     */
-    public enum Type {
-        /** A parser that scans the output of a build tool to find warnings. */
-        WARNING,
-        /** A parser that scans the output of a build tool to find bugs. */
-        BUG,
-        /** A parser that scans the output of a build tool to find vulnerabilities. */
-        VULNERABILITY,
-        /** A parser that scans the output of a build tool to find vulnerabilities. */
-        DUPLICATION
-    }
-
-    /**
      * A parser configuration option. Basically an immutable key and value pair.
      */
     public static class Option extends SimpleImmutableEntry<String, String> {
+        @Serial
         private static final long serialVersionUID = 7376822311558465523L;
 
         /**

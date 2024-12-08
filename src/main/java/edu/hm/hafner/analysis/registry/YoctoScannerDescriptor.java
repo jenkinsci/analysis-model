@@ -41,9 +41,4 @@ class YoctoScannerDescriptor extends ParserDescriptor {
     public String getIconUrl() {
         return "https://upload.wikimedia.org/wikipedia/commons/0/00/Yocto_Project_logo.svg";
     }
-
-    @Override
-    public Type getType() {
-        return Type.VULNERABILITY;
-    }
 }

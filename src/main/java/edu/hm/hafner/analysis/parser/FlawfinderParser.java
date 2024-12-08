@@ -7,6 +7,7 @@ import java.util.regex.Matcher;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
+import edu.hm.hafner.analysis.Report.Type;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.util.IntegerParser;
 import edu.hm.hafner.util.LookaheadStream;
@@ -31,6 +32,11 @@ public class FlawfinderParser extends LookaheadParser {
      */
     public FlawfinderParser() {
         super(FLAWFINDER_WARNING_PATTERN);
+    }
+
+    @Override
+    public Type getType() {
+        return Type.VULNERABILITY;
     }
 
     @Override

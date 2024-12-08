@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
+import edu.hm.hafner.analysis.Report.Type;
 import edu.hm.hafner.analysis.Severity;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -23,12 +24,18 @@ import static j2html.TagCreator.*;
  * @author Thomas Fürer - tfuerer.javanet@gmail.com
  */
 public class TrivyParser extends JsonIssueParser {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     private static final String VALUE_NOT_SET = "-";
     private static final String TRIVY_VULNERABILITY_LEVEL_TAG_HIGH = "high";
     private static final String TRIVY_VULNERABILITY_LEVEL_TAG_MEDIUM = "medium";
     private static final String TRIVY_VULNERABILITY_LEVEL_TAG_LOW = "low";
-    @Serial
-    private static final long serialVersionUID = 1L;
+
+    @Override
+    public Type getType() {
+        return Type.VULNERABILITY;
+    }
 
     /**
      * Used with schema version 2 starting with trivy 0.20.0.

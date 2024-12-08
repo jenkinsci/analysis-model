@@ -7,6 +7,7 @@ import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 
+import edu.hm.hafner.analysis.Report.Type;
 import edu.hm.hafner.util.SecureXmlParserFactory;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
@@ -54,6 +55,10 @@ public abstract class IssueParser implements Serializable {
      */
     public abstract Report parse(ReaderFactory readerFactory) throws ParsingException, ParsingCanceledException;
 
+    public Type getType() {
+        return Type.WARNING;
+    }
+
     /**
      * Parses the specified file for issues. Invokes the parser using {@link #parse(ReaderFactory)} and sets the file
      * name of the report.
@@ -70,6 +75,7 @@ public abstract class IssueParser implements Serializable {
     public Report parseFile(final ReaderFactory readerFactory) throws ParsingException, ParsingCanceledException {
         var report = parse(readerFactory);
         report.setOriginReportFile(readerFactory.getFileName());
+        report.setType(getType());
         return report;
     }
 
@@ -110,7 +116,7 @@ public abstract class IssueParser implements Serializable {
      * equal sequences of characters, ignoring case.
      *
      * <p>{@code null}s are handled without exceptions. Two {@code null}
-     * references are considered equal. The comparison is <strong>case insensitive</strong>.</p>
+     * references are considered equal. The comparison is <strong>case-insensitive</strong>.</p>
      *
      * <pre>
      * equalsIgnoreCase(null, null)   = true
