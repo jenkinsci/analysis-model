@@ -43,6 +43,8 @@ import edu.hm.hafner.util.VisibleForTesting;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
+import static edu.hm.hafner.analysis.Severity.*;
+
 /**
  * A report contains a set of unique {@link Issue issues}: it contains no duplicate elements, i.e., it models the
  * mathematical <i>set</i> abstraction. This report provides a <i>total ordering</i> on its elements. I.e., the issues
@@ -69,7 +71,7 @@ public class Report implements Iterable<Issue>, Serializable {
     private String originReportFile;
     private String icon = StringUtils.EMPTY; // since 13.0.0
     private String parserId = DEFAULT_ID; // since 13.0.0
-    private Type type = Type.WARNING; // since 13.0.0
+    private IssueType elementType = IssueType.WARNING; // since 13.0.0
 
     private List<Report> subReports = new ArrayList<>(); // almost final
 
@@ -251,16 +253,16 @@ public class Report implements Iterable<Issue>, Serializable {
     }
 
     /**
-     * Returns the type of the report. The type might be used to customize reports in the UI.
+     * Returns the type of the issues in the report. The type might be used to customize reports in the UI.
      *
-     * @return the type of the parser
+     * @return the type of the issues in the report
      */
-    public Type getType() {
-        return type;
+    public IssueType getElementType() {
+        return elementType;
     }
 
-    public void setType(final Type type) {
-        this.type = type;
+    public void setElementType(final IssueType elementType) {
+        this.elementType = elementType;
     }
 
     /**
@@ -424,7 +426,7 @@ public class Report implements Iterable<Issue>, Serializable {
         if (parserId == null) { // release 13.0.0
             parserId = DEFAULT_ID;
             icon = DEFAULT_ID;
-            type = Type.WARNING;
+            elementType = IssueType.WARNING;
         }
         return this;
     }
@@ -649,8 +651,47 @@ public class Report implements Iterable<Issue>, Serializable {
 
     @Override
     public String toString() {
-        return String.format(Locale.ENGLISH, "%s (%s): %s%s", getEffectiveName(), getEffectiveId(),
-                getItemName(size()), getDuplicates());
+        var summary = String.format(Locale.ENGLISH, "%s%s%s", getNamePrefix(), getSummary(), getDuplicates());
+
+        var details = getPredefinedValues()
+                .stream()
+                .map(this::reportSeverity)
+                .flatMap(Optional::stream)
+                .collect(Collectors.joining(", "));
+        if (StringUtils.isEmpty(details)) {
+            return summary;
+        }
+        return summary + " (" + details + ")";
+    }
+
+    /**
+     * Returns a string representation of this report that shows the number of issues and their distribution.
+     *
+     * @return a string representation of this report
+     */
+    public String getSummary() {
+        return getItemName(size());
+    }
+
+    private String getNamePrefix() {
+        if (isEmptyOrDefault(getName()) && isEmptyOrDefault(getId())) {
+            return StringUtils.EMPTY;
+        }
+        else {
+            return String.format(Locale.ENGLISH, "%s (%s): ", getName(), getId());
+        }
+    }
+
+    private boolean isEmptyOrDefault(final String value) {
+        return StringUtils.isEmpty(value) || DEFAULT_ID.equals(value);
+    }
+
+    private Optional<String> reportSeverity(final Severity severity) {
+        var size = getSizeOf(severity);
+        if (size > 0) {
+            return Optional.of(String.format(Locale.ENGLISH, "%s: %d", StringUtils.lowerCase(severity.getName()), size));
+        }
+        return Optional.empty();
     }
 
     private String getItemName(final int size) {
@@ -664,14 +705,15 @@ public class Report implements Iterable<Issue>, Serializable {
     // Open as API?
     private String getItemCount(final int count) {
         if (count == 1) {
-            return switch (getType()) {
+            return switch (getElementType()) {
                 case WARNING -> "warning";
                 case BUG -> "bug";
                 case DUPLICATION -> "duplication";
                 case VULNERABILITY -> "vulnerability";
             };
-        } else {
-            return switch (getType()) {
+        }
+        else {
+            return switch (getElementType()) {
                 case WARNING -> "warnings";
                 case BUG -> "bugs";
                 case DUPLICATION -> "duplications";
@@ -685,13 +727,6 @@ public class Report implements Iterable<Issue>, Serializable {
             return String.format(Locale.ENGLISH, " (%d duplicates)", duplicatesSize);
         }
         return StringUtils.EMPTY;
-    }
-
-    private static String plural(final int score) {
-        if (score == 1) {
-            return StringUtils.EMPTY;
-        }
-        return "s";
     }
 
     /**
@@ -1077,7 +1112,7 @@ public class Report implements Iterable<Issue>, Serializable {
                 && Objects.equals(id, issues.id)
                 && Objects.equals(name, issues.name)
                 && Objects.equals(icon, issues.icon)
-                && Objects.equals(type, issues.type)
+                && Objects.equals(elementType, issues.elementType)
                 && Objects.equals(parserId, issues.parserId)
                 && Objects.equals(originReportFile, issues.originReportFile)
                 && Objects.equals(subReports, issues.subReports)
@@ -1090,7 +1125,7 @@ public class Report implements Iterable<Issue>, Serializable {
     @Override
     @Generated
     public int hashCode() {
-        return Objects.hash(id, name, icon, type, parserId, originReportFile, subReports, elements,
+        return Objects.hash(id, name, icon, elementType, parserId, originReportFile, subReports, elements,
                 infoMessages, errorMessages, countersByKey, duplicatesSize);
     }
 
@@ -1109,7 +1144,7 @@ public class Report implements Iterable<Issue>, Serializable {
         output.writeUTF(name);
         output.writeUTF(icon);
         output.writeUTF(parserId);
-        output.writeObject(type);
+        output.writeObject(elementType);
 
         output.writeUTF(originReportFile);
         output.writeInt(subReports.size());
@@ -1167,7 +1202,7 @@ public class Report implements Iterable<Issue>, Serializable {
 
         icon = input.readUTF();
         parserId = input.readUTF();
-        type = (Type) input.readObject();
+        elementType = (IssueType) input.readObject();
 
         originReportFile = input.readUTF();
         subReports = new ArrayList<>();
@@ -1345,7 +1380,7 @@ public class Report implements Iterable<Issue>, Serializable {
         private final Collection<Predicate<Issue>> includeFilters = new ArrayList<>();
         private final Collection<Predicate<Issue>> excludeFilters = new ArrayList<>();
 
-        /** Type of the filter: include or exclude elements. */
+        /** IssueType of the filter: include or exclude elements. */
         enum FilterType {
             INCLUDE,
             EXCLUDE
@@ -1625,7 +1660,7 @@ public class Report implements Iterable<Issue>, Serializable {
 
         //</editor-fold>
 
-        //<editor-fold desc="Type">
+        //<editor-fold desc="IssueType">
 
         /**
          * Add a new filter for {@code Issue::getCategory}.
@@ -1749,7 +1784,7 @@ public class Report implements Iterable<Issue>, Serializable {
     /**
      * Returns the type of the issues. The type is used to customize reports in the UI.
      */
-    public enum Type {
+    public enum IssueType {
         /** A parser that scans the output of a build tool to find warnings. */
         WARNING,
         /** A parser that scans the output of a build tool to find bugs. */

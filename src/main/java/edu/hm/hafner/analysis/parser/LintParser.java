@@ -25,7 +25,7 @@ public class LintParser extends IssueParser {
     private static final String FILE = "file";
 
     @Override
-    public Report parse(final ReaderFactory readerFactory) throws ParsingException {
+    public Report parseReport(final ReaderFactory readerFactory) throws ParsingException {
         var report = new Report();
         readerFactory.parse(new JSLintXmlSaxParser(report));
         return report;

@@ -31,7 +31,7 @@ class BuckminsterParserTest extends AbstractParserTest {
                 .hasLineStart(57)
                 .hasLineEnd(57)
                 .hasMessage(
-                        "Type safety: The method toArray(Object[]) belongs to the raw type ArrayList. References to generic type ArrayList<E> should be parameterized")
+                        "IssueType safety: The method toArray(Object[]) belongs to the raw type ArrayList. References to generic type ArrayList<E> should be parameterized")
                 .hasFileName(
                         "/var/lib/hudson/jobs/MailApp/workspace/plugins/org.eclipse.buckminster.tutorial.mailapp/src/org/eclipse/buckminster/tutorial/mailapp/NavigationView.java");
         softly.assertThat(report.get(2)).hasSeverity(Severity.WARNING_NORMAL)

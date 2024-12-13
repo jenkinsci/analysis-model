@@ -35,7 +35,7 @@ class EclipseXMLParserTest extends StructuredFileParserTest {
                 .hasColumnStart(0)
                 .hasColumnEnd(0)
                 .hasFileName("C:/devenv/workspace/x/y/src/main/java/y/ECE.java")
-                .hasMessage("Type mismatch: cannot convert from float to Integer")
+                .hasMessage("IssueType mismatch: cannot convert from float to Integer")
                 .hasCategory(EclipseXMLParser.TYPE);
 
         softly.assertThat(report.get(1))

@@ -28,9 +28,9 @@ class CodeGeneratorParserTest extends AbstractParserTest {
         softly.assertThat(report.get(1))
                 .hasCategory("Multiword Aliases not Supported by Code Generation");
         softly.assertThat(report.get(2))
-                .hasCategory("Unnecessary Data Type Conversion");
+                .hasCategory("Unnecessary Data IssueType Conversion");
         softly.assertThat(report.get(3))
-                .hasCategory("Unnecessary Data Type Conversion");
+                .hasCategory("Unnecessary Data IssueType Conversion");
         softly.assertThat(report.get(4))
                 .hasCategory("Model Cannot be Closed");
         softly.assertThat(report.get(5))

@@ -126,6 +126,6 @@ class DupFinderParserTest extends AbstractParserTest {
 
     private Report parse(final int highThreshold, final int normalThreshold) {
         var parser = new DupFinderParser(highThreshold, normalThreshold);
-        return parser.parse(createReaderFactory("without-sourcecode.xml"));
+        return parser.parseReport(createReaderFactory("without-sourcecode.xml"));
     }
 }

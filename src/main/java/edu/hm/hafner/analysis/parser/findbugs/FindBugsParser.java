@@ -18,7 +18,7 @@ import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Report.Type;
+import edu.hm.hafner.analysis.Report.IssueType;
 import edu.hm.hafner.analysis.SecureDigester;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LineRange;
@@ -79,12 +79,12 @@ public class FindBugsParser extends IssueParser {
     }
 
     @Override
-    public Type getType() {
-        return Type.BUG;
+    public IssueType getType() {
+        return IssueType.BUG;
     }
 
     @Override
-    public Report parse(final ReaderFactory readerFactory) throws ParsingException {
+    public Report parseReport(final ReaderFactory readerFactory) throws ParsingException {
         try (var builder = new IssueBuilder()) {
             List<String> sources = new ArrayList<>();
             var moduleRoot = StringUtils.substringBefore(readerFactory.getFileName(), "/target/");

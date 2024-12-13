@@ -99,7 +99,7 @@ class JsonLogParserTest extends AbstractParserTest {
     @Test
     void emptyReport() {
         var parser = createParser();
-        var report = parser.parse(createReaderFactory("json-issues-empty.txt"));
+        var report = parser.parseReport(createReaderFactory("json-issues-empty.txt"));
         assertThat(report).hasSize(0);
     }
 

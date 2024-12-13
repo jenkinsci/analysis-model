@@ -112,7 +112,7 @@ class EclipseParserTest extends AbstractParserTest {
                     .hasLineStart(90)
                     .hasLineEnd(90)
                     .hasMessage(
-                            "Type safety: The method setBoHandler(BoHandler) belongs to the raw type BoQuickSearchControl.Builder. References to generic type BoQuickSearchControl<S>.Builder<T> should be parameterized")
+                            "IssueType safety: The method setBoHandler(BoHandler) belongs to the raw type BoQuickSearchControl.Builder. References to generic type BoQuickSearchControl<S>.Builder<T> should be parameterized")
                     .hasFileName(
                             "/ige/hudson/work/jobs/esvclient__development/workspace/target/rcp-build/plugins/ch.ipi.esv.client.customer/src/main/java/ch/ipi/esv/client/customer/search/CustomerQuickSearch.java")
                     .hasCategory(Categories.OTHER);
@@ -120,7 +120,7 @@ class EclipseParserTest extends AbstractParserTest {
                     .hasLineStart(90)
                     .hasLineEnd(90)
                     .hasMessage(
-                            "Type safety: The expression of type BoQuickSearchControl needs unchecked conversion to conform to BoQuickSearchControl<CustomerBO>")
+                            "IssueType safety: The expression of type BoQuickSearchControl needs unchecked conversion to conform to BoQuickSearchControl<CustomerBO>")
                     .hasFileName(
                             "/ige/hudson/work/jobs/esvclient__development/workspace/target/rcp-build/plugins/ch.ipi.esv.client.customer/src/main/java/ch/ipi/esv/client/customer/search/CustomerQuickSearch.java")
                     .hasCategory(Categories.OTHER);
@@ -178,7 +178,7 @@ class EclipseParserTest extends AbstractParserTest {
                     .hasLineStart(8)
                     .hasLineEnd(8)
                     .hasFileName("C:/devenv/workspace/x/y/src/main/java/y/ECE.java")
-                    .hasMessage("Type mismatch: cannot convert from float to Integer")
+                    .hasMessage("IssueType mismatch: cannot convert from float to Integer")
                     .hasCategory(Categories.OTHER);
 
             softly.assertThat(report.get(1))

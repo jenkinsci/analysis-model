@@ -149,6 +149,6 @@ class SimianParserTest extends AbstractParserTest {
 
     private Report parse(final int highThreshold, final int normalThreshold) {
         var parser = new SimianParser(highThreshold, normalThreshold);
-        return parser.parse(createReaderFactory("twofile.xml"));
+        return parser.parseReport(createReaderFactory("twofile.xml"));
     }
 }

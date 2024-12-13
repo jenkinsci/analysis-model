@@ -11,7 +11,7 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.ParsingException;
-import edu.hm.hafner.analysis.Report.Type;
+import edu.hm.hafner.analysis.Report.IssueType;
 import edu.hm.hafner.util.LookaheadStream;
 
 import static j2html.TagCreator.*;
@@ -44,8 +44,8 @@ public class ErrorProneParser extends LookaheadParser {
     }
 
     @Override
-    public Type getType() {
-        return Type.BUG;
+    public IssueType getType() {
+        return IssueType.BUG;
     }
 
     @Override

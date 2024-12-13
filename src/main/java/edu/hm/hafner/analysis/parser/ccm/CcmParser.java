@@ -25,7 +25,7 @@ public class CcmParser extends IssueParser {
     private static final long serialVersionUID = -5172155190810975806L;
 
     @Override
-    public Report parse(final ReaderFactory readerFactory) throws ParsingException {
+    public Report parseReport(final ReaderFactory readerFactory) throws ParsingException {
         var report = parseCcmXmlFile(readerFactory);
 
         return convert(report);

@@ -54,7 +54,7 @@ class CheckStyleParserTest extends AbstractParserTest {
         assertThat(report).hasSize(2);
 
         assertThat(report.get(0)).hasMessage("',' is not followed by whitespace.");
-        assertThat(report.get(1)).hasMessage("Type hint \"kEvent\" missing for $event at position 1");
+        assertThat(report.get(1)).hasMessage("IssueType hint \"kEvent\" missing for $event at position 1");
     }
 
     /**

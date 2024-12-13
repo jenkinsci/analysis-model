@@ -31,7 +31,7 @@ abstract class CompositeParserDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public final IssueParser createParser(final Option... options) {
+    public final IssueParser create(final Option... options) {
         return new CompositeParser(createParsers());
     }
 
@@ -79,7 +79,7 @@ abstract class CompositeParserDescriptor extends ParserDescriptor {
         }
 
         @Override
-        public Report parse(final ReaderFactory readerFactory) {
+        protected Report parseReport(final ReaderFactory readerFactory) {
             var aggregated = new Report();
             for (IssueParser parser : parsers) {
                 if (parser.accepts(readerFactory)) {

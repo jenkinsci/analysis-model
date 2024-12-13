@@ -7,7 +7,7 @@ import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 
-import edu.hm.hafner.analysis.Report.Type;
+import edu.hm.hafner.analysis.Report.IssueType;
 import edu.hm.hafner.util.SecureXmlParserFactory;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
@@ -19,7 +19,7 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
 @SuppressWarnings("checkstyle:JavadocVariable")
 public abstract class IssueParser implements Serializable {
     @Serial
-    private static final long serialVersionUID = 200992696185460268L;
+    private static final long serialVersionUID  = 5L; // release 13.0.0
 
     protected static final String ADDITIONAL_PROPERTIES = "additionalProperties";
     protected static final String CATEGORY = "category";
@@ -41,42 +41,76 @@ public abstract class IssueParser implements Serializable {
     protected static final String SEVERITY = "severity";
     protected static final String TYPE = "type";
 
+    private String defaultId = StringUtils.EMPTY;
+    private String defaultName = StringUtils.EMPTY;
+
     /**
-     * Parses the specified file for issues.
+     * Parses a report (given by the reader factory) for issues.
      *
      * @param readerFactory
-     *         provides a reader to the reports
+     *         factory to read input reports with a specific locale
      *
-     * @return the issues
+     * @return the report containing the found issues
      * @throws ParsingException
-     *         Signals that during parsing a non-recoverable error has been occurred
+     *         signals that during parsing a non-recoverable error has been occurred
      * @throws ParsingCanceledException
-     *         Signals that the user has aborted the parsing
+     *         signals that the user has aborted the parsing
      */
-    public abstract Report parse(ReaderFactory readerFactory) throws ParsingException, ParsingCanceledException;
-
-    public Type getType() {
-        return Type.WARNING;
+    public Report parse(final ReaderFactory readerFactory) throws ParsingException, ParsingCanceledException {
+        return parse(readerFactory, defaultId, defaultName);
     }
 
     /**
-     * Parses the specified file for issues. Invokes the parser using {@link #parse(ReaderFactory)} and sets the file
-     * name of the report.
+     * Parses a report (given by the reader factory) for issues.
      *
      * @param readerFactory
-     *         provides a reader to the reports
+     *         factory to read input reports with a specific locale
+     * @param id
+     *         the ID for the returned report
+     * @param name
+     *         a human-readable name for the returned report
      *
-     * @return the issues
+     * @return the report containing the found issues
      * @throws ParsingException
-     *         Signals that during parsing a non-recoverable error has been occurred
+     *         signals that during parsing a non-recoverable error has been occurred
      * @throws ParsingCanceledException
-     *         Signals that the user has aborted the parsing
+     *         signals that the user has aborted the parsing
      */
-    public Report parseFile(final ReaderFactory readerFactory) throws ParsingException, ParsingCanceledException {
-        var report = parse(readerFactory);
+    public Report parse(final ReaderFactory readerFactory, final String id, final String name) throws ParsingException, ParsingCanceledException {
+        var report = parseReport(readerFactory);
+
         report.setOriginReportFile(readerFactory.getFileName());
-        report.setType(getType());
+        report.setElementType(getType());
+        report.setOrigin(id, name);
+
         return report;
+    }
+
+    /**
+     * Parses a report (given by the reader factory) for issues.
+     *
+     * @param readerFactory
+     *         factory to read input reports with a specific locale
+     *
+     * @return the report containing the found issues
+     * @throws ParsingException
+     *         signals that during parsing a non-recoverable error has been occurred
+     * @throws ParsingCanceledException
+     *         signals that the user has aborted the parsing
+     */
+    protected abstract Report parseReport(ReaderFactory readerFactory) throws ParsingException, ParsingCanceledException;
+
+    public final void setDefaultId(final String defaultId) {
+        this.defaultId = defaultId;
+    }
+
+    public final void setDefaultName(final String defaultName) {
+        this.defaultName = defaultName;
+    }
+
+    // FIXME: back to descriptor?
+    public IssueType getType() {
+        return IssueType.WARNING;
     }
 
     /**
@@ -134,7 +168,7 @@ public abstract class IssueParser implements Serializable {
      * @return {@code true} if the CharSequences are equal (case-insensitive), or both {@code null}
      */
     public static boolean equalsIgnoreCase(@CheckForNull final String a, @CheckForNull final String b) {
-        return StringUtils.equals(normalize(a), normalize(b));
+        return StringUtils.equalsIgnoreCase(normalize(a), normalize(b));
     }
 
     private static String normalize(@CheckForNull final String input) {

@@ -30,7 +30,7 @@ class FindBugsDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public IssueParser createParser(final Option... options) {
+    public IssueParser create(final Option... options) {
         for (Option option : options) {
             if (PRIORITY_OPTION_KEY.equals(option.getKey())
                     && PriorityProperty.CONFIDENCE.name().equals(option.getValue())) {

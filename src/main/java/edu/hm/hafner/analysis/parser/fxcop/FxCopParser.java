@@ -22,7 +22,7 @@ public class FxCopParser extends IssueParser {
     private static final int CAPACITY = 1024;
 
     @Override
-    public Report parse(final ReaderFactory readerFactory) throws ParsingException, ParsingCanceledException {
+    public Report parseReport(final ReaderFactory readerFactory) throws ParsingException, ParsingCanceledException {
         return new XmlParser().parse(readerFactory);
     }
 

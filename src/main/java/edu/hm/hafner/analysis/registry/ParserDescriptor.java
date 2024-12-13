@@ -9,7 +9,7 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueParser;
 
 /**
- * Interface to describe all descriptors.
+ * Parent class for all descriptors.
  *
  * @author Lorenz Munsch
  */
@@ -35,7 +35,7 @@ public abstract class ParserDescriptor {
      *
      * @return the technical id of the parser
      */
-    public String getId() {
+    public final String getId() {
         return id;
     }
 
@@ -44,7 +44,7 @@ public abstract class ParserDescriptor {
      *
      * @return the human-readable name
      */
-    public String getName() {
+    public final String getName() {
         return name;
     }
 
@@ -57,7 +57,23 @@ public abstract class ParserDescriptor {
      *
      * @return the parser
      */
-    public abstract IssueParser createParser(Option... options);
+    public final IssueParser createParser(final Option... options) {
+        var parser = create(options);
+        parser.setDefaultId(getId());
+        parser.setDefaultName(getName());
+        return parser;
+    }
+
+    /**
+     * Creates a new {@link IssueParser} instance.
+     *
+     * @param options
+     *         options to configure the parser - may customize the new parser instance (if supported by the selected
+     *         tool)
+     *
+     * @return the parser
+     */
+    protected abstract IssueParser create(Option... options);
 
     /**
      * Returns the default filename pattern for this tool. Override if your parser typically works on a specific file.

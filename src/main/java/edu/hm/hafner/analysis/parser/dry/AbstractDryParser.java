@@ -14,7 +14,7 @@ import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Report.Type;
+import edu.hm.hafner.analysis.Report.IssueType;
 import edu.hm.hafner.analysis.SecureDigester;
 import edu.hm.hafner.analysis.Severity;
 
@@ -50,8 +50,8 @@ public abstract class AbstractDryParser<T> extends IssueParser {
     }
 
     @Override
-    public Type getType() {
-        return Type.DUPLICATION;
+    public IssueType getType() {
+        return IssueType.DUPLICATION;
     }
 
     /**
@@ -73,7 +73,7 @@ public abstract class AbstractDryParser<T> extends IssueParser {
     }
 
     @Override
-    public Report parse(final ReaderFactory readerFactory) throws ParsingCanceledException, ParsingException {
+    public Report parseReport(final ReaderFactory readerFactory) throws ParsingCanceledException, ParsingException {
         var digester = new SecureDigester(AbstractDryParser.class);
 
         configureParser(digester);

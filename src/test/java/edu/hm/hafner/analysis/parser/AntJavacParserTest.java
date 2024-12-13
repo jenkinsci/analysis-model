@@ -207,7 +207,7 @@ class AntJavacParserTest extends AbstractParserTest {
     @Test
     void parseJapaneseWarnings() {
         // force to use windows-31j - the default encoding on Windows Japanese.
-        var warnings = createParser().parse(
+        var warnings = createParser().parseReport(
                 new FileReaderFactory(getResourceAsFile("ant-javac-japanese.txt"),
                         Charset.forName("windows-31j")));
 
