@@ -32,7 +32,7 @@ public class JsonParser extends JsonBaseParser {
     }
 
     @Override
-    public Report parse(final ReaderFactory readerFactory) throws ParsingException {
+    public Report parseReport(final ReaderFactory readerFactory) throws ParsingException {
         try (var reader = readerFactory.create(); var builder = new IssueBuilder()) {
             var jsonReport = (JSONObject) new JSONTokener(reader).nextValue();
 

@@ -34,8 +34,8 @@ public class JUnitAdapter extends AbstractViolationAdapter {
     }
 
     @Override
-    public Report parse(final ReaderFactory readerFactory) throws ParsingCanceledException, ParsingException {
-        var report = super.parse(readerFactory);
+    public Report parseReport(final ReaderFactory readerFactory) throws ParsingCanceledException, ParsingException {
+        var report = super.parseReport(readerFactory);
         int total = count(readerFactory, "<testcase");
         report.setCounter(TOTAL_TESTS, total);
         int skipped = count(readerFactory, "<skipped");

@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis.registry;
 
+import edu.hm.hafner.analysis.Report.IssueType;
+
 /**
  * A descriptor for SpotBugs.
  *
@@ -29,7 +31,7 @@ class SpotBugsDescriptor extends FindBugsDescriptor {
     }
 
     @Override
-    public Type getType() {
-        return Type.BUG;
+    public IssueType getType() {
+        return IssueType.BUG;
     }
 }

@@ -24,7 +24,7 @@ public abstract class JsonIssueParser extends IssueParser {
     private static final long serialVersionUID = -4062256623915009878L;
 
     @Override
-    public Report parse(final ReaderFactory readerFactory) throws ParsingException {
+    public Report parseReport(final ReaderFactory readerFactory) throws ParsingException {
         var report = new Report();
         try (var reader = readerFactory.create(); var issueBuilder = new IssueBuilder()) {
             var parsedValue = new JSONTokener(reader).nextValue();

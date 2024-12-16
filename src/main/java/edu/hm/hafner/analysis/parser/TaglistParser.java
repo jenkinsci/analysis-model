@@ -28,7 +28,7 @@ public class TaglistParser extends IssueParser {
     private static final long serialVersionUID = 1L;
 
     @Override
-    public Report parse(final ReaderFactory readerFactory) throws ParsingException {
+    public Report parseReport(final ReaderFactory readerFactory) throws ParsingException {
         try (var issueBuilder = new IssueBuilder()) {
             var xPathFactory = XPathFactory.newInstance();
             var xPath = xPathFactory.newXPath();

@@ -69,7 +69,7 @@ public class CargoCheckParser extends IssueParser {
     private static final String MESSAGE_SPAN_COLUMN_END = "column_end";
 
     @Override
-    public Report parse(final ReaderFactory readerFactory) throws ParsingException, ParsingCanceledException {
+    public Report parseReport(final ReaderFactory readerFactory) throws ParsingException, ParsingCanceledException {
         var report = new Report();
 
         try (Stream<String> lines = readerFactory.readStream(); var issueBuilder = new IssueBuilder()) {

@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.FileReaderFactory;
+import edu.hm.hafner.analysis.Report.IssueType;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.registry.ParserDescriptor.Option;
 import edu.hm.hafner.util.ResourceTest;
@@ -47,10 +48,10 @@ class ParserRegistryTest extends ResourceTest {
         var typeCountMap = parserRegistry.getAllDescriptors().stream()
                 .collect(Collectors.groupingBy(ParserDescriptor::getType, Collectors.counting()));
         assertThat(typeCountMap)
-                .containsEntry(ParserDescriptor.Type.WARNING, WARNING_PARSERS_COUNT)
-                .containsEntry(ParserDescriptor.Type.BUG, BUG_PARSERS_COUNT)
-                .containsEntry(ParserDescriptor.Type.VULNERABILITY, VULNERABILITY_PARSERS_COUNT)
-                .containsEntry(ParserDescriptor.Type.DUPLICATION, DUPLICATION_PARSERS_COUNT);
+                .containsEntry(IssueType.WARNING, WARNING_PARSERS_COUNT)
+                .containsEntry(IssueType.BUG, BUG_PARSERS_COUNT)
+                .containsEntry(IssueType.VULNERABILITY, VULNERABILITY_PARSERS_COUNT)
+                .containsEntry(IssueType.DUPLICATION, DUPLICATION_PARSERS_COUNT);
     }
 
     @Test
@@ -58,34 +59,39 @@ class ParserRegistryTest extends ResourceTest {
         var parserRegistry = new ParserRegistry();
 
         assertThat(parserRegistry).hasIds(SPOTBUGS, CHECKSTYLE, PMD).hasNames("SpotBugs", "CheckStyle", "PMD");
-        assertThat(parserRegistry.get(SPOTBUGS)).hasId(SPOTBUGS).hasName("SpotBugs").hasType(ParserDescriptor.Type.BUG);
-        assertThat(parserRegistry.get("owasp-dependency-check")).hasName("OWASP Dependency Check").hasType(ParserDescriptor.Type.VULNERABILITY);
+        assertThat(parserRegistry.get(SPOTBUGS))
+                .hasId(SPOTBUGS)
+                .hasName("SpotBugs")
+                .hasType(IssueType.BUG);
+        assertThat(parserRegistry.get("owasp-dependency-check"))
+                .hasName("OWASP Dependency Check")
+                .hasType(IssueType.VULNERABILITY);
         assertThat(parserRegistry.contains(SPOTBUGS)).isTrue();
         assertThat(parserRegistry.contains("nothing")).isFalse();
         List<ParserDescriptor> descriptors = parserRegistry.getAllDescriptors();
         assertThat(descriptors).filteredOn(d -> "spotbugs".equals(d.getId())).hasSize(1);
-        descriptors.forEach(d -> assertThat(d.createParser()).isNotNull());
+        descriptors.forEach(d -> assertThat(d.create()).isNotNull());
     }
 
     @Test
     void shouldConfigureCpdParser() {
         var parserRegistry = new ParserRegistry();
         var cpdDescriptor = parserRegistry.get("cpd");
-        assertThat(cpdDescriptor).hasType(ParserDescriptor.Type.DUPLICATION).hasName("CPD");
+        assertThat(cpdDescriptor).hasType(IssueType.DUPLICATION).hasName("CPD");
 
-        var parser = cpdDescriptor.createParser();
+        var parser = cpdDescriptor.create();
 
         var report = parser.parse(new FileReaderFactory(getResourceAsFile("one-cpd.xml")));
         assertThat(report).hasSize(2).hasSeverities(Severity.WARNING_NORMAL);
 
-        var highParser = cpdDescriptor.createParser(
+        var highParser = cpdDescriptor.create(
                 new Option(CpdDescriptor.HIGH_OPTION_KEY, "20"),
                 new Option(CpdDescriptor.NORMAL_OPTION_KEY, "10"));
 
         var highReport = highParser.parse(new FileReaderFactory(getResourceAsFile("one-cpd.xml")));
         assertThat(highReport).hasSize(2).hasSeverities(Severity.WARNING_HIGH);
 
-        var lowParser = cpdDescriptor.createParser(
+        var lowParser = cpdDescriptor.create(
                 new Option(CpdDescriptor.HIGH_OPTION_KEY, "100"),
                 new Option(CpdDescriptor.NORMAL_OPTION_KEY, "50"));
 
@@ -104,7 +110,7 @@ class ParserRegistryTest extends ResourceTest {
         var parserRegistry = new ParserRegistry();
         var findbugsDescriptor = parserRegistry.get("findbugs");
 
-        var parser = findbugsDescriptor.createParser(new Option(FindBugsDescriptor.PRIORITY_OPTION_KEY, type));
+        var parser = findbugsDescriptor.create(new Option(FindBugsDescriptor.PRIORITY_OPTION_KEY, type));
 
         var confidenceReport = parser.parse(new FileReaderFactory(getResourceAsFile("findbugs-severities.xml")));
         assertThat(confidenceReport).hasSize(12);

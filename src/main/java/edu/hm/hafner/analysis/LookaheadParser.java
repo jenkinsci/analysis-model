@@ -57,7 +57,7 @@ public abstract class LookaheadParser extends IssueParser {
     }
 
     @Override
-    public Report parse(final ReaderFactory readerFactory) throws ParsingException, ParsingCanceledException {
+    public Report parseReport(final ReaderFactory readerFactory) throws ParsingException, ParsingCanceledException {
         var report = new Report();
         try (Stream<String> lines = readerFactory.readStream()) {
             try (var lookahead = new LookaheadStream(lines, readerFactory.getFileName())) {

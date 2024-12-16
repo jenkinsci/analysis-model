@@ -9,7 +9,7 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  */
 @SuppressWarnings("all")
 public class Violation {
-    /** Type of warning. */
+    /** IssueType of warning. */
     @CheckForNull
     private String rule;
     /** Category of warning. */

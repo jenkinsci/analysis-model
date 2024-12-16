@@ -85,7 +85,7 @@ public abstract class AbstractParserTest extends ResourceTest {
 
         Set<Class<?>> parsers = parserRegistry.getAllDescriptors()
                 .stream()
-                .map(ParserDescriptor::createParser)
+                .map(ParserDescriptor::create)
                 .map(IssueParser::getClass)
                 .collect(Collectors.toSet());
 
@@ -171,7 +171,7 @@ public abstract class AbstractParserTest extends ResourceTest {
      * @return the found issues
      */
     protected Report parse(final String fileName) {
-        return createParser().parseFile(createReaderFactory(fileName));
+        return createParser().parse(createReaderFactory(fileName));
     }
 
     /**

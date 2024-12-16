@@ -67,7 +67,7 @@ public abstract class AbstractDryParser<T> extends IssueParser {
     }
 
     @Override
-    public Report parse(final ReaderFactory readerFactory) throws ParsingCanceledException, ParsingException {
+    public Report parseReport(final ReaderFactory readerFactory) throws ParsingCanceledException, ParsingException {
         var digester = new SecureDigester(AbstractDryParser.class);
 
         configureParser(digester);

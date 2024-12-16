@@ -1,14 +1,16 @@
 package edu.hm.hafner.analysis.registry;
 
+import java.io.Serial;
 import java.util.AbstractMap.SimpleImmutableEntry;
 
 import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueParser;
+import edu.hm.hafner.analysis.Report.IssueType;
 
 /**
- * Interface to describe all descriptors.
+ * Parent class for all descriptors.
  *
  * @author Lorenz Munsch
  */
@@ -34,7 +36,7 @@ public abstract class ParserDescriptor {
      *
      * @return the technical id of the parser
      */
-    public String getId() {
+    public final String getId() {
         return id;
     }
 
@@ -43,19 +45,22 @@ public abstract class ParserDescriptor {
      *
      * @return the human-readable name
      */
-    public String getName() {
+    public final String getName() {
         return name;
     }
 
     /**
-     * Returns the type of the parser. The type is used to customize parsers in the UI.
-     * This default implementation returns {@link Type#WARNING}.
+     * Returns the type of the parser. The type is used to categorize parsers.
+     *
+     * <p>
+     * This default implementation returns * {@link IssueType#WARNING}.
      * Override this method if your parser is of a different type.
+     * </p>
      *
      * @return the type of the parser
      */
-    public Type getType() {
-        return Type.WARNING;
+    public IssueType getType() {
+        return IssueType.WARNING;
     }
 
     /**
@@ -67,7 +72,24 @@ public abstract class ParserDescriptor {
      *
      * @return the parser
      */
-    public abstract IssueParser createParser(Option... options);
+    public final IssueParser createParser(final Option... options) {
+        var parser = create(options);
+        parser.setId(getId());
+        parser.setName(getName());
+        parser.setType(getType());
+        return parser;
+    }
+
+    /**
+     * Creates a new {@link IssueParser} instance.
+     *
+     * @param options
+     *         options to configure the parser - may customize the new parser instance (if supported by the selected
+     *         tool)
+     *
+     * @return the parser
+     */
+    protected abstract IssueParser create(Option... options);
 
     /**
      * Returns the default filename pattern for this tool. Override if your parser typically works on a specific file.
@@ -141,23 +163,10 @@ public abstract class ParserDescriptor {
     }
 
     /**
-     * Returns the type of the parser. The type is used to customize parsers in the UI.
-     */
-    public enum Type {
-        /** A parser that scans the output of a build tool to find warnings. */
-        WARNING,
-        /** A parser that scans the output of a build tool to find bugs. */
-        BUG,
-        /** A parser that scans the output of a build tool to find vulnerabilities. */
-        VULNERABILITY,
-        /** A parser that scans the output of a build tool to find vulnerabilities. */
-        DUPLICATION
-    }
-
-    /**
      * A parser configuration option. Basically an immutable key and value pair.
      */
     public static class Option extends SimpleImmutableEntry<String, String> {
+        @Serial
         private static final long serialVersionUID = 7376822311558465523L;
 
         /**

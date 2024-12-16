@@ -36,7 +36,7 @@ public class GendarmeParser extends IssueParser {
     private static final String ASSEMBLY = "Assembly";
 
     @Override
-    public Report parse(final ReaderFactory factory) throws ParsingException {
+    public Report parseReport(final ReaderFactory factory) throws ParsingException {
         var document = factory.readDocument();
 
         var mainNode = document.getElementsByTagName("gendarme-output");

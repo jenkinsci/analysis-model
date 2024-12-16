@@ -78,7 +78,7 @@ public class FindBugsParser extends IssueParser {
     }
 
     @Override
-    public Report parse(final ReaderFactory readerFactory) throws ParsingException {
+    public Report parseReport(final ReaderFactory readerFactory) throws ParsingException {
         try (var builder = new IssueBuilder()) {
             List<String> sources = new ArrayList<>();
             var moduleRoot = StringUtils.substringBefore(readerFactory.getFileName(), "/target/");

@@ -39,7 +39,7 @@ public class ParserBenchmark extends AbstractBenchmark {
      */
     @Benchmark
     public void benchmarkCheckStyleParser(final BenchmarkState state, final Blackhole blackhole) {
-        var report = new CheckStyleParser().parse(state.getCheckstyleFileReaderFactory());
+        var report = new CheckStyleParser().parseReport(state.getCheckstyleFileReaderFactory());
 
         blackhole.consume(report);
     }
@@ -54,7 +54,7 @@ public class ParserBenchmark extends AbstractBenchmark {
      */
     @Benchmark
     public void benchmarkPmdParser(final BenchmarkState state, final Blackhole blackhole) {
-        var report = new PmdParser().parse(state.getPmdFileReaderFactory());
+        var report = new PmdParser().parseReport(state.getPmdFileReaderFactory());
 
         blackhole.consume(report);
     }

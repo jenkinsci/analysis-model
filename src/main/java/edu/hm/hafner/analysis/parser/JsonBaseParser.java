@@ -91,9 +91,6 @@ abstract class JsonBaseParser extends IssueParser {
         if (jsonIssue.has(MODULE_NAME)) {
             builder.setModuleName(jsonIssue.getString(MODULE_NAME));
         }
-        if (jsonIssue.has(ORIGIN)) {
-            builder.setOrigin(jsonIssue.getString(ORIGIN));
-        }
         if (jsonIssue.has(PACKAGE_NAME)) {
             builder.setPackageName(jsonIssue.getString(PACKAGE_NAME));
         }

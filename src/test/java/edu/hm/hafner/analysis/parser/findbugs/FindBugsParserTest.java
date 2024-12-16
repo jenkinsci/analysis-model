@@ -3,16 +3,15 @@ package edu.hm.hafner.analysis.parser.findbugs;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
+import edu.hm.hafner.analysis.Report.IssueType;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.parser.findbugs.FindBugsParser.PriorityProperty;
@@ -35,8 +34,11 @@ class FindBugsParserTest {
         var readerFactory = mock(ReaderFactory.class);
         when(readerFactory.create()).thenAnswer(
                 mock -> new InputStreamReader(read(fileName), StandardCharsets.UTF_8));
-        return new FindBugsParser(priorityProperty).parse(readerFactory,
-                Collections.emptyList(), new IssueBuilder());
+        when(readerFactory.getFileName()).thenReturn(fileName);
+        var parser = new FindBugsParser(priorityProperty);
+        parser.setType(IssueType.BUG);
+        return parser.parse(readerFactory,
+                "spotbugs", "FindBugs");
     }
 
     private InputStream read(final String fileName) {
@@ -54,11 +56,15 @@ class FindBugsParserTest {
         assertThat(confidenceReport).hasSize(12);
         assertThatReportHasSeverities(confidenceReport,
                 0, 1, 11, 0);
+        assertThat(confidenceReport).hasToString(
+                "FindBugs (spotbugs): 12 bugs (high: 1, normal: 11)");
 
         var rankReport = parseFile("findbugs-severities.xml", RANK);
         assertThat(rankReport).hasSize(12);
         assertThatReportHasSeverities(rankReport,
                 0, 0, 0, 12);
+        assertThat(rankReport).hasToString(
+                "FindBugs (spotbugs): 12 bugs (low: 12)");
     }
 
     private void assertThatReportHasSeverities(final Report report, final int expectedSizeError,

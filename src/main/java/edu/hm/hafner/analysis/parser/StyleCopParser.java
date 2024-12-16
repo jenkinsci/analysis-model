@@ -25,7 +25,7 @@ public class StyleCopParser extends IssueParser {
     private static final long serialVersionUID = 7846052338159003458L;
 
     @Override
-    public Report parse(final ReaderFactory readerFactory) throws ParsingException {
+    public Report parseReport(final ReaderFactory readerFactory) throws ParsingException {
         var document = readerFactory.readDocument();
 
         // Pre v4.3 uses SourceAnalysisViolations as the parent node name

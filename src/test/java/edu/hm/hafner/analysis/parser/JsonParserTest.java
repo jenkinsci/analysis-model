@@ -34,7 +34,6 @@ class JsonParserTest extends StructuredFileParserTest {
                 .hasMessage("message")
                 .hasPackageName("packageName")
                 .hasModuleName("moduleName")
-                .hasOrigin("origin")
                 .hasFingerprint("9CED6585900DD3CFB97B914A3CEB0E79")
                 .hasAdditionalProperties("additionalProperties")
                 .hasId(UUID.fromString("e7011244-2dab-4a54-a27b-2d0697f8f813"));

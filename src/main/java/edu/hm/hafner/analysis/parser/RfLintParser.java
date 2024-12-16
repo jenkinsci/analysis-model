@@ -159,7 +159,7 @@ public class RfLintParser extends IssueParser {
     private static final Pattern FILE_PATTERN = Pattern.compile("\\+\\s(?<filename>.*)");
 
     @Override
-    public Report parse(final ReaderFactory readerFactory) {
+    public Report parseReport(final ReaderFactory readerFactory) {
         try (Stream<String> lines = readerFactory.readStream(); var builder = new IssueBuilder()) {
             var warnings = new Report();
             lines.forEach(line -> parseLine(builder, warnings, line));

@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis.registry;
 
 import edu.hm.hafner.analysis.IssueParser;
+import edu.hm.hafner.analysis.Report.IssueType;
 import edu.hm.hafner.analysis.parser.ClairParser;
 
 /**
@@ -17,7 +18,7 @@ class ClairDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public IssueParser createParser(final Option... options) {
+    public IssueParser create(final Option... options) {
         return new ClairParser();
     }
 
@@ -35,7 +36,7 @@ class ClairDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public Type getType() {
-        return Type.VULNERABILITY;
+    public IssueType getType() {
+        return IssueType.VULNERABILITY;
     }
 }

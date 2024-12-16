@@ -17,7 +17,7 @@ class MavenConsoleDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public IssueParser createParser(final Option... options) {
+    public IssueParser create(final Option... options) {
         return new MavenConsoleParser();
     }
 

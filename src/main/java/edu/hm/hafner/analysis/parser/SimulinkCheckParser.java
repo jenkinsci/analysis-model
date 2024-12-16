@@ -35,7 +35,7 @@ public class SimulinkCheckParser extends IssueParser {
     private static final String SW_PREFIX = "SW";
 
     @Override
-    public Report parse(final ReaderFactory readerFactory) throws ParsingException {
+    public Report parseReport(final ReaderFactory readerFactory) throws ParsingException {
         try (var issueBuilder = new IssueBuilder();
                 var reader = readerFactory.create();
                 var targetStream = ReaderInputStream.builder().setReader(reader).setCharset(readerFactory.getCharset()).get()) {
