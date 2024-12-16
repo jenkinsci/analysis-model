@@ -18,7 +18,6 @@ import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Report.IssueType;
 import edu.hm.hafner.analysis.SecureDigester;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LineRange;
@@ -76,11 +75,6 @@ public class FindBugsParser extends IssueParser {
         super();
 
         this.priorityProperty = priorityProperty;
-    }
-
-    @Override
-    public IssueType getType() {
-        return IssueType.BUG;
     }
 
     @Override

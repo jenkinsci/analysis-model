@@ -49,7 +49,6 @@ class XmlParserTest extends StructuredFileParserTest {
                 .hasDescription("description")
                 .hasPackageName("package-name")
                 .hasModuleName("module-name")
-                .hasOrigin("origin")
                 .hasFingerprint("fingerprint")
                 .hasAdditionalProperties("")
                 .hasOnlyLineRanges(new LineRange(5, 6));
@@ -81,7 +80,6 @@ class XmlParserTest extends StructuredFileParserTest {
                     .hasDescription("description")
                     .hasPackageName("package-name")
                     .hasModuleName("module-name")
-                    .hasOrigin("origin")
                     .hasFingerprint("fingerprint")
                     .hasAdditionalProperties("")
                     .hasOnlyLineRanges(new LineRange(5, 6));
@@ -99,7 +97,6 @@ class XmlParserTest extends StructuredFileParserTest {
                     .hasDescription("description")
                     .hasPackageName("package-name")
                     .hasModuleName("module-name")
-                    .hasOrigin("origin")
                     .hasFingerprint("fingerprint")
                     .hasAdditionalProperties("")
                     .hasOnlyLineRanges(new LineRange(42, 43), new LineRange(44, 45));
@@ -131,7 +128,6 @@ class XmlParserTest extends StructuredFileParserTest {
                     .hasDescription("")
                     .hasPackageName("-")
                     .hasModuleName("-")
-                    .hasOrigin("")
                     .hasReference("")
                     .hasFingerprint("-")
                     .hasAdditionalProperties("")

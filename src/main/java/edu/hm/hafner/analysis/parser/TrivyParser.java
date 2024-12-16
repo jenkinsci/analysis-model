@@ -8,7 +8,6 @@ import org.json.JSONObject;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Report.IssueType;
 import edu.hm.hafner.analysis.Severity;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -31,11 +30,6 @@ public class TrivyParser extends JsonIssueParser {
     private static final String TRIVY_VULNERABILITY_LEVEL_TAG_HIGH = "high";
     private static final String TRIVY_VULNERABILITY_LEVEL_TAG_MEDIUM = "medium";
     private static final String TRIVY_VULNERABILITY_LEVEL_TAG_LOW = "low";
-
-    @Override
-    public IssueType getType() {
-        return IssueType.VULNERABILITY;
-    }
 
     /**
      * Used with schema version 2 starting with trivy 0.20.0.

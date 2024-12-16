@@ -8,7 +8,6 @@ import org.json.JSONObject;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Report.IssueType;
 import edu.hm.hafner.analysis.Severity;
 
 import static j2html.TagCreator.*;
@@ -23,11 +22,6 @@ public class YoctoScannerParser extends JsonIssueParser {
     @Serial
     private static final long serialVersionUID = 1L;
     private static final Double INVALID_SCORE = -1.0;
-
-    @Override
-    public IssueType getType() {
-        return IssueType.VULNERABILITY;
-    }
 
     @Override
     protected void parseJsonObject(final Report report, final JSONObject jsonReport, final IssueBuilder issueBuilder) {

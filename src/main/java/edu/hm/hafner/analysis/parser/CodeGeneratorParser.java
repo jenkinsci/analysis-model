@@ -44,8 +44,8 @@ public class CodeGeneratorParser extends LookaheadParser {
         else if (line.contains("does not support multiword aliases")) {
             return "Multiword Aliases not Supported by Code Generation";
         }
-        else if (line.contains("Unnecessary Data IssueType Conversion")) {
-            return "Unnecessary Data IssueType Conversion";
+        else if (line.contains("Unnecessary Data Type Conversion")) {
+            return "Unnecessary Data Type Conversion";
         }
         else if (line.contains("Cannot close the model")) {
             return "Model Cannot be Closed";

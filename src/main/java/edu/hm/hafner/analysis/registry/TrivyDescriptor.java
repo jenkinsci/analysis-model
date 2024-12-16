@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis.registry;
 
 import edu.hm.hafner.analysis.IssueParser;
+import edu.hm.hafner.analysis.Report.IssueType;
 import edu.hm.hafner.analysis.parser.TrivyParser;
 
 import static j2html.TagCreator.*;
@@ -40,5 +41,10 @@ class TrivyDescriptor extends ParserDescriptor {
     @Override
     public String getIconUrl() {
         return "https://github.com/aquasecurity/trivy/blob/main/docs/imgs/logo.png?raw=true";
+    }
+
+    @Override
+    public IssueType getType() {
+        return IssueType.VULNERABILITY;
     }
 }

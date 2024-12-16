@@ -3,6 +3,7 @@ package edu.hm.hafner.analysis.registry;
 import java.util.Collection;
 
 import edu.hm.hafner.analysis.IssueParser;
+import edu.hm.hafner.analysis.Report.IssueType;
 import edu.hm.hafner.analysis.parser.ErrorProneParser;
 import edu.hm.hafner.analysis.parser.GradleErrorProneParser;
 
@@ -27,5 +28,10 @@ class ErrorProneDescriptor extends CompositeParserDescriptor {
     @Override
     public String getUrl() {
         return "https://errorprone.info";
+    }
+
+    @Override
+    public IssueType getType() {
+        return IssueType.BUG;
     }
 }

@@ -37,7 +37,6 @@ class JsonLogParserTest extends AbstractParserTest {
                 .hasMessage("msg")
                 .hasPackageName("pn")
                 .hasModuleName("mdl")
-                .hasOrigin("orgn")
                 .hasFingerprint("fgpt")
                 .hasAdditionalProperties("ap")
                 .hasId(UUID.fromString("823b92b6-98eb-41c4-83ce-b6ec1ed6f98f"));

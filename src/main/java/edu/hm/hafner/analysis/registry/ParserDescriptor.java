@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueParser;
+import edu.hm.hafner.analysis.Report.IssueType;
 
 /**
  * Parent class for all descriptors.
@@ -49,6 +50,20 @@ public abstract class ParserDescriptor {
     }
 
     /**
+     * Returns the type of the parser. The type is used to categorize parsers.
+     *
+     * <p>
+     * This default implementation returns * {@link IssueType#WARNING}.
+     * Override this method if your parser is of a different type.
+     * </p>
+     *
+     * @return the type of the parser
+     */
+    public IssueType getType() {
+        return IssueType.WARNING;
+    }
+
+    /**
      * Creates a new {@link IssueParser} instance.
      *
      * @param options
@@ -59,8 +74,9 @@ public abstract class ParserDescriptor {
      */
     public final IssueParser createParser(final Option... options) {
         var parser = create(options);
-        parser.setDefaultId(getId());
-        parser.setDefaultName(getName());
+        parser.setId(getId());
+        parser.setName(getName());
+        parser.setType(getType());
         return parser;
     }
 

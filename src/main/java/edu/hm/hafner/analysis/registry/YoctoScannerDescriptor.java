@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis.registry;
 
 import edu.hm.hafner.analysis.IssueParser;
+import edu.hm.hafner.analysis.Report.IssueType;
 import edu.hm.hafner.analysis.parser.YoctoScannerParser;
 
 import static j2html.TagCreator.*;
@@ -40,5 +41,10 @@ class YoctoScannerDescriptor extends ParserDescriptor {
     @Override
     public String getIconUrl() {
         return "https://upload.wikimedia.org/wikipedia/commons/0/00/Yocto_Project_logo.svg";
+    }
+
+    @Override
+    public IssueType getType() {
+        return IssueType.VULNERABILITY;
     }
 }

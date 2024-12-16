@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.FileReaderFactory;
-import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.Report.IssueType;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.registry.ParserDescriptor.Option;
@@ -23,8 +22,8 @@ import static edu.hm.hafner.analysis.assertions.Assertions.*;
 class ParserRegistryTest extends ResourceTest {
     // Note for parser developers: if you add a new parser,
     // please check if you are using the correct type and increment the corresponding count
-    private static final long WARNING_PARSERS_COUNT = 128L;
-    private static final long BUG_PARSERS_COUNT = 2L;
+    private static final long WARNING_PARSERS_COUNT = 127L;
+    private static final long BUG_PARSERS_COUNT = 3L;
     private static final long VULNERABILITY_PARSERS_COUNT = 7L;
     private static final long DUPLICATION_PARSERS_COUNT = 3L;
 
@@ -47,8 +46,7 @@ class ParserRegistryTest extends ResourceTest {
     void shouldAssignCorrectParserType() {
         var parserRegistry = new ParserRegistry();
         var typeCountMap = parserRegistry.getAllDescriptors().stream()
-                .map(ParserDescriptor::create)
-                .collect(Collectors.groupingBy(IssueParser::getType, Collectors.counting()));
+                .collect(Collectors.groupingBy(ParserDescriptor::getType, Collectors.counting()));
         assertThat(typeCountMap)
                 .containsEntry(IssueType.WARNING, WARNING_PARSERS_COUNT)
                 .containsEntry(IssueType.BUG, BUG_PARSERS_COUNT)
@@ -61,8 +59,13 @@ class ParserRegistryTest extends ResourceTest {
         var parserRegistry = new ParserRegistry();
 
         assertThat(parserRegistry).hasIds(SPOTBUGS, CHECKSTYLE, PMD).hasNames("SpotBugs", "CheckStyle", "PMD");
-        assertThat(parserRegistry.get(SPOTBUGS)).hasId(SPOTBUGS).hasName("SpotBugs");
-        assertThat(parserRegistry.get("owasp-dependency-check")).hasName("OWASP Dependency Check");
+        assertThat(parserRegistry.get(SPOTBUGS))
+                .hasId(SPOTBUGS)
+                .hasName("SpotBugs")
+                .hasType(IssueType.BUG);
+        assertThat(parserRegistry.get("owasp-dependency-check"))
+                .hasName("OWASP Dependency Check")
+                .hasType(IssueType.VULNERABILITY);
         assertThat(parserRegistry.contains(SPOTBUGS)).isTrue();
         assertThat(parserRegistry.contains("nothing")).isFalse();
         List<ParserDescriptor> descriptors = parserRegistry.getAllDescriptors();
@@ -74,6 +77,7 @@ class ParserRegistryTest extends ResourceTest {
     void shouldConfigureCpdParser() {
         var parserRegistry = new ParserRegistry();
         var cpdDescriptor = parserRegistry.get("cpd");
+        assertThat(cpdDescriptor).hasType(IssueType.DUPLICATION).hasName("CPD");
 
         var parser = cpdDescriptor.create();
 

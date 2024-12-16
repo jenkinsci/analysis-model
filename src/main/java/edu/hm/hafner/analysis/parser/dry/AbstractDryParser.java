@@ -14,7 +14,6 @@ import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Report.IssueType;
 import edu.hm.hafner.analysis.SecureDigester;
 import edu.hm.hafner.analysis.Severity;
 
@@ -47,11 +46,6 @@ public abstract class AbstractDryParser<T> extends IssueParser {
 
         this.highThreshold = highThreshold;
         this.normalThreshold = normalThreshold;
-    }
-
-    @Override
-    public IssueType getType() {
-        return IssueType.DUPLICATION;
     }
 
     /**

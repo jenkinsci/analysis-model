@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.DuplicationGroup;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Report.IssueType;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
@@ -124,8 +123,7 @@ class CpdParserTest extends AbstractParserTest {
 
     private Report parse(final int highThreshold, final int normalThreshold) {
         var parser = new CpdParser(highThreshold, normalThreshold);
-        assertThat(parser).hasType(IssueType.DUPLICATION);
-        return parser.parseReport(createReaderFactory("issue12516.xml"));
+        return parser.parse(createReaderFactory("issue12516.xml"));
     }
 
     /**

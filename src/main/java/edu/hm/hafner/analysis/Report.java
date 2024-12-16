@@ -52,8 +52,8 @@ import static edu.hm.hafner.analysis.Severity.*;
  * position 1, and so on.
  *
  * <p>
- * Additionally, this report provides methods to find and filter issues based on different properties. To
- * create issues use the provided {@link IssueBuilder builder} class.
+ * Additionally, this report provides methods to find and filter issues based on different properties. To create issues
+ * use the provided {@link IssueBuilder builder} class.
  * </p>
  *
  * @author Ullrich Hafner
@@ -186,23 +186,65 @@ public class Report implements Iterable<Issue>, Serializable {
     }
 
     /**
-     * Sets the origin of all issues in this report. Calling this method will associate all containing issues and
-     * issues in sub-reports using the specified ID and name.
+     * Sets the origin of all issues in this report. Calling this method will associate all containing issues and issues
+     * in sub-reports using the specified ID and name.
      *
-     * @param originId
+     * @param id
      *         the ID of the report
-     * @param originName
+     * @param name
      *         a human-readable name for the report
+     *
+     * @deprecated use {@link #setOrigin(String, String, IssueType)}
      */
-    public void setOrigin(final String originId, final String originName) {
-        Ensure.that(originId).isNotBlank("Issue origin ID '%s' must be not blank (%s)", originId, toString());
-        Ensure.that(originName).isNotBlank("Issue origin name '%s' must be not blank (%s)", originName, toString());
+    @Deprecated
+    @SuppressWarnings("checkstyle:HiddenField")
+    public void setOrigin(final String id, final String name) {
+        setOrigin(id, name, IssueType.WARNING);
+    }
 
-        id = originId;
-        name = originName;
+    /**
+     * Sets the origin of all issues in this report. Calling this method will associate all containing issues and issues
+     * in sub-reports using the specified ID and name.
+     *
+     * @param id
+     *         the ID of the report
+     * @param name
+     *         a human-readable name for the report
+     * @param elementType
+     *         the type of the issues in the report
+     */
+    @SuppressWarnings("checkstyle:HiddenField")
+    public void setOrigin(final String id, final String name, final IssueType elementType) {
+        var normalizedId = StringUtils.defaultIfBlank(id, DEFAULT_ID);
+        var normalizedName = StringUtils.defaultIfBlank(name, DEFAULT_ID);
 
-        subReports.forEach(report -> report.setOrigin(originId, originName));
-        elements.forEach(issue -> issue.setOrigin(originId, originName));
+        this.id = normalizedId;
+        this.name = normalizedName;
+        this.elementType = elementType;
+
+        subReports.forEach(report -> report.setOrigin(normalizedId, normalizedName, elementType));
+        // TODO check if we need the type for issues as well
+        elements.forEach(issue -> issue.setOrigin(normalizedId, normalizedName));
+    }
+
+    /**
+     * Sets the origin of all issues in this report. Calling this method will associate all containing issues and issues
+     * in sub-reports using the specified ID and name.
+     *
+     * @param id
+     *         the ID of the report
+     * @param name
+     *         a human-readable name for the report
+     * @param elementType
+     *         the type of the issues in the report
+     * @param reportFile
+     *         the report file name to add
+     */
+    @SuppressWarnings("checkstyle:HiddenField")
+    public void setOrigin(final String id, final String name, final IssueType elementType,
+            final String reportFile) {
+        setOrigin(id, name, elementType);
+        setOriginReportFile(reportFile);
     }
 
     /**
@@ -261,10 +303,6 @@ public class Report implements Iterable<Issue>, Serializable {
         return elementType;
     }
 
-    public void setElementType(final IssueType elementType) {
-        this.elementType = elementType;
-    }
-
     /**
      * Returns the icon of the report. The icon might be used to customize reports in the UI.
      *
@@ -304,8 +342,8 @@ public class Report implements Iterable<Issue>, Serializable {
 
     /**
      * Appends all the specified issues to the end of this report, preserving the order of the array elements.
-     * Duplicates will be skipped (the number of skipped elements is available using the method {@link
-     * #getDuplicatesSize()}).
+     * Duplicates will be skipped (the number of skipped elements is available using the method
+     * {@link #getDuplicatesSize()}).
      *
      * @param issue
      *         the first issue to append
@@ -326,8 +364,8 @@ public class Report implements Iterable<Issue>, Serializable {
 
     /**
      * Appends all of the specified issues to the end of this report, preserving the order of the array elements.
-     * Duplicates will be skipped (the number of skipped elements is available using the method {@link
-     * #getDuplicatesSize()}.
+     * Duplicates will be skipped (the number of skipped elements is available using the method
+     * {@link #getDuplicatesSize()}.
      *
      * @param issues
      *         the issues to append
@@ -406,8 +444,8 @@ public class Report implements Iterable<Issue>, Serializable {
     }
 
     /**
-     * Called after deserialization to improve the memory usage and to initialize fields that have been introduced
-     * after the first release.
+     * Called after deserialization to improve the memory usage and to initialize fields that have been introduced after
+     * the first release.
      *
      * @return this
      */
@@ -487,7 +525,7 @@ public class Report implements Iterable<Issue>, Serializable {
         return stream().filter(issue -> issue.getId().equals(issueId))
                 .findAny()
                 .orElseThrow(() -> new NoSuchElementException(
-                "No issue found with id %s.".formatted(issueId)));
+                        "No issue found with id %s.".formatted(issueId)));
     }
 
     /**
@@ -569,7 +607,8 @@ public class Report implements Iterable<Issue>, Serializable {
     }
 
     /**
-     * Returns the issues in this report that are part of modified code. This will include the issues of any sub-reports.
+     * Returns the issues in this report that are part of modified code. This will include the issues of any
+     * sub-reports.
      *
      * @return all issues in this report
      */
@@ -689,7 +728,8 @@ public class Report implements Iterable<Issue>, Serializable {
     private Optional<String> reportSeverity(final Severity severity) {
         var size = getSizeOf(severity);
         if (size > 0) {
-            return Optional.of(String.format(Locale.ENGLISH, "%s: %d", StringUtils.lowerCase(severity.getName()), size));
+            return Optional.of(
+                    String.format(Locale.ENGLISH, "%s: %d", StringUtils.lowerCase(severity.getName()), size));
         }
         return Optional.empty();
     }
@@ -935,8 +975,8 @@ public class Report implements Iterable<Issue>, Serializable {
     }
 
     /**
-     * Groups issues by a specified property. Returns the results as a mapping of property values to a new set of {@link
-     * Report} for this value.
+     * Groups issues by a specified property. Returns the results as a mapping of property values to a new set of
+     * {@link Report} for this value.
      *
      * @param propertyName
      *         the property to  that selects the property to evaluate
@@ -981,7 +1021,7 @@ public class Report implements Iterable<Issue>, Serializable {
         destination.infoMessages.addAll(source.infoMessages);
         destination.errorMessages.addAll(source.errorMessages);
         destination.countersByKey = Stream.concat(
-                destination.countersByKey.entrySet().stream(), source.countersByKey.entrySet().stream())
+                        destination.countersByKey.entrySet().stream(), source.countersByKey.entrySet().stream())
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, Integer::sum));
     }
 
@@ -1084,8 +1124,8 @@ public class Report implements Iterable<Issue>, Serializable {
     private List<String> mergeMessages(final List<String> thisMessages,
             final Function<Report, List<String>> sumMessages) {
         return Stream.concat(
-                subReports.stream().map(sumMessages).flatMap(Collection::stream),
-                thisMessages.stream())
+                        subReports.stream().map(sumMessages).flatMap(Collection::stream),
+                        thisMessages.stream())
                 .collect(Collectors.toList());
     }
 
@@ -1380,7 +1420,7 @@ public class Report implements Iterable<Issue>, Serializable {
         private final Collection<Predicate<Issue>> includeFilters = new ArrayList<>();
         private final Collection<Predicate<Issue>> excludeFilters = new ArrayList<>();
 
-        /** IssueType of the filter: include or exclude elements. */
+        /** Type of the filter: include or exclude elements. */
         enum FilterType {
             INCLUDE,
             EXCLUDE
@@ -1660,7 +1700,7 @@ public class Report implements Iterable<Issue>, Serializable {
 
         //</editor-fold>
 
-        //<editor-fold desc="IssueType">
+        //<editor-fold desc="Type">
 
         /**
          * Add a new filter for {@code Issue::getCategory}.

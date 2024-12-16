@@ -35,7 +35,7 @@ class IarCstatParserTest extends AbstractParserTest {
                 .hasCategory("MISRAC2012-Rule-14.4_c")
                 .hasLineStart(129)
                 .hasLineEnd(129)
-                .hasMessage("IssueType of if condition is not boolean. MISRAC2012-Rule-14.4")
+                .hasMessage("Type of if condition is not boolean. MISRAC2012-Rule-14.4")
                 .hasFileName("src/main/hal/HalAdc.c");
         softly.assertThat(iterator.next())
                 .hasSeverity(Severity.WARNING_LOW)

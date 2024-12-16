@@ -6,6 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.DuplicationGroup;
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Report.IssueType;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 import j2html.tags.UnescapedText;
@@ -66,5 +67,10 @@ public abstract class DryDescriptor extends ParserDescriptor {
     @Override
     public String getDescription(final Issue issue) {
         return getDuplicateCode(issue.getAdditionalProperties());
+    }
+
+    @Override
+    public IssueType getType() {
+        return IssueType.DUPLICATION;
     }
 }

@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis.registry;
 
 import edu.hm.hafner.analysis.IssueParser;
+import edu.hm.hafner.analysis.Report.IssueType;
 import edu.hm.hafner.analysis.parser.FlawfinderParser;
 
 /**
@@ -29,5 +30,10 @@ class FlawfinderDescriptor extends ParserDescriptor {
     @Override
     public String getUrl() {
         return "https://dwheeler.com/flawfinder/";
+    }
+
+    @Override
+    public IssueType getType() {
+        return IssueType.VULNERABILITY;
     }
 }

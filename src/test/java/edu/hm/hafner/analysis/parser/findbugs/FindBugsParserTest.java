@@ -36,8 +36,9 @@ class FindBugsParserTest {
                 mock -> new InputStreamReader(read(fileName), StandardCharsets.UTF_8));
         when(readerFactory.getFileName()).thenReturn(fileName);
         var parser = new FindBugsParser(priorityProperty);
-        assertThat(parser).hasType(IssueType.BUG);
-        return parser.parse(readerFactory, "spotbugs", "FindBugs");
+        parser.setType(IssueType.BUG);
+        return parser.parse(readerFactory,
+                "spotbugs", "FindBugs");
     }
 
     private InputStream read(final String fileName) {

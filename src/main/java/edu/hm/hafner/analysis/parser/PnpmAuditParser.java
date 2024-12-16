@@ -10,7 +10,6 @@ import org.json.JSONObject;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Report.IssueType;
 import edu.hm.hafner.analysis.Severity;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -39,11 +38,6 @@ public class PnpmAuditParser extends JsonIssueParser {
 
     @Serial
     private static final long serialVersionUID = 4140706319863200922L;
-
-    @Override
-    public IssueType getType() {
-        return IssueType.VULNERABILITY;
-    }
 
     @Override
     protected void parseJsonObject(final Report report, final JSONObject jsonReport, final IssueBuilder issueBuilder) {

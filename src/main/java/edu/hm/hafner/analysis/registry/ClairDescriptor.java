@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis.registry;
 
 import edu.hm.hafner.analysis.IssueParser;
+import edu.hm.hafner.analysis.Report.IssueType;
 import edu.hm.hafner.analysis.parser.ClairParser;
 
 /**
@@ -32,5 +33,10 @@ class ClairDescriptor extends ParserDescriptor {
     @Override
     public String getUrl() {
         return "https://github.com/arminc/clair-scanner";
+    }
+
+    @Override
+    public IssueType getType() {
+        return IssueType.VULNERABILITY;
     }
 }

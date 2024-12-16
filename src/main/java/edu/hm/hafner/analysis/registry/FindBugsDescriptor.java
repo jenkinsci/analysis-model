@@ -2,6 +2,7 @@ package edu.hm.hafner.analysis.registry;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueParser;
+import edu.hm.hafner.analysis.Report.IssueType;
 import edu.hm.hafner.analysis.parser.findbugs.FindBugsMessages;
 import edu.hm.hafner.analysis.parser.findbugs.FindBugsParser;
 import edu.hm.hafner.analysis.parser.findbugs.FindBugsParser.PriorityProperty;
@@ -48,5 +49,10 @@ class FindBugsDescriptor extends ParserDescriptor {
     @Override
     public String getDescription(final Issue issue) {
         return messages.get().getMessage(issue.getType());
+    }
+
+    @Override
+    public IssueType getType() {
+        return IssueType.BUG;
     }
 }

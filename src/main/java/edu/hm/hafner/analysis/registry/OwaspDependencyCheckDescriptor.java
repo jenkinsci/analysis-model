@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis.registry;
 
 import edu.hm.hafner.analysis.IssueParser;
+import edu.hm.hafner.analysis.Report.IssueType;
 import edu.hm.hafner.analysis.parser.OwaspDependencyCheckParser;
 
 /**
@@ -32,5 +33,10 @@ class OwaspDependencyCheckDescriptor extends ParserDescriptor {
     @Override
     public String getIconUrl() {
         return "https://raw.githubusercontent.com/jeremylong/DependencyCheck/main/src/site/resources/images/logo.svg";
+    }
+
+    @Override
+    public IssueType getType() {
+        return IssueType.VULNERABILITY;
     }
 }

@@ -832,7 +832,6 @@ class ReportTest extends SerializableTest<Report> {
     void shouldReadIssueFromOldSerialization() {
         var restored = readAllBytes(SERIALIZATION_NAME);
 
-        // FIXME: replace serializable with the latest version
         assertThatSerializableCanBeRestoredFrom(restored);
     }
 

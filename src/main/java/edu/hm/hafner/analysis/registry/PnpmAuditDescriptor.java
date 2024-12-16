@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis.registry;
 
 import edu.hm.hafner.analysis.IssueParser;
+import edu.hm.hafner.analysis.Report.IssueType;
 import edu.hm.hafner.analysis.parser.PnpmAuditParser;
 
 import static j2html.TagCreator.*;
@@ -40,5 +41,10 @@ class PnpmAuditDescriptor extends ParserDescriptor {
     @Override
     public String getIconUrl() {
         return "https://pnpm.io/img/pnpm-no-name-with-frame.svg";
+    }
+
+    @Override
+    public IssueType getType() {
+        return IssueType.VULNERABILITY;
     }
 }

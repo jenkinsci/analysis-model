@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis.registry;
 
 import edu.hm.hafner.analysis.IssueParser;
+import edu.hm.hafner.analysis.Report.IssueType;
 import edu.hm.hafner.analysis.parser.violations.SemgrepAdapter;
 
 /**
@@ -34,5 +35,10 @@ class SemgrepDescriptor extends ParserDescriptor {
     @Override
     public String getIconUrl() {
         return "https://raw.githubusercontent.com/returntocorp/semgrep/develop/semgrep.svg";
+    }
+
+    @Override
+    public IssueType getType() {
+        return IssueType.VULNERABILITY;
     }
 }
