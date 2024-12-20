@@ -28,4 +28,9 @@ public class ValeDescriptor extends ParserDescriptor {
     public String getUrl() {
         return "https://vale.sh/";
     }
+
+    @Override
+    public String getHelp() {
+        return "Reads vale report files. Use the flag --output=JSON";
+    }
 }
