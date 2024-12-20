@@ -13,11 +13,31 @@ class ValeParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-        softly.assertThat(report).hasSize(12).hasDuplicatesSize(0);
+        softly.assertThat(report).hasSize(3).hasDuplicatesSize(0);
         softly.assertThat(report.get(0))
-                .hasFileName("file3.adoc")
-                .hasDescription("RedHat.SimpleWords")
+                .hasFileName("file1.adoc")
+                .hasDescription("RedHat.SentenceLength")
+                .hasMessage("Try to keep sentences to an average of 32 words or fewer.")
+                .hasLineStart(10)
+                .hasColumnStart(1)
+                .hasColumnEnd(5)
                 .hasSeverity(Severity.WARNING_LOW);
+        softly.assertThat(report.get(1))
+                .hasFileName("file2.adoc")
+                .hasDescription("RedHat.TermsWarnings")
+                .hasMessage("Consider using 'might' or 'can' rather than 'may' unless updating existing content that uses the term.")
+                .hasLineStart(39)
+                .hasColumnStart(143)
+                .hasColumnEnd(145)
+                .hasSeverity(Severity.WARNING_NORMAL);
+        softly.assertThat(report.get(2))
+                .hasFileName("file2.adoc")
+                .hasDescription("RedHat.Using")
+                .hasMessage("Use 'by using' instead of 'using' when it follows a noun for clarity and grammatical correctness.")
+                .hasLineStart(51)
+                .hasColumnStart(44)
+                .hasColumnEnd(64)
+                .hasSeverity(Severity.ERROR);
     }
 
     @Override
