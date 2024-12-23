@@ -41,35 +41,17 @@ public class ValeParser extends JsonIssueParser {
     }
 
     private Issue createIssue(final IssueBuilder issueBuilder, final String fileName, final JSONObject data) {
-        String checker = data.getString(CHECK);
-        String message = data.getString(MESSAGE_KEY);
-        String severity = data.getString(SEVERITY_KEY);
-        String link = data.getString(LINK_KEY);
-        int line = data.getInt(LINE_KEY);
         JSONArray span = data.getJSONArray(SPAN_KEY);
-        int startColumn = span.getInt(0);
-        int endColumn = span.getInt(1);
-        final Severity analysisSeverity;
-        switch (severity) {
-            case "error":
-                analysisSeverity = Severity.ERROR;
-                break;
-            case "warning":
-                analysisSeverity = Severity.WARNING_NORMAL;
-                break;
-            case "suggestion":
-                analysisSeverity = Severity.WARNING_LOW;
-                break;
-            default:
-                analysisSeverity = Severity.WARNING_NORMAL;
-                break;
-        }
-        return issueBuilder.setFileName(fileName).setDescription(checker)
-                .setMessage(message).setSeverity(analysisSeverity)
-                .setReference(link)
+        int line = data.getInt(LINE_KEY);
+        return issueBuilder.setFileName(fileName)
+                .setDescription(data.getString(CHECK))
+                .setMessage(data.getString(MESSAGE_KEY))
+                .setSeverity(Severity.guessFromString(data.getString(SEVERITY_KEY)))
+                .setReference(data.getString(LINK_KEY))
                 .setLineStart(line)
                 .setLineEnd(line)
-                .setColumnStart(startColumn).setColumnEnd(endColumn)
+                .setColumnStart(span.getInt(0))
+                .setColumnEnd(span.getInt(1))
                 .buildAndClean();
     }
 }
