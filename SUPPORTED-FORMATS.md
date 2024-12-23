@@ -2180,27 +2180,6 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
         </tr>
         <tr>
             <td>
-                vale
-            </td>
-            <td>
-                -
-            </td>
-            <td>
-                <a href="https://vale.sh">
-                    Vale
-                </a>
-            </td>
-            <td>
-                **/vale-report.json
-            </td>
-        </tr>
-        <tr>
-            <td colspan="4">
-                :bulb: Use option --output=JSON
-            </td>
-        </tr>
-        <tr>
-            <td>
                 valgrind
             </td>
             <td>
