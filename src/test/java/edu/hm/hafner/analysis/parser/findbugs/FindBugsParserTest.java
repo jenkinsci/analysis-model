@@ -36,9 +36,10 @@ class FindBugsParserTest {
                 mock -> new InputStreamReader(read(fileName), StandardCharsets.UTF_8));
         when(readerFactory.getFileName()).thenReturn(fileName);
         var parser = new FindBugsParser(priorityProperty);
+        parser.setId("findbugs");
+        parser.setName("FindBugs");
         parser.setType(IssueType.BUG);
-        return parser.parse(readerFactory,
-                "spotbugs", "FindBugs");
+        return parser.parse(readerFactory);
     }
 
     private InputStream read(final String fileName) {
@@ -57,14 +58,14 @@ class FindBugsParserTest {
         assertThatReportHasSeverities(confidenceReport,
                 0, 1, 11, 0);
         assertThat(confidenceReport).hasToString(
-                "FindBugs (spotbugs): 12 bugs (high: 1, normal: 11)");
+                "FindBugs (findbugs): 12 bugs (high: 1, normal: 11)");
 
         var rankReport = parseFile("findbugs-severities.xml", RANK);
         assertThat(rankReport).hasSize(12);
         assertThatReportHasSeverities(rankReport,
                 0, 0, 0, 12);
         assertThat(rankReport).hasToString(
-                "FindBugs (spotbugs): 12 bugs (low: 12)");
+                "FindBugs (findbugs): 12 bugs (low: 12)");
     }
 
     private void assertThatReportHasSeverities(final Report report, final int expectedSizeError,

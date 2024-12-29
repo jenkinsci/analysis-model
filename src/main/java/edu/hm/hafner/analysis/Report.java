@@ -110,12 +110,30 @@ public class Report implements Iterable<Issue>, Serializable {
      * @param name
      *         a human-readable name for the report
      * @param originReportFile
-     *         the specified source file * that is the origin of the issues.
+     *         the specified source file that is the origin of the issues.
      */
     public Report(final String id, final String name, final String originReportFile) {
+        this(id, name, originReportFile, IssueType.WARNING);
+    }
+
+    /**
+     * Creates an empty {@link Report} with the specified ID and name. Link the report with the specified source file
+     * that is the origin of the issues.
+     *
+     * @param id
+     *         the ID of the report
+     * @param name
+     *         a human-readable name for the report
+     * @param originReportFile
+     *         the specified source file that is the origin of the issues
+     * @param elementType
+     *         the type of the issues in the report
+     */
+    public Report(final String id, final String name, final String originReportFile, final IssueType elementType) {
         this.id = id;
         this.name = name;
         this.originReportFile = originReportFile;
+        this.elementType = elementType;
     }
 
     /**
@@ -300,6 +318,18 @@ public class Report implements Iterable<Issue>, Serializable {
      * @return the type of the issues in the report
      */
     public IssueType getElementType() {
+        if (elements.isEmpty()) {
+            var types = subReports.stream()
+                    .map(Report::getElementType)
+                    .collect(Collectors.toSet());
+            if (types.size() > 1) {
+                return IssueType.WARNING; // fallback if element type is not unique
+            }
+            else if (types.isEmpty()) {
+                return elementType;
+            }
+            return types.iterator().next();
+        }
         return elementType;
     }
 
@@ -312,8 +342,15 @@ public class Report implements Iterable<Issue>, Serializable {
         return icon;
     }
 
+    /**
+     * Sets the icon of the report. The icon might be used to customize reports in the UI.
+     *
+     * @param icon the new icon
+     */
     public void setIcon(final String icon) {
-        this.icon = icon;
+        if (StringUtils.isNotBlank(icon)) {
+            this.icon = icon;
+        }
     }
 
     /**
@@ -692,19 +729,28 @@ public class Report implements Iterable<Issue>, Serializable {
     public String toString() {
         var summary = String.format(Locale.ENGLISH, "%s%s%s", getNamePrefix(), getSummary(), getDuplicates());
 
-        var details = getPredefinedValues()
+        return summary + getSeverityDistribution();
+    }
+
+    /**
+     * Returns a string representation of this report's severity distribution.
+     *
+     * @return a string representation of severity distribution
+     */
+    public String getSeverityDistribution() {
+        var severityDistribution = getPredefinedValues()
                 .stream()
                 .map(this::reportSeverity)
                 .flatMap(Optional::stream)
                 .collect(Collectors.joining(", "));
-        if (StringUtils.isEmpty(details)) {
-            return summary;
+        if (StringUtils.isEmpty(severityDistribution)) {
+            return severityDistribution;
         }
-        return summary + " (" + details + ")";
+        return " (" + severityDistribution + ")";
     }
 
     /**
-     * Returns a string representation of this report that shows the number of issues and their distribution.
+     * Returns a string representation of this report that shows the number of issues.
      *
      * @return a string representation of this report
      */
@@ -1016,6 +1062,9 @@ public class Report implements Iterable<Issue>, Serializable {
     private void copyProperties(final Report source, final Report destination) {
         destination.id = source.getId();
         destination.name = source.getName();
+        destination.icon = source.getIcon();
+        destination.elementType = source.getElementType();
+        destination.parserId = source.parserId;
         destination.originReportFile = source.getOriginReportFile();
         destination.duplicatesSize += source.duplicatesSize; // not recursively
         destination.infoMessages.addAll(source.infoMessages);

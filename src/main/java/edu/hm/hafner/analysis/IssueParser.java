@@ -40,8 +40,8 @@ public abstract class IssueParser implements Serializable {
     protected static final String SEVERITY = "severity";
     protected static final String TYPE = "type";
 
-    private String id = StringUtils.EMPTY;
-    private String name = StringUtils.EMPTY;
+    private String id = Report.DEFAULT_ID;
+    private String name = Report.DEFAULT_ID;
     private IssueType type = IssueType.WARNING;
 
     /**
@@ -58,29 +58,9 @@ public abstract class IssueParser implements Serializable {
      *         signals that the user has aborted the parsing
      */
     public Report parse(final ReaderFactory readerFactory) throws ParsingException, ParsingCanceledException {
-        return parse(readerFactory, id, name);
-    }
-
-    /**
-     * Parses a report (given by the reader factory) for issues.
-     *
-     * @param readerFactory
-     *         factory to read input reports with a specific locale
-     * @param customId
-     *         the ID for the returned report
-     * @param customName
-     *         a human-readable name for the returned report
-     *
-     * @return the report containing the found issues
-     * @throws ParsingException
-     *         signals that during parsing a non-recoverable error has been occurred
-     * @throws ParsingCanceledException
-     *         signals that the user has aborted the parsing
-     */
-    public Report parse(final ReaderFactory readerFactory, final String customId, final String customName) throws ParsingException, ParsingCanceledException {
         var report = parseReport(readerFactory);
 
-        report.setOrigin(customId, customName, type, readerFactory.getFileName());
+        report.setOrigin(id, name, type, readerFactory.getFileName());
 
         return report;
     }
@@ -103,12 +83,24 @@ public abstract class IssueParser implements Serializable {
         this.id = id;
     }
 
+    protected String getId() {
+        return id;
+    }
+
     public final void setName(final String name) {
         this.name = name;
     }
 
+    protected String getName() {
+        return name;
+    }
+
     public final void setType(final IssueType type) {
         this.type = type;
+    }
+
+    protected IssueType getType() {
+        return type;
     }
 
     /**

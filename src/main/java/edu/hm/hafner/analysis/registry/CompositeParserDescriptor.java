@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.registry;
 
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -60,6 +61,7 @@ abstract class CompositeParserDescriptor extends ParserDescriptor {
      * aggregated.
      */
     private static class CompositeParser extends IssueParser {
+        @Serial
         private static final long serialVersionUID = -2319098057308618997L;
 
         private final List<IssueParser> parsers = new ArrayList<>();
@@ -78,9 +80,12 @@ abstract class CompositeParserDescriptor extends ParserDescriptor {
 
         @Override
         protected Report parseReport(final ReaderFactory readerFactory) {
-            var aggregated = new Report();
+            var aggregated = new Report(getId(), getName(), readerFactory.getFileName(), getType());
             for (IssueParser parser : parsers) {
                 if (parser.accepts(readerFactory)) {
+                    parser.setId(getId());
+                    parser.setName(getName());
+                    parser.setType(getType());
                     aggregated.addAll(parser.parse(readerFactory));
                 }
             }
