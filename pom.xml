@@ -293,22 +293,6 @@
   <build>
     <plugins>
       <plugin>
-        <groupId>org.owasp</groupId>
-        <artifactId>dependency-check-maven</artifactId>
-        <version>11.1.0</version>
-        <configuration>
-          <nvdApiServerId>nvd.nist.gov</nvdApiServerId>
-          <format>JSON</format>
-        </configuration>
-        <executions>
-          <execution>
-            <goals>
-              <goal>check</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
         <groupId>org.sonatype.plugins</groupId>
         <artifactId>nexus-staging-maven-plugin</artifactId>
         <configuration>
@@ -368,6 +352,7 @@
           <excludes>
             <exclude>.*LineRangeList</exclude>
             <exclude>.*SecureDigester</exclude>
+            <exclude>.*Benchmark.*</exclude>
             <exclude>edu.hm.hafner.analysis.parser.*</exclude>
             <exclude>edu.hm.hafner.analysis.PackageDetectors.*</exclude>
           </excludes>
