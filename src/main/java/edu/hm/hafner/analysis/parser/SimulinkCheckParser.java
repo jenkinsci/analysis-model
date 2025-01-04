@@ -31,7 +31,7 @@ public class SimulinkCheckParser extends IssueParser {
     private static final String INCOMPLETE = "div.IncompleteCheck";
     private static final String EMPTY_BASE_URI = "";
     private static final String REPORT_CONTENT = "div.ReportContent";
-    private static final String MODEL_NAME_SELECTOR = "b > font";
+    private static final String MODEL_NAME_SELECTOR = "b:contains(Model Advisor Report - ) > font";
     private static final Pattern TEXT_PATTERN = Pattern.compile("^(SW[0-9]*-[0-9]*)(\\W*)(.*)");
     private static final String SW_PREFIX = "SW";
 
@@ -50,7 +50,7 @@ public class SimulinkCheckParser extends IssueParser {
             var report = new Report();
 
             var modelNameElement = systemElement.selectFirst(MODEL_NAME_SELECTOR);
-            var system = modelNameElement.text();
+            var system = (modelNameElement == null) ? systemElement.id() : modelNameElement.text();
             parseIssues(report, document, issueBuilder, system, WARNING);
             parseIssues(report, document, issueBuilder, system, FAILED);
             parseIssues(report, document, issueBuilder, system, NOT_RUN);
