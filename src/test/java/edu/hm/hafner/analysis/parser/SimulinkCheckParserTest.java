@@ -53,5 +53,9 @@ class SimulinkCheckParserTest extends AbstractParserTest {
                 .hasModuleName("SW01-181.NestedComments");
         softly.assertThat(report.get(9))
                 .hasModuleName("SW02-430.CompareFloatEquality");
+
+        for (int i = 0; i < report.size(); i++) {
+            softly.assertThat(report.get(i)).hasFileName("sldemo_mdladv.slx");
+        }
     }
 }
