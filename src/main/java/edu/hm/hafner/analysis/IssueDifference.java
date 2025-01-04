@@ -60,8 +60,8 @@ public class IssueDifference {
             final Report referenceIssues, final Map<String, Integer> includes) {
         newIssues = currentIssues.copy();
         fixedIssues = referenceIssues.copy();
-        outstandingIssues = new Report();
-        newIssuesInChangedCode = new Report();
+        outstandingIssues = referenceIssues.copyEmptyInstance();
+        newIssuesInChangedCode = currentIssues.copyEmptyInstance();
 
         referencesByHash = new HashMap<>();
         referencesByFingerprint = new HashMap<>();

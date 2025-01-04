@@ -179,7 +179,24 @@ public class Report implements Iterable<Issue>, Serializable {
     }
 
     private boolean hasId() {
-        return !DEFAULT_ID.equals(id) && StringUtils.isNoneBlank(id);
+        return isDefaultId(id);
+    }
+
+    public String getParserId() {
+        return aggregateChildProperty(Report::getParserId, parserId);
+    }
+
+    /**
+     * Returns whether this report has a parser ID. A parser ID is considered to be set if it is not the default ID.
+     *
+     * @return {@code true} if this report has a parser ID, {@code false} otherwise
+     */
+    public boolean hasParserId() {
+        return isDefaultId(getParserId());
+    }
+
+    private boolean isDefaultId(final String value) {
+        return !DEFAULT_ID.equals(value) && StringUtils.isNoneBlank(value);
     }
 
     /**
@@ -189,14 +206,18 @@ public class Report implements Iterable<Issue>, Serializable {
      * @return the effective ID of all sub-reports
      */
     public String getEffectiveId() {
-        Set<String> ids = subReports.stream().map(Report::getEffectiveId).collect(Collectors.toSet());
-        ids.add(getId());
+        return aggregateChildProperty(Report::getEffectiveId, getId());
+    }
+
+    private String aggregateChildProperty(final Function<Report, String> idProperty, final String defaultId) {
+        Set<String> ids = subReports.stream().map(idProperty).collect(Collectors.toSet());
+        ids.add(defaultId);
         ids.remove(DEFAULT_ID);
 
         if (ids.size() == 1) {
             return ids.iterator().next();
         }
-        return getId();
+        return defaultId;
     }
 
     public String getName() {
@@ -207,51 +228,48 @@ public class Report implements Iterable<Issue>, Serializable {
      * Sets the origin of all issues in this report. Calling this method will associate all containing issues and issues
      * in sub-reports using the specified ID and name.
      *
-     * @param id
+     * @param originId
      *         the ID of the report
-     * @param name
+     * @param originName
      *         a human-readable name for the report
-     *
-     * @deprecated use {@link #setOrigin(String, String, IssueType)}
      */
-    @Deprecated
-    @SuppressWarnings("checkstyle:HiddenField")
-    public void setOrigin(final String id, final String name) {
-        setOrigin(id, name, IssueType.WARNING);
-    }
+    public void setOrigin(final String originId, final String originName) {
+        var normalizedId = StringUtils.defaultIfBlank(originId, DEFAULT_ID);
+        var normalizedName = StringUtils.defaultIfBlank(originName, DEFAULT_ID);
+
+        id = normalizedId;
+        name = normalizedName;
+        subReports.forEach(report -> report.setOrigin(normalizedId, normalizedName));
+        elements.forEach(issue -> issue.setOrigin(normalizedId, normalizedName));    }
 
     /**
      * Sets the origin of all issues in this report. Calling this method will associate all containing issues and issues
      * in sub-reports using the specified ID and name.
      *
-     * @param id
+     * @param originId
      *         the ID of the report
-     * @param name
+     * @param originName
      *         a human-readable name for the report
-     * @param elementType
+     * @param originElementType
      *         the type of the issues in the report
      */
-    @SuppressWarnings("checkstyle:HiddenField")
-    public void setOrigin(final String id, final String name, final IssueType elementType) {
-        var normalizedId = StringUtils.defaultIfBlank(id, DEFAULT_ID);
-        var normalizedName = StringUtils.defaultIfBlank(name, DEFAULT_ID);
+    private void setOrigin(final String originId, final String originName, final IssueType originElementType) {
+        setOrigin(originId, originName);
 
-        this.id = normalizedId;
-        this.name = normalizedName;
-        this.elementType = elementType;
-
-        subReports.forEach(report -> report.setOrigin(normalizedId, normalizedName, elementType));
+        elementType = originElementType;
+        parserId = originId;
+        subReports.forEach(report -> report.setOrigin(this.id, this.name, originElementType));
         // TODO check if we need the type for issues as well
-        elements.forEach(issue -> issue.setOrigin(normalizedId, normalizedName));
+        elements.forEach(issue -> issue.setOrigin(this.id, this.name));
     }
 
     /**
      * Sets the origin of all issues in this report. Calling this method will associate all containing issues and issues
      * in sub-reports using the specified ID and name.
      *
-     * @param id
+     * @param originId
      *         the ID of the report
-     * @param name
+     * @param originName
      *         a human-readable name for the report
      * @param elementType
      *         the type of the issues in the report
@@ -259,9 +277,9 @@ public class Report implements Iterable<Issue>, Serializable {
      *         the report file name to add
      */
     @SuppressWarnings("checkstyle:HiddenField")
-    public void setOrigin(final String id, final String name, final IssueType elementType,
+    public void setOrigin(final String originId, final String originName, final IssueType elementType,
             final String reportFile) {
-        setOrigin(id, name, elementType);
+        setOrigin(originId, originName, elementType);
         setOriginReportFile(reportFile);
     }
 
@@ -272,14 +290,7 @@ public class Report implements Iterable<Issue>, Serializable {
      * @return the effective ID of all sub-reports
      */
     public String getEffectiveName() {
-        Set<String> names = subReports.stream().map(Report::getEffectiveName).collect(Collectors.toSet());
-        names.add(getName());
-        names.remove(DEFAULT_ID);
-
-        if (names.size() == 1) {
-            return names.iterator().next();
-        }
-        return getName();
+        return aggregateChildProperty(Report::getEffectiveName, getName());
     }
 
     public String getOriginReportFile() {
@@ -1064,7 +1075,7 @@ public class Report implements Iterable<Issue>, Serializable {
         destination.name = source.getName();
         destination.icon = source.getIcon();
         destination.elementType = source.getElementType();
-        destination.parserId = source.parserId;
+        destination.parserId = source.getParserId();
         destination.originReportFile = source.getOriginReportFile();
         destination.duplicatesSize += source.duplicatesSize; // not recursively
         destination.infoMessages.addAll(source.infoMessages);
