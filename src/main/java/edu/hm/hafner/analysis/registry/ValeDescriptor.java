@@ -15,7 +15,7 @@ public class ValeDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public IssueParser createParser(Option... options) {
+    public IssueParser create(final Option... options) {
         return new ValeParser();
     }
 
