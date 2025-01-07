@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2024-11-19T21:47:53.662921218 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2025-01-07T16:26:10.799062668 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -2176,6 +2176,27 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
             </td>
             <td>
                 -
+            </td>
+        </tr>
+        <tr>
+            <td>
+                vale
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                <a href="https://vale.sh/">
+                    Vale
+                </a>
+            </td>
+            <td>
+                **/vale-report.json
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Reads vale report files. Use the flag --output=JSON
             </td>
         </tr>
         <tr>

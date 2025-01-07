@@ -11,8 +11,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        if: github.event_name == 'push'
+      - uses: actions/checkout@v4
         with:
-          ref: "refs/pull/${{ github.event.number }}/merge"
+          ref: "${{ github.event.pull_request.merge_commit_sha }}"
+        if: github.event_name == 'pull_request_target'
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
@@ -78,12 +81,12 @@ jobs:
                       "id": "spotbugs",
                       "sourcePath": "src/main/java",
                       "pattern": "**/target/spotbugsXml.xml"
-                  },
-                  {
-                    "id": "error-prone",
-                    "pattern": "**/maven.log"
-                  }
-                ]
+                    },
+                    {
+                      "id": "error-prone",
+                      "pattern": "**/maven.log"
+                    }
+                  ]
                 },
                 {
                   "name": "Vulnerabilities",

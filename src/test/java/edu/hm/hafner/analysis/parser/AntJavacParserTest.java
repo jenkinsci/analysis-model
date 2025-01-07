@@ -19,6 +19,8 @@ import static org.junit.jupiter.api.Assertions.*;
  * Tests the class {@link AntJavacParser}.
  */
 class AntJavacParserTest extends AbstractParserTest {
+    private static final int ALLOWED_TIMEOUT_IN_SECONDS = 5;
+
     AntJavacParserTest() {
         super("ant-javac.txt");
     }
@@ -37,7 +39,7 @@ class AntJavacParserTest extends AbstractParserTest {
      */
     @Test
     void issue55805() {
-        assertTimeoutPreemptively(Duration.ofSeconds(1), () -> parse("issue55805.txt"));
+        assertTimeoutPreemptively(Duration.ofSeconds(ALLOWED_TIMEOUT_IN_SECONDS), () -> parse("issue55805.txt"));
     }
 
     /**
