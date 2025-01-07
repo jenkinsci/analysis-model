@@ -1,7 +1,5 @@
 package edu.hm.hafner.analysis.registry;
 
-import edu.hm.hafner.analysis.Report.IssueType;
-
 /**
  * A descriptor for SpotBugs.
  *
@@ -28,10 +26,5 @@ class SpotBugsDescriptor extends FindBugsDescriptor {
     @Override
     public String getIconUrl() {
         return "https://raw.githubusercontent.com/spotbugs/spotbugs.github.io/master/images/logos/spotbugs_icon_only_zoom_256px.png";
-    }
-
-    @Override
-    public IssueType getType() {
-        return IssueType.BUG;
     }
 }

@@ -43,7 +43,7 @@ class ModuleDetectorTest extends ResourceTest {
             var ant = PATH_PREFIX_ANT + AntModuleDetector.ANT_PROJECT;
             var maven = PATH_PREFIX_MAVEN + MavenModuleDetector.MAVEN_POM;
             when(stub.find(any(), anyString())).thenReturn(new String[]{ant, maven});
-            when(stub.open(PREFIX + ant)).thenReturn(read(AntModuleDetector.ANT_PROJECT));
+            when(stub.open(PREFIX + ant)).thenAnswer(fileName -> read(AntModuleDetector.ANT_PROJECT));
             when(stub.open(PREFIX + maven)).thenAnswer(filename -> read(MavenModuleDetector.MAVEN_POM));
         });
 
@@ -84,7 +84,7 @@ class ModuleDetectorTest extends ResourceTest {
     private void verifyOrder(final String prefix, final String ant, final String maven, final String[] foundFiles) {
         var factory = createFileSystemStub(stub -> {
             when(stub.find(any(), anyString())).thenReturn(foundFiles);
-            when(stub.open(ant)).thenReturn(read(AntModuleDetector.ANT_PROJECT));
+            when(stub.open(ant)).thenAnswer(fileName -> read(AntModuleDetector.ANT_PROJECT));
             when(stub.open(maven)).thenAnswer(filename -> read(MavenModuleDetector.MAVEN_POM));
         });
 
