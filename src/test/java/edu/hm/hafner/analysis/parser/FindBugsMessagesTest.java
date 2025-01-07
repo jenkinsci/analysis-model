@@ -1,4 +1,4 @@
-package edu.hm.hafner.analysis.parser.findbugs;
+package edu.hm.hafner.analysis.parser;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,7 +7,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
 
-import edu.hm.hafner.analysis.parser.findbugs.FindBugsMessages.Pattern;
+import edu.hm.hafner.analysis.parser.FindBugsMessages.Pattern;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -72,7 +72,7 @@ class FindBugsMessagesTest {
     }
 
     private List<Pattern> readMessages(final String fileName) {
-        try (var file = read(fileName)) {
+        try (var file = read("findbugs/" + fileName)) {
             return new FindBugsMessages().parse(file);
         }
         catch (IOException | SAXException e) {

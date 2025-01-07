@@ -23,7 +23,7 @@ import edu.hm.hafner.analysis.SecureDigester;
  * @author Ullrich Hafner
  */
 public class CheckStyleRules {
-    private final Map<String, Rule> rulesByName = new HashMap<>();
+    private final Map<String, CheckStyleParser.Rule> rulesByName = new HashMap<>();
 
     /**
      * Loads the available rules into a map.
@@ -35,10 +35,10 @@ public class CheckStyleRules {
         for (String ruleFile : ruleFiles) {
             try (var inputStream = CheckStyleRules.class.getResourceAsStream("config_" + ruleFile + ".xml")) {
                 var digester = createDigester();
-                List<Rule> rules = new ArrayList<>();
+                List<CheckStyleParser.Rule> rules = new ArrayList<>();
                 digester.push(rules);
                 digester.parse(inputStream);
-                for (Rule rule : rules) {
+                for (CheckStyleParser.Rule rule : rules) {
                     if (StringUtils.isNotBlank(rule.getDescription())) {
                         rulesByName.put(rule.getName(), rule);
                     }
@@ -66,15 +66,15 @@ public class CheckStyleRules {
         var digester = new SecureDigester(CheckStyleRules.class);
 
         var section = "*/section";
-        digester.addObjectCreate(section, Rule.class);
+        digester.addObjectCreate(section, CheckStyleParser.Rule.class);
         digester.addSetProperties(section);
         digester.addSetNext(section, "add");
 
         var subSection = "*/section/subsection";
-        digester.addObjectCreate(subSection, Topic.class);
+        digester.addObjectCreate(subSection, CheckStyleParser.Topic.class);
         digester.addSetProperties(subSection);
         digester.addSetNext(subSection, "setDescription");
-        digester.addRule(subSection, new TopicRule());
+        digester.addRule(subSection, new CheckStyleParser.TopicRule());
         return digester;
     }
 
@@ -83,7 +83,7 @@ public class CheckStyleRules {
      *
      * @return all Checkstyle rules
      */
-    public Collection<Rule> getRules() {
+    public Collection<CheckStyleParser.Rule> getRules() {
         return Collections.unmodifiableCollection(rulesByName.values());
     }
 
@@ -95,13 +95,13 @@ public class CheckStyleRules {
      *
      * @return the Checkstyle rule with the specified name.
      */
-    public Rule getRule(final String name) {
+    public CheckStyleParser.Rule getRule(final String name) {
         var rule = rulesByName.get(name);
         if (rule == null) {
             rule = rulesByName.get(StringUtils.removeEnd(name, "Check"));
         }
         if (rule == null) {
-            return new Rule(name);
+            return new CheckStyleParser.Rule(name);
         }
         return rule;
     }

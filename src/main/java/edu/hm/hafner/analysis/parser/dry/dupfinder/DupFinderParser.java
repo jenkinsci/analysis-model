@@ -1,6 +1,9 @@
 package edu.hm.hafner.analysis.parser.dry.dupfinder;
 
 import java.io.Serial;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.digester3.Digester;
@@ -9,13 +12,15 @@ import edu.hm.hafner.analysis.DuplicationGroup;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.parser.dry.AbstractDryParser;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * A parser for Reshaper Dupfinder XML files.
  *
  * @author Rafal Jasica
  */
-public class DupFinderParser extends AbstractDryParser<Duplicate> {
+public class DupFinderParser extends AbstractDryParser<DupFinderParser.Duplicate> {
     /** Unique ID of this class. */
     @Serial
     private static final long serialVersionUID = 1357147358617711901L;
@@ -89,5 +94,153 @@ public class DupFinderParser extends AbstractDryParser<Duplicate> {
         }
 
         return report;
+    }
+
+    /**
+     * Java Bean class for a Reshaper DupFinder duplicate.
+     *
+     * @author Rafal Jasica
+     */
+    public static class Duplicate {
+        /** The duplicated cost. */
+        private int cost;
+
+        /** All files of this duplication. */
+        private final List<Fragment> fragments = new ArrayList<>();
+
+        /**
+         * Returns the duplicate cost.
+         *
+         * @return the duplicate cost
+         */
+        public int getCost() {
+            return cost;
+        }
+
+        /**
+         * Sets the duplicate cost to the specified value.
+         *
+         * @param cost the value to set
+         */
+        public void setCost(final int cost) {
+            this.cost = cost;
+        }
+
+        /**
+         * Adds a new file to this duplication.
+         *
+         * @param file
+         *            the new file
+         */
+        public void addFragment(final Fragment file) {
+            fragments.add(file);
+        }
+
+        /**
+         * Returns all files of the duplication. The returned collection is
+         * read-only.
+         *
+         * @return all files
+         */
+        public Collection<Fragment> getFragments() {
+            return Collections.unmodifiableCollection(fragments);
+        }
+    }
+
+    /**
+     * Java Bean class for a Reshaper DupFinder fragment.
+     *
+     * @author Rafal Jasica
+     */
+    @SuppressWarnings("PMD.DataClass")
+    @SuppressFBWarnings("EI")
+    public static class Fragment {
+        @CheckForNull
+        private String fileName;
+        @CheckForNull
+        private String text;
+        @CheckForNull
+        private Range lineRange;
+        @CheckForNull
+        private Range offsetRange;
+
+        /**
+         * Returns the file name.
+         *
+         * @return the path of this file
+         */
+        @CheckForNull
+        public String getFileName() {
+            return fileName;
+        }
+
+        /**
+         * Sets the file name to the specified value.
+         *
+         * @param fileName the value to set
+         */
+        @SuppressFBWarnings("NM")
+        public void setFileName(@CheckForNull final String fileName) {
+            this.fileName = fileName;
+        }
+
+        /**
+         * Returns the text.
+         *
+         * @return the text
+         */
+        @CheckForNull
+        public String getText() {
+            return text;
+        }
+
+        /**
+         * Sets the text to the specified value.
+         *
+         * @param text the value to set
+         */
+        public void setText(@CheckForNull final String text) {
+            this.text = text;
+        }
+
+        /**
+         * Returns the line range.
+         *
+         * @return the line range
+         */
+        public Range getLineRange() {
+            if (lineRange == null) {
+                return new Range();
+            }
+            return lineRange;
+        }
+
+        /**
+         * Sets the line range to the specified value.
+         *
+         * @param lineRange the value to set
+         */
+        public void setLineRange(@CheckForNull final Range lineRange) {
+            this.lineRange = lineRange;
+        }
+
+        /**
+         * Returns the offset range.
+         *
+         * @return the offset range
+         */
+        @CheckForNull
+        public Range getOffsetRange() {
+            return offsetRange;
+        }
+
+        /**
+         * Sets the offset range to the specified value.
+         *
+         * @param offsetRange the value to set
+         */
+        public void setOffsetRange(@CheckForNull final Range offsetRange) {
+            this.offsetRange = offsetRange;
+        }
     }
 }

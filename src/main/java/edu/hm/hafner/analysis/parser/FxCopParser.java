@@ -1,7 +1,11 @@
-package edu.hm.hafner.analysis.parser.fxcop;
+package edu.hm.hafner.analysis.parser;
 
 import java.io.Serial;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Element;
 
 import edu.hm.hafner.analysis.IssueBuilder;
@@ -11,6 +15,7 @@ import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.util.XmlElementUtil;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Parses a fxcop xml report file.
@@ -199,6 +204,161 @@ public class FxCopParser extends IssueParser {
             else {
                 return "";
             }
+        }
+    }
+
+    /**
+     * Internal model for a FxCop rule.
+     *
+     * @author Erik Ramfelt
+     */
+    @SuppressWarnings({"PMD", "all", "CheckStyle"})
+    public static class FxCopRule {
+        private final String typeName;
+        private final String category;
+        private final String checkId;
+        @CheckForNull
+        private String name;
+        @CheckForNull
+        private String url;
+        @CheckForNull
+        private String description;
+
+        public FxCopRule(final String typeName, final String category, final String checkId) {
+            this.typeName = typeName;
+            this.category = category;
+            this.checkId = checkId;
+        }
+
+        @CheckForNull
+        public String getName() {
+            return name;
+        }
+
+        public void setName(final String name) {
+            this.name = name;
+        }
+
+        @CheckForNull
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(final String url) {
+            this.url = url;
+        }
+
+        @CheckForNull
+        public String getDescription() {
+            return description;
+        }
+
+        public void setDescription(final String description) {
+            this.description = description;
+        }
+
+        public String getTypeName() {
+            return typeName;
+        }
+
+        public String getCategory() {
+            return category;
+        }
+
+        public String getCheckId() {
+            return checkId;
+        }
+    }
+
+    /**
+     * Internal set containing rules for FxCop.
+     *
+     * @author Erik Ramfelt
+     */
+    @SuppressWarnings({"PMD", "all", "CheckStyle"})
+    public static class FxCopRuleSet {
+        private final Map<String, FxCopRule> rules = new HashMap<>();
+
+        /***
+         * Parse the element and insert the rule into the rule set.
+         * @param element the element
+         */
+        public void addRule(final Element element) {
+            var rule = new FxCopRule(element.getAttribute("TypeName"), element.getAttribute("Category"), element
+                    .getAttribute("CheckId"));
+            rule.setUrl(getNamedTagText(element, "Url"));
+            rule.setDescription(getNamedTagText(element, "Description"));
+            rule.setName(getNamedTagText(element, "Name"));
+
+            rules.put(getRuleKey(rule.getCategory(), rule.getCheckId()), rule);
+        }
+
+        /**
+         * Returns the text value of the named child element if it exists
+         *
+         * @param element
+         *         the element to check look for child elements
+         * @param tagName
+         *         the name of the child element
+         *
+         * @return the text value; or "" if no element was found
+         */
+        private String getNamedTagText(final Element element, final String tagName) {
+            Optional<Element> foundElement = XmlElementUtil.getFirstChildElementByName(element, tagName);
+            if (foundElement.isPresent()) {
+                return foundElement.get().getTextContent();
+            }
+            else {
+                return StringUtils.EMPTY;
+            }
+        }
+
+        /**
+         * Returns if the rule set contains a rule for the specified category and id
+         *
+         * @param category
+         *         the rule category
+         * @param checkId
+         *         the rule id
+         *
+         * @return {@code true}  if the rule set contains a rule for the specified category and id, {@code false} otherwise
+         */
+        public boolean contains(final String category, final String checkId) {
+            return rules.containsKey(getRuleKey(category, checkId));
+        }
+
+        /**
+         * Returns the specified rule if it exists
+         *
+         * @param category
+         *         the rule category
+         * @param checkId
+         *         the id of the rule
+         *
+         * @return the rule; null otherwise
+         */
+        @CheckForNull
+        public FxCopRule getRule(final String category, final String checkId) {
+            var key = getRuleKey(category, checkId);
+            FxCopRule rule = null;
+            if (rules.containsKey(key)) {
+                rule = rules.get(key);
+            }
+            return rule;
+        }
+
+        /**
+         * Returns the key for the map
+         *
+         * @param category
+         *         category of the rule
+         * @param checkId
+         *         id of the rule
+         *
+         * @return category + "#" + checkid
+         */
+        private String getRuleKey(final String category, final String checkId) {
+            return category + "#" + checkId;
         }
     }
 }

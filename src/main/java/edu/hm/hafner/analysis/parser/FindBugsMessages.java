@@ -1,4 +1,4 @@
-package edu.hm.hafner.analysis.parser.findbugs;
+package edu.hm.hafner.analysis.parser;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -45,7 +45,7 @@ public final class FindBugsMessages {
 
     private void loadMessages(final String fileName, final Map<String, String> messagesCache,
             final Map<String, String> shortMessagesCache) throws IOException, SAXException {
-        try (var file = FindBugsMessages.class.getResourceAsStream(fileName)) {
+        try (var file = FindBugsMessages.class.getResourceAsStream("findbugs/" + fileName)) {
             List<Pattern> patterns = parse(file);
             for (Pattern pattern : patterns) {
                 messagesCache.put(pattern.getType(), pattern.getDescription());

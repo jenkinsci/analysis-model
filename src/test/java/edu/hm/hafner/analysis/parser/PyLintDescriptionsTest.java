@@ -1,4 +1,4 @@
-package edu.hm.hafner.analysis.parser.pylint;
+package edu.hm.hafner.analysis.parser;
 
 import org.junit.jupiter.api.Test;
 

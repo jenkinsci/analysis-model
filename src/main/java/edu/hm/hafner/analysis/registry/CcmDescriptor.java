@@ -1,7 +1,7 @@
 package edu.hm.hafner.analysis.registry;
 
 import edu.hm.hafner.analysis.IssueParser;
-import edu.hm.hafner.analysis.parser.ccm.CcmParser;
+import edu.hm.hafner.analysis.parser.CcmParser;
 
 /**
  * A descriptor for the CCM.

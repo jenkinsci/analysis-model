@@ -1,7 +1,7 @@
 package edu.hm.hafner.analysis.registry;
 
 import edu.hm.hafner.analysis.IssueParser;
-import edu.hm.hafner.analysis.parser.fxcop.FxCopParser;
+import edu.hm.hafner.analysis.parser.FxCopParser;
 
 /**
  * A descriptor for FxCop.

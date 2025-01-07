@@ -1,7 +1,7 @@
 package edu.hm.hafner.analysis.registry;
 
 import edu.hm.hafner.analysis.IssueParser;
-import edu.hm.hafner.analysis.parser.pvsstudio.PvsStudioParser;
+import edu.hm.hafner.analysis.parser.PvsStudioParser;
 
 /**
  * A descriptor for the PVS-Studio static analyzer.

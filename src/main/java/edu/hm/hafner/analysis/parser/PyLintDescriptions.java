@@ -1,4 +1,4 @@
-package edu.hm.hafner.analysis.parser.pylint;
+package edu.hm.hafner.analysis.parser;
 
 import java.io.IOException;
 import java.util.HashMap;

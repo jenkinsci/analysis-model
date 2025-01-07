@@ -1,4 +1,4 @@
-package edu.hm.hafner.analysis.parser.findbugs;
+package edu.hm.hafner.analysis.parser;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -14,11 +14,11 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Report.IssueType;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
-import edu.hm.hafner.analysis.parser.findbugs.FindBugsParser.PriorityProperty;
-import edu.hm.hafner.analysis.parser.findbugs.FindBugsParser.XmlBugInstance;
+import edu.hm.hafner.analysis.parser.FindBugsParser.PriorityProperty;
+import edu.hm.hafner.analysis.parser.FindBugsParser.XmlBugInstance;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
-import static edu.hm.hafner.analysis.parser.findbugs.FindBugsParser.PriorityProperty.*;
+import static edu.hm.hafner.analysis.parser.FindBugsParser.PriorityProperty.*;
 import static org.mockito.Mockito.*;
 
 /**
@@ -43,7 +43,7 @@ class FindBugsParserTest {
     }
 
     private InputStream read(final String fileName) {
-        return FindBugsParserTest.class.getResourceAsStream(fileName);
+        return FindBugsParserTest.class.getResourceAsStream("findbugs/" + fileName);
     }
 
     /**

@@ -1,4 +1,4 @@
-package edu.hm.hafner.analysis.parser.pvsstudio;
+package edu.hm.hafner.analysis.parser;
 
 import java.util.Locale;
 
@@ -26,12 +26,12 @@ class PvsStudioParserTest extends AbstractParserTest {
 
         assertThatReportHasSeverities(report, 1, 5, 24, 3);
 
-        softly.assertThat(report.filter(Issue.byType(AnalyzerType.GENERAL_MESSAGE)).getSize()).isEqualTo(7);
-        softly.assertThat(report.filter(Issue.byType(AnalyzerType.OPTIMIZATION_MESSAGE)).getSize()).isEqualTo(1);
-        softly.assertThat(report.filter(Issue.byType(AnalyzerType.CUSTOMER_SPECIFIC_MESSAGE)).getSize()).isEqualTo(3);
-        softly.assertThat(report.filter(Issue.byType(AnalyzerType.VIVA_64_MESSAGE)).getSize()).isEqualTo(11);
-        softly.assertThat(report.filter(Issue.byType(AnalyzerType.MISRA_MESSAGE)).getSize()).isEqualTo(9);
-        softly.assertThat(report.filter(Issue.byType(AnalyzerType.UNKNOWN_MESSAGE)).getSize()).isEqualTo(2);
+        softly.assertThat(report.filter(Issue.byType(PvsStudioParser.AnalyzerType.GENERAL_MESSAGE)).getSize()).isEqualTo(7);
+        softly.assertThat(report.filter(Issue.byType(PvsStudioParser.AnalyzerType.OPTIMIZATION_MESSAGE)).getSize()).isEqualTo(1);
+        softly.assertThat(report.filter(Issue.byType(PvsStudioParser.AnalyzerType.CUSTOMER_SPECIFIC_MESSAGE)).getSize()).isEqualTo(3);
+        softly.assertThat(report.filter(Issue.byType(PvsStudioParser.AnalyzerType.VIVA_64_MESSAGE)).getSize()).isEqualTo(11);
+        softly.assertThat(report.filter(Issue.byType(PvsStudioParser.AnalyzerType.MISRA_MESSAGE)).getSize()).isEqualTo(9);
+        softly.assertThat(report.filter(Issue.byType(PvsStudioParser.AnalyzerType.UNKNOWN_MESSAGE)).getSize()).isEqualTo(2);
 
         softly.assertThat(report.get(0))
                 .hasSeverity(Severity.ERROR)

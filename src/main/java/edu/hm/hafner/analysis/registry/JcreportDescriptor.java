@@ -1,7 +1,7 @@
 package edu.hm.hafner.analysis.registry;
 
 import edu.hm.hafner.analysis.IssueParser;
-import edu.hm.hafner.analysis.parser.jcreport.JcReportParser;
+import edu.hm.hafner.analysis.parser.JcReportParser;
 
 /**
  * A descriptor for the JcReport compiler.

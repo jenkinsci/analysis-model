@@ -39,18 +39,12 @@ public class XlcCompilerParser extends LookaheadParser {
     }
 
     private Severity toPriority(final String severity) {
-        switch (severity.charAt(0)) {
-            case 'U':
-            case 'S':
-            case 'E':
-                return Severity.WARNING_HIGH;
-            case 'W':
-                return Severity.WARNING_NORMAL;
-            case 'I':
-                return Severity.WARNING_LOW;
-            default:
-                return Severity.WARNING_HIGH;
-        }
+        return switch (severity.charAt(0)) {
+            case 'U', 'S', 'E' -> Severity.WARNING_HIGH;
+            case 'W' -> Severity.WARNING_NORMAL;
+            case 'I' -> Severity.WARNING_LOW;
+            default -> Severity.WARNING_HIGH;
+        };
     }
 
     @Override

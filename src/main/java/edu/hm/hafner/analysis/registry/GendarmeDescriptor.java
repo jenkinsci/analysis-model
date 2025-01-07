@@ -1,7 +1,7 @@
 package edu.hm.hafner.analysis.registry;
 
 import edu.hm.hafner.analysis.IssueParser;
-import edu.hm.hafner.analysis.parser.gendarme.GendarmeParser;
+import edu.hm.hafner.analysis.parser.GendarmeParser;
 
 /**
  * A descriptor for Gendarme violations.

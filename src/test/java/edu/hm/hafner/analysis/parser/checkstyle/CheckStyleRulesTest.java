@@ -36,7 +36,7 @@ class CheckStyleRulesTest {
                 .contains("This check controls the style with the usage of annotations.");
         assertThat(rules.getRule("Undefined").getDescription())
                 .as("No default text available for undefined rule.")
-                .isEqualTo(Rule.UNDEFINED_DESCRIPTION);
+                .isEqualTo(CheckStyleParser.Rule.UNDEFINED_DESCRIPTION);
         assertThat(rules.getRule("DesignForExtension").getDescription())
                 .as("Wrong start of rule text.")
                 .startsWith("<p>Since Checkstyle 3.1</p><p>");
@@ -46,9 +46,9 @@ class CheckStyleRulesTest {
                 .contains("<pre><code>public MyClass() {}      // empty constructor")
                 .matches(EMPTY_ANNOTATION);
 
-        for (Rule rule : rules.getRules()) {
+        for (CheckStyleParser.Rule rule : rules.getRules()) {
             assertThat(rule.getDescription()).as("Rule %s has no description", rule.getName())
-                    .isNotEqualTo(Rule.UNDEFINED_DESCRIPTION);
+                    .isNotEqualTo(CheckStyleParser.Rule.UNDEFINED_DESCRIPTION);
         }
     }
 }

@@ -1,4 +1,4 @@
-package edu.hm.hafner.analysis.parser.gendarme;
+package edu.hm.hafner.analysis.parser;
 
 import java.io.Serial;
 import java.net.MalformedURLException;
@@ -18,6 +18,7 @@ import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.util.XmlElementUtil;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 import static edu.hm.hafner.analysis.util.IntegerParser.*;
 
@@ -81,19 +82,16 @@ public class GendarmeParser extends IssueParser {
     }
 
     private Severity extractPriority(final Element defectElement) {
-        switch (defectElement.getAttribute("Severity")) {
-            case "Low":
-                return Severity.WARNING_LOW;
-            case "High":
-                return Severity.WARNING_HIGH;
-            default:
-                return Severity.WARNING_NORMAL;
-        }
+        return switch (defectElement.getAttribute("Severity")) {
+            case "Low" -> Severity.WARNING_LOW;
+            case "High" -> Severity.WARNING_HIGH;
+            default -> Severity.WARNING_NORMAL;
+        };
     }
 
     private String extractFileNameMatch(final GendarmeRule rule, final String source, final int group) {
         var fileName = StringUtils.EMPTY;
-        if (rule.getType() == GendarmeRuleType.Method) {
+        if (rule.getType() == GendarmeRuleType.METHOD) {
             var matcher = FILE_PATTERN.matcher(source);
             if (matcher.matches()) {
                 fileName = matcher.group(group);
@@ -113,13 +111,13 @@ public class GendarmeParser extends IssueParser {
             var typeString = ruleElement.getAttribute(TYPE);
             switch (typeString) {
                 case TYPE:
-                    rule.setType(GendarmeRuleType.Type);
+                    rule.setType(GendarmeRuleType.TYPE);
                     break;
                 case METHOD:
-                    rule.setType(GendarmeRuleType.Method);
+                    rule.setType(GendarmeRuleType.METHOD);
                     break;
                 case ASSEMBLY:
-                    rule.setType(GendarmeRuleType.Assembly);
+                    rule.setType(GendarmeRuleType.ASSEMBLY);
                     break;
                 default:
                     // ignore the type
@@ -136,5 +134,57 @@ public class GendarmeParser extends IssueParser {
         }
 
         return rules;
+    }
+
+    @SuppressWarnings("all")
+    static class GendarmeRule {
+        @CheckForNull
+        private String name;
+        @CheckForNull
+        private String typeName;
+        @CheckForNull
+        private GendarmeRuleType type;
+        @CheckForNull
+        private URL url;
+
+        @CheckForNull
+        public String getTypeName() {
+            return typeName;
+        }
+
+        public void setTypeName(final String typeName) {
+            this.typeName = typeName;
+        }
+
+        @CheckForNull
+        public String getName() {
+            return name;
+        }
+
+        public void setName(final String name) {
+            this.name = name;
+        }
+
+        @CheckForNull
+        public GendarmeRuleType getType() {
+            return type;
+        }
+
+        public void setType(final GendarmeRuleType type) {
+            this.type = type;
+        }
+
+        @CheckForNull
+        public URL getUrl() {
+            return url;
+        }
+
+        public void setUrl(@CheckForNull final URL url) {
+            this.url = url;
+        }
+    }
+
+    enum GendarmeRuleType {
+        METHOD, TYPE, ASSEMBLY
     }
 }

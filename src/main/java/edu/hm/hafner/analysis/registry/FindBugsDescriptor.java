@@ -3,9 +3,9 @@ package edu.hm.hafner.analysis.registry;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.Report.IssueType;
-import edu.hm.hafner.analysis.parser.findbugs.FindBugsMessages;
-import edu.hm.hafner.analysis.parser.findbugs.FindBugsParser;
-import edu.hm.hafner.analysis.parser.findbugs.FindBugsParser.PriorityProperty;
+import edu.hm.hafner.analysis.parser.FindBugsMessages;
+import edu.hm.hafner.analysis.parser.FindBugsParser;
+import edu.hm.hafner.analysis.parser.FindBugsParser.PriorityProperty;
 import edu.hm.hafner.analysis.util.Deferred;
 
 /**
