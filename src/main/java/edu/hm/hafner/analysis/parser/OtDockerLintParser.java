@@ -6,7 +6,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 
@@ -16,14 +15,9 @@ import edu.hm.hafner.analysis.Severity;
  * @author Abhishek Dubey
  * @see <a href="https://github.com/opstree/OT-Dockerlinter">ot-docker-linter</a>
  */
-public class OTDockerLintParser extends JsonIssueParser {
+public class OtDockerLintParser extends JsonIssueParser {
     @Serial
     private static final long serialVersionUID = 42L;
-
-    @Override
-    public boolean accepts(final ReaderFactory readerFactory) {
-        return readerFactory.getFileName().endsWith(".json");
-    }
 
     @Override
     protected void parseJsonArray(final Report report, final JSONArray jsonReport, final IssueBuilder issueBuilder) {

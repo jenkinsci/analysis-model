@@ -14,14 +14,14 @@ import edu.hm.hafner.util.LookaheadStream;
 /**
  * A parser for oelint-adv.
  */
-public class OELintAdvParser extends LookaheadParser {
+public class OeLintAdvParser extends LookaheadParser {
     @Serial
     private static final long serialVersionUID = 1L;
 
     /**
-     * Creates a new instance of {@link OELintAdvParser}.
+     * Creates a new instance of {@link OeLintAdvParser}.
      */
-    public OELintAdvParser() {
+    public OeLintAdvParser() {
         super("^(?<file>.+?):(?<line>[0-9]+?):(?<severity>.+?):(?<category>.+?):(?<message>.+?)$");
     }
 

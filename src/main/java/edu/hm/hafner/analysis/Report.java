@@ -43,8 +43,6 @@ import edu.hm.hafner.util.VisibleForTesting;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
-import static edu.hm.hafner.analysis.Severity.*;
-
 /**
  * A report contains a set of unique {@link Issue issues}: it contains no duplicate elements, i.e., it models the
  * mathematical <i>set</i> abstraction. This report provides a <i>total ordering</i> on its elements. I.e., the issues
@@ -71,7 +69,7 @@ public class Report implements Iterable<Issue>, Serializable {
     private String originReportFile;
     private String icon = StringUtils.EMPTY; // since 13.0.0
     private String parserId = DEFAULT_ID; // since 13.0.0
-    private IssueType elementType = IssueType.WARNING; // since 13.0.0
+    private IssueType elementType; // since 13.0.0
 
     private List<Report> subReports = new ArrayList<>(); // almost final
 
@@ -334,7 +332,7 @@ public class Report implements Iterable<Issue>, Serializable {
                     .map(Report::getElementType)
                     .collect(Collectors.toSet());
             if (types.size() > 1) {
-                return IssueType.WARNING; // fallback if element type is not unique
+                return IssueType.WARNING; // fallback if the element type is not unique
             }
             else if (types.isEmpty()) {
                 return elementType;
@@ -366,7 +364,7 @@ public class Report implements Iterable<Issue>, Serializable {
 
     /**
      * Appends the specified issue to the end of this report. Duplicates will be skipped (the number of skipped elements
-     * is available using the method {@link #getDuplicatesSize()}.
+     * is available using the method {@link #getDuplicatesSize()}).
      *
      * @param issue
      *         the issue to append
@@ -411,9 +409,9 @@ public class Report implements Iterable<Issue>, Serializable {
     }
 
     /**
-     * Appends all of the specified issues to the end of this report, preserving the order of the array elements.
+     * Appends all the specified issues to the end of this report, preserving the order of the array elements.
      * Duplicates will be skipped (the number of skipped elements is available using the method
-     * {@link #getDuplicatesSize()}.
+     * {@link #getDuplicatesSize()}).
      *
      * @param issues
      *         the issues to append
@@ -749,7 +747,7 @@ public class Report implements Iterable<Issue>, Serializable {
      * @return a string representation of severity distribution
      */
     public String getSeverityDistribution() {
-        var severityDistribution = getPredefinedValues()
+        var severityDistribution = Severity.getPredefinedValues()
                 .stream()
                 .map(this::reportSeverity)
                 .flatMap(Optional::stream)
@@ -1003,32 +1001,32 @@ public class Report implements Iterable<Issue>, Serializable {
     /**
      * Returns the different values for a given property for all issues.
      *
-     * @param propertiesMapper
-     *         the properties mapper that selects the property
+     * @param propertyMapper
+     *         the property mapper that selects the property
      * @param <T>
      *         type of the property
      *
      * @return the set of different values
      * @see #getFiles()
      */
-    public <T> Set<T> getProperties(final Function<? super Issue, T> propertiesMapper) {
-        return stream().map(propertiesMapper).collect(Collectors.toSet());
+    public <T> Set<T> getProperties(final Function<? super Issue, T> propertyMapper) {
+        return stream().map(propertyMapper).collect(Collectors.toSet());
     }
 
     /**
      * Returns the number of occurrences for every existing value of a given property for all issues.
      *
-     * @param propertiesMapper
-     *         the properties mapper that selects the property to evaluate
+     * @param propertyMapper
+     *         the property mapper that selects the property to evaluate
      * @param <T>
      *         type of the property
      *
      * @return a mapping of: property value to the number of issues for that value
      * @see #getProperties(Function)
      */
-    public <T> Map<T, Integer> getPropertyCount(final Function<? super Issue, T> propertiesMapper) {
+    public <T> Map<T, Integer> getPropertyCount(final Function<? super Issue, T> propertyMapper) {
         return stream().collect(
-                Collectors.groupingBy(propertiesMapper, Collectors.reducing(0, issue -> 1, Integer::sum)));
+                Collectors.groupingBy(propertyMapper, Collectors.reducing(0, issue -> 1, Integer::sum)));
     }
 
     /**
@@ -1036,7 +1034,7 @@ public class Report implements Iterable<Issue>, Serializable {
      * {@link Report} for this value.
      *
      * @param propertyName
-     *         the property to  that selects the property to evaluate
+     *         the property to that selects the property to evaluate
      *
      * @return a mapping of: property value to the number of issues for that value
      * @see #getProperties(Function)

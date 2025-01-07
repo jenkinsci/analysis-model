@@ -122,7 +122,7 @@ public class ParserRegistry {
             new MyPyDescriptor(),
             new NagFortranDescriptor(),
             new NativeFormatDescriptor(),
-            new OELintAdvDescriptor(),
+            new OeLintAdvDescriptor(),
             new OtDockerLintDescriptor(),
             new OwaspDependencyCheckDescriptor(),
             new PcLintDescriptor(),

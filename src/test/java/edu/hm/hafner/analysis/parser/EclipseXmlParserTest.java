@@ -14,14 +14,14 @@ import static edu.hm.hafner.analysis.assertions.Assertions.*;
  *
  * @author Jason Faust
  */
-class EclipseXMLParserTest extends StructuredFileParserTest {
-    EclipseXMLParserTest() {
+class EclipseXmlParserTest extends StructuredFileParserTest {
+    EclipseXmlParserTest() {
         super("eclipse-withinfo.xml");
     }
 
     @Override
-    protected EclipseXMLParser createParser() {
-        return new EclipseXMLParser();
+    protected EclipseXmlParser createParser() {
+        return new EclipseXmlParser();
     }
 
     @Override
@@ -36,7 +36,7 @@ class EclipseXMLParserTest extends StructuredFileParserTest {
                 .hasColumnEnd(0)
                 .hasFileName("C:/devenv/workspace/x/y/src/main/java/y/ECE.java")
                 .hasMessage("Type mismatch: cannot convert from float to Integer")
-                .hasCategory(EclipseXMLParser.TYPE);
+                .hasCategory(EclipseXmlParser.TYPE);
 
         softly.assertThat(report.get(1))
                 .hasSeverity(Severity.ERROR)
@@ -46,7 +46,7 @@ class EclipseXMLParserTest extends StructuredFileParserTest {
                 .hasColumnEnd(0)
                 .hasFileName("C:/devenv/workspace/x/y/src/main/java/y/ECE.java")
                 .hasMessage("Dead code")
-                .hasCategory(EclipseXMLParser.POTENTIAL_PROGRAMMING_PROBLEM);
+                .hasCategory(EclipseXmlParser.POTENTIAL_PROGRAMMING_PROBLEM);
 
         softly.assertThat(report.get(2))
                 .hasSeverity(Severity.WARNING_NORMAL)
@@ -56,7 +56,7 @@ class EclipseXMLParserTest extends StructuredFileParserTest {
                 .hasColumnEnd(0)
                 .hasFileName("C:/devenv/workspace/x/y/src/main/java/y/ECE.java")
                 .hasMessage("The value of the local variable x is not used")
-                .hasCategory(EclipseXMLParser.UNNECESSARY_CODE);
+                .hasCategory(EclipseXmlParser.UNNECESSARY_CODE);
 
         softly.assertThat(report.get(3))
                 .hasSeverity(Severity.WARNING_NORMAL)
@@ -67,7 +67,7 @@ class EclipseXMLParserTest extends StructuredFileParserTest {
                 .hasFileName("C:/devenv/workspace/x/y/src/main/java/y/ECE.java")
                 .hasMessage(
                         "Statement unnecessarily nested within else clause. The corresponding then clause does not complete normally")
-                .hasCategory(EclipseXMLParser.UNNECESSARY_CODE);
+                .hasCategory(EclipseXmlParser.UNNECESSARY_CODE);
 
         softly.assertThat(report.get(4))
                 .hasSeverity(Severity.WARNING_LOW)
@@ -77,7 +77,7 @@ class EclipseXMLParserTest extends StructuredFileParserTest {
                 .hasColumnEnd(0)
                 .hasFileName("C:/devenv/workspace/x/y/src/main/java/y/ECE.java")
                 .hasMessage("Comparing identical expressions")
-                .hasCategory(EclipseXMLParser.POTENTIAL_PROGRAMMING_PROBLEM);
+                .hasCategory(EclipseXmlParser.POTENTIAL_PROGRAMMING_PROBLEM);
 
         softly.assertThat(report.get(5))
                 .hasSeverity(Severity.WARNING_LOW)
@@ -87,7 +87,7 @@ class EclipseXMLParserTest extends StructuredFileParserTest {
                 .hasColumnEnd(0)
                 .hasFileName("C:/devenv/workspace/x/y/src/main/java/y/ECE.java")
                 .hasMessage("The allocated object is never used")
-                .hasCategory(EclipseXMLParser.POTENTIAL_PROGRAMMING_PROBLEM);
+                .hasCategory(EclipseXmlParser.POTENTIAL_PROGRAMMING_PROBLEM);
     }
 
     /**
@@ -105,7 +105,7 @@ class EclipseXMLParserTest extends StructuredFileParserTest {
                     .hasLineStart(1)
                     .hasMessage("A default nullness annotation has not been specified for the package a")
                     .hasFileName("C:/devenv/workspace/x/y/src/main/java/a/B.java")
-                    .hasCategory(EclipseXMLParser.POTENTIAL_PROGRAMMING_PROBLEM);
+                    .hasCategory(EclipseXmlParser.POTENTIAL_PROGRAMMING_PROBLEM);
 
             softly.assertThat(warnings.get(1))
                     .hasSeverity(Severity.WARNING_NORMAL)
@@ -133,7 +133,7 @@ class EclipseXMLParserTest extends StructuredFileParserTest {
                     .hasLineStart(8)
                     .hasMessage("The value of the local variable unused is not used")
                     .hasFileName("C:/devenv/workspace/x/y/src/main/java/a/B.java")
-                    .hasCategory(EclipseXMLParser.UNNECESSARY_CODE);
+                    .hasCategory(EclipseXmlParser.UNNECESSARY_CODE);
         }
     }
 

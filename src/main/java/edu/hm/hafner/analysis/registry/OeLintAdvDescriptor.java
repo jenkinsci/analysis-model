@@ -1,22 +1,22 @@
 package edu.hm.hafner.analysis.registry;
 
 import edu.hm.hafner.analysis.IssueParser;
-import edu.hm.hafner.analysis.parser.OELintAdvParser;
+import edu.hm.hafner.analysis.parser.OeLintAdvParser;
 
 /**
  * Descriptor for oelint-adv.
  */
-class OELintAdvDescriptor extends ParserDescriptor {
+class OeLintAdvDescriptor extends ParserDescriptor {
     private static final String ID = "oelint-adv";
     private static final String NAME = ID;
 
-    OELintAdvDescriptor() {
+    OeLintAdvDescriptor() {
         super(ID, NAME);
     }
 
     @Override
     public IssueParser create(final Option... options) {
-        return new OELintAdvParser();
+        return new OeLintAdvParser();
     }
 
     @Override

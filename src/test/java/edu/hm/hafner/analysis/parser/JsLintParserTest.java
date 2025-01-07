@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
+import edu.hm.hafner.analysis.parser.LintParser.JsLintXmlSaxParser;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
@@ -14,10 +15,10 @@ import static edu.hm.hafner.analysis.assertions.Assertions.*;
  *
  * @author Gavin Mogan
  */
-class JSLintParserTest extends AbstractParserTest {
+class JsLintParserTest extends AbstractParserTest {
     private static final String EXPECTED_FILE_NAME = "duckworth/hudson-jslint-freestyle/src/prototype.js";
 
-    JSLintParserTest() {
+    JsLintParserTest() {
         super("jslint/multi.xml");
     }
 
@@ -35,7 +36,7 @@ class JSLintParserTest extends AbstractParserTest {
         try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasSeverity(Severity.WARNING_HIGH)
-                    .hasCategory(LintParser.JSLintXmlSaxParser.CATEGORY_UNDEFINED_VARIABLE)
+                    .hasCategory(JsLintXmlSaxParser.CATEGORY_UNDEFINED_VARIABLE)
                     .hasLineStart(3)
                     .hasLineEnd(3)
                     .hasMessage("'window' is not defined.")
@@ -74,7 +75,7 @@ class JSLintParserTest extends AbstractParserTest {
 
         softly.assertThat(report.get(0))
                 .hasSeverity(Severity.WARNING_HIGH)
-                .hasCategory(LintParser.JSLintXmlSaxParser.CATEGORY_PARSING)
+                .hasCategory(JsLintXmlSaxParser.CATEGORY_PARSING)
                 .hasLineStart(10)
                 .hasLineEnd(10)
                 .hasMessage("Expected 'Version' to have an indentation at 5 instead at 3.")

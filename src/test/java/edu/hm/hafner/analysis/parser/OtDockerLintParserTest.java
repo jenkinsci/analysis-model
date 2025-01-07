@@ -15,12 +15,12 @@ import edu.hm.hafner.analysis.registry.AbstractParserTest;
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
- * Tests the class {@link OTDockerLintParser}.
+ * Tests the class {@link OtDockerLintParser}.
  *
  * @author Abhishek Dubey
  */
-class OTDockerLintParserTest extends AbstractParserTest {
-    OTDockerLintParserTest() {
+class OtDockerLintParserTest extends AbstractParserTest {
+    OtDockerLintParserTest() {
         super("ot-docker-linter.json");
     }
 
@@ -42,14 +42,14 @@ class OTDockerLintParserTest extends AbstractParserTest {
 
     @Override
     protected IssueParser createParser() {
-        return new OTDockerLintParser();
+        return new OtDockerLintParser();
     }
 
     @Test
     void accepts() {
-        assertThat(new OTDockerLintParser().accepts(
+        assertThat(new OtDockerLintParser().accepts(
                 new FileReaderFactory(FileSystems.getDefault().getPath("lint.json")))).isTrue();
-        assertThat(new OTDockerLintParser().accepts(
+        assertThat(new OtDockerLintParser().accepts(
                 new FileReaderFactory(FileSystems.getDefault().getPath("foo.txt")))).isFalse();
     }
 

@@ -16,82 +16,82 @@ import static edu.hm.hafner.analysis.IssueParser.*;
 final class AnalyzerType {
     /**
      * Diagnosis of 64-bit errors (Viva64, C++).
-     * https://pvs-studio.com/en/docs/warnings/#64CPP
+     * <a href="https://pvs-studio.com/en/docs/warnings/#64CPP">...</a>
      */
     private static final int VIVA64_CCPP_ERRORCODE_BEGIN = 100;
     /**
      * Diagnosis of 64-bit errors (Viva64, C++).
-     * https://pvs-studio.com/en/docs/warnings/#64CPP
+     * <a href="https://pvs-studio.com/en/docs/warnings/#64CPP">...</a>
      */
     private static final int VIVA64_CCPP_ERRORCODE_END = 499;
     /**
      * General Analysis (C++).
-     * https://pvs-studio.com/en/docs/warnings/#GeneralAnalysisCPP
+     * <a href="https://pvs-studio.com/en/docs/warnings/#GeneralAnalysisCPP">...</a>
      */
     private static final int GENERAL_CCPP_LOW_ERRORCODE_BEGIN = 500;
     /**
      * General Analysis (C++).
-     * https://pvs-studio.com/en/docs/warnings/#GeneralAnalysisCPP
+     * <a href="https://pvs-studio.com/en/docs/warnings/#GeneralAnalysisCPP">...</a>
      */
     private static final int GENERAL_CCPP_LOW_ERRORCODE_END = 799;
     /**
      * Diagnosis of micro-optimizations (C++).
-     * https://pvs-studio.com/en/docs/warnings/#MicroOptimizationsCPP
+     * <a href="https://pvs-studio.com/en/docs/warnings/#MicroOptimizationsCPP">...</a>
      */
     private static final int OPTIMIZATION_CCPP_ERRORCODE_BEGIN = 800;
     /**
      * Diagnosis of micro-optimizations (C++).
-     * https://pvs-studio.com/en/docs/warnings/#MicroOptimizationsCPP
+     * <a href="https://pvs-studio.com/en/docs/warnings/#MicroOptimizationsCPP">...</a>
      */
     private static final int OPTIMIZATION_CCPP_ERRORCODE_END = 999;
     /**
      * General Analysis (C++).
-     * https://pvs-studio.com/en/docs/warnings/
+     * <a href="https://pvs-studio.com/en/docs/warnings/">...</a>
      */
     private static final int GENERAL_CCPP_HIGH_ERRORCODE_BEGIN = 1000;
     /**
      * General Analysis (C++).
-     * https://pvs-studio.com/en/docs/warnings/
+     * <a href="https://pvs-studio.com/en/docs/warnings/">...</a>
      */
     private static final int GENERAL_CCPP_HIGH_ERRORCODE_END = 1999;
     /**
      * Customers Specific Requests (C++).
-     * https://pvs-studio.com/en/docs/warnings/#CustomersSpecificRequestsCPP
+     * <a href="https://pvs-studio.com/en/docs/warnings/#CustomersSpecificRequestsCPP">...</a>
      */
     private static final int CUSTOMERSPECIFIC_CCPP_ERRORCODE_BEGIN = 2000;
     /**
      * Customers Specific Requests (C++).
-     * https://pvs-studio.com/en/docs/warnings/#CustomersSpecificRequestsCPP
+     * <a href="https://pvs-studio.com/en/docs/warnings/#CustomersSpecificRequestsCPP">...</a>
      */
     private static final int CUSTOMERSPECIFIC_CCPP_ERRORCODE_END = 2499;
     /**
      * MISRA errors.
-     * https://pvs-studio.com/en/docs/warnings/#MISRA
+     * <a href="https://pvs-studio.com/en/docs/warnings/#MISRA">...</a>
      */
     private static final int MISRA_CCPP_ERRORCODE_BEGIN = 2500;
     /**
      * MISRA errors.
-     * https://pvs-studio.com/en/docs/warnings/#MISRA
+     * <a href="https://pvs-studio.com/en/docs/warnings/#MISRA">...</a>
      */
     private static final int MISRA_CCPP_ERRORCODE_END = 2999;
     /**
      * General Analysis (C#).
-     * https://pvs-studio.com/en/docs/warnings/#GeneralAnalysisCS
+     * <a href="https://pvs-studio.com/en/docs/warnings/#GeneralAnalysisCS">...</a>
      */
     private static final int GENERAL_CS_ERRORCODE_BEGIN = 3000;
     /**
      * General Analysis (C#).
-     * https://pvs-studio.com/en/docs/warnings/#GeneralAnalysisCS
+     * <a href="https://pvs-studio.com/en/docs/warnings/#GeneralAnalysisCS">...</a>
      */
     private static final int GENERAL_CS_ERRORCODE_END = 3499;
     /**
      * General Analysis (Java).
-     * https://pvs-studio.com/en/docs/warnings/#GeneralAnalysisJAVA
+     * <a href="https://pvs-studio.com/en/docs/warnings/#GeneralAnalysisJAVA">...</a>
      */
     private static final int GENERAL_JAVA_ERRORCODE_BEGIN = 6000;
     /**
      * General Analysis (Java).
-     * https://pvs-studio.com/en/docs/warnings/#GeneralAnalysisJAVA
+     * <a href="https://pvs-studio.com/en/docs/warnings/#GeneralAnalysisJAVA">...</a>
      */
     private static final int GENERAL_JAVA_ERRORCODE_END = 6999;
 
@@ -106,12 +106,12 @@ final class AnalyzerType {
         // prevents instantiation
     }
 
-    private static final AnalysisType[] ANALYSIS_TYPES = {new Viva64(), new GENERAL(),
-            new OPTIMIZATION(), new CustomerSpecific(), new MISRA()};
+    private static final AnalysisType[] ANALYSIS_TYPES = {new Viva64(), new General(),
+            new Optimization(), new CustomerSpecific(), new Misra()};
 
     static AnalysisType fromErrorCode(final String errorCodeStr) {
         if (equalsIgnoreCase(errorCodeStr, "External")) {
-            return new GENERAL();
+            return new General();
         }
 
         // errorCodeStr format is Vnnn.
@@ -121,7 +121,7 @@ final class AnalyzerType {
                 .map(type -> type.create(errorCode))
                 .flatMap(o -> o.map(Stream::of).orElseGet(Stream::empty))
                 .findFirst()
-                .orElse(new UNKNOWN());
+                .orElse(new Unknown());
     }
 
     /**
@@ -146,7 +146,7 @@ final class AnalyzerType {
     /**
      * GENERAL AnalysisType.
      */
-    static final class GENERAL implements AnalysisType {
+    private static final class General implements AnalysisType {
         @Override
         public String getMessage() {
             return GENERAL_MESSAGE;
@@ -155,16 +155,16 @@ final class AnalyzerType {
         @Override
         public Optional<AnalysisType> create(final int errorCode) {
             if (errorCode >= GENERAL_CCPP_LOW_ERRORCODE_BEGIN && errorCode <= GENERAL_CCPP_LOW_ERRORCODE_END) {
-                return Optional.of(new GENERAL());
+                return Optional.of(new General());
             }
             else if (errorCode >= GENERAL_CCPP_HIGH_ERRORCODE_BEGIN && errorCode <= GENERAL_CCPP_HIGH_ERRORCODE_END) {
-                return Optional.of(new GENERAL());
+                return Optional.of(new General());
             }
             else if (errorCode >= GENERAL_CS_ERRORCODE_BEGIN && errorCode <= GENERAL_CS_ERRORCODE_END) {
-                return Optional.of(new GENERAL());
+                return Optional.of(new General());
             }
             else if (errorCode >= GENERAL_JAVA_ERRORCODE_BEGIN && errorCode <= GENERAL_JAVA_ERRORCODE_END) {
-                return Optional.of(new GENERAL());
+                return Optional.of(new General());
             }
             else {
                 return Optional.empty();
@@ -175,7 +175,7 @@ final class AnalyzerType {
     /**
      * OPTIMIZATION AnalysisType.
      */
-    static final class OPTIMIZATION implements AnalysisType {
+    private static final class Optimization implements AnalysisType {
         @Override
         public String getMessage() {
             return OPTIMIZATION_MESSAGE;
@@ -184,7 +184,7 @@ final class AnalyzerType {
         @Override
         public Optional<AnalysisType> create(final int errorCode) {
             if (errorCode >= OPTIMIZATION_CCPP_ERRORCODE_BEGIN && errorCode <= OPTIMIZATION_CCPP_ERRORCODE_END) {
-                return Optional.of(new OPTIMIZATION());
+                return Optional.of(new Optimization());
             }
 
             return Optional.empty();
@@ -194,7 +194,7 @@ final class AnalyzerType {
     /**
      * CustomerSpecific AnalysisType.
      */
-    static final class CustomerSpecific implements AnalysisType {
+    private static final class CustomerSpecific implements AnalysisType {
         @Override
         public String getMessage() {
             return CUSTOMER_SPECIFIC_MESSAGE;
@@ -213,7 +213,7 @@ final class AnalyzerType {
     /**
      * MISRA AnalysisType.
      */
-    static final class MISRA implements AnalysisType {
+    private static final class Misra implements AnalysisType {
         @Override
         public String getMessage() {
             return MISRA_MESSAGE;
@@ -222,7 +222,7 @@ final class AnalyzerType {
         @Override
         public Optional<AnalysisType> create(final int errorCode) {
             if (errorCode >= MISRA_CCPP_ERRORCODE_BEGIN && errorCode <= MISRA_CCPP_ERRORCODE_END) {
-                return Optional.of(new MISRA());
+                return Optional.of(new Misra());
             }
 
             return Optional.empty();
@@ -230,9 +230,9 @@ final class AnalyzerType {
     }
 
     /**
-     * Unkonwn AnalysisType.
+     * Unknown AnalysisType.
      */
-    static final class UNKNOWN implements AnalysisType {
+    private static final class Unknown implements AnalysisType {
         @Override
         public String getMessage() {
             return UNKNOWN_MESSAGE;

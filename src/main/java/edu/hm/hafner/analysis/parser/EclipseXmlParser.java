@@ -22,7 +22,7 @@ import edu.hm.hafner.analysis.util.XmlElementUtil;
  *
  * @author Jason Faust
  */
-public class EclipseXMLParser extends IssueParser {
+public class EclipseXmlParser extends IssueParser {
     static final String PREVIEW_RELATED = "Preview Related";
     static final String COMPLIANCE = "Compliance";
     static final String MODULE = "Module";

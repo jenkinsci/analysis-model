@@ -7,10 +7,10 @@ import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
 
 /**
- * Tests the class {@link OELintAdvParser}.
+ * Tests the class {@link OeLintAdvParser}.
  */
-class OELintAdvParserTest extends AbstractParserTest {
-    OELintAdvParserTest() {
+class OeLintAdvParserTest extends AbstractParserTest {
+    OeLintAdvParserTest() {
         super("oelint-adv.txt");
     }
 
@@ -69,6 +69,6 @@ class OELintAdvParserTest extends AbstractParserTest {
 
     @Override
     protected IssueParser createParser() {
-        return new OELintAdvParser();
+        return new OeLintAdvParser();
     }
 }
