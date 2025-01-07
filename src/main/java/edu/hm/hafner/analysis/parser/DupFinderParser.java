@@ -1,4 +1,4 @@
-package edu.hm.hafner.analysis.parser.dry.dupfinder;
+package edu.hm.hafner.analysis.parser;
 
 import java.io.Serial;
 import java.util.ArrayList;
@@ -11,7 +11,6 @@ import org.apache.commons.digester3.Digester;
 import edu.hm.hafner.analysis.DuplicationGroup;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.parser.dry.AbstractDryParser;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -241,6 +240,53 @@ public class DupFinderParser extends AbstractDryParser<DupFinderParser.Duplicate
          */
         public void setOffsetRange(@CheckForNull final Range offsetRange) {
             this.offsetRange = offsetRange;
+        }
+    }
+
+    /**
+     * Java Bean class for a Reshaper DupFinder range.
+     *
+     * @author Rafal Jasica
+     */
+    @SuppressWarnings("PMD.DataClass")
+    public static class Range {
+        private int start;
+        private int end;
+
+        /**
+         * Returns the start.
+         *
+         * @return the start
+         */
+        public int getStart() {
+            return start;
+        }
+
+        /**
+         * Sets the start to the specified value.
+         *
+         * @param start the value to set
+         */
+        public void setStart(final int start) {
+            this.start = start;
+        }
+
+        /**
+         * Returns the line range start.
+         *
+         * @return the line range start
+         */
+        public int getEnd() {
+            return end;
+        }
+
+        /**
+         * Sets the end to the specified value.
+         *
+         * @param end the value to set
+         */
+        public void setEnd(final int end) {
+            this.end = end;
         }
     }
 }

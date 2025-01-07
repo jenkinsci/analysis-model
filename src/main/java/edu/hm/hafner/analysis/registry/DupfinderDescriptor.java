@@ -1,7 +1,7 @@
 package edu.hm.hafner.analysis.registry;
 
 import edu.hm.hafner.analysis.IssueParser;
-import edu.hm.hafner.analysis.parser.dry.dupfinder.DupFinderParser;
+import edu.hm.hafner.analysis.parser.DupFinderParser;
 
 /**
  * A descriptor for Resharper DupFinder.

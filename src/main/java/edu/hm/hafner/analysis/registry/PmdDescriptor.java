@@ -2,8 +2,8 @@ package edu.hm.hafner.analysis.registry;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueParser;
-import edu.hm.hafner.analysis.parser.pmd.PmdMessages;
-import edu.hm.hafner.analysis.parser.pmd.PmdParser;
+import edu.hm.hafner.analysis.parser.PmdMessages;
+import edu.hm.hafner.analysis.parser.PmdParser;
 import edu.hm.hafner.analysis.util.Deferred;
 
 /**

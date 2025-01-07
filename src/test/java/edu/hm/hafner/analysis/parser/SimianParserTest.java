@@ -1,4 +1,4 @@
-package edu.hm.hafner.analysis.parser.dry.simian;
+package edu.hm.hafner.analysis.parser;
 
 import java.util.Locale;
 
@@ -19,7 +19,7 @@ class SimianParserTest extends AbstractParserTest {
     private static final String MAVEN_BUILD = "C:/java/hudson/maven/MavenBuild.java";
 
     SimianParserTest() {
-        super("onefile.xml");
+        super("simian/onefile.xml");
     }
 
     @Override
@@ -55,7 +55,7 @@ class SimianParserTest extends AbstractParserTest {
 
     @Test
     void shouldFindOneDuplicationInTwoFiles() {
-        var report = parse("twofile.xml");
+        var report = parseSimian("twofile.xml");
 
         assertThat(report).hasSize(2);
 
@@ -69,9 +69,13 @@ class SimianParserTest extends AbstractParserTest {
                 .hasSeverity(Severity.WARNING_LOW);
     }
 
+    private Report parseSimian(final String fileName) {
+        return parse("simian/" + fileName);
+    }
+
     @Test
     void shouldFindTwoDuplicationsInTwoFiles() {
-        var report = parse("twosets.xml");
+        var report = parseSimian("twosets.xml");
 
         assertThat(report).hasSize(4);
 
@@ -98,7 +102,7 @@ class SimianParserTest extends AbstractParserTest {
 
     @Test
     void shouldFindOneDuplicationInFourFiles() {
-        var report = parse("fourfile.xml");
+        var report = parseSimian("fourfile.xml");
 
         assertThat(report).hasSize(4);
 
@@ -114,14 +118,14 @@ class SimianParserTest extends AbstractParserTest {
 
     @Test
     void shouldSupportSimianParserVersion2331() {
-        var report = parse("simian-2.3.31.xml");
+        var report = parseSimian("simian-2.3.31.xml");
 
         assertThat(report).hasSize(132);
     }
 
     @Test
     void shouldIgnoreOtherFile() {
-        var report = parse("otherfile.xml");
+        var report = parseSimian("otherfile.xml");
 
         assertThat(report).hasSize(0);
     }
@@ -149,6 +153,6 @@ class SimianParserTest extends AbstractParserTest {
 
     private Report parse(final int highThreshold, final int normalThreshold) {
         var parser = new SimianParser(highThreshold, normalThreshold);
-        return parser.parseReport(createReaderFactory("twofile.xml"));
+        return parser.parseReport(createReaderFactory("simian/twofile.xml"));
     }
 }

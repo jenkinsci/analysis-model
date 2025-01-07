@@ -1,4 +1,4 @@
-package edu.hm.hafner.analysis.parser.dry.cpd;
+package edu.hm.hafner.analysis.parser;
 
 import org.junit.jupiter.api.Test;
 
@@ -63,7 +63,7 @@ class CpdParserTest extends AbstractParserTest {
             done""";
 
     CpdParserTest() {
-        super("cpd.xml");
+        super("cpd/cpd.xml");
     }
 
     @Override
@@ -123,7 +123,7 @@ class CpdParserTest extends AbstractParserTest {
 
     private Report parse(final int highThreshold, final int normalThreshold) {
         var parser = new CpdParser(highThreshold, normalThreshold);
-        return parser.parse(createReaderFactory("issue12516.xml"));
+        return parser.parse(createReaderFactory("cpd/issue12516.xml"));
     }
 
     /**
@@ -134,7 +134,7 @@ class CpdParserTest extends AbstractParserTest {
      */
     @Test
     void issue12516() {
-        var report = parse("issue12516.xml");
+        var report = parseCpd("issue12516.xml");
 
         assertThat(report).hasSize(2);
         var first = report.get(0);
@@ -154,6 +154,10 @@ class CpdParserTest extends AbstractParserTest {
         assertThat(((DuplicationGroup) additionalProperties).getCodeFragment()).isEqualTo(CODE_FRAGMENT);
     }
 
+    private Report parseCpd(final String fileName) {
+        return parse("cpd/" + fileName);
+    }
+
     /**
      * Verifies the parser on a report that contains four duplication (in two files each). The report is using
      * ISO-8859-1 encoding.
@@ -162,8 +166,7 @@ class CpdParserTest extends AbstractParserTest {
      */
     @Test
     void issue22356() {
-        var fileName = "issue22356.xml";
-        var report = parse(fileName);
+        var report = parseCpd("issue22356.xml");
 
         assertThat(report).hasSize(8);
     }
@@ -173,8 +176,7 @@ class CpdParserTest extends AbstractParserTest {
      */
     @Test
     void scanFileWithOneDuplication() {
-        var fileName = "one-cpd.xml";
-        var report = parse(fileName);
+        var report = parseCpd("one-cpd.xml");
 
         assertThat(report).hasSize(2);
 
@@ -200,14 +202,14 @@ class CpdParserTest extends AbstractParserTest {
 
     @Test
     void shouldIgnoreOtherFile() {
-        var report = parse("otherfile.xml");
+        var report = parseCpd("otherfile.xml");
 
         assertThat(report).hasSize(0);
     }
 
     @Test
     void shouldReadFileWithWindowsEncoding() {
-        var report = parse("pmd-cpd.xml");
+        var report = parseCpd("pmd-cpd.xml");
 
         assertThat(report).hasSize(29);
     }

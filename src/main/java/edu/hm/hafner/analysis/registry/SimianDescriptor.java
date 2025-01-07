@@ -1,7 +1,7 @@
 package edu.hm.hafner.analysis.registry;
 
 import edu.hm.hafner.analysis.IssueParser;
-import edu.hm.hafner.analysis.parser.dry.simian.SimianParser;
+import edu.hm.hafner.analysis.parser.SimianParser;
 
 /**
  * A descriptor for the Simian duplication scanner.

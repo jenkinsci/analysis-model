@@ -1,7 +1,7 @@
 package edu.hm.hafner.analysis.registry;
 
 import edu.hm.hafner.analysis.IssueParser;
-import edu.hm.hafner.analysis.parser.checkstyle.CheckStyleParser;
+import edu.hm.hafner.analysis.parser.CheckStyleParser;
 
 /**
  * A descriptor for ESLint. Delegates to {@link CheckStyleParser}.

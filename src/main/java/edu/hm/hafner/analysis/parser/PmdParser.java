@@ -1,4 +1,4 @@
-package edu.hm.hafner.analysis.parser.pmd;
+package edu.hm.hafner.analysis.parser;
 
 import java.io.IOException;
 import java.io.Serial;

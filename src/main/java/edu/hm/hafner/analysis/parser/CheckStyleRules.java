@@ -1,4 +1,4 @@
-package edu.hm.hafner.analysis.parser.checkstyle;
+package edu.hm.hafner.analysis.parser;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ public class CheckStyleRules {
                 "imports", "javadoc", "metrics", "misc", "modifier", "naming", "regexp",
                 "reporting", "sizes", "whitespace"};
         for (String ruleFile : ruleFiles) {
-            try (var inputStream = CheckStyleRules.class.getResourceAsStream("config_" + ruleFile + ".xml")) {
+            try (var inputStream = CheckStyleRules.class.getResourceAsStream("checkstyle/config_" + ruleFile + ".xml")) {
                 var digester = createDigester();
                 List<CheckStyleParser.Rule> rules = new ArrayList<>();
                 digester.push(rules);

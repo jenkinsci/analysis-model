@@ -1,4 +1,4 @@
-package edu.hm.hafner.analysis.parser.dry;
+package edu.hm.hafner.analysis.parser;
 
 import java.io.IOException;
 import java.io.Serial;

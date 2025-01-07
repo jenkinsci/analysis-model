@@ -1,7 +1,7 @@
 package edu.hm.hafner.analysis.registry;
 
 import edu.hm.hafner.analysis.IssueParser;
-import edu.hm.hafner.analysis.parser.pmd.PmdParser;
+import edu.hm.hafner.analysis.parser.PmdParser;
 
 /**
  * A descriptor for Infer. Delegates to {@link PmdParser}.

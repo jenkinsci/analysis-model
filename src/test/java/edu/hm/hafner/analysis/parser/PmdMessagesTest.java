@@ -1,4 +1,4 @@
-package edu.hm.hafner.analysis.parser.pmd;
+package edu.hm.hafner.analysis.parser;
 
 import org.junit.jupiter.api.Test;
 

@@ -1,4 +1,4 @@
-package edu.hm.hafner.analysis.parser.dry.cpd;
+package edu.hm.hafner.analysis.parser;
 
 import java.io.Serial;
 import java.util.ArrayList;
@@ -11,7 +11,6 @@ import org.apache.commons.digester3.Digester;
 import edu.hm.hafner.analysis.DuplicationGroup;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.parser.dry.AbstractDryParser;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**

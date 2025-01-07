@@ -1,4 +1,4 @@
-package edu.hm.hafner.analysis.parser.checkstyle;
+package edu.hm.hafner.analysis.parser;
 
 import java.util.regex.Pattern;
 

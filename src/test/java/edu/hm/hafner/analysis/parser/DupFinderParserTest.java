@@ -1,4 +1,4 @@
-package edu.hm.hafner.analysis.parser.dry.dupfinder;
+package edu.hm.hafner.analysis.parser;
 
 import java.util.Objects;
 
@@ -31,7 +31,7 @@ class DupFinderParserTest extends AbstractParserTest {
     private static final String CODE_FRAGMENT = "if (items == null) throw new ArgumentNullException(\"items\");";
 
     DupFinderParserTest() {
-        super("with-sourcecode.xml");
+        super("dupfinder/with-sourcecode.xml");
     }
 
     @Override
@@ -83,7 +83,7 @@ class DupFinderParserTest extends AbstractParserTest {
      */
     @Test
     void scanFileWithoutSourceCode() {
-        var report = parse("without-sourcecode.xml");
+        var report = parseDupfinder("without-sourcecode.xml");
 
         assertThat(report).hasSize(2);
 
@@ -96,9 +96,13 @@ class DupFinderParserTest extends AbstractParserTest {
         assertThat(publisher.getDescription()).isEmpty();
     }
 
+    private Report parseDupfinder(final String fileName) {
+        return parse("dupfinder/" + fileName);
+    }
+
     @Test
     void shouldIgnoreOtherFile() {
-        var report = parse("otherfile.xml");
+        var report = parseDupfinder("otherfile.xml");
 
         assertThat(report).hasSize(0);
     }
@@ -126,6 +130,6 @@ class DupFinderParserTest extends AbstractParserTest {
 
     private Report parse(final int highThreshold, final int normalThreshold) {
         var parser = new DupFinderParser(highThreshold, normalThreshold);
-        return parser.parseReport(createReaderFactory("without-sourcecode.xml"));
+        return parser.parseReport(createReaderFactory("dupfinder/without-sourcecode.xml"));
     }
 }
