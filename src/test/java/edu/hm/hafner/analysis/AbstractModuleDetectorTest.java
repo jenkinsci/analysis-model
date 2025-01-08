@@ -5,11 +5,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
+import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.ModuleDetector.FileSystem;
+import edu.hm.hafner.analysis.ModuleDetectorRunner.FileSystemFacade;
 import edu.hm.hafner.util.PathUtil;
 import edu.hm.hafner.util.ResourceTest;
 
@@ -26,13 +27,11 @@ abstract class AbstractModuleDetectorTest extends ResourceTest {
     @Test
     void shouldIgnoreExceptionsDuringParsing() {
         var fileSystem = createFileSystemStub(stub -> {
-            when(stub.find(any(), anyString())).thenReturn(new String[]{
-                    getPathPrefix() + getProjectFileName()
-            });
+            when(stub.find(any(), anyString())).thenReturn(List.of(getPathPrefix() + getProjectFileName()));
             when(stub.open(anyString())).thenThrow(new FileNotFoundException("File not found"));
         });
 
-        var detector = new ModuleDetector(ROOT, fileSystem);
+        var detector = new ModuleDetectorRunner(ROOT, fileSystem);
 
         assertThat(detector.guessModuleName(PREFIX + getFileName())).isEqualTo(StringUtils.EMPTY);
     }
@@ -43,9 +42,9 @@ abstract class AbstractModuleDetectorTest extends ResourceTest {
 
     abstract String getProjectFileName();
 
-    protected FileSystem createFileSystemStub(final Stub stub) {
+    protected FileSystemFacade createFileSystemStub(final Stub stub) {
         try {
-            var fileSystem = mock(FileSystem.class);
+            var fileSystem = mock(FileSystemFacade.class);
             stub.apply(fileSystem);
             return fileSystem;
         }
@@ -59,10 +58,10 @@ abstract class AbstractModuleDetectorTest extends ResourceTest {
     }
 
     /**
-     * Stubs the {@link PackageDetectors.FileSystem} using a lambda.
+     * Stubs the {@link FileSystemFacade} using a lambda.
      */
     @FunctionalInterface
     protected interface Stub {
-        void apply(FileSystem f) throws IOException;
+        void apply(FileSystemFacade f) throws IOException;
     }
 }

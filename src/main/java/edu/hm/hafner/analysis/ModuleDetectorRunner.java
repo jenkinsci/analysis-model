@@ -23,36 +23,36 @@ import edu.hm.hafner.util.PathUtil;
  * @author Ullrich Hafner
  * @author Christoph Laeubrich (support for OSGi-Bundles)
  */
-public class ModuleDetector {
+public class ModuleDetectorRunner {
     private static final String BACK_SLASH = "\\";
     private static final String SLASH = "/";
 
-    /** A list of all module detectors (e.g. Maven) */
+    /** A list of all module detectors (e.g., Maven). */
     private final List<AbstractModuleDetector> moduleDetectors;
     /** The factory to create input streams with. */
-    private final FileSystem factory;
+    private final FileSystemFacade fileSystemFacade;
     /** Maps file names to module names. */
     private final Map<String, String> fileNameToModuleName;
     /** Sorted list of file name prefixes. */
     private final List<String> prefixes;
 
     /**
-     * Creates a new instance of {@link ModuleDetector}.
+     * Creates a new instance of {@link ModuleDetectorRunner}.
      *
      * @param workspace
-     *         the workspace to scan for Maven pom.xml or ant build.xml files
-     * @param fileSystem
-     *         file system facade to find and load files with
+     *         the workspace to scan for module files
+     * @param fileSystemFacade
+     *         file system facade to find and load the files with
      */
-    public ModuleDetector(final Path workspace, final FileSystem fileSystem) {
-        factory = fileSystem;
+    public ModuleDetectorRunner(final Path workspace, final FileSystemFacade fileSystemFacade) {
+        this.fileSystemFacade = fileSystemFacade;
 
-        moduleDetectors = new ArrayList<>(Arrays.asList(
-                new AntModuleDetector(factory),
-                new GradleModuleDetector(factory),
-                new MavenModuleDetector(factory),
-                new OsgiModuleDetector(factory)
-        ));
+        moduleDetectors = Arrays.asList(
+                new AntModuleDetector(this.fileSystemFacade),
+                new GradleModuleDetector(this.fileSystemFacade),
+                new MavenModuleDetector(this.fileSystemFacade),
+                new OsgiModuleDetector(this.fileSystemFacade)
+        );
 
         fileNameToModuleName = createFilesToModuleMapping(workspace);
         prefixes = new ArrayList<>(fileNameToModuleName.keySet());
@@ -111,7 +111,7 @@ public class ModuleDetector {
         List<String> absoluteFileNames = new ArrayList<>();
 
         for (AbstractModuleDetector moduleDetector : moduleDetectors) {
-            var relativeFileNames = factory.find(path, moduleDetector.getPattern());
+            var relativeFileNames = fileSystemFacade.find(path, moduleDetector.getPattern());
             for (String relativeFileName : relativeFileNames) {
                 var relativePath = normalizePath(relativeFileName);
                 if (relativePath.startsWith(SLASH)) {
@@ -133,7 +133,7 @@ public class ModuleDetector {
     /**
      * Facade for file system operations. May be replaced by stubs in test cases.
      */
-    public interface FileSystem {
+    public interface FileSystemFacade {
         /**
          * Returns all file names that match the specified pattern.
          *
@@ -144,8 +144,7 @@ public class ModuleDetector {
          *
          * @return the found file names
          */
-        @SuppressWarnings("AvoidObjectArrays") // TODO: change to list in next major release
-        String[] find(Path root, String pattern);
+        List<String> find(Path root, String pattern);
 
         /**
          * Creates an {@link InputStream} from the specified filename.

@@ -8,16 +8,16 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.SAXException;
 
-import edu.hm.hafner.analysis.ModuleDetector.FileSystem;
+import edu.hm.hafner.analysis.ModuleDetectorRunner.FileSystemFacade;
 
 /**
  * Detects module names by parsing the name of a source file, the Maven pom.xml.
  */
-public class MavenModuleDetector extends AbstractModuleDetector {
+class MavenModuleDetector extends AbstractModuleDetector {
     static final String MAVEN_POM = "pom.xml";
 
-    MavenModuleDetector(final FileSystem fileSystem) {
-        super(fileSystem);
+    MavenModuleDetector(final FileSystemFacade fileSystemFacade) {
+        super(fileSystemFacade);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class MavenModuleDetector extends AbstractModuleDetector {
     @SuppressWarnings("OverlyBroadCatchBlock")
     private String parsePomAttribute(final String pom, final String tagName) {
         try (var file = getFactory().open(pom)) {
-            var digester = new SecureDigester(ModuleDetector.class);
+            var digester = new SecureDigester(ModuleDetectorRunner.class);
             digester.push(new StringBuilder());
             digester.addCallMethod("project/" + tagName, "append", 0);
 

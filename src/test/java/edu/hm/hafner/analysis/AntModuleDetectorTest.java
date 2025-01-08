@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis;
 
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 
@@ -31,10 +33,10 @@ class AntModuleDetectorTest extends AbstractModuleDetectorTest {
     @Test
     void shouldIdentifyModuleByReadingAntProjectFile() {
         var factory = createFileSystemStub(stub -> {
-            when(stub.find(any(), anyString())).thenReturn(new String[]{PATH_PREFIX_ANT + AntModuleDetector.ANT_PROJECT});
+            when(stub.find(any(), anyString())).thenReturn(List.of(PATH_PREFIX_ANT + AntModuleDetector.ANT_PROJECT));
             when(stub.open(anyString())).thenAnswer(filename -> read(AntModuleDetector.ANT_PROJECT));
         });
-        var detector = new ModuleDetector(ROOT, factory);
+        var detector = new ModuleDetectorRunner(ROOT, factory);
 
         assertThat(detector.guessModuleName(PREFIX + PATH_PREFIX_ANT + "something.txt"))
                 .isEqualTo(EXPECTED_ANT_MODULE);

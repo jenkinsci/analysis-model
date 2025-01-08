@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis;
 
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 
@@ -32,11 +34,11 @@ class OsgiModuleDetectorTest extends AbstractModuleDetectorTest {
     @Test
     void shouldIdentifyModuleByReadingOsgiBundle() {
         var factory = createFileSystemStub(stub -> {
-            when(stub.find(any(), anyString())).thenReturn(new String[]{PATH_PREFIX_OSGI + OsgiModuleDetector.OSGI_BUNDLE});
+            when(stub.find(any(), anyString())).thenReturn(List.of(PATH_PREFIX_OSGI + OsgiModuleDetector.OSGI_BUNDLE));
             when(stub.open(anyString())).thenReturn(read(MANIFEST));
         });
 
-        var detector = new ModuleDetector(ROOT, factory);
+        var detector = new ModuleDetectorRunner(ROOT, factory);
 
         assertThat(detector.guessModuleName(PREFIX + PATH_PREFIX_OSGI + "something.txt"))
                 .isEqualTo(EXPECTED_OSGI_MODULE);
@@ -49,11 +51,11 @@ class OsgiModuleDetectorTest extends AbstractModuleDetectorTest {
     @Test
     void shouldIdentifyModuleByReadingOsgiBundleWithVendorInL10nProperties() {
         var factory = createFileSystemStub(stub -> {
-            when(stub.find(any(), anyString())).thenReturn(new String[]{PATH_PREFIX_OSGI + OsgiModuleDetector.OSGI_BUNDLE});
+            when(stub.find(any(), anyString())).thenReturn(List.of(PATH_PREFIX_OSGI + OsgiModuleDetector.OSGI_BUNDLE));
             when(stub.open(anyString())).thenReturn(read(MANIFEST), read("l10n.properties"));
         });
 
-        var detector = new ModuleDetector(ROOT, factory);
+        var detector = new ModuleDetectorRunner(ROOT, factory);
 
         var expectedName = "de.faktorlogik.prototyp (My Vendor)";
         assertThat(detector.guessModuleName(PREFIX + PATH_PREFIX_OSGI + "something.txt"))
@@ -67,12 +69,11 @@ class OsgiModuleDetectorTest extends AbstractModuleDetectorTest {
     @Test
     void shouldIdentifyModuleByReadingOsgiBundleWithManifestName() {
         var fileSystem = createFileSystemStub(stub -> {
-            when(stub.find(any(), anyString())).thenReturn(
-                    new String[]{PATH_PREFIX_OSGI + OsgiModuleDetector.OSGI_BUNDLE});
+            when(stub.find(any(), anyString())).thenReturn(List.of(PATH_PREFIX_OSGI + OsgiModuleDetector.OSGI_BUNDLE));
             when(stub.open(anyString())).thenReturn(read(MANIFEST_NAME), read("l10n.properties"));
         });
 
-        var detector = new ModuleDetector(ROOT, fileSystem);
+        var detector = new ModuleDetectorRunner(ROOT, fileSystem);
 
         var expectedName = "My Bundle";
         assertThat(detector.guessModuleName(PREFIX + PATH_PREFIX_OSGI + "something.txt"))

@@ -8,16 +8,16 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.SAXException;
 
-import edu.hm.hafner.analysis.ModuleDetector.FileSystem;
+import edu.hm.hafner.analysis.ModuleDetectorRunner.FileSystemFacade;
 
 /**
  * Detects module names by parsing the name of a source file, the ANT build.xml.
  */
-public class AntModuleDetector extends AbstractModuleDetector {
+class AntModuleDetector extends AbstractModuleDetector {
     static final String ANT_PROJECT = "build.xml";
 
-    AntModuleDetector(final FileSystem fileSystem) {
-        super(fileSystem);
+    AntModuleDetector(final FileSystemFacade fileSystemFacade) {
+        super(fileSystemFacade);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class AntModuleDetector extends AbstractModuleDetector {
      */
     private String parseBuildXml(final String buildXml) {
         try (var file = getFactory().open(buildXml)) {
-            var digester = new SecureDigester(ModuleDetector.class);
+            var digester = new SecureDigester(ModuleDetectorRunner.class);
 
             digester.push(new StringBuilder());
             var xPath = "project";

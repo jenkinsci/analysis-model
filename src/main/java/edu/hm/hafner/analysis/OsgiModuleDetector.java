@@ -10,12 +10,12 @@ import java.util.jar.Manifest;
 
 import org.apache.commons.lang3.StringUtils;
 
-import edu.hm.hafner.analysis.ModuleDetector.FileSystem;
+import edu.hm.hafner.analysis.ModuleDetectorRunner.FileSystemFacade;
 
 /**
  * Detects module names by parsing the name of OSGi specific source files.
  */
-public class OsgiModuleDetector extends AbstractModuleDetector {
+class OsgiModuleDetector extends AbstractModuleDetector {
     static final String BUNDLE_PROPERTIES = "OSGI-INF/l10n/bundle.properties";
     static final String OSGI_BUNDLE = "META-INF/MANIFEST.MF";
     static final String PLUGIN_PROPERTIES = "plugin.properties";
@@ -24,8 +24,8 @@ public class OsgiModuleDetector extends AbstractModuleDetector {
     private static final String BUNDLE_VENDOR = "Bundle-Vendor";
     private static final String REPLACEMENT_CHAR = "%";
 
-    OsgiModuleDetector(final FileSystem fileSystem) {
-        super(fileSystem);
+    OsgiModuleDetector(final FileSystemFacade fileSystemFacade) {
+        super(fileSystemFacade);
     }
 
     @Override
