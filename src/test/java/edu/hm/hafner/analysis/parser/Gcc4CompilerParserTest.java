@@ -621,7 +621,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
     }
 
     /**
-     * Parses a javac warning log
+     * Parses a javac warning log.
      *
      * @see <a href="https://issues.jenkins.io/browse/JENKINS-68396">Issue 68396</a>
      */
