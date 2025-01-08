@@ -1,17 +1,15 @@
 package edu.hm.hafner.analysis;
 
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import edu.hm.hafner.util.PackageDetectorFactory;
+import edu.hm.hafner.util.PackageDetectorRunner;
 import edu.hm.hafner.util.VisibleForTesting;
-
-import static edu.hm.hafner.analysis.PackageDetectors.*;
-import static java.util.function.Function.*;
 
 /**
  * Resolves packages or namespace names for a set of issues.
@@ -19,23 +17,18 @@ import static java.util.function.Function.*;
  * @author Ullrich Hafner
  */
 public class PackageNameResolver {
-    private final PackageDetectors packageDetectors;
+    private final PackageDetectorRunner runner;
 
     /**
      * Creates a new {@link PackageNameResolver}.
      */
     public PackageNameResolver() {
-        this(new FileSystem());
+        this(PackageDetectorFactory.createPackageDetectors());
     }
 
     @VisibleForTesting
-    PackageNameResolver(final FileSystem fileSystem) {
-        List<AbstractPackageDetector> detectors = new ArrayList<>(Arrays.asList(
-                new JavaPackageDetector(fileSystem),
-                new CSharpNamespaceDetector(fileSystem),
-                new KotlinPackageDetector(fileSystem)
-        ));
-        packageDetectors = new PackageDetectors(detectors);
+    PackageNameResolver(final PackageDetectorRunner runner) {
+        this.runner = runner;
     }
 
     /**
@@ -58,9 +51,11 @@ public class PackageNameResolver {
             return;
         }
 
-        Map<String, String> packagesOfFiles = filesWithoutPackageName.stream()
-                .collect(Collectors.toMap(identity(),
-                        fileName -> packageDetectors.detectPackageName(fileName, charset)));
+        Map<String, String> packagesOfFiles = new HashMap<>();
+        filesWithoutPackageName.stream()
+                .map(f -> extractPackageName(f, charset))
+                .flatMap(Optional::stream)
+                .forEach(e -> packagesOfFiles.put(e.getKey(), e.getValue()));
 
         try (var builder = new IssueBuilder()) {
             report.stream().forEach(issue -> {
@@ -70,5 +65,9 @@ public class PackageNameResolver {
             });
         }
         report.logInfo("-> resolved package names of %d affected files", filesWithoutPackageName.size());
+    }
+
+    private Optional<Map.Entry<String, String>> extractPackageName(final String fileName, final Charset charset) {
+        return runner.detectPackageName(fileName, charset).map(r -> Map.entry(fileName, r));
     }
 }

@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * Tests the class {@link AntJavacParser}.
  */
 class AntJavacParserTest extends AbstractParserTest {
-    private static final int ALLOWED_TIMEOUT_IN_SECONDS = 5;
+    private static final Duration TIMEOUT = Duration.ofSeconds(5);
 
     AntJavacParserTest() {
         super("ant-javac.txt");
@@ -39,11 +39,11 @@ class AntJavacParserTest extends AbstractParserTest {
      */
     @Test
     void issue55805() {
-        assertTimeoutPreemptively(Duration.ofSeconds(ALLOWED_TIMEOUT_IN_SECONDS), () -> parse("issue55805.txt"));
+        assertTimeoutPreemptively(TIMEOUT, () -> parse("issue55805.txt"));
     }
 
     /**
-     * Parses a warning log with JavaDoc warnings.
+     * Parses a warning log with Javadoc warnings.
      *
      * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-63346">Issue 63346</a>
      */

@@ -95,7 +95,7 @@ public abstract class AbstractParserTest extends ResourceTest {
                 .map(CompositeParserDescriptor::createParsers)
                 .flatMap(Collection::stream)
                 .map(IssueParser::getClass)
-                .collect(Collectors.toList());
+                .toList();
         parsers.addAll(compositeParsers);
 
         assertThat(parsers)
