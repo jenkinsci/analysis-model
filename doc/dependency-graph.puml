@@ -12,7 +12,7 @@ rectangle "commons-io\n\n2.18.0" as commons_io_commons_io_jar
 rectangle "commons-digester3\n\n3.2" as org_apache_commons_commons_digester3_jar
 rectangle "cglib\n\n2.2.2" as cglib_cglib_jar
 rectangle "commons-logging\n\n1.3.4" as commons_logging_commons_logging_jar
-rectangle "commons-beanutils\n\n1.9.4" as commons_beanutils_commons_beanutils_jar
+rectangle "commons-beanutils\n\n1.10.0" as commons_beanutils_commons_beanutils_jar
 rectangle "commons-collections\n\n3.2.2" as commons_collections_commons_collections_jar
 rectangle "commons-text\n\n1.13.0" as org_apache_commons_commons_text_jar
 rectangle "violations-lib\n\n1.157.3" as se_bjurr_violations_violations_lib_jar
@@ -42,9 +42,9 @@ rectangle "pmd-java\n\n7.9.0" as net_sourceforge_pmd_pmd_java_jar
 rectangle "json\n\n20240303" as org_json_json_jar
 rectangle "json-smart\n\n2.5.1" as net_minidev_json_smart_jar
 rectangle "accessors-smart\n\n2.5.1" as net_minidev_accessors_smart_jar
-rectangle "codingstyle\n\n5.2.0" as edu_hm_hafner_codingstyle_jar
+rectangle "codingstyle\n\n5.5.0" as edu_hm_hafner_codingstyle_jar
 rectangle "spotbugs-annotations\n\n4.8.6" as com_github_spotbugs_spotbugs_annotations_jar
-rectangle "error_prone_annotations\n\n2.35.1" as com_google_errorprone_error_prone_annotations_jar
+rectangle "error_prone_annotations\n\n2.36.0" as com_google_errorprone_error_prone_annotations_jar
 rectangle "commons-lang3\n\n3.17.0" as org_apache_commons_commons_lang3_jar
 rectangle "streamex\n\n0.8.3" as one_util_streamex_jar
 edu_hm_hafner_analysis_model_jar -[#000000]-> org_jsoup_jsoup_jar
