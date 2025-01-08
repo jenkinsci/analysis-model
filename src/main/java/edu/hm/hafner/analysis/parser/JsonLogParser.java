@@ -28,7 +28,7 @@ public class JsonLogParser extends JsonBaseParser {
     }
 
     @Override
-    public Report parse(final ReaderFactory readerFactory) throws ParsingException {
+    public Report parseReport(final ReaderFactory readerFactory) throws ParsingException {
         try (Stream<String> lines = readerFactory.readStream()) {
             var report = new Report();
             lines.map(String::trim)

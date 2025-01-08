@@ -877,7 +877,7 @@ class ParsersTest extends ResourceTest {
 
         var allIssues = new Report();
         for (String fileName : fileNames) {
-            var parser = descriptor.createParser();
+            var parser = descriptor.create();
             var report = parser.parse(new FileReaderFactory(getResourceAsFile("../parser/").resolve(fileName)));
             allIssues.addAll(report);
         }

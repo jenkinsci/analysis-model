@@ -6,7 +6,7 @@
   <parent>
     <groupId>edu.hm.hafner</groupId>
     <artifactId>codingstyle-pom</artifactId>
-    <version>5.5.0</version>
+    <version>5.9.0</version>
     <relativePath />
   </parent>
 
@@ -293,6 +293,13 @@
   <build>
     <plugins>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <argLine>@{argLine} -Dorg.apache.logging.log4j.level=OFF</argLine>
+        </configuration>
+      </plugin>
+      <plugin>
         <groupId>org.sonatype.plugins</groupId>
         <artifactId>nexus-staging-maven-plugin</artifactId>
         <configuration>
@@ -352,6 +359,7 @@
           <excludes>
             <exclude>.*LineRangeList</exclude>
             <exclude>.*SecureDigester</exclude>
+            <exclude>.*Benchmark.*</exclude>
             <exclude>edu.hm.hafner.analysis.parser.*</exclude>
             <exclude>edu.hm.hafner.analysis.PackageDetectors.*</exclude>
           </excludes>
@@ -382,14 +390,6 @@
             </configuration>
           </execution>
         </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.revapi</groupId>
-        <artifactId>revapi-maven-plugin</artifactId>
-        <configuration>
-          <skip>true</skip>
-          <failBuildOnProblemsFound>false</failBuildOnProblemsFound>
-        </configuration>
       </plugin>
     </plugins>
   </build>

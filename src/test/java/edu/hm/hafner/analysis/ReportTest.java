@@ -22,7 +22,7 @@ import edu.hm.hafner.analysis.Report.IssueFilterBuilder;
 import edu.hm.hafner.analysis.Report.IssuePrinter;
 import edu.hm.hafner.analysis.Report.StandardOutputPrinter;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
-import edu.hm.hafner.analysis.parser.checkstyle.CheckStyleParser;
+import edu.hm.hafner.analysis.parser.CheckStyleParser;
 import edu.hm.hafner.util.FilteredLog;
 import edu.hm.hafner.util.LineRange;
 import edu.hm.hafner.util.LineRangeList;
@@ -894,7 +894,7 @@ class ReportTest extends SerializableTest<Report> {
 
     private Report readCheckStyleReport() {
         var fileName = "parser/checkstyle/all-severities.xml";
-        var report = new CheckStyleParser().parseFile(read(fileName));
+        var report = new CheckStyleParser().parse(read(fileName));
         report.add(new IssueBuilder().setSeverity(Severity.WARNING_HIGH).setMessage("Severity High warning").build());
         assertThat(report).hasSize(4);
         assertThat(report.getSeverities()).hasSize(4);

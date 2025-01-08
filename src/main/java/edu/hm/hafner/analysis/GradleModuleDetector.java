@@ -11,12 +11,12 @@ import java.util.regex.Pattern;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import edu.hm.hafner.analysis.ModuleDetector.FileSystem;
+import edu.hm.hafner.analysis.ModuleDetectorRunner.FileSystemFacade;
 
 /**
  * Detects module names by parsing gradle source files.
  */
-public class GradleModuleDetector extends AbstractModuleDetector {
+class GradleModuleDetector extends AbstractModuleDetector {
     static final String BUILD_GRADLE = "build.gradle";
     static final String BUILD_GRADLE_KTS = "build.gradle.kts";
     static final String SETTINGS_GRADLE = "settings.gradle";
@@ -29,8 +29,8 @@ public class GradleModuleDetector extends AbstractModuleDetector {
     private static final Pattern RE_GRADLE_SET_PROJECT_NAME =
             Pattern.compile("^\\s*rootProject\\.(name\\s*=|setName\\(?)\\s*['\"]([^'\"]*)['\"]\\)?");
 
-    GradleModuleDetector(final FileSystem fileSystem) {
-        super(fileSystem);
+    GradleModuleDetector(final FileSystemFacade fileSystemFacade) {
+        super(fileSystemFacade);
     }
 
     @Override

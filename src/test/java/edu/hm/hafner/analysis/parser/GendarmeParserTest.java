@@ -6,7 +6,6 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
-import edu.hm.hafner.analysis.parser.gendarme.GendarmeParser;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
 
 /**
@@ -17,7 +16,7 @@ import edu.hm.hafner.analysis.registry.AbstractParserTest;
  */
 class GendarmeParserTest extends AbstractParserTest {
     protected GendarmeParserTest() {
-        super("gendarme/Gendarme.xml");
+        super("Gendarme.xml");
     }
 
     @Override

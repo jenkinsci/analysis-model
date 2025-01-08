@@ -27,11 +27,11 @@ class ModuleResolverTest {
             var withModule = builder.build();
             report.add(withModule);
 
-            var detector = mock(ModuleDetector.class);
+            var detector = mock(ModuleDetectorRunner.class);
             when(detector.guessModuleName(fileName)).thenReturn("module1");
 
-            var resolver = new ModuleResolver();
-            resolver.run(report, detector);
+            var resolver = new ModuleResolver(detector);
+            resolver.run(report);
 
             assertThat(report.get(0)).hasModuleName("module1");
             assertThat(report.get(1)).hasModuleName("module2");

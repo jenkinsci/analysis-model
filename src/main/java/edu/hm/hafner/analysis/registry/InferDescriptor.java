@@ -1,7 +1,7 @@
 package edu.hm.hafner.analysis.registry;
 
 import edu.hm.hafner.analysis.IssueParser;
-import edu.hm.hafner.analysis.parser.pmd.PmdParser;
+import edu.hm.hafner.analysis.parser.PmdParser;
 
 /**
  * A descriptor for Infer. Delegates to {@link PmdParser}.
@@ -17,7 +17,7 @@ class InferDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public IssueParser createParser(final Option... options) {
+    public IssueParser create(final Option... options) {
         return new PmdParser();
     }
 

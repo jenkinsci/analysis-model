@@ -6,18 +6,22 @@ skinparam component {
   BackgroundColor #f8f8f8
 }
 
-[Parsers] <<..analysis.parser..>>
+[Violation Adapters] <<..analysis.parser.violations>>
+[Parsers] <<..analysis.parser>>
 [Assertions] <<..assertj>>
 [Model] <<..analysis>>
 [Registry] <<..registry>>
 
 [Utilities] <<..util>>
 
+[Violation Adapters] -> [Model]
 [Parsers] --> [Model]
+[Registry] --> [Violation Adapters]
 [Registry] --> [Parsers]
 [Registry] --> [Model]
 [Registry] --> [Utilities]
 [Parsers] --> [Utilities]
+[Violation Adapters] --> [Utilities]
 [Parsers] --> [Assertions]
 [Model] --> [Utilities]
 [Assertions] --> [Model]

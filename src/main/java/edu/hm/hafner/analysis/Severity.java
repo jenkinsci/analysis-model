@@ -4,6 +4,8 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -18,9 +20,9 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
- * Severity of an issue. The predefined set of severities consists of an error and 3 warnings with priorities high,
- * normal, or low. Additional severities can be created if this set of severities is not sufficient. Note that new
- * instances are not cached by this class so that there might exist several severity instances with the same name.
+ * Severity of an issue. The predefined set of severities consists of an error and three warnings with priorities high,
+ * normal, or low. Additional severities can be created if this set of severities is not enough. Note that this class
+ * does not cache new instances so that there might exist several severity instances with the same name.
  *
  * @author Ullrich Hafner
  */
@@ -38,7 +40,9 @@ public class Severity implements Serializable {
     /** A warning with priority low. Mapping of warning priorities is determined by the corresponding tool. */
     public static final Severity WARNING_LOW = new Severity("LOW");
 
-    private static final Set<Severity> ALL_SEVERITIES = Set.of(ERROR, WARNING_HIGH, WARNING_NORMAL, WARNING_LOW);
+    private static final Set<Severity> ALL_SEVERITIES
+            = Collections.unmodifiableSet(new LinkedHashSet<>(
+                    List.of(ERROR, WARNING_HIGH, WARNING_NORMAL, WARNING_LOW)));
 
     /**
      * Creates a new {@link Severity} with the specified name. If the name is the same as the name of one of the
@@ -66,8 +70,8 @@ public class Severity implements Serializable {
     }
 
     /**
-     * Converts a String severity to one of the predefined severities. If the provided String does not match then the default
-     * severity will be returned.
+     * Converts a String severity to one of the predefined severities. If the provided String does not match,
+     * then the default severity will be returned.
      *
      * @param severity
      *         priority as a String
@@ -87,7 +91,7 @@ public class Severity implements Serializable {
 
     /**
      * Converts a String severity to one of the predefined severities. If the provided String does not match (even
-     * partly) then the default severity will be returned.
+     * partly), then the default severity will be returned.
      *
      * @param severity
      *         the severity string

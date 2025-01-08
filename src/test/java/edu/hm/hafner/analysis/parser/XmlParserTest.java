@@ -49,7 +49,6 @@ class XmlParserTest extends StructuredFileParserTest {
                 .hasDescription("description")
                 .hasPackageName("package-name")
                 .hasModuleName("module-name")
-                .hasOrigin("origin")
                 .hasFingerprint("fingerprint")
                 .hasAdditionalProperties("")
                 .hasOnlyLineRanges(new LineRange(5, 6));
@@ -63,7 +62,7 @@ class XmlParserTest extends StructuredFileParserTest {
     @Test
     void shouldParseWithCustomPath() {
         var parser = new XmlParser(CUSTOM_PATH);
-        var report = parser.parse(createReaderFactory(ISSUES_CUSTOM_PATH_FILE));
+        var report = parser.parseReport(createReaderFactory(ISSUES_CUSTOM_PATH_FILE));
         var iterator = report.iterator();
         try (var softly = new SoftAssertions()) {
             softly.assertThat(report)
@@ -81,7 +80,6 @@ class XmlParserTest extends StructuredFileParserTest {
                     .hasDescription("description")
                     .hasPackageName("package-name")
                     .hasModuleName("module-name")
-                    .hasOrigin("origin")
                     .hasFingerprint("fingerprint")
                     .hasAdditionalProperties("")
                     .hasOnlyLineRanges(new LineRange(5, 6));
@@ -99,7 +97,6 @@ class XmlParserTest extends StructuredFileParserTest {
                     .hasDescription("description")
                     .hasPackageName("package-name")
                     .hasModuleName("module-name")
-                    .hasOrigin("origin")
                     .hasFingerprint("fingerprint")
                     .hasAdditionalProperties("")
                     .hasOnlyLineRanges(new LineRange(42, 43), new LineRange(44, 45));
@@ -113,7 +110,7 @@ class XmlParserTest extends StructuredFileParserTest {
 
     @Test
     void shouldProduceIssuesEvenIfThereAreIncompatibleValues() {
-        var report = createParser().parse(createReaderFactory(ISSUES_INCOMPATIBLE_VALUE));
+        var report = createParser().parseReport(createReaderFactory(ISSUES_INCOMPATIBLE_VALUE));
         Iterator<Issue> iterator = report.iterator();
         try (var softly = new SoftAssertions()) {
             softly.assertThat(report)
@@ -131,7 +128,6 @@ class XmlParserTest extends StructuredFileParserTest {
                     .hasDescription("")
                     .hasPackageName("-")
                     .hasModuleName("-")
-                    .hasOrigin("")
                     .hasReference("")
                     .hasFingerprint("-")
                     .hasAdditionalProperties("")

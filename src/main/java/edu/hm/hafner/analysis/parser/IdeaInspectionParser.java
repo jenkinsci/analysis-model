@@ -29,7 +29,7 @@ public class IdeaInspectionParser extends IssueParser {
     private static final String ERROR = "ERROR";
 
     @Override
-    public Report parse(final ReaderFactory readerFactory) throws ParsingException {
+    public Report parseReport(final ReaderFactory readerFactory) throws ParsingException {
         var document = readerFactory.readDocument();
 
         var rootElement = (Element) document.getElementsByTagName("problems").item(0);

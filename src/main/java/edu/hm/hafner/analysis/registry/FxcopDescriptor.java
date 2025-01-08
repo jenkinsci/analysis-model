@@ -1,7 +1,7 @@
 package edu.hm.hafner.analysis.registry;
 
 import edu.hm.hafner.analysis.IssueParser;
-import edu.hm.hafner.analysis.parser.fxcop.FxCopParser;
+import edu.hm.hafner.analysis.parser.FxCopParser;
 
 /**
  * A descriptor for FxCop.
@@ -17,7 +17,7 @@ class FxcopDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public IssueParser createParser(final Option... options) {
+    public IssueParser create(final Option... options) {
         return new FxCopParser();
     }
 }

@@ -35,7 +35,7 @@ public class EmbeddedEngineerParser extends IssueParser {
             "^\\[([^\\]]*)\\]\\s(?<severity>Error|Warn)\\s-\\s(?<category>[^:]*)" + "(:\\s|\\s\\()(?<description>.+)");
 
     @Override
-    public Report parse(final ReaderFactory reader) throws ParsingException {
+    public Report parseReport(final ReaderFactory reader) throws ParsingException {
         try (Stream<String> lines = reader.readStream()) {
             try (var lookahead = new LookaheadStream(lines, reader.getFileName())) {
                 return parse(lookahead);

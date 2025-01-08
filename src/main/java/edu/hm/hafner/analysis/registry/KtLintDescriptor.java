@@ -1,7 +1,7 @@
 package edu.hm.hafner.analysis.registry;
 
 import edu.hm.hafner.analysis.IssueParser;
-import edu.hm.hafner.analysis.parser.checkstyle.CheckStyleParser;
+import edu.hm.hafner.analysis.parser.CheckStyleParser;
 
 /**
  * A descriptor for ktlint. Delegates to {@link CheckStyleParser}.
@@ -17,7 +17,7 @@ class KtLintDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public IssueParser createParser(final Option... options) {
+    public IssueParser create(final Option... options) {
         return new CheckStyleParser();
     }
 

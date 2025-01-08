@@ -2,8 +2,8 @@ package edu.hm.hafner.analysis.registry;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueParser;
+import edu.hm.hafner.analysis.parser.PyLintDescriptions;
 import edu.hm.hafner.analysis.parser.PyLintParser;
-import edu.hm.hafner.analysis.parser.pylint.PyLintDescriptions;
 import edu.hm.hafner.analysis.util.Deferred;
 
 /**
@@ -22,7 +22,7 @@ class PyLintDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public IssueParser createParser(final Option... options) {
+    public IssueParser create(final Option... options) {
         return new PyLintParser();
     }
 

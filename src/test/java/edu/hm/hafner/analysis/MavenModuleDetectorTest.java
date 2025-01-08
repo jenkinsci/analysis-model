@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis;
 
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 
@@ -30,11 +32,11 @@ class MavenModuleDetectorTest extends AbstractModuleDetectorTest {
     void shouldIdentifyModuleByReadingMavenPom() {
         var factory = createFileSystemStub(stub -> {
             when(stub.find(any(), anyString())).thenReturn(
-                    new String[]{PATH_PREFIX_MAVEN + MavenModuleDetector.MAVEN_POM});
+                    List.of(PATH_PREFIX_MAVEN + MavenModuleDetector.MAVEN_POM));
             when(stub.open(anyString())).thenAnswer(fileName -> read(MavenModuleDetector.MAVEN_POM));
         });
 
-        var detector = new ModuleDetector(ROOT, factory);
+        var detector = new ModuleDetectorRunner(ROOT, factory);
 
         assertThat(detector.guessModuleName(PREFIX + PATH_PREFIX_MAVEN + "something.txt")).isEqualTo(
                 EXPECTED_MAVEN_MODULE);
@@ -46,11 +48,11 @@ class MavenModuleDetectorTest extends AbstractModuleDetectorTest {
     @Test
     void shouldIdentifyModuleByReadingMavenPomWithoutName() {
         var factory = createFileSystemStub(stub -> {
-            when(stub.find(any(), anyString())).thenReturn(new String[]{PATH_PREFIX_MAVEN + MavenModuleDetector.MAVEN_POM});
+            when(stub.find(any(), anyString())).thenReturn(List.of(PATH_PREFIX_MAVEN + MavenModuleDetector.MAVEN_POM));
             when(stub.open(anyString())).thenAnswer(filename -> read("no-name-pom.xml"));
         });
 
-        var detector = new ModuleDetector(ROOT, factory);
+        var detector = new ModuleDetectorRunner(ROOT, factory);
 
         var artifactId = "com.avaloq.adt.core";
         assertThat(detector.guessModuleName(PREFIX + PATH_PREFIX_MAVEN + "something.txt"))

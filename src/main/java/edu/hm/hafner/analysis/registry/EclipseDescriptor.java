@@ -5,7 +5,7 @@ import java.util.Collection;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.EclipseMavenParser;
 import edu.hm.hafner.analysis.parser.EclipseParser;
-import edu.hm.hafner.analysis.parser.EclipseXMLParser;
+import edu.hm.hafner.analysis.parser.EclipseXmlParser;
 
 /**
  * A descriptor for the Eclipse compiler (text format).
@@ -22,7 +22,7 @@ class EclipseDescriptor extends CompositeParserDescriptor {
 
     @Override
     protected Collection<? extends IssueParser> createParsers() {
-        return asList(new EclipseParser(), new EclipseMavenParser(), new EclipseXMLParser());
+        return asList(new EclipseParser(), new EclipseMavenParser(), new EclipseXmlParser());
     }
 
     @Override

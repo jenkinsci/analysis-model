@@ -71,7 +71,7 @@ public class XmlParser extends IssueParser {
     }
 
     @Override @SuppressFBWarnings("XPATH_INJECTION")
-    public Report parse(final ReaderFactory readerFactory) {
+    public Report parseReport(final ReaderFactory readerFactory) {
         try (var issueBuilder = new IssueBuilder()) {
             var doc = readerFactory.readDocument();
             var xPathFactory = XPathFactory.newInstance();
@@ -95,7 +95,6 @@ public class XmlParser extends IssueParser {
                         .setDescription(path.evaluate(DESCRIPTION, issue))
                         .setPackageName(path.evaluate(PACKAGE_NAME, issue))
                         .setModuleName(path.evaluate(MODULE_NAME, issue))
-                        .setOrigin(path.evaluate(ORIGIN, issue))
                         .setFingerprint(path.evaluate(FINGERPRINT, issue))
                         .setAdditionalProperties(path.evaluate(ADDITIONAL_PROPERTIES, issue));
 

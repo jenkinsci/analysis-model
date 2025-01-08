@@ -6,7 +6,8 @@ import java.nio.charset.StandardCharsets;
 
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.PackageDetectors.FileSystem;
+import edu.hm.hafner.util.PackageDetectorFactory;
+import edu.hm.hafner.util.PackageDetectorFactory.FileSystemFacade;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -51,12 +52,18 @@ class PackageNameResolverTest {
         var report = createIssues();
         report.add(ISSUE_WITHOUT_PACKAGE);
 
-        var resolver = new PackageNameResolver(createFileSystemStub());
+        var resolver = getResolver();
 
         resolver.run(report, StandardCharsets.UTF_8);
 
         assertThat(report).hasSize(1);
         assertThat(report.get(0)).hasFileName(FILE_NO_PACKAGE).hasPackageName("a.name");
+    }
+
+    private PackageNameResolver getResolver() throws IOException {
+        var detectors = PackageDetectorFactory.createPackageDetectors(createFileSystemStub());
+
+        return new PackageNameResolver(detectors);
     }
 
     @Test
@@ -65,7 +72,7 @@ class PackageNameResolverTest {
         report.add(ISSUE_WITHOUT_PACKAGE);
         report.add(ISSUE_WITH_PACKAGE);
 
-        var resolver = new PackageNameResolver(createFileSystemStub());
+        var resolver = getResolver();
 
         resolver.run(report, StandardCharsets.UTF_8);
 
@@ -74,10 +81,10 @@ class PackageNameResolverTest {
         assertThat(report.get(1)).hasFileName(FILE_WITH_PACKAGE).hasPackageName("existing");
     }
 
-    private FileSystem createFileSystemStub() throws IOException {
-        var fileSystemStub = mock(FileSystem.class);
-        when(fileSystemStub.openFile(FILE_NO_PACKAGE))
-                .thenReturn(new ByteArrayInputStream("package a.name;".getBytes(StandardCharsets.UTF_8)));
+    private FileSystemFacade createFileSystemStub() throws IOException {
+        var fileSystemStub = mock(FileSystemFacade.class);
+        when(fileSystemStub.openFile(FILE_NO_PACKAGE)).thenAnswer(
+                r -> new ByteArrayInputStream("package a.name;".getBytes(StandardCharsets.UTF_8)));
         return fileSystemStub;
     }
 
