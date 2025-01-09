@@ -253,7 +253,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
 
     @Test
     void shouldResolveAbsolutePaths() {
-        var warnings = createParser().parse(createReaderFactory("absolute-paths.txt"));
+        var warnings = createParser().parseReport(createReaderFactory("absolute-paths.txt"));
 
         assertThat(warnings).hasSize(188);
 
@@ -269,7 +269,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
      */
     @Test
     void issue66835() {
-        var warnings = createParser().parse(createReaderFactory("issue66835.makefile.log"));
+        var warnings = createParser().parseReport(createReaderFactory("issue66835.makefile.log"));
 
         assertThat(warnings).hasSize(3);
 
@@ -293,7 +293,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
      */
     @Test
     void issue66923() {
-        var warnings = createParser().parse(createReaderFactory("issue66923.txt"));
+        var warnings = createParser().parseReport(createReaderFactory("issue66923.txt"));
 
         assertThat(warnings).hasSize(0);
         assertThat(warnings).doesNotHaveErrors();
@@ -306,7 +306,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
      */
     @Test
     void issue69242() {
-        var warnings = createParser().parse(createReaderFactory("issue69242.txt"));
+        var warnings = createParser().parseReport(createReaderFactory("issue69242.txt"));
 
         assertThat(warnings).hasSize(2);
         assertThat(warnings).doesNotHaveErrors();

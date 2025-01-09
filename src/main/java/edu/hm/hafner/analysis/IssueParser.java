@@ -7,6 +7,7 @@ import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 
+import edu.hm.hafner.analysis.Report.IssueType;
 import edu.hm.hafner.util.SecureXmlParserFactory;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
@@ -18,7 +19,7 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
 @SuppressWarnings("checkstyle:JavadocVariable")
 public abstract class IssueParser implements Serializable {
     @Serial
-    private static final long serialVersionUID = 200992696185460268L;
+    private static final long serialVersionUID  = 5L; // release 13.0.0
 
     protected static final String ADDITIONAL_PROPERTIES = "additionalProperties";
     protected static final String CATEGORY = "category";
@@ -35,42 +36,71 @@ public abstract class IssueParser implements Serializable {
     protected static final String LINE_START = "lineStart";
     protected static final String MESSAGE = "message";
     protected static final String MODULE_NAME = "moduleName";
-    protected static final String ORIGIN = "origin";
     protected static final String PACKAGE_NAME = "packageName";
     protected static final String SEVERITY = "severity";
     protected static final String TYPE = "type";
 
-    /**
-     * Parses the specified file for issues.
-     *
-     * @param readerFactory
-     *         provides a reader to the reports
-     *
-     * @return the issues
-     * @throws ParsingException
-     *         Signals that during parsing a non-recoverable error has been occurred
-     * @throws ParsingCanceledException
-     *         Signals that the user has aborted the parsing
-     */
-    public abstract Report parse(ReaderFactory readerFactory) throws ParsingException, ParsingCanceledException;
+    private String id = Report.DEFAULT_ID;
+    private String name = Report.DEFAULT_ID;
+    private IssueType type = IssueType.WARNING;
 
     /**
-     * Parses the specified file for issues. Invokes the parser using {@link #parse(ReaderFactory)} and sets the file
-     * name of the report.
+     * Parses a report (given by the reader factory) for issues. The name and ID of the report are set to the default
+     * values provided by the parser descriptor.
      *
      * @param readerFactory
-     *         provides a reader to the reports
+     *         factory to read input reports with a specific locale
      *
-     * @return the issues
+     * @return the report containing the found issues
      * @throws ParsingException
-     *         Signals that during parsing a non-recoverable error has been occurred
+     *         signals that during parsing a non-recoverable error has been occurred
      * @throws ParsingCanceledException
-     *         Signals that the user has aborted the parsing
+     *         signals that the user has aborted the parsing
      */
-    public Report parseFile(final ReaderFactory readerFactory) throws ParsingException, ParsingCanceledException {
-        var report = parse(readerFactory);
-        report.setOriginReportFile(readerFactory.getFileName());
+    public Report parse(final ReaderFactory readerFactory) throws ParsingException, ParsingCanceledException {
+        var report = parseReport(readerFactory);
+
+        report.setOrigin(id, name, type, readerFactory.getFileName());
+
         return report;
+    }
+
+    /**
+     * Parses a report (given by the reader factory) for issues.
+     *
+     * @param readerFactory
+     *         factory to read input reports with a specific locale
+     *
+     * @return the report containing the found issues
+     * @throws ParsingException
+     *         signals that during parsing a non-recoverable error has been occurred
+     * @throws ParsingCanceledException
+     *         signals that the user has aborted the parsing
+     */
+    protected abstract Report parseReport(ReaderFactory readerFactory) throws ParsingException, ParsingCanceledException;
+
+    public final void setId(final String id) {
+        this.id = id;
+    }
+
+    protected String getId() {
+        return id;
+    }
+
+    public final void setName(final String name) {
+        this.name = name;
+    }
+
+    protected String getName() {
+        return name;
+    }
+
+    public final void setType(final IssueType type) {
+        this.type = type;
+    }
+
+    protected IssueType getType() {
+        return type;
     }
 
     /**
@@ -110,7 +140,8 @@ public abstract class IssueParser implements Serializable {
      * equal sequences of characters, ignoring case.
      *
      * <p>{@code null}s are handled without exceptions. Two {@code null}
-     * references are considered equal. The comparison is <strong>case insensitive</strong>.</p>
+     * references are considered equal. The comparison is <strong>case-insensitive</strong>.
+     * </p>
      *
      * <pre>
      * equalsIgnoreCase(null, null)   = true
@@ -128,7 +159,7 @@ public abstract class IssueParser implements Serializable {
      * @return {@code true} if the CharSequences are equal (case-insensitive), or both {@code null}
      */
     public static boolean equalsIgnoreCase(@CheckForNull final String a, @CheckForNull final String b) {
-        return StringUtils.equals(normalize(a), normalize(b));
+        return StringUtils.equalsIgnoreCase(normalize(a), normalize(b));
     }
 
     private static String normalize(@CheckForNull final String input) {

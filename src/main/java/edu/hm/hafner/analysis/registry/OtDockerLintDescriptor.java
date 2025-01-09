@@ -1,7 +1,7 @@
 package edu.hm.hafner.analysis.registry;
 
 import edu.hm.hafner.analysis.IssueParser;
-import edu.hm.hafner.analysis.parser.OTDockerLintParser;
+import edu.hm.hafner.analysis.parser.OtDockerLintParser;
 
 /**
  * A descriptor for {@code ot-docker-lint} json report.
@@ -17,8 +17,8 @@ class OtDockerLintDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public IssueParser createParser(final Option... options) {
-        return new OTDockerLintParser();
+    public IssueParser create(final Option... options) {
+        return new OtDockerLintParser();
     }
 
     @Override

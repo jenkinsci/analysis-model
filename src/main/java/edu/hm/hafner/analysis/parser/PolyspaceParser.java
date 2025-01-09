@@ -33,7 +33,7 @@ public class PolyspaceParser extends IssueParser {
      */
 
     @Override
-    public Report parse(final ReaderFactory reader) throws ParsingException {
+    public Report parseReport(final ReaderFactory reader) throws ParsingException {
         try (Stream<String> lines = reader.readStream()) {
             return parse(lines);
         }

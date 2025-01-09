@@ -2,8 +2,8 @@ package edu.hm.hafner.analysis.registry;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueParser;
-import edu.hm.hafner.analysis.parser.checkstyle.CheckStyleParser;
-import edu.hm.hafner.analysis.parser.checkstyle.CheckStyleRules;
+import edu.hm.hafner.analysis.parser.CheckStyleParser;
+import edu.hm.hafner.analysis.parser.CheckStyleRules;
 import edu.hm.hafner.analysis.util.Deferred;
 
 /**
@@ -22,7 +22,7 @@ class CheckStyleDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public IssueParser createParser(final Option... options) {
+    public IssueParser create(final Option... options) {
         return new CheckStyleParser();
     }
 

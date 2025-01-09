@@ -27,9 +27,4 @@ class SpotBugsDescriptor extends FindBugsDescriptor {
     public String getIconUrl() {
         return "https://raw.githubusercontent.com/spotbugs/spotbugs.github.io/master/images/logos/spotbugs_icon_only_zoom_256px.png";
     }
-
-    @Override
-    public Type getType() {
-        return Type.BUG;
-    }
 }

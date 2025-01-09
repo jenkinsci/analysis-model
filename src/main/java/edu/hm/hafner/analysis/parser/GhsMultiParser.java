@@ -22,7 +22,7 @@ public class GhsMultiParser extends LookaheadParser {
     private static final long serialVersionUID = 8149238560432255036L;
 
     /**
-     * Regex Pattern to match start of Warning / Error. Groups are used to identify FileName, StartLine, Type, Category,
+     * Regex Pattern to match start of Warning / Error. Groups are used to identify FileName, StartLine, IssueType, Category,
      * Start of message.
      */
     private static final String GHS_MULTI_WARNING_PATTERN = "\"(?<file>.*)\"\\,"

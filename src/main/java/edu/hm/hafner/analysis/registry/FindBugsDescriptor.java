@@ -2,9 +2,10 @@ package edu.hm.hafner.analysis.registry;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueParser;
-import edu.hm.hafner.analysis.parser.findbugs.FindBugsMessages;
-import edu.hm.hafner.analysis.parser.findbugs.FindBugsParser;
-import edu.hm.hafner.analysis.parser.findbugs.FindBugsParser.PriorityProperty;
+import edu.hm.hafner.analysis.Report.IssueType;
+import edu.hm.hafner.analysis.parser.FindBugsMessages;
+import edu.hm.hafner.analysis.parser.FindBugsParser;
+import edu.hm.hafner.analysis.parser.FindBugsParser.PriorityProperty;
 import edu.hm.hafner.analysis.util.Deferred;
 
 /**
@@ -30,7 +31,7 @@ class FindBugsDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public IssueParser createParser(final Option... options) {
+    public IssueParser create(final Option... options) {
         for (Option option : options) {
             if (PRIORITY_OPTION_KEY.equals(option.getKey())
                     && PriorityProperty.CONFIDENCE.name().equals(option.getValue())) {
@@ -51,7 +52,7 @@ class FindBugsDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public Type getType() {
-        return Type.BUG;
+    public IssueType getType() {
+        return IssueType.BUG;
     }
 }

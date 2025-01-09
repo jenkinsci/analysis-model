@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
-import edu.hm.hafner.analysis.parser.fxcop.FxCopParser;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
 
 import static org.assertj.core.api.Assertions.*;

@@ -1,0 +1,64 @@
+{
+  "file1.adoc": [
+    {
+      "Action": {
+        "Name": "",
+        "Params": null
+      },
+      "Span": [
+        1,
+        5
+      ],
+      "Check": "RedHat.SentenceLength",
+      "Description": "",
+      "Link": "https://redhat-documentation.github.io/vale-at-red-hat/docs/main/reference-guide/sentencelength/",
+      "Message": "Try to keep sentences to an average of 32 words or fewer.",
+      "Severity": "suggestion",
+      "Match": "While",
+      "Line": 10
+    }
+  ],
+  "file2.adoc": [
+    {
+      "Action": {
+        "Name": "replace",
+        "Params": [
+          "might",
+          "can"
+        ]
+      },
+      "Span": [
+        143,
+        145
+      ],
+      "Check": "RedHat.TermsWarnings",
+      "Description": "",
+      "Link": "https://redhat-documentation.github.io/vale-at-red-hat/docs/main/reference-guide/termswarnings/",
+      "Message": "Consider using 'might' or 'can' rather than 'may' unless updating existing content that uses the term.",
+      "Severity": "warning",
+      "Match": "may",
+      "Line": 39
+    },
+    {
+      "Action": {
+        "Name": "edit",
+        "Params": [
+          "regex",
+          "(\\w+)( using)",
+          "$1 by using"
+        ]
+      },
+      "Span": [
+        44,
+        64
+      ],
+      "Check": "RedHat.Using",
+      "Description": "",
+      "Link": "https://redhat-documentation.github.io/vale-at-red-hat/docs/main/reference-guide/using/",
+      "Message": "Use 'by using' instead of 'using' when it follows a noun for clarity and grammatical correctness.",
+      "Severity": "error",
+      "Match": "functionalities using",
+      "Line": 51
+    }
+  ]
+}

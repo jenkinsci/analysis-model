@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
-import edu.hm.hafner.analysis.ModuleDetector.FileSystem;
+import edu.hm.hafner.analysis.ModuleDetectorRunner.FileSystemFacade;
 
 /**
  * Abstract class for all Module Detectors.
@@ -15,7 +15,7 @@ abstract class AbstractModuleDetector {
     static final String ALL_DIRECTORIES = "**/";
     static final String PLUS = ", ";
 
-    private final FileSystem factory;
+    private final FileSystemFacade factory;
 
     /**
      * Collects all projects of a specific type.
@@ -32,8 +32,8 @@ abstract class AbstractModuleDetector {
      */
     abstract String getPattern();
 
-    AbstractModuleDetector(final FileSystem fileSystem) {
-        factory = fileSystem;
+    AbstractModuleDetector(final FileSystemFacade fileSystemFacade) {
+        factory = fileSystemFacade;
     }
 
     void addMapping(final Map<String, String> mapping, final String fileName, final String suffix,
@@ -43,7 +43,7 @@ abstract class AbstractModuleDetector {
         }
     }
 
-    public FileSystem getFactory() {
+    public FileSystemFacade getFactory() {
         return factory;
     }
 }

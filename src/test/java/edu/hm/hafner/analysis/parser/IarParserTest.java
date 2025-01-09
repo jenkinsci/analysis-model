@@ -87,7 +87,7 @@ class IarParserTest extends AbstractParserTest {
      */
     @Test
     void issue58159Utf8() {
-        var warnings = createParser().parse(
+        var warnings = createParser().parseReport(
                 new FileReaderFactory(getResourceAsFile("issue58159-2.txt")));
 
         var collect = warnings.stream().map(Objects::toString).collect(Collectors.joining("\n"));

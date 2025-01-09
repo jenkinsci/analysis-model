@@ -4,13 +4,12 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
-import edu.hm.hafner.analysis.parser.ccm.CcmParser;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
 
 /**
  * Tests CCMParser.
  *
- * @author Bruno P. Kinoshita - http://www.kinoshita.eti.br
+ * @author Bruno P. Kinoshita - <a href="http://www.kinoshita.eti.br">...</a>
  */
 class CcmParserTest extends AbstractParserTest {
     CcmParserTest() {

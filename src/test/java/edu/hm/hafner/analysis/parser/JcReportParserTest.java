@@ -7,7 +7,6 @@ import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
-import edu.hm.hafner.analysis.parser.jcreport.JcReportParser;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
@@ -36,7 +35,7 @@ class JcReportParserTest extends AbstractParserTest {
     /**
      * This test assures that all properties within Report-, File- and Item-Objects are parsed correctly. Not all
      * properties are needed to create a warning. So it was decided to keep them anyway in case Jenkins is modified to
-     * contain more information in the Warning-Objects. For reasons of simplicity only a Report with 1 file and 1 item
+     * contain more information in the Warning-Objects. For reasons of simplicity, only a Report with 1 file and 1 item
      * was created.
      */
     @Test

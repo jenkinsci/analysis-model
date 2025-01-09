@@ -1,7 +1,7 @@
 package edu.hm.hafner.analysis.registry;
 
 import edu.hm.hafner.analysis.IssueParser;
-import edu.hm.hafner.analysis.parser.dry.simian.SimianParser;
+import edu.hm.hafner.analysis.parser.SimianParser;
 
 /**
  * A descriptor for the Simian duplication scanner.
@@ -17,7 +17,7 @@ class SimianDescriptor extends DryDescriptor {
     }
 
     @Override
-    public IssueParser createParser(final Option... options) {
+    public IssueParser create(final Option... options) {
         return new SimianParser(getHighThreshold(options), getNormalThreshold(options));
     }
 }

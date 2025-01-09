@@ -4,11 +4,12 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
+import java.util.List;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
 
-import edu.hm.hafner.analysis.ModuleDetector.FileSystem;
+import edu.hm.hafner.analysis.ModuleDetectorRunner.FileSystemFacade;
 import edu.hm.hafner.util.PathUtil;
 import edu.hm.hafner.util.ResourceTest;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -18,7 +19,7 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 /**
- * Tests the class {@link ModuleDetector}.
+ * Tests the class {@link ModuleDetectorRunner}.
  */
 @SuppressFBWarnings("DMI")
 class ModuleDetectorTest extends ResourceTest {
@@ -42,12 +43,12 @@ class ModuleDetectorTest extends ResourceTest {
         var factory = createFileSystemStub(stub -> {
             var ant = PATH_PREFIX_ANT + AntModuleDetector.ANT_PROJECT;
             var maven = PATH_PREFIX_MAVEN + MavenModuleDetector.MAVEN_POM;
-            when(stub.find(any(), anyString())).thenReturn(new String[]{ant, maven});
-            when(stub.open(PREFIX + ant)).thenReturn(read(AntModuleDetector.ANT_PROJECT));
+            when(stub.find(any(), anyString())).thenReturn(List.of(ant, maven));
+            when(stub.open(PREFIX + ant)).thenAnswer(fileName -> read(AntModuleDetector.ANT_PROJECT));
             when(stub.open(PREFIX + maven)).thenAnswer(filename -> read(MavenModuleDetector.MAVEN_POM));
         });
 
-        var detector = new ModuleDetector(ROOT, factory);
+        var detector = new ModuleDetectorRunner(ROOT, factory);
 
         assertThat(detector.guessModuleName(PREFIX + PATH_PREFIX_ANT + "something.txt"))
                 .isEqualTo(EXPECTED_ANT_MODULE);
@@ -83,12 +84,12 @@ class ModuleDetectorTest extends ResourceTest {
     @SuppressWarnings("PMD.UseVarargs")
     private void verifyOrder(final String prefix, final String ant, final String maven, final String[] foundFiles) {
         var factory = createFileSystemStub(stub -> {
-            when(stub.find(any(), anyString())).thenReturn(foundFiles);
-            when(stub.open(ant)).thenReturn(read(AntModuleDetector.ANT_PROJECT));
+            when(stub.find(any(), anyString())).thenReturn(List.of(foundFiles));
+            when(stub.open(ant)).thenAnswer(fileName -> read(AntModuleDetector.ANT_PROJECT));
             when(stub.open(maven)).thenAnswer(filename -> read(MavenModuleDetector.MAVEN_POM));
         });
 
-        var detector = new ModuleDetector(ROOT, factory);
+        var detector = new ModuleDetectorRunner(ROOT, factory);
 
         assertThat(detector.guessModuleName(prefix + "something.txt")).isEqualTo(EXPECTED_MAVEN_MODULE);
     }
@@ -96,7 +97,7 @@ class ModuleDetectorTest extends ResourceTest {
     private void verifyOrder(final String prefix, final String ant, final String maven, final String osgi,
             final String... foundFiles) {
         var fileSystem = createFileSystemStub(stub -> {
-            when(stub.find(any(), anyString())).thenReturn(foundFiles);
+            when(stub.find(any(), anyString())).thenReturn(List.of(foundFiles));
             when(stub.open(ant)).thenAnswer(filename -> read(AntModuleDetector.ANT_PROJECT));
             when(stub.open(maven)).thenAnswer(filename -> read(MavenModuleDetector.MAVEN_POM));
             when(stub.open(osgi)).thenAnswer(filename -> read(MANIFEST));
@@ -104,7 +105,7 @@ class ModuleDetectorTest extends ResourceTest {
             when(stub.open(prefix + "/" + OsgiModuleDetector.BUNDLE_PROPERTIES)).thenAnswer(filename -> createEmptyStream());
         });
 
-        var detector = new ModuleDetector(ROOT, fileSystem);
+        var detector = new ModuleDetectorRunner(ROOT, fileSystem);
 
         assertThat(detector.guessModuleName(prefix + "something.txt")).isEqualTo(EXPECTED_OSGI_MODULE);
     }
@@ -113,9 +114,9 @@ class ModuleDetectorTest extends ResourceTest {
         return IOUtils.toInputStream("", "UTF-8");
     }
 
-    private FileSystem createFileSystemStub(final Stub stub) {
+    private FileSystemFacade createFileSystemStub(final Stub stub) {
         try {
-            var fileSystem = mock(FileSystem.class);
+            var fileSystem = mock(FileSystemFacade.class);
             stub.apply(fileSystem);
             return fileSystem;
         }
@@ -125,10 +126,10 @@ class ModuleDetectorTest extends ResourceTest {
     }
 
     /**
-     * Stubs the {@link PackageDetectors.FileSystem} using a lambda.
+     * Stubs the {@link FileSystemFacade} using a lambda.
      */
     @FunctionalInterface
     private interface Stub {
-        void apply(FileSystem f) throws IOException;
+        void apply(FileSystemFacade f) throws IOException;
     }
 }

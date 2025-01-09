@@ -25,16 +25,16 @@ public class LintParser extends IssueParser {
     private static final String FILE = "file";
 
     @Override
-    public Report parse(final ReaderFactory readerFactory) throws ParsingException {
+    public Report parseReport(final ReaderFactory readerFactory) throws ParsingException {
         var report = new Report();
-        readerFactory.parse(new JSLintXmlSaxParser(report));
+        readerFactory.parse(new JsLintXmlSaxParser(report));
         return report;
     }
 
     /**
      * Handles parsing.
      */
-    static class JSLintXmlSaxParser extends DefaultHandler {
+    static class JsLintXmlSaxParser extends DefaultHandler {
         private static final String ISSUE = "issue";
         private static final String ERROR = "error";
         private final Report report;
@@ -46,7 +46,7 @@ public class LintParser extends IssueParser {
         static final String CATEGORY_FORMATTING = "Formatting";
         private final IssueBuilder issueBuilder;
 
-        JSLintXmlSaxParser(final Report report) {
+        JsLintXmlSaxParser(final Report report) {
             super();
 
             this.report = report;

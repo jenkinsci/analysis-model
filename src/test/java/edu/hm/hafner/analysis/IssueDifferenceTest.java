@@ -203,9 +203,8 @@ class IssueDifferenceTest extends ResourceTest {
     }
 
     private Report readSpotBugsWarnings() {
-        return new ParserRegistry().get("spotbugs")
-                .createParser()
-                .parse(new FileReaderFactory(getResourceAsFile("parser/findbugs/spotbugsXml.xml"),
-                        StandardCharsets.UTF_8));
+        var reportFile = new FileReaderFactory(getResourceAsFile("parser/findbugs/spotbugsXml.xml"),
+                StandardCharsets.UTF_8);
+        return new ParserRegistry().get("spotbugs").createParser().parseReport(reportFile);
     }
 }

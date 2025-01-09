@@ -43,7 +43,7 @@ public class AnsibleLintParser extends LookaheadParser {
         final String cat;
 
         /* Ansible-lint has changed the style of parseable output. This requires
-         * to distinguish between rule names in square brackets and rule names
+         * distinguishing between rule names in square brackets and rule names
          * containing square brackets. */
         if (matcher.group("cat") != null) {
             cat = matcher.group("cat");
