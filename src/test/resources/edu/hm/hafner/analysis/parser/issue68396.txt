@@ -1,0 +1,36 @@
+[javac] import sun.misc.Signal;
+[javac]                ^
+[javac] import sun.misc.SignalHandler;
+[javac]                ^
+[javac] public class ShutdownSignalHandler implements SignalHandler {
+[javac]                                               ^
+[javac]     private SignalHandler oldHandler = null;
+[javac]             ^
+[javac] /jenkins/jenkins/workspaces/Active_Dev_Integration_20-3/134/sw/syssw/smc/java/NodeHealthCalculations/src/gov/nasa/lcs/smc/nodehealthcalculations/ShutdownSignalHandler.java:62: warning: Signal is internal proprietary API and may be removed in a future release
+[javac]             Signal sigTerm = new Signal(SIGTERM);
+[javac]             ^
+[javac] /jenkins/jenkins/workspaces/Active_Dev_Integration_20-3/134/sw/syssw/smc/java/NodeHealthCalculations/src/gov/nasa/lcs/smc/nodehealthcalculations/ShutdownSignalHandler.java:62: warning: Signal is internal proprietary API and may be removed in a future release
+[javac]             Signal sigTerm = new Signal(SIGTERM);
+[javac]                                  ^
+[javac]             termInstance.oldHandler = Signal.handle(sigTerm, termInstance);
+[javac]                                       ^
+[javac] /jenkins/jenkins/workspaces/Active_Dev_Integration_20-3/134/sw/syssw/smc/java/NodeHealthCalculations/src/gov/nasa/lcs/smc/nodehealthcalculations/ShutdownSignalHandler.java:70: warning: Signal is internal proprietary API and may be removed in a future release
+[javac]             Signal sigInt = new Signal(SIGINT);
+[javac]             ^
+[javac] /jenkins/jenkins/workspaces/Active_Dev_Integration_20-3/134/sw/syssw/smc/java/NodeHealthCalculations/src/gov/nasa/lcs/smc/nodehealthcalculations/ShutdownSignalHandler.java:70: warning: Signal is internal proprietary API and may be removed in a future release
+[javac]             Signal sigInt = new Signal(SIGINT);
+[javac]                                 ^
+[javac]             intInstance.oldHandler = Signal.handle(sigInt, intInstance);
+[javac]                                      ^
+[javac] /jenkins/jenkins/workspaces/Active_Dev_Integration_20-3/134/sw/syssw/smc/java/NodeHealthCalculations/src/gov/nasa/lcs/smc/nodehealthcalculations/ShutdownSignalHandler.java:78: warning: Signal is internal proprietary API and may be removed in a future release
+[javac]             Signal sigHup = new Signal(SIGHUP);
+[javac]             ^
+[javac] /jenkins/jenkins/workspaces/Active_Dev_Integration_20-3/134/sw/syssw/smc/java/NodeHealthCalculations/src/gov/nasa/lcs/smc/nodehealthcalculations/ShutdownSignalHandler.java:78: warning: Signal is internal proprietary API and may be removed in a future release
+[javac]             Signal sigHup = new Signal(SIGHUP);
+[javac]                                 ^
+[javac]             hupInstance.oldHandler = Signal.handle(sigHup, hupInstance);
+[javac]                                      ^
+[javac] /jenkins/jenkins/workspaces/Active_Dev_Integration_20-3/134/sw/syssw/smc/java/NodeHealthCalculations/src/gov/nasa/lcs/smc/nodehealthcalculations/ShutdownSignalHandler.java:88: warning: Signal is internal proprietary API and may be removed in a future release
+[javac]     public void handle(Signal signal) {
+[javac]                        ^
+[javac] /jenkins/jenkins/workspaces/Active_Dev_Integration_20-3/134/sw/syssw/smc/java/NodeHealthCalculations/src/gov/nasa/lcs/smc/nodehealthcalculations/ShutdownSignalHandler.java:100: warning: SignalHandler is internal proprietary API and may be removed in a future release

@@ -619,4 +619,16 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
                     .hasSeverity(Severity.WARNING_NORMAL);
         }
     }
+
+    /**
+     * Parses a javac warning log.
+     *
+     * @see <a href="https://issues.jenkins.io/browse/JENKINS-68396">Issue 68396</a>
+     */
+    @Test
+    void issue68396() {
+        var warnings = parse("issue68396.txt");
+
+        assertThat(warnings).isEmpty();
+    }
 }
