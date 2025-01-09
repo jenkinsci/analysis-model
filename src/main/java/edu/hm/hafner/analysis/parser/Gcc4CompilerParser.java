@@ -23,7 +23,7 @@ public class Gcc4CompilerParser extends LookaheadParser {
     private static final long serialVersionUID = 5490211629355204910L;
 
     private static final String GCC_WARNING_PATTERN =
-            "(?!\\[javac\\])" + ANT_TASK + "(.+?):(\\d+):(?:(\\d+):)? ?([wW]arning|.*[Ee]rror): (.*)$";
+            ANT_TASK + "(.+?):(\\d+):(?:(\\d+):)? ?([wW]arning|.*[Ee]rror): (.*)$";
     private static final Pattern CLASS_PATTERN = Pattern.compile("\\[-W(.+)]$");
 
     /**
@@ -43,7 +43,7 @@ public class Gcc4CompilerParser extends LookaheadParser {
 
     @Override
     protected boolean isLineInteresting(final String line) {
-        return line.contains("arning") || line.contains("rror");
+        return (line.contains("arning") || line.contains("rror")) && !line.contains("[javac]");
     }
 
     @Override
