@@ -1,8 +1,6 @@
 package edu.hm.hafner.analysis;
 
 import java.io.IOException;
-import java.io.PrintStream;
-import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -19,14 +17,10 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
 import edu.hm.hafner.analysis.Report.IssueFilterBuilder;
-import edu.hm.hafner.analysis.Report.IssuePrinter;
-import edu.hm.hafner.analysis.Report.StandardOutputPrinter;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
-import edu.hm.hafner.analysis.parser.CheckStyleParser;
 import edu.hm.hafner.util.FilteredLog;
 import edu.hm.hafner.util.LineRange;
 import edu.hm.hafner.util.LineRangeList;
-import edu.hm.hafner.util.PathUtil;
 import edu.hm.hafner.util.SerializableTest;
 import edu.hm.hafner.util.TreeString;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -35,7 +29,6 @@ import nl.jqno.equalsverifier.EqualsVerifier;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 import static java.util.Arrays.*;
-import static org.mockito.Mockito.*;
 
 /**
  * Unit tests for {@link Report}.
@@ -865,45 +858,6 @@ class ReportTest extends SerializableTest<Report> {
         other.addAll(report);
 
         assertThat(report).isNotEqualTo(other); // there should be duplicates
-    }
-
-    @Test
-    void shouldPrintAllIssues() {
-        var report = readCheckStyleReport();
-
-        var printer = mock(IssuePrinter.class);
-        report.print(printer);
-
-        for (Issue issue : report) {
-            verify(printer).print(issue);
-        }
-    }
-
-    @Test
-    void shouldPrintAllIssuesToPrintStream() {
-        var report = readCheckStyleReport();
-
-        try (var printStream = mock(PrintStream.class)) {
-            report.print(new StandardOutputPrinter(printStream));
-
-            for (Issue issue : report) {
-                verify(printStream).println(issue.toString());
-            }
-        }
-    }
-
-    private Report readCheckStyleReport() {
-        var fileName = "parser/checkstyle/all-severities.xml";
-        var report = new CheckStyleParser().parse(read(fileName));
-        report.add(new IssueBuilder().setSeverity(Severity.WARNING_HIGH).setMessage("Severity High warning").build());
-        assertThat(report).hasSize(4);
-        assertThat(report.getSeverities()).hasSize(4);
-        assertThat(report).hasOriginReportFile(new PathUtil().getAbsolutePath(getResourceAsFile(fileName)));
-        return report;
-    }
-
-    private ReaderFactory read(final String fileName) {
-        return new FileReaderFactory(getResourceAsFile(fileName), StandardCharsets.UTF_8);
     }
 
     @Test
