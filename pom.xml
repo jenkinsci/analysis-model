@@ -360,6 +360,7 @@
             <exclude>.*LineRangeList</exclude>
             <exclude>.*SecureDigester</exclude>
             <exclude>.*Benchmark.*</exclude>
+            <exclude>.*ModuleDetector.*</exclude>
             <exclude>edu.hm.hafner.analysis.parser.*</exclude>
             <exclude>edu.hm.hafner.analysis.PackageDetectors.*</exclude>
           </excludes>
