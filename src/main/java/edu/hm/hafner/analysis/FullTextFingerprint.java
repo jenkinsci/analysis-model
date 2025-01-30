@@ -20,13 +20,13 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Creates a fingerprint of the specified issue using the source code at the affected line. The fingerprint is computed
- * using the 1:1 content of a small number of lines before and after the affected line (see {@link #LINES_LOOK_AHEAD}).
+ * using the 1:1 content of a small number of lines before and after the affected line (see {@link #linesLookAhead}).
  *
  * @author Ullrich Hafner
  */
 public class FullTextFingerprint {
     /** Number of lines before and after current line to consider. */
-    private static final int LINES_LOOK_AHEAD = 3;
+    private final int linesLookAhead;
     private static final int LINE_RANGE_BUFFER_SIZE = 1000;
     private static final char[] HEX_CHARACTERS = "0123456789ABCDEF".toCharArray();
 
@@ -38,13 +38,23 @@ public class FullTextFingerprint {
      * Creates a new instance of {@link FullTextFingerprint}.
      */
     public FullTextFingerprint() {
-        this(new FileSystem());
+        this(3);
+    }
+
+    /**
+     * Creates a new instance of {@link FullTextFingerprint}.
+     *  @param contextLines
+     *      *         the number of lines which is used in the fingerprinting process
+     */
+    public FullTextFingerprint(final int contextLines) {
+        this(new FileSystem(), contextLines);
     }
 
     @VisibleForTesting
     @SuppressFBWarnings(value = "WEAK_MESSAGE_DIGEST_MD5", justification = "The fingerprint is just used to track new warnings")
-    FullTextFingerprint(final FileSystem fileSystem) {
+    FullTextFingerprint(final FileSystem fileSystem, final int contextLines) {
         this.fileSystem = fileSystem;
+        this.linesLookAhead = contextLines;
         try {
             digest = MessageDigest.getInstance("MD5"); // lgtm [java/weak-cryptographic-algorithm]
         }
@@ -56,7 +66,7 @@ public class FullTextFingerprint {
     /**
      * Creates a fingerprint of the specified issue using the source code at the affected line. The fingerprint is
      * computed using the 1:1 content of a small number of lines before and after the affected line (see {@link
-     * #LINES_LOOK_AHEAD}).
+     * #linesLookAhead}).
      *
      * @param fileName
      *         the absolute path of the affected file
@@ -110,10 +120,10 @@ public class FullTextFingerprint {
 
         var context = new StringBuilder(LINE_RANGE_BUFFER_SIZE);
         int line = 1;
-        for (; lines.hasNext() && line < start - LINES_LOOK_AHEAD; line++) {
+        for (; lines.hasNext() && line < start - linesLookAhead; line++) {
             lines.next(); // skip the first lines
         }
-        for (; lines.hasNext() && line <= start + LINES_LOOK_AHEAD; line++) {
+        for (; lines.hasNext() && line <= start + linesLookAhead; line++) {
             context.append(lines.next());
         }
 
@@ -122,7 +132,7 @@ public class FullTextFingerprint {
 
     private int computeStartLine(final int affectedLine) {
         if (affectedLine == 0) { // indicates the whole file
-            return LINES_LOOK_AHEAD + 1;
+            return linesLookAhead + 1;
         }
         else {
             return affectedLine;
