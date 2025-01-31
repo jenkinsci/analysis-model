@@ -26,35 +26,37 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  */
 public class FullTextFingerprint {
     /** Number of lines before and after current line to consider. */
-    private final int linesLookAhead;
+    private static final int DEFAULT_LINES_LOOK_AHEAD = 3;
     private static final int LINE_RANGE_BUFFER_SIZE = 1000;
     private static final char[] HEX_CHARACTERS = "0123456789ABCDEF".toCharArray();
 
     @SuppressWarnings("PMD.AvoidMessageDigestField")
     private final MessageDigest digest;
     private final FileSystem fileSystem;
+    private final int linesLookAhead;
 
     /**
      * Creates a new instance of {@link FullTextFingerprint}.
      */
     public FullTextFingerprint() {
-        this(3);
+        this(DEFAULT_LINES_LOOK_AHEAD);
     }
 
     /**
      * Creates a new instance of {@link FullTextFingerprint}.
-     *  @param contextLines
-     *      *         the number of lines which is used in the fingerprinting process
+     *
+     * @param linesLookAhead
+     *          the number of lines which is used in the fingerprinting process
      */
-    public FullTextFingerprint(final int contextLines) {
-        this(new FileSystem(), contextLines);
+    public FullTextFingerprint(final int linesLookAhead) {
+        this(new FileSystem(), linesLookAhead);
     }
 
     @VisibleForTesting
     @SuppressFBWarnings(value = "WEAK_MESSAGE_DIGEST_MD5", justification = "The fingerprint is just used to track new warnings")
-    FullTextFingerprint(final FileSystem fileSystem, final int contextLines) {
+    FullTextFingerprint(final FileSystem fileSystem, final int linesLookAhead) {
         this.fileSystem = fileSystem;
-        this.linesLookAhead = contextLines;
+        this.linesLookAhead = linesLookAhead;
         try {
             digest = MessageDigest.getInstance("MD5"); // lgtm [java/weak-cryptographic-algorithm]
         }

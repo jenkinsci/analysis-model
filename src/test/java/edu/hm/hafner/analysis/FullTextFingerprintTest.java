@@ -54,6 +54,39 @@ class FullTextFingerprintTest extends ResourceTest {
     }
 
     /**
+     * Verifies that the context of a warning starts 1 line above the affected line and ends 1 line below the affected
+     * line. The exact lines can be configured.
+     */
+    @Test
+    void shouldExtractCorrectLinesForDifferentValue() {
+        var affectedFile = new String(readAllBytes("context.txt"), StandardCharsets.UTF_8);
+
+        var fingerprint = new FullTextFingerprint(1);
+
+        assertThat(fingerprint.extractContext(-1, asIterator(affectedFile)))
+                .as("Fingerprint for illegal line numbers should be empty").isEmpty();
+
+        assertThat(fingerprint.extractContext(0, asIterator(affectedFile)))
+                .as("Wrong fingerprint for whole file").isEqualTo("123");
+
+        assertThat(fingerprint.extractContext(1, asIterator(affectedFile))).isEqualTo("12");
+        assertThat(fingerprint.extractContext(2, asIterator(affectedFile))).isEqualTo("123");
+        assertThat(fingerprint.extractContext(3, asIterator(affectedFile))).isEqualTo("234");
+        assertThat(fingerprint.extractContext(4, asIterator(affectedFile))).isEqualTo("345");
+        assertThat(fingerprint.extractContext(5, asIterator(affectedFile))).isEqualTo("456");
+        assertThat(fingerprint.extractContext(27, asIterator(affectedFile))).isEqualTo("678");
+        assertThat(fingerprint.extractContext(28, asIterator(affectedFile))).isEqualTo("789");
+        assertThat(fingerprint.extractContext(29, asIterator(affectedFile))).isEqualTo("890");
+        assertThat(fingerprint.extractContext(30, asIterator(affectedFile))).isEqualTo("90");
+
+        // actually illegal, but we use the remaining lines:
+        assertThat(fingerprint.extractContext(31, asIterator(affectedFile))).isEqualTo("0");
+
+        assertThat(fingerprint.extractContext(32, asIterator(affectedFile)))
+                .as("Fingerprint for line numbers out of range should be empty").isEmpty();
+    }
+
+    /**
      * Verifies that the fingerprint of line 10 is the same as the fingerprint of line 20. All other lines should have a
      * different fingerprint.
      */
