@@ -40,7 +40,7 @@ class FingerprintGeneratorTest extends ResourceTest {
         when(fileSystem.readLinesFromFile(anyString(), any()))
                 .thenThrow(new UncheckedIOException(new MalformedInputException(1)));
 
-        generator.run(new FullTextFingerprint(fileSystem), report, CHARSET_AFFECTED_FILE);
+        generator.run(new FullTextFingerprint(fileSystem, 3), report, CHARSET_AFFECTED_FILE);
 
         assertThatIssueHasDefaultFingerprint(report);
         assertThat(report.getErrorMessages()).contains(
@@ -184,7 +184,7 @@ class FingerprintGeneratorTest extends ResourceTest {
     private FullTextFingerprint createFullTextFingerprint(final String secondFile) {
         var fileSystem = stubFileSystem("fingerprint-one.txt", secondFile);
 
-        return new FullTextFingerprint(fileSystem);
+        return new FullTextFingerprint(fileSystem, 3);
     }
 
     private Report createTwoIssues() {
