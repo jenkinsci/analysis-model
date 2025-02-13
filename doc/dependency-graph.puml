@@ -19,7 +19,7 @@ rectangle "violations-lib\n\n1.157.3" as se_bjurr_violations_violations_lib_jar
 rectangle "j2html\n\n1.4.0" as com_j2html_j2html_jar
 rectangle "xercesImpl\n\n2.12.2" as xerces_xercesImpl_jar
 rectangle "xml-apis\n\n1.4.01" as xml_apis_xml_apis_jar
-rectangle "spotbugs\n\n4.9.0" as com_github_spotbugs_spotbugs_jar
+rectangle "spotbugs\n\n4.9.1" as com_github_spotbugs_spotbugs_jar
 rectangle "asm\n\n9.7.1" as org_ow2_asm_asm_jar
 rectangle "asm-analysis\n\n9.7.1" as org_ow2_asm_asm_analysis_jar
 rectangle "asm-tree\n\n9.7.1" as org_ow2_asm_asm_tree_jar
@@ -28,7 +28,7 @@ rectangle "asm-util\n\n9.7.1" as org_ow2_asm_asm_util_jar
 rectangle "bcel\n\n6.10.0" as org_apache_bcel_bcel_jar
 rectangle "jcip-annotations\n\n1.0-1" as com_github_stephenc_jcip_jcip_annotations_jar
 rectangle "dom4j\n\n2.1.4" as org_dom4j_dom4j_jar
-rectangle "gson\n\n2.11.0" as com_google_code_gson_gson_jar
+rectangle "gson\n\n2.12.1" as com_google_code_gson_gson_jar
 rectangle "Saxon-HE\n\n12.5" as net_sf_saxon_Saxon_HE_jar
 rectangle "xmlresolver\n\n5.2.2" as org_xmlresolver_xmlresolver_jar
 rectangle "xmlresolver\ndata\n5.2.2" as org_xmlresolver_xmlresolver_jar_data
