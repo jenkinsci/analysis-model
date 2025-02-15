@@ -385,4 +385,16 @@ class JavacParserTest extends AbstractParserTest {
                 .hasFileName("file:///project/src/main/java/com/app/ui/model/Activity.kt")
                 .hasMessage("'PackageStats' is deprecated. Deprecated in Java");
     }
+
+    /**
+     * Parses gradle build-tools warnings.
+     *
+     * @see <a href="https://issues.jenkins.io/browse/JENKINS-70153">Issue 70153</a>
+     */
+    @Test
+    void issue70153() {
+        var warnings = parse("issue70153.txt");
+
+        assertThat(warnings).hasSize(4);
+    }
 }
