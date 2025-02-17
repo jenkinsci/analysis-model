@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2025-02-17T15:32:35.979057334 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2025-02-17T15:56:39.197522735 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
