@@ -69,7 +69,7 @@
     <violations-lib.version>1.157.3</violations-lib.version>
     <jsoup.version>1.18.3</jsoup.version>
     <json.version>20240303</json.version>
-    <json-smart.version>2.5.1</json-smart.version>
+    <json-smart.version>2.5.2</json-smart.version>
     <pmd.api.version>7.10.0</pmd.api.version>
     <spotbugs.api.version>4.9.1</spotbugs.api.version>
 
