@@ -44,7 +44,7 @@ public class JavacParser extends AbstractMavenLogParser {
             + "\\s*(.*)"                                // group 10: message
             + "|"
             // --- Matches quoted messages ---
-            + "(['\"])(.*?)\\11\\s*(.*)" 		        // group 11: opening quote; group 12: quoted text; group 13: rest of message
+            + "(['\"])(.*?)\\11\\s*(.*)"                // group 11: opening quote; group 12: quoted text; group 13: rest of message
             + ")$";
 
     private static final String SEVERITY_ERROR = "ERROR";
