@@ -28,8 +28,10 @@ public class JavacParser extends AbstractMavenLogParser {
 
     private static final String JAVAC_WARNING_PATTERN
             = "^(?:\\S+\\s+)?"                          // optional preceding arbitrary number of characters that are not a
-                                                        // whitespace followed by whitespace. This can be used for timestamps.
+            // whitespace followed by whitespace. This can be used for timestamps.
             + "(?:(?:\\[(WARNING|ERROR)\\]|w:|e:)\\s+)" // optional [WARNING] or [ERROR] or w: or e:
+            + "(?:"
+            // --- Matches filename/line ---
             + "(((\\/?[a-zA-Z]|file):)?[^\\[\\(:]*):"   // group 2: filename starting path with C:\ or /C:\ or file:/// or /
             + "("                                       // start group 5
             + "(\\s*[\\[\\(]?)?"                        // optional ( or [
@@ -39,7 +41,11 @@ public class JavacParser extends AbstractMavenLogParser {
             + "[\\]\\)]?\\s*:?\\s?"                     // optional ) or ] or whitespace or :
             + ")"                                       // end group 5
             + "(?:\\[(\\w+)\\])?"                       // group 9: optional category
-            + "\\s*(.*)$";                              // group 10: message
+            + "\\s*(.*)"                                // group 10: message
+            + "|"
+            // --- Matches quoted messages ---
+            + "(['\"])(.*?)\\11\\s*(.*)" 		        // group 11: opening quote; group 12: quoted text; group 13: rest of message
+            + ")$";
 
     private static final String SEVERITY_ERROR = "ERROR";
     private static final String SEVERITY_ERROR_SHORT = "e:";

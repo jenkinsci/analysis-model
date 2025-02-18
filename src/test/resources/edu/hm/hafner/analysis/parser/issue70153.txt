@@ -1,0 +1,5 @@
+> Task :travel:compileDebugKotlin
+w: '-Xjvm-default=compatibility' is deprecated, please use '-Xjvm-default=all|all-compatibility'
+w: /var/lib/jenkins/workspace/.../CountryFavoriteRepositoryImpl.kt: (35, 35): Type mismatch: inferred type is CountryFavoriteDto? but CountryFavoriteDto was expected
+w: /var/lib/jenkins/workspace/.../CountryFavoriteUseCase.kt: (86, 39): Name shadowed: favoriteCountry
+w: /var/lib/jenkins/workspace/.../CountryDetailActivity.kt: (48, 30): 'getParcelableExtra(String!): T?' is deprecated. Deprecated in Java
