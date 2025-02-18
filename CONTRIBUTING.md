@@ -27,10 +27,10 @@ IntelliJ or Eclipse this style will used automatically.
 
 Moreover (since this project is about static code analysis :wink:) a configuration for the following static code
 analysis tools is defined in the POM and the `etc` and `.idea` folders:
-- [Checkstyle](http://checkstyle.sourceforge.net/)
+- [Checkstyle](https://checkstyle.sourceforge.net/)
 - [PMD](https://pmd.github.io/)
 - [SpotBugs](https://spotbugs.github.io)
-- [Error Prone](http://errorprone.info)
+- [Error Prone](https://errorprone.info)
 - [IntelliJ](https://www.jetbrains.com/help/idea/code-inspection.html)
 
 This configuration will be picked up automatically if you build the project using maven. If you install the CheckStyle 
