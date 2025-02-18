@@ -28,7 +28,7 @@ public class JavacParser extends AbstractMavenLogParser {
 
     private static final String JAVAC_WARNING_PATTERN
             = "^(?:\\S+\\s+)?"                          // optional preceding arbitrary number of characters that are not a
-                                                        // whitespace followed by whitespace. This can be used for timestamps.
+            // whitespace followed by whitespace. This can be used for timestamps.
             + "(?:(?:\\[(WARNING|ERROR)\\]|w:|e:)\\s+)" // optional [WARNING] or [ERROR] or w: or e:
             + "(?:"
             // --- Matches filename/line ---
