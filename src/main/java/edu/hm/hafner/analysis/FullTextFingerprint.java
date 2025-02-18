@@ -1,5 +1,12 @@
 package edu.hm.hafner.analysis;
 
+import org.apache.commons.lang3.StringUtils;
+
+import com.google.errorprone.annotations.MustBeClosed;
+
+import edu.hm.hafner.util.VisibleForTesting;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -10,13 +17,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.stream.Stream;
-
-import org.apache.commons.lang3.StringUtils;
-
-import com.google.errorprone.annotations.MustBeClosed;
-
-import edu.hm.hafner.util.VisibleForTesting;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Creates a fingerprint of the specified issue using the source code at the affected line. The fingerprint is computed
@@ -49,12 +49,12 @@ public class FullTextFingerprint {
      *          the number of lines which is used in the fingerprinting process
      */
     public FullTextFingerprint(final int linesLookAhead) {
-        this(new FileSystem(), linesLookAhead);
+        this(linesLookAhead, new FileSystem());
     }
 
     @VisibleForTesting
     @SuppressFBWarnings(value = "WEAK_MESSAGE_DIGEST_MD5", justification = "The fingerprint is just used to track new warnings")
-    FullTextFingerprint(final FileSystem fileSystem, final int linesLookAhead) {
+    FullTextFingerprint(final int linesLookAhead, final FileSystem fileSystem) {
         this.fileSystem = fileSystem;
         this.linesLookAhead = linesLookAhead;
         try {

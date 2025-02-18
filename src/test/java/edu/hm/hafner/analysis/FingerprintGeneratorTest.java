@@ -1,17 +1,17 @@
 package edu.hm.hafner.analysis;
 
-import java.io.IOException;
-import java.io.UncheckedIOException;
-import java.nio.charset.Charset;
-import java.nio.charset.MalformedInputException;
-import java.nio.charset.StandardCharsets;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import edu.hm.hafner.analysis.FullTextFingerprint.FileSystem;
 import edu.hm.hafner.util.ResourceTest;
+
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.nio.charset.Charset;
+import java.nio.charset.MalformedInputException;
+import java.nio.charset.StandardCharsets;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -40,7 +40,7 @@ class FingerprintGeneratorTest extends ResourceTest {
         when(fileSystem.readLinesFromFile(anyString(), any()))
                 .thenThrow(new UncheckedIOException(new MalformedInputException(1)));
 
-        generator.run(new FullTextFingerprint(fileSystem, 3), report, CHARSET_AFFECTED_FILE);
+        generator.run(new FullTextFingerprint(3, fileSystem), report, CHARSET_AFFECTED_FILE);
 
         assertThatIssueHasDefaultFingerprint(report);
         assertThat(report.getErrorMessages()).contains(
@@ -184,7 +184,7 @@ class FingerprintGeneratorTest extends ResourceTest {
     private FullTextFingerprint createFullTextFingerprint(final String secondFile) {
         var fileSystem = stubFileSystem("fingerprint-one.txt", secondFile);
 
-        return new FullTextFingerprint(fileSystem, 3);
+        return new FullTextFingerprint(3, fileSystem);
     }
 
     private Report createTwoIssues() {
