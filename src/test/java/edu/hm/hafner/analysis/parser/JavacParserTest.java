@@ -385,4 +385,42 @@ class JavacParserTest extends AbstractParserTest {
                 .hasFileName("file:///project/src/main/java/com/app/ui/model/Activity.kt")
                 .hasMessage("'PackageStats' is deprecated. Deprecated in Java");
     }
+
+    /**
+     * Parses gradle build-tools warnings.
+     *
+     * @see <a href="https://issues.jenkins.io/browse/JENKINS-70153">Issue 70153</a>
+     */
+    @Test
+    void issue70153() {
+        var warnings = parse("issue70153.txt");
+
+        assertThat(warnings).hasSize(4);
+
+        assertThat(warnings.get(0))
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasLineStart(0)
+                .hasColumnStart(0);
+
+        assertThat(warnings.get(1))
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasLineStart(35)
+                .hasColumnStart(35)
+                .hasFileName("/var/lib/jenkins/workspace/.../CountryFavoriteRepositoryImpl.kt")
+                .hasMessage("Type mismatch: inferred type is CountryFavoriteDto? but CountryFavoriteDto was expected");
+
+        assertThat(warnings.get(2))
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasLineStart(86)
+                .hasColumnStart(39)
+                .hasFileName("/var/lib/jenkins/workspace/.../CountryFavoriteUseCase.kt")
+                .hasMessage("Name shadowed: favoriteCountry");
+
+        assertThat(warnings.get(3))
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasLineStart(48)
+                .hasColumnStart(30)
+                .hasFileName("/var/lib/jenkins/workspace/.../CountryDetailActivity.kt")
+                .hasMessage("'getParcelableExtra(String!): T?' is deprecated. Deprecated in Java");
+    }
 }
