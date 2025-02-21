@@ -50,6 +50,16 @@ public class MsBuildParser extends LookaheadParser {
         super(MS_BUILD_WARNING_PATTERN);
     }
 
+    /**
+     * Overrides the default implementation of 4000-character limit
+     * This implementation always returns true
+     * regardless of the length of the log
+     */
+    @Override
+    protected boolean isLineInteresting(final String line) {
+        return true;
+    }
+
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {

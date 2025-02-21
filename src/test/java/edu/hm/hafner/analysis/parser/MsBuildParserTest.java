@@ -839,6 +839,18 @@ class MsBuildParserTest extends AbstractParserTest {
         assertThat(report).isEmpty().doesNotHaveErrors();
     }
 
+    /**
+     * Warnings Next Generation can't parse long lines
+     *
+     * @see <a href="https://issues.jenkins.io/browse/JENKINS-68744">Issue 68744</a>
+     */
+    @Test
+    void issue68744() {
+        var report = parse("issue68744.txt");
+
+        assertThat(report).hasSize(1);
+    }
+
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
         softly.assertThat(report).hasSize(8);
