@@ -840,7 +840,7 @@ class MsBuildParserTest extends AbstractParserTest {
     }
 
     /**
-     * Warnings Next Generation can't parse long lines
+     * Warnings Next Generation can't parse long lines.
      *
      * @see <a href="https://issues.jenkins.io/browse/JENKINS-68744">Issue 68744</a>
      */
