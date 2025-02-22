@@ -840,7 +840,7 @@ class MsBuildParserTest extends AbstractParserTest {
     }
 
     /**
-     * Warnings Next Generation can't parse long lines.
+     * Do not ignore long lines while parsing MSBuild warning.
      *
      * @see <a href="https://issues.jenkins.io/browse/JENKINS-68744">Issue 68744</a>
      */
@@ -849,6 +849,17 @@ class MsBuildParserTest extends AbstractParserTest {
         var report = parse("issue68744.txt");
 
         assertThat(report).hasSize(1);
+
+        assertThat(report.get(0))
+                .hasFileName("C:/Program Files (x86)/Microsoft Visual Studio/2019/Professional/VC/Tools/MSVC/14.29.30133/include/type_traits")
+                .hasCategory("C4267")
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasLineStart(1534)
+                .hasLineEnd(1534)
+                .hasColumnStart(1)
+                .hasColumnEnd(1)
+                .hasDescription("")
+                .hasPackageName("-");
     }
 
     @Override
