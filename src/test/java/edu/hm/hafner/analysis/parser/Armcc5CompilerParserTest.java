@@ -50,7 +50,7 @@ class Armcc5CompilerParserTest extends AbstractParserTest {
     }
 
     /**
-     * Should recognize warnings by Armcc5 parser.
+     * Should recognize Armcc5 warnings while parsing.
      *
      * @see <a href="https://issues.jenkins.io/browse/JENKINS-70065">Issue 70065</a>
      */

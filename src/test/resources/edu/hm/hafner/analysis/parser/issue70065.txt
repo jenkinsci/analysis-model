@@ -1,0 +1,2 @@
+"sw/dbg/cfg/dbg_trace_acfg.h", line 354: warning #1-D: last line of file ends without a newline
+"out/include/common/dimming_ctrl.h", line 45: warning #1-D: last line of file ends without a newline
