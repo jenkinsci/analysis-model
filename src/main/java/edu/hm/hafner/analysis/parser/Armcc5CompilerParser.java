@@ -19,7 +19,7 @@ public class Armcc5CompilerParser extends LookaheadParser {
     @Serial
     private static final long serialVersionUID = -2677728927938443701L;
 
-    private static final String ARMCC5_WARNING_PATTERN = "^(.+)\\((\\d+)\\): (warning|error):  #(.+): (.+)$";
+    private static final String ARMCC5_WARNING_PATTERN = "^(?:\"(.+)\", line (\\d+): (warning|error) #(.+): (.+)|(.+)\\((\\d+)\\): (warning|error):\\s+#(.+): (.+))$";
 
     /**
      * Creates a new instance of {@link Armcc5CompilerParser}.
@@ -35,22 +35,22 @@ public class Armcc5CompilerParser extends LookaheadParser {
 
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
-            final IssueBuilder builder) {
-        var type = matcher.group(3);
-        Severity priority;
+                                          final IssueBuilder builder) {
+        boolean isNewFormat = matcher.group(1) != null;
 
-        if (equalsIgnoreCase(type, "error")) {
-            priority = Severity.WARNING_HIGH;
-        }
-        else {
-            priority = Severity.WARNING_NORMAL;
-        }
+        String fileName = isNewFormat ? matcher.group(1) : matcher.group(6);
+        String lineStr  = isNewFormat ? matcher.group(2) : matcher.group(7);
+        String type     = isNewFormat ? matcher.group(3) : matcher.group(8);
+        Severity priority = equalsIgnoreCase(type, "error")
+                ? Severity.WARNING_HIGH
+                : Severity.WARNING_NORMAL;
+        String errorCode = isNewFormat ? matcher.group(4) : matcher.group(9);
+        String message   = isNewFormat ? matcher.group(5) : matcher.group(10);
 
-        var errorCode = matcher.group(4);
-        var message = matcher.group(5);
-        return builder.setFileName(matcher.group(1))
-                .setLineStart(matcher.group(2))
+        return builder.setFileName(fileName)
+                .setLineStart(lineStr)
                 .setMessage(errorCode + " - " + message)
-                .setSeverity(priority).buildOptional();
+                .setSeverity(priority)
+                .buildOptional();
     }
 }

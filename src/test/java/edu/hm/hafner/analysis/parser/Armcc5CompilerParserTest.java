@@ -4,6 +4,7 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the class {@link Armcc5CompilerParser}.
@@ -46,5 +47,35 @@ class Armcc5CompilerParserTest extends AbstractParserTest {
     @Override
     protected Armcc5CompilerParser createParser() {
         return new Armcc5CompilerParser();
+    }
+
+    /**
+     * Should recognize warnings by Armcc5 parser.
+     *
+     * @see <a href="https://issues.jenkins.io/browse/JENKINS-70065">Issue 70065</a>
+     */
+    @Test
+    void issue70065() {
+        var report = parse("issue70065.txt");
+
+        assertThat(report).hasSize(2);
+
+        assertThat(report.get(0))
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasLineStart(354)
+                .hasLineEnd(354)
+                .hasFileName("sw/dbg/cfg/dbg_trace_acfg.h")
+                .hasMessage("1-D - last line of file ends without a newline")
+                .hasColumnStart(0)
+                .hasColumnEnd(0);
+
+        assertThat(report.get(1))
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasLineStart(45)
+                .hasLineEnd(45)
+                .hasFileName("out/include/common/dimming_ctrl.h")
+                .hasMessage("1-D - last line of file ends without a newline")
+                .hasColumnStart(0)
+                .hasColumnEnd(0);
     }
 }
