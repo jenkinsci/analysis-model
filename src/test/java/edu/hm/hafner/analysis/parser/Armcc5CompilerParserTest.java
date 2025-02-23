@@ -6,6 +6,8 @@ import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
 import org.junit.jupiter.api.Test;
 
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
+
 /**
  * Tests the class {@link Armcc5CompilerParser}.
  */
