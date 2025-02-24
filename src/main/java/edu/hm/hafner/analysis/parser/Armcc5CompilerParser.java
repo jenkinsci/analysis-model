@@ -36,9 +36,9 @@ public class Armcc5CompilerParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
                                           final IssueBuilder builder) {
-        var type      = (matcher.group("file1") != null) ? matcher.group("severity1") : matcher.group("severity2");
         var errorCode = (matcher.group("file1") != null) ? matcher.group("code1")     : matcher.group("code2");
         var message   = (matcher.group("file1") != null) ? matcher.group("message1")  : matcher.group("message2");
+        var type      = (matcher.group("file1") != null) ? matcher.group("severity1") : matcher.group("severity2");
 
         if (matcher.group("file1") != null) {
             builder.setFileName(matcher.group("file1"));
