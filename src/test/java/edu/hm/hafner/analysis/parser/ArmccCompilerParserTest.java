@@ -22,13 +22,13 @@ class ArmccCompilerParserTest extends AbstractParserTest {
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
         softly.assertThat(report).hasSize(3);
 
-        softly.assertThat(report.get(0)).hasSeverity(Severity.WARNING_HIGH)
+        softly.assertThat(report.get(0)).hasSeverity(Severity.ERROR)
                 .hasCategory(WARNING_CATEGORY)
                 .hasLineStart(21)
                 .hasLineEnd(21)
                 .hasMessage("5 - cannot open source input file \"somefile.h\": No such file or directory")
                 .hasFileName("/home/test/main.cpp");
-        softly.assertThat(report.get(1)).hasSeverity(Severity.WARNING_HIGH)
+        softly.assertThat(report.get(1)).hasSeverity(Severity.ERROR)
                 .hasCategory(WARNING_CATEGORY)
                 .hasLineStart(23)
                 .hasLineEnd(23)
