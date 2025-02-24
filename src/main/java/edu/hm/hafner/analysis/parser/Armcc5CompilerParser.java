@@ -21,7 +21,7 @@ public class Armcc5CompilerParser extends LookaheadParser {
 
     private static final String ARMCC5_WARNING_PATTERN =
             "^(?:(?:\"(?<file1>.+)\", line (?<line1>\\d+): (?<severity1>warning|error) #(?<code1>.+): (?<message1>.+))" // Format for Armcc version < 5
-            + "|(?<file2>.+)\\((?<line2>\\d+)\\): (?<severity2>warning|error):\\s+#(?<code2>.+): (?<message2>.+))$"; // Format for Armcc version >= 5
+            + "|(?<file2>.+)\\((?<line2>\\d+)\\): (?<severity2>warning|error):\\s+#(?<code2>.+): (?<message2>.+))$";    // Format for Armcc version >= 5
 
     /**
      * Creates a new instance of {@link Armcc5CompilerParser}.
