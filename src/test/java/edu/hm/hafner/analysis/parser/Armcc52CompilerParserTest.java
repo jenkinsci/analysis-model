@@ -14,8 +14,6 @@ import static edu.hm.hafner.analysis.assertions.Assertions.*;
  * Tests the class {@link Armcc5CompilerParser}.
  */
 class Armcc52CompilerParserTest extends AbstractParserTest {
-    private static final String WARNING_CATEGORY = DEFAULT_CATEGORY;
-
     /**
      * Creates a new instance of {@link Armcc52CompilerParserTest}.
      */

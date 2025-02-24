@@ -1,14 +1,14 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.util.Optional;
-import java.util.regex.Matcher;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
+
+import java.io.Serial;
+import java.util.Optional;
+import java.util.regex.Matcher;
 
 import static edu.hm.hafner.analysis.util.IntegerParser.*;
 
@@ -33,19 +33,10 @@ public class ArmccCompilerParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        var type = matcher.group(3);
-        int errorCode = parseInt(matcher.group(4));
-        Severity priority;
-
-        if (equalsIgnoreCase(type, "error")) {
-            priority = Severity.WARNING_HIGH;
-        }
-        else {
-            priority = Severity.WARNING_NORMAL;
-        }
-        var message = matcher.group(5);
-
-        return builder.setFileName(matcher.group(1)).setLineStart(matcher.group(2)).setMessage(errorCode + " - " + message)
-                      .setSeverity(priority).buildOptional();
+        return builder.setFileName(matcher.group(1))
+                .setLineStart(matcher.group(2))
+                .setMessage(parseInt(matcher.group(4)) + " - " + matcher.group(5))
+                .setSeverity(Severity.guessFromString(matcher.group(3)))
+                .buildOptional();
     }
 }
