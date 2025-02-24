@@ -1,10 +1,11 @@
 package edu.hm.hafner.analysis.registry;
 
-import java.util.Collection;
-
 import edu.hm.hafner.analysis.IssueParser;
+import edu.hm.hafner.analysis.parser.Armcc52CompilerParser;
 import edu.hm.hafner.analysis.parser.Armcc5CompilerParser;
 import edu.hm.hafner.analysis.parser.ArmccCompilerParser;
+
+import java.util.Collection;
 
 /**
  * A descriptor for the Armcc compiler.
@@ -21,6 +22,6 @@ class ArmccCompilerDescriptor extends CompositeParserDescriptor {
 
     @Override
     protected Collection<? extends IssueParser> createParsers() {
-        return asList(new ArmccCompilerParser(), new Armcc5CompilerParser());
+        return asList(new ArmccCompilerParser(), new Armcc52CompilerParser(), new Armcc5CompilerParser());
     }
 }
