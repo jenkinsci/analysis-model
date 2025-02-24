@@ -26,7 +26,7 @@ class Armcc5CompilerParserTest extends AbstractParserTest {
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
         softly.assertThat(report).hasSize(3);
 
-        softly.assertThat(report.get(0)).hasSeverity(Severity.WARNING_HIGH)
+        softly.assertThat(report.get(0)).hasSeverity(Severity.ERROR)
                 .hasCategory(WARNING_CATEGORY)
                 .hasLineStart(197)
                 .hasLineEnd(197)

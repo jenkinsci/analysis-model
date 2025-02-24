@@ -19,7 +19,7 @@ public class Armcc5CompilerParser extends LookaheadParser {
     @Serial
     private static final long serialVersionUID = -2677728927938443701L;
 
-    private static final String ARMCC5_WARNING_PATTERN = "^(?:\"(.+)\", line (\\d+): (warning|error) #(.+): (.+)|(.+)\\((\\d+)\\): (warning|error):\\s+#(.+): (.+))$";
+    private static final String ARMCC5_WARNING_PATTERN = "^(?:(?:\"(?<file1>.+)\", line (?<line1>\\d+): (?<severity1>warning|error) #(?<code1>.+): (?<message1>.+))|(?<file2>.+)\\((?<line2>\\d+)\\): (?<severity2>warning|error):\\s+#(?<code2>.+): (?<message2>.+))$";
 
     /**
      * Creates a new instance of {@link Armcc5CompilerParser}.
@@ -36,21 +36,23 @@ public class Armcc5CompilerParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
                                           final IssueBuilder builder) {
-        boolean isNewFormat = matcher.group(1) != null;
 
-        String fileName = isNewFormat ? matcher.group(1) : matcher.group(6);
-        String lineStr  = isNewFormat ? matcher.group(2) : matcher.group(7);
-        String type     = isNewFormat ? matcher.group(3) : matcher.group(8);
-        Severity priority = equalsIgnoreCase(type, "error")
-                ? Severity.WARNING_HIGH
-                : Severity.WARNING_NORMAL;
-        String errorCode = isNewFormat ? matcher.group(4) : matcher.group(9);
-        String message   = isNewFormat ? matcher.group(5) : matcher.group(10);
+        var type      = (matcher.group("file1") != null) ? matcher.group("severity1") : matcher.group("severity2");
+        var errorCode = (matcher.group("file1") != null) ? matcher.group("code1")     : matcher.group("code2");
+        var message   = (matcher.group("file1") != null) ? matcher.group("message1")  : matcher.group("message2");
 
-        return builder.setFileName(fileName)
-                .setLineStart(lineStr)
-                .setMessage(errorCode + " - " + message)
-                .setSeverity(priority)
+        if (matcher.group("file1") != null) {
+            builder.setFileName(matcher.group("file1"));
+            builder.setLineStart(matcher.group("line1"));
+            builder.setMessage(errorCode + " - " + message);
+        } else {
+            builder.setFileName(matcher.group("file2"));
+            builder.setLineStart(matcher.group("line2"));
+            builder.setMessage(errorCode + " - " + message);
+        }
+
+        return builder
+                .setSeverity(Severity.guessFromString(type))
                 .buildOptional();
     }
 }
