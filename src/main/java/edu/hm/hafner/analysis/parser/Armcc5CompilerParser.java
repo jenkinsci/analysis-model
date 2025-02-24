@@ -19,7 +19,9 @@ public class Armcc5CompilerParser extends LookaheadParser {
     @Serial
     private static final long serialVersionUID = -2677728927938443701L;
 
-    private static final String ARMCC5_WARNING_PATTERN = "^(.+)\\((\\d+)\\): (warning|error):  #(.+): (.+)$";
+    private static final String ARMCC5_WARNING_PATTERN =
+            "^(?:(?:\"(?<file1>.+)\", line (?<line1>\\d+): (?<severity1>warning|error) #(?<code1>.+): (?<message1>.+))" // Format for Armcc version < 5
+            + "|(?<file2>.+)\\((?<line2>\\d+)\\): (?<severity2>warning|error):\\s+#(?<code2>.+): (?<message2>.+))$";    // Format for Armcc version >= 5
 
     /**
      * Creates a new instance of {@link Armcc5CompilerParser}.
@@ -35,22 +37,25 @@ public class Armcc5CompilerParser extends LookaheadParser {
 
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
-            final IssueBuilder builder) {
-        var type = matcher.group(3);
-        Severity priority;
-
-        if (equalsIgnoreCase(type, "error")) {
-            priority = Severity.WARNING_HIGH;
+                                          final IssueBuilder builder) {
+        if (matcher.group("file1") != null) {
+            var errorCode = matcher.group("code1");
+            var message = matcher.group("message1");
+            builder.setFileName(matcher.group("file1"));
+            builder.setLineStart(matcher.group("line1"));
+            builder.setMessage(errorCode + " - " + message);
+            builder.setSeverity(Severity.guessFromString(matcher.group("severity1")));
         }
         else {
-            priority = Severity.WARNING_NORMAL;
+            var errorCode = matcher.group("code2");
+            var message = matcher.group("message2");
+            builder.setFileName(matcher.group("file2"));
+            builder.setLineStart(matcher.group("line2"));
+            builder.setMessage(errorCode + " - " + message);
+            builder.setSeverity(Severity.guessFromString(matcher.group("severity2")));
         }
 
-        var errorCode = matcher.group(4);
-        var message = matcher.group(5);
-        return builder.setFileName(matcher.group(1))
-                .setLineStart(matcher.group(2))
-                .setMessage(errorCode + " - " + message)
-                .setSeverity(priority).buildOptional();
+        return builder
+                .buildOptional();
     }
 }
