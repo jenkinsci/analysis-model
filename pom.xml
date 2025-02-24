@@ -408,6 +408,22 @@
         <artifactId>revapi-maven-plugin</artifactId>
         <configuration>
           <oldVersion>${previousVersion}</oldVersion>
+          <analysisConfiguration>
+            <revapi.differences id="manually-vetted">
+              <attachments>
+                <vetted>ok</vetted>
+              </attachments>
+              <differences combine.children="append">
+                <item>
+                  <ignore>true</ignore>
+                  <regex>true</regex>
+                  <code>.*</code>
+                  <classQualifiedName>edu.hm.hafner.analysis.parser..*Parser</classQualifiedName>
+                  <justification>Parsers are not part of the API.</justification>
+                </item>
+              </differences>
+            </revapi.differences>
+          </analysisConfiguration>
         </configuration>
       </plugin>
     </plugins>
