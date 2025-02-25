@@ -4,8 +4,6 @@ import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
-import org.apache.commons.lang3.StringUtils;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
