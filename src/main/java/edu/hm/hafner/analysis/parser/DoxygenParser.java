@@ -50,7 +50,7 @@ public class DoxygenParser extends LookaheadParser {
             builder.setLineStart(matcher.group(4));
         }
 
-        while (lookahead.hasNext() && isMessageContinuation(lookahead)) {
+        while (lookahead.hasNext() && Gcc4CompilerParser.isMessageContinuation(lookahead)) {
             message.append('\n');
             message.append(lookahead.next());
         }
@@ -60,23 +60,5 @@ public class DoxygenParser extends LookaheadParser {
                 .setMessage(message.toString())
                 .setSeverity(Severity.guessFromString(matcher.group(6)))
                 .buildOptional();
-    }
-
-    @SuppressWarnings("PMD.AvoidLiteralsInIfCondition")
-    private boolean isMessageContinuation(final LookaheadStream lookahead) {
-        var peek = lookahead.peekNext();
-        if (peek.length() < 3) {
-            return false;
-        }
-        if (peek.charAt(0) == '/' || peek.charAt(0) == '[' || peek.charAt(0) == '<' || peek.charAt(0) == '=') {
-            return false;
-        }
-        if (peek.charAt(1) == ':') {
-            return false;
-        }
-        if (peek.charAt(2) == '/' || peek.charAt(0) == '\\') {
-            return false;
-        }
-        return !StringUtils.containsAnyIgnoreCase(peek, "arning", "rror", "make");
     }
 }

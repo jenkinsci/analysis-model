@@ -70,7 +70,7 @@ public class Gcc4CompilerParser extends LookaheadParser {
     }
 
     @SuppressWarnings("PMD.AvoidLiteralsInIfCondition")
-    private boolean isMessageContinuation(final LookaheadStream lookahead) {
+    static boolean isMessageContinuation(final LookaheadStream lookahead) {
         var peek = lookahead.peekNext();
         if (peek.length() < 3) {
             return false;
