@@ -96,6 +96,38 @@ class CheckStyleParserTest extends AbstractParserTest {
     }
 
     /**
+     * Verifies that the CheckStyle input doesn't get truncated.
+     *
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-63388">Issue 63388</a>
+     */
+    @Test
+    void issue63388() {
+        var report = parseInCheckStyleFolder("issue63388.xml");
+
+        assertThat(report).hasSize(2);
+
+        assertThat(report.get(0))
+                .hasMessage(
+                        "[Package:foo Tool:cppcheck] Either the condition 'foobar<0x00' is redundant or the array 'barfoo[2]' is accessed at index -1, which is out of bounds.")
+                .hasFileName("foo")
+                .hasLineStart(481)
+                .hasColumnStart(1)
+                .hasCategory("Cppcheck")
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasType("negativeIndex");
+
+        assertThat(report.get(1))
+                .hasMessage(
+                        "[Package:bar Tool:cppcheck] Either the condition 'sizeof(payload)<len' is redundant or the array 'payload[1024]' is accessed at index 1024, which is out of bounds.")
+                .hasFileName("foo")
+                .hasLineStart(55)
+                .hasColumnStart(1)
+                .hasCategory("Cppcheck")
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasType("arrayIndexOutOfBoundsCond");
+    }
+
+    /**
      * Tests parsing of a file with Scala style warnings.
      *
      * @see <a href="http://www.scalastyle.org">Scala Style Homepage</a>
