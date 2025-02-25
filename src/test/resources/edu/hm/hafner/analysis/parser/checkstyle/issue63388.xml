@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+<checkstyle version="4.3">
+    <file name="foo">
+        <error column="1" line="481" message="[Package:foo Tool:cppcheck] Either the condition 'foobar&lt;0x00' is redundant or the array 'barfoo[2]' is accessed at index -1, which is out of bounds." severity="warning" source="cppcheck.cppcheck.negativeIndex"/>
+        <error column="1" line="55" message="[Package:bar Tool:cppcheck] Either the condition 'sizeof(payload)&lt;len' is redundant or the array 'payload[1024]' is accessed at index 1024, which is out of bounds." severity="warning" source="cppcheck.cppcheck.arrayIndexOutOfBoundsCond"/>
+    </file>
+</checkstyle>
