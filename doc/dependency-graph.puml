@@ -33,7 +33,7 @@ rectangle "Saxon-HE\n\n12.5" as net_sf_saxon_Saxon_HE_jar
 rectangle "xmlresolver\n\n5.2.2" as org_xmlresolver_xmlresolver_jar
 rectangle "xmlresolver\ndata\n5.2.2" as org_xmlresolver_xmlresolver_jar_data
 rectangle "pmd-core\n\n7.10.0" as net_sourceforge_pmd_pmd_core_jar
-rectangle "slf4j-api\n\n2.0.16" as org_slf4j_slf4j_api_jar
+rectangle "slf4j-api\n\n2.0.17" as org_slf4j_slf4j_api_jar
 rectangle "antlr4-runtime\n\n4.9.3" as org_antlr_antlr4_runtime_jar
 rectangle "checker-qual\n\n3.48.3" as org_checkerframework_checker_qual_jar
 rectangle "pcollections\n\n4.0.2" as org_pcollections_pcollections_jar
