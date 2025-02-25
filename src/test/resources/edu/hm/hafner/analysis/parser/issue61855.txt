@@ -1,0 +1,7 @@
+/repo/src/libraries/base/include/configuration.h(115): warning: Member Notify(const IProperty &oProperty) override (function) of class property_variable< T > is not documented.
+/repo/src/libraries/base/include/configuration.h(120): warning: Member GetType(IString &&strType) const override (function) of class property_variable< T > is not documented.
+/repo/src/libraries/base/include/configuration.h(125): warning: Member GetValue() const override (function) of class property_variable< T > is not documented.
+/repo/src/libraries/base/include/configuration.h(130): warning: Member operator*() const (function) of class property_variable< T > is not documented.
+/repo/src/libraries/base/include/configuration.h(135): warning: Member operator const T &() const (function) of class property_variable< T > is not documented.
+/repo/src/libraries/base/include/configuration.h(140): warning: Member operator==(const T &oVal) (function) of class property_variable< T > is not documented.
+/repo/src/libraries/base/include/configuration.h(145): warning: Member operator!=(const T &oVal) (function) of class property_variable< T > is not documented.

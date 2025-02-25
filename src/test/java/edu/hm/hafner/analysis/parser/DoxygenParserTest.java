@@ -14,7 +14,7 @@ import edu.hm.hafner.analysis.registry.AbstractParserTest;
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
- * Tests the class {@link Gcc4CompilerParser} using input files of Doxygen.
+ * Tests the class {@link DoxygenParser} using input files of Doxygen.
  */
 class DoxygenParserTest extends AbstractParserTest {
     private static final String NO_FILE_NAME = "<unknown>";
@@ -147,6 +147,51 @@ class DoxygenParserTest extends AbstractParserTest {
                     .hasFileName("P:/Integration/DjRip/djrip/workspace/libraries/xml/XmlMemoryEntityResolver.h")
                     .hasSeverity(Severity.WARNING_NORMAL);
         }
+    }
+
+    /**
+     * Add support for Doxygen Warnings.
+     *
+     * @see <a href="https://issues.jenkins.io/browse/JENKINS-61855">Issue 61855</a>
+     */
+    @Test
+    void issue61855() {
+        var warnings = parse("issue61855.txt");
+
+        assertThat(warnings).hasSize(7);
+
+        int lineNumber = 115;
+
+        for (Issue issue : warnings) {
+            assertThat(issue.getFileName()).startsWith("/repo/src/libraries/base/include/configuration.h");
+            assertThat(issue.getColumnStart()).isEqualTo(0);
+            assertThat(issue.getColumnEnd()).isEqualTo(0);
+            assertThat(issue.getSeverity()).isEqualTo(Severity.WARNING_NORMAL);
+            assertThat(issue.getLineStart()).isEqualTo(lineNumber);
+            assertThat(issue.getLineEnd()).isEqualTo(lineNumber);
+            lineNumber += 5;
+        }
+
+        assertThat(warnings.get(0))
+                .hasMessage("Member Notify(const IProperty &oProperty) override (function) of class property_variable< T > is not documented.");
+
+        assertThat(warnings.get(1))
+                .hasMessage("Member GetType(IString &&strType) const override (function) of class property_variable< T > is not documented.");
+
+        assertThat(warnings.get(2))
+                .hasMessage("Member GetValue() const override (function) of class property_variable< T > is not documented.");
+
+        assertThat(warnings.get(3))
+                .hasMessage("Member operator*() const (function) of class property_variable< T > is not documented.");
+
+        assertThat(warnings.get(4))
+                .hasMessage("Member operator const T &() const (function) of class property_variable< T > is not documented.");
+
+        assertThat(warnings.get(5))
+                .hasMessage("Member operator==(const T &oVal) (function) of class property_variable< T > is not documented.");
+
+        assertThat(warnings.get(6))
+                .hasMessage("Member operator!=(const T &oVal) (function) of class property_variable< T > is not documented.");
     }
 
     @SuppressWarnings("methodlength")
