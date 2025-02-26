@@ -41,21 +41,22 @@ jobs:
         uses: jwalton/gh-find-current-pr@v1
         id: pr
       - name: Run Quality Monitor
-        uses: uhafner/quality-monitor@v1
+        uses: uhafner/quality-monitor@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           pr-number: ${{ steps.pr.outputs.number }}
+          show-headers: true
           config: >
             {
               "tests": {
+                "name": "Tests",
                 "tools": [
                   {
-                    "id": "test",
-                    "name": "Tests",
+                    "id": "junit",
+                    "name": "JUnit Tests",
                     "pattern": "**/target/*-reports/TEST*.xml"
                   }
-                ],
-                "name": "Tests"
+                ]
               },
               "analysis": [
                 {
@@ -64,7 +65,7 @@ jobs:
                   "tools": [
                     {
                       "id": "checkstyle",
-                    "pattern": "**/target/checkstyle-*/checkstyle-result.xml"
+                      "pattern": "**/target/**checkstyle-result.xml"
                     },
                     {
                       "id": "pmd",
@@ -85,6 +86,18 @@ jobs:
                     {
                       "id": "error-prone",
                       "pattern": "**/maven.log"
+                    }
+                  ]
+                },
+                {
+                  "name": "API Problems",
+                  "id": "api",
+                  "icon": "no_entry_sign",
+                  "tools": [
+                    {
+                      "id": "revapi",
+                      "sourcePath": "src/main/java",
+                      "pattern": "**/target/revapi-result.json"
                     }
                   ]
                 },
@@ -123,7 +136,7 @@ jobs:
               ],
               "metrics": 
                 {
-                  "name": "Toplevel Metrics",
+                  "name": "Software Metrics",
                   "tools": [
                     {
                       "name": "Cyclomatic Complexity",
@@ -138,6 +151,12 @@ jobs:
                       "metric": "COGNITIVE_COMPLEXITY"
                     },
                     {
+                      "name": "N-Path Complexity",
+                      "id": "metrics",
+                      "pattern": "**/metrics/pmd.xml",
+                      "metric": "NPATH_COMPLEXITY"
+                    },
+                    {
                       "name": "Lines of Code",
                       "id": "metrics",
                       "pattern": "**/metrics/pmd.xml",
@@ -150,46 +169,16 @@ jobs:
                       "metric": "NCSS"
                     },
                     {
-                      "name": "Access to foreign data",
-                      "id": "metrics",
-                      "pattern": "**/metrics/pmd.xml",
-                      "metric": "ACCESS_TO_FOREIGN_DATA"
-                    },
-                    {
                       "name": "Class cohesion",
                       "id": "metrics",
                       "pattern": "**/metrics/pmd.xml",
                       "metric": "COHESION"
                     },
                     {
-                      "name": "Fan out",
-                      "id": "metrics",
-                      "pattern": "**/metrics/pmd.xml",
-                      "metric": "FAN_OUT"
-                    },
-                    {
-                      "name": "Number of accessors",
-                      "id": "metrics",
-                      "pattern": "**/metrics/pmd.xml",
-                      "metric": "NUMBER_OF_ACCESSORS"
-                    },
-                    {
                       "name": "Weight of a class",
                       "id": "metrics",
                       "pattern": "**/metrics/pmd.xml",
                       "metric": "WEIGHT_OF_CLASS"
-                    },
-                    {
-                      "name": "Weighted method count",
-                      "id": "metrics",
-                      "pattern": "**/metrics/pmd.xml",
-                      "metric": "WEIGHED_METHOD_COUNT"
-                    },
-                    {
-                      "name": "N-Path Complexity",
-                      "id": "metrics",
-                      "pattern": "**/metrics/pmd.xml",
-                      "metric": "NPATH_COMPLEXITY"
                     }
                   ]
                 }
