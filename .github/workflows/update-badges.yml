@@ -32,16 +32,6 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           config: >
             {
-            "tests": {
-              "tools": [
-                {
-                  "id": "test",
-                  "name": "Tests",
-                  "pattern": "**/target/*-reports/TEST*.xml"
-                }
-              ],
-              "name": "Tests"
-            },
             "analysis": [
               {
                 "name": "Style",
@@ -49,13 +39,11 @@ jobs:
                 "tools": [
                   {
                     "id": "checkstyle",
-                    "name": "CheckStyle",
-                    "pattern": "**/target/checkstyle-result.xml"
+                    "pattern": "**/target/checkstyle-*/checkstyle-result.xml"
                   },
                   {
                     "id": "pmd",
-                    "name": "PMD",
-                    "pattern": "**/target/pmd.xml"
+                    "pattern": "**/target/pmd-*/pmd.xml"
                   }
                 ]
               },
@@ -66,9 +54,12 @@ jobs:
                 "tools": [
                   {
                     "id": "spotbugs",
-                    "name": "SpotBugs",
                     "sourcePath": "src/main/java",
                     "pattern": "**/target/spotbugsXml.xml"
+                    },
+                    {
+                      "id": "error-prone",
+                      "pattern": "**/maven.log"
                   }
                 ]
               }
@@ -79,14 +70,12 @@ jobs:
                 "tools": [
                   {
                     "id": "jacoco",
-                    "name": "Line Coverage",
                     "metric": "line",
                     "sourcePath": "src/main/java",
                     "pattern": "**/target/site/jacoco/jacoco.xml"
                   },
                   {
                     "id": "jacoco",
-                    "name": "Branch Coverage",
                     "metric": "branch",
                     "sourcePath": "src/main/java",
                     "pattern": "**/target/site/jacoco/jacoco.xml"
