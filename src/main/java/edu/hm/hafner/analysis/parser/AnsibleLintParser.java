@@ -7,6 +7,7 @@ import java.util.regex.Matcher;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
 
 /**
@@ -23,7 +24,7 @@ public class AnsibleLintParser extends LookaheadParser {
     @Serial
     private static final long serialVersionUID = 8481090596321427484L;
 
-    private static final String ANSIBLE_LINT_WARNING_PATTERN = "(?<file>.*)\\:(?<lineno>[0-9]*)\\:\\s*(\\[(?<cat>[a-zA-Z0-9\\-\\[\\]]+)\\]|(?<newcat>[^\\[][a-zA-Z0-9\\[\\]\\-]+)):?\\s(?<msg>.*)";
+    private static final String ANSIBLE_LINT_WARNING_PATTERN = "(?<file>.*)\\:(?<lineno>[0-9]*)\\:\\s*(\\[(?<cat>[a-zA-Z0-9\\-\\[\\]]+)\\]|(?<newcat>[^\\[][a-zA-Z0-9\\[\\]\\-]+)):?\\s(?<msg>.*?)(?<warn>\\s\\(warning\\))?$";
 
     /**
      * Creates a new instance of {@link AnsibleLintParser}.
@@ -56,6 +57,7 @@ public class AnsibleLintParser extends LookaheadParser {
                 .setLineStart(matcher.group("lineno"))
                 .setCategory(cat)
                 .setMessage(matcher.group("msg"))
+                .setSeverity(matcher.group("warn") != null ? Severity.WARNING_LOW : Severity.WARNING_NORMAL)
                 .buildOptional();
     }
 }
