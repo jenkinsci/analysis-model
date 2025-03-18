@@ -637,10 +637,10 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(9, "aspectj", "ajc.txt");
     }
 
-    /** Runs the AnsibleLint parser on an output file that contains 12 issues. */
+    /** Runs the AnsibleLint parser on an output file that contains 13 issues. */
     @Test
     void shouldFindAllAnsibleLintIssues() {
-        findIssuesOfTool(12, "ansiblelint", "ansibleLint.txt");
+        findIssuesOfTool(13, "ansiblelint", "ansibleLint.txt");
     }
 
     /**

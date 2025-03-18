@@ -20,7 +20,7 @@ class AnsibleLintParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-        assertThat(report).hasSize(12);
+        assertThat(report).hasSize(13);
 
         Iterator<Issue> iterator = report.iterator();
         softly.assertThat(iterator.next())
@@ -88,7 +88,7 @@ class AnsibleLintParserTest extends AbstractParserTest {
                 .hasFileName("/workspace/templates.yml");
 
         softly.assertThat(iterator.next())
-                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasSeverity(Severity.WARNING_LOW)
                 .hasCategory("no-changed-when")
                 .hasLineStart(41)
                 .hasLineEnd(41)
@@ -100,7 +100,14 @@ class AnsibleLintParserTest extends AbstractParserTest {
                 .hasCategory("fqcn[action]")
                 .hasLineStart(79)
                 .hasLineEnd(79)
-                .hasMessage("Use FQCN for module actions, such `<namespace>.<collection>.apache2_conf`. (warning)")
+                .hasMessage("Use FQCN for module actions, such `<namespace>.<collection>.apache2_conf`.")
+                .hasFileName("roles/apache2/tasks/main.yml");
+        softly.assertThat(iterator.next())
+                .hasSeverity(Severity.WARNING_LOW)
+                .hasCategory("fqcn[action]")
+                .hasLineStart(79)
+                .hasLineEnd(79)
+                .hasMessage("Use FQCN for module actions, such `<namespace>.<collection>.apache2_conf`.")
                 .hasFileName("roles/apache2/tasks/main.yml");
         softly.assertThat(iterator.next())
                 .hasSeverity(Severity.WARNING_NORMAL)
