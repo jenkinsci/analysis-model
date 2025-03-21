@@ -3,7 +3,8 @@ package edu.hm.hafner.analysis;
 /**
  * Contains the patterns for the MsBuildParser {@link edu.hm.hafner.analysis.parser.MsBuildParser MsBuildParser}.
  */
-public final class MsBuildPattern {
+@SuppressWarnings("PMD.DataClass")
+public class MsBuildPattern {
     /** Pattern for command line warnings in MSBuild output. */
     public static final String COMMAND_LINE_WARNING_PATTERN =
             "(?:^(?:.*)Command line warning ([A-Za-z0-9]+):\\s*(.*)\\s*\\[(.*)\\])"; // Group 1 - 3
