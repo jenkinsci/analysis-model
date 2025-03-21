@@ -840,6 +840,84 @@ class MsBuildParserTest extends AbstractParserTest {
     }
 
     /**
+     * Parse MSBuild-compatible diagnostic with (line,col,line,col).
+     *
+     * @see <a href="https://issues.jenkins.io/browse/JENKINS-67291">Issue 67291</a>
+     */
+    @Test
+    void issue67291() {
+        var report = parse("issue67291.txt");
+
+        assertThat(report).hasSize(6);
+
+        assertThat(report.get(0))
+                .hasFileName("C:/Projects/EndLocation/Program.cs")
+                .hasCategory("CS1584")
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasLineStart(5)
+                .hasLineEnd(5)
+                .hasColumnStart(0)
+                .hasColumnEnd(0)
+                .hasDescription("")
+                .hasPackageName("-");
+
+        assertThat(report.get(1))
+                .hasFileName("C:/Projects/EndLocation/Program.cs")
+                .hasCategory("CS1585")
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasLineStart(5)
+                .hasLineEnd(5)
+                .hasColumnStart(24)
+                .hasColumnEnd(24)
+                .hasDescription("")
+                .hasPackageName("-");
+
+        assertThat(report.get(2))
+                .hasFileName("C:/Projects/EndLocation/Program.cs")
+                .hasCategory("CS1586")
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasLineStart(5)
+                .hasLineEnd(5)
+                .hasColumnStart(0)
+                .hasColumnEnd(0)
+                .hasDescription("")
+                .hasPackageName("-");
+
+        assertThat(report.get(3))
+                .hasFileName("C:/Projects/EndLocation/Program.cs")
+                .hasCategory("CS1587")
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasLineStart(5)
+                .hasLineEnd(5)
+                .hasColumnStart(24)
+                .hasColumnEnd(26)
+                .hasDescription("")
+                .hasPackageName("-");
+
+        assertThat(report.get(4))
+                .hasFileName("C:/Projects/EndLocation/Program.cs")
+                .hasCategory("CS1588")
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasLineStart(5)
+                .hasLineEnd(5)
+                .hasColumnStart(24)
+                .hasColumnEnd(24)
+                .hasDescription("")
+                .hasPackageName("-");
+
+        assertThat(report.get(5))
+                .hasFileName("C:/Projects/EndLocation/Program.cs")
+                .hasCategory("CS1589")
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasLineStart(5)
+                .hasLineEnd(5)
+                .hasColumnStart(24)
+                .hasColumnEnd(26)
+                .hasDescription("")
+                .hasPackageName("-");
+    }
+
+    /**
      * Do not ignore long lines while parsing MSBuild warning.
      *
      * @see <a href="https://issues.jenkins.io/browse/JENKINS-68744">Issue 68744</a>

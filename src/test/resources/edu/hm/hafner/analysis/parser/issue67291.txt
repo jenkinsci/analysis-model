@@ -1,0 +1,6 @@
+C:\Projects\EndLocation\Program.cs(5): warning CS1584: XML comment has syntactically incorrect cref attribute 'No such thing' [C:\Projects\EndLocation\EndLocation.csproj]
+C:\Projects\EndLocation\Program.cs(5,24): warning CS1585: XML comment has syntactically incorrect cref attribute 'No such thing' [C:\Projects\EndLocation\EndLocation.csproj]
+C:\Projects\EndLocation\Program.cs(5-5): warning CS1586: XML comment has syntactically incorrect cref attribute 'No such thing' [C:\Projects\EndLocation\EndLocation.csproj]
+C:\Projects\EndLocation\Program.cs(5,24-26): warning CS1587: XML comment has syntactically incorrect cref attribute 'No such thing' [C:\Projects\EndLocation\EndLocation.csproj]
+C:\Projects\EndLocation\Program.cs(5-5,24): warning CS1588: XML comment has syntactically incorrect cref attribute 'No such thing' [C:\Projects\EndLocation\EndLocation.csproj]
+C:\Projects\EndLocation\Program.cs(5,24,5,26): warning CS1589: XML comment has syntactically incorrect cref attribute 'No such thing' [C:\Projects\EndLocation\EndLocation.csproj]
