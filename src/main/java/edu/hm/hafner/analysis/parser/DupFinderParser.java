@@ -1,11 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
 import org.apache.commons.digester3.Digester;
 
 import edu.hm.hafner.analysis.DuplicationGroup;
@@ -13,6 +7,12 @@ import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+import java.io.Serial;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * A parser for Reshaper Dupfinder XML files.
@@ -178,7 +178,6 @@ public class DupFinderParser extends AbstractDryParser<DupFinderParser.Duplicate
          *
          * @param fileName the value to set
          */
-        @SuppressFBWarnings("NM")
         public void setFileName(@CheckForNull final String fileName) {
             this.fileName = fileName;
         }

@@ -1,5 +1,14 @@
 package edu.hm.hafner.analysis;
 
+import org.apache.commons.lang3.StringUtils;
+import org.w3c.dom.Document;
+import org.xml.sax.helpers.DefaultHandler;
+
+import com.google.errorprone.annotations.MustBeClosed;
+
+import edu.hm.hafner.util.SecureXmlParserFactory;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
@@ -9,15 +18,6 @@ import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import org.apache.commons.lang3.StringUtils;
-import org.w3c.dom.Document;
-import org.xml.sax.helpers.DefaultHandler;
-
-import com.google.errorprone.annotations.MustBeClosed;
-
-import edu.hm.hafner.util.SecureXmlParserFactory;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Provides several useful helper methods to read the contents of a resource that is given by a {@link Reader}.
@@ -82,7 +82,6 @@ public abstract class ReaderFactory {
      */
     @MustBeClosed
     @SuppressWarnings({"MustBeClosedChecker", "PMD.CloseResource"})
-    @SuppressFBWarnings("OS_OPEN_STREAM")
     public Stream<String> readStream() {
         try {
             var reader = new BufferedReader(create());

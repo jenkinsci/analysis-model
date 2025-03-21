@@ -1,16 +1,14 @@
 package edu.hm.hafner.analysis;
 
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.util.Random;
-
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Level;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.Random;
 
 /**
  * JMH Benchmarking of the {@link FingerprintGenerator}.
@@ -86,7 +84,6 @@ public class FingerprintGeneratorBenchmark extends AbstractBenchmark {
             random = new Random();
         }
 
-        @SuppressFBWarnings("PREDICTABLE_RANDOM")
         private Report createMultipleIssues(final int number) {
             var report = new Report();
             try (var builder = new IssueBuilder()) {

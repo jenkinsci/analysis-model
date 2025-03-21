@@ -1,12 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
-import java.io.Serial;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
 import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.SAXException;
 
@@ -18,7 +11,13 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.SecureDigester;
 import edu.hm.hafner.analysis.Severity;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+import java.io.IOException;
+import java.io.Serial;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * A parser for PMD XML files.
@@ -333,12 +332,10 @@ public class PmdParser extends IssueParser {
         private String description;
 
         @CheckForNull
-        @SuppressFBWarnings("NM")
         public String getFilename() {
             return filename;
         }
 
-        @SuppressFBWarnings("NM")
         public void setFilename(@CheckForNull final String filename) {
             this.filename = filename;
         }

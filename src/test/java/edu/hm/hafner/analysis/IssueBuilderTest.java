@@ -1,7 +1,5 @@
 package edu.hm.hafner.analysis;
 
-import java.util.UUID;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -10,7 +8,8 @@ import org.junit.jupiter.params.provider.ValueSource;
 import edu.hm.hafner.util.LineRange;
 import edu.hm.hafner.util.LineRangeList;
 import edu.hm.hafner.util.TreeString;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+import java.util.UUID;
 
 import static edu.hm.hafner.analysis.IssueTest.*;
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
@@ -20,7 +19,6 @@ import static edu.hm.hafner.analysis.assertions.Assertions.*;
  *
  * @author Marcel Binder
  */
-@SuppressFBWarnings("DMI")
 class IssueBuilderTest {
     private static final String FILE_NAME = "C:/users/tester/file-name";
     static final String FILE_NAME_WITH_BACKSLASHES = "C:\\users\\tester/file-name";
@@ -33,7 +31,6 @@ class IssueBuilderTest {
             FINGERPRINT, ADDITIONAL_PROPERTIES);
     private static final String RELATIVE_FILE = "relative.txt";
 
-    @SuppressFBWarnings("DMI")
     @Test
     void shouldCreateAbsolutePath() {
         try (var builder = new IssueBuilder()) {
@@ -170,7 +167,6 @@ class IssueBuilderTest {
     }
 
     @Test
-    @SuppressFBWarnings("DMI")
     void shouldCreateIssueWithAllPropertiesInitialized() {
         try (var builder = new IssueBuilder()) {
             var issue = builder

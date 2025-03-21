@@ -1,13 +1,5 @@
 package edu.hm.hafner.analysis;
 
-import java.io.Serial;
-import java.io.Serializable;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Locale;
-import java.util.UUID;
-import java.util.function.Function;
-import java.util.function.Predicate;
-
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -19,6 +11,14 @@ import edu.hm.hafner.util.PathUtil;
 import edu.hm.hafner.util.TreeString;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+import java.io.Serial;
+import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Locale;
+import java.util.UUID;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 /**
  * An issue reported by a static analysis tool. Use the provided {@link IssueBuilder builder} to create new instances.
@@ -547,7 +547,6 @@ public class Issue implements Serializable {
      *         the file name to set
      */
     @SuppressWarnings("checkstyle:HiddenField")
-    @SuppressFBWarnings("NM")
     void setFileName(final String pathName, final TreeString fileName) {
         this.pathName = normalizeFileName(pathName);
         this.fileName = fileName;

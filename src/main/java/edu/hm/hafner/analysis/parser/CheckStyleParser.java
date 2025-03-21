@@ -1,13 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
-import java.io.Serial;
-import java.io.StringWriter;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.TransformerException;
@@ -30,6 +22,15 @@ import edu.hm.hafner.analysis.SecureDigester;
 import edu.hm.hafner.util.SecureXmlParserFactory;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+import java.io.IOException;
+import java.io.Serial;
+import java.io.StringWriter;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * A parser for Checkstyle XML files.
@@ -433,7 +434,6 @@ public class CheckStyleParser extends IssueParser {
          * @throws TransformerException
          *         in case of an error
          */
-        @SuppressFBWarnings("SECURITY")
         private String extractNodeContent(final Element subsection) throws TransformerException {
             var content = new StringWriter();
 

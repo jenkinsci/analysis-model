@@ -1,5 +1,12 @@
 package edu.hm.hafner.analysis;
 
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+
+import edu.hm.hafner.util.PathUtil;
+
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -9,14 +16,6 @@ import java.nio.file.Path;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
-
-import edu.hm.hafner.util.PathUtil;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 import static edu.hm.hafner.analysis.IssueTest.*;
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
@@ -25,7 +24,6 @@ import static edu.hm.hafner.analysis.assertions.Assertions.*;
  *
  * @author Ullrich Hafner
  */
-@SuppressFBWarnings("DMI")
 class FileNameResolverTest {
     private static final URI RESOURCE_FOLDER = getResourceFolder();
     private static final Path RESOURCE_FOLDER_PATH = Path.of(RESOURCE_FOLDER);

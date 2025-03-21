@@ -1,13 +1,12 @@
 package edu.hm.hafner.analysis;
 
-import java.nio.charset.StandardCharsets;
-import java.nio.file.NoSuchFileException;
-import java.util.Iterator;
-
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.util.ResourceTest;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+import java.nio.charset.StandardCharsets;
+import java.nio.file.NoSuchFileException;
+import java.util.Iterator;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -16,7 +15,6 @@ import static org.assertj.core.api.Assertions.*;
  *
  * @author Ullrich Hafner
  */
-@SuppressFBWarnings("DMI")
 class FullTextFingerprintTest extends ResourceTest {
     /**
      * Verifies that the context of a warning starts 3 lines above the affected line and ends 3 lines below the affected
