@@ -1,9 +1,5 @@
 package edu.hm.hafner.analysis;
 
-import java.io.Serializable;
-import java.util.Optional;
-import java.util.UUID;
-
 import org.apache.commons.lang3.StringUtils;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -13,7 +9,10 @@ import edu.hm.hafner.util.PathUtil;
 import edu.hm.hafner.util.TreeString;
 import edu.hm.hafner.util.TreeStringBuilder;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+import java.io.Serializable;
+import java.util.Optional;
+import java.util.UUID;
 
 import static edu.hm.hafner.analysis.util.IntegerParser.*;
 
@@ -562,7 +561,6 @@ public class IssueBuilder implements AutoCloseable {
      * Sets lineStart and lineEnd if they are not set, and then removes the first element of
      * lineRanges if its start and end are the same as lineStart and lineEnd.
      */
-    @SuppressFBWarnings(value = "NP_NULL_ON_SOME_PATH", justification = "False positive, `lineRanges != null` avoids a NullPointerException")
     private void cleanupLineRanges() {
         if (lineRanges != null && !lineRanges.isEmpty()) {
             var firstRange = lineRanges.get(0);

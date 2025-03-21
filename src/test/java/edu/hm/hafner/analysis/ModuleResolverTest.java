@@ -2,8 +2,6 @@ package edu.hm.hafner.analysis;
 
 import org.junit.jupiter.api.Test;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -14,7 +12,6 @@ import static org.mockito.Mockito.*;
  */
 class ModuleResolverTest {
     @Test
-    @SuppressFBWarnings("DMI")
     void shouldAssignModuleName() {
         try (var builder = new IssueBuilder()) {
             var report = new Report();

@@ -1,5 +1,21 @@
 package edu.hm.hafner.analysis; // NOPMD
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
+
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.FormatMethod;
+
+import edu.hm.hafner.util.Ensure;
+import edu.hm.hafner.util.FilteredLog;
+import edu.hm.hafner.util.Generated;
+import edu.hm.hafner.util.LineRangeList;
+import edu.hm.hafner.util.PathUtil;
+import edu.hm.hafner.util.TreeStringBuilder;
+import edu.hm.hafner.util.VisibleForTesting;
+import edu.umd.cs.findbugs.annotations.NonNull;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -25,22 +41,6 @@ import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.exception.ExceptionUtils;
-
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import com.google.errorprone.annotations.FormatMethod;
-
-import edu.hm.hafner.util.Ensure;
-import edu.hm.hafner.util.FilteredLog;
-import edu.hm.hafner.util.Generated;
-import edu.hm.hafner.util.LineRangeList;
-import edu.hm.hafner.util.PathUtil;
-import edu.hm.hafner.util.TreeStringBuilder;
-import edu.hm.hafner.util.VisibleForTesting;
-import edu.umd.cs.findbugs.annotations.NonNull;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * A report contains a set of unique {@link Issue issues}: it contains no duplicate elements, i.e., it models the
@@ -1271,8 +1271,6 @@ public class Report implements Iterable<Issue>, Serializable {
     }
 
     @SuppressWarnings("unchecked")
-    @SuppressFBWarnings(value = "MC_OVERRIDABLE_METHOD_CALL_IN_READ_OBJECT",
-            justification = "False positive, the overridden method is in already initialized objects")
     @Serial
     private void readObject(final ObjectInputStream input) throws IOException, ClassNotFoundException {
         elements = new LinkedHashSet<>();

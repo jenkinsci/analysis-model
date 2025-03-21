@@ -1,5 +1,13 @@
 package edu.hm.hafner.analysis;
 
+import org.apache.commons.lang3.StringUtils;
+
+import com.google.errorprone.annotations.Immutable;
+
+import edu.hm.hafner.util.Ensure;
+import edu.hm.hafner.util.Generated;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -9,15 +17,6 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-
-import org.apache.commons.lang3.StringUtils;
-
-import com.google.errorprone.annotations.Immutable;
-
-import edu.hm.hafner.util.Ensure;
-import edu.hm.hafner.util.Generated;
-import edu.umd.cs.findbugs.annotations.CheckForNull;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Severity of an issue. The predefined set of severities consists of an error and three warnings with priorities high,
@@ -70,7 +69,7 @@ public class Severity implements Serializable {
     }
 
     /**
-     * Converts a String severity to one of the predefined severities. If the provided String does not match,
+     * Converts String severity to one of the predefined severities. If the provided String does not match,
      * then the default severity will be returned.
      *
      * @param severity
@@ -145,7 +144,6 @@ public class Severity implements Serializable {
      *
      * @return all predefined severities
      */
-    @SuppressFBWarnings(value = "MS_EXPOSE_REP", justification = "False positive: https://github.com/spotbugs/spotbugs/issues/1747")
     public static Set<Severity> getPredefinedValues() {
         return ALL_SEVERITIES;
     }

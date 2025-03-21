@@ -1,18 +1,17 @@
 package edu.hm.hafner.analysis;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Path;
-import java.util.List;
-
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.ModuleDetectorRunner.FileSystemFacade;
 import edu.hm.hafner.util.PathUtil;
 import edu.hm.hafner.util.ResourceTest;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Path;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
@@ -21,7 +20,6 @@ import static org.mockito.Mockito.*;
 /**
  * Tests the class {@link ModuleDetectorRunner}.
  */
-@SuppressFBWarnings("DMI")
 class ModuleDetectorTest extends ResourceTest {
     private static final String MANIFEST = "MANIFEST.MF";
     private static final Path ROOT = Path.of(File.pathSeparatorChar == ';' ? "C:\\Windows" : "/tmp");

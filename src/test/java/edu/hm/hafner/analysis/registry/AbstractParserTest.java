@@ -1,17 +1,5 @@
 package edu.hm.hafner.analysis.registry;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.Reader;
-import java.io.Serializable;
-import java.io.StringReader;
-import java.nio.charset.StandardCharsets;
-import java.util.Collection;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.FileReaderFactory;
@@ -23,7 +11,18 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.util.ResourceTest;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Reader;
+import java.io.Serializable;
+import java.io.StringReader;
+import java.nio.charset.StandardCharsets;
+import java.util.Collection;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 import static org.assertj.core.api.Assumptions.*;
@@ -243,7 +242,6 @@ public abstract class AbstractParserTest extends ResourceTest {
         }
 
         @Override
-        @SuppressFBWarnings("NM")
         public String getFileName() {
             return "String";
         }

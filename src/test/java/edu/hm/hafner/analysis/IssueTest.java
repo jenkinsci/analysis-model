@@ -1,9 +1,5 @@
 package edu.hm.hafner.analysis;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.UUID;
-
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
@@ -12,8 +8,10 @@ import edu.hm.hafner.util.LineRangeList;
 import edu.hm.hafner.util.SerializableTest;
 import edu.hm.hafner.util.TreeString;
 import edu.hm.hafner.util.TreeStringBuilder;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.UUID;
 import nl.jqno.equalsverifier.EqualsVerifier;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
@@ -23,7 +21,6 @@ import static edu.hm.hafner.analysis.assertions.Assertions.*;
  *
  * @author Marcel Binder
  */
-@SuppressFBWarnings("DMI")
 class IssueTest extends SerializableTest<Issue> {
     private static final String SERIALIZATION_NAME = "issue.ser";
     private static final TreeStringBuilder TREE_STRING_BUILDER = new TreeStringBuilder();

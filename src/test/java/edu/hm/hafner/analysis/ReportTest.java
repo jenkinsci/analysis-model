@@ -1,17 +1,5 @@
 package edu.hm.hafner.analysis;
 
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Set;
-import java.util.function.BiFunction;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
-
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.slf4j.bridge.SLF4JBridgeHandler;
@@ -23,8 +11,18 @@ import edu.hm.hafner.util.LineRange;
 import edu.hm.hafner.util.LineRangeList;
 import edu.hm.hafner.util.SerializableTest;
 import edu.hm.hafner.util.TreeString;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Set;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import nl.jqno.equalsverifier.EqualsVerifier;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
@@ -220,7 +218,6 @@ class ReportTest extends SerializableTest<Report> {
         }
     }
 
-    @SuppressFBWarnings("DMI")
     private void verifyFolder(final Report report) {
         try (var builder = new IssueBuilder()) {
             var additional = builder.setFileName("/tmp/file.txt").build();
@@ -670,7 +667,6 @@ class ReportTest extends SerializableTest<Report> {
     }
 
     @Test
-    @SuppressFBWarnings("RV")
     void shouldThrowExceptionOnWrongIndex() {
         var report = new Report();
         report.addAll(asList(HIGH, NORMAL_1, NORMAL_2));
