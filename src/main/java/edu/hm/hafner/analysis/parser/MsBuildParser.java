@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import edu.hm.hafner.analysis.MsBuildPattern;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
@@ -24,18 +25,16 @@ public class MsBuildParser extends LookaheadParser {
     private static final long serialVersionUID = -2141974437420906595L;
 
     private static final String MS_BUILD_WARNING_PATTERN
-            = "(?:^(?:.*)Command line warning ([A-Za-z0-9]+):\\s*(.*)\\s*\\[(.*)\\])"
+            = MsBuildPattern.COMMAND_LINE_WARNING_PATTERN
             + "|"
             + ANT_TASK + "(?:"
-            + "(?:\\s*(?:\\d+|\\d+:\\d+)>)?(?:(?:(?:(.*?)\\((\\d*)(?:,(\\d+))?[a-zA-Z]*?\\)|.*LINK)"
-            + "\\s*:|"
-            + "(.*):)\\s*([A-z-_]*\\s(?:[Nn]ote|[Ii]nfo|[Ww]arning|(?:fatal\\s*)?[Ee]rror))[^A-Za-z0-9]\\s*"
-            + ":?"
-            + "\\s*([A-Za-z0-9\\-_]+)?"
-            + "\\s*:\\s"
-            + "(?:\\s*([A-Za-z0-9.]+)\\s*:)?"
-            + "\\s*(.*?)"
-            + "(?: \\[([^\\]]*)[/\\\\][^\\]\\\\]+\\])?"
+            + MsBuildPattern.OPTIONAL_LINE_NUMBER_PATTERN
+            + MsBuildPattern.FILE_NAME_PATTERN
+            + MsBuildPattern.SEVERITY_PATTERN
+            + MsBuildPattern.CATEGORY_PATTERN
+            + MsBuildPattern.TYPE_PATTERN
+            + MsBuildPattern.MESSAGE_PATTERN
+            + MsBuildPattern.PROJECT_DIR_PATTERN
             + "))$";
 
     private static final Pattern IGNORED_TOOLS_PATTERN = Pattern.compile("(?!.exe)(\\.[^.]+)$");
@@ -61,7 +60,7 @@ public class MsBuildParser extends LookaheadParser {
 
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
-            final IssueBuilder builder) {
+              final IssueBuilder builder) {
         var fileName = determineFileName(matcher);
 
         var fileExtensionMatcher = IGNORED_TOOLS_PATTERN.matcher(fileName);
@@ -78,25 +77,33 @@ public class MsBuildParser extends LookaheadParser {
                     .setSeverity(Severity.WARNING_NORMAL)
                     .buildOptional();
         }
-        if (StringUtils.isNotEmpty(matcher.group(10))) {
-            return builder.setLineStart(matcher.group(5))
+        if (StringUtils.isNotEmpty(matcher.group(5))) {
+            builder.setLineStart(matcher.group(5))
                     .setColumnStart(matcher.group(6))
-                    .setCategory(matcher.group(9))
-                    .setType(matcher.group(10))
-                    .setMessage(matcher.group(11))
-                    .setSeverity(Severity.guessFromString(matcher.group(8)))
+                    .setLineEnd(matcher.group(7))
+                    .setColumnEnd(matcher.group(8));
+        }
+        if (StringUtils.isNotEmpty(matcher.group(9))) {
+            builder.setLineStart(matcher.group(9))
+                    .setColumnStart(matcher.group(11))
+                    .setLineEnd(matcher.group(10))
+                    .setColumnEnd(matcher.group(12));
+        }
+        if (StringUtils.isNotEmpty(matcher.group(16))) {
+            return builder.setCategory(matcher.group(15))
+                    .setType(matcher.group(16))
+                    .setMessage(matcher.group(17))
+                    .setSeverity(Severity.guessFromString(matcher.group(14)))
                     .buildOptional();
         }
 
-        var category = matcher.group(9);
+        var category = matcher.group(15);
         if (EXPECTED_CATEGORY.equals(category)) {
             return Optional.empty();
         }
-        return builder.setLineStart(matcher.group(5))
-                .setColumnStart(matcher.group(6))
-                .setCategory(category)
-                .setMessage(matcher.group(11))
-                .setSeverity(Severity.guessFromString(matcher.group(8)))
+        return builder.setCategory(category)
+                .setMessage(matcher.group(17))
+                .setSeverity(Severity.guessFromString(matcher.group(14)))
                 .buildOptional();
     }
 
@@ -114,26 +121,26 @@ public class MsBuildParser extends LookaheadParser {
         if (StringUtils.isNotBlank(matcher.group(3))) {
             fileName = matcher.group(3);
         }
-        else if (StringUtils.isNotBlank(matcher.group(7))) {
-            fileName = matcher.group(7);
+        else if (StringUtils.isNotBlank(matcher.group(13))) {
+            fileName = matcher.group(13);
         }
         else {
             fileName = matcher.group(4);
         }
         if (StringUtils.isBlank(fileName)) {
-            var linker = LINKER_CAUSE.matcher(matcher.group(11));
+            var linker = LINKER_CAUSE.matcher(matcher.group(17));
             if (linker.matches()) {
                 return linker.group(1);
             }
         }
         if (StringUtils.isBlank(fileName)) {
-            fileName = StringUtils.substringBetween(matcher.group(11), "'");
+            fileName = StringUtils.substringBetween(matcher.group(17), "'");
         }
         if (StringUtils.isBlank(fileName)) {
             fileName = "unknown.file";
         }
 
-        var projectDir = matcher.group(12);
+        var projectDir = matcher.group(18);
         if (canResolveRelativeFileName(fileName, projectDir)) {
             fileName = FilenameUtils.concat(projectDir, fileName);
         }
