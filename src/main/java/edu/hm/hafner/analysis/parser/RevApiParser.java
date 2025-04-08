@@ -1,12 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.text.MessageFormat;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -16,6 +9,13 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.RevApiInfoExtension;
 import edu.hm.hafner.analysis.Severity;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+import java.io.Serial;
+import java.text.MessageFormat;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  *  Parser for Revapi reports.
@@ -94,15 +94,12 @@ public class RevApiParser extends JsonIssueParser {
     }
 
     private Severity toSeverity(final String level) {
-        switch (level) {
-            case "BREAKING":
-                return Severity.WARNING_HIGH;
-            case "POTENTIALLY_BREAKING":
-                return Severity.WARNING_NORMAL;
+        return switch (level) {
+            case "BREAKING" -> Severity.WARNING_HIGH;
+            case "POTENTIALLY_BREAKING" -> Severity.WARNING_NORMAL;
             //case "EQUIVALENT" & "NON_BREAKING"
-            default:
-                return Severity.WARNING_LOW;
-        }
+            default -> Severity.WARNING_LOW;
+        };
     }
 
     @SuppressFBWarnings(value = "POTENTIAL_XML_INJECTION", justification = "Message is cleaned in UI")

@@ -1,7 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -9,6 +7,8 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
+
+import java.io.Serial;
 
 /**
  * A parser for hadolint json output.
@@ -60,17 +60,11 @@ public class HadoLintParser extends JsonIssueParser {
     }
 
     private Severity toSeverity(final String level) {
-        switch (level) {
-            case "style":
-                return Severity.WARNING_LOW;
-            case "info":
-                return Severity.WARNING_NORMAL;
-            case "warning":
-                return Severity.WARNING_HIGH;
-            case "error":
-                return Severity.ERROR;
-            default:
-                return Severity.WARNING_LOW;
-        }
+        return switch (level) {
+            case "info" -> Severity.WARNING_NORMAL;
+            case "warning" -> Severity.WARNING_HIGH;
+            case "error" -> Severity.ERROR;
+            default -> Severity.WARNING_LOW;
+        };
     }
 }
