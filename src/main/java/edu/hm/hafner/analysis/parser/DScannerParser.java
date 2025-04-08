@@ -1,13 +1,13 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.util.Optional;
-
 import org.json.JSONObject;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Severity;
+
+import java.io.Serial;
+import java.util.Optional;
 
 /**
  * Parser report in JSON format as exported by DScanner.
@@ -46,19 +46,10 @@ public class DScannerParser extends JsonParser {
     private Severity getSeverityByKey(final String key) {
         var parts = key.split("\\.", -1);
 
-        switch (parts[1]) {
-            case "confusing":
-            case "unnecessary":
-            case "style":
-            case "performance":
-                return Severity.WARNING_LOW;
-            case "suspicious":
-            case "deprecated":
-                return Severity.WARNING_NORMAL;
-            case "bugs":
-                return Severity.WARNING_HIGH;
-            default:
-                return Severity.WARNING_LOW;
-        }
+        return switch (parts[1]) {
+            case "suspicious", "deprecated" -> Severity.WARNING_NORMAL;
+            case "bugs" -> Severity.WARNING_HIGH;
+            default -> Severity.WARNING_LOW;
+        };
     }
 }

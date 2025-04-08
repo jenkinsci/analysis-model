@@ -1,9 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.util.Optional;
-import java.util.regex.Matcher;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
@@ -11,6 +7,10 @@ import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.util.IntegerParser;
 import edu.hm.hafner.util.LookaheadStream;
+
+import java.io.Serial;
+import java.util.Optional;
+import java.util.regex.Matcher;
 
 /**
  * A parser for messages from the NAG Fortran Compiler.
@@ -53,16 +53,10 @@ public class NagFortranParser extends LookaheadParser {
     }
 
     private Severity mapPriority(final String category) {
-        switch (category) {
-            case "Error":
-            case "Runtime Error":
-            case "Fatal Error":
-            case "Panic":
-                return Severity.WARNING_HIGH;
-            case "Info":
-                return Severity.WARNING_LOW;
-            default:
-                return Severity.WARNING_NORMAL;
-        }
+        return switch (category) {
+            case "Error", "Runtime Error", "Fatal Error", "Panic" -> Severity.WARNING_HIGH;
+            case "Info" -> Severity.WARNING_LOW;
+            default -> Severity.WARNING_NORMAL;
+        };
     }
 }

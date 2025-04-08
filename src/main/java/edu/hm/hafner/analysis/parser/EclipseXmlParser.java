@@ -1,7 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.util.Optional;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
@@ -16,6 +14,9 @@ import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.util.XmlElementUtil;
+
+import java.io.Serial;
+import java.util.Optional;
 
 /**
  * Parser for Eclipse Compiler output in XML format.
@@ -96,48 +97,28 @@ public class EclipseXmlParser extends IssueParser {
      */
     @SuppressWarnings("PMD.CyclomaticComplexity")
     private String decodeCategory(final String categoryId) {
-        switch (categoryId) {
-            case "0":
-                return UNSPECIFIED;
-            case "10":
-                return BUILDPATH;
-            case "20":
-                return SYNTAX;
-            case "30":
-                return IMPORT;
-            case "40":
-                return TYPE;
-            case "50":
-                return MEMBER;
-            case "60":
-                return INTERNAL;
-            case "70":
-                return Categories.JAVADOC;
-            case "80":
-                return CODE_STYLE;
-            case "90":
-                return POTENTIAL_PROGRAMMING_PROBLEM;
-            case "100":
-                return NAME_SHADOWING_CONFLICT;
-            case "110":
-                return Categories.DEPRECATION;
-            case "120":
-                return UNNECESSARY_CODE;
-            case "130":
-                return UNCHECKED_RAW;
-            case "140":
-                return NLS;
-            case "150":
-                return RESTRICTION;
-            case "160":
-                return MODULE;
-            case "170":
-                return COMPLIANCE;
-            case "180":
-                return PREVIEW_RELATED;
-            default:
-                return Categories.OTHER;
-        }
+        return switch (categoryId) {
+            case "0" -> UNSPECIFIED;
+            case "10" -> BUILDPATH;
+            case "20" -> SYNTAX;
+            case "30" -> IMPORT;
+            case "40" -> TYPE;
+            case "50" -> MEMBER;
+            case "60" -> INTERNAL;
+            case "70" -> Categories.JAVADOC;
+            case "80" -> CODE_STYLE;
+            case "90" -> POTENTIAL_PROGRAMMING_PROBLEM;
+            case "100" -> NAME_SHADOWING_CONFLICT;
+            case "110" -> Categories.DEPRECATION;
+            case "120" -> UNNECESSARY_CODE;
+            case "130" -> UNCHECKED_RAW;
+            case "140" -> NLS;
+            case "150" -> RESTRICTION;
+            case "160" -> MODULE;
+            case "170" -> COMPLIANCE;
+            case "180" -> PREVIEW_RELATED;
+            default -> Categories.OTHER;
+        };
     }
 
     private String extractMessage(final Element problem) {

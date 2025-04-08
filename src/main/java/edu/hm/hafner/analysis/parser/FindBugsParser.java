@@ -1,14 +1,5 @@
 package edu.hm.hafner.analysis.parser; // NOPMD
 
-import java.io.IOException;
-import java.io.Reader;
-import java.io.Serial;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang3.StringUtils;
 import org.dom4j.DocumentException;
 import org.xml.sax.SAXException;
@@ -29,6 +20,15 @@ import edu.umd.cs.findbugs.SortedBugCollection;
 import edu.umd.cs.findbugs.SourceLineAnnotation;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.ba.SourceFinder;
+
+import java.io.IOException;
+import java.io.Reader;
+import java.io.Serial;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static edu.hm.hafner.analysis.parser.FindBugsParser.PriorityProperty.*;
 
@@ -294,14 +294,11 @@ public class FindBugsParser extends IssueParser {
      * @return mapped priority enumeration
      */
     private Severity getPriorityByPriority(final BugInstance warning) {
-        switch (warning.getPriority()) {
-            case 1:
-                return Severity.WARNING_HIGH;
-            case 2:
-                return Severity.WARNING_NORMAL;
-            default:
-                return Severity.WARNING_LOW;
-        }
+        return switch (warning.getPriority()) {
+            case 1 -> Severity.WARNING_HIGH;
+            case 2 -> Severity.WARNING_NORMAL;
+            default -> Severity.WARNING_LOW;
+        };
     }
 
     /**
