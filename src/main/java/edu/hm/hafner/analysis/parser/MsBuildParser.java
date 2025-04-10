@@ -78,6 +78,7 @@ public class MsBuildParser extends LookaheadParser {
     private static final Pattern LINKER_CAUSE = Pattern.compile(".*imported by '([A-Za-z0-9\\-_.]+)'.*");
     private static final String EXPECTED_CATEGORY = "Expected";
     private static final String MSBUILD = "MSBUILD";
+    private static final Pattern HEADER_COMPILE_MESSAGE = Pattern.compile("\\(compiling source file .*\\)");
 
     /**
      * Creates a new instance of {@link MsBuildParser}.
@@ -138,8 +139,9 @@ public class MsBuildParser extends LookaheadParser {
         if (EXPECTED_CATEGORY.equals(category)) {
             return Optional.empty();
         }
+        var message = HEADER_COMPILE_MESSAGE.matcher(matcher.group(17)).replaceAll(StringUtils.EMPTY);
         return builder.setCategory(category)
-                .setMessage(matcher.group(17))
+                .setMessage(message)
                 .setSeverity(Severity.guessFromString(matcher.group(14)))
                 .buildOptional();
     }
