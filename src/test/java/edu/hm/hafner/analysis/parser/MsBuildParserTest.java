@@ -1,7 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.util.Iterator;
-
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.Issue;
@@ -9,6 +7,8 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
+
+import java.util.Iterator;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
@@ -91,6 +91,20 @@ class MsBuildParserTest extends AbstractParserTest {
         }
     }
 
+    @Test
+    void shouldFix70855() {
+        var report = parseStringContent("""
+                195>c:\\jenkins\\workspace\\develop\\foo.h(76): warning C4100: 'Id': unreferenced formal parameter (compiling source file bar.cpp) [C:\\jenkins\\workspace\\develop\\project.vcxproj]
+                195>c:\\jenkins\\workspace\\develop\\foo.h(76): warning C4100: 'Id': unreferenced formal parameter (compiling source file foo.cpp) [C:\\jenkins\\workspace\\develop\\project.vcxproj]
+                """);
+
+        assertThat(report)
+                .as("Duplicate warnings from .h files should be skipped")
+                .hasSize(1)
+                .hasDuplicatesSize(1);
+        assertThat(report.get(0)).hasMessage("'Id': unreferenced formal parameter");
+    }
+
     /**
      * MSBuildParser should make relative paths absolute, based on the project name listed in the message.
      *
@@ -104,12 +118,10 @@ class MsBuildParserTest extends AbstractParserTest {
 
         try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
-                    .hasFileName(
-                            "C:/DVR/workspace/_Branch_build_updates-SDSYGOEWO53Z6ASKV6W4GSRWQU4DXCNNDGKGTWMQJ4O7LTMGYQVQ/live555/transport/include/TransportRTCP.h")
+                    .hasFileName("C:/DVR/workspace/_Branch_build_updates-SDSYGOEWO53Z6ASKV6W4GSRWQU4DXCNNDGKGTWMQJ4O7LTMGYQVQ/live555/transport/include/TransportRTCP.h")
                     .hasCategory("C4275")
                     .hasSeverity(Severity.WARNING_NORMAL)
-                    .hasMessage(
-                            "non dll-interface class 'transport::RtcpSpec' used as base for dll-interface class 'transport::TransportRTCPInstance' (compiling source file transport\\source\\TransportH265VideoRTPSource.cpp)")
+                    .hasMessage("non dll-interface class 'transport::RtcpSpec' used as base for dll-interface class 'transport::TransportRTCPInstance'")
                     .hasLineStart(39);
             softly.assertThat(warnings.get(1))
                     .hasFileName(
@@ -117,7 +129,7 @@ class MsBuildParserTest extends AbstractParserTest {
                     .hasCategory("C4251")
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasMessage(
-                            "'transport::TransportRTCPInstance::m_CNAME': class 'transport::SDESItem' needs to have dll-interface to be used by clients of class 'transport::TransportRTCPInstance' (compiling source file transport\\source\\TransportH265VideoRTPSource.cpp)")
+                            "'transport::TransportRTCPInstance::m_CNAME': class 'transport::SDESItem' needs to have dll-interface to be used by clients of class 'transport::TransportRTCPInstance'")
                     .hasLineStart(155);
         }
     }
@@ -791,12 +803,10 @@ class MsBuildParserTest extends AbstractParserTest {
             softly.assertThat(report).hasSize(2);
             assertThatReportHasSeverities(report, 0, 0, 2, 0);
             softly.assertThat(iterator.next())
-                    .hasFileName(
-                            "C:/Jenkins/workspace/windows-kicad-msvc-tom/build/release/cpu/amd64/label/msvc/src/include/footprint_info.h")
+                    .hasFileName("C:/Jenkins/workspace/windows-kicad-msvc-tom/build/release/cpu/amd64/label/msvc/src/include/footprint_info.h")
                     .hasCategory("C4251")
                     .hasSeverity(Severity.WARNING_NORMAL)
-                    .hasMessage(
-                            "'FOOTPRINT_ASYNC_LOADER::m_last_table': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'FOOTPRINT_ASYNC_LOADER' (compiling source file C:\\Jenkins\\workspace\\windows-kicad-msvc-tom\\build\\release\\cpu\\amd64\\label\\msvc\\src\\pcbnew\\footprint_libraries_utils.cpp)C:\\Jenkins\\workspace\\windows-kicad-msvc-tom\\build\\release\\cpu\\amd64\\label\\msvc\\src\\include\\geometry/seg.h(263): warning C4244: 'initializing': conversion from 'double' to 'SEG::ecoord', possible loss of data (compiling source file C:\\Jenkins\\workspace\\windows-kicad-msvc-tom\\build\\release\\cpu\\amd64\\label\\msvc\\src\\pcbnew\\hotkeys_footprint_editor.cpp)")
+                    .hasMessage("'FOOTPRINT_ASYNC_LOADER::m_last_table': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'FOOTPRINT_ASYNC_LOADER'")
                     .hasDescription("")
                     .hasPackageName("-")
                     .hasLineStart(320)
