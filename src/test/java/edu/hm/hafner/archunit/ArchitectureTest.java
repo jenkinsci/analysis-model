@@ -10,8 +10,6 @@ import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
 
-import edu.hm.hafner.util.ArchitectureRules;
-
 import static com.tngtech.archunit.core.domain.JavaAccess.Predicates.*;
 import static com.tngtech.archunit.core.domain.JavaClass.Predicates.*;
 import static com.tngtech.archunit.core.domain.properties.HasName.Predicates.*;
