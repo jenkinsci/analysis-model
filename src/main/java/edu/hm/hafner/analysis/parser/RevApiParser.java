@@ -9,7 +9,6 @@ import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.RevApiInfoExtension;
 import edu.hm.hafner.analysis.Severity;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import j2html.tags.DomContent;
 import java.io.Serial;
@@ -119,7 +118,6 @@ public class RevApiParser extends JsonIssueParser {
         };
     }
 
-    @SuppressFBWarnings(value = "POTENTIAL_XML_INJECTION", justification = "Message is cleaned in UI")
     private String getDescription(final JSONObject jsonIssue, final Map<String, String> attachments) {
         var html = table(
                 tr(td("Class:"), td(attachments.getOrDefault(FQN, UNDEFINED))),
