@@ -1,17 +1,17 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.io.UncheckedIOException;
-import java.util.Iterator;
-import java.util.regex.Pattern;
-import java.util.stream.Stream;
-
 import edu.hm.hafner.analysis.Categories;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
+
+import java.io.Serial;
+import java.io.UncheckedIOException;
+import java.util.Iterator;
+import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 /**
  * A parser for AspectJ (ajc) compiler warnings.
@@ -50,20 +50,20 @@ public class AjcParser extends IssueParser {
                 line = ESCAPE_CHARACTERS.matcher(line).replaceAll("");
 
                 switch (state) {
-                    case START:
+                    case START -> {
                         if (line.startsWith("[INFO] Showing AJC message detail for messages of types")) {
                             state = States.PARSING;
                         }
-                        break;
-                    case PARSING:
+                    }
+                    case PARSING -> {
                         if (line.startsWith(WARNING_TAG)) {
                             line = line.substring(WARNING_TAG.length());
                             state = States.WAITING_FOR_END;
 
                             fillMessageAndCategory(builder, line);
                         }
-                        break;
-                    case WAITING_FOR_END:
+                    }
+                    case WAITING_FOR_END -> {
                         if (line.startsWith("\t")) {
                             fillFileName(builder, line);
                         }
@@ -72,7 +72,7 @@ public class AjcParser extends IssueParser {
 
                             report.add(builder.buildAndClean());
                         }
-                        break;
+                    }
                 }
             }
 

@@ -65,6 +65,7 @@ public class RevApiParser extends JsonIssueParser {
         return builder.build();
     }
 
+    @SuppressWarnings("NullAway")
     private String getFileName(final Map<String, String> attachments) {
         return attachments.get(PACKAGE).replace(DOT, SLASH) + SLASH
                 + attachments.get(CLASS_SIMPLE_NAME)
@@ -73,7 +74,7 @@ public class RevApiParser extends JsonIssueParser {
 
     private RevApiInfoExtension convertToGroup(final JSONObject jsonIssue) {
         return new RevApiInfoExtension(
-                jsonIssue.getString("code"),
+                jsonIssue.getString(CODE),
                 extractChange(jsonIssue, "old"),
                 extractChange(jsonIssue, "new"),
                 extractSeverities(jsonIssue));
@@ -140,7 +141,7 @@ public class RevApiParser extends JsonIssueParser {
                 }
             }
         }
-        addValue("code", jsonIssue, attachments);
+        addValue(CODE, jsonIssue, attachments);
         addValue("old", jsonIssue, attachments);
         addValue("new", jsonIssue, attachments);
         addValue("name", jsonIssue, attachments);

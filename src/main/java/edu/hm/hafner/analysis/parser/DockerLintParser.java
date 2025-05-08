@@ -1,7 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -9,6 +7,8 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
+
+import java.io.Serial;
 
 /**
  * A parser for dockerlint json output.
@@ -80,13 +80,10 @@ public class DockerLintParser extends JsonIssueParser {
     }
 
     private Severity toSeverity(final String level) {
-        switch (level) {
-            case "warn":
-                return Severity.WARNING_NORMAL;
-            case "error":
-                return Severity.WARNING_HIGH;
-            default:
-                return Severity.WARNING_LOW;
-        }
+        return switch (level) {
+            case "warn" -> Severity.WARNING_NORMAL;
+            case "error" -> Severity.WARNING_HIGH;
+            default -> Severity.WARNING_LOW;
+        };
     }
 }

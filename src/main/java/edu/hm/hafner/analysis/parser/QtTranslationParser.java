@@ -1,14 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.xml.sax.Attributes;
 import org.xml.sax.Locator;
-import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import edu.hm.hafner.analysis.IssueBuilder;
@@ -18,6 +11,12 @@ import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+import java.io.Serial;
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Parser for translation files of Qt.
@@ -119,13 +118,9 @@ public class QtTranslationParser extends IssueParser {
             elementTypeStack.push(key);
 
             switch (key) {
-                case CONTEXT_NAME:
-                    throwParsingExceptionBecauseOfDuplicatedOccurrence(!contextName.isEmpty(), key);
-                    break;
-                case SOURCE:
-                    throwParsingExceptionBecauseOfDuplicatedOccurrence(!sourceValue.isEmpty(), key);
-                    break;
-                case TRANSLATION:
+                case CONTEXT_NAME -> throwParsingExceptionBecauseOfDuplicatedOccurrence(!contextName.isEmpty(), key);
+                case SOURCE -> throwParsingExceptionBecauseOfDuplicatedOccurrence(!sourceValue.isEmpty(), key);
+                case TRANSLATION -> {
                     throwParsingExceptionBecauseOfDuplicatedOccurrence(translationTagFound, key);
                     translationTagFound = true;
 
@@ -133,14 +128,14 @@ public class QtTranslationParser extends IssueParser {
                     if (translationType != null) {
                         applyTranslationType();
                     }
-                    break;
-                case MESSAGE:
+                }
+                case MESSAGE -> {
                     builder.setLineStart(documentLocator.getLineNumber());
                     builder.setColumnStart(lastColumnNumber);
 
                     messageIsNumerus = MESSAGE_NUMERUS_ENABLED_VALUE.equals(atts.getValue(MESSAGE_NUMERUS_ATTRIBUTE));
-                    break;
-                case NUMERUSFORM:
+                }
+                case NUMERUSFORM -> {
                     if (!messageIsNumerus) {
                         throw new ParsingException(
                                 "Element type \"%s\" is allowed only if the attribute \"%s\" within the parent element \"%s\" is set to \"%s\" (line %d).",
@@ -150,9 +145,10 @@ public class QtTranslationParser extends IssueParser {
                                 MESSAGE_NUMERUS_ENABLED_VALUE,
                                 documentLocator.getLineNumber());
                     }
-                    break;
-                default:
-                    break;
+                }
+                default -> {
+                    // ignore the element
+                }
             }
 
             lastColumnNumber = documentLocator.getColumnNumber();
@@ -262,28 +258,26 @@ public class QtTranslationParser extends IssueParser {
 
         private void applyTranslationType() {
             switch (translationType) {
-                case TRANSLATION_TYPE_OBSOLETE:
+                case TRANSLATION_TYPE_OBSOLETE -> {
                     builder.setSeverity(Severity.WARNING_NORMAL);
                     builder.setMessage(TRANSLATION_TYPE_OBSOLETE_MESSAGE);
-                    break;
-                case TRANSLATION_TYPE_UNFINISHED:
+                }
+                case TRANSLATION_TYPE_UNFINISHED -> {
                     builder.setSeverity(Severity.WARNING_LOW);
                     builder.setMessage(TRANSLATION_TYPE_UNFINISHED_MESSAGE);
-                    break;
-                case TRANSLATION_TYPE_VANISHED:
+                }
+                case TRANSLATION_TYPE_VANISHED -> {
                     builder.setSeverity(Severity.WARNING_NORMAL);
                     builder.setMessage(TRANSLATION_TYPE_VANISHED_MESSAGE);
-                    break;
-                default:
-                    throw new ParsingException("Unknown translation state \"%s\" (line %d).",
-                            translationType,
-                            documentLocator.getLineNumber());
+                }
+                default -> throw new ParsingException("Unknown translation state \"%s\" (line %d).",
+                        translationType, documentLocator.getLineNumber());
             }
             builder.setCategory(translationType);
         }
 
         @Override
-        public void endDocument() throws SAXException {
+        public void endDocument() {
             builder.close();
         }
     }

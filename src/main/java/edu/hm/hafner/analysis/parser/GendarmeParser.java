@@ -1,13 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Pattern;
-
 import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Element;
 
@@ -19,6 +11,14 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.util.XmlElementUtil;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
+
+import java.io.Serial;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Pattern;
 
 import static edu.hm.hafner.analysis.util.IntegerParser.*;
 
@@ -110,17 +110,12 @@ public class GendarmeParser extends IssueParser {
 
             var typeString = ruleElement.getAttribute(TYPE);
             switch (typeString) {
-                case TYPE:
-                    rule.setType(GendarmeRuleType.TYPE);
-                    break;
-                case METHOD:
-                    rule.setType(GendarmeRuleType.METHOD);
-                    break;
-                case ASSEMBLY:
-                    rule.setType(GendarmeRuleType.ASSEMBLY);
-                    break;
-                default:
+                case TYPE -> rule.setType(GendarmeRuleType.TYPE);
+                case METHOD -> rule.setType(GendarmeRuleType.METHOD);
+                case ASSEMBLY -> rule.setType(GendarmeRuleType.ASSEMBLY);
+                default -> {
                     // ignore the type
+                }
             }
             try {
                 rule.setUrl(new URL(ruleElement.getAttribute("Uri")));

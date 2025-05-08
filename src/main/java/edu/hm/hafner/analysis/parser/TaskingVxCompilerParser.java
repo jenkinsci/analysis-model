@@ -1,14 +1,14 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.util.Optional;
-import java.util.regex.Matcher;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
+
+import java.io.Serial;
+import java.util.Optional;
+import java.util.regex.Matcher;
 
 /**
  * A parser for TASKING VX compiler warnings.
@@ -34,33 +34,17 @@ public class TaskingVxCompilerParser extends LookaheadParser {
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
         var type = matcher.group(1);
-        Severity priority;
-        String category;
 
         switch (type) {
-            case "E":
-                priority = Severity.WARNING_HIGH;
-                category = "ERROR";
-                break;
-            case "F":
-                priority = Severity.WARNING_HIGH;
-                category = "License issue";
-                break;
-            case "I":
-                priority = Severity.WARNING_LOW;
-                category = "Info";
-                break;
-            default:
-                priority = Severity.WARNING_NORMAL;
-                category = "Warning";
-                break;
+            case "F" -> builder.setSeverity(Severity.ERROR);
+            case "E" -> builder.setSeverity(Severity.WARNING_HIGH);
+            case "I" -> builder.setSeverity(Severity.WARNING_LOW);
+            default -> builder.setSeverity(Severity.WARNING_NORMAL);
         }
 
         return builder.setFileName(matcher.group(3))
                 .setLineStart(matcher.group(4))
-                .setCategory(category)
                 .setMessage(matcher.group(6))
-                .setSeverity(priority)
                 .buildOptional();
     }
 }
