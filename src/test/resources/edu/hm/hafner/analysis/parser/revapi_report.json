@@ -36,7 +36,8 @@
     "attachments":[
       {"name":"package","value":"edu.hm.hafner.analysis.parser"},
       {"name":"classQualifiedName","value":"edu.hm.hafner.analysis.parser.RevApiParser"},
-      {"name":"classSimpleName","value":"RevApiParser"},{"name":"elementKind","value":"class"},
+      {"name":"classSimpleName","value":"RevApiParser"},
+      {"name":"elementKind","value":"class"},
       {"name":"newArchive","value":"edu.hm.hafner:analysis-model:jar:10.10.2-SNAPSHOT"},
       {"name":"newArchiveRole","value":"primary"},
       {"name":"breaksSemanticVersioning","value":"true"},
