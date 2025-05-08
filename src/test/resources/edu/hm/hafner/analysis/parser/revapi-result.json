@@ -1,0 +1,116 @@
+[
+  {
+    "code": "java.method.removed",
+    "old": "method edu.hm.hafner.coverage.Value edu.hm.hafner.coverage.CoverageParser::createValue(java.lang.String, int, int)",
+    "new": null,
+    "name": "method removed",
+    "description": "Method was removed.",
+    "criticality": "documented",
+    "justification": "Allowed by the rules of semantic versioning.",
+    "classification": [
+      {
+        "compatibility": "BINARY",
+        "severity": "BREAKING"
+      },
+      {
+        "compatibility": "SOURCE",
+        "severity": "BREAKING"
+      }
+    ],
+    "attachments": [
+      {
+        "name": "package",
+        "value": "edu.hm.hafner.coverage"
+      },
+      {
+        "name": "classQualifiedName",
+        "value": "edu.hm.hafner.coverage.CoverageParser"
+      },
+      {
+        "name": "classSimpleName",
+        "value": "CoverageParser"
+      },
+      {
+        "name": "methodName",
+        "value": "createValue"
+      },
+      {
+        "name": "elementKind",
+        "value": "method"
+      },
+      {
+        "name": "oldArchive",
+        "value": "edu.hm.hafner:coverage-model:jar:0.54.0"
+      },
+      {
+        "name": "oldArchiveRole",
+        "value": "primary"
+      }
+    ]
+  },
+  {
+    "code": "java.method.visibilityReduced",
+    "old": "method edu.hm.hafner.coverage.Value edu.hm.hafner.coverage.CoverageParser::createValue(java.lang.String, int, int) @ edu.hm.hafner.coverage.parser.JacocoParser",
+    "new": "method edu.hm.hafner.coverage.Value edu.hm.hafner.coverage.parser.JacocoParser::createValue(java.lang.String, int, int)",
+    "name": "visibility reduced",
+    "description": "visibility reduced",
+    "criticality": "documented",
+    "justification": "Allowed by the rules of semantic versioning.",
+    "classification": [
+      {
+        "compatibility": "BINARY",
+        "severity": "BREAKING"
+      },
+      {
+        "compatibility": "SOURCE",
+        "severity": "BREAKING"
+      }
+    ],
+    "attachments": [
+      {
+        "name": "oldVisibility",
+        "value": "protected"
+      },
+      {
+        "name": "newVisibility",
+        "value": "private"
+      },
+      {
+        "name": "package",
+        "value": "edu.hm.hafner.coverage.parser"
+      },
+      {
+        "name": "classQualifiedName",
+        "value": "edu.hm.hafner.coverage.parser.JacocoParser"
+      },
+      {
+        "name": "classSimpleName",
+        "value": "JacocoParser"
+      },
+      {
+        "name": "methodName",
+        "value": "createValue"
+      },
+      {
+        "name": "elementKind",
+        "value": "method"
+      },
+      {
+        "name": "oldArchive",
+        "value": "edu.hm.hafner:coverage-model:jar:0.54.0"
+      },
+      {
+        "name": "oldArchiveRole",
+        "value": "primary"
+      },
+      {
+        "name": "newArchive",
+        "value": "edu.hm.hafner:coverage-model:jar:0.55.0-SNAPSHOT"
+      },
+      {
+        "name": "newArchiveRole",
+        "value": "primary"
+      }
+    ]
+  }
+]
