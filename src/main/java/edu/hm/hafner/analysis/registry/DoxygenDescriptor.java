@@ -34,7 +34,7 @@ class DoxygenDescriptor extends ParserDescriptor {
     @Override
     public String getHelp() {
         return "Execute doxygen:"
-              + "As <b>shell</b> command <code>( cat Doxyfile; echo WARN_FORMAT='$file:$line: $text' ) | doxygen -</code>"
-              + "As <b>batch</b> command <code>( type Doxyfile & echo WARN_FORMAT='$file:$line: $text' ) | doxygen -</code>";
+                + "As <b>shell</b> command <code>( cat Doxyfile; echo WARN_FORMAT='$file:$line: $text' ) | doxygen -</code>"
+                + "As <b>batch</b> command <code>( type Doxyfile & echo WARN_FORMAT='$file:$line: $text' ) | doxygen -</code>";
     }
 }
