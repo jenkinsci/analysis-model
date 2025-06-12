@@ -15,7 +15,7 @@ rectangle "commons-logging\n\n1.3.5" as commons_logging_commons_logging_jar
 rectangle "commons-beanutils\n\n1.11.0" as commons_beanutils_commons_beanutils_jar
 rectangle "commons-collections\n\n3.2.2" as commons_collections_commons_collections_jar
 rectangle "commons-text\n\n1.13.1" as org_apache_commons_commons_text_jar
-rectangle "violations-lib\n\n1.158.0" as se_bjurr_violations_violations_lib_jar
+rectangle "violations-lib\n\n1.158.1" as se_bjurr_violations_violations_lib_jar
 rectangle "j2html\n\n1.4.0" as com_j2html_j2html_jar
 rectangle "xercesImpl\n\n2.12.2" as xerces_xercesImpl_jar
 rectangle "xml-apis\n\n1.4.01" as xml_apis_xml_apis_jar
@@ -29,9 +29,9 @@ rectangle "bcel\n\n6.10.0" as org_apache_bcel_bcel_jar
 rectangle "jcip-annotations\n\n1.0-1" as com_github_stephenc_jcip_jcip_annotations_jar
 rectangle "dom4j\n\n2.1.4" as org_dom4j_dom4j_jar
 rectangle "gson\n\n2.12.1" as com_google_code_gson_gson_jar
-rectangle "Saxon-HE\n\n12.6" as net_sf_saxon_Saxon_HE_jar
-rectangle "xmlresolver\n\n5.3.1" as org_xmlresolver_xmlresolver_jar
-rectangle "xmlresolver\ndata\n5.3.1" as org_xmlresolver_xmlresolver_jar_data
+rectangle "Saxon-HE\n\n12.7" as net_sf_saxon_Saxon_HE_jar
+rectangle "xmlresolver\n\n5.3.3" as org_xmlresolver_xmlresolver_jar
+rectangle "xmlresolver\ndata\n5.3.3" as org_xmlresolver_xmlresolver_jar_data
 rectangle "pmd-core\n\n7.14.0" as net_sourceforge_pmd_pmd_core_jar
 rectangle "slf4j-api\n\n2.0.17" as org_slf4j_slf4j_api_jar
 rectangle "antlr4-runtime\n\n4.9.3" as org_antlr_antlr4_runtime_jar
