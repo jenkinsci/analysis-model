@@ -6,7 +6,7 @@ skinparam rectangle {
   BackgroundColor<<runtime>> lightBlue
   BackgroundColor<<provided>> lightGray
 }
-rectangle "analysis-model\n\n13.5.0-SNAPSHOT" as edu_hm_hafner_analysis_model_jar
+rectangle "analysis-model\n\n13.6.0-SNAPSHOT" as edu_hm_hafner_analysis_model_jar
 rectangle "jsoup\n\n1.20.1" as org_jsoup_jsoup_jar
 rectangle "commons-io\n\n2.19.0" as commons_io_commons_io_jar
 rectangle "commons-digester3\n\n3.2" as org_apache_commons_commons_digester3_jar
