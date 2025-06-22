@@ -1,7 +1,5 @@
 package edu.hm.hafner.analysis.registry;
 
-import java.util.Arrays;
-
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.FileReaderFactory;
@@ -10,6 +8,8 @@ import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.util.ResourceTest;
 
+import java.util.Arrays;
+
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
@@ -17,7 +17,7 @@ import static edu.hm.hafner.analysis.assertions.Assertions.*;
  *
  * @author Ullrich Hafner
  */
-@SuppressWarnings({"PMD.CouplingBetweenObjects", "PMD.ExcessivePublicCount", "PMD.CyclomaticComplexity", "PMD.GodClass", "ClassDataAbstractionCoupling", "ClassFanOutComplexity"})
+@SuppressWarnings("PMD.CyclomaticComplexity")
 class ParsersTest extends ResourceTest {
     private static final String CODE_FRAGMENT = """
             <pre><code>

@@ -25,7 +25,7 @@ import java.util.function.Predicate;
  *
  * @author Ullrich Hafner
  */
-@SuppressWarnings({"PMD.TooManyFields", "PMD.GodClass", "PMD.CyclomaticComplexity", "NoFunctionalReturnType"})
+@SuppressWarnings({"PMD.GodClass", "PMD.CyclomaticComplexity", "NoFunctionalReturnType"})
 public class Issue implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L; // release 1.0.0

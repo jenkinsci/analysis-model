@@ -1,17 +1,17 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
 import org.apache.commons.digester3.Digester;
 
 import edu.hm.hafner.analysis.DuplicationGroup;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
+
+import java.io.Serial;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * A parser for Simian XML files.
@@ -82,7 +82,6 @@ public class SimianParser extends AbstractDryParser<SimianParser.Set> {
      *
      * @author Ullrich Hafner
      */
-    @SuppressWarnings("PMD.DataClass")
     public static class Set {
         private int lineCount;
         private final List<Block> blocks = new ArrayList<>();

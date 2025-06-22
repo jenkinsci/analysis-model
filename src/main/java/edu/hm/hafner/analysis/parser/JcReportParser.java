@@ -1,11 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
-import java.io.Serial;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import org.xml.sax.SAXException;
 
 import edu.hm.hafner.analysis.IssueBuilder;
@@ -16,6 +10,12 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.SecureDigester;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+import java.io.IOException;
+import java.io.Serial;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * JcReportParser-Class. This class parses from the jcReport.xml and creates warnings from its content.
@@ -447,7 +447,6 @@ public class JcReportParser extends IssueParser {
      *
      * @author Johann Vierthaler, johann.vierthaler@web.de
      */
-    @SuppressWarnings("PMD.DataClass")
     @SuppressFBWarnings("EI")
     public static class JcReport {
         private List<File> files = new ArrayList<>();

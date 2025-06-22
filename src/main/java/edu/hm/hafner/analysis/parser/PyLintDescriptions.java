@@ -3,7 +3,6 @@ package edu.hm.hafner.analysis.parser;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
@@ -21,7 +20,6 @@ public class PyLintDescriptions {
     /**
      * Loads the available rules into a map.
      */
-    @SuppressWarnings("PMD.LooseCoupling")
     public PyLintDescriptions() {
         var parser = new JSONParser(JSONParser.MODE_JSON_SIMPLE);
 

@@ -194,7 +194,7 @@ public class QtTranslationParser extends IssueParser {
             sourceValue = "";
         }
 
-        @Override @SuppressWarnings("PMD.UnusedAssignment") // false positive in PMD 7.0.0
+        @Override
         public void characters(final char[] ch, final int start, final int length) {
             lastColumnNumber = documentLocator.getColumnNumber();
             if (CONTEXT_NAME.equals(elementTypeStack.getFirst())) {

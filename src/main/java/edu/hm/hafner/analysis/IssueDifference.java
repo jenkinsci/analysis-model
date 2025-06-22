@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -9,15 +11,12 @@ import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.UUID;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 /**
  * Computes old, new, and fixed issues based on the reports of two consecutive static analysis runs for the same
  * software artifact.
  *
  * @author Ullrich Hafner
  */
-@SuppressWarnings("PMD.DataClass")
 public class IssueDifference {
     private static final List<Issue> EMPTY = Collections.emptyList();
 

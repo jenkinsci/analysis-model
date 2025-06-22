@@ -1,10 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-
 import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Element;
 
@@ -16,6 +11,11 @@ import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.util.XmlElementUtil;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
+
+import java.io.Serial;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * Parses a fxcop xml report file.
@@ -212,7 +212,7 @@ public class FxCopParser extends IssueParser {
      *
      * @author Erik Ramfelt
      */
-    @SuppressWarnings({"PMD", "all", "CheckStyle"})
+    @SuppressWarnings({"all", "CheckStyle"})
     public static class FxCopRule {
         private final String typeName;
         private final String category;
@@ -275,7 +275,7 @@ public class FxCopParser extends IssueParser {
      *
      * @author Erik Ramfelt
      */
-    @SuppressWarnings({"PMD", "all", "CheckStyle"})
+    @SuppressWarnings({"all", "CheckStyle"})
     public static class FxCopRuleSet {
         private final Map<String, FxCopRule> rules = new HashMap<>();
 

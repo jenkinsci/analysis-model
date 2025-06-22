@@ -55,7 +55,7 @@ import java.util.stream.Stream;
  *
  * @author Ullrich Hafner
  */
-@SuppressWarnings({"PMD.ExcessivePublicCount", "PMD.ExcessiveClassLength", "PMD.GodClass", "PMD.CognitiveComplexity", "PMD.CyclomaticComplexity", "checkstyle:ClassFanOutComplexity"})
+@SuppressWarnings({"PMD.ExcessivePublicCount", "PMD.GodClass", "PMD.CyclomaticComplexity", "checkstyle:ClassFanOutComplexity"})
 public class Report implements Iterable<Issue>, Serializable {
     @Serial
     private static final long serialVersionUID = 5L; // release 13.0.0
