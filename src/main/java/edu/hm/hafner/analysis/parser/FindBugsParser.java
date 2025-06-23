@@ -1,4 +1,4 @@
-package edu.hm.hafner.analysis.parser; // NOPMD
+package edu.hm.hafner.analysis.parser;
 
 import org.apache.commons.lang3.StringUtils;
 import org.dom4j.DocumentException;

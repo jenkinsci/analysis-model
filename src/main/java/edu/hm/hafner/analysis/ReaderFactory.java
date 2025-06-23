@@ -98,7 +98,7 @@ public abstract class ReaderFactory {
         }
     }
 
-    @SuppressWarnings({"illegalcatch", "PMD.DoNotUseThreads", "PMD.AvoidThrowingRawExceptionTypes"})
+    @SuppressWarnings("illegalcatch")
     private Runnable closeReader(final AutoCloseable closeable) {
         return () -> {
             try {
@@ -110,7 +110,6 @@ public abstract class ReaderFactory {
         };
     }
 
-    @SuppressWarnings("PMD.CompareObjectsWithEquals")
     @SuppressFBWarnings(value = "RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE", justification = "test stub")
     private boolean hasLineMapper() {
         return lineMapper != null && lineMapper != IDENTITY;

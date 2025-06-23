@@ -1,10 +1,10 @@
 package edu.hm.hafner.analysis;
 
+import edu.hm.hafner.util.PathUtil;
+
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-
-import edu.hm.hafner.util.PathUtil;
 
 /**
  * Computes old, new, and fixed issues based on the reports of two consecutive static analysis runs for the same
@@ -12,7 +12,6 @@ import edu.hm.hafner.util.PathUtil;
  *
  * @author Ullrich Hafner
  */
-@SuppressWarnings("PMD.DataClass")
 public class IssuesInModifiedCodeMarker {
     private static final PathUtil PATH_UTIL = new PathUtil();
 

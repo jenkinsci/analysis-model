@@ -1,14 +1,14 @@
 package edu.hm.hafner.analysis.util;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Provides some useful methods to process the DOM.
@@ -16,7 +16,7 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  * @author Ullrich Hafner
  */
 //CHECKSTYLE:OFF
-@SuppressWarnings({"PMD", "all"})
+@SuppressWarnings("all")
 public final class XmlElementUtil {
     /**
      * Returns all elements in the parent that match the specified name.

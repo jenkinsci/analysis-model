@@ -1,9 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.util.Iterator;
-import java.util.stream.Stream;
-
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingException;
@@ -11,6 +7,10 @@ import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.util.IntegerParser;
+
+import java.io.Serial;
+import java.util.Iterator;
+import java.util.stream.Stream;
 
 import static org.apache.commons.lang3.StringUtils.*;
 
@@ -31,7 +31,6 @@ public class PolyspaceParser extends IssueParser {
     /**
      * Creates a new instance of {@link PolyspaceParser}.
      */
-
     @Override
     public Report parseReport(final ReaderFactory reader) throws ParsingException {
         try (Stream<String> lines = reader.readStream()) {
@@ -93,7 +92,7 @@ public class PolyspaceParser extends IssueParser {
         return EMPTY;
     }
 
-    @SuppressWarnings({"PMD.UseVarargs", "PMD.CyclomaticComplexity"})
+    @SuppressWarnings("PMD.UseVarargs")
     private Severity mapPriority(final String[] attributes) {
         if (equalsIgnoreCase(attributes[SEVERITY_INDEX], "Unset")) {
             if (equalsIgnoreCase(attributes[FAMILY_INDEX], "Defect")

@@ -1,10 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.Issue;
@@ -15,6 +10,11 @@ import edu.hm.hafner.analysis.util.IntegerParser;
 import edu.hm.hafner.util.LookaheadStream;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+import java.io.Serial;
+import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static j2html.TagCreator.*;
 
@@ -84,7 +84,6 @@ public class CargoClippyParser extends LookaheadParser {
      *
      * @return the collected information about the fix recommendation.
      */
-    @SuppressWarnings("PMD.CognitiveComplexity")
     private FileInformation createRecommendationMessage(final LookaheadStream lookahead) {
         var description = new StringBuilder();
         var fileInformation = new FileInformation();

@@ -38,7 +38,7 @@ class SeverityTest {
         assertThat(Severity.guessFromString("[NOTE]")).isEqualTo(Severity.WARNING_LOW);
     }
 
-    @Test @SuppressWarnings("PMD.LiteralsFirstInComparisons")
+    @Test
     void shouldCreateNewSeverityThatOverridesEqualsAndToString() {
         var name = "severity";
         var severity = new Severity(name);
