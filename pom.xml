@@ -480,7 +480,7 @@
               <dependency>
                 <groupId>io.jenkins.tools.incrementals</groupId>
                 <artifactId>incrementals-enforcer-rules</artifactId>
-                <version>1.8</version>
+                <version>1.10</version>
               </dependency>
             </dependencies>
           </plugin>
