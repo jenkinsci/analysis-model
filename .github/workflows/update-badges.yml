@@ -27,7 +27,7 @@ jobs:
       - name: Build and test with Maven
         run: mvn -V --color always -ntp clean verify -Pci -Pdepgraph | tee maven.log
       - name: Run Quality Monitor
-        uses: uhafner/quality-monitor@v2
+        uses: uhafner/quality-monitor@v3
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           config: >
