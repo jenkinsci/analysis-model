@@ -1,0 +1,60 @@
+[
+  {
+    "filePath": "/var/lib/jenkins/workspace/eslint/fullOfProblems.js",
+    "messages": [
+      {
+        "ruleId": "no-unused-vars",
+        "severity": 1,
+        "message": "'addOne' is defined but never used.",
+        "line": 1,
+        "column": 10,
+        "nodeType": "Identifier",
+        "messageId": "unusedVar",
+        "endLine": 1,
+        "endColumn": 16
+      },
+      {
+        "ruleId": "use-isnan",
+        "severity": 2,
+        "message": "Use the isNaN function to compare with NaN.",
+        "line": 2,
+        "column": 9,
+        "nodeType": "BinaryExpression",
+        "messageId": "comparisonWithNaN",
+        "endLine": 2,
+        "endColumn": 17,
+        "suggestions": [
+          {
+            "messageId": "replaceWithIsNaN",
+            "fix": {
+              "range": [
+                29,
+                37
+              ],
+              "text": "!Number.isNaN(i)"
+            },
+            "desc": "Replace with Number.isNaN."
+          },
+          {
+            "messageId": "replaceWithCastingAndIsNaN",
+            "fix": {
+              "range": [
+                29,
+                37
+              ],
+              "text": "!Number.isNaN(Number(i))"
+            },
+            "desc": "Replace with Number.isNaN and cast to a Number."
+          }
+        ]
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 4,
+    "fatalErrorCount": 0,
+    "warningCount": 4,
+    "fixableErrorCount": 1,
+    "fixableWarningCount": 4,
+    "source": "function addOne(i) {\n    if (i != NaN) {\n        return i ++\n    } else {\n      return\n    }\n};"
+  }
+]

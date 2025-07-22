@@ -2,13 +2,17 @@ package edu.hm.hafner.analysis.registry;
 
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.CheckStyleParser;
+import edu.hm.hafner.analysis.parser.EsLintParser;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
- * A descriptor for ESLint. Delegates to {@link CheckStyleParser}.
+ * A descriptor for ESLint. Supports json format {@link EsLintParser} and for backward compatibility checkstyle {@link CheckStyleParser}.
  *
  * @author Lorenz Munsch
  */
-class EsLintDescriptor extends ParserDescriptor {
+class EsLintDescriptor extends CompositeParserDescriptor {
     private static final String ID = "eslint";
     private static final String NAME = "ESLint";
 
@@ -17,13 +21,13 @@ class EsLintDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public IssueParser create(final Option... options) {
-        return new CheckStyleParser();
+    protected Collection<? extends IssueParser> createParsers() {
+        return List.of(new CheckStyleParser(), new EsLintParser());
     }
 
     @Override
     public String getHelp() {
-        return "Use option --format checkstyle.";
+        return "Use option <code>--format json</code> or <code>--format checkstyle</code>.";
     }
 
     @Override

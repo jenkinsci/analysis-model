@@ -169,6 +169,11 @@ class CheckStyleParserTest extends AbstractParserTest {
         assertThat(report.get(2)).hasSeverity(Severity.WARNING_LOW);
     }
 
+    @Test
+    void accepts() {
+        assertThat(createParser().accepts(createReaderFactory(PREFIX + "checkstyle.xml"))).isTrue();
+    }
+
     private Report parseInCheckStyleFolder(final String fileName) {
         return parse(PREFIX + fileName);
     }
