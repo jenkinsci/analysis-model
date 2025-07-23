@@ -22,27 +22,31 @@ public class EsLintParser extends JsonIssueParser {
     @Serial
     private static final long serialVersionUID = -2455926786089596397L;
 
+    // Parser for eslint --format json-with-metadata
     @Override
     protected void parseJsonObject(final Report report, final JSONObject jsonReport, final IssueBuilder issueBuilder) {
-        var messages = jsonReport.optJSONArray("messages");
-        if (messages != null) {
-            var filePath = jsonReport.getString("filePath");
-            issueBuilder.setFileName(filePath);
-            parseMessages(report, messages, issueBuilder);
-        }
-    }
-
-    @Override
-    protected void parseJsonArray(final Report report, final JSONArray jsonReport, final IssueBuilder issueBuilder) {
-        for (Object issue : jsonReport) {
-            if (issue instanceof JSONObject object) {
-                parseJsonObject(report, object, issueBuilder);
+        var results = jsonReport.getJSONArray("results");
+        for (Object result : results) {
+            if (result instanceof JSONObject object) {
+                parseMessages(report, object, issueBuilder);
             }
         }
     }
 
-    private void parseMessages(final Report report, final JSONArray jsonReport, final IssueBuilder issueBuilder) {
+    // Parser for eslint --format json
+    @Override
+    protected void parseJsonArray(final Report report, final JSONArray jsonReport, final IssueBuilder issueBuilder) {
         for (Object issue : jsonReport) {
+            if (issue instanceof JSONObject object) {
+                parseMessages(report, object, issueBuilder);
+            }
+        }
+    }
+
+    private void parseMessages(final Report report, final JSONObject jsonReport, final IssueBuilder issueBuilder) {
+        issueBuilder.setFileName(jsonReport.getString("filePath"));
+        var messages = jsonReport.getJSONArray("messages");
+        for (Object issue : messages) {
             if (issue instanceof JSONObject message) {
                 report.add(convertToIssue(message, issueBuilder));
             }

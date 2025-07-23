@@ -56,4 +56,12 @@ class EsLintParserTest extends AbstractParserTest {
         assertThat(createParser().accepts(createReaderFactory("eslint/eslint.json"))).isTrue();
         assertThat(createParser().accepts(createReaderFactory("eslint/eslint-checkstyle.xml"))).isFalse();
     }
+
+    @Test
+    void shouldReportWithMetadata() {
+        var report = parse("eslint/eslint-with-metadata.json");
+        try (var softAssertions = new SoftAssertions()) {
+            assertThatIssuesArePresent(report, softAssertions);
+        }
+    }
 }

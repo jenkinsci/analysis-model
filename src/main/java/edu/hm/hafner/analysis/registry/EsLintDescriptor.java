@@ -27,7 +27,7 @@ class EsLintDescriptor extends CompositeParserDescriptor {
 
     @Override
     public String getHelp() {
-        return "Use option <code>--format json</code> or <code>--format checkstyle</code>.";
+        return "Use option <code>--format json</code>, <code>--format json-with-metadata</code> or <code>--format checkstyle</code>.";
     }
 
     @Override
