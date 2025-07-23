@@ -61,7 +61,7 @@
 
     <!-- Project Dependencies Configuration -->
     <jmh.version>1.37</jmh.version>
-    <commons.io.version>2.19.0</commons.io.version>
+    <commons.io.version>2.20.0</commons.io.version>
     <commons.digester.version>3.2</commons.digester.version>
     <commons-beanutils.version>1.11.0</commons-beanutils.version>
     <commons.text.version>1.13.1</commons.text.version>
