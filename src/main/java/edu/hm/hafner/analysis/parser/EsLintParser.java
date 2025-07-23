@@ -71,7 +71,7 @@ public class EsLintParser extends JsonIssueParser {
                     ul.with(li(formatSuggestion(suggestion)));
                 }
             }
-            return join(p(text("Suggestions:")), ul).render();
+            return join(p("Suggestions:"), ul).render();
         }
         return "";
     }
@@ -80,7 +80,7 @@ public class EsLintParser extends JsonIssueParser {
         var desc = suggestion.getString("desc");
         var fix = suggestion.getJSONObject("fix");
         var text = fix.getString("text");
-        return join(p(desc), code(text));
+        return join(p(desc), pre().with(code(text)));
     }
 
     private Severity toSeverity(final int severity) {

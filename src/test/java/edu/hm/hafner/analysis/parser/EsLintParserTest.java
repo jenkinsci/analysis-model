@@ -47,7 +47,7 @@ class EsLintParserTest extends AbstractParserTest {
                 .hasLineEnd(2)
                 .hasColumnEnd(17)
                 .hasMessage("Use the isNaN function to compare with NaN.")
-                .hasDescription("<p>Suggestions:</p> <ul><li><p>Replace with Number.isNaN.</p> <code>!Number.isNaN(i)</code></li><li><p>Replace with Number.isNaN and cast to a Number.</p> <code>!Number.isNaN(Number(i))</code></li></ul>")
+                .hasDescription("<p>Suggestions:</p> <ul><li><p>Replace with Number.isNaN.</p> <pre><code>!Number.isNaN(i)</code></pre></li><li><p>Replace with Number.isNaN and cast to a Number.</p> <pre><code>!Number.isNaN(Number(i))</code></pre></li></ul>")
                 .hasSeverity(Severity.ERROR);
     }
 
