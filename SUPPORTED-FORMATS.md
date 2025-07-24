@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2025-07-23T17:39:00.357247771 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2025-07-24T19:00:45.759719259 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -750,7 +750,7 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
         </tr>
         <tr>
             <td colspan="4">
-                :bulb: Use option --format checkstyle.
+                :bulb: Use option <code>--format json</code> (recommend), <code>--format json-with-metadata</code> or <code>--format checkstyle</code> (deprecated).
             </td>
         </tr>
         <tr>
