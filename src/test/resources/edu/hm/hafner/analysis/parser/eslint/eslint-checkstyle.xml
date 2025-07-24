@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="4.1">
+<file name="/var/lib/jenkins/workspace/eslint/fullOfProblems.js">
+<error line="1" column="10" severity="warning" message="'addOne' is defined but never used. (no-unused-vars)" source="eslint.rules.no-unused-vars"/>
+<error line="2" column="9" severity="error" message="Use the isNaN function to compare with NaN. (use-isnan)" source="eslint.rules.use-isnan"/>
+</file>
+</checkstyle>

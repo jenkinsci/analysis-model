@@ -1,0 +1,660 @@
+{
+  "results": [
+    {
+      "filePath": "/var/lib/jenkins/workspace/eslint/fullOfProblems.js",
+      "messages": [
+        {
+          "ruleId": "no-unused-vars",
+          "severity": 1,
+          "message": "'addOne' is defined but never used.",
+          "line": 1,
+          "column": 10,
+          "nodeType": "Identifier",
+          "messageId": "unusedVar",
+          "endLine": 1,
+          "endColumn": 16,
+          "suggestions": [
+            {
+              "messageId": "removeVar",
+              "data": {
+                "varName": "addOne"
+              },
+              "fix": {
+                "range": [
+                  0,
+                  94
+                ],
+                "text": ""
+              },
+              "desc": "Remove unused variable 'addOne'."
+            }
+          ]
+        },
+        {
+          "ruleId": "use-isnan",
+          "severity": 2,
+          "message": "Use the isNaN function to compare with NaN.",
+          "line": 2,
+          "column": 9,
+          "nodeType": "BinaryExpression",
+          "messageId": "comparisonWithNaN",
+          "endLine": 2,
+          "endColumn": 17,
+          "suggestions": [
+            {
+              "messageId": "replaceWithIsNaN",
+              "fix": {
+                "range": [
+                  29,
+                  37
+                ],
+                "text": "!Number.isNaN(i)"
+              },
+              "desc": "Replace with Number.isNaN."
+            },
+            {
+              "messageId": "replaceWithCastingAndIsNaN",
+              "fix": {
+                "range": [
+                  29,
+                  37
+                ],
+                "text": "!Number.isNaN(Number(i))"
+              },
+              "desc": "Replace with Number.isNaN and cast to a Number."
+            }
+          ]
+        },
+        {
+          "ruleId": "consistent-return",
+          "severity": 2,
+          "message": "Function 'addOne' expected a return value.",
+          "line": 5,
+          "column": 7,
+          "nodeType": "ReturnStatement",
+          "messageId": "missingReturnValue",
+          "endLine": 5,
+          "endColumn": 13
+        },
+        {
+          "ruleId": "indent",
+          "severity": 1,
+          "message": "Expected indentation of 8 spaces but found 6.",
+          "line": 5,
+          "column": 1,
+          "nodeType": "Keyword",
+          "messageId": "wrongIndentation",
+          "endLine": 5,
+          "endColumn": 7,
+          "fix": {
+            "range": [
+              74,
+              80
+            ],
+            "text": "        "
+          }
+        },
+        {
+          "ruleId": "semi",
+          "severity": 1,
+          "message": "Missing semicolon.",
+          "line": 3,
+          "column": 20,
+          "nodeType": "ReturnStatement",
+          "messageId": "missingSemi",
+          "endLine": 4,
+          "endColumn": 1,
+          "fix": {
+            "range": [
+              60,
+              60
+            ],
+            "text": ";"
+          }
+        }
+      ],
+      "suppressedMessages": [],
+      "errorCount": 4,
+      "fatalErrorCount": 0,
+      "warningCount": 4,
+      "fixableErrorCount": 1,
+      "fixableWarningCount": 4,
+      "source": "function addOne(i) {\n    if (i != NaN) {\n        return i ++\n    } else {\n      return\n    }\n};"
+    }
+  ],
+  "metadata": {
+    "cwd": "/var/lib/jenkins/workspace/eslint",
+    "rulesMeta": {
+      "no-unused-vars": {
+        "type": "problem",
+        "docs": {
+          "description": "Disallow unused variables",
+          "extendsBaseRule": true,
+          "recommended": "recommended",
+          "url": "https://eslint.org/docs/latest/rules/no-unused-vars"
+        },
+        "messages": {
+          "unusedVar": "'{{varName}}' is {{action}} but never used{{additional}}.",
+          "usedIgnoredVar": "'{{varName}}' is marked as ignored but is used{{additional}}.",
+          "usedOnlyAsType": "'{{varName}}' is {{action}} but only used as a type{{additional}}."
+        },
+        "schema": [
+          {
+            "oneOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "all",
+                  "local"
+                ]
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "args": {
+                    "type": "string",
+                    "description": "Whether to check all, some, or no arguments.",
+                    "enum": [
+                      "all",
+                      "after-used",
+                      "none"
+                    ]
+                  },
+                  "argsIgnorePattern": {
+                    "type": "string",
+                    "description": "Regular expressions of argument names to not check for usage."
+                  },
+                  "caughtErrors": {
+                    "type": "string",
+                    "description": "Whether to check catch block arguments.",
+                    "enum": [
+                      "all",
+                      "none"
+                    ]
+                  },
+                  "caughtErrorsIgnorePattern": {
+                    "type": "string",
+                    "description": "Regular expressions of catch block argument names to not check for usage."
+                  },
+                  "destructuredArrayIgnorePattern": {
+                    "type": "string",
+                    "description": "Regular expressions of destructured array variable names to not check for usage."
+                  },
+                  "ignoreClassWithStaticInitBlock": {
+                    "type": "boolean",
+                    "description": "Whether to ignore classes with at least one static initialization block."
+                  },
+                  "ignoreRestSiblings": {
+                    "type": "boolean",
+                    "description": "Whether to ignore sibling properties in `...` destructurings."
+                  },
+                  "reportUsedIgnorePattern": {
+                    "type": "boolean",
+                    "description": "Whether to report variables that match any of the valid ignore pattern options if they have been used."
+                  },
+                  "vars": {
+                    "type": "string",
+                    "description": "Whether to check all variables or only locally-declared variables.",
+                    "enum": [
+                      "all",
+                      "local"
+                    ]
+                  },
+                  "varsIgnorePattern": {
+                    "type": "string",
+                    "description": "Regular expressions of variable names to not check for usage."
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "use-isnan": {
+        "hasSuggestions": true,
+        "type": "problem",
+        "docs": {
+          "description": "Require calls to `isNaN()` when checking for `NaN`",
+          "recommended": true,
+          "url": "https://eslint.org/docs/latest/rules/use-isnan"
+        },
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "enforceForSwitchCase": {
+                "type": "boolean"
+              },
+              "enforceForIndexOf": {
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": false
+          }
+        ],
+        "defaultOptions": [
+          {
+            "enforceForIndexOf": false,
+            "enforceForSwitchCase": true
+          }
+        ],
+        "messages": {
+          "comparisonWithNaN": "Use the isNaN function to compare with NaN.",
+          "switchNaN": "'switch(NaN)' can never match a case clause. Use Number.isNaN instead of the switch.",
+          "caseNaN": "'case NaN' can never match. Use Number.isNaN before the switch.",
+          "indexOfNaN": "Array prototype method '{{ methodName }}' cannot find NaN.",
+          "replaceWithIsNaN": "Replace with Number.isNaN.",
+          "replaceWithCastingAndIsNaN": "Replace with Number.isNaN and cast to a Number.",
+          "replaceWithFindIndex": "Replace with Array.prototype.{{ methodName }}."
+        }
+      },
+      "consistent-return": {
+        "type": "suggestion",
+        "docs": {
+          "description": "Require `return` statements to either always or never specify values",
+          "recommended": false,
+          "url": "https://eslint.org/docs/latest/rules/consistent-return"
+        },
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "treatUndefinedAsUnspecified": {
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": false
+          }
+        ],
+        "defaultOptions": [
+          {
+            "treatUndefinedAsUnspecified": false
+          }
+        ],
+        "messages": {
+          "missingReturn": "Expected to return a value at the end of .",
+          "missingReturnValue": " expected a return value.",
+          "unexpectedReturnValue": " expected no return value."
+        }
+      },
+      "indent": {
+        "deprecated": {
+          "message": "Formatting rules are being moved out of ESLint core.",
+          "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
+          "deprecatedSince": "8.53.0",
+          "availableUntil": "10.0.0",
+          "replacedBy": [
+            {
+              "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+              "url": "https://eslint.style/guide/migration",
+              "plugin": {
+                "name": "@stylistic/eslint-plugin",
+                "url": "https://eslint.style"
+              },
+              "rule": {
+                "name": "indent",
+                "url": "https://eslint.style/rules/indent"
+              }
+            }
+          ]
+        },
+        "type": "layout",
+        "docs": {
+          "description": "Enforce consistent indentation",
+          "recommended": false,
+          "url": "https://eslint.org/docs/latest/rules/indent"
+        },
+        "fixable": "whitespace",
+        "schema": [
+          {
+            "oneOf": [
+              {
+                "enum": [
+                  "tab"
+                ]
+              },
+              {
+                "type": "integer",
+                "minimum": 0
+              }
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "SwitchCase": {
+                "type": "integer",
+                "minimum": 0,
+                "default": 0
+              },
+              "VariableDeclarator": {
+                "oneOf": [
+                  {
+                    "oneOf": [
+                      {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      {
+                        "enum": [
+                          "first",
+                          "off"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "var": {
+                        "oneOf": [
+                          {
+                            "type": "integer",
+                            "minimum": 0
+                          },
+                          {
+                            "enum": [
+                              "first",
+                              "off"
+                            ]
+                          }
+                        ]
+                      },
+                      "let": {
+                        "oneOf": [
+                          {
+                            "type": "integer",
+                            "minimum": 0
+                          },
+                          {
+                            "enum": [
+                              "first",
+                              "off"
+                            ]
+                          }
+                        ]
+                      },
+                      "const": {
+                        "oneOf": [
+                          {
+                            "type": "integer",
+                            "minimum": 0
+                          },
+                          {
+                            "enum": [
+                              "first",
+                              "off"
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                ]
+              },
+              "outerIIFEBody": {
+                "oneOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "enum": [
+                      "off"
+                    ]
+                  }
+                ]
+              },
+              "MemberExpression": {
+                "oneOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "enum": [
+                      "off"
+                    ]
+                  }
+                ]
+              },
+              "FunctionDeclaration": {
+                "type": "object",
+                "properties": {
+                  "parameters": {
+                    "oneOf": [
+                      {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      {
+                        "enum": [
+                          "first",
+                          "off"
+                        ]
+                      }
+                    ]
+                  },
+                  "body": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                },
+                "additionalProperties": false
+              },
+              "FunctionExpression": {
+                "type": "object",
+                "properties": {
+                  "parameters": {
+                    "oneOf": [
+                      {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      {
+                        "enum": [
+                          "first",
+                          "off"
+                        ]
+                      }
+                    ]
+                  },
+                  "body": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                },
+                "additionalProperties": false
+              },
+              "StaticBlock": {
+                "type": "object",
+                "properties": {
+                  "body": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                },
+                "additionalProperties": false
+              },
+              "CallExpression": {
+                "type": "object",
+                "properties": {
+                  "arguments": {
+                    "oneOf": [
+                      {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      {
+                        "enum": [
+                          "first",
+                          "off"
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              },
+              "ArrayExpression": {
+                "oneOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "enum": [
+                      "first",
+                      "off"
+                    ]
+                  }
+                ]
+              },
+              "ObjectExpression": {
+                "oneOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "enum": [
+                      "first",
+                      "off"
+                    ]
+                  }
+                ]
+              },
+              "ImportDeclaration": {
+                "oneOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "enum": [
+                      "first",
+                      "off"
+                    ]
+                  }
+                ]
+              },
+              "flatTernaryExpressions": {
+                "type": "boolean",
+                "default": false
+              },
+              "offsetTernaryExpressions": {
+                "type": "boolean",
+                "default": false
+              },
+              "ignoredNodes": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "not": {
+                    "pattern": ":exit$"
+                  }
+                }
+              },
+              "ignoreComments": {
+                "type": "boolean",
+                "default": false
+              }
+            },
+            "additionalProperties": false
+          }
+        ],
+        "messages": {
+          "wrongIndentation": "Expected indentation of  but found ."
+        }
+      },
+      "semi": {
+        "deprecated": {
+          "message": "Formatting rules are being moved out of ESLint core.",
+          "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
+          "deprecatedSince": "8.53.0",
+          "availableUntil": "10.0.0",
+          "replacedBy": [
+            {
+              "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+              "url": "https://eslint.style/guide/migration",
+              "plugin": {
+                "name": "@stylistic/eslint-plugin",
+                "url": "https://eslint.style"
+              },
+              "rule": {
+                "name": "semi",
+                "url": "https://eslint.style/rules/semi"
+              }
+            }
+          ]
+        },
+        "type": "layout",
+        "docs": {
+          "description": "Require or disallow semicolons instead of ASI",
+          "recommended": false,
+          "url": "https://eslint.org/docs/latest/rules/semi"
+        },
+        "fixable": "code",
+        "schema": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": [
+                {
+                  "enum": [
+                    "never"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "beforeStatementContinuationChars": {
+                      "enum": [
+                        "always",
+                        "any",
+                        "never"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              ],
+              "minItems": 0,
+              "maxItems": 2
+            },
+            {
+              "type": "array",
+              "items": [
+                {
+                  "enum": [
+                    "always"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "omitLastInOneLineBlock": {
+                      "type": "boolean"
+                    },
+                    "omitLastInOneLineClassBody": {
+                      "type": "boolean"
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              ],
+              "minItems": 0,
+              "maxItems": 2
+            }
+          ]
+        },
+        "messages": {
+          "missingSemi": "Missing semicolon.",
+          "extraSemi": "Extra semicolon."
+        }
+      }
+    }
+  }
+}

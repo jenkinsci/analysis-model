@@ -42,6 +42,11 @@ public class CheckStyleParser extends IssueParser {
     private static final long serialVersionUID = -3187275729854832128L;
 
     @Override
+    public boolean accepts(final ReaderFactory readerFactory) {
+        return isXmlFile(readerFactory);
+    }
+
+    @Override
     public Report parseReport(final ReaderFactory readerFactory) throws ParsingException {
         var digester = new SecureDigester(CheckStyleParser.class);
 
