@@ -58,7 +58,7 @@ class PmdParserTest extends AbstractParserTest {
                 .hasFileName(
                         "/Users/hafner/Development/jenkins/workspace/Pipeline/src/main/java/edu/hm/hafner/analysis/parser/AjcParser.java")
                 .hasLineStart(30).hasLineEnd(74)
-                .hasColumnStart(5).hasColumnEnd(12)
+                .hasColumnStart(12).hasColumnEnd(5)
                 .hasType("CyclomaticComplexity")
                 .hasCategory("Code Size")
                 .hasSeverity(Severity.WARNING_NORMAL)

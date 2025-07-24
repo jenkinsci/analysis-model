@@ -76,9 +76,9 @@ class EsLintParserTest extends AbstractParserTest {
                 .hasFileName("/var/lib/jenkins/workspace/eslint/fullOfProblems.js")
                 .hasType("semi")
                 .hasLineStart(3)
-                .hasColumnStart(1)
+                .hasColumnStart(20)
                 .hasLineEnd(4)
-                .hasColumnEnd(20)
+                .hasColumnEnd(1)
                 .hasMessage("Missing semicolon.")
                 .hasDescription("<p>Fix:</p> <pre><code>;</code></pre>")
                 .hasSeverity(Severity.WARNING_NORMAL);

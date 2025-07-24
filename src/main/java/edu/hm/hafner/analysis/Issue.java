@@ -347,8 +347,9 @@ public class Issue implements Serializable {
             this.columnEnd = providedColumnEnd;
         }
         else {
-            this.columnStart = Math.min(providedColumnStart, providedColumnEnd);
-            this.columnEnd = Math.max(providedColumnStart, providedColumnEnd);
+            // if the line ends on the next line, columnStart can be greater then columnEnd
+            this.columnStart = providedLineStart < providedLineEnd ? providedColumnStart : Math.min(providedColumnStart, providedColumnEnd);
+            this.columnEnd = providedLineStart < providedLineEnd ? providedColumnEnd : Math.max(providedColumnStart, providedColumnEnd);
         }
         this.lineRanges = new LineRangeList();
         if (lineRanges != null) {

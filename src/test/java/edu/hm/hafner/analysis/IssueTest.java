@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 import nl.jqno.equalsverifier.EqualsVerifier;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
@@ -147,6 +149,32 @@ class IssueTest extends SerializableTest<Issue> {
         assertThat(issue.affectsLine(5)).isTrue();
         assertThat(issue.affectsLine(6)).isTrue();
         assertThat(issue.affectsLine(7)).isFalse();
+    }
+
+    @ParameterizedTest(name = "{0}")
+    @CsvSource({
+            "'All negative', -1, -2, -3, -4, 0, 0, 0, 0",
+            "'All zero', 0, 0, 0, 0, 0, 0, 0, 0",
+            "'Same line, startColumn < endColumn', 2, 1, 2, 5, 2, 1, 2, 5",
+            "'Same line, startColumn > endColumn', 3, 5, 3, 1, 3, 1, 3, 5",
+            "'Multiline, startLine > endLine, startColumn < endColumn', 4, 1, 3, 2, 3, 1, 4, 2",
+            "'Multiline, startLine > endLine, startColumn > endColumn', 3, 2, 2, 1, 2, 1, 3, 2",
+            "'Multiline, startLine < endLine, startColumn < endColumn', 5, 4, 6, 8, 5, 4, 6, 8",
+            "'Multiline, startLine < endLine, startColumn > endColumn', 5, 8, 6, 4, 5, 8, 6, 4"
+    })
+    @SuppressWarnings("checkstyle:ParameterNumber")
+    void shouldFixStartEndLineColumnValues(final String desc, final int lineStart, final int columnStart, final int lineEnd, final int columnEnd, final int expectedLineStart, final int expectedColumnStart, final int expectedLineEnd, final int expectedColumnEnd) {
+        var issue = new Issue(null, FILE_NAME_TS,
+                lineStart, lineEnd, columnStart, columnEnd,
+                null, null, null, PACKAGE_NAME_TS, null, null, MESSAGE_TS, DESCRIPTION, null, null, null, null, null, UUID.randomUUID());
+
+        try (var softly = new SoftAssertions()) {
+            softly.assertThat(issue)
+                    .hasLineStart(expectedLineStart)
+                    .hasColumnStart(expectedColumnStart)
+                    .hasLineEnd(expectedLineEnd)
+                    .hasColumnEnd(expectedColumnEnd);
+        }
     }
 
     /**
