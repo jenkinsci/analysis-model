@@ -6,6 +6,7 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import j2html.tags.ContainerTag;
 import j2html.tags.DomContent;
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -67,6 +68,13 @@ public class EsLintParser extends JsonIssueParser {
     }
 
     private static String formatDescription(final JSONObject jsonIssue) {
+        JSONObject fix = jsonIssue.optJSONObject("fix");
+        if (fix != null) {
+            var text = fix.getString("text");
+            if (StringUtils.isNotBlank(text)) {
+                return join(p("Fix:"), pre().with(code(text))).render();
+            }
+        }
         JSONArray suggestions = jsonIssue.optJSONArray("suggestions");
         if (suggestions != null) {
             ContainerTag ul = ul();
@@ -84,10 +92,10 @@ public class EsLintParser extends JsonIssueParser {
         var desc = suggestion.getString("desc");
         var fix = suggestion.getJSONObject("fix");
         var text = fix.getString("text");
-        return join(p(desc), pre().with(code(text)));
+        return StringUtils.isBlank(text) ? p(desc) : join(p(desc), pre().with(code(text)));
     }
 
-    private Severity toSeverity(final int severity) {
+    private static Severity toSeverity(final int severity) {
         if (severity == 1) {
             return Severity.WARNING_NORMAL;
         }

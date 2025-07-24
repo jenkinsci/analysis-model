@@ -12,7 +12,23 @@
           "nodeType": "Identifier",
           "messageId": "unusedVar",
           "endLine": 1,
-          "endColumn": 16
+          "endColumn": 16,
+          "suggestions": [
+            {
+              "messageId": "removeVar",
+              "data": {
+                "varName": "addOne"
+              },
+              "fix": {
+                "range": [
+                  0,
+                  94
+                ],
+                "text": ""
+              },
+              "desc": "Remove unused variable 'addOne'."
+            }
+          ]
         },
         {
           "ruleId": "use-isnan",
@@ -48,6 +64,53 @@
               "desc": "Replace with Number.isNaN and cast to a Number."
             }
           ]
+        },
+        {
+          "ruleId": "consistent-return",
+          "severity": 2,
+          "message": "Function 'addOne' expected a return value.",
+          "line": 5,
+          "column": 7,
+          "nodeType": "ReturnStatement",
+          "messageId": "missingReturnValue",
+          "endLine": 5,
+          "endColumn": 13
+        },
+        {
+          "ruleId": "indent",
+          "severity": 1,
+          "message": "Expected indentation of 8 spaces but found 6.",
+          "line": 5,
+          "column": 1,
+          "nodeType": "Keyword",
+          "messageId": "wrongIndentation",
+          "endLine": 5,
+          "endColumn": 7,
+          "fix": {
+            "range": [
+              74,
+              80
+            ],
+            "text": "        "
+          }
+        },
+        {
+          "ruleId": "semi",
+          "severity": 1,
+          "message": "Missing semicolon.",
+          "line": 3,
+          "column": 20,
+          "nodeType": "ReturnStatement",
+          "messageId": "missingSemi",
+          "endLine": 4,
+          "endColumn": 1,
+          "fix": {
+            "range": [
+              60,
+              60
+            ],
+            "text": ";"
+          }
         }
       ],
       "suppressedMessages": [],
@@ -184,6 +247,412 @@
           "replaceWithIsNaN": "Replace with Number.isNaN.",
           "replaceWithCastingAndIsNaN": "Replace with Number.isNaN and cast to a Number.",
           "replaceWithFindIndex": "Replace with Array.prototype.{{ methodName }}."
+        }
+      },
+      "consistent-return": {
+        "type": "suggestion",
+        "docs": {
+          "description": "Require `return` statements to either always or never specify values",
+          "recommended": false,
+          "url": "https://eslint.org/docs/latest/rules/consistent-return"
+        },
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "treatUndefinedAsUnspecified": {
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": false
+          }
+        ],
+        "defaultOptions": [
+          {
+            "treatUndefinedAsUnspecified": false
+          }
+        ],
+        "messages": {
+          "missingReturn": "Expected to return a value at the end of .",
+          "missingReturnValue": " expected a return value.",
+          "unexpectedReturnValue": " expected no return value."
+        }
+      },
+      "indent": {
+        "deprecated": {
+          "message": "Formatting rules are being moved out of ESLint core.",
+          "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
+          "deprecatedSince": "8.53.0",
+          "availableUntil": "10.0.0",
+          "replacedBy": [
+            {
+              "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+              "url": "https://eslint.style/guide/migration",
+              "plugin": {
+                "name": "@stylistic/eslint-plugin",
+                "url": "https://eslint.style"
+              },
+              "rule": {
+                "name": "indent",
+                "url": "https://eslint.style/rules/indent"
+              }
+            }
+          ]
+        },
+        "type": "layout",
+        "docs": {
+          "description": "Enforce consistent indentation",
+          "recommended": false,
+          "url": "https://eslint.org/docs/latest/rules/indent"
+        },
+        "fixable": "whitespace",
+        "schema": [
+          {
+            "oneOf": [
+              {
+                "enum": [
+                  "tab"
+                ]
+              },
+              {
+                "type": "integer",
+                "minimum": 0
+              }
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "SwitchCase": {
+                "type": "integer",
+                "minimum": 0,
+                "default": 0
+              },
+              "VariableDeclarator": {
+                "oneOf": [
+                  {
+                    "oneOf": [
+                      {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      {
+                        "enum": [
+                          "first",
+                          "off"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "var": {
+                        "oneOf": [
+                          {
+                            "type": "integer",
+                            "minimum": 0
+                          },
+                          {
+                            "enum": [
+                              "first",
+                              "off"
+                            ]
+                          }
+                        ]
+                      },
+                      "let": {
+                        "oneOf": [
+                          {
+                            "type": "integer",
+                            "minimum": 0
+                          },
+                          {
+                            "enum": [
+                              "first",
+                              "off"
+                            ]
+                          }
+                        ]
+                      },
+                      "const": {
+                        "oneOf": [
+                          {
+                            "type": "integer",
+                            "minimum": 0
+                          },
+                          {
+                            "enum": [
+                              "first",
+                              "off"
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                ]
+              },
+              "outerIIFEBody": {
+                "oneOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "enum": [
+                      "off"
+                    ]
+                  }
+                ]
+              },
+              "MemberExpression": {
+                "oneOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "enum": [
+                      "off"
+                    ]
+                  }
+                ]
+              },
+              "FunctionDeclaration": {
+                "type": "object",
+                "properties": {
+                  "parameters": {
+                    "oneOf": [
+                      {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      {
+                        "enum": [
+                          "first",
+                          "off"
+                        ]
+                      }
+                    ]
+                  },
+                  "body": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                },
+                "additionalProperties": false
+              },
+              "FunctionExpression": {
+                "type": "object",
+                "properties": {
+                  "parameters": {
+                    "oneOf": [
+                      {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      {
+                        "enum": [
+                          "first",
+                          "off"
+                        ]
+                      }
+                    ]
+                  },
+                  "body": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                },
+                "additionalProperties": false
+              },
+              "StaticBlock": {
+                "type": "object",
+                "properties": {
+                  "body": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                },
+                "additionalProperties": false
+              },
+              "CallExpression": {
+                "type": "object",
+                "properties": {
+                  "arguments": {
+                    "oneOf": [
+                      {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      {
+                        "enum": [
+                          "first",
+                          "off"
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              },
+              "ArrayExpression": {
+                "oneOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "enum": [
+                      "first",
+                      "off"
+                    ]
+                  }
+                ]
+              },
+              "ObjectExpression": {
+                "oneOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "enum": [
+                      "first",
+                      "off"
+                    ]
+                  }
+                ]
+              },
+              "ImportDeclaration": {
+                "oneOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "enum": [
+                      "first",
+                      "off"
+                    ]
+                  }
+                ]
+              },
+              "flatTernaryExpressions": {
+                "type": "boolean",
+                "default": false
+              },
+              "offsetTernaryExpressions": {
+                "type": "boolean",
+                "default": false
+              },
+              "ignoredNodes": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "not": {
+                    "pattern": ":exit$"
+                  }
+                }
+              },
+              "ignoreComments": {
+                "type": "boolean",
+                "default": false
+              }
+            },
+            "additionalProperties": false
+          }
+        ],
+        "messages": {
+          "wrongIndentation": "Expected indentation of  but found ."
+        }
+      },
+      "semi": {
+        "deprecated": {
+          "message": "Formatting rules are being moved out of ESLint core.",
+          "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
+          "deprecatedSince": "8.53.0",
+          "availableUntil": "10.0.0",
+          "replacedBy": [
+            {
+              "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+              "url": "https://eslint.style/guide/migration",
+              "plugin": {
+                "name": "@stylistic/eslint-plugin",
+                "url": "https://eslint.style"
+              },
+              "rule": {
+                "name": "semi",
+                "url": "https://eslint.style/rules/semi"
+              }
+            }
+          ]
+        },
+        "type": "layout",
+        "docs": {
+          "description": "Require or disallow semicolons instead of ASI",
+          "recommended": false,
+          "url": "https://eslint.org/docs/latest/rules/semi"
+        },
+        "fixable": "code",
+        "schema": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": [
+                {
+                  "enum": [
+                    "never"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "beforeStatementContinuationChars": {
+                      "enum": [
+                        "always",
+                        "any",
+                        "never"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              ],
+              "minItems": 0,
+              "maxItems": 2
+            },
+            {
+              "type": "array",
+              "items": [
+                {
+                  "enum": [
+                    "always"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "omitLastInOneLineBlock": {
+                      "type": "boolean"
+                    },
+                    "omitLastInOneLineClassBody": {
+                      "type": "boolean"
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              ],
+              "minItems": 0,
+              "maxItems": 2
+            }
+          ]
+        },
+        "messages": {
+          "missingSemi": "Missing semicolon.",
+          "extraSemi": "Extra semicolon."
         }
       }
     }
