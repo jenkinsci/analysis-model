@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2025-07-25T14:02:24.195528207 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2025-07-26T16:26:57.616716938 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -2091,7 +2091,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
         </tr>
         <tr>
             <td colspan="4">
-                :bulb: Requires <a href='https://www.npmjs.com/package/stylelint-checkstyle-reporter'>stylelint-checkstyle-reporter</a>.<br/>Use <code>--custom-formatter node_modules/stylelint-checkstyle-reporter/index.js -o stylelint-warnings.xml</code>
+                :bulb: <p>Use <code>--formatter json</code></p><p>For checkstyle format install <a href='https://www.npmjs.com/package/stylelint-checkstyle-reporter'>stylelint-checkstyle-reporter</a>.<br/>Use <code>--custom-formatter node_modules/stylelint-checkstyle-reporter/index.js -o stylelint-warnings.xml</code><br/>The checkstyle formatter is deprecated. Use the json formatter instead.</p>
             </td>
         </tr>
         <tr>
