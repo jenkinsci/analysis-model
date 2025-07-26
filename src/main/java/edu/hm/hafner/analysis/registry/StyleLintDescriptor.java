@@ -30,7 +30,7 @@ class StyleLintDescriptor extends CompositeParserDescriptor {
         return "<p>Use <code>--formatter json</code></p>"
                 + "<p>For checkstyle format install <a href='https://www.npmjs.com/package/stylelint-checkstyle-reporter'>stylelint-checkstyle-reporter</a>."
                 + "<br/>Use <code>--custom-formatter node_modules/stylelint-checkstyle-reporter/index.js -o stylelint-warnings.xml</code>"
-                + "<br/>The checkstyle is deprecated. Use the json formatter instead."
+                + "<br/>The checkstyle formatter is deprecated. Use the json formatter instead."
                 + "</p>";
     }
 
