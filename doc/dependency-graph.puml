@@ -40,8 +40,8 @@ rectangle "pcollections\n\n4.0.2" as org_pcollections_pcollections_jar
 rectangle "nice-xml-messages\n\n3.1" as com_github_oowekyala_ooxml_nice_xml_messages_jar
 rectangle "pmd-java\n\n7.16.0" as net_sourceforge_pmd_pmd_java_jar
 rectangle "json\n\n20250517" as org_json_json_jar
-rectangle "json-smart\n\n2.5.2" as net_minidev_json_smart_jar
-rectangle "accessors-smart\n\n2.5.2" as net_minidev_accessors_smart_jar
+rectangle "json-smart\n\n2.6.0" as net_minidev_json_smart_jar
+rectangle "accessors-smart\n\n2.6.0" as net_minidev_accessors_smart_jar
 rectangle "codingstyle\n\n5.14.0" as edu_hm_hafner_codingstyle_jar
 rectangle "spotbugs-annotations\n\n4.9.3" as com_github_spotbugs_spotbugs_annotations_jar
 rectangle "error_prone_annotations\n\n2.39.0" as com_google_errorprone_error_prone_annotations_jar
