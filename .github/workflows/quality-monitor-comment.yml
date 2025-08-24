@@ -49,4 +49,4 @@ jobs:
           pr-number: ${{ steps.pr.outputs.number }}
           comments-strategy: REMOVE
           show-headers: true
-          title-metric: tests-success-rate
+          title-metric: none
