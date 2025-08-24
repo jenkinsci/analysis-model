@@ -24,66 +24,28 @@ jobs:
         uses: stCarolas/setup-maven@v5
         with:
           maven-version: 3.9.9
+      - name: Check if quality monitor reports mutation coverage
+        run: |
+          FILE='.github/quality-monitor.json'
+          PATTERN='target/pit-reports/mutations.xml'
+          if [ -f "$FILE" ]; then
+            if grep -q "$PATTERN" "$FILE"; then
+              echo "PIT=-Ppit" >> "$GITHUB_ENV"
+            fi
+          fi
       - name: Build and test with Maven
-        run: mvn -V --color always -ntp clean verify -Pci -Pdepgraph | tee maven.log
+        env:
+          PIT: ${{ env.PIT }}
+        run: mvn -V --color always -ntp clean verify -Pci $PIT -Pdepgraph | tee maven.log
+      - name: Read Quality Monitor Configuration
+        id: quality-monitor
+        run: echo "json=$(jq -c . .github/quality-monitor.json)" >> "$GITHUB_OUTPUT"
       - name: Run Quality Monitor
-        uses: uhafner/quality-monitor@v3
+        uses: uhafner/quality-monitor@delete-comments
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          config: >
-            {
-            "analysis": [
-              {
-                "name": "Style",
-                "id": "style",
-                "tools": [
-                  {
-                    "id": "checkstyle",
-                    "pattern": "**/target/checkstyle-*/checkstyle-result.xml"
-                  },
-                  {
-                    "id": "pmd",
-                    "pattern": "**/target/pmd-*/pmd.xml"
-                  }
-                ]
-              },
-              {
-                "name": "Bugs",
-                "id": "bugs",
-                "icon": "bug",
-                "tools": [
-                  {
-                    "id": "spotbugs",
-                    "sourcePath": "src/main/java",
-                    "pattern": "**/target/spotbugsXml.xml"
-                    },
-                    {
-                      "id": "error-prone",
-                      "pattern": "**/maven.log"
-                  }
-                ]
-              }
-            ],
-            "coverage": [
-              {
-                "name": "Code Coverage",
-                "tools": [
-                  {
-                    "id": "jacoco",
-                    "metric": "line",
-                    "sourcePath": "src/main/java",
-                    "pattern": "**/target/site/jacoco/jacoco.xml"
-                  },
-                  {
-                    "id": "jacoco",
-                    "metric": "branch",
-                    "sourcePath": "src/main/java",
-                    "pattern": "**/target/site/jacoco/jacoco.xml"
-                  }
-                ]
-              }
-            ]
-            }
+          config: ${{ steps.quality-monitor.outputs.json }}
+          comments-strategy: ADD
+          title-metric: none
       - name: Write metrics to GitHub output
         id: metrics
         run: |
