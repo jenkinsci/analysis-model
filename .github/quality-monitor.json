@@ -5,13 +5,13 @@
       {
         "id": "junit",
         "name": "Unit Tests",
-        "pattern": "**/target/*-reports/TEST*util*.xml"
+        "pattern": "**/target/surefire-reports/TEST*.xml"
       },
       {
         "id": "junit",
         "icon": "no_entry",
         "name": "Architecture Tests",
-        "pattern": "**/target/surefire-reports/TEST*archunit*.xml"
+        "pattern": "**/target/archunit-reports/TEST*.xml"
       }
     ]
   },
@@ -87,23 +87,6 @@
           "metric": "branch",
           "sourcePath": "src/main/java",
           "pattern": "**/target/site/jacoco/jacoco.xml"
-        }
-      ]
-    },
-    {
-      "name": "Mutation Coverage",
-      "tools": [
-        {
-          "id": "pit",
-          "metric": "mutation",
-          "sourcePath": "src/main/java",
-          "pattern": "**/target/pit-reports/mutations.xml"
-        },
-        {
-          "id": "pit",
-          "metric": "test-strength",
-          "sourcePath": "src/main/java",
-          "pattern": "**/target/pit-reports/mutations.xml"
         }
       ]
     }
