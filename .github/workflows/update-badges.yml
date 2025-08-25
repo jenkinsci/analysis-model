@@ -41,7 +41,7 @@ jobs:
         id: quality-monitor
         run: echo "json=$(jq -c . .github/quality-monitor.json)" >> "$GITHUB_OUTPUT"
       - name: Run Quality Monitor
-        uses: uhafner/quality-monitor@delete-comments
+        uses: uhafner/quality-monitor@v3
         with:
           config: ${{ steps.quality-monitor.outputs.json }}
           comments-strategy: ADD
