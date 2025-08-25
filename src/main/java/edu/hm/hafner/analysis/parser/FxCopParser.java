@@ -38,7 +38,7 @@ public class FxCopParser extends IssueParser {
         private final Report warnings = new Report();
         private final FxCopRuleSet ruleSet = new FxCopRuleSet();
 
-        public Report parse(final ReaderFactory readerFactory) throws ParsingException, ParsingCanceledException {
+        Report parse(final ReaderFactory readerFactory) throws ParsingException, ParsingCanceledException {
             try (var issueBuilder = new IssueBuilder()) {
                 var doc = readerFactory.readDocument();
 

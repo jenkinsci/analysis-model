@@ -159,7 +159,7 @@ public class CargoClippyParser extends LookaheadParser {
          *         the filename of the recommendation.
          */
         @SuppressFBWarnings("NM")
-        public void setFileName(final String fileName) {
+        void setFileName(final String fileName) {
             this.fileName = fileName;
         }
 
@@ -168,7 +168,7 @@ public class CargoClippyParser extends LookaheadParser {
          *
          * @return The filename (relative to the workspace)
          */
-        public String getFile() {
+        String getFile() {
             return this.fileName;
         }
 
@@ -178,7 +178,7 @@ public class CargoClippyParser extends LookaheadParser {
          * @param fileLine
          *         The line number.
          */
-        public void setFileLine(final Integer fileLine) {
+        void setFileLine(final Integer fileLine) {
             this.fileLine = fileLine;
         }
 
@@ -187,7 +187,7 @@ public class CargoClippyParser extends LookaheadParser {
          *
          * @return The line where the recommendation happened.
          */
-        public Integer getLine() {
+        Integer getLine() {
             return this.fileLine;
         }
 
@@ -197,7 +197,7 @@ public class CargoClippyParser extends LookaheadParser {
          * @param recommendation
          *         The recommendation string.
          */
-        public void setRecommendation(final String recommendation) {
+        void setRecommendation(final String recommendation) {
             this.recommendation = recommendation;
         }
 
@@ -206,7 +206,7 @@ public class CargoClippyParser extends LookaheadParser {
          *
          * @return The recommendation.
          */
-        public String getRecommendation() {
+        String getRecommendation() {
             return this.recommendation;
         }
 
@@ -216,7 +216,7 @@ public class CargoClippyParser extends LookaheadParser {
          * @param category
          *         The category name.
          */
-        public void setCategory(final String category) {
+        void setCategory(final String category) {
             this.category = category;
         }
 
@@ -225,7 +225,7 @@ public class CargoClippyParser extends LookaheadParser {
          *
          * @return The category name.
          */
-        public String getCategory() {
+        String getCategory() {
             return this.category;
         }
 
@@ -235,7 +235,7 @@ public class CargoClippyParser extends LookaheadParser {
          * @param level
          *         The component level.
          */
-        public void setLevel(final String level) {
+        void setLevel(final String level) {
             this.level = level;
         }
 
@@ -244,7 +244,7 @@ public class CargoClippyParser extends LookaheadParser {
          *
          * @return The current recommendation level.
          */
-        public String getLevel() {
+        String getLevel() {
             return this.level;
         }
 
@@ -254,7 +254,7 @@ public class CargoClippyParser extends LookaheadParser {
          * @param column
          *         The column number.
          */
-        public void setColumnStart(final Integer column) {
+        void setColumnStart(final Integer column) {
             this.columnStart = column;
         }
 
@@ -263,7 +263,7 @@ public class CargoClippyParser extends LookaheadParser {
          *
          * @return The column.
          */
-        public Integer getColumnStart() {
+        Integer getColumnStart() {
             return this.columnStart;
         }
 
@@ -273,7 +273,7 @@ public class CargoClippyParser extends LookaheadParser {
          * @param column
          *         The value for set to notiate the endinging column.
          */
-        public void setColumnEnd(final Integer column) {
+        void setColumnEnd(final Integer column) {
             this.columnEnd = column;
         }
 
@@ -282,7 +282,7 @@ public class CargoClippyParser extends LookaheadParser {
          *
          * @return The column number that ends the issue.
          */
-        public Integer getColumnEnd() {
+        Integer getColumnEnd() {
             return this.columnEnd;
         }
 
@@ -292,7 +292,7 @@ public class CargoClippyParser extends LookaheadParser {
          * @param summary
          *         The summary itself.
          */
-        public void setSummary(final String summary) {
+        void setSummary(final String summary) {
             this.summary = summary;
         }
 
@@ -301,7 +301,7 @@ public class CargoClippyParser extends LookaheadParser {
          *
          * @return The summary.
          */
-        public String getSummary() {
+        String getSummary() {
             return this.summary;
         }
 
@@ -313,7 +313,7 @@ public class CargoClippyParser extends LookaheadParser {
          * @param url
          *         the optional URL
          */
-        public void setHelp(final String text, @CheckForNull final String url) {
+        void setHelp(final String text, @CheckForNull final String url) {
             if (StringUtils.isBlank(url)) {
                 help = text;
             }
@@ -327,7 +327,7 @@ public class CargoClippyParser extends LookaheadParser {
          *
          * @return The help context.
          */
-        public String getHelp() {
+        String getHelp() {
             return this.help;
         }
     }

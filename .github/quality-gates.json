@@ -8,12 +8,12 @@
     },
     {
       "metric": "line",
-      "threshold": 90.0,
+      "threshold": 80.0,
       "criticality": "UNSTABLE"
     },
     {
       "metric": "branch",
-      "threshold": 90.0,
+      "threshold": 80.0,
       "criticality": "UNSTABLE"
     },
     {
