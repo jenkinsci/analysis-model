@@ -1,12 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.nio.file.Path;
-import java.util.Objects;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Stream;
-
 import org.apache.commons.lang3.EnumUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.CaseUtils;
@@ -18,6 +11,13 @@ import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
+
+import java.io.Serial;
+import java.nio.file.Path;
+import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 import static edu.hm.hafner.analysis.Categories.*;
 
@@ -56,7 +56,7 @@ public class RfLintParser extends IssueParser {
             this(e.severityLevel);
         }
 
-        public Severity getSeverityLevel() {
+        Severity getSeverityLevel() {
             return severityLevel;
         }
 
@@ -69,7 +69,7 @@ public class RfLintParser extends IssueParser {
          * @return An instance of RfLintSeverity matching the character. `WARNING` as the default if the severity
          *         character is not valid.
          */
-        public static RfLintSeverity fromCharacter(final char violationSeverity) {
+        static RfLintSeverity fromCharacter(final char violationSeverity) {
             if (EnumUtils.isValidEnum(RfLintSeverity.class, String.valueOf(violationSeverity))) {
                 return RfLintSeverity.valueOf(String.valueOf(violationSeverity));
             }
@@ -93,7 +93,7 @@ public class RfLintParser extends IssueParser {
             this.name = name;
         }
 
-        public String getName() {
+        String getName() {
             return name;
         }
     }
@@ -128,7 +128,7 @@ public class RfLintParser extends IssueParser {
             this.category = category;
         }
 
-        public RfLintCategory getCategory() {
+        RfLintCategory getCategory() {
             return category;
         }
 
@@ -140,7 +140,7 @@ public class RfLintParser extends IssueParser {
          *
          * @return An instance of RfLintRuleName matching the name. `UNKNOWN` as the default if the name is not valid.
          */
-        public static RfLintRuleName fromName(final String name) {
+        static RfLintRuleName fromName(final String name) {
             for (RfLintRuleName rule : values()) {
                 if (CaseUtils.toCamelCase(rule.name(), CAPITALIZE_FIRST_LETTER, '_').equals(name)) {
                     return rule;

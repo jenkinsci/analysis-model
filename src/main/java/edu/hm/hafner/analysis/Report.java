@@ -294,10 +294,10 @@ public class Report implements Iterable<Issue>, Serializable {
         return originReportFile;
     }
 
-    /*
+    /**
      * Stores the name of the report file that is the origin of the contained issues.
      *
-     * @param fileName
+     * @param originReportFile
      *         the report file name to add
      */
     public void setOriginReportFile(final String originReportFile) {

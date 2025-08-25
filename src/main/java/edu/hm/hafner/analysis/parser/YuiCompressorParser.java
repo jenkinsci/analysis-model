@@ -1,15 +1,15 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
+
+import java.io.Serial;
+import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * A parser for the YUI Compressor warnings.
@@ -122,11 +122,11 @@ public class YuiCompressorParser extends LookaheadParser {
             this.priority = priority;
         }
 
-        public String getCategory() {
+        String getCategory() {
             return category;
         }
 
-        public Severity getPriority() {
+        Severity getPriority() {
             return priority;
         }
     }
