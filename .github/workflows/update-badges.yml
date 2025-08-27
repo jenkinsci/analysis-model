@@ -33,10 +33,17 @@ jobs:
               echo "PIT=-Ppit" >> "$GITHUB_ENV"
             fi
           fi
+      - name: Cache the NVD database
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository/org/owasp/dependency-check-data
+          key: dependency-check
       - name: Build and test with Maven
         env:
           PIT: ${{ env.PIT }}
-        run: mvn -V --color always -ntp clean verify -Pci $PIT -Pdepgraph | tee maven.log
+        run: |
+          mvn -V --color always -ntp clean verify -Pci $PIT -Powasp -Pdepgraph | tee maven.log
+          touch target/dependency-check-report.json
       - name: Read Quality Monitor Configuration
         id: quality-monitor
         run: echo "json=$(jq -c . .github/quality-monitor.json)" >> "$GITHUB_OUTPUT"
