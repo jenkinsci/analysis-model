@@ -27,6 +27,11 @@
         {
           "id": "pmd",
           "pattern": "**/target/pmd-*/pmd.xml"
+        },
+        {
+          "id": "java",
+          "icon": "coffee",
+          "pattern": "**/maven.log"
         }
       ]
     },
