@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
@@ -612,7 +613,7 @@ public class IssueBuilder implements AutoCloseable {
     }
 
     private static String normalizeFileName(@CheckForNull final String platformFileName) {
-        return defaultString(StringUtils.replace(
+        return defaultString(Strings.CS.replace(
                 StringUtils.strip(platformFileName), "\\", "/"));
     }
 

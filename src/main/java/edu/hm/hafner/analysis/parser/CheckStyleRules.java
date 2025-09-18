@@ -1,5 +1,14 @@
 package edu.hm.hafner.analysis.parser;
 
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.apache.commons.digester3.Digester;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
+import org.xml.sax.SAXException;
+
+import edu.hm.hafner.analysis.SecureDigester;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,13 +18,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.apache.commons.digester3.Digester;
-import org.apache.commons.lang3.StringUtils;
-import org.xml.sax.SAXException;
-
-import edu.hm.hafner.analysis.SecureDigester;
 
 /**
  * Reads the meta data of the Checkstyle rules from the DocBook files of the Checkstyle distribution.
@@ -98,7 +100,7 @@ public class CheckStyleRules {
     public CheckStyleParser.Rule getRule(final String name) {
         var rule = rulesByName.get(name);
         if (rule == null) {
-            rule = rulesByName.get(StringUtils.removeEnd(name, "Check"));
+            rule = rulesByName.get(Strings.CS.removeEnd(name, "Check"));
         }
         if (rule == null) {
             return new CheckStyleParser.Rule(name);

@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
@@ -28,10 +29,10 @@ public final class Categories {
      * @return warning category, empty string if unknown
      */
     public static String guessCategory(@CheckForNull final String message) {
-        if (StringUtils.contains(message, "proprietary")) {
+        if (Strings.CS.contains(message, "proprietary")) {
             return PROPRIETARY_API;
         }
-        if (StringUtils.contains(message, "deprecated")) {
+        if (Strings.CS.contains(message, "deprecated")) {
             return DEPRECATION;
         }
         return StringUtils.EMPTY;

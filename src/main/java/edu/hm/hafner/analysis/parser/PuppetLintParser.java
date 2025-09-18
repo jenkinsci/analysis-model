@@ -1,17 +1,18 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
+
+import java.io.Serial;
+import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * A parser for puppet-lint checks warnings.
@@ -69,7 +70,7 @@ public class PuppetLintParser extends LookaheadParser {
             var subclassed = matcher.group(3);
             var module = SEPARATOR + main;
             if (StringUtils.isNotBlank(subclassed)) {
-                module += StringUtils.replace(subclassed, "/", SEPARATOR);
+                module += Strings.CS.replace(subclassed, "/", SEPARATOR);
             }
             return module;
         }

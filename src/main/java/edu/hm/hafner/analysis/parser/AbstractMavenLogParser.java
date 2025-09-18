@@ -1,11 +1,12 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.util.regex.Pattern;
-
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 import edu.hm.hafner.analysis.LookaheadParser;
+
+import java.io.Serial;
+import java.util.regex.Pattern;
 
 /**
  * A base class for parsers that will work on subsections of Maven build logs. These logs can be divided into sections
@@ -78,8 +79,8 @@ public abstract class AbstractMavenLogParser extends LookaheadParser {
             if (goal.contains(searchGoal)) {
                 return true;
             }
-            if (goal.contains(StringUtils.removeEnd(
-                    StringUtils.removeStart(searchGoal, MAVEN_PLUGIN_PREFIX), MAVEN_PLUGIN_SUFFIX))) {
+            if (goal.contains(Strings.CS.removeEnd(
+                    Strings.CS.removeStart(searchGoal, MAVEN_PLUGIN_PREFIX), MAVEN_PLUGIN_SUFFIX))) {
                 return true;
             }
         }

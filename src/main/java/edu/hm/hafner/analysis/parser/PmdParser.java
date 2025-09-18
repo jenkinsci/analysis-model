@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.xml.sax.SAXException;
 
 import edu.hm.hafner.analysis.IssueBuilder;
@@ -148,7 +149,7 @@ public class PmdParser extends IssueParser {
         if (original == null) {
             return StringUtils.EMPTY;
         }
-        if (StringUtils.endsWith(original, ".")) {
+        if (Strings.CS.endsWith(original, ".")) {
             return original;
         }
         else {

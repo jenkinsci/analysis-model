@@ -10,6 +10,7 @@ import edu.hm.hafner.analysis.registry.AbstractParserTest;
  *
  * @author Derrick Gibelyou
  */
+@SuppressWarnings("PMD.AssignmentInOperand")
 class MentorParserTest extends AbstractParserTest {
     MentorParserTest() {
         super("modelsim.log");

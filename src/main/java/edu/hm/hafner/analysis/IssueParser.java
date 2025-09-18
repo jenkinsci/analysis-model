@@ -1,15 +1,16 @@
 package edu.hm.hafner.analysis;
 
-import java.io.Serial;
-import java.io.Serializable;
-import java.util.Locale;
-import java.util.stream.Stream;
-
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 import edu.hm.hafner.analysis.Report.IssueType;
 import edu.hm.hafner.util.SecureXmlParserFactory;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
+
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.Locale;
+import java.util.stream.Stream;
 
 /**
  * Parses a file and returns the issues reported in this file.
@@ -159,7 +160,7 @@ public abstract class IssueParser implements Serializable {
      * @return {@code true} if the CharSequences are equal (case-insensitive), or both {@code null}
      */
     public static boolean equalsIgnoreCase(@CheckForNull final String a, @CheckForNull final String b) {
-        return StringUtils.equalsIgnoreCase(normalize(a), normalize(b));
+        return Strings.CI.equals(normalize(a), normalize(b));
     }
 
     private static String normalize(@CheckForNull final String input) {
