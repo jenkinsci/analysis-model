@@ -1,16 +1,17 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.util.Optional;
-import java.util.regex.Matcher;
-
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
+
+import java.io.Serial;
+import java.util.Optional;
+import java.util.regex.Matcher;
 
 /**
  * A parser for messages from the Intel C and Fortran compilers.
@@ -41,10 +42,10 @@ public class IntelParser extends LookaheadParser {
         var category = StringUtils.capitalize(matcher.group(5));
 
         Severity priority;
-        if (StringUtils.startsWith(category, "Remark") || StringUtils.startsWith(category, "Message")) {
+        if (Strings.CS.startsWith(category, "Remark") || Strings.CS.startsWith(category, "Message")) {
             priority = Severity.WARNING_LOW;
         }
-        else if (StringUtils.startsWith(category, "Error")) {
+        else if (Strings.CS.startsWith(category, "Error")) {
             priority = Severity.WARNING_HIGH;
         }
         else {

@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
+import org.apache.commons.lang3.Strings;
+
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingException;
@@ -49,7 +51,7 @@ public class PolyspaceParser extends IssueParser {
                 var line = lineIterator.next();
 
                 var attributes = line.split("\\t", 15 + offset);
-                if (containsAnyIgnoreCase(attributes[9], "Unreviewed", "To investigate", "To fix", "Other")) {
+                if (Strings.CI.containsAny(attributes[9], "Unreviewed", "To investigate", "To fix", "Other")) {
                     builder.setFileName(attributes[8]);
                     builder.setCategory(attributes[2]);
                     builder.setDescription(attributes[1]);
@@ -94,19 +96,19 @@ public class PolyspaceParser extends IssueParser {
 
     @SuppressWarnings("PMD.UseVarargs")
     private Severity mapPriority(final String[] attributes) {
-        if (equalsIgnoreCase(attributes[SEVERITY_INDEX], "Unset")) {
-            if (equalsIgnoreCase(attributes[FAMILY_INDEX], "Defect")
-                    || equalsIgnoreCase(attributes[COLOR_INDEX], "Red")) {
+        if (Strings.CI.equals(attributes[SEVERITY_INDEX], "Unset")) {
+            if (Strings.CI.equals(attributes[FAMILY_INDEX], "Defect")
+                    || Strings.CI.equals(attributes[COLOR_INDEX], "Red")) {
                 return Severity.WARNING_HIGH;
             }
-            else if (containsAnyIgnoreCase(attributes[COLOR_INDEX], "Orange", "Not Applicable")) {
+            else if (Strings.CI.containsAny(attributes[COLOR_INDEX], "Orange", "Not Applicable")) {
                 return Severity.WARNING_NORMAL;
             }
-            else if (containsAnyIgnoreCase(attributes[COLOR_INDEX], "Gray", "Green")) {
+            else if (Strings.CI.containsAny(attributes[COLOR_INDEX], "Gray", "Green")) {
                 return Severity.WARNING_LOW;
             }
         }
-        else if (equalsIgnoreCase(attributes[SEVERITY_INDEX], "High")) {
+        else if (Strings.CI.equals(attributes[SEVERITY_INDEX], "High")) {
             return Severity.WARNING_HIGH;
         }
         else if (equalsIgnoreCase(attributes[SEVERITY_INDEX], "Medium")) {

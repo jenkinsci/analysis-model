@@ -1,8 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -10,6 +9,8 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
+
+import java.io.Serial;
 
 import static j2html.TagCreator.*;
 
@@ -76,10 +77,10 @@ public class VeraCodePipelineScannerParser extends JsonIssueParser {
      * @return original file name or a java file name prepended with src/main/java
      */
     private String getEnrichedFileName(final String rawFileName) {
-        if (StringUtils.endsWith(rawFileName, ".java") && !StringUtils.startsWith(rawFileName, "src/main/java/")) {
+        if (Strings.CS.endsWith(rawFileName, ".java") && !Strings.CS.startsWith(rawFileName, "src/main/java/")) {
             return "src/main/java/" + rawFileName;
         }
-        else if (StringUtils.endsWith(rawFileName, ".kt") && !StringUtils.startsWith(rawFileName, "src/main/kotlin/")) {
+        else if (Strings.CS.endsWith(rawFileName, ".kt") && !Strings.CS.startsWith(rawFileName, "src/main/kotlin/")) {
             return "src/main/kotlin/" + rawFileName;
         }
         return rawFileName;

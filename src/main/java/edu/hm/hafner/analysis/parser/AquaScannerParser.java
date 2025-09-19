@@ -1,8 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -10,6 +8,8 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
+
+import java.io.Serial;
 
 import static j2html.TagCreator.*;
 
@@ -69,14 +69,14 @@ public class AquaScannerParser extends JsonIssueParser {
     }
 
     private Severity mapSeverity(final String string) {
-        if (StringUtils.containsAnyIgnoreCase(string, AQUA_VULNERABILITY_LEVEL_TAG_LOW,
+        if (Strings.CI.containsAny(string, AQUA_VULNERABILITY_LEVEL_TAG_LOW,
                 AQUA_VULNERABILITY_LEVEL_TAG_NEGLIGIBLE)) {
             return Severity.WARNING_LOW;
         }
-        else if (StringUtils.equalsIgnoreCase(string, AQUA_VULNERABILITY_LEVEL_TAG_MEDIUM)) {
+        else if (Strings.CI.equals(string, AQUA_VULNERABILITY_LEVEL_TAG_MEDIUM)) {
             return Severity.WARNING_NORMAL;
         }
-        else if (StringUtils.equalsIgnoreCase(string, AQUA_VULNERABILITY_LEVEL_TAG_HIGH)) {
+        else if (Strings.CI.equals(string, AQUA_VULNERABILITY_LEVEL_TAG_HIGH)) {
             return Severity.WARNING_HIGH;
         }
         return Severity.ERROR;
