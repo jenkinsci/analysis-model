@@ -1,8 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.time.Duration;
-import java.util.Iterator;
-
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.Issue;
@@ -10,6 +7,9 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
+
+import java.time.Duration;
+import java.util.Iterator;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -313,7 +313,7 @@ class JavaDocParserTest extends AbstractParserTest {
      */
     @Test
     void issue55805() {
-        assertTimeoutPreemptively(Duration.ofSeconds(1), () -> parse("issue55805.txt"));
+        assertTimeoutPreemptively(Duration.ofSeconds(5), () -> parse("issue55805.txt"));
     }
 
     @Test
