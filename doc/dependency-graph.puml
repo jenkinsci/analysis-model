@@ -6,7 +6,7 @@ skinparam rectangle {
   BackgroundColor<<runtime>> lightBlue
   BackgroundColor<<provided>> lightGray
 }
-rectangle "analysis-model\n\n13.8.0-SNAPSHOT" as edu_hm_hafner_analysis_model_jar
+rectangle "analysis-model\n\n13.9.0-SNAPSHOT" as edu_hm_hafner_analysis_model_jar
 rectangle "jsoup\n\n1.21.2" as org_jsoup_jsoup_jar
 rectangle "commons-io\n\n2.20.0" as commons_io_commons_io_jar
 rectangle "commons-digester3\n\n3.2" as org_apache_commons_commons_digester3_jar
@@ -42,8 +42,9 @@ rectangle "pmd-java\n\n7.17.0" as net_sourceforge_pmd_pmd_java_jar
 rectangle "json\n\n20250517" as org_json_json_jar
 rectangle "json-smart\n\n2.6.0" as net_minidev_json_smart_jar
 rectangle "accessors-smart\n\n2.6.0" as net_minidev_accessors_smart_jar
-rectangle "codingstyle\n\n5.18.0" as edu_hm_hafner_codingstyle_jar
+rectangle "codingstyle\n\n5.20.0" as edu_hm_hafner_codingstyle_jar
 rectangle "spotbugs-annotations\n\n4.9.6" as com_github_spotbugs_spotbugs_annotations_jar
+rectangle "jsr305\n\n3.0.2" as com_google_code_findbugs_jsr305_jar
 rectangle "error_prone_annotations\n\n2.41.0" as com_google_errorprone_error_prone_annotations_jar
 rectangle "commons-lang3\n\n3.18.0" as org_apache_commons_commons_lang3_jar
 rectangle "streamex\n\n0.8.4" as one_util_streamex_jar
@@ -97,6 +98,7 @@ net_minidev_json_smart_jar -[#000000]-> net_minidev_accessors_smart_jar
 edu_hm_hafner_analysis_model_jar -[#000000]-> net_minidev_json_smart_jar
 edu_hm_hafner_analysis_model_jar -[#000000]-> org_slf4j_slf4j_api_jar
 edu_hm_hafner_analysis_model_jar -[#000000]-> edu_hm_hafner_codingstyle_jar
+com_github_spotbugs_spotbugs_annotations_jar -[#000000]-> com_google_code_findbugs_jsr305_jar
 edu_hm_hafner_analysis_model_jar -[#000000]-> com_github_spotbugs_spotbugs_annotations_jar
 edu_hm_hafner_analysis_model_jar -[#000000]-> com_google_errorprone_error_prone_annotations_jar
 edu_hm_hafner_analysis_model_jar -[#000000]-> org_apache_commons_commons_lang3_jar
