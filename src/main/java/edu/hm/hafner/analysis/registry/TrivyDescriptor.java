@@ -30,7 +30,12 @@ class TrivyDescriptor extends ParserDescriptor {
                 code("trivy image -f json -o results.json 'image'"),
                 text(", see"),
                 a("tivy on Github").withHref("https://github.com/aquasecurity/trivy"),
-                text("for usage details.")).render();
+                text("for usage details."),
+                p("Supported scanners:"),
+                ul().with(
+                    li(a("Vulnerability Scanner").withHref("https://trivy.dev/latest/docs/scanner/vulnerability/")),
+                    li(a("Misconfiguration Scanner").withHref("https://trivy.dev/latest/docs/scanner/misconfiguration/"))
+                )).render();
     }
 
     @Override
