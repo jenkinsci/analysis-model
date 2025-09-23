@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2025-09-23T09:44:16.924844717 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2025-09-23T13:11:47.353942635 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -156,7 +156,7 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
         </tr>
         <tr>
             <td colspan="4">
-                :bulb: Use commandline <code>trivy image -f json -o results.json &#x27;image&#x27;</code>, see <a href="https://github.com/aquasecurity/trivy">tivy on Github</a> for usage details.
+                :bulb: Use commandline <code>trivy image -f json -o results.json &#x27;image&#x27;</code>, see <a href="https://github.com/aquasecurity/trivy">tivy on Github</a> for usage details. <p>Supported scanners:</p> <ul><li><a href="https://trivy.dev/latest/docs/scanner/vulnerability/">Vulnerability Scanner</a></li><li><a href="https://trivy.dev/latest/docs/scanner/misconfiguration/">Misconfiguration Scanner</a></li></ul>
             </td>
         </tr>
         <tr>
