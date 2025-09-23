@@ -138,10 +138,10 @@ public class TrivyParser extends JsonIssueParser {
         }
 
         ContainerTag referencesList = null;
-        var primaryURL = misconfiguration.optString("PrimaryURL", null);
-        if (primaryURL != null) {
+        var primaryUrl = misconfiguration.optString("PrimaryURL", null);
+        if (primaryUrl != null) {
             referencesList = ul();
-            referencesList.with(li(a(primaryURL).withHref(primaryURL)));
+            referencesList.with(li(a(primaryUrl).withHref(primaryUrl)));
         }
 
         var references = misconfiguration.optJSONArray("References");
