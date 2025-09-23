@@ -2,6 +2,8 @@ package edu.hm.hafner.analysis.parser;
 
 import java.io.Serial;
 
+import j2html.tags.ContainerTag;
+import j2html.tags.DomContent;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -19,6 +21,14 @@ import static j2html.TagCreator.*;
  * <p>
  * <strong>Usage: </strong>trivy image -f json -o results.json golang:1.12-alpine
  * </p>
+ *
+ * <p>
+ * The parser supports scanner results from:
+ * </p>
+ * <ul>
+ *  <li>Vulnerability Scanner</li>
+ *  <li>Misconfiguration Scanner</li>
+ * </ul>
  *
  * @author Thomas Fürer - tfuerer.javanet@gmail.com
  */
@@ -54,21 +64,36 @@ public class TrivyParser extends JsonIssueParser {
         for (int i = 0; i < jsonReport.length(); i++) {
             var component = (JSONObject) jsonReport.get(i);
             if (!component.isNull("Vulnerabilities")) {
-                var vulnerabilities = component.getJSONArray("Vulnerabilities");
-                for (Object vulnerability : vulnerabilities) {
-                    report.add(convertToIssue((JSONObject) vulnerability, issueBuilder));
+                for (Object vulnerability : component.getJSONArray("Vulnerabilities")) {
+                    report.add(convertToVulnerabilityIssue((JSONObject) vulnerability, issueBuilder));
+                }
+            }
+            if (!component.isNull("Misconfigurations")) {
+                for (Object misconfiguration : component.getJSONArray("Misconfigurations")) {
+                    issueBuilder.setFileName(component.optString("Target", VALUE_NOT_SET));
+                    report.add(convertToMisconfigurationIssue((JSONObject) misconfiguration, issueBuilder));
                 }
             }
         }
     }
 
-    private Issue convertToIssue(final JSONObject vulnerability, final IssueBuilder issueBuilder) {
+    private Issue convertToVulnerabilityIssue(final JSONObject vulnerability, final IssueBuilder issueBuilder) {
         return issueBuilder.setFileName(vulnerability.optString("PkgName", VALUE_NOT_SET))
                 .setCategory(vulnerability.optString("SeveritySource", VALUE_NOT_SET))
                 .setSeverity(mapSeverity(vulnerability.optString("Severity", "UNKNOWN")))
                 .setType(vulnerability.optString("VulnerabilityID", VALUE_NOT_SET))
                 .setMessage(vulnerability.optString("Title", "UNKNOWN"))
-                .setDescription(formatDescription(vulnerability))
+                .setDescription(formatVulnerabilityDescription(vulnerability))
+                .buildAndClean();
+    }
+
+    private Issue convertToMisconfigurationIssue(final JSONObject misconfiguration, final IssueBuilder issueBuilder) {
+        return issueBuilder
+                .setCategory(misconfiguration.optString("Type", VALUE_NOT_SET))
+                .setSeverity(mapSeverity(misconfiguration.optString("Severity", "UNKNOWN")))
+                .setType(misconfiguration.optString("ID", VALUE_NOT_SET))
+                .setMessage(misconfiguration.optString("Title", "UNKNOWN"))
+                .setDescription(formatMisconfigurationDescription(misconfiguration))
                 .buildAndClean();
     }
 
@@ -86,16 +111,54 @@ public class TrivyParser extends JsonIssueParser {
         return Severity.ERROR;
     }
 
-    private String formatDescription(final JSONObject vulnerability) {
+    private String formatVulnerabilityDescription(final JSONObject vulnerability) {
         var fileName = vulnerability.optString("PkgName", VALUE_NOT_SET);
         var installedVersion = vulnerability.optString("InstalledVersion", VALUE_NOT_SET);
         var fixedVersion = vulnerability.optString("FixedVersion", "still open");
-        var severity = vulnerability.optString("Severity", "UNKOWN");
+        var severity = vulnerability.optString("Severity", "UNKNOWN");
         var description = vulnerability.optString("Description", "");
         return join(p(div(b("File: "), text(fileName)),
                 div(b("Installed Version: "), text(installedVersion)),
                 div(b("Fixed Version: "), text(fixedVersion)),
                 div(b("Severity: "), text(severity)),
                 p(text(description)))).render();
+    }
+
+    private String formatMisconfigurationDescription(final JSONObject misconfiguration) {
+        DomContent description = p(misconfiguration.optString("Description", VALUE_NOT_SET));
+
+        var message = misconfiguration.optString("Message", null);
+        if (message != null) {
+            description = join(description, p(message));
+        }
+
+        var resolution = misconfiguration.optString("Resolution", null);
+        if (resolution != null) {
+            description = join(description, p(resolution));
+        }
+
+        ContainerTag referencesList = null;
+        var primaryURL = misconfiguration.optString("PrimaryURL", null);
+        if (primaryURL != null) {
+            referencesList = ul();
+            referencesList.with(li(a(primaryURL).withHref(primaryURL)));
+        }
+
+        var references = misconfiguration.optJSONArray("References");
+        if (references != null) {
+            if (referencesList == null) {
+                referencesList = ul();
+            }
+            for (int i = 0; i < references.length(); i++) {
+                var reference = references.getString(i);
+                referencesList.with(li(a(reference).withHref(reference)));
+            }
+        }
+
+        if (referencesList != null) {
+            description = join(description, p("References:"), referencesList);
+        }
+
+        return description.render();
     }
 }
