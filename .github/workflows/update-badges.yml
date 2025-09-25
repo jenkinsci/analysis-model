@@ -43,6 +43,9 @@ jobs:
           PIT: ${{ env.PIT }}
         run: |
           mvn -V --color always -ntp clean verify -Pci $PIT -Powasp -Pdepgraph | tee maven.log
+          if [ "${PIPESTATUS[0]}" != "0" ]; then
+             exit 1;
+          fi
           touch target/dependency-check-report.json
       - name: Read Quality Monitor Configuration
         id: quality-monitor
