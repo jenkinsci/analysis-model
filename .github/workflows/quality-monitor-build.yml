@@ -39,9 +39,13 @@ jobs:
       - name: Build with Maven
         env:
           NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
+          OSS_INDEX_TOKEN: ${{ secrets.OSS_INDEX_TOKEN }}
           PIT: ${{ env.PIT }}
         run: |
           mvn -V --color always -ntp clean verify $PIT -Pci -Powasp | tee maven.log
+          if [ "${PIPESTATUS[0]}" != "0" ]; then
+             exit 1;
+          fi
           mv -fv maven.log target/maven.log
       - name: Upload Quality Reports
         uses: actions/upload-artifact@v4
