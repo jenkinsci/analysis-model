@@ -70,11 +70,16 @@ public class Report implements Iterable<Issue>, Serializable {
     private String parserId = DEFAULT_ID; // since 13.0.0
     private IssueType elementType; // since 13.0.0
 
+    @SuppressWarnings("serial")
     private List<Report> subReports = new ArrayList<>(); // almost final
 
+    @SuppressWarnings("serial")
     private Set<Issue> elements = new LinkedHashSet<>();
+    @SuppressWarnings("serial")
     private List<String> infoMessages = new ArrayList<>();
+    @SuppressWarnings("serial")
     private List<String> errorMessages = new ArrayList<>();
+    @SuppressWarnings("serial")
     private Map<String, Integer> countersByKey = new HashMap<>();
 
     private int duplicatesSize;

@@ -1,15 +1,15 @@
 package edu.hm.hafner.analysis;
 
+import org.apache.commons.lang3.StringUtils;
+
+import edu.hm.hafner.util.Generated;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
-import org.apache.commons.lang3.StringUtils;
-
-import edu.hm.hafner.util.Generated;
-import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Links all affected files of a duplicated code fragment. A code duplication could be reported by a code duplication
@@ -19,6 +19,7 @@ public final class DuplicationGroup implements Serializable {
     @Serial
     private static final long serialVersionUID = -5005784523279541971L;
 
+    @SuppressWarnings("serial")
     private final List<Issue> occurrences = new ArrayList<>();
     private String codeFragment = StringUtils.EMPTY;
 

@@ -1,14 +1,14 @@
 package edu.hm.hafner.analysis.registry;
 
+import edu.hm.hafner.analysis.IssueParser;
+import edu.hm.hafner.analysis.ReaderFactory;
+import edu.hm.hafner.analysis.Report;
+
 import java.io.Serial;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-
-import edu.hm.hafner.analysis.IssueParser;
-import edu.hm.hafner.analysis.ReaderFactory;
-import edu.hm.hafner.analysis.Report;
 
 /**
  * A {@link CompositeParserDescriptor} is composed of several tools. Every parser of this suite will be called on the
@@ -64,6 +64,7 @@ abstract class CompositeParserDescriptor extends ParserDescriptor {
         @Serial
         private static final long serialVersionUID = -2319098057308618997L;
 
+        @SuppressWarnings("serial")
         private final List<IssueParser> parsers = new ArrayList<>();
 
         /**
