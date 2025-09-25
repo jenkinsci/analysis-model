@@ -1,5 +1,9 @@
 package edu.hm.hafner.analysis;
 
+import org.apache.commons.lang3.StringUtils;
+
+import edu.hm.hafner.util.LookaheadStream;
+
 import java.io.Serial;
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -7,10 +11,6 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
-
-import org.apache.commons.lang3.StringUtils;
-
-import edu.hm.hafner.util.LookaheadStream;
 
 /**
  * Parses a report file line by line for issues using a pre-defined regular expression. If the regular expression
@@ -41,6 +41,7 @@ public abstract class LookaheadParser extends IssueParser {
 
     private final Pattern pattern;
 
+    @SuppressWarnings("serial")
     private final Deque<String> recursiveDirectories;
 
     /**

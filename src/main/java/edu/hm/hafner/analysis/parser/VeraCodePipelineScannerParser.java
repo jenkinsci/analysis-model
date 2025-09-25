@@ -111,6 +111,7 @@ public class VeraCodePipelineScannerParser extends JsonIssueParser {
      *
      * @return field value of the source file
      */
+    @SuppressWarnings("unchecked")
     private <T> T getSourceFileField(final JSONObject finding, final String key, final T altValue) {
         final var files = finding.optJSONObject("files");
         if (files != null) {
