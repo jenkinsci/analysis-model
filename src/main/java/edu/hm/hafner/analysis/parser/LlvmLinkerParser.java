@@ -32,7 +32,6 @@ public class LlvmLinkerParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        
         String linkerName = matcher.group(1);  // ld.lld or ld.lld-15 (captured directly)
         String severity = matcher.group(2);    // error/warning/note  
         String message = matcher.group(3);     // the actual error message
