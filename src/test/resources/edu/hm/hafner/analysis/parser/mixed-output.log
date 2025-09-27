@@ -1,0 +1,7 @@
+make: Entering directory '/path/to/project'
+clang++ -c main.cpp
+main.cpp:42:10: error: undeclared identifier 'foo'
+ld.lld: error: cannot open libbar.so: No such file or directory
+make: *** [app] Error 1
+ld.lld: warning: creating a DT_TEXTREL in a shared object
+make: Leaving directory '/path/to/project'
