@@ -28,6 +28,9 @@ class SeverityTest {
         assertThat(Severity.guessFromString("WARNING")).isEqualTo(Severity.WARNING_NORMAL);
         assertThat(Severity.guessFromString("[WARNING]")).isEqualTo(Severity.WARNING_NORMAL);
 
+        assertThat(Severity.guessFromString("moderate")).isEqualTo(Severity.WARNING_NORMAL);
+        assertThat(Severity.guessFromString("MODERATE")).isEqualTo(Severity.WARNING_NORMAL);
+
         assertThat(Severity.guessFromString("something")).isEqualTo(Severity.WARNING_LOW);
         assertThat(Severity.guessFromString("")).isEqualTo(Severity.WARNING_LOW);
         assertThat(Severity.guessFromString("critical thing")).isEqualTo(Severity.ERROR);
