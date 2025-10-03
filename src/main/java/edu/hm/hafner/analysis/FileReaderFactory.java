@@ -1,5 +1,12 @@
 package edu.hm.hafner.analysis;
 
+import org.apache.commons.io.input.BOMInputStream;
+
+import com.google.errorprone.annotations.MustBeClosed;
+
+import edu.hm.hafner.util.SecureXmlParserFactory;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,13 +18,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
-
-import org.apache.commons.io.input.BOMInputStream;
-
-import com.google.errorprone.annotations.MustBeClosed;
-
-import edu.hm.hafner.util.SecureXmlParserFactory;
-import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Provides a {@link ReaderFactory} that returns readers for a given file.
@@ -73,7 +73,7 @@ public class FileReaderFactory extends ReaderFactory {
             throw new ParsingException(exception, "Can't find file '%s'", fileName);
         }
         catch (IOException | UncheckedIOException exception) {
-            throw new ParsingException(exception, "Can't parse file '%s'", fileName);
+            throw new ParsingException(exception, "Can't open file '%s'", fileName);
         }
     }
 

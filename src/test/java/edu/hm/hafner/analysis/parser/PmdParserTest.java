@@ -3,6 +3,7 @@ package edu.hm.hafner.analysis.parser;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
@@ -46,6 +47,13 @@ class PmdParserTest extends AbstractParserTest {
                 .hasPackageName("com.avaloq.adt.env.internal.ui.actions")
                 .hasFileName(
                         "C:/Build/Results/jobs/ADT-Base/workspace/com.avaloq.adt.ui/src/main/java/com/avaloq/adt/env/internal/ui/actions/CopyToClipboard.java");
+    }
+
+    @Test
+    void showFileNameWhenReportIsBroken() {
+        assertThatExceptionOfType(ParsingException.class).isThrownBy(
+                        () -> parseInPmdFolder("otherfile.xml"))
+                .withMessageContaining("target/test-classes/edu/hm/hafner/analysis/parser/pmd/otherfile.xml");
     }
 
     @Test

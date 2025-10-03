@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
@@ -15,6 +14,8 @@ import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.util.XmlElementUtil;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
+
+import java.io.Serial;
 
 /**
  * Parser for Taglist Maven Plugin output. During parse, class names are converted into assumed file system names, so
@@ -63,7 +64,7 @@ public class TaglistParser extends IssueParser {
             return report;
         }
         catch (XPathExpressionException e) {
-            throw new ParsingException(e);
+            throw new ParsingException(e, readerFactory);
         }
     }
 

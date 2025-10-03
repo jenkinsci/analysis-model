@@ -1,8 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
-import java.io.Serial;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,6 +10,9 @@ import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
+
+import java.io.IOException;
+import java.io.Serial;
 
 /**
  * Base class for parsers that operate on a `*.json` file that contains issues in a JSON data structure.
@@ -35,11 +35,11 @@ public abstract class JsonIssueParser extends IssueParser {
                 parseJsonArray(report, jsonReport, issueBuilder);
             }
             else {
-                throw new ParsingException("Cannot process parsed JSON object '%s'", parsedValue);
+                throw new ParsingException(readerFactory, "Cannot process parsed JSON object '%s'", parsedValue);
             }
         }
         catch (IOException | JSONException | ClassCastException e) {
-            throw new ParsingException(e);
+            throw new ParsingException(e, readerFactory);
         }
         return report;
     }

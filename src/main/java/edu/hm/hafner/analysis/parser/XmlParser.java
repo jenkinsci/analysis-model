@@ -1,6 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
@@ -20,6 +19,8 @@ import edu.hm.hafner.analysis.util.XmlElementUtil;
 import edu.hm.hafner.util.LineRange;
 import edu.hm.hafner.util.LineRangeList;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+import java.io.Serial;
 
 /**
  * Parser that reads the 1:1 XML mapping of the properties of the {@link Issue} bean.
@@ -103,7 +104,7 @@ public class XmlParser extends IssueParser {
             return report;
         }
         catch (XPathExpressionException e) {
-            throw new ParsingException(e);
+            throw new ParsingException(e, readerFactory);
         }
     }
 

@@ -1,9 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
-import java.io.Serial;
-import java.util.regex.Pattern;
-
 import org.apache.commons.io.input.ReaderInputStream;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -16,6 +12,10 @@ import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
+
+import java.io.IOException;
+import java.io.Serial;
+import java.util.regex.Pattern;
 
 /**
  * A parser for Simulink Check tool by Mathworks results. Used for HTML report files.
@@ -45,7 +45,7 @@ public class SimulinkCheckParser extends IssueParser {
             var systemElements = document.select(REPORT_CONTENT);
             var systemElement = systemElements.first();
             if (systemElement == null) {
-                throw new ParsingException("No system element found");
+                throw new ParsingException(readerFactory, "No system element found");
             }
             var report = new Report();
 
@@ -59,7 +59,7 @@ public class SimulinkCheckParser extends IssueParser {
             return report;
         }
         catch (IOException exception) {
-            throw new ParsingException(exception);
+            throw new ParsingException(exception, readerFactory);
         }
     }
 

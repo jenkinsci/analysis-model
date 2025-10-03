@@ -1,8 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.util.ArrayList;
-import java.util.List;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
@@ -21,6 +18,10 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.util.IntegerParser;
 import edu.hm.hafner.analysis.util.XmlElementUtil;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+import java.io.Serial;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A parser for the clang-analyzer static analysis warnings.
@@ -76,7 +77,7 @@ public class ClangAnalyzerPlistParser extends IssueParser {
             return report;
         }
         catch (XPathExpressionException e) {
-            throw new ParsingException(e);
+            throw new ParsingException(e, readerFactory);
         }
     }
 
