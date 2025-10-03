@@ -1,10 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
-import java.io.Serial;
-import java.util.Optional;
-import java.util.stream.StreamSupport;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -14,6 +9,11 @@ import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
+
+import java.io.IOException;
+import java.io.Serial;
+import java.util.Optional;
+import java.util.stream.StreamSupport;
 
 /**
  * Parser that reads the 1:1 JSON mapping of the properties of the {@link Issue} bean.
@@ -47,8 +47,8 @@ public class JsonParser extends JsonBaseParser {
             }
             return report;
         }
-        catch (IOException | JSONException e) {
-            throw new ParsingException(e);
+        catch (IOException | JSONException exception) {
+            throw new ParsingException(exception, readerFactory);
         }
     }
 }

@@ -94,7 +94,7 @@ public abstract class ReaderFactory {
             }
         }
         catch (UncheckedIOException e) {
-            throw new ParsingException(e);
+            throw new ParsingException(e, this);
         }
     }
 
@@ -105,7 +105,7 @@ public abstract class ReaderFactory {
                 closeable.close();
             }
             catch (Exception e) {
-                throw new ParsingException(e);
+                throw new ParsingException(e, this);
             }
         };
     }
@@ -127,7 +127,7 @@ public abstract class ReaderFactory {
             return lines.collect(Collectors.joining("\n"));
         }
         catch (UncheckedIOException exception) {
-            throw new ParsingException(exception);
+            throw new ParsingException(exception, this);
         }
     }
 
@@ -144,7 +144,7 @@ public abstract class ReaderFactory {
             return parserFactory.readDocument(reader, getCharset());
         }
         catch (IOException | SecureXmlParserFactory.ParsingException exception) {
-            throw new ParsingException(exception);
+            throw new ParsingException(exception, this);
         }
     }
 
@@ -171,7 +171,7 @@ public abstract class ReaderFactory {
             new SecureXmlParserFactory().parse(reader, getCharset(), handler);
         }
         catch (IOException | SecureXmlParserFactory.ParsingException exception) {
-            throw new ParsingException(exception);
+            throw new ParsingException(exception, this);
         }
     }
 }

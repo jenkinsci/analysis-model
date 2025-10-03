@@ -83,7 +83,7 @@ public class EclipseXmlParser extends IssueParser {
             return report;
         }
         catch (XPathExpressionException e) {
-            throw new ParsingException(e);
+            throw new ParsingException(e, readerFactory);
         }
     }
 

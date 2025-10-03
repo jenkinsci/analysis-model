@@ -104,7 +104,7 @@ public class FindBugsParser extends IssueParser {
             }
         }
         catch (SAXException | IOException exception) {
-            throw new ParsingException(exception);
+            throw new ParsingException(exception, readerFactory);
         }
 
         return parse(readerFactory, sources, builder, hashToMessageMapping, categories);
@@ -137,7 +137,7 @@ public class FindBugsParser extends IssueParser {
             }
         }
         catch (DocumentException | IOException exception) {
-            throw new ParsingException(exception);
+            throw new ParsingException(exception, readerFactory);
         }
     }
 

@@ -32,8 +32,8 @@ public class AjcParser extends IssueParser {
         try (Stream<String> lines = reader.readStream()) {
             return parse(lines);
         }
-        catch (UncheckedIOException e) {
-            throw new ParsingException(e);
+        catch (UncheckedIOException exception) {
+            throw new ParsingException(exception, reader);
         }
     }
 

@@ -56,13 +56,13 @@ public class CcmParser extends IssueParser {
         try (var reader = ccmXmlFile.create()) {
             Ccm report = digester.parse(reader);
             if (report == null) {
-                throw new ParsingException("Input stream is not a CCM file.");
+                throw new ParsingException(ccmXmlFile, "Input stream is not a CCM file.");
             }
 
             return report;
         }
         catch (IOException | SAXException exception) {
-            throw new ParsingException(exception);
+            throw new ParsingException(exception, ccmXmlFile);
         }
     }
 

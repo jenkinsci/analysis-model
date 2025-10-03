@@ -68,13 +68,13 @@ public class CheckStyleParser extends IssueParser {
         try (var reader = readerFactory.create()) {
             CheckStyle checkStyle = digester.parse(reader);
             if (checkStyle == null) {
-                throw new ParsingException("Input stream is not a Checkstyle file.");
+                throw new ParsingException(readerFactory, "Input stream is not a Checkstyle file.");
             }
 
             return convert(checkStyle);
         }
         catch (IOException | SAXException exception) {
-            throw new ParsingException(exception);
+            throw new ParsingException(exception, readerFactory);
         }
     }
 

@@ -1,10 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
-import java.io.Serial;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.digester3.Digester;
 import org.xml.sax.SAXException;
 
@@ -16,6 +11,11 @@ import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.SecureDigester;
 import edu.hm.hafner.analysis.Severity;
+
+import java.io.IOException;
+import java.io.Serial;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A duplication parser template for Digester based parsers.
@@ -78,7 +78,7 @@ public abstract class AbstractDryParser<T> extends IssueParser {
         try (var reader = readerFactory.create(); var issueBuilder = new IssueBuilder()) {
             var result = digester.parse(reader);
             if (result != duplications) { // NOPMD
-                throw new ParsingException("Input stream is not a valid duplications file.");
+                throw new ParsingException(readerFactory, "Input stream is not a valid duplications file.");
             }
 
             issueBuilder.setMessage("Found duplicated code.")
@@ -86,7 +86,7 @@ public abstract class AbstractDryParser<T> extends IssueParser {
             return convertDuplicationsToIssues(duplications, issueBuilder);
         }
         catch (IOException | SAXException exception) {
-            throw new ParsingException(exception);
+            throw new ParsingException(exception, readerFactory);
         }
     }
 
