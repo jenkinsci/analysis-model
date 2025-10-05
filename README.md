@@ -36,4 +36,6 @@ This library consists basically of three separate parts:
 All source code is licensed under the MIT license. 
 
 Contributions to this library are welcome, please refer to the separate [CONTRIBUTING](CONTRIBUTING.md) document
-for details on how to proceed! 
+for details on how to proceed!.
+
+This is a demonstration example
