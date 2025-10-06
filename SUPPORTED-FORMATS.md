@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2025-10-02T16:51:48.232765074 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2025-10-06T10:49:00.703982272 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -2337,6 +2337,27 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
             </td>
             <td>
                 -
+            </td>
+        </tr>
+        <tr>
+            <td>
+                npm-audit
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                <a href="https://docs.npmjs.com/cli/commands/npm-audit">
+                    npm Audit
+                </a>
+            </td>
+            <td>
+                -
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Use commandline <code>npm audit --json &gt; npm-audit.json</code>, see <a href="https://docs.npmjs.com/cli/commands/npm-audit">npm audit</a> for usage details.
             </td>
         </tr>
         <tr>
