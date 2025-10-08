@@ -1,0 +1,4 @@
+ld.lld: error: cannot open xyz: No such file or directory
+ld.lld-15: error: undefined symbol: lld::elf::demangle(llvm::StringRef)
+ld.lld: warning: duplicate symbol found
+ld.lld: note: creating a DT_TEXTREL in a shared object

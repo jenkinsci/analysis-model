@@ -1,23 +1,27 @@
 package edu.hm.hafner.analysis.registry;
 
+import java.util.Collection;
+
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.ClangParser;
+import edu.hm.hafner.analysis.parser.LlvmLinkerParser;
 
 /**
- * A descriptor for the Clang parser.
+ * A descriptor for the Clang parser (compiler + linker).
  *
  * @author Lorenz Munsch
+ * @author Steven Scheffler
  */
-class ClangDescriptor extends ParserDescriptor {
+class ClangDescriptor extends CompositeParserDescriptor {
     private static final String ID = "clang";
-    private static final String NAME = "Clang";
+    private static final String NAME = "Clang (LLVM based)";
 
     ClangDescriptor() {
         super(ID, NAME);
     }
 
     @Override
-    public IssueParser create(final Option... options) {
-        return new ClangParser();
+    protected Collection<? extends IssueParser> createParsers() {
+        return asList(new ClangParser(), new LlvmLinkerParser());
     }
 }
