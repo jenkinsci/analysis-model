@@ -43,11 +43,14 @@ public class GccParser extends LookaheadParser {
             Severity priority;
             if (equalsIgnoreCase(matcher.group(10), "warning")) {
                 priority = Severity.WARNING_NORMAL;
-            } else if (equalsIgnoreCase(matcher.group(10), "error")) {
+            } 
+            else if (equalsIgnoreCase(matcher.group(10), "error")) {
                 priority = Severity.WARNING_HIGH;
-            } else if (equalsIgnoreCase(matcher.group(10), "note")) {
+            } 
+            else if (equalsIgnoreCase(matcher.group(10), "note")) {
                 priority = Severity.WARNING_LOW;
-            } else {
+            } 
+            else {
                 priority = Severity.WARNING_NORMAL;
             }
 
