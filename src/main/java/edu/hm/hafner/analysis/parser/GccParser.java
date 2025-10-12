@@ -121,8 +121,7 @@ public class GccParser extends LookaheadParser {
     }
 
     /**
-     * Determines if the next line is a continuation of a cc1/cc1plus warning
-     * message.
+     * Determines if the next line is a continuation of a cc1/cc1plus warning message.
      *
      * @param lookahead the lookahead stream
      * @return true if the next line is a continuation
@@ -132,8 +131,7 @@ public class GccParser extends LookaheadParser {
         if (peek.length() < 3) {
             return false;
         }
-        // Don't continue if the line starts with common patterns that indicate a new
-        // message
+        // Don't continue if the line starts with common patterns that indicate a new message
         if (peek.charAt(0) == '/' || peek.charAt(0) == '[' || peek.charAt(0) == '<' || peek.charAt(0) == '=') {
             return false;
         }
