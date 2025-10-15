@@ -19,8 +19,10 @@ public class LlvmLinkerParser extends LookaheadParser {
     @Serial
     private static final long serialVersionUID = 1L;
 
+    // Capture optional path + program (handles /foo/bar/ld.lld, C:\foo\ld.lld-15.exe, etc.)
     // Named groups: linker, severity, message
-    private static final String LLD_LINKER_PATTERN = "^.*[/\\\\]?(?<linker>ld\\.lld(?:-\\d+)?):\\s*(?<severity>error|warning|note):\\s*(?<message>.*)$";
+    private static final String LLD_LINKER_PATTERN = 
+        "^(?<linker>.*[/\\\\]?ld\\.lld(?:-\\d+)?(?:\\.exe)?):\\s*(?<severity>error|warning|note):\\s*(?<message>.*)$";
 
     /**
      * Creates a new instance of {@link LlvmLinkerParser}.
@@ -32,11 +34,14 @@ public class LlvmLinkerParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        String linkerName = matcher.group("linker");    // e.g., ld.lld or ld.lld-15
-        String severity   = matcher.group("severity");  // error|warning|note
-        String message    = matcher.group("message");   // full message text
-        
-        return builder.setFileName(linkerName)  // Use captured linker name
+        final String linkerPath = matcher.group("linker");
+        final String severity   = matcher.group("severity");
+        final String message    = matcher.group("message");
+
+        // Strip any path prefix and prepend "/" to prevent relative path resolution
+        final String fileName = "/" + linkerPath.replaceFirst("^.*[/\\\\]", "");
+
+        return builder.setFileName(fileName)
                 .setLineStart(0)
                 .setColumnStart(0)
                 .setCategory("Linker")

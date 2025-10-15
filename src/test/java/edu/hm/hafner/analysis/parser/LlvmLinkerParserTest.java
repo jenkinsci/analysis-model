@@ -37,7 +37,7 @@ class LlvmLinkerParserTest extends AbstractParserTest {
                 .hasLineStart(0)
                 .hasColumnStart(0)
                 .hasMessage("cannot open xyz: No such file or directory")
-                .hasFileName("ld.lld")
+                .hasFileName("/ld.lld")
                 .hasCategory("Linker")
                 .hasSeverity(Severity.WARNING_HIGH);
 
@@ -45,7 +45,7 @@ class LlvmLinkerParserTest extends AbstractParserTest {
                 .hasLineStart(0)
                 .hasColumnStart(0)
                 .hasMessage("undefined symbol: lld::elf::demangle(llvm::StringRef)")
-                .hasFileName("ld.lld-15")
+                .hasFileName("/ld.lld-15")
                 .hasCategory("Linker")
                 .hasSeverity(Severity.WARNING_HIGH);
 
@@ -53,7 +53,7 @@ class LlvmLinkerParserTest extends AbstractParserTest {
                 .hasLineStart(0)
                 .hasColumnStart(0)
                 .hasMessage("duplicate symbol found")
-                .hasFileName("ld.lld")
+                .hasFileName("/ld.lld")
                 .hasCategory("Linker")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
@@ -61,7 +61,7 @@ class LlvmLinkerParserTest extends AbstractParserTest {
                 .hasLineStart(0)
                 .hasColumnStart(0)
                 .hasMessage("creating a DT_TEXTREL in a shared object")
-                .hasFileName("ld.lld")
+                .hasFileName("/ld.lld")
                 .hasCategory("Linker")
                 .hasSeverity(Severity.WARNING_LOW);
     }
@@ -73,7 +73,7 @@ class LlvmLinkerParserTest extends AbstractParserTest {
 
         try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
-                    .hasFileName("ld.lld-15")
+                    .hasFileName("/ld.lld-15")
                     .hasMessage("cannot find -lmylib");
         }
     }
@@ -84,7 +84,7 @@ class LlvmLinkerParserTest extends AbstractParserTest {
         assertThat(warnings).hasSize(2);
         assertThat(warnings.stream())
             .allSatisfy(issue ->
-                assertThat(issue).hasFileName("ld.lld"));
+                assertThat(issue).hasFileName("/ld.lld"));
     }
 
     @Test
@@ -95,7 +95,7 @@ class LlvmLinkerParserTest extends AbstractParserTest {
         try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
                     .hasMessage("cannot open xyz: No such file or directory")
-                    .hasFileName("ld.lld-15")
+                    .hasFileName("/ld.lld-15")
                     .hasSeverity(Severity.WARNING_HIGH);
         }
     }
