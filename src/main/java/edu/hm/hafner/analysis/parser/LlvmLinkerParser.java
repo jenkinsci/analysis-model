@@ -13,14 +13,14 @@ import edu.hm.hafner.util.LookaheadStream;
 /**
  * A parser for LLVM lld linker warnings and errors.
  *
- * @author [Your Name]
+ * @author Steven Scheffler
  */
 public class LlvmLinkerParser extends LookaheadParser {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    // Pattern that captures the linker name specifically
-    private static final String LLD_LINKER_PATTERN = "^.*[/\\\\]?(ld\\.lld(?:-\\d+)?):\\s*(error|warning|note):\\s*(.*)$";
+    // Named groups: linker, severity, message
+    private static final String LLD_LINKER_PATTERN = "^.*[/\\\\]?(?<linker>ld\\.lld(?:-\\d+)?):\\s*(?<severity>error|warning|note):\\s*(?<message>.*)$";
 
     /**
      * Creates a new instance of {@link LlvmLinkerParser}.
@@ -32,9 +32,9 @@ public class LlvmLinkerParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        String linkerName = matcher.group(1);  // ld.lld or ld.lld-15 (captured directly)
-        String severity = matcher.group(2);    // error/warning/note  
-        String message = matcher.group(3);     // the actual error message
+        String linkerName = matcher.group("linker");    // e.g., ld.lld or ld.lld-15
+        String severity   = matcher.group("severity");  // error|warning|note
+        String message    = matcher.group("message");   // full message text
         
         return builder.setFileName(linkerName)  // Use captured linker name
                 .setLineStart(0)

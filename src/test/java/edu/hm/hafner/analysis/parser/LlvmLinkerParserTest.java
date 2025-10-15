@@ -15,7 +15,7 @@ import static edu.hm.hafner.analysis.assertions.Assertions.*;
 /**
  * Tests the class {@link LlvmLinkerParser}.
  *
- * @author [Your Name]
+ * @author Steven Scheffler
  */
 class LlvmLinkerParserTest extends AbstractParserTest {
     LlvmLinkerParserTest() {
@@ -82,9 +82,9 @@ class LlvmLinkerParserTest extends AbstractParserTest {
     void shouldIgnoreNonLldLines() {
         var warnings = parse("mixed-output.log");
         assertThat(warnings).hasSize(2);
-        assertThat(warnings.stream().allMatch(issue ->
-            issue.getFileName().endsWith("ld.lld")))
-                .isTrue();
+        assertThat(warnings.stream())
+            .allSatisfy(issue ->
+                assertThat(issue).hasFileName("ld.lld"));
     }
 
     @Test
@@ -94,7 +94,7 @@ class LlvmLinkerParserTest extends AbstractParserTest {
 
         try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
-                    .hasMessage("cannot open xyz: No such file or directory") 
+                    .hasMessage("cannot open xyz: No such file or directory")
                     .hasFileName("ld.lld-15")
                     .hasSeverity(Severity.WARNING_HIGH);
         }
