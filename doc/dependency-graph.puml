@@ -19,13 +19,13 @@ rectangle "violations-lib\n\n1.160.2" as se_bjurr_violations_violations_lib_jar
 rectangle "j2html\n\n1.4.0" as com_j2html_j2html_jar
 rectangle "xercesImpl\n\n2.12.2" as xerces_xercesImpl_jar
 rectangle "xml-apis\n\n1.4.01" as xml_apis_xml_apis_jar
-rectangle "spotbugs\n\n4.9.6" as com_github_spotbugs_spotbugs_jar
-rectangle "asm\n\n9.8" as org_ow2_asm_asm_jar
-rectangle "asm-analysis\n\n9.8" as org_ow2_asm_asm_analysis_jar
-rectangle "asm-tree\n\n9.8" as org_ow2_asm_asm_tree_jar
-rectangle "asm-commons\n\n9.8" as org_ow2_asm_asm_commons_jar
-rectangle "asm-util\n\n9.8" as org_ow2_asm_asm_util_jar
-rectangle "bcel\n\n6.10.0" as org_apache_bcel_bcel_jar
+rectangle "spotbugs\n\n4.9.7" as com_github_spotbugs_spotbugs_jar
+rectangle "asm\n\n9.9" as org_ow2_asm_asm_jar
+rectangle "asm-analysis\n\n9.9" as org_ow2_asm_asm_analysis_jar
+rectangle "asm-tree\n\n9.9" as org_ow2_asm_asm_tree_jar
+rectangle "asm-commons\n\n9.9" as org_ow2_asm_asm_commons_jar
+rectangle "asm-util\n\n9.9" as org_ow2_asm_asm_util_jar
+rectangle "bcel\n\n6.11.0" as org_apache_bcel_bcel_jar
 rectangle "jcip-annotations\n\n1.0-1" as com_github_stephenc_jcip_jcip_annotations_jar
 rectangle "dom4j\n\n2.2.0" as org_dom4j_dom4j_jar
 rectangle "gson\n\n2.13.2" as com_google_code_gson_gson_jar
@@ -73,6 +73,7 @@ org_ow2_asm_asm_util_jar .[#ABABAB].> org_ow2_asm_asm_jar
 org_ow2_asm_asm_util_jar .[#ABABAB].> org_ow2_asm_asm_tree_jar
 org_ow2_asm_asm_util_jar .[#ABABAB].> org_ow2_asm_asm_analysis_jar
 com_github_spotbugs_spotbugs_jar -[#000000]-> org_ow2_asm_asm_util_jar
+org_apache_bcel_bcel_jar .[#ABABAB].> commons_io_commons_io_jar
 com_github_spotbugs_spotbugs_jar -[#000000]-> org_apache_bcel_bcel_jar
 com_github_spotbugs_spotbugs_jar -[#000000]-> com_github_stephenc_jcip_jcip_annotations_jar
 com_github_spotbugs_spotbugs_jar -[#000000]-> org_dom4j_dom4j_jar
