@@ -449,6 +449,12 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(9, "clang", "apple-llvm-clang.txt");
     }
 
+    /** Runs the Clang parser on mixed compiler and linker errors. */
+    @Test
+    void shouldFindAllClangAndLldIssues() {
+        findIssuesOfTool(4, "clang", "mixed-clang-lld-errors.log");
+    }
+
     /** Runs the Coolflux parser on an output file that contains 1 issues. */
     @Test
     void shouldFindAllCoolfluxIssues() {
