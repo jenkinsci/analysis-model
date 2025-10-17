@@ -22,7 +22,7 @@ public class LlvmLinkerParser extends LookaheadParser {
     // Capture optional path + program (handles /foo/bar/ld.lld, C:\foo\ld.lld-15.exe, etc.)
     // Named groups: linker, severity, message
     private static final String LLD_LINKER_PATTERN = 
-        "^(?<linker>.*[/\\\\]?ld\\.lld(?:-\\d+)?(?:\\.exe)?):\\s*(?<severity>error|warning|note):\\s*(?<message>.*)$";
+            "^(?<linker>.*[/\\\\]?ld\\.lld(?:-\\d+)?(?:\\.exe)?):\\s*(?<severity>error|warning|note):\\s*(?<message>.*)$";
 
     /**
      * Creates a new instance of {@link LlvmLinkerParser}.
