@@ -82,9 +82,7 @@ class LlvmLinkerParserTest extends AbstractParserTest {
     void shouldIgnoreNonLldLines() {
         var warnings = parse("mixed-output.log");
         assertThat(warnings).hasSize(2);
-        assertThat(warnings.stream())
-            .allSatisfy(issue ->
-                assertThat(issue).hasFileName("/ld.lld"));
+        assertThat(warnings.stream()).allSatisfy(issue -> assertThat(issue).hasFileName("/ld.lld"));
     }
 
     @Test
