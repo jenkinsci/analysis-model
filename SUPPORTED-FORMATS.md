@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2025-10-16T22:23:36.637257915 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2025-10-17T22:24:48.698075623 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -429,7 +429,7 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
                 -
             </td>
             <td>
-                Clang
+                Clang (LLVM based)
             </td>
             <td>
                 -
