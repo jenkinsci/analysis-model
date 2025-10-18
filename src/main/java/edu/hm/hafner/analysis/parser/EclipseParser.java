@@ -1,13 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 import edu.hm.hafner.analysis.Categories;
 import edu.hm.hafner.analysis.Issue;
@@ -15,6 +8,13 @@ import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.util.LookaheadStream;
+
+import java.io.Serial;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * A parser for Eclipse compiler warnings.
@@ -92,7 +92,7 @@ public class EclipseParser extends LookaheadParser {
      *     issue to examine.
      */
     static void extractCategory(final IssueBuilder builder, final String message) {
-        if (StringUtils.startsWith(message, JAVADOC_PREFIX)) {
+        if (Strings.CS.startsWith(message, JAVADOC_PREFIX)) {
             builder.setCategory(Categories.JAVADOC);
         }
         else {

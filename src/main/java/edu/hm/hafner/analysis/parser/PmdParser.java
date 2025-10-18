@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.xml.sax.SAXException;
 
 import edu.hm.hafner.analysis.IssueBuilder;
@@ -61,13 +62,13 @@ public class PmdParser extends IssueParser {
         try (var reader = readerFactory.create()) {
             Pmd pmd = digester.parse(reader);
             if (pmd == null) {
-                throw new ParsingException("Input stream is not a PMD file.");
+                throw new ParsingException(readerFactory, "Input stream is not a PMD file.");
             }
 
             return convertIssues(pmd);
         }
         catch (IOException | SAXException exception) {
-            throw new ParsingException(exception);
+            throw new ParsingException(exception, readerFactory);
         }
     }
 
@@ -87,13 +88,13 @@ public class PmdParser extends IssueParser {
         try (var reader = readerFactory.create()) {
             Pmd pmd = digester.parse(reader);
             if (pmd == null) {
-                throw new ParsingException("Input stream is not a PMD file.");
+                throw new ParsingException(readerFactory, "Input stream is not a PMD file.");
             }
 
             return convertErrors(pmd);
         }
         catch (IOException | SAXException exception) {
-            throw new ParsingException(exception);
+            throw new ParsingException(exception, readerFactory);
         }
     }
 
@@ -148,7 +149,7 @@ public class PmdParser extends IssueParser {
         if (original == null) {
             return StringUtils.EMPTY;
         }
-        if (StringUtils.endsWith(original, ".")) {
+        if (Strings.CS.endsWith(original, ".")) {
             return original;
         }
         else {

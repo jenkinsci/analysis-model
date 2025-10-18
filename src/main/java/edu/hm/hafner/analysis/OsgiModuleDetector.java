@@ -1,5 +1,10 @@
 package edu.hm.hafner.analysis;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
+
+import edu.hm.hafner.analysis.ModuleDetectorRunner.FileSystemFacade;
+
 import java.io.IOException;
 import java.nio.file.InvalidPathException;
 import java.util.List;
@@ -7,10 +12,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
-
-import org.apache.commons.lang3.StringUtils;
-
-import edu.hm.hafner.analysis.ModuleDetectorRunner.FileSystemFacade;
 
 /**
  * Detects module names by parsing the name of OSGi specific source files.
@@ -88,7 +89,7 @@ class OsgiModuleDetector extends AbstractModuleDetector {
     private String getLocalizedValue(final Attributes attributes, final Properties properties,
             final String bundleName) {
         var value = attributes.getValue(bundleName);
-        if (StringUtils.startsWith(StringUtils.trim(value), REPLACEMENT_CHAR)) {
+        if (Strings.CS.startsWith(StringUtils.trim(value), REPLACEMENT_CHAR)) {
             return properties.getProperty(StringUtils.substringAfter(value, REPLACEMENT_CHAR));
         }
         return value;

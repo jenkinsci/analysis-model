@@ -1,9 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.util.List;
-
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.apache.commons.text.StringEscapeUtils;
 import org.w3c.dom.Element;
 
@@ -15,6 +12,9 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.util.IntegerParser;
 import edu.hm.hafner.analysis.util.XmlElementUtil;
+
+import java.io.Serial;
+import java.util.List;
 
 /**
  * A parser for IntelliJ IDEA inspections.
@@ -69,7 +69,7 @@ public class IdeaInspectionParser extends IssueParser {
     }
 
     private String stripPathPrefix(final String file) {
-        return StringUtils.removeStart(file, PATH_PREFIX);
+        return Strings.CS.removeStart(file, PATH_PREFIX);
     }
 
     private String getValue(final Element element) {

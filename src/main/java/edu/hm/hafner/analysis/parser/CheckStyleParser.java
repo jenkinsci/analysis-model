@@ -9,6 +9,7 @@ import javax.xml.transform.stream.StreamResult;
 import org.apache.commons.beanutils.MethodUtils;
 import org.apache.commons.digester3.NodeCreateRule;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
@@ -67,13 +68,13 @@ public class CheckStyleParser extends IssueParser {
         try (var reader = readerFactory.create()) {
             CheckStyle checkStyle = digester.parse(reader);
             if (checkStyle == null) {
-                throw new ParsingException("Input stream is not a Checkstyle file.");
+                throw new ParsingException(readerFactory, "Input stream is not a Checkstyle file.");
             }
 
             return convert(checkStyle);
         }
         catch (IOException | SAXException exception) {
-            throw new ParsingException(exception);
+            throw new ParsingException(exception, readerFactory);
         }
     }
 
@@ -115,7 +116,7 @@ public class CheckStyleParser extends IssueParser {
 
     @CheckForNull
     private String getType(@CheckForNull final String source) {
-        if (StringUtils.contains(source, '.')) {
+        if (Strings.CS.contains(source, ".")) {
             return StringUtils.substringAfterLast(source, ".");
         }
         return source;
@@ -131,7 +132,7 @@ public class CheckStyleParser extends IssueParser {
      * @return {@code true} if this warning is valid
      */
     private boolean isValidWarning(final File file) {
-        return !StringUtils.endsWith(file.getName(), "package.html");
+        return !Strings.CS.endsWith(file.getName(), "package.html");
     }
 
     /**
@@ -449,9 +450,9 @@ public class CheckStyleParser extends IssueParser {
             var prefixRemoved = StringUtils.substringAfter(text, ">");
             var suffixRemoved = StringUtils.substringBeforeLast(prefixRemoved, "<");
 
-            var endSourceRemoved = StringUtils.replace(suffixRemoved, "</source>", "</code></pre>");
+            var endSourceRemoved = Strings.CS.replace(suffixRemoved, "</source>", "</code></pre>");
 
-            return StringUtils.replace(endSourceRemoved, "<source>", "<pre><code>");
+            return Strings.CS.replace(endSourceRemoved, "<source>", "<pre><code>");
         }
     }
 }

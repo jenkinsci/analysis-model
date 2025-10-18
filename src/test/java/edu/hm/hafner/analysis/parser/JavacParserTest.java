@@ -1,8 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.time.Duration;
-import java.util.Iterator;
-
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.Categories;
@@ -11,6 +8,9 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
+
+import java.time.Duration;
+import java.util.Iterator;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -26,6 +26,13 @@ class JavacParserTest extends AbstractParserTest {
     @Override
     protected JavacParser createParser() {
         return new JavacParser();
+    }
+
+    @Test
+    void shouldIgnoreSurefireMessages() {
+        var report = parseStringContent("[\u001B[1;33mWARNING\u001B[m] 'build.plugins.plugin.version' for org.sonatype.plugins:nexus-staging-maven-plugin is missing. @ edu.hm.hafner:analysis-model:${revision}${changelist}, /home/runner/work/analysis-model/analysis-model/pom.xml, line 303, column 15");
+
+        assertThat(report).isEmpty();
     }
 
     @Test
@@ -76,7 +83,7 @@ class JavacParserTest extends AbstractParserTest {
     }
 
     /**
-     * Parses a warning log with two warning generated on windows.
+     * Parses a warning log with two warnings generated on windows.
      *
      * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-66737">Issue 66738</a>
      */
@@ -395,28 +402,26 @@ class JavacParserTest extends AbstractParserTest {
     void issue70153() {
         var warnings = parse("issue70153.txt");
 
-        assertThat(warnings).hasSize(4);
+        assertThat(warnings).hasSize(3);
 
-        assertThat(warnings.get(0))
-                .hasSeverity(Severity.WARNING_NORMAL)
-                .hasLineStart(0)
-                .hasColumnStart(0);
-
-        assertThat(warnings.get(1))
+        int index = 0;
+        assertThat(warnings.get(index))
                 .hasSeverity(Severity.WARNING_NORMAL)
                 .hasLineStart(35)
                 .hasColumnStart(35)
                 .hasFileName("/var/lib/jenkins/workspace/.../CountryFavoriteRepositoryImpl.kt")
                 .hasMessage("Type mismatch: inferred type is CountryFavoriteDto? but CountryFavoriteDto was expected");
 
-        assertThat(warnings.get(2))
+        index++;
+        assertThat(warnings.get(index))
                 .hasSeverity(Severity.WARNING_NORMAL)
                 .hasLineStart(86)
                 .hasColumnStart(39)
                 .hasFileName("/var/lib/jenkins/workspace/.../CountryFavoriteUseCase.kt")
                 .hasMessage("Name shadowed: favoriteCountry");
 
-        assertThat(warnings.get(3))
+        index++;
+        assertThat(warnings.get(index))
                 .hasSeverity(Severity.WARNING_NORMAL)
                 .hasLineStart(48)
                 .hasColumnStart(30)

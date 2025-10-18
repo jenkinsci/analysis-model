@@ -89,7 +89,7 @@ public class JcReportParser extends IssueParser {
             return digester.parse(reader);
         }
         catch (IOException | SAXException e) {
-            throw new ParsingException(e);
+            throw new ParsingException(e, readerFactory);
         }
     }
 

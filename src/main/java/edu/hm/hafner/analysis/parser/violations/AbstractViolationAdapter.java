@@ -1,9 +1,5 @@
 package edu.hm.hafner.analysis.parser.violations;
 
-import java.io.Serial;
-import java.util.Set;
-import java.util.logging.Level;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
@@ -14,6 +10,9 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
+import java.io.Serial;
+import java.util.Set;
+import java.util.logging.Level;
 import se.bjurr.violations.lib.ViolationsLogger;
 import se.bjurr.violations.lib.model.SEVERITY;
 import se.bjurr.violations.lib.model.Violation;
@@ -42,7 +41,7 @@ public abstract class AbstractViolationAdapter extends IssueParser {
             return convertToReport(violations);
         }
         catch (Exception exception) {
-            throw new ParsingException(exception);
+            throw new ParsingException(exception, readerFactory);
         }
     }
 

@@ -1,15 +1,16 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.util.Optional;
-import java.util.regex.Matcher;
-
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.util.LookaheadStream;
+
+import java.io.Serial;
+import java.util.Optional;
+import java.util.regex.Matcher;
 
 import static edu.hm.hafner.analysis.Severity.*;
 
@@ -51,7 +52,7 @@ public class Gcc4LinkerParser extends LookaheadParser {
             else {
                 // generic linker error with reference to the binary section and
                 // offset
-                if (StringUtils.equalsIgnoreCase(matcher.group(4), "warning")) {
+                if (Strings.CI.equals(matcher.group(4), "warning")) {
                     builder.setSeverity(WARNING_NORMAL);
                 }
                 else {
@@ -59,7 +60,7 @@ public class Gcc4LinkerParser extends LookaheadParser {
                 }
                 var message = matcher.group(5);
                 builder.setMessage(message);
-                if (StringUtils.endsWith(message, ":")) {
+                if (Strings.CS.endsWith(message, ":")) {
                     return Optional.empty();
                 }
             }
@@ -72,7 +73,7 @@ public class Gcc4LinkerParser extends LookaheadParser {
     }
 
     private void parseLdError(final Matcher matcher, final IssueBuilder builder) {
-        if (StringUtils.equalsIgnoreCase(matcher.group(6), "warning")) {
+        if (Strings.CI.equals(matcher.group(6), "warning")) {
             builder.setSeverity(WARNING_NORMAL);
         }
         else {

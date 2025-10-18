@@ -1,16 +1,17 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.util.Optional;
-import java.util.regex.Matcher;
-
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
+
+import java.io.Serial;
+import java.util.Optional;
+import java.util.regex.Matcher;
 
 /**
  * A parser for the Texas Instruments Code Composer Studio compiler warnings.
@@ -69,6 +70,6 @@ public class TiCcsParser extends LookaheadParser {
      * @return {@code true} if the warning type is of the specified type
      */
     private boolean isOfType(final Matcher matcher, final String type) {
-        return StringUtils.containsIgnoreCase(matcher.group(7), type);
+        return Strings.CI.contains(matcher.group(7), type);
     }
 }

@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2025-08-28T00:01:43.036291035 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2025-10-17T22:24:48.698075623 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -156,7 +156,7 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
         </tr>
         <tr>
             <td colspan="4">
-                :bulb: Use commandline <code>trivy image -f json -o results.json &#x27;image&#x27;</code>, see <a href="https://github.com/aquasecurity/trivy">tivy on Github</a> for usage details.
+                :bulb: Use commandline <code>trivy image -f json -o results.json &#x27;image&#x27;</code>, see <a href="https://github.com/aquasecurity/trivy">tivy on Github</a> for usage details. <p>Supported scanners:</p> <ul><li><a href="https://trivy.dev/latest/docs/scanner/vulnerability/">Vulnerability Scanner</a></li><li><a href="https://trivy.dev/latest/docs/scanner/misconfiguration/">Misconfiguration Scanner</a></li></ul>
             </td>
         </tr>
         <tr>
@@ -429,7 +429,7 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
                 -
             </td>
             <td>
-                Clang
+                Clang (LLVM based)
             </td>
             <td>
                 -
@@ -2337,6 +2337,27 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
             </td>
             <td>
                 -
+            </td>
+        </tr>
+        <tr>
+            <td>
+                npm-audit
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                <a href="https://docs.npmjs.com/cli/commands/npm-audit">
+                    npm Audit
+                </a>
+            </td>
+            <td>
+                -
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Use commandline <code>npm audit --json &gt; npm-audit.json</code>, see <a href="https://docs.npmjs.com/cli/commands/npm-audit">npm audit</a> for usage details.
             </td>
         </tr>
         <tr>

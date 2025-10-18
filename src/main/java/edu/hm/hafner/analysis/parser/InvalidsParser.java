@@ -1,16 +1,17 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.util.Optional;
-import java.util.regex.Matcher;
-
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
+
+import java.io.Serial;
+import java.util.Optional;
+import java.util.regex.Matcher;
 
 /**
  * A parser for Oracle Invalids.
@@ -37,10 +38,10 @@ public class InvalidsParser extends LookaheadParser {
         var type = WARNING_PREFIX + StringUtils.capitalize(StringUtils.lowerCase(matcher.group(4)));
         var category = matcher.group(6);
         Severity priority;
-        if (StringUtils.contains(category, "PLW-07")) {
+        if (Strings.CS.contains(category, "PLW-07")) {
             priority = Severity.WARNING_LOW;
         }
-        else if (StringUtils.contains(category, "ORA")) {
+        else if (Strings.CS.contains(category, "ORA")) {
             priority = Severity.WARNING_HIGH;
         }
         else {

@@ -1,10 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.regex.Matcher;
-
 import org.apache.commons.lang3.RegExUtils;
 
 import edu.hm.hafner.analysis.Issue;
@@ -12,6 +7,11 @@ import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
+
+import java.io.Serial;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.regex.Matcher;
 
 import static edu.hm.hafner.analysis.Categories.*;
 
@@ -28,9 +28,8 @@ public class JavacParser extends AbstractMavenLogParser {
 
     private static final String JAVAC_WARNING_PATTERN
             = "^(?:\\S+\\s+)?"                          // optional preceding arbitrary number of characters that are not a
-            // whitespace followed by whitespace. This can be used for timestamps.
+                                                        // whitespace followed by whitespace. This can be used for timestamps.
             + "(?:(?:\\[(WARNING|ERROR)\\]|w:|e:)\\s+)" // optional [WARNING] or [ERROR] or w: or e:
-            + "(?:"
             // --- Matches filename/line ---
             + "(((\\/?[a-zA-Z]|file):)?[^\\[\\(:]*):"   // group 2: filename starting path with C:\ or /C:\ or file:/// or /
             + "("                                       // start group 5
@@ -41,11 +40,7 @@ public class JavacParser extends AbstractMavenLogParser {
             + "[\\]\\)]?\\s*:?\\s?"                     // optional ) or ] or whitespace or :
             + ")"                                       // end group 5
             + "(?:\\[(\\w+)\\])?"                       // group 9: optional category
-            + "\\s*(.*)"                                // group 10: message
-            + "|"
-            // --- Matches quoted messages ---
-            + "(['\"])(.*?)\\11\\s*(.*)"                // group 11: opening quote; group 12: quoted text; group 13: rest of message
-            + ")$";
+            + "\\s*(.*)";                               // group 10: message
 
     private static final String SEVERITY_ERROR = "ERROR";
     private static final String SEVERITY_ERROR_SHORT = "e:";

@@ -1,12 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
-import java.io.Serial;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.xml.sax.SAXException;
 
 import edu.hm.hafner.analysis.IssueBuilder;
@@ -18,6 +12,12 @@ import edu.hm.hafner.analysis.SecureDigester;
 import edu.hm.hafner.analysis.Severity;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+import java.io.IOException;
+import java.io.Serial;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * A parser for CCM XML files.
@@ -56,13 +56,13 @@ public class CcmParser extends IssueParser {
         try (var reader = ccmXmlFile.create()) {
             Ccm report = digester.parse(reader);
             if (report == null) {
-                throw new ParsingException("Input stream is not a CCM file.");
+                throw new ParsingException(ccmXmlFile, "Input stream is not a CCM file.");
             }
 
             return report;
         }
         catch (IOException | SAXException exception) {
-            throw new ParsingException(exception);
+            throw new ParsingException(exception, ccmXmlFile);
         }
     }
 
@@ -103,7 +103,7 @@ public class CcmParser extends IssueParser {
 
     private boolean isMetricHighPriority(final Metric metric) {
         var metricClassification = metric.getClassification();
-        if (StringUtils.contains(metricClassification, "high")) {
+        if (Strings.CS.contains(metricClassification, "high")) {
             return true;
         }
         return "C".equals(metricClassification) || "D".equals(metricClassification)
@@ -113,7 +113,7 @@ public class CcmParser extends IssueParser {
     private boolean isMetricModeratePriority(final Metric metric) {
         var metricClassification = metric.getClassification();
 
-        return StringUtils.contains(metricClassification, "moderate")
+        return Strings.CS.contains(metricClassification, "moderate")
                 || "B".equals(metricClassification);
     }
 

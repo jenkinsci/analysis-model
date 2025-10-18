@@ -1,13 +1,13 @@
 package edu.hm.hafner.analysis;
 
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-
-import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Stores additional information of the Revapi analysis (severities, issue name, old file, and new file).
@@ -16,6 +16,7 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
 public final class RevApiInfoExtension implements Serializable {
     @Serial
     private static final long serialVersionUID = 6058160289391492934L;
+    @SuppressWarnings("serial")
     private final Map<String, String> severities = new HashMap<>();
     private final String issueName;
     private final String oldFile;

@@ -1,6 +1,6 @@
 package edu.hm.hafner.analysis;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 import com.google.errorprone.annotations.Immutable;
 
@@ -98,16 +98,16 @@ public class Severity implements Serializable {
      * @return mapped level.
      */
     public static Severity guessFromString(@CheckForNull final String severity) {
-        if (StringUtils.containsAnyIgnoreCase(severity, "error", "severe", "critical", "fatal")) {
+        if (Strings.CI.containsAny(severity, "error", "severe", "critical", "fatal")) {
             return ERROR;
         }
-        if (StringUtils.containsAnyIgnoreCase(severity, "info", "note", "low", "suggestion")) {
+        if (Strings.CI.containsAny(severity, "info", "note", "low", "suggestion")) {
             return WARNING_LOW;
         }
-        if (StringUtils.containsAnyIgnoreCase(severity, "warning", "medium")) {
+        if (Strings.CI.containsAny(severity, "warning", "medium", "moderate")) {
             return WARNING_NORMAL;
         }
-        if (StringUtils.containsIgnoreCase(severity, "high")) {
+        if (Strings.CI.contains(severity, "high")) {
             return WARNING_HIGH;
         }
         return WARNING_LOW;

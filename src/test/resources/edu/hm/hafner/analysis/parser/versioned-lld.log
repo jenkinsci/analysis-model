@@ -1,0 +1,3 @@
+ld.lld-15: error: cannot find -lmylib
+ld.lld-18: warning: symbol 'foo' has undefined behavior
+ld.lld: error: section overlap detected

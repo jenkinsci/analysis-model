@@ -1,17 +1,17 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.util.LookaheadStream;
+
+import java.io.Serial;
+import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static j2html.TagCreator.*;
 
@@ -60,7 +60,7 @@ public class ErrorProneParser extends LookaheadParser {
     }
 
     static String appendPeriod(final Matcher matcher) {
-        return StringUtils.appendIfMissing(matcher.group("message"), ".");
+        return Strings.CS.appendIfMissing(matcher.group("message"), ".");
     }
 
     /**
