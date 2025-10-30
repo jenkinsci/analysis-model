@@ -26,7 +26,18 @@ public class Gcc4Cc1Parser extends LookaheadParser {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    private static final String GCC_CC1_WARNING_PATTERN = "^(?:In .+?:\\s*)?(?<compiler>cc1(?:plus)?):\\s*(?<severity>warning|error|note):\\s*(?<message>.*)$";
+    /**
+     * Pattern to match cc1/cc1plus compiler messages.
+     * Named groups:
+     * - compiler: The compiler name (cc1 or cc1plus)
+     * - severity: The message severity (warning, error, or note)
+     * - message: The actual warning/error message content
+     */
+    private static final String GCC_CC1_WARNING_PATTERN = "^(?:In .+?:\\s*)?" // Optional context prefix (e.g., "In
+                                                                              // member function:")
+            + "(?<compiler>cc1(?:plus)?):\\s*" // Compiler name: cc1 or cc1plus
+            + "(?<severity>warning|error|note):\\s*" // Severity level
+            + "(?<message>.*)$"; // The actual message content
 
     /**
      * Creates a new instance of {@link Gcc4Cc1Parser}.
@@ -38,36 +49,48 @@ public class Gcc4Cc1Parser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        String compiler = matcher.group("compiler");
-        String severityString = matcher.group("severity");
-        String message = matcher.group("message");
+        // Extract named groups from the regex match
+        String compilerName = matcher.group("compiler"); // cc1 or cc1plus
+        String severityLevel = matcher.group("severity"); // warning, error, or note
+        String messageContent = matcher.group("message"); // The actual message text
 
-        if (StringUtils.isBlank(compiler) || StringUtils.isBlank(severityString) || StringUtils.isBlank(message)) {
+        // Validate that all required fields are present
+        if (StringUtils.isBlank(compilerName) || StringUtils.isBlank(severityLevel)
+                || StringUtils.isBlank(messageContent)) {
             return Optional.empty();
         }
 
-        Severity priority = mapSeverity(severityString);
+        // Map the severity string to the appropriate Severity enum
+        Severity issueSeverity = mapSeverity(severityLevel);
 
-        // Handle multi-line messages for cc1/cc1plus warnings
-        var fullMessage = new StringBuilder(message);
+        // Build the complete message by appending continuation lines if present
+        var completeMessage = new StringBuilder(messageContent);
         while (lookahead.hasNext() && isCc1MessageContinuation(lookahead)) {
-            fullMessage.append(' ');
-            fullMessage.append(lookahead.next());
+            completeMessage.append(' ');
+            completeMessage.append(lookahead.next());
         }
 
-        return builder.setFileName("-")
-                .setLineStart(0)
-                .setCategory("GCC " + severityString)
-                .setMessage(StringEscapeUtils.escapeXml10(fullMessage.toString()))
-                .setSeverity(priority)
+        // Build and return the issue with appropriate metadata
+        return builder.setFileName("-") // cc1 messages don't have associated files
+                .setLineStart(0) // cc1 messages don't have line numbers
+                .setCategory("GCC " + severityLevel) // e.g., "GCC warning"
+                .setMessage(StringEscapeUtils.escapeXml10(completeMessage.toString()))
+                .setSeverity(issueSeverity)
                 .buildOptional();
     }
 
     /**
-     * Maps the severity string to a Severity enum value.
+     * Maps the severity string from compiler output to a Severity enum value.
+     * 
+     * Mapping:
+     * - "warning" → WARNING_NORMAL
+     * - "error" → WARNING_HIGH
+     * - "note" → WARNING_LOW
+     * - default → WARNING_NORMAL
      *
      * @param severityString the severity string from the compiler output
-     * @return the corresponding Severity enum value
+     *                       (warning/error/note)
+     * @return the corresponding Severity enum value for issue classification
      */
     private Severity mapSeverity(final String severityString) {
         if (equalsIgnoreCase(severityString, "warning")) {
@@ -77,7 +100,7 @@ public class Gcc4Cc1Parser extends LookaheadParser {
         } else if (equalsIgnoreCase(severityString, "note")) {
             return Severity.WARNING_LOW;
         }
-        return Severity.WARNING_NORMAL;
+        return Severity.WARNING_NORMAL; // Default fallback
     }
 
     /**
