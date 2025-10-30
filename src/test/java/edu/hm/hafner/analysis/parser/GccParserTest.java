@@ -350,46 +350,6 @@ class GccParserTest extends AbstractParserTest {
         assertThat(warnings).hasSize(8);
     }
 
-    /**
-     * Parses cc1/cc1plus warnings that were previously ignored.
-     *
-     * @see <a href="https://issues.jenkins.io/browse/JENKINS-73509">Issue 73509</a>
-     */
-    @Test
-    void issue73509() {
-        var warnings = parse("issue73509.txt");
-
-        assertThat(warnings).hasSize(3);
-
-        try (var softly = new SoftAssertions()) {
-            softly.assertThat(warnings.get(0))
-                    .hasLineStart(0)
-                    .hasLineEnd(0)
-                    .hasMessage(
-                            "&apos;void* _builtin_memset(void*, int, long unsigned int)&apos;: specified size 18446744073709551612 exceeds maximum object size 9223372036854775807 [-Wstringop-overflow=]")
-                    .hasFileName("-")
-                    .hasCategory(GCC_WARNING)
-                    .hasSeverity(Severity.WARNING_NORMAL);
-
-            softly.assertThat(warnings.get(1))
-                    .hasLineStart(0)
-                    .hasLineEnd(0)
-                    .hasMessage(
-                            "&apos;void* _builtin_memcpy(void*, const void*, long unsigned int)&apos;: specified size 18446744073709551612 exceeds maximum object size 9223372036854775807 [-Wstringop-overflow=]")
-                    .hasFileName("-")
-                    .hasCategory(GCC_WARNING)
-                    .hasSeverity(Severity.WARNING_NORMAL);
-
-            softly.assertThat(warnings.get(2))
-                    .hasLineStart(451)
-                    .hasLineEnd(451)
-                    .hasMessage("`void yyunput(int, char*)&apos; defined but not used")
-                    .hasFileName("testhist.l")
-                    .hasCategory(GCC_WARNING)
-                    .hasSeverity(Severity.WARNING_NORMAL);
-        }
-    }
-
     @Override
     protected GccParser createParser() {
         return new GccParser();

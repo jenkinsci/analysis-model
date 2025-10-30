@@ -3,6 +3,7 @@ package edu.hm.hafner.analysis.registry;
 import java.util.Collection;
 
 import edu.hm.hafner.analysis.IssueParser;
+import edu.hm.hafner.analysis.parser.Gcc4Cc1Parser;
 import edu.hm.hafner.analysis.parser.Gcc4CompilerParser;
 import edu.hm.hafner.analysis.parser.Gcc4LinkerParser;
 
@@ -21,6 +22,6 @@ class Gcc4Descriptor extends CompositeParserDescriptor {
 
     @Override
     protected Collection<? extends IssueParser> createParsers() {
-        return asList(new Gcc4CompilerParser(), new Gcc4LinkerParser());
+        return asList(new Gcc4CompilerParser(), new Gcc4LinkerParser(), new Gcc4Cc1Parser());
     }
 }

@@ -27,7 +27,7 @@ public class GccParser extends LookaheadParser {
     static final String LINKER_ERROR = "Linker error";
     private static final String GCC_WARNING_PATTERN = "^(?:\\s*(?:\\[.*\\]\\s*)?([^ ]*\\.[chpimxsola0-9]+):(?:(\\d*):"
             + "(?:\\d*:)*\\s*(?:(warning|error|note)\\s*:|\\s*(.*))|\\s*(undefined reference to.*))(.*)|.*ld:\\s*(.*-l("
-            + ".*))|(?:In .+?:\\s*)?(cc1(?:plus)?):\\s*(warning|error|note):\\s*(.*))$";
+            + ".*)))$";
 
     /**
      * Creates a new instance of {@link GccParser}.
@@ -39,37 +39,6 @@ public class GccParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        // Handle cc1/cc1plus warnings
-        if (StringUtils.isNotBlank(matcher.group(9))) {
-            Severity priority;
-            if (equalsIgnoreCase(matcher.group(10), "warning")) {
-                priority = Severity.WARNING_NORMAL;
-            } 
-            else if (equalsIgnoreCase(matcher.group(10), "error")) {
-                priority = Severity.WARNING_HIGH;
-            } 
-            else if (equalsIgnoreCase(matcher.group(10), "note")) {
-                priority = Severity.WARNING_LOW;
-            } 
-            else {
-                priority = Severity.WARNING_NORMAL;
-            }
-
-            // Handle multi-line messages for cc1/cc1plus warnings
-            var message = new StringBuilder(matcher.group(11));
-            while (lookahead.hasNext() && isCc1MessageContinuation(lookahead)) {
-                message.append(' ');
-                message.append(lookahead.next());
-            }
-
-            return builder.setFileName("")
-                    .setLineStart(0)
-                    .setCategory("GCC " + matcher.group(10))
-                    .setMessage(StringEscapeUtils.escapeXml10(message.toString()))
-                    .setSeverity(priority)
-                    .buildOptional();
-        }
-
         if (StringUtils.isNotBlank(matcher.group(7))) {
             return builder.setFileName(matcher.group(8))
                     .setLineStart(0)
@@ -119,31 +88,5 @@ public class GccParser extends LookaheadParser {
                 .setMessage(StringEscapeUtils.escapeXml10(matcher.group(6)))
                 .setSeverity(priority)
                 .buildOptional();
-    }
-
-    /**
-     * Determines if the next line is a continuation of a cc1/cc1plus warning message.
-     *
-     * @param lookahead the lookahead stream
-     * @return true if the next line is a continuation
-     */
-    private boolean isCc1MessageContinuation(final LookaheadStream lookahead) {
-        var peek = lookahead.peekNext();
-        if (peek.length() < 3) {
-            return false;
-        }
-        // Don't continue if the line starts with common patterns that indicate a new message
-        if (peek.charAt(0) == '/' || peek.charAt(0) == '[' || peek.charAt(0) == '<' || peek.charAt(0) == '=') {
-            return false;
-        }
-        if (peek.charAt(1) == ':') {
-            return false;
-        }
-        if (peek.charAt(2) == '/' || peek.charAt(0) == '\\') {
-            return false;
-        }
-        // Don't continue if the line contains patterns that indicate a new message
-        return !StringUtils.containsAnyIgnoreCase(peek, "arning", "rror", "make", "cc1", "cc1plus",
-                "In member function");
     }
 }
