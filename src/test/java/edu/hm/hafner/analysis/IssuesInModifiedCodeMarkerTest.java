@@ -94,6 +94,93 @@ class IssuesInModifiedCodeMarkerTest {
         assertThatIssuesToString(report).containsExactly(TO_STRING_MODIFIED, TO_STRING_MODIFIED);
     }
 
+    @Test
+    void shouldNotMarkAnythingForEmptySetOfFiles() {
+        var report = createReportWithTwoIssues();
+
+        assertThatModifiedCodeMarkers(report).containsExactly(false, false);
+
+        var marker = new IssuesInModifiedCodeMarker();
+        marker.markIssuesInModifiedFiles(report, Set.of());
+        assertThatModifiedCodeMarkers(report).containsExactly(false, false);
+        assertThatIssuesToString(report).containsExactly(TO_STRING_UNMODIFIED, TO_STRING_UNMODIFIED);
+    }
+
+    @Test
+    void shouldNotMarkIfFileDoesNotMatch() {
+        var report = createReportWithTwoIssues();
+
+        var marker = new IssuesInModifiedCodeMarker();
+        marker.markIssuesInModifiedFiles(report, Set.of("/wrong/path/code.txt"));
+
+        assertThatModifiedCodeMarkers(report).containsExactly(false, false);
+        assertThatIssuesToString(report).containsExactly(TO_STRING_UNMODIFIED, TO_STRING_UNMODIFIED);
+    }
+
+    @Test
+    void shouldMarkIssuesIfOneFileMatches() {
+        var report = createReportWithTwoIssues();
+
+        var marker = new IssuesInModifiedCodeMarker();
+        marker.markIssuesInModifiedFiles(report, Set.of("/part/of/modified/code.txt"));
+
+        assertThatModifiedCodeMarkers(report).containsExactly(true, false);
+        assertThatIssuesToString(report).containsExactly(TO_STRING_MODIFIED, TO_STRING_UNMODIFIED);
+    }
+
+    @Test
+    void shouldMarkIssuesIfAllFilesMatch() {
+        var report = createReportWithTwoIssues();
+
+        var marker = new IssuesInModifiedCodeMarker();
+        marker.markIssuesInModifiedFiles(report, Set.of(
+                "/part/of/modified/code.txt",
+                "/part/of/additional/modified/code.txt"));
+
+        assertThatModifiedCodeMarkers(report).containsExactly(true, true);
+        assertThatIssuesToString(report).containsExactly(TO_STRING_MODIFIED, TO_STRING_MODIFIED);
+    }
+
+    @Test
+    void shouldMarkIssuesIfFilesPrefixMatchesForFiles() {
+        var report = createReportWithTwoIssues();
+
+        var marker = new IssuesInModifiedCodeMarker();
+        marker.markIssuesInModifiedFiles(report, Set.of("modified/code.txt", "additional/modified/code.txt"));
+
+        assertThatModifiedCodeMarkers(report).containsExactly(true, true);
+        assertThatIssuesToString(report).containsExactly(TO_STRING_MODIFIED, TO_STRING_MODIFIED);
+    }
+
+    @Test
+    void shouldMarkIssuesIfFileNameUsesWindowsPathForFiles() {
+        var report = createReportWithTwoIssues();
+
+        var marker = new IssuesInModifiedCodeMarker();
+        marker.markIssuesInModifiedFiles(report, Set.of("modified\\code.txt", "additional\\modified\\code.txt"));
+
+        assertThatModifiedCodeMarkers(report).containsExactly(true, true);
+        assertThatIssuesToString(report).containsExactly(TO_STRING_MODIFIED, TO_STRING_MODIFIED);
+    }
+
+    @Test
+    void shouldMarkAllIssuesInFileRegardlessOfLineNumbers() {
+        var report = new Report();
+        try (var builder = new IssueBuilder()) {
+            builder.setFileName("/part/of/modified/code.txt");
+            report.add(builder.setLineStart(1).setLineEnd(5).build());
+            report.add(builder.setLineStart(10).setLineEnd(15).build());
+            report.add(builder.setLineStart(100).setLineEnd(200).build());
+            builder.setFileName("/other/file.txt");
+            report.add(builder.setLineStart(1).setLineEnd(5).build());
+        }
+
+        var marker = new IssuesInModifiedCodeMarker();
+        marker.markIssuesInModifiedFiles(report, Set.of("modified/code.txt"));
+
+        assertThatModifiedCodeMarkers(report).containsExactly(true, true, true, false);
+    }
+
     private AbstractListAssert<?, List<? extends String>, String, ObjectAssert<String>> assertThatIssuesToString(
             final Report report) {
         return assertThat(report.get()).extracting(Issue::toString);
