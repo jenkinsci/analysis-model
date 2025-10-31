@@ -16,8 +16,7 @@ import edu.hm.hafner.util.LookaheadStream;
 
 /**
  * A parser for GCC cc1/cc1plus internal compiler warnings and errors.
- * These messages do not include file names or line numbers and are emitted
- * by the compiler's internal phases.
+ * These messages do not include file names or line numbers and are emitted by the compiler's internal phases.
  *
  * @author Akash Manna
  * @see <a href="https://issues.jenkins.io/browse/JENKINS-73509">Issue 73509</a>
@@ -33,8 +32,7 @@ public class Gcc4Cc1Parser extends LookaheadParser {
      * - severity: The message severity (warning, error, or note)
      * - message: The actual warning/error message content
      */
-    private static final String GCC_CC1_WARNING_PATTERN = "^(?:In .+?:\\s*)?" // Optional context prefix (e.g., "In
-                                                                              // member function:")
+    private static final String GCC_CC1_WARNING_PATTERN = "^(?:In .+?:\\s*)?" // Optional context prefix (e.g., "In member function:")
             + "(?<compiler>cc1(?:plus)?):\\s*" // Compiler name: cc1 or cc1plus
             + "(?<severity>warning|error|note):\\s*" // Severity level
             + "(?<message>.*)$"; // The actual message content
@@ -104,8 +102,7 @@ public class Gcc4Cc1Parser extends LookaheadParser {
     }
 
     /**
-     * Determines if the next line is a continuation of a cc1/cc1plus warning
-     * message.
+     * Determines if the next line is a continuation of a cc1/cc1plus warning message.
      *
      * @param lookahead the lookahead stream
      * @return true if the next line is a continuation
@@ -115,8 +112,7 @@ public class Gcc4Cc1Parser extends LookaheadParser {
         if (peek.length() < 3) {
             return false;
         }
-        // Don't continue if the line starts with common patterns that indicate a new
-        // message
+        // Don't continue if the line starts with common patterns that indicate a new message
         if (peek.charAt(0) == '/' || peek.charAt(0) == '[' || peek.charAt(0) == '<' || peek.charAt(0) == '=') {
             return false;
         }
