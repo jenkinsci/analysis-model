@@ -11,11 +11,11 @@ jobs:
     steps:
       - name: Checkout PR
         uses: actions/checkout@v5
-      - name: Set up JDK 21
+      - name: Set up JDK
         uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
-          java-version: 21
+          java-version: 25
           check-latest: true
           cache: 'maven'
       - name: Set up Maven
@@ -41,6 +41,7 @@ jobs:
           NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
           OSS_INDEX_TOKEN: ${{ secrets.OSS_INDEX_TOKEN }}
           PIT: ${{ env.PIT }}
+          BROWSER: chrome-container
         run: |
           mvn -V --color always -ntp clean verify $PIT -Pci -Powasp | tee maven.log
           if [ "${PIPESTATUS[0]}" != "0" ]; then
