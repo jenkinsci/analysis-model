@@ -31,7 +31,7 @@ class Gcc4Cc1ParserTest extends AbstractParserTest {
                 .hasMessage(
                         "&apos;void* _builtin_memset(void*, int, long unsigned int)&apos;: specified size 18446744073709551612 exceeds maximum object size 9223372036854775807 [-Wstringop-overflow=]")
                 .hasFileName("-")
-                .hasCategory("GCC warning")
+                .hasCategory("stringop-overflow")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(report.get(1))
@@ -40,7 +40,7 @@ class Gcc4Cc1ParserTest extends AbstractParserTest {
                 .hasMessage(
                         "&apos;void* _builtin_memcpy(void*, const void*, long unsigned int)&apos;: specified size 18446744073709551612 exceeds maximum object size 9223372036854775807 [-Wstringop-overflow=]")
                 .hasFileName("-")
-                .hasCategory("GCC warning")
+                .hasCategory("stringop-overflow")
                 .hasSeverity(Severity.WARNING_NORMAL);
     }
 }
