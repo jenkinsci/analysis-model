@@ -48,9 +48,8 @@ public class IssuesInModifiedCodeMarker {
     }
 
     private boolean affectsChangedLineInFile(final Issue issue, final String fileName, final Set<Integer> lines) {
-        var normalizedPath = PATH_UTIL.getRelativePath(fileName);
-
-        return issue.getFileName().endsWith(normalizedPath) && lines.stream().anyMatch(issue::affectsLine);
+        // reuse the file-level check to avoid duplicate path normalization / endsWith logic
+        return affectsModifiedFile(issue, fileName) && lines.stream().anyMatch(issue::affectsLine);
     }
 
     private boolean affectsModifiedFile(final Issue issue, final String fileName) {
