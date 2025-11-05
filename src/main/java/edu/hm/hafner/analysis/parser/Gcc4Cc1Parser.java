@@ -73,17 +73,20 @@ public class Gcc4Cc1Parser extends LookaheadParser {
 
     private String extractCategory(final String message) {
         int start = message.lastIndexOf("[-W");
-        if (start != -1) {
-            int end = message.indexOf(']', start);
-            if (end != -1) {
-                String category = message.substring(start + 3, end);
-                int equalsPos = category.indexOf('=');
-                if (equalsPos != -1) {
-                    return category.substring(0, equalsPos);
-                }
-                return category;
-            }
+        if (start == -1) {
+            return "GCC warning";
         }
-        return "GCC warning";
+
+        int end = message.indexOf(']', start);
+        if (end == -1) {
+            return "GCC warning";
+        }
+
+        String category = message.substring(start + 3, end);
+        int equalsPos = category.indexOf('=');
+        if (equalsPos != -1) {
+            return category.substring(0, equalsPos);
+        }
+        return category;
     }
 }
