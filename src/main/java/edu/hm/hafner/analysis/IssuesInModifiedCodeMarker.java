@@ -31,9 +31,29 @@ public class IssuesInModifiedCodeMarker {
         }
     }
 
+    /**
+     * Finds and marks all issues that are in modified files, regardless of whether they affect specific lines.
+     *
+     * @param report
+     *         the report with the issues to scan
+     * @param modifiedFiles
+     *         a set of modified file names
+     */
+    public void markIssuesInModifiedFiles(final Report report, final Set<String> modifiedFiles) {
+        for (String fileName : modifiedFiles) {
+            report.filter(issue -> affectsModifiedFile(issue, fileName))
+                    .stream()
+                    .forEach(Issue::markAsPartOfModifiedCode);
+        }
+    }
+
     private boolean affectsChangedLineInFile(final Issue issue, final String fileName, final Set<Integer> lines) {
+        return affectsModifiedFile(issue, fileName) && lines.stream().anyMatch(issue::affectsLine);
+    }
+
+    private boolean affectsModifiedFile(final Issue issue, final String fileName) {
         var normalizedPath = PATH_UTIL.getRelativePath(fileName);
 
-        return issue.getFileName().endsWith(normalizedPath) && lines.stream().anyMatch(issue::affectsLine);
+        return issue.getFileName().endsWith(normalizedPath);
     }
 }
