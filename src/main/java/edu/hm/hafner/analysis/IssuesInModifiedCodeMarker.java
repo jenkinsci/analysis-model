@@ -48,7 +48,6 @@ public class IssuesInModifiedCodeMarker {
     }
 
     private boolean affectsChangedLineInFile(final Issue issue, final String fileName, final Set<Integer> lines) {
-        // reuse the file-level check to avoid duplicate path normalization / endsWith logic
         return affectsModifiedFile(issue, fileName) && lines.stream().anyMatch(issue::affectsLine);
     }
 
