@@ -24,11 +24,11 @@ public class MsBuildParser extends LookaheadParser {
     private static final long serialVersionUID = -2141974437420906595L;
 
     /** Pattern for command line warnings in MSBuild output. */
-    public static final String COMMAND_LINE_WARNING_PATTERN =
+    public static final String COMMAND_LINE_WARNING_PATTERN = 
             "(?:^(?:.*)Command line warning ([A-Za-z0-9]+):\\s*(.*)\\s*\\[(.*)\\])"; // Group 1 - 3
 
     /** Pattern for optional line number in MSBuild output. */
-    public static final String OPTIONAL_LINE_NUMBER_PATTERN =
+    public static final String OPTIONAL_LINE_NUMBER_PATTERN = 
             "(?:\\s*(?:\\d+|\\d+:\\d+)>)?"; // Optional Group
 
     /** Pattern for different line column combinations in MSBuild output. */
@@ -36,33 +36,40 @@ public class MsBuildParser extends LookaheadParser {
             "\\((?:(\\d+),(\\d+),(\\d+),(\\d+)|(\\d+)(?:-(\\d+))?(?:,(\\d+)(?:-(\\d+))?)?)\\)"; // Group 5 - 12
 
     /** Pattern for file name in MSBuild output. */
-    public static final String FILE_NAME_PATTERN =
-            "(?:(?:(?:(.*?)" // Group 4
-                    + LINE_COLUMN_PATTERN
-                    + "|.*LINK)\\s*:|(.*):)"; // Group 13
+    public static final String FILE_NAME_PATTERN = 
+            "(?:(?:(?:(.*?)" // Group 9 - filename with line/column
+                    + LINE_COLUMN_PATTERN // Groups 10-17 - line/column combinations
+                    + "|.*LINK)\\s*:|(.*):)"; // Group 18 - simple filename
 
     /** Pattern for severity type in MSBuild output. */
-    public static final String SEVERITY_PATTERN =
-            "\\s*([A-z-_]*\\s(?:[Nn]ote|[Ii]nfo|[Ww]arning|(?:fatal\\s*)?[Ee]rror))[^A-Za-z0-9]\\s*:?\\s*"; // Group 14
+    public static final String SEVERITY_PATTERN = 
+            "\\s*((?:[A-z-_]+\\s)?(?:[Nn]ote|[Ii]nfo|[Ww]arning|[Hh]int|(?:fatal\\s*)?[Ee]rror))[^A-Za-z0-9]\\s*:?\\s*"; // Group 19
 
     /** Pattern for category of the issue in MSBuild output. */
-    public static final String CATEGORY_PATTERN =
-            "([A-Za-z0-9\\-_]+)?\\s*:\\s"; // Group 15
+    public static final String CATEGORY_PATTERN = 
+            "([A-Za-z0-9\\-_]+)?\\s*:\\s"; // Group 20
 
     /** Pattern for type of the issue in MSBuild output. */
-    public static final String TYPE_PATTERN =
-            "(?:\\s*([A-Za-z0-9.]+)\\s*:)?\\s*"; // Group 16
+    public static final String TYPE_PATTERN = 
+            "(?:\\s*([A-Za-z0-9.]+)\\s*:)?\\s*"; // Group 21
 
     /** Pattern for message in MSBuild output. */
-    public static final String MESSAGE_PATTERN =
-            "(.*?)"; // Group 17
+    public static final String MESSAGE_PATTERN = 
+            "(.*?)"; // Group 22
 
     /** Pattern for project directory in MSBuild output. */
-    public static final String PROJECT_DIR_PATTERN =
-            "(?: \\[([^\\]]*)[/\\\\][^\\]\\\\]+\\])?"; // Group 18
+    public static final String PROJECT_DIR_PATTERN = 
+            "(?: \\[([^\\]]*)[/\\\\][^\\]\\\\]+\\])?"; // Group 23
 
-    private static final String MS_BUILD_WARNING_PATTERN
-            = COMMAND_LINE_WARNING_PATTERN
+    /**
+     * Pattern for Delphi compiler hints/warnings (simplified format without standard MSBuild prefix).
+     */
+    // Groups 4-8: 4=filename, 5=line, 6=severity, 7=category, 8=message
+    private static final String DELPHI_SIMPLE_PATTERN = "^\\s*([A-Za-z]:[^\\(]+\\.(?:pas|dpr|dpk|dproj))\\((\\d+)\\)\\s+([Ww]arning|[Hh]int)\\s*:\\s*([A-Za-z0-9]+)\\s+(.*)$";
+
+    private static final String MS_BUILD_WARNING_PATTERN = COMMAND_LINE_WARNING_PATTERN
+            + "|"
+            + DELPHI_SIMPLE_PATTERN
             + "|"
             + ANT_TASK + "(?:"
             + OPTIONAL_LINE_NUMBER_PATTERN
@@ -79,6 +86,10 @@ public class MsBuildParser extends LookaheadParser {
     private static final String EXPECTED_CATEGORY = "Expected";
     private static final String MSBUILD = "MSBUILD";
     private static final Pattern HEADER_COMPILE_MESSAGE = Pattern.compile("\\(compiling source file .*\\)");
+
+    // Pattern to extract Delphi file path from message (e.g., "C:\Path\File.pas(123) Warning: ...")
+    private static final Pattern DELPHI_FILE_PATTERN = Pattern.compile(
+            "^\\s*([^:]+\\.(?:pas|dpr|dpk|dproj))\\((\\d+)\\)\\s+(?:[Ww]arning|[Hh]int)\\s*:\\s*([A-Za-z0-9]+)\\s+(.*)$");
 
     /**
      * Creates a new instance of {@link MsBuildParser}.
@@ -99,6 +110,21 @@ public class MsBuildParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
               final IssueBuilder builder) {
+        // Check if this matches the Delphi simple pattern (groups 4-8)
+        if (StringUtils.isNotBlank(matcher.group(4))) {
+            // Delphi format: filename(line) severity: category message
+            var delphiMessage = matcher.group(8);
+            if (delphiMessage == null) {
+                delphiMessage = "";
+            }
+            return builder.setFileName(matcher.group(4))
+                    .setLineStart(matcher.group(5))
+                    .setCategory(matcher.group(7))
+                    .setMessage(delphiMessage)
+                    .setSeverity(Severity.guessFromString(matcher.group(6)))
+                    .buildOptional();
+        }
+
         var fileName = determineFileName(matcher);
 
         var fileExtensionMatcher = IGNORED_TOOLS_PATTERN.matcher(fileName);
@@ -106,8 +132,29 @@ public class MsBuildParser extends LookaheadParser {
             return Optional.empty();
         }
 
+        // Check if this is a Delphi warning/hint where the actual file is in the message
+        var message = matcher.group(22); // Updated from 17 to 22
+        if (message != null) {
+            var delphiMatcher = DELPHI_FILE_PATTERN.matcher(message);
+            if (delphiMatcher.matches()) {
+                // Extract file, line, category, and message from Delphi format
+                fileName = delphiMatcher.group(1);
+                var lineNumber = delphiMatcher.group(2);
+                var delphiCategory = delphiMatcher.group(3);
+                var delphiMessage = delphiMatcher.group(4);
+
+                return builder.setFileName(fileName)
+                        .setLineStart(lineNumber)
+                        .setCategory(delphiCategory)
+                        .setMessage(delphiMessage)
+                        .setSeverity(Severity.guessFromString(matcher.group(19))) // Updated from 14 to 19
+                        .buildOptional();
+            }
+        }
+
         builder.setFileName(fileName);
 
+        // Command line warning pattern (groups 1-3)
         if (StringUtils.isNotBlank(matcher.group(2))) {
             return builder.setLineStart(0)
                     .setCategory(matcher.group(1))
@@ -115,34 +162,39 @@ public class MsBuildParser extends LookaheadParser {
                     .setSeverity(Severity.WARNING_NORMAL)
                     .buildOptional();
         }
-        if (StringUtils.isNotEmpty(matcher.group(5))) {
-            builder.setLineStart(matcher.group(5))
-                    .setColumnStart(matcher.group(6))
-                    .setLineEnd(matcher.group(7))
-                    .setColumnEnd(matcher.group(8));
-        }
-        if (StringUtils.isNotEmpty(matcher.group(9))) {
-            builder.setLineStart(matcher.group(9))
+        // Line/column groups (updated from 5-8 to 10-13, and 9-12 to 14-17)
+        if (StringUtils.isNotEmpty(matcher.group(10))) {
+            builder.setLineStart(matcher.group(10))
                     .setColumnStart(matcher.group(11))
-                    .setLineEnd(matcher.group(10))
-                    .setColumnEnd(matcher.group(12));
+                    .setLineEnd(matcher.group(12))
+                    .setColumnEnd(matcher.group(13));
         }
-        if (StringUtils.isNotEmpty(matcher.group(16))) {
-            return builder.setCategory(matcher.group(15))
-                    .setType(matcher.group(16))
-                    .setMessage(matcher.group(17))
-                    .setSeverity(Severity.guessFromString(matcher.group(14)))
+        if (StringUtils.isNotEmpty(matcher.group(14))) {
+            builder.setLineStart(matcher.group(14))
+                    .setColumnStart(matcher.group(16))
+                    .setLineEnd(matcher.group(15))
+                    .setColumnEnd(matcher.group(17));
+        }
+        // Type pattern (updated from 16 to 21)
+        if (StringUtils.isNotEmpty(matcher.group(21))) {
+            return builder.setCategory(matcher.group(20)) // Updated from 15 to 20
+                    .setType(matcher.group(21)) // Updated from 16 to 21
+                    .setMessage(matcher.group(22)) // Updated from 17 to 22
+                    .setSeverity(Severity.guessFromString(matcher.group(19))) // Updated from 14 to 19
                     .buildOptional();
         }
 
-        var category = matcher.group(15);
+        var category = matcher.group(20); // Updated from 15 to 20
         if (EXPECTED_CATEGORY.equals(category)) {
             return Optional.empty();
         }
-        var message = HEADER_COMPILE_MESSAGE.matcher(matcher.group(17)).replaceAll(StringUtils.EMPTY);
+        if (message == null) {
+            message = "";
+        }
+        var cleanedMessage = HEADER_COMPILE_MESSAGE.matcher(message).replaceAll(StringUtils.EMPTY);
         return builder.setCategory(category)
-                .setMessage(message)
-                .setSeverity(Severity.guessFromString(matcher.group(14)))
+                .setMessage(cleanedMessage)
+                .setSeverity(Severity.guessFromString(matcher.group(19))) // Updated from 14 to 19
                 .buildOptional();
     }
 
@@ -157,29 +209,34 @@ public class MsBuildParser extends LookaheadParser {
     private String determineFileName(final Matcher matcher) {
         String fileName;
 
+        // Group 3 is from COMMAND_LINE_WARNING_PATTERN (unchanged)
         if (StringUtils.isNotBlank(matcher.group(3))) {
             fileName = matcher.group(3);
         }
-        else if (StringUtils.isNotBlank(matcher.group(13))) {
-            fileName = matcher.group(13);
+        // Group 18 is simple filename from FILE_NAME_PATTERN (was 13, now 18)
+        else if (StringUtils.isNotBlank(matcher.group(18))) {
+            fileName = matcher.group(18);
         }
+        // Group 9 is filename with line/column from FILE_NAME_PATTERN (was 4, now 9)
         else {
-            fileName = matcher.group(4);
+            fileName = matcher.group(9);
         }
         if (StringUtils.isBlank(fileName)) {
-            var linker = LINKER_CAUSE.matcher(matcher.group(17));
+            // Group 22 is message (was 17, now 22)
+            var linker = LINKER_CAUSE.matcher(matcher.group(22));
             if (linker.matches()) {
                 return linker.group(1);
             }
         }
         if (StringUtils.isBlank(fileName)) {
-            fileName = StringUtils.substringBetween(matcher.group(17), "'");
+            fileName = StringUtils.substringBetween(matcher.group(22), "'");
         }
         if (StringUtils.isBlank(fileName)) {
             fileName = "unknown.file";
         }
 
-        var projectDir = matcher.group(18);
+        // Group 23 is project directory (was 18, now 23)
+        var projectDir = matcher.group(23);
         if (canResolveRelativeFileName(fileName, projectDir)) {
             fileName = FilenameUtils.concat(projectDir, fileName);
         }
