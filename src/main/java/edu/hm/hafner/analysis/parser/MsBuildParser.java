@@ -36,7 +36,7 @@ public class MsBuildParser extends LookaheadParser {
             "\\((?:(\\d+),(\\d+),(\\d+),(\\d+)|(\\d+)(?:-(\\d+))?(?:,(\\d+)(?:-(\\d+))?)?)\\)"; // Group 5 - 12
 
     /** Pattern for file name in MSBuild output. */
-    public static final String FILE_NAME_PATTERN = 
+    public static final String FILE_NAME_PATTERN =
             "(?:(?:(?:(.*?)" // Group 9 - filename with line/column
                     + LINE_COLUMN_PATTERN // Groups 10-17 - line/column combinations
                     + "|.*LINK)\\s*:|(.*):)"; // Group 18 - simple filename
@@ -133,7 +133,7 @@ public class MsBuildParser extends LookaheadParser {
         }
 
         // Check if this is a Delphi warning/hint where the actual file is in the message
-        var message = matcher.group(22); // Updated from 17 to 22
+        var message = matcher.group(22); 
         if (message != null) {
             var delphiMatcher = DELPHI_FILE_PATTERN.matcher(message);
             if (delphiMatcher.matches()) {
@@ -147,7 +147,7 @@ public class MsBuildParser extends LookaheadParser {
                         .setLineStart(lineNumber)
                         .setCategory(delphiCategory)
                         .setMessage(delphiMessage)
-                        .setSeverity(Severity.guessFromString(matcher.group(19))) // Updated from 14 to 19
+                        .setSeverity(Severity.guessFromString(matcher.group(19))) 
                         .buildOptional();
             }
         }
@@ -162,7 +162,7 @@ public class MsBuildParser extends LookaheadParser {
                     .setSeverity(Severity.WARNING_NORMAL)
                     .buildOptional();
         }
-        // Line/column groups (updated from 5-8 to 10-13, and 9-12 to 14-17)
+        // Line/column groups (groups 10-13 and 14-17)
         if (StringUtils.isNotEmpty(matcher.group(10))) {
             builder.setLineStart(matcher.group(10))
                     .setColumnStart(matcher.group(11))
@@ -175,16 +175,16 @@ public class MsBuildParser extends LookaheadParser {
                     .setLineEnd(matcher.group(15))
                     .setColumnEnd(matcher.group(17));
         }
-        // Type pattern (updated from 16 to 21)
+        // Type pattern (group 21)
         if (StringUtils.isNotEmpty(matcher.group(21))) {
-            return builder.setCategory(matcher.group(20)) // Updated from 15 to 20
-                    .setType(matcher.group(21)) // Updated from 16 to 21
-                    .setMessage(matcher.group(22)) // Updated from 17 to 22
-                    .setSeverity(Severity.guessFromString(matcher.group(19))) // Updated from 14 to 19
+            return builder.setCategory(matcher.group(20)) 
+                    .setType(matcher.group(21)) 
+                    .setMessage(matcher.group(22)) 
+                    .setSeverity(Severity.guessFromString(matcher.group(19))) 
                     .buildOptional();
         }
 
-        var category = matcher.group(20); // Updated from 15 to 20
+        var category = matcher.group(20); 
         if (EXPECTED_CATEGORY.equals(category)) {
             return Optional.empty();
         }
@@ -194,7 +194,7 @@ public class MsBuildParser extends LookaheadParser {
         var cleanedMessage = HEADER_COMPILE_MESSAGE.matcher(message).replaceAll(StringUtils.EMPTY);
         return builder.setCategory(category)
                 .setMessage(cleanedMessage)
-                .setSeverity(Severity.guessFromString(matcher.group(19))) // Updated from 14 to 19
+                .setSeverity(Severity.guessFromString(matcher.group(19))) 
                 .buildOptional();
     }
 
@@ -209,20 +209,20 @@ public class MsBuildParser extends LookaheadParser {
     private String determineFileName(final Matcher matcher) {
         String fileName;
 
-        // Group 3 is from COMMAND_LINE_WARNING_PATTERN (unchanged)
+        // Group 3 is from COMMAND_LINE_WARNING_PATTERN 
         if (StringUtils.isNotBlank(matcher.group(3))) {
             fileName = matcher.group(3);
         }
-        // Group 18 is simple filename from FILE_NAME_PATTERN (was 13, now 18)
+        // Group 18 is simple filename from FILE_NAME_PATTERN 
         else if (StringUtils.isNotBlank(matcher.group(18))) {
             fileName = matcher.group(18);
         }
-        // Group 9 is filename with line/column from FILE_NAME_PATTERN (was 4, now 9)
+        // Group 9 is filename with line/column from FILE_NAME_PATTERN
         else {
             fileName = matcher.group(9);
         }
         if (StringUtils.isBlank(fileName)) {
-            // Group 22 is message (was 17, now 22)
+            // Group 22 is message 
             var linker = LINKER_CAUSE.matcher(matcher.group(22));
             if (linker.matches()) {
                 return linker.group(1);
@@ -235,7 +235,7 @@ public class MsBuildParser extends LookaheadParser {
             fileName = "unknown.file";
         }
 
-        // Group 23 is project directory (was 18, now 23)
+        // Group 23 is project directory
         var projectDir = matcher.group(23);
         if (canResolveRelativeFileName(fileName, projectDir)) {
             fileName = FilenameUtils.concat(projectDir, fileName);
