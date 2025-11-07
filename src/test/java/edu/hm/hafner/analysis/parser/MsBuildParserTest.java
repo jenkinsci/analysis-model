@@ -1064,40 +1064,39 @@ class MsBuildParserTest extends AbstractParserTest {
         assertThatReportHasSeverities(warnings, 0, 0, 3, 1);
 
         try (var softly = new SoftAssertions()) {
-                // First warning - should report the actual Delphi file, not CodeGear.Delphi.Targets
-                softly.assertThat(warnings.get(0))
-                                .hasFileName("/Delphi Projects/DCU 2010/indy10/Lib/System/IdWship6.pas")
-                                .hasCategory("W1000")
-                                .hasSeverity(Severity.WARNING_NORMAL)
-                                .hasMessage("Symbol 'GIdIPv6FuncsAvailable' is deprecated")
-                                .hasLineStart(469);
+            // First warning - should report the actual Delphi file, not CodeGear.Delphi.Targets
+            softly.assertThat(warnings.get(0))
+                    .hasFileName("/Delphi Projects/DCU 2010/indy10/Lib/System/IdWship6.pas")
+                    .hasCategory("W1000")
+                    .hasSeverity(Severity.WARNING_NORMAL)
+                    .hasMessage("Symbol 'GIdIPv6FuncsAvailable' is deprecated")
+                    .hasLineStart(469);
 
-                // Second warning - same file, different line
-                softly.assertThat(warnings.get(1))
-                                .hasFileName("/Delphi Projects/DCU 2010/indy10/Lib/System/IdWship6.pas")
-                                .hasCategory("W1000")
-                                .hasSeverity(Severity.WARNING_NORMAL)
-                                .hasMessage("Symbol 'GIdIPv6FuncsAvailable' is deprecated")
-                                .hasLineStart(1221);
+            // Second warning - same file, different line
+            softly.assertThat(warnings.get(1))
+                    .hasFileName("/Delphi Projects/DCU 2010/indy10/Lib/System/IdWship6.pas")
+                    .hasCategory("W1000")
+                    .hasSeverity(Severity.WARNING_NORMAL)
+                    .hasMessage("Symbol 'GIdIPv6FuncsAvailable' is deprecated")
+                    .hasLineStart(1221);
 
-                // Hint - should be captured and parsed correctly
-                softly.assertThat(warnings.get(2))
-                                .hasFileName("C:/Delphi Projects/DCU 2010/Externals/Lib/Delphi/IBSQL.pas")
-                                .hasCategory("H2219")
-                                .hasSeverity(Severity.WARNING_LOW)
-                                .hasMessage("Private symbol 'GetCodePage' declared but never used")
-                                .hasLineStart(205);
+            // Hint - should be captured and parsed correctly
+            softly.assertThat(warnings.get(2))
+                    .hasFileName("C:/Delphi Projects/DCU 2010/Externals/Lib/Delphi/IBSQL.pas")
+                    .hasCategory("H2219")
+                    .hasSeverity(Severity.WARNING_LOW)
+                    .hasMessage("Private symbol 'GetCodePage' declared but never used")
+                    .hasLineStart(205);
 
-                // Fourth warning - different file
-                softly.assertThat(warnings.get(3))
-                                .hasFileName("/Program Files (x86)/Jenkins/workspace/POS_Manager_develop/Externals/Lib/Common/FBHStrUtils.pas")
-                                .hasCategory("W1024")
-                                .hasSeverity(Severity.WARNING_NORMAL)
-                                .hasMessage("Combining signed and unsigned types - widened both operands")
-                                .hasLineStart(349);
-                }
+           // Fourth warning - different file
+            softly.assertThat(warnings.get(3))
+                    .hasFileName("/Program Files (x86)/Jenkins/workspace/POS_Manager_develop/Externals/Lib/Common/FBHStrUtils.pas")
+                    .hasCategory("W1024")
+                    .hasSeverity(Severity.WARNING_NORMAL)
+                    .hasMessage("Combining signed and unsigned types - widened both operands")
+                    .hasLineStart(349);
         }
-
+    }
 
     @Override
     protected MsBuildParser createParser() {
