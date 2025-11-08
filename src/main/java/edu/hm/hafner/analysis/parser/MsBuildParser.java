@@ -227,46 +227,52 @@ public class MsBuildParser extends LookaheadParser {
      * @return the name of the file with a warning
      */
     private String determineFileName(final Matcher matcher) {
-        String fileName;
+        String fileName = extractFileNameFromGroups(matcher);
+        fileName = resolveFileName(fileName, matcher);
+        return normalizeFileName(fileName, matcher.group(23));
+    }
 
+    private String extractFileNameFromGroups(final Matcher matcher) {
         // Group 3 is from COMMAND_LINE_WARNING_PATTERN
         if (StringUtils.isNotBlank(matcher.group(3))) {
-            fileName = matcher.group(3);
+            return matcher.group(3);
         }
         // Group 18 is simple filename from FILE_NAME_PATTERN
-        else if (StringUtils.isNotBlank(matcher.group(18))) {
-            fileName = matcher.group(18);
+        if (StringUtils.isNotBlank(matcher.group(18))) {
+            return matcher.group(18);
         }
         // Group 9 is filename with line/column from FILE_NAME_PATTERN
-        else {
-            fileName = matcher.group(9);
-        }
-        if (StringUtils.isBlank(fileName)) {
-            // Group 22 is message
-            var linker = LINKER_CAUSE.matcher(matcher.group(22));
-            if (linker.matches()) {
-                return linker.group(1);
-            }
-        }
-        if (StringUtils.isBlank(fileName)) {
-            fileName = StringUtils.substringBetween(matcher.group(22), "'");
-        }
-        if (StringUtils.isBlank(fileName)) {
-            fileName = "unknown.file";
+        return matcher.group(9);
+    }
+
+    private String resolveFileName(final String fileName, final Matcher matcher) {
+        if (StringUtils.isNotBlank(fileName)) {
+            return fileName;
         }
 
-        // Group 23 is project directory
-        var projectDir = matcher.group(23);
-        if (canResolveRelativeFileName(fileName, projectDir)) {
-            fileName = FilenameUtils.concat(projectDir, fileName);
+        // Group 22 is message
+        var linker = LINKER_CAUSE.matcher(matcher.group(22));
+        if (linker.matches()) {
+            return linker.group(1);
         }
-        if (MSBUILD.equals(fileName.trim())) {
-            fileName = "-";
+
+        String extractedFileName = StringUtils.substringBetween(matcher.group(22), "'");
+        return StringUtils.isNotBlank(extractedFileName) ? extractedFileName : "unknown.file";
+    }
+
+    private String normalizeFileName(final String fileName, final String projectDir) {
+        String normalizedFileName = fileName;
+
+        if (canResolveRelativeFileName(normalizedFileName, projectDir)) {
+            normalizedFileName = FilenameUtils.concat(projectDir, normalizedFileName);
         }
-        if (containsInvalidPathCharacters(fileName)) {
-            fileName = "-";
+        if (MSBUILD.equals(normalizedFileName.trim())) {
+            return "-";
         }
-        return fileName;
+        if (containsInvalidPathCharacters(normalizedFileName)) {
+            return "-";
+        }
+        return normalizedFileName;
     }
 
     private boolean containsInvalidPathCharacters(final String fileName) {
