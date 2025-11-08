@@ -263,13 +263,15 @@ public class MsBuildParser extends LookaheadParser {
         if (MSBUILD.equals(fileName.trim())) {
             fileName = "-";
         }
-        
-        // Filter out invalid filenames that contain invalid path characters
-        if (fileName.contains("<") || fileName.contains(">") || fileName.contains("|")
-                || fileName.contains("\"") || fileName.contains("?") || fileName.contains("*")) {
+        if (containsInvalidPathCharacters(fileName)) {
             fileName = "-";
         }
         return fileName;
+    }
+
+    private boolean containsInvalidPathCharacters(final String fileName) {
+        return fileName.contains("<") || fileName.contains(">") || fileName.contains("|")
+                || fileName.contains("\"") || fileName.contains("?") || fileName.contains("*");
     }
 
     private boolean canResolveRelativeFileName(final String fileName, final String projectDir) {

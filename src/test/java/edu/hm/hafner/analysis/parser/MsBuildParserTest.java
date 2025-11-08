@@ -849,25 +849,25 @@ class MsBuildParserTest extends AbstractParserTest {
         assertThat(report).isEmpty().doesNotHaveErrors();
     }
 
-     /**
-      * Parser should handle invalid filenames like &lt;command line option&gt; from PC-Lint.
-      * Issues with invalid filenames should be filtered out, only valid file warnings should be parsed.
-      *
-      * @see <a href="https://issues.jenkins.io/browse/JENKINS-64541">Issue 64541</a>
-      */
-     @Test
-     void issue64541() {
-         var report = parse("issue64541-pclint.txt");
+    /**
+     * Parser should handle invalid filenames like &lt;command line option&gt; from PC-Lint.
+     * Issues with invalid filenames should be filtered out, only valid file warnings should be parsed.
+     *
+     * @see <a href="https://issues.jenkins.io/browse/JENKINS-64541">Issue 64541</a>
+     */
+    @Test
+    void issue64541() {
+        var report = parse("issue64541-pclint.txt");
 
         // Should parse 1 issue (the valid one), and ignore the <command line option> issue
-         assertThat(report).hasSize(1);
+        assertThat(report).hasSize(1);
 
-         assertThat(report.get(0))
-                 .hasFileName("D:/Project/source.c")
-                 .hasCategory("456")
-                 .hasSeverity(Severity.ERROR)
-                 .hasMessage("Actual error in file")
-                 .hasLineStart(42);
+        assertThat(report.get(0))
+                .hasFileName("D:/Project/source.c")
+                .hasCategory("456")
+                .hasSeverity(Severity.ERROR)
+                .hasMessage("Actual error in file")
+                .hasLineStart(42);
     }
 
     /**

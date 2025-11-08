@@ -71,33 +71,47 @@ public class DoxygenParser extends LookaheadParser {
      * @return the cleaned filename
      */
     private String cleanupFileName(final String fileName) {
-        if (fileName == null) {
-            return null;
+        if (fileName == null || !fileName.contains("Generating")) {
+            return fileName;
         }
 
-        // Check if the filename contains "Generating" messages
-        if (fileName.contains("Generating")) {
-            int windowsPathIndex = fileName.indexOf(":/");
-            if (windowsPathIndex == -1) {
-                windowsPathIndex = fileName.indexOf(":\\");
-            }
-            if (windowsPathIndex > 0 && windowsPathIndex < fileName.length() - 1) {
-                char driveLetter = fileName.charAt(windowsPathIndex - 1);
-                if (Character.isLetter(driveLetter)) {
-                    return fileName.substring(windowsPathIndex - 1);
-                }
-            }
-
-            // Pattern: Unix absolute path (starting with /)
-            int unixPathIndex = fileName.lastIndexOf('/');
-            if (unixPathIndex > 10) { 
-                int pathStart = fileName.indexOf('/', fileName.indexOf("Generating"));
-                if (pathStart > 0 && pathStart < unixPathIndex) {
-                    return fileName.substring(pathStart);
-                }
-            }
+        // Try to extract Windows absolute path (e.g., D:/path or D:\path)
+        String extracted = extractWindowsPath(fileName);
+        if (extracted != null) {
+            return extracted;
         }
 
+        // Try to extract Unix absolute path (starting with /)
+        return extractUnixPath(fileName);
+    }
+
+    private String extractWindowsPath(final String fileName) {
+        int windowsPathIndex = fileName.indexOf(":/");
+        if (windowsPathIndex == -1) {
+            windowsPathIndex = fileName.indexOf(":\\");
+        }
+
+        if (windowsPathIndex > 0 && windowsPathIndex < fileName.length() - 1) {
+            char driveLetter = fileName.charAt(windowsPathIndex - 1);
+            if (Character.isLetter(driveLetter)) {
+                return fileName.substring(windowsPathIndex - 1);
+            }
+        }
+        return null;
+    }
+
+    private String extractUnixPath(final String fileName) {
+        int generatingIndex = fileName.indexOf("Generating");
+        if (generatingIndex < 0) {
+            return fileName;
+        }
+
+        int pathStart = fileName.indexOf('/', generatingIndex);
+        int unixPathIndex = fileName.lastIndexOf('/');
+
+        if (pathStart > 0 && pathStart < unixPathIndex) {
+            return fileName.substring(pathStart);
+        }
         return fileName;
     }
 }
