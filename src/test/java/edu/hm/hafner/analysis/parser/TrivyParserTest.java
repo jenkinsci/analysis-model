@@ -159,7 +159,6 @@ class TrivyParserTest extends AbstractParserTest {
                 .hasLineEnd(8);
     }
 
-
     @Test
     void brokenInput() {
         assertThatThrownBy(() -> parse("eclipse.txt")).isInstanceOf(ParsingException.class);
