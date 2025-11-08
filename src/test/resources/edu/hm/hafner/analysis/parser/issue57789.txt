@@ -1,0 +1,15 @@
+Embarcadero Delphi for Win32 compiler version 21.0
+  Copyright (c) 1983,2009 Embarcadero Technologies, Inc.
+C:\Program Files (x86)\Embarcadero\RAD Studio\7.0\Bin\CodeGear.Delphi.Targets : warning : C:\Delphi Projects\DCU 2010\indy10\Lib\System\IdWship6.pas(469) Warning: W1000 Symbol 'GIdIPv6FuncsAvailable' is deprecated
+C:\Program Files (x86)\Embarcadero\RAD Studio\7.0\Bin\CodeGear.Delphi.Targets : warning : C:\Delphi Projects\DCU 2010\indy10\Lib\System\IdWship6.pas(1221) Warning: W1000 Symbol 'GIdIPv6FuncsAvailable' is deprecated
+C:\Delphi Projects\DCU 2010\Externals\Lib\Delphi\IBSQL.pas(205) hint: H2219 Private symbol 'GetCodePage' declared but never used
+C:\Program Files (x86)\Embarcadero\RAD Studio\7.0\Bin\CodeGear.Delphi.Targets : warning : C:\Program Files (x86)\Jenkins\workspace\POS_Manager_develop\Externals\Lib\Common\FBHStrUtils.pas(349) Warning: W1024 Combining signed and unsigned types - widened both operands
+   269261 lines, 2.61 seconds, 2496188 bytes code, 595788 bytes data.
+   Done building target "CoreCompile" in project "POSManagerTests.dproj".
+Done building project "POSManagerTests.dproj".
+Build succeeded.
+  C:\Program Files (x86)\Embarcadero\RAD Studio\7.0\Bin\CodeGear.Delphi.Targets : warning : C:\Delphi Projects\DCU 2010\indy10\Lib\System\IdWship6.pas(469) Warning: W1000 Symbol 'GIdIPv6FuncsAvailable' is deprecated
+  C:\Program Files (x86)\Embarcadero\RAD Studio\7.0\Bin\CodeGear.Delphi.Targets : warning : C:\Delphi Projects\DCU 2010\indy10\Lib\System\IdWship6.pas(1221) Warning: W1000 Symbol 'GIdIPv6FuncsAvailable' is deprecated
+  C:\Program Files (x86)\Embarcadero\RAD Studio\7.0\Bin\CodeGear.Delphi.Targets : warning : C:\Program Files (x86)\Jenkins\workspace\POS_Manager_develop\Externals\Lib\Common\FBHStrUtils.pas(349) Warning: W1024 Combining signed and unsigned types - widened both operands
+  3 Warning(s)
+  0 Error(s)
