@@ -270,8 +270,10 @@ public class MsBuildParser extends LookaheadParser {
     }
 
     private boolean containsInvalidPathCharacters(final String fileName) {
-        return fileName.contains("<") || fileName.contains(">") || fileName.contains("|")
-                || fileName.contains("\"") || fileName.contains("?") || fileName.contains("*");
+        if (fileName.contains("<") || fileName.contains(">") || fileName.contains("|")) {
+            return true;
+        }
+        return fileName.contains("\"") || fileName.contains("?") || fileName.contains("*");
     }
 
     private boolean canResolveRelativeFileName(final String fileName, final String projectDir) {

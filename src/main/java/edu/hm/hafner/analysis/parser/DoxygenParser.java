@@ -4,6 +4,7 @@ import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
+import edu.umd.cs.findbugs.annotation.CheckForNull;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Severity;
@@ -85,6 +86,7 @@ public class DoxygenParser extends LookaheadParser {
         return extractUnixPath(fileName);
     }
 
+    @CheckForNull
     private String extractWindowsPath(final String fileName) {
         int windowsPathIndex = fileName.indexOf(":/");
         if (windowsPathIndex == -1) {
