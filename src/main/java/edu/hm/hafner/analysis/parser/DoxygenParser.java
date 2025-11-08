@@ -77,15 +77,11 @@ public class DoxygenParser extends LookaheadParser {
 
         // Check if the filename contains "Generating" messages
         if (fileName.contains("Generating")) {
-            // Try to extract the actual file path after the message.
-            // Look for common path patterns: absolute paths starting with / or drive letters like C:, D:
-            // Pattern: Windows absolute path (e.g., D:/path or D:\path)
             int windowsPathIndex = fileName.indexOf(":/");
             if (windowsPathIndex == -1) {
                 windowsPathIndex = fileName.indexOf(":\\");
             }
             if (windowsPathIndex > 0 && windowsPathIndex < fileName.length() - 1) {
-                // Found a Windows path, extract from the drive letter
                 char driveLetter = fileName.charAt(windowsPathIndex - 1);
                 if (Character.isLetter(driveLetter)) {
                     return fileName.substring(windowsPathIndex - 1);
@@ -94,8 +90,7 @@ public class DoxygenParser extends LookaheadParser {
 
             // Pattern: Unix absolute path (starting with /)
             int unixPathIndex = fileName.lastIndexOf('/');
-            if (unixPathIndex > 10) { // Arbitrary threshold to avoid matching early slashes
-                // Look backwards for the start of the path (after "Generating..." text)
+            if (unixPathIndex > 10) { 
                 int pathStart = fileName.indexOf('/', fileName.indexOf("Generating"));
                 if (pathStart > 0 && pathStart < unixPathIndex) {
                     return fileName.substring(pathStart);
