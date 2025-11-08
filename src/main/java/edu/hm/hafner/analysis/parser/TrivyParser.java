@@ -88,6 +88,18 @@ public class TrivyParser extends JsonIssueParser {
     }
 
     private Issue convertToMisconfigurationIssue(final JSONObject misconfiguration, final IssueBuilder issueBuilder) {
+        var causeMetadata = misconfiguration.optJSONObject("CauseMetadata");
+        if (causeMetadata != null) {
+            var startLine = causeMetadata.optInt("StartLine", 0);
+            if (startLine > 0) {
+                issueBuilder.setLineStart(startLine);
+            }
+            var endLine = causeMetadata.optInt("EndLine", 0);
+            if (endLine > 0) {
+                issueBuilder.setLineEnd(endLine);
+            }
+        }
+
         return issueBuilder
                 .setCategory(misconfiguration.optString("Type", VALUE_NOT_SET))
                 .setSeverity(mapSeverity(misconfiguration.optString("Severity", "UNKNOWN")))

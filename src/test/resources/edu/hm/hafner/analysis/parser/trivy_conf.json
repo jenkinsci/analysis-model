@@ -1,0 +1,199 @@
+{
+  "SchemaVersion": 2,
+  "CreatedAt": "2021-08-22T13:53:00.000000+00:00",
+  "ArtifactName": "/workspace",
+  "ArtifactType": "repository",
+  "Metadata": {
+    "RepoURL": "git@github.com:example/repo.git",
+    "Branch": "main",
+    "Commit": "abc123def456"
+  },
+  "Results": [
+    {
+      "Target": "kubernetes/deployment.yaml",
+      "Class": "config",
+      "Type": "kubernetes",
+      "MisconfSummary": {
+        "Successes": 20,
+        "Failures": 3
+      },
+      "Misconfigurations": [
+        {
+          "Type": "Kubernetes Security Check",
+          "ID": "KSV001",
+          "AVDID": "AVD-KSV-0001",
+          "Title": "Process can elevate its own privileges",
+          "Description": "A program inside the container can elevate its own privileges and run as root, which might give the program control over the container and node.",
+          "Message": "Container 'app' of Deployment 'my-deployment' should set 'securityContext.allowPrivilegeEscalation' to false",
+          "Namespace": "builtin.kubernetes.KSV001",
+          "Query": "data.builtin.kubernetes.KSV001.deny",
+          "Resolution": "Set 'set containers[].securityContext.allowPrivilegeEscalation' to false.",
+          "Severity": "MEDIUM",
+          "PrimaryURL": "https://avd.aquasec.com/misconfig/ksv001",
+          "References": [
+            "https://kubernetes.io/docs/concepts/security/pod-security-standards/#restricted",
+            "https://avd.aquasec.com/misconfig/ksv001"
+          ],
+          "Status": "FAIL",
+          "CauseMetadata": {
+            "Provider": "Kubernetes",
+            "Service": "general",
+            "StartLine": 15,
+            "EndLine": 20,
+            "Code": {
+              "Lines": [
+                {
+                  "Number": 15,
+                  "Content": "      containers:",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "      containers:",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 16,
+                  "Content": "      - name: app",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "      - name: app",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 17,
+                  "Content": "        image: nginx:1.19",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "        image: nginx:1.19",
+                  "FirstCause": true,
+                  "LastCause": false
+                },
+                {
+                  "Number": 18,
+                  "Content": "        ports:",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "        ports:",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 19,
+                  "Content": "        - containerPort: 80",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "        - containerPort: 80",
+                  "FirstCause": false,
+                  "LastCause": false
+                }
+              ]
+            }
+          }
+        },
+        {
+          "Type": "Kubernetes Security Check",
+          "ID": "KSV003",
+          "AVDID": "AVD-KSV-0003",
+          "Title": "Default capabilities not dropped",
+          "Description": "The container should drop all default capabilities and add only those that are needed for its execution.",
+          "Message": "Container 'app' of Deployment 'my-deployment' should add 'ALL' to 'securityContext.capabilities.drop'",
+          "Namespace": "builtin.kubernetes.KSV003",
+          "Query": "data.builtin.kubernetes.KSV003.deny",
+          "Resolution": "Add 'ALL' to containers[].securityContext.capabilities.drop.",
+          "Severity": "LOW",
+          "PrimaryURL": "https://avd.aquasec.com/misconfig/ksv003",
+          "References": [
+            "https://kubesec.io/basics/containers-securitycontext-capabilities-drop-index-all/",
+            "https://avd.aquasec.com/misconfig/ksv003"
+          ],
+          "Status": "FAIL",
+          "CauseMetadata": {
+            "Provider": "Kubernetes",
+            "Service": "general",
+            "StartLine": 16,
+            "EndLine": 20
+          }
+        },
+        {
+          "Type": "Kubernetes Security Check",
+          "ID": "KSV012",
+          "AVDID": "AVD-KSV-0012",
+          "Title": "Runs as root user",
+          "Description": "Force the running image to run as a non-root user to ensure least privilege.",
+          "Message": "Container 'app' of Deployment 'my-deployment' should set 'securityContext.runAsNonRoot' to true",
+          "Namespace": "builtin.kubernetes.KSV012",
+          "Query": "data.builtin.kubernetes.KSV012.deny",
+          "Resolution": "Set 'containers[].securityContext.runAsNonRoot' to true.",
+          "Severity": "MEDIUM",
+          "Status": "FAIL",
+          "CauseMetadata": {
+            "Provider": "Kubernetes",
+            "Service": "general",
+            "StartLine": 16,
+            "EndLine": 20
+          }
+        }
+      ]
+    },
+    {
+      "Target": "terraform/main.tf",
+      "Class": "config",
+      "Type": "terraform",
+      "MisconfSummary": {
+        "Successes": 10,
+        "Failures": 2
+      },
+      "Misconfigurations": [
+        {
+          "Type": "Terraform Security Check",
+          "ID": "AVD-AWS-0001",
+          "AVDID": "AVD-AWS-0001",
+          "Title": "S3 Bucket has an ACL defined which allows public access.",
+          "Description": "S3 bucket permissions should be set to deny public access unless explicitly required.",
+          "Message": "Bucket has public access acl",
+          "Namespace": "builtin.terraform.AVD-AWS-0001",
+          "Query": "data.builtin.terraform.AVD-AWS-0001.deny",
+          "Resolution": "Apply a more restrictive ACL",
+          "Severity": "HIGH",
+          "PrimaryURL": "https://avd.aquasec.com/misconfig/avd-aws-0001",
+          "References": [
+            "https://docs.aws.amazon.com/AmazonS3/latest/userguide/acl-overview.html",
+            "https://avd.aquasec.com/misconfig/avd-aws-0001"
+          ],
+          "Status": "FAIL",
+          "CauseMetadata": {
+            "Provider": "AWS",
+            "Service": "s3",
+            "StartLine": 5,
+            "EndLine": 8
+          }
+        },
+        {
+          "Type": "Terraform Security Check",
+          "ID": "AVD-AWS-0002",
+          "AVDID": "AVD-AWS-0002",
+          "Title": "S3 Bucket does not have encryption enabled",
+          "Description": "S3 Buckets should be encrypted to protect the data at rest.",
+          "Message": "Bucket does not have encryption enabled",
+          "Namespace": "builtin.terraform.AVD-AWS-0002",
+          "Query": "data.builtin.terraform.AVD-AWS-0002.deny",
+          "Resolution": "Configure bucket encryption",
+          "Severity": "HIGH",
+          "Status": "FAIL",
+          "CauseMetadata": {
+            "Provider": "AWS",
+            "Service": "s3",
+            "StartLine": 5,
+            "EndLine": 8
+          }
+        }
+      ]
+    }
+  ]
+}

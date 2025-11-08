@@ -106,6 +106,61 @@ class TrivyParserTest extends AbstractParserTest {
     }
 
     @Test
+    void shouldParseTrivyConfWithLineNumbers() {
+        var report = parse("trivy_conf.json");
+
+        assertThat(report).hasSize(5);
+        
+        // Kubernetes misconfigurations with line numbers
+        assertThat(report.get(0))
+                .hasFileName("kubernetes/deployment.yaml")
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasCategory("Kubernetes Security Check")
+                .hasType("KSV001")
+                .hasMessage("Process can elevate its own privileges")
+                .hasLineStart(15)
+                .hasLineEnd(20);
+        
+        assertThat(report.get(1))
+                .hasFileName("kubernetes/deployment.yaml")
+                .hasSeverity(Severity.WARNING_LOW)
+                .hasCategory("Kubernetes Security Check")
+                .hasType("KSV003")
+                .hasMessage("Default capabilities not dropped")
+                .hasLineStart(16)
+                .hasLineEnd(20);
+        
+        assertThat(report.get(2))
+                .hasFileName("kubernetes/deployment.yaml")
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasCategory("Kubernetes Security Check")
+                .hasType("KSV012")
+                .hasMessage("Runs as root user")
+                .hasLineStart(16)
+                .hasLineEnd(20);
+        
+        // Terraform misconfigurations with line numbers
+        assertThat(report.get(3))
+                .hasFileName("terraform/main.tf")
+                .hasSeverity(Severity.WARNING_HIGH)
+                .hasCategory("Terraform Security Check")
+                .hasType("AVD-AWS-0001")
+                .hasMessage("S3 Bucket has an ACL defined which allows public access.")
+                .hasLineStart(5)
+                .hasLineEnd(8);
+        
+        assertThat(report.get(4))
+                .hasFileName("terraform/main.tf")
+                .hasSeverity(Severity.WARNING_HIGH)
+                .hasCategory("Terraform Security Check")
+                .hasType("AVD-AWS-0002")
+                .hasMessage("S3 Bucket does not have encryption enabled")
+                .hasLineStart(5)
+                .hasLineEnd(8);
+    }
+
+
+    @Test
     void brokenInput() {
         assertThatThrownBy(() -> parse("eclipse.txt")).isInstanceOf(ParsingException.class);
     }
