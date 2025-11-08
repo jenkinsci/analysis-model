@@ -194,6 +194,36 @@ class DoxygenParserTest extends AbstractParserTest {
                 .hasMessage("Member operator!=(const T &oVal) (function) of class property_variable< T > is not documented.");
     }
 
+    /**
+     * Parser should clean up filenames that contain Doxygen progress messages.
+     *
+     * @see <a href="https://issues.jenkins.io/browse/JENKINS-64541">Issue 64541</a>
+     */
+    @Test
+    void issue64541() {
+        var report = parse("issue64541-doxygen.txt");
+
+        assertThat(report).hasSize(3);
+
+        assertThat(report.get(0))
+                .hasFileName("D:/JenkinsWorkspace/job/Dokumente/Source/Source.cpp")
+                .hasLineStart(123)
+                .hasMessage("undocumented parameter 'foo'")
+                .hasSeverity(Severity.WARNING_NORMAL);
+
+        assertThat(report.get(1))
+                .hasFileName("D:/JenkinsWorkspace/job/Source/Source.c")
+                .hasLineStart(456)
+                .hasMessage("Member function not documented")
+                .hasSeverity(Severity.WARNING_NORMAL);
+
+        assertThat(report.get(2))
+                .hasFileName("D:/JenkinsWorkspace/job/Source/Source.c")
+                .hasLineStart(789)
+                .hasMessage("test warning with generating prefix")
+                .hasSeverity(Severity.WARNING_NORMAL);
+    } 
+
     @SuppressWarnings("methodlength")
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {

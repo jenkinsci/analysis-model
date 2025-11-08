@@ -1,0 +1,2 @@
+<command line option>(1): Info 123: Test warning from command line
+D:\Project\source.c(42): Error 456: Actual error in file
