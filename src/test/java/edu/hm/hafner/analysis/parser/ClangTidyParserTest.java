@@ -112,4 +112,62 @@ class ClangTidyParserTest extends AbstractParserTest {
         var warnings = parse("issue56915.txt");
         assertThat(warnings).hasSize(3);
     }
+
+    /**
+     * Verifies that clang-tidy warnings with [check-name] are matched but GCC warnings with [-W...] are not.
+     *
+     * @see <a href="https://issues.jenkins.io/browse/JENKINS-64612">Issue 64612</a>
+     */
+    @Test
+    void issue64612() {
+        var report = parse("gcc-clang-tidy-mixed.txt");
+
+        // Should only match clang-tidy warnings with [check-name] pattern, not GCC warnings with [-W...]
+        assertThat(report).hasSize(5);
+
+        assertThat(report.get(0))
+                .hasLineStart(1)
+                .hasColumnStart(8)
+                .hasFileName("src/main.cpp")
+                .hasMessage("implicit conversion changes signedness: 'int' to 'uint32_t' (aka 'unsigned int')")
+                .hasType(WARNING_TYPE)
+                .hasCategory("clang-diagnostic-sign-conversion")
+                .hasSeverity(Severity.WARNING_NORMAL);
+
+        assertThat(report.get(1))
+                .hasLineStart(10)
+                .hasColumnStart(20)
+                .hasFileName("/src/main.cpp")
+                .hasMessage("implicit conversion changes signedness: 'int' to 'uint32_t' (aka 'unsigned int')")
+                .hasType(WARNING_TYPE)
+                .hasCategory("clang-diagnostic-sign-conversion")
+                .hasSeverity(Severity.WARNING_NORMAL);
+
+        assertThat(report.get(2))
+                .hasLineStart(83)
+                .hasColumnStart(20)
+                .hasFileName("/path/to/project/src/test2.cpp")
+                .hasMessage("implicit conversion changes signedness: 'int' to 'uint32_t' (aka 'unsigned int')")
+                .hasType(WARNING_TYPE)
+                .hasCategory("clang-diagnostic-sign-conversion")
+                .hasSeverity(Severity.WARNING_NORMAL);
+
+        assertThat(report.get(3))
+                .hasLineStart(25)
+                .hasColumnStart(15)
+                .hasFileName("/path/to/project/src/test2.cpp")
+                .hasMessage("suggest braces around initialization of subobject")
+                .hasType(WARNING_TYPE)
+                .hasCategory("clang-diagnostic-missing-braces")
+                .hasSeverity(Severity.WARNING_NORMAL);
+
+        assertThat(report.get(4))
+                .hasLineStart(24)
+                .hasColumnStart(5)
+                .hasFileName("/path with space/to/project/src/path_with_space.cpp")
+                .hasMessage("single-argument constructors must be marked explicit to avoid unintentional implicit conversions")
+                .hasType(WARNING_TYPE)
+                .hasCategory("google-explicit-constructor")
+                .hasSeverity(Severity.WARNING_NORMAL);
+    }
 }

@@ -631,4 +631,53 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
 
         assertThat(warnings).isEmpty();
     }
+
+    /**
+     * Verifies that GCC warnings with [-W...] are matched but clang-tidy warnings with [check-name] are not.
+     *
+     * @see <a href="https://issues.jenkins.io/browse/JENKINS-64612">Issue 64612</a>
+     */
+    @Test
+    void issue64612() {
+        var report = parse("gcc-clang-tidy-mixed.txt");
+
+        // Should only match GCC warnings with [-W...] pattern, not clang-tidy warnings
+        assertThat(report).hasSize(4);
+
+        try (var softly = new SoftAssertions()) {
+            Iterator<Issue> iterator = report.iterator();
+
+            softly.assertThat(iterator.next())
+                    .hasLineStart(10)
+                    .hasColumnStart(5)
+                    .hasMessage("unused variable 'x' [-Wunused-variable]")
+                    .hasFileName("main.cpp")
+                    .hasCategory("unused-variable")
+                    .hasSeverity(Severity.WARNING_NORMAL);
+
+            softly.assertThat(iterator.next())
+                    .hasLineStart(20)
+                    .hasColumnStart(10)
+                    .hasMessage("comparison between signed and unsigned [-Wsign-compare]")
+                    .hasFileName("test.cpp")
+                    .hasCategory("sign-compare")
+                    .hasSeverity(Severity.WARNING_NORMAL);
+
+            softly.assertThat(iterator.next())
+                    .hasLineStart(30)
+                    .hasColumnStart(12)
+                    .hasMessage("undefined reference to 'bar' [-Wundefined]")
+                    .hasFileName("foo.cpp")
+                    .hasCategory("undefined")
+                    .hasSeverity(Severity.ERROR);
+
+            softly.assertThat(iterator.next())
+                    .hasLineStart(15)
+                    .hasColumnStart(1)
+                    .hasMessage("control reaches end of non-void function [-Wreturn-type]")
+                    .hasFileName("bar.cpp")
+                    .hasCategory("return-type")
+                    .hasSeverity(Severity.WARNING_NORMAL);
+        }
+    }
 }

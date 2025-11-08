@@ -41,12 +41,19 @@ public class ClangTidyParser extends LookaheadParser {
             priority = Severity.WARNING_NORMAL;
         }
 
+        // Reject GCC warnings that have [-W...] format
+        // GCC warnings should be handled by Gcc4CompilerParser
+        var category = matcher.group(7);
+        if (category.startsWith("-W")) {
+            return Optional.empty();
+        }
+
         return builder.setFileName(matcher.group(2))
                 .setSeverity(priority)
                 .setLineStart(matcher.group(3))
                 .setColumnStart(matcher.group(4))
                 .setType(StringUtils.capitalize(matcher.group(5)))
-                .setCategory(matcher.group(7))
+                .setCategory(category)
                 .setMessage(matcher.group(6))
                 .buildOptional();
     }

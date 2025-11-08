@@ -1,0 +1,14 @@
+# GCC warnings with [-W...] should be matched by Gcc4CompilerParser
+main.cpp:10:5: warning: unused variable 'x' [-Wunused-variable]
+test.cpp:20:10: warning: comparison between signed and unsigned [-Wsign-compare]
+
+# Clang-tidy warnings with [check-name] should NOT be matched by Gcc4CompilerParser
+src/main.cpp:1:8: warning: implicit conversion changes signedness: 'int' to 'uint32_t' (aka 'unsigned int') [clang-diagnostic-sign-conversion]
+/src/main.cpp:10:20: warning: implicit conversion changes signedness: 'int' to 'uint32_t' (aka 'unsigned int') [clang-diagnostic-sign-conversion]
+/path/to/project/src/test2.cpp:83:20: warning: implicit conversion changes signedness: 'int' to 'uint32_t' (aka 'unsigned int') [clang-diagnostic-sign-conversion]
+/path/to/project/src/test2.cpp:25:15: warning: suggest braces around initialization of subobject [clang-diagnostic-missing-braces]
+/path with space/to/project/src/path_with_space.cpp:24:5: warning: single-argument constructors must be marked explicit to avoid unintentional implicit conversions [google-explicit-constructor]
+
+# More GCC warnings with [-W...] should be matched
+foo.cpp:30:12: error: undefined reference to 'bar' [-Wundefined]
+bar.cpp:15:1: warning: control reaches end of non-void function [-Wreturn-type]

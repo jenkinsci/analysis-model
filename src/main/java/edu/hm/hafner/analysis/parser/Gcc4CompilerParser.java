@@ -25,6 +25,7 @@ public class Gcc4CompilerParser extends LookaheadParser {
     private static final String GCC_WARNING_PATTERN =
             ANT_TASK + "(.+?):(\\d+):(?:(\\d+):)? ?([wW]arning|.*[Ee]rror): (.*)$";
     private static final Pattern CLASS_PATTERN = Pattern.compile("\\[-W(.+)]$");
+    private static final Pattern CLANG_TIDY_PATTERN = Pattern.compile("\\[[^\\s\\]]+\\]$");
 
     /**
      * Creates a new instance of {@link Gcc4CompilerParser}.
@@ -61,10 +62,17 @@ public class Gcc4CompilerParser extends LookaheadParser {
             message.append(lookahead.next());
         }
 
+        // Reject clang-tidy warnings that have [check-name] but not [-Wwarning-name]
+        // clang-tidy warnings should be handled by ClangTidyParser
+        var messageStr = message.toString();
+        if (CLANG_TIDY_PATTERN.matcher(messageStr).find() && !CLASS_PATTERN.matcher(messageStr).find()) {
+            return Optional.empty();
+        }
+
         return builder.setFileName(matcher.group(1))
                 .setLineStart(matcher.group(2))
                 .setColumnStart(matcher.group(3))
-                .setMessage(message.toString())
+                .setMessage(messageStr)
                 .setSeverity(Severity.guessFromString(matcher.group(4)))
                 .buildOptional();
     }
