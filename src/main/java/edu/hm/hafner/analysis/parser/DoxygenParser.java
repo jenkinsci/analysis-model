@@ -39,12 +39,15 @@ public class DoxygenParser extends LookaheadParser {
                                           final IssueBuilder builder) {
         var message = new StringBuilder(matcher.group(7));
 
+        String fileName;
         if ((matcher.group(1) != null) || (matcher.group(2) != null)) {
-            builder.setFileName(matcher.group(1));
+            fileName = cleanupFileName(matcher.group(1));
+            builder.setFileName(fileName);
             builder.setLineStart(matcher.group(2));
         }
         else {
-            builder.setFileName(matcher.group(3));
+            fileName = cleanupFileName(matcher.group(3));
+            builder.setFileName(fileName);
             builder.setLineStart(matcher.group(4));
         }
 
@@ -58,5 +61,48 @@ public class DoxygenParser extends LookaheadParser {
                 .setMessage(message.toString())
                 .setSeverity(Severity.guessFromString(matcher.group(6)))
                 .buildOptional();
+    }
+
+    /**
+     * Cleans up the filename by removing Doxygen progress messages that may have been captured.
+     * For example, "Generating caller graph for function vCanOpenDevD:/path/file.c" becomes "D:/path/file.c".
+     *
+     * @param fileName the raw filename from the regex match
+     * @return the cleaned filename
+     */
+    private String cleanupFileName(final String fileName) {
+        if (fileName == null) {
+            return null;
+        }
+
+        // Check if the filename contains "Generating" messages
+        if (fileName.contains("Generating")) {
+            // Try to extract the actual file path after the message.
+            // Look for common path patterns: absolute paths starting with / or drive letters like C:, D:
+            // Pattern: Windows absolute path (e.g., D:/path or D:\path)
+            int windowsPathIndex = fileName.indexOf(":/");
+            if (windowsPathIndex == -1) {
+                windowsPathIndex = fileName.indexOf(":\\");
+            }
+            if (windowsPathIndex > 0 && windowsPathIndex < fileName.length() - 1) {
+                // Found a Windows path, extract from the drive letter
+                char driveLetter = fileName.charAt(windowsPathIndex - 1);
+                if (Character.isLetter(driveLetter)) {
+                    return fileName.substring(windowsPathIndex - 1);
+                }
+            }
+
+            // Pattern: Unix absolute path (starting with /)
+            int unixPathIndex = fileName.lastIndexOf('/');
+            if (unixPathIndex > 10) { // Arbitrary threshold to avoid matching early slashes
+                // Look backwards for the start of the path (after "Generating..." text)
+                int pathStart = fileName.indexOf('/', fileName.indexOf("Generating"));
+                if (pathStart > 0 && pathStart < unixPathIndex) {
+                    return fileName.substring(pathStart);
+                }
+            }
+        }
+
+        return fileName;
     }
 }

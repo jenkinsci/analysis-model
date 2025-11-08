@@ -1,0 +1,4 @@
+D:/JenkinsWorkspace/job/Dokumente/Source/Source.cpp:123: warning: undocumented parameter 'foo'
+D:/JenkinsWorkspace/job/Source/Source.c:456: warning: Member function not documented
+
+Generating caller graph for function vCanOpenDevD:/JenkinsWorkspace/job/Source/Source.c:789: warning: test warning with generating prefix

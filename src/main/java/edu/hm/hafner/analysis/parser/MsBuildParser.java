@@ -263,6 +263,12 @@ public class MsBuildParser extends LookaheadParser {
         if (MSBUILD.equals(fileName.trim())) {
             fileName = "-";
         }
+        
+        // Filter out invalid filenames that contain invalid path characters
+        if (fileName.contains("<") || fileName.contains(">") || fileName.contains("|")
+                || fileName.contains("\"") || fileName.contains("?") || fileName.contains("*")) {
+            fileName = "-";
+        }
         return fileName;
     }
 
