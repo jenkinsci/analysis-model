@@ -87,7 +87,6 @@ public class MsBuildParser extends LookaheadParser {
      * - Binary/executable files (exe, dll, so, etc.)
      * - Archive files (jar, war, zip, gz, bz2, 7z)
      * - Object files and libraries (o, a, lib)
-     * <p>
      * The pattern requires a file extension that is NOT one of the excluded types.
      * This aligns with the NON_SOURCE_CODE_EXTENSIONS set in FingerprintGenerator.
      */
