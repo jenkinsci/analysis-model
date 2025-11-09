@@ -170,11 +170,11 @@ class IssueTest extends SerializableTest<Issue> {
 
         try (var softly = new SoftAssertions()) {
             softly.assertThat(issue)
+                    .as(description)
                     .hasLineStart(expectedLineStart)
                     .hasColumnStart(expectedColumnStart)
                     .hasLineEnd(expectedLineEnd)
-                    .hasColumnEnd(expectedColumnEnd)
-                    .as(description);
+                    .hasColumnEnd(expectedColumnEnd);
         }
     }
 
