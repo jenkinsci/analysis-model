@@ -173,9 +173,8 @@ class ClangTidyParserTest extends AbstractParserTest {
 
     /**
      * Verifies that clang-tidy parser filters out GCC warnings when processing cmake build output.
-     * When running clang-tidy via cmake with CMAKE_CXX_CLANG_TIDY, both clang-tidy and GCC warnings
-     * are generated in the same output. The parser should only include clang-tidy warnings with
-     * [check-name] pattern and exclude GCC warnings with [-W...] pattern.
+     * When running clang-tidy via cmake with CMAKE_CXX_CLANG_TIDY, both clang-tidy and GCC warnings are generated in the same output. 
+     * The parser should only include clang-tidy warnings with [check-name] pattern and exclude GCC warnings with [-W...] pattern.
      *
      * @see <a href="https://issues.jenkins.io/browse/JENKINS-64614">Issue 64614</a>
      */
