@@ -23,9 +23,11 @@ public class Gcc4CompilerParser extends LookaheadParser {
     private static final long serialVersionUID = 5490211629355204910L;
 
     private static final String GCC_WARNING_PATTERN =
-            ANT_TASK + "(.+?):(\\d+):(?:(\\d+):)? ?([wW]arning|.*[Ee]rror): (.*)$";
+            ANT_TASK + "(.+?):(\\d+):(?:(\\d+):)? ?([wW]arning|.*[Ee]rror|note): (.*)$";
     private static final Pattern CLASS_PATTERN = Pattern.compile("\\[-W(.+)]$");
+    private static final Pattern GCC_OPTION_PATTERN = Pattern.compile("\\[-(f[^\\]]+)]$");
     private static final Pattern CLANG_TIDY_PATTERN = Pattern.compile("\\[[^\\s\\]]+\\]$");
+    private static final Pattern NOTE_PATTERN = Pattern.compile("^(.+?):(\\d+):(?:(\\d+):)? ?note: (.*)$");
 
     /**
      * Creates a new instance of {@link Gcc4CompilerParser}.
@@ -44,22 +46,57 @@ public class Gcc4CompilerParser extends LookaheadParser {
 
     @Override
     protected boolean isLineInteresting(final String line) {
-        return (line.contains("arning") || line.contains("rror")) && !line.contains("[javac]");
+        return (line.contains("arning") || line.contains("rror") || line.contains("note:")) && !line.contains("[javac]");
     }
 
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        var message = new StringBuilder(matcher.group(5));
+        // Skip note lines - they will be attached to the previous warning/error
+        if (matcher.group(4).equalsIgnoreCase("note")) {
+            return Optional.empty();
+        }
 
-        var classMatcher = CLASS_PATTERN.matcher(message.toString());
+        var message = new StringBuilder(matcher.group(5));
+        var originalMessage = message.toString();
+
+        var classMatcher = CLASS_PATTERN.matcher(originalMessage);
         if (classMatcher.find() && classMatcher.group(1) != null) {
             builder.setCategory(classMatcher.group(1));
+        }
+        else {
+            // Check for GCC compiler options like [-fpermissive]
+            var optionMatcher = GCC_OPTION_PATTERN.matcher(originalMessage);
+            if (optionMatcher.find() && optionMatcher.group(1) != null) {
+                builder.setCategory(optionMatcher.group(1));
+            }
         }
 
         while (lookahead.hasNext() && isMessageContinuation(lookahead)) {
             message.append('\n');
             message.append(lookahead.next());
+        }
+
+        // Collect any subsequent note lines
+        var notes = new StringBuilder();
+        while (lookahead.hasNext()) {
+            var nextLine = lookahead.peekNext();
+            var noteMatcher = NOTE_PATTERN.matcher(nextLine);
+            if (noteMatcher.matches()) {
+                if (!notes.isEmpty()) {
+                    notes.append('\n');
+                }
+                notes.append(lookahead.next());
+            }
+            else {
+                break;
+            }
+        }
+
+        // Append notes to the message
+        if (!notes.isEmpty()) {
+            message.append('\n');
+            message.append(notes);
         }
 
         // Reject clang-tidy warnings that have [check-name] but not [-Wwarning-name]

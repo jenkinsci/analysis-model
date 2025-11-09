@@ -680,4 +680,87 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
                     .hasSeverity(Severity.WARNING_NORMAL);
         }
     }
+
+    /**
+     * Parses a file with GCC errors and warnings that include note lines.
+     * Tests that note lines are properly captured and associated with the main issue.
+     *
+     * @see <a href="https://issues.jenkins.io/browse/JENKINS-56815">Issue 56815</a>
+     */
+    @Test
+    void issue56815() {
+        var warnings = parse("issue56815.txt");
+
+        assertThat(warnings).hasSize(5);
+
+        Iterator<? extends Issue> iterator = warnings.iterator();
+
+        try (var softly = new SoftAssertions()) {
+            // First error with a single note
+            softly.assertThat(iterator.next())
+                    .hasLineStart(2)
+                    .hasLineEnd(2)
+                    .hasColumnStart(19)
+                    .hasColumnEnd(19)
+                    .hasMessage("""
+                            invalid conversion from 'int' to 'A*' [-fpermissive]
+                            tt.cpp:1:6: note: initializing argument 1 of 'void foo(A*)'""")
+                    .hasFileName("tt.cpp")
+                    .hasCategory("fpermissive")
+                    .hasSeverity(Severity.ERROR);
+
+            // Second error with multiple notes
+            softly.assertThat(iterator.next())
+                    .hasLineStart(3)
+                    .hasLineEnd(3)
+                    .hasColumnStart(19)
+                    .hasColumnEnd(19)
+                    .hasMessage("""
+                            no matching function for call to 'foo(int)'
+                            tt.cpp:1:6: note: candidate: void foo(A*) <near match>
+                            tt.cpp:1:6: note:   conversion of argument 1 would be ill-formed:
+                            tt.cpp:2:6: note: candidate: void foo(B*) <near match>
+                            tt.cpp:2:6: note:   conversion of argument 1 would be ill-formed:""")
+                    .hasFileName("tt.cpp")
+                    .hasSeverity(Severity.ERROR);
+
+            // Third error with a note
+            softly.assertThat(iterator.next())
+                    .hasLineStart(1)
+                    .hasLineEnd(1)
+                    .hasColumnStart(24)
+                    .hasColumnEnd(24)
+                    .hasMessage("""
+                            invalid use of incomplete type 'struct A<0>'
+                            tt.cpp:2:19: note: declaration of 'struct A<0>'""")
+                    .hasFileName("tt.cpp")
+                    .hasSeverity(Severity.ERROR);
+
+            // Fourth: warning with a note
+            softly.assertThat(iterator.next())
+                    .hasLineStart(5)
+                    .hasLineEnd(5)
+                    .hasColumnStart(10)
+                    .hasColumnEnd(10)
+                    .hasMessage("""
+                            unused variable 'x' [-Wunused-variable]
+                            template.cpp:3:5: note: previous declaration was here""")
+                    .hasFileName("template.cpp")
+                    .hasCategory("unused-variable")
+                    .hasSeverity(Severity.WARNING_NORMAL);
+
+            // Fifth: error with multiple notes
+            softly.assertThat(iterator.next())
+                    .hasLineStart(10)
+                    .hasLineEnd(10)
+                    .hasColumnStart(15)
+                    .hasColumnEnd(15)
+                    .hasMessage("""
+                            expected ';' before 'int'
+                            multiline.cpp:10:15: note: each undeclared identifier is reported only once for each function it appears in
+                            multiline.cpp:8:20: note: declared here""")
+                    .hasFileName("multiline.cpp")
+                    .hasSeverity(Severity.ERROR);
+        }
+    }
 }
