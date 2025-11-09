@@ -1,0 +1,22 @@
+# Simulates cmake build output with CMAKE_CXX_CLANG_TIDY=clang-tidy
+# This contains both clang-tidy warnings and GCC compiler warnings
+# The clang-tidy parser should only pick up clang-tidy warnings (with [check-name])
+# and filter out GCC warnings (with [-W...])
+
+# Clang-tidy warnings - should be parsed
+/home/user/project/src/main.cpp:42:10: warning: implicit conversion changes signedness: 'int' to 'uint32_t' (aka 'unsigned int') [clang-diagnostic-sign-conversion]
+/home/user/project/src/utils.cpp:15:5: warning: single-argument constructors must be marked explicit to avoid unintentional implicit conversions [google-explicit-constructor]
+/home/user/project/include/helper.h:89:20: warning: suggest braces around initialization of subobject [clang-diagnostic-missing-braces]
+
+# GCC warnings generated during the same build - should be filtered out
+/home/user/project/src/main.cpp:50:12: warning: unused variable 'count' [-Wunused-variable]
+/home/user/project/src/utils.cpp:23:15: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+/home/user/project/src/helper.cpp:100:1: warning: control reaches end of non-void function [-Wreturn-type]
+
+# More clang-tidy warnings - should be parsed
+/home/user/project/src/config.cpp:200:30: warning: initializer for member 'data' is redundant [readability-redundant-member-init]
+/home/user/project/src/algorithm.cpp:55:8: warning: use emplace_back instead of push_back [modernize-use-emplace]
+
+# More GCC warnings - should be filtered out
+/home/user/project/src/parser.cpp:77:20: error: 'memset' was not declared in this scope [-Werror]
+/home/user/project/src/config.cpp:205:3: warning: implicit declaration of function 'setup' [-Wimplicit-function-declaration]
