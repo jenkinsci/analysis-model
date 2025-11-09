@@ -81,7 +81,19 @@ public class MsBuildParser extends LookaheadParser {
             + PROJECT_DIR_PATTERN
             + "))$";
 
-    private static final Pattern IGNORED_TOOLS_PATTERN = Pattern.compile("(?!.exe)(\\.[^.]+)$");
+    /**
+     * Pattern to match valid source code file extensions. This pattern excludes:
+     * - Files without extensions (like tool names: NMAKE, rs, etc.)
+     * - Binary/executable files (exe, dll, so, etc.)
+     * - Archive files (jar, war, zip, gz, bz2, 7z)
+     * - Object files and libraries (o, a, lib)
+     * <p>
+     * The pattern requires a file extension that is NOT one of the excluded types.
+     * This aligns with the NON_SOURCE_CODE_EXTENSIONS set in FingerprintGenerator.
+     */
+    private static final Pattern VALID_SOURCE_FILE_PATTERN = Pattern.compile(
+            ".*\\.(?!(?i)(?:o|exe|dll|so|a|lib|jar|war|zip|7z|gz|bz2)$)[^.]+$");
+    
     private static final Pattern LINKER_CAUSE = Pattern.compile(".*imported by '([A-Za-z0-9\\-_.]+)'.*");
     private static final String EXPECTED_CATEGORY = "Expected";
     private static final String MSBUILD = "MSBUILD";
@@ -117,8 +129,8 @@ public class MsBuildParser extends LookaheadParser {
 
         var fileName = determineFileName(matcher);
 
-        var fileExtensionMatcher = IGNORED_TOOLS_PATTERN.matcher(fileName);
-        if (!fileExtensionMatcher.find()) {
+        // Skip files that are not valid source code files (tools, executables, archives, etc.)
+        if (!VALID_SOURCE_FILE_PATTERN.matcher(fileName).matches()) {
             return Optional.empty();
         }
 
