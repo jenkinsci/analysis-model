@@ -12,11 +12,11 @@ import edu.hm.hafner.analysis.registry.AbstractParserTest;
  * @author Mike Delaney
  */
 class CargoClippyParserTest extends AbstractParserTest {
+    private static final int EXPECTED_ISSUE_COUNT = 17;
+
     CargoClippyParserTest() {
         super("cargo-clippy-2018.txt");
     }
-
-    private static final Integer EXPECTED_ISSUE_COUNT = 17;
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
