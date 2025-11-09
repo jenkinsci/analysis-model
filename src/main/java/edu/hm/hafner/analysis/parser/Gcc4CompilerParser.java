@@ -9,6 +9,7 @@ import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
 
 import java.io.Serial;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -53,24 +54,14 @@ public class Gcc4CompilerParser extends LookaheadParser {
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
         // Skip note lines - they will be attached to the previous warning/error
-        if (matcher.group(4).equalsIgnoreCase("note")) {
+        if (isNoteMessage(matcher)) {
             return Optional.empty();
         }
 
         var message = new StringBuilder(matcher.group(5));
         var originalMessage = message.toString();
 
-        var classMatcher = CLASS_PATTERN.matcher(originalMessage);
-        if (classMatcher.find() && classMatcher.group(1) != null) {
-            builder.setCategory(classMatcher.group(1));
-        }
-        else {
-            // Check for GCC compiler options like [-fpermissive]
-            var optionMatcher = GCC_OPTION_PATTERN.matcher(originalMessage);
-            if (optionMatcher.find() && optionMatcher.group(1) != null) {
-                builder.setCategory(optionMatcher.group(1));
-            }
-        }
+        setCategory(builder, originalMessage);
 
         while (lookahead.hasNext() && isMessageContinuation(lookahead)) {
             message.append('\n');
@@ -96,6 +87,37 @@ public class Gcc4CompilerParser extends LookaheadParser {
                 .setMessage(messageStr)
                 .setSeverity(Severity.guessFromString(matcher.group(4)))
                 .buildOptional();
+    }
+
+    /**
+     * Checks if the matched line is a note message.
+     *
+     * @param matcher the matcher for the current line
+     * @return true if the line is a note message, false otherwise
+     */
+    private boolean isNoteMessage(final Matcher matcher) {
+        return matcher.group(4).toLowerCase(Locale.ENGLISH).equals("note");
+    }
+
+    /**
+     * Sets the category based on the original message content.
+     * Checks for GCC warning categories (e.g., [-Wunused-variable]) or compiler options (e.g., [-fpermissive]).
+     *
+     * @param builder the issue builder
+     * @param originalMessage the original message to extract the category from
+     */
+    private void setCategory(final IssueBuilder builder, final String originalMessage) {
+        var classMatcher = CLASS_PATTERN.matcher(originalMessage);
+        if (classMatcher.find() && classMatcher.group(1) != null) {
+            builder.setCategory(classMatcher.group(1));
+        }
+        else {
+            // Check for GCC compiler options like [-fpermissive]
+            var optionMatcher = GCC_OPTION_PATTERN.matcher(originalMessage);
+            if (optionMatcher.find() && optionMatcher.group(1) != null) {
+                builder.setCategory(optionMatcher.group(1));
+            }
+        }
     }
 
     /**
