@@ -23,11 +23,11 @@ public class Gcc4CompilerParser extends LookaheadParser {
     private static final long serialVersionUID = 5490211629355204910L;
 
     private static final String GCC_WARNING_PATTERN =
-            ANT_TASK + "(.+?):(\\d+):(?:(\\d+):)? ?([wW]arning|.*[Ee]rror|note): (.*)$";
+            ANT_TASK + "(.+?):(\\d+):(?:(\\d+):)? ?([wW]arning|.*[Ee]rror|[Nn]ote): (.*)$";
     private static final Pattern CLASS_PATTERN = Pattern.compile("\\[-W(.+)]$");
     private static final Pattern GCC_OPTION_PATTERN = Pattern.compile("\\[-(f[^\\]]+)]$");
     private static final Pattern CLANG_TIDY_PATTERN = Pattern.compile("\\[[^\\s\\]]+\\]$");
-    private static final Pattern NOTE_PATTERN = Pattern.compile("^(.+?):(\\d+):(?:(\\d+):)? ?note: (.*)$");
+    private static final Pattern NOTE_PATTERN = Pattern.compile("^(?<file>.+?):(?<line>\\d+):(?:(?<column>\\d+):)? ?[Nn]ote: (?<message>.*)$");
 
     /**
      * Creates a new instance of {@link Gcc4CompilerParser}.
@@ -77,23 +77,7 @@ public class Gcc4CompilerParser extends LookaheadParser {
             message.append(lookahead.next());
         }
 
-        // Collect any subsequent note lines
-        var notes = new StringBuilder();
-        while (lookahead.hasNext()) {
-            var nextLine = lookahead.peekNext();
-            var noteMatcher = NOTE_PATTERN.matcher(nextLine);
-            if (noteMatcher.matches()) {
-                if (!notes.isEmpty()) {
-                    notes.append('\n');
-                }
-                notes.append(lookahead.next());
-            }
-            else {
-                break;
-            }
-        }
-
-        // Append notes to the message
+        var notes = getNotes(lookahead);
         if (!notes.isEmpty()) {
             message.append('\n');
             message.append(notes);
@@ -112,6 +96,30 @@ public class Gcc4CompilerParser extends LookaheadParser {
                 .setMessage(messageStr)
                 .setSeverity(Severity.guessFromString(matcher.group(4)))
                 .buildOptional();
+    }
+
+    /**
+     * Collects any subsequent note lines from the lookahead stream.
+     *
+     * @param lookahead the lookahead stream
+     * @return a string containing all collected note lines, or an empty string if no notes were found
+     */
+    private String getNotes(final LookaheadStream lookahead) {
+        var notes = new StringBuilder();
+        while (lookahead.hasNext()) {
+            var nextLine = lookahead.peekNext();
+            var noteMatcher = NOTE_PATTERN.matcher(nextLine);
+            if (noteMatcher.matches()) {
+                if (!notes.isEmpty()) {
+                    notes.append('\n');
+                }
+                notes.append(lookahead.next());
+            }
+            else {
+                break;
+            }
+        }
+        return notes.toString();
     }
 
     @SuppressWarnings("PMD.AvoidLiteralsInIfCondition")
