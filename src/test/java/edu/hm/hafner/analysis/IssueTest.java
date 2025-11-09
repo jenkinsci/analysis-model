@@ -1,6 +1,8 @@
 package edu.hm.hafner.analysis;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.util.LineRange;
@@ -13,8 +15,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 import nl.jqno.equalsverifier.EqualsVerifier;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
@@ -163,7 +163,7 @@ class IssueTest extends SerializableTest<Issue> {
             "'Multiline, startLine < endLine, startColumn > endColumn', 5, 8, 6, 4, 5, 8, 6, 4"
     })
     @SuppressWarnings("checkstyle:ParameterNumber")
-    void shouldFixStartEndLineColumnValues(final String desc, final int lineStart, final int columnStart, final int lineEnd, final int columnEnd, final int expectedLineStart, final int expectedColumnStart, final int expectedLineEnd, final int expectedColumnEnd) {
+    void shouldFixStartEndLineColumnValues(final String description, final int lineStart, final int columnStart, final int lineEnd, final int columnEnd, final int expectedLineStart, final int expectedColumnStart, final int expectedLineEnd, final int expectedColumnEnd) {
         var issue = new Issue(null, FILE_NAME_TS,
                 lineStart, lineEnd, columnStart, columnEnd,
                 null, null, null, PACKAGE_NAME_TS, null, null, MESSAGE_TS, DESCRIPTION, null, null, null, null, null, UUID.randomUUID());
@@ -173,7 +173,8 @@ class IssueTest extends SerializableTest<Issue> {
                     .hasLineStart(expectedLineStart)
                     .hasColumnStart(expectedColumnStart)
                     .hasLineEnd(expectedLineEnd)
-                    .hasColumnEnd(expectedColumnEnd);
+                    .hasColumnEnd(expectedColumnEnd)
+                    .as(description);
         }
     }
 
