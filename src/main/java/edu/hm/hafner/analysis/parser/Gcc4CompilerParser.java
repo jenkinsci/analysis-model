@@ -9,7 +9,6 @@ import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
 
 import java.io.Serial;
-import java.util.Locale;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -96,7 +95,8 @@ public class Gcc4CompilerParser extends LookaheadParser {
      * @return true if the line is a note message, false otherwise
      */
     private boolean isNoteMessage(final Matcher matcher) {
-        return matcher.group(4).toLowerCase(Locale.ENGLISH).equals("note");
+        var messageType = matcher.group(4);
+        return "note".equals(messageType) || "Note".equals(messageType);
     }
 
     /**
