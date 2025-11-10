@@ -84,9 +84,9 @@ public class MsBuildParser extends LookaheadParser {
     // Pattern to identify bare tool names that should be ignored (without path separators)
     // Only matches tool names when they appear alone, not as part of a path
     private static final Pattern TOOL_NAME_PATTERN = Pattern.compile(
-            "^(?:EXEC|NMAKE|LINK|MSBUILD|MSBuild|link|nmake|msbuild|cl|rs)$|" +  // Known tool names (exact match only)
-                    "^[^/\\\\]*\\.exe$|" +  // .exe files without path separators
-                    "^<[^>]+>$",  // Special markers like <command line option>
+            "^(?:EXEC|NMAKE|LINK|MSBUILD|MSBuild|link|nmake|msbuild|cl|rs)$|" 
+            + "^[^/\\\\]*\\.exe$|" 
+            + "^<[^>]+>$",  
             Pattern.CASE_INSENSITIVE);
 
     private static final Pattern LINKER_CAUSE = Pattern.compile(".*imported by '([A-Za-z0-9\\-_.]+)'.*");
@@ -238,7 +238,7 @@ public class MsBuildParser extends LookaheadParser {
     private boolean isToolName(final String fileName) {
         // Filter placeholder filenames that don't represent actual source files
         if (StringUtils.isBlank(fileName) || "-".equals(fileName) || "unknown.file".equals(fileName)) {
-            return true;  // Changed from false to true - these should be filtered
+            return true;  
         }
 
         // Extract just the filename without path and trim whitespace
@@ -249,7 +249,6 @@ public class MsBuildParser extends LookaheadParser {
         baseFileName = baseFileName.replaceAll("^\\d{1,2}:\\d{2}:\\d{2}\\s+", "");
 
         // Only filter if it matches known tool name patterns (conservative approach)
-        // This prevents false positives while still catching the common tool names
         return TOOL_NAME_PATTERN.matcher(baseFileName).matches();
     }
 
