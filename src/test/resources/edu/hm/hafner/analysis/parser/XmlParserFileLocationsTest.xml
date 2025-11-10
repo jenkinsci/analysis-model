@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<issue>
+    <fileName>main.cpp</fileName>
+    <lineStart>10</lineStart>
+    <lineEnd>10</lineEnd>
+    <columnStart>5</columnStart>
+    <columnEnd>15</columnEnd>
+    <lineRanges>
+        <lineRange>
+            <start>20</start>
+            <end>25</end>
+        </lineRange>
+    </lineRanges>
+    <fileLocations>
+        <fileLocation>
+            <path>/path/to</path>
+            <fileName>header.h</fileName>
+            <lineStart>5</lineStart>
+            <lineEnd>8</lineEnd>
+            <columnStart>1</columnStart>
+            <columnEnd>10</columnEnd>
+        </fileLocation>
+        <fileLocation>
+            <path>/path/to/other</path>
+            <fileName>another.cpp</fileName>
+            <lineStart>15</lineStart>
+            <lineEnd>20</lineEnd>
+            <columnStart>3</columnStart>
+            <columnEnd>12</columnEnd>
+        </fileLocation>
+    </fileLocations>
+    <category>test-category</category>
+    <type>Warning</type>
+    <severity>WARNING_NORMAL</severity>
+    <message>Test warning with multiple file locations</message>
+    <description>This is a test warning</description>
+    <packageName>test.package</packageName>
+    <moduleName>test-module</moduleName>
+    <fingerprint>test-fingerprint</fingerprint>
+    <additionalProperties>test-properties</additionalProperties>
+</issue>
