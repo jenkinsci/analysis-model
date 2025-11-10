@@ -60,8 +60,8 @@ class MsBuildParserTest extends AbstractParserTest {
     }
 
     /**
-     * Extended test for JENKINS-56613 covering more binary file types.
-     * Tests that all binary and archive file types listed in FingerprintGenerator are ignored.
+     * Extended test for issue 56613 - ensures tool names are properly ignored.
+     * Tests that executables (.exe) and tool names without extensions (NMAKE, rs, cl) are skipped.
      *
      * @see <a href="https://issues.jenkins.io/browse/JENKINS-56613">Issue 56613</a>
      */
@@ -71,72 +71,33 @@ class MsBuildParserTest extends AbstractParserTest {
     }
 
     /**
-     * Tests that tool names and executable files are properly ignored by the parser.
-     * This ensures that warnings with tool names like NMAKE, rs, or .exe files as the source
-     * are not parsed as they would cause IO exceptions during fingerprinting.
+     * Test for issue 56613 - ensures that valid source file warnings are still parsed correctly.
+     * This validates that the fix for tool names doesn't break normal warning detection.
      *
      * @see <a href="https://issues.jenkins.io/browse/JENKINS-56613">Issue 56613</a>
      */
     @Test
-    void shouldIgnoreToolNamesAndExecutableFiles() {
-        // Test with tool names without extensions
-        assertThat(parseStringContent("NMAKE : fatal error U1077: return code '0x1'")).isEmpty();
-        assertThat(parseStringContent("rs: error 002: File operation failed")).isEmpty();
-        
-        // Test with executable files (.exe)
-        assertThat(parseStringContent("ConsoleTranslator.exe: Warning ST: Could not translate string")).isEmpty();
-        assertThat(parseStringContent("\\\\INTRANET\\Releases\\SmartTranslator\\ConsoleTranslator.exe: Warning ST: Translation failed")).isEmpty();
-        assertThat(parseStringContent("Tests.exe : error : Test failed")).isEmpty();
-        
-        // Test with various binary file extensions that should be ignored
-        assertThat(parseStringContent("library.dll: error: Failed to load")).isEmpty();
-        assertThat(parseStringContent("application.jar: warning: Missing manifest")).isEmpty();
-        assertThat(parseStringContent("module.so: error: Symbol not found")).isEmpty();
-        assertThat(parseStringContent("archive.zip: warning: Corrupted entry")).isEmpty();
-        assertThat(parseStringContent("object.o: error: Undefined reference")).isEmpty();
-        assertThat(parseStringContent("static.a: warning: Old format")).isEmpty();
-        assertThat(parseStringContent("library.lib: error: Import failed")).isEmpty();
+    void issue56613MixedToolNamesAndSourceFiles() {
+        var warnings = parse("issue56613-mixed.txt");
+
+        // Should have warnings from source files
+        assertThat(warnings).hasSize(3);
+        assertThatReportHasSeverities(warnings, 1, 0, 2, 0);
     }
 
     /**
-     * Tests that valid source code files are still properly parsed.
-     * This ensures our fix doesn't break parsing of legitimate warnings.
+     * Test for issue 56613 - ensures valid source file warnings are still parsed correctly.
+     * This validates that the fix for tool names doesn't break normal warning detection.
      *
      * @see <a href="https://issues.jenkins.io/browse/JENKINS-56613">Issue 56613</a>
      */
     @Test
-    void shouldParseValidSourceCodeFiles() {
-        // C/C++ source files should be parsed
-        var cppWarnings = parseStringContent(
-                "file.cpp(10): warning C4101: 'variable': unreferenced local variable");
-        assertThat(cppWarnings).hasSize(1);
-        try (var softly = new SoftAssertions()) {
-            softly.assertThat(cppWarnings.get(0))
-                    .hasFileName("file.cpp")
-                    .hasLineStart(10)
-                    .hasCategory("C4101");
-        }
-        
-        // C# source files should be parsed
-        var csWarnings = parseStringContent(
-                "Program.cs(25,10): warning CS0168: The variable 'ex' is declared but never used");
-        assertThat(csWarnings).hasSize(1);
-        try (var softly = new SoftAssertions()) {
-            softly.assertThat(csWarnings.get(0))
-                    .hasFileName("Program.cs")
-                    .hasLineStart(25)
-                    .hasCategory("CS0168");
-        }
-        
-        // Header files should be parsed
-        var headerWarnings = parseStringContent(
-                "header.h(5): warning C4005: 'MACRO': macro redefinition");
-        assertThat(headerWarnings).hasSize(1);
-        try (var softly = new SoftAssertions()) {
-            softly.assertThat(headerWarnings.get(0))
-                    .hasFileName("header.h")
-                    .hasLineStart(5);
-        }
+    void issue56613ValidWarningsStillParsed() {
+        var warnings = parse("issue56613-valid-warnings.txt");
+
+        // Valid warnings should be parsed
+        assertThat(warnings).hasSize(6);
+        assertThatReportHasSeverities(warnings, 3, 0, 3, 0);
     }
 
     /**
@@ -1189,7 +1150,7 @@ class MsBuildParserTest extends AbstractParserTest {
                     .hasMessage("Private symbol 'GetCodePage' declared but never used")
                     .hasLineStart(205);
 
-           // Fourth warning - different file
+            // Fourth warning - different file
             softly.assertThat(warnings.get(3))
                     .hasFileName("/Program Files (x86)/Jenkins/workspace/POS_Manager_develop/Externals/Lib/Common/FBHStrUtils.pas")
                     .hasCategory("W1024")

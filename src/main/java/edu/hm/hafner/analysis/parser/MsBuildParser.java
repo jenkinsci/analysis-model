@@ -81,18 +81,14 @@ public class MsBuildParser extends LookaheadParser {
             + PROJECT_DIR_PATTERN
             + "))$";
 
-    /**
-     * Pattern to match valid source code file extensions. This pattern excludes:
-     * - Files without extensions (like tool names: NMAKE, rs, etc.)
-     * - Binary/executable files (exe, dll, so, etc.)
-     * - Archive files (jar, war, zip, gz, bz2, 7z)
-     * - Object files and libraries (o, a, lib)
-     * The pattern requires a file extension that is NOT one of the excluded types.
-     * This aligns with the NON_SOURCE_CODE_EXTENSIONS set in FingerprintGenerator.
-     */
-    private static final Pattern VALID_SOURCE_FILE_PATTERN = Pattern.compile(
-            ".*\\.(?!(?i)(?:o|exe|dll|so|a|lib|jar|war|zip|7z|gz|bz2)$)[^.]+$");
-    
+    // Pattern to identify bare tool names that should be ignored (without path separators)
+    // Only matches tool names when they appear alone, not as part of a path
+    private static final Pattern TOOL_NAME_PATTERN = Pattern.compile(
+            "^(?:EXEC|NMAKE|LINK|MSBUILD|MSBuild|link|nmake|msbuild|cl|rs)$|" +  // Known tool names (exact match only)
+                    "^[^/\\\\]*\\.exe$|" +  // .exe files without path separators
+                    "^<[^>]+>$",  // Special markers like <command line option>
+            Pattern.CASE_INSENSITIVE);
+
     private static final Pattern LINKER_CAUSE = Pattern.compile(".*imported by '([A-Za-z0-9\\-_.]+)'.*");
     private static final String EXPECTED_CATEGORY = "Expected";
     private static final String MSBUILD = "MSBUILD";
@@ -128,8 +124,8 @@ public class MsBuildParser extends LookaheadParser {
 
         var fileName = determineFileName(matcher);
 
-        // Skip files that are not valid source code files (tools, executables, archives, etc.)
-        if (!VALID_SOURCE_FILE_PATTERN.matcher(fileName).matches()) {
+        // Skip if this is a tool name (executable or tool without proper source extension)
+        if (isToolName(fileName)) {
             return Optional.empty();
         }
 
@@ -227,6 +223,34 @@ public class MsBuildParser extends LookaheadParser {
                 .setMessage(cleanedMessage)
                 .setSeverity(Severity.guessFromString(matcher.group(19)))
                 .buildOptional();
+    }
+
+    /**
+     * Determines if the given filename is actually a tool name that should be ignored.
+     * Tool names include executables (e.g., ConsoleTranslator.exe) and bare tool names (e.g., NMAKE, rs).
+     * This method is conservative and only filters known tool names to avoid false positives.
+     *
+     * @param fileName
+     *         the filename to check
+     *
+     * @return true if this is a tool name that should be ignored, false otherwise
+     */
+    private boolean isToolName(final String fileName) {
+        // Filter placeholder filenames that don't represent actual source files
+        if (StringUtils.isBlank(fileName) || "-".equals(fileName) || "unknown.file".equals(fileName)) {
+            return true;  // Changed from false to true - these should be filtered
+        }
+
+        // Extract just the filename without path and trim whitespace
+        String baseFileName = FilenameUtils.getName(fileName).trim();
+
+        // Remove timestamp prefix if present (format: HH:MM:SS tool_name)
+        // This handles cases like "17:19:23 NMAKE" or "16:55:11 rs"
+        baseFileName = baseFileName.replaceAll("^\\d{1,2}:\\d{2}:\\d{2}\\s+", "");
+
+        // Only filter if it matches known tool name patterns (conservative approach)
+        // This prevents false positives while still catching the common tool names
+        return TOOL_NAME_PATTERN.matcher(baseFileName).matches();
     }
 
     /**

@@ -1,0 +1,7 @@
+C:\Src\Parser\CSharp\file.cs (10): error XXX: An error occurred
+Controls\MozItem.cs(1338,4): warning CS0618: This method has been deprecated
+MediaPortal.cs(3001,5): warning CS0162: Unreachable code detected
+x/a/b/include/abc.h(18) : fatal error C1083: Cannot open include file
+foo.cpp(5): warning C4244: conversion from 'double' to 'int'
+bar.h(20): error C2065: undeclared identifier
+test.c(100,10): warning: implicit declaration of function

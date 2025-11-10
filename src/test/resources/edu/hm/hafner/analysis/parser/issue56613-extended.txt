@@ -1,32 +1,7 @@
-// Test cases for JENKINS-56613: MSBuild parser should ignore tool names and binary files
-//
-// These lines should all be IGNORED (not parsed as warnings) because they reference
-// tool names or binary/executable files rather than source code files
-
-// Tool names without extensions (should be skipped)
-NMAKE : fatal error U1077: '.\Tests.exe' : return code '0x1'
-rs: error 002: Renaming the File was not possible.
-link: warning LNK4099: PDB 'vc120.pdb' was not found
-
-// Executable files (.exe) - should be skipped
-Tests.exe : error : Test execution failed
-ConsoleTranslator.exe: Warning ST: Could not translate string
-\\INTRANET\Releases\SmartTranslator\ConsoleTranslator.exe: Warning ST: Translation error
-
-// Binary libraries and DLLs - should be skipped
-kernel32.dll: error: Failed to load library
-mylib.so: warning: Symbol undefined
-libstd++.a: error: Archive format invalid
-program.lib: warning: Import library missing
-
-// Archive files - should be skipped
-application.jar: warning: Missing main class
-webapp.war: error: Deployment failed
-data.zip: warning: CRC mismatch
-backup.7z: error: Corrupted archive
-logs.gz: warning: Incomplete compression
-archive.bz2: error: Decompression failed
-
-// Object files - should be skipped
-main.o: error: Undefined symbol '_main'
-module.o: warning: Section alignment incorrect
+EXEC : warning : Project file C:\J\ws\project@2\src\website\ cannot be found. [C:\J\ws\project@2\ci.msbuildproj]
+16:43:02 \\INTRANET\Releases\SmartTranslator\ConsoleTranslator.exe: Warning ST: Could not translate string 'Expand f&olders larger than:'.
+17:19:23 NMAKE : fatal error U1077: '.\Tests.exe' : return code '0x1'
+17:19:23 NMAKE : fatal error U1077: '"C:\Program Files (x86)\Utils\NMAKE.EXE"' : return code '0x2'
+16:55:11 rs: error 002: Renaming the File  was not possible. Message: The process cannot access the file '...' because it is being used by another process.
+cl : Command line warning D9035 : option 'Wp64' has been deprecated
+MSBuild : warning MSB1234: Some warning message
