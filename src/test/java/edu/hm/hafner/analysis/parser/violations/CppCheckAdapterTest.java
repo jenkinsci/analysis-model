@@ -151,6 +151,26 @@ class CppCheckAdapterTest extends AbstractParserTest {
         assertThat(second).hasSize(3);
     }
 
+    /**
+     * Verifies that the parser uses the first location (derived class) for missingOverride issues,
+     * not the last location (base class).
+     *
+     * @see <a href="https://issues.jenkins.io/browse/JENKINS-75217">Issue 75217</a>
+     */
+    @Test
+    void shouldUseFirstLocationForMissingOverride() {
+        var report = parse("issue75217-missingOverride.xml");
+
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0))
+                .hasFileName("derived.hpp")
+                .hasLineStart(115)
+                .hasColumnStart(7)
+                .hasMessage("The function 'reset' overrides a function in a base class but is not marked with a 'override' specifier.. Function in derived class")
+                .hasType("missingOverride");
+        assertThat(report.get(0).getLineRanges()).isEqualTo(new LineRangeList(new LineRange(117)));
+    }
+
     @Override
     protected CppCheckAdapter createParser() {
         return new CppCheckAdapter();

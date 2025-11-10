@@ -36,16 +36,48 @@ public class CppCheckAdapter extends AbstractViolationAdapter {
 
             var report = new Report();
             for (List<Violation> group : violationsPerGroup.values()) {
-                updateIssueBuilder(group.get(0), issueBuilder);
+                var primaryViolation = selectPrimaryViolation(group);
+                updateIssueBuilder(primaryViolation, issueBuilder);
                 var lineRanges = new LineRangeList();
-                for (int i = 1; i < group.size(); i++) {
-                    var violation = group.get(i);
-                    lineRanges.add(new LineRange(violation.getStartLine()));
+                for (Violation violation : group) {
+                    if (!violation.equals(primaryViolation)) {
+                        lineRanges.add(new LineRange(violation.getStartLine()));
+                    }
                 }
                 issueBuilder.setLineRanges(lineRanges);
                 report.add(issueBuilder.buildAndClean());
             }
             return report;
         }
+    }
+
+    /**
+     * Selects the primary violation from a group of violations that share the same error ID.
+     * For missingOverride errors, prefers the location in the derived class over the base class.
+     *
+     * @param group
+     *         the list of violations in the same group
+     *
+     * @return the primary violation to use as the main issue
+     */
+    private Violation selectPrimaryViolation(final List<Violation> group) {
+        if (group.isEmpty()) {
+            throw new IllegalArgumentException("Violation group cannot be empty");
+        }
+
+        // For missingOverride, prefer the derived class location over base class
+        if ("missingOverride".equals(group.get(0).getRule())) {
+            for (Violation violation : group) {
+                var message = violation.getMessage();
+                // The derived class location has "Function in derived class" or "function in derived class" in its message
+                // The base class location has "Virtual function in base class" or similar
+                if (message != null && message.toLowerCase(java.util.Locale.ROOT).contains("derived class")) {
+                    return violation;
+                }
+            }
+        }
+
+        // Default: use the first violation
+        return group.get(0);
     }
 }
