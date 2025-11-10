@@ -4,15 +4,19 @@ import java.io.Serial;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import edu.hm.hafner.analysis.FileLocation;
+import edu.hm.hafner.analysis.FileLocationList;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LineRange;
 import edu.hm.hafner.util.LineRangeList;
+import edu.hm.hafner.util.TreeString;
 
 /**
  * Base Parser JSON format.
@@ -82,6 +86,11 @@ abstract class JsonBaseParser extends IssueParser {
             var lineRanges = convertToLineRangeList(jsonRanges);
             builder.setLineRanges(lineRanges);
         }
+        if (jsonIssue.has(FILE_LOCATIONS)) {
+            var jsonFileLocations = jsonIssue.getJSONArray(FILE_LOCATIONS);
+            var fileLocations = convertToFileLocationList(jsonFileLocations);
+            builder.setFileLocations(fileLocations);
+        }
         if (jsonIssue.has(LINE_START)) {
             builder.setLineStart(jsonIssue.getInt(LINE_START));
         }
@@ -122,5 +131,23 @@ abstract class JsonBaseParser extends IssueParser {
             }
         }
         return lineRanges;
+    }
+
+    private FileLocationList convertToFileLocationList(final JSONArray jsonFileLocations) {
+        var fileLocations = new FileLocationList();
+        for (int i = 0; i < jsonFileLocations.length(); i++) {
+            var jsonFileLocation = jsonFileLocations.getJSONObject(i);
+            var pathName = jsonFileLocation.optString(FILE_LOCATION_PATH, "");
+            var fileName = jsonFileLocation.optString(FILE_LOCATION_FILE_NAME, "");
+            var lineStart = jsonFileLocation.optInt(FILE_LOCATION_LINE_START, 0);
+            var lineEnd = jsonFileLocation.optInt(FILE_LOCATION_LINE_END, 0);
+            var columnStart = jsonFileLocation.optInt(FILE_LOCATION_COLUMN_START, 0);
+            var columnEnd = jsonFileLocation.optInt(FILE_LOCATION_COLUMN_END, 0);
+            if (StringUtils.isNotBlank(fileName)) {
+                fileLocations.add(new FileLocation(pathName, TreeString.valueOf(fileName),
+                        lineStart, lineEnd, columnStart, columnEnd));
+            }
+        }
+        return fileLocations;
     }
 }

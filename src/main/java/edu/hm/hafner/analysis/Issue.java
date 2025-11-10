@@ -173,6 +173,7 @@ public class Issue implements Serializable {
     private final int columnEnd;            // fixed
 
     private final LineRangeList lineRanges; // fixed
+    private final FileLocationList fileLocations; // fixed
 
     private final UUID id;                  // fixed
 
@@ -205,7 +206,7 @@ public class Issue implements Serializable {
     Issue(final Issue copy) {
         this(copy.getPath(), copy.getFileNameTreeString(), copy.getLineStart(), copy.getLineEnd(),
                 copy.getColumnStart(),
-                copy.getColumnEnd(), copy.getLineRanges(), copy.getCategory(), copy.getType(),
+                copy.getColumnEnd(), copy.getLineRanges(), copy.getFileLocations(), copy.getCategory(), copy.getType(),
                 copy.getPackageNameTreeString(), copy.getModuleName(), copy.getSeverity(), copy.getMessageTreeString(),
                 copy.getDescription(), copy.getOrigin(), copy.getOriginName(), copy.getReference(), copy.getFingerprint(),
                 copy.getAdditionalProperties(), copy.getId());
@@ -258,6 +259,7 @@ public class Issue implements Serializable {
     Issue(final String pathName, final TreeString fileName,
             final int lineStart, final int lineEnd, final int columnStart, final int columnEnd,
             @CheckForNull final Iterable<? extends LineRange> lineRanges,
+            @CheckForNull final Iterable<? extends FileLocation> fileLocations,
             @CheckForNull final String category, @CheckForNull final String type,
             final TreeString packageName, @CheckForNull final String moduleName,
             @CheckForNull final Severity severity,
@@ -265,7 +267,7 @@ public class Issue implements Serializable {
             @CheckForNull final String origin, @CheckForNull final String originName, @CheckForNull
             final String reference, @CheckForNull final String fingerprint,
             @CheckForNull final Serializable additionalProperties) {
-        this(pathName, fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges, category, type,
+        this(pathName, fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges, fileLocations, category, type,
                 packageName, moduleName, severity, message, description, origin, originName, reference,
                 fingerprint, additionalProperties, UUID.randomUUID());
     }
@@ -318,6 +320,7 @@ public class Issue implements Serializable {
     Issue(@CheckForNull final String pathName, final TreeString fileName, final int lineStart, final int lineEnd,
             final int columnStart,
             final int columnEnd, @CheckForNull final Iterable<? extends LineRange> lineRanges,
+            @CheckForNull final Iterable<? extends FileLocation> fileLocations,
             @CheckForNull final String category,
             @CheckForNull final String type, final TreeString packageName,
             @CheckForNull final String moduleName, @CheckForNull final Severity severity,
@@ -354,6 +357,10 @@ public class Issue implements Serializable {
         this.lineRanges = new LineRangeList();
         if (lineRanges != null) {
             this.lineRanges.addAll(lineRanges);
+        }
+        this.fileLocations = new FileLocationList();
+        if (fileLocations != null) {
+            this.fileLocations.addAll(fileLocations);
         }
         this.category = StringUtils.defaultString(category).intern();
         this.type = defaultString(type);
@@ -644,9 +651,20 @@ public class Issue implements Serializable {
      *
      * @return the last line
      */
-    // TODO: actually we need a list of locations since a warning may involve several files
     public Iterable<? extends LineRange> getLineRanges() {
         return new LineRangeList(lineRanges);
+    }
+
+    /**
+     * Returns additional file locations for this issue. This is useful for warnings that span multiple files, such as
+     * GNU CC's reorder warning for C++ where the warning shows up in the initializer list but references the header
+     * file, or MicroFocus Fortify and Synopsis Coverity which trace execution potentially through multiple classes or
+     * translation units.
+     *
+     * @return the additional file locations
+     */
+    public Iterable<? extends FileLocation> getFileLocations() {
+        return new FileLocationList(fileLocations);
     }
 
     /**
