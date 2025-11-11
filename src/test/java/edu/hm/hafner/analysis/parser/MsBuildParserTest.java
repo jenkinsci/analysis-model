@@ -80,7 +80,6 @@ class MsBuildParserTest extends AbstractParserTest {
     void issue56613MixedToolNamesAndSourceFiles() {
         var warnings = parse("issue56613-mixed.txt");
 
-        // Should have warnings from source files
         assertThat(warnings).hasSize(3);
         assertThatReportHasSeverities(warnings, 1, 0, 2, 0);
     }
@@ -95,7 +94,6 @@ class MsBuildParserTest extends AbstractParserTest {
     void issue56613ValidWarningsStillParsed() {
         var warnings = parse("issue56613-valid-warnings.txt");
 
-        // Valid warnings should be parsed
         assertThat(warnings).hasSize(6);
         assertThatReportHasSeverities(warnings, 3, 0, 3, 0);
     }
