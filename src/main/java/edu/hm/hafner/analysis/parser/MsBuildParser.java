@@ -82,8 +82,8 @@ public class MsBuildParser extends LookaheadParser {
             + "))$";
 
     /**
-     * Pattern to identify bare tool names that should be ignored (without path separators) 
-     * Only matches tool names when they appear alone, not as part of a path
+     * Pattern to identify bare tool names that should be ignored (without path separators).
+     * Only matches tool names when they appear alone, not as part of a path.
      */
     private static final Pattern TOOL_NAME_PATTERN = Pattern.compile(
             "^(?:EXEC|NMAKE|LINK|MSBUILD|MSBuild|link|nmake|msbuild|cl|rs)$|" 
