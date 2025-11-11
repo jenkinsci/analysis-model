@@ -52,7 +52,6 @@ public class Gcc4CompilerParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        // Skip note lines - they will be attached to the previous warning/error
         if (isNoteMessage(matcher)) {
             return Optional.empty();
         }
@@ -112,7 +111,6 @@ public class Gcc4CompilerParser extends LookaheadParser {
             builder.setCategory(classMatcher.group(1));
         }
         else {
-            // Check for GCC compiler options like [-fpermissive]
             var optionMatcher = GCC_OPTION_PATTERN.matcher(originalMessage);
             if (optionMatcher.find() && optionMatcher.group(1) != null) {
                 builder.setCategory(optionMatcher.group(1));
