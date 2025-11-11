@@ -228,18 +228,15 @@ class FileNameResolverTest {
     @DisplayName("Should resolve file with wrong capitalization on Windows (JENKINS-66810)")
     void shouldResolveFileWithWrongCapitalizationOnWindows() {
         if (!isWindows()) {
-            return; // This test only runs on Windows
+            return; 
         }
 
         try (var builder = new IssueBuilder()) {
-            // Create a file with correct capitalization
             var report = new Report();
-            report.add(builder.setFileName("RELATIVE.TXT").build()); // Wrong capitalization
+            report.add(builder.setFileName("RELATIVE.TXT").build());
 
             resolvePaths(report, RESOURCE_FOLDER_PATH);
 
-            // On Windows, the file should be found despite wrong capitalization
-            // and the path should be corrected to the actual file name
             assertThat(report.get(0).getFileName()).isEqualTo(RELATIVE_FILE);
             assertThat(report.getInfoMessages()).hasSize(1);
             assertThat(report.getInfoMessages().get(0)).contains("1 found");

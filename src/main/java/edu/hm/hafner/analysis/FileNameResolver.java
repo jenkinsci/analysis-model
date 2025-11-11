@@ -52,7 +52,6 @@ public class FileNameResolver {
                         fileName -> makeRelative(sourceDirectoryPrefix, fileName)))
                 .entrySet().parallelStream()
                 .map(entry -> {
-                    // Find the actual file path with correct capitalization (especially important on Windows)
                     Optional<String> actualPath = findActualFilePath(entry.getValue(), sourceDirectoryPrefix);
                     return actualPath.map(path -> Map.entry(entry.getKey(), path));
                 })
@@ -92,35 +91,27 @@ public class FileNameResolver {
      */
     private Optional<String> findActualFilePath(final String relativeFileName, final String sourceDirectoryPrefix) {
         if (!IS_WINDOWS) {
-            // On Unix systems, we use the original case-sensitive check
             return PATH_UTIL.exists(relativeFileName, sourceDirectoryPrefix)
                     ? Optional.of(relativeFileName)
                     : Optional.empty();
         }
 
-        // On Windows, we need to find the actual file with correct capitalization
         try {
             var basePath = Path.of(sourceDirectoryPrefix);
             var targetPath = basePath.resolve(relativeFileName);
 
-            // Check if the file exists with any capitalization
             if (!Files.exists(targetPath)) {
                 return Optional.empty();
             }
 
-            // Get the real path with correct capitalization
             var realPath = targetPath.toRealPath();
 
-            // Convert back to relative path
             var relativePath = basePath.relativize(realPath);
             String actualRelativeFileName = relativePath.toString().replace('\\', '/');
 
             return Optional.of(actualRelativeFileName);
         }
         catch (IOException | InvalidPathException exception) {
-            // If we can't resolve (invalid path, IO error, etc.), return empty
-            // We don't fall back to PATH_UTIL.exists() because if the path is invalid here,
-            // it will likely fail there too
             return Optional.empty();
         }
     }
