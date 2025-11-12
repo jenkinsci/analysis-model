@@ -160,7 +160,7 @@ public class XmlParser extends IssueParser {
      *
      * @return all valid file locations from xml file.
      * @throws XPathExpressionException
-     *         for xml reading errors.
+     *          for xml reading errors.
      */
     private FileLocationList readFileLocations(final XPath path, final NodeList fileLocations)
             throws XPathExpressionException {
