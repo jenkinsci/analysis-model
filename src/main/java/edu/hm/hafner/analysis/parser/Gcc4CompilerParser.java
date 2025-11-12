@@ -46,7 +46,7 @@ public class Gcc4CompilerParser extends LookaheadParser {
 
     @Override
     protected boolean isLineInteresting(final String line) {
-        return (line.contains("arning") || line.contains("rror") || line.contains("note:")) && !line.contains("[javac]");
+        return (line.contains("arning") || line.contains("rror") || line.contains("ote:")) && !line.contains("[javac]");
     }
 
     @Override
