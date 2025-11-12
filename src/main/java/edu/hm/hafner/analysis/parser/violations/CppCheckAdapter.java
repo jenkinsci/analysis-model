@@ -3,6 +3,7 @@ package edu.hm.hafner.analysis.parser.violations;
 import java.io.Serial;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -22,6 +23,8 @@ import se.bjurr.violations.lib.parsers.CPPCheckParser;
 public class CppCheckAdapter extends AbstractViolationAdapter {
     @Serial
     private static final long serialVersionUID = 2244442395053328008L;
+    private static final String MISSING_OVERRIDE = "missingOverride";
+    private static final String DERIVED_CLASS_MARKER = "derived class";
 
     @Override
     CPPCheckParser createParser() {
@@ -66,18 +69,15 @@ public class CppCheckAdapter extends AbstractViolationAdapter {
         }
 
         // For missingOverride, prefer the derived class location over base class
-        if ("missingOverride".equals(group.get(0).getRule())) {
+        if (MISSING_OVERRIDE.equals(group.get(0).getRule())) {
             for (Violation violation : group) {
                 var message = violation.getMessage();
-                // The derived class location has "Function in derived class" or "function in derived class" in its message
-                // The base class location has "Virtual function in base class" or similar
-                if (message != null && message.toLowerCase(java.util.Locale.ROOT).contains("derived class")) {
+                if (message != null && message.toLowerCase(Locale.ROOT).contains(DERIVED_CLASS_MARKER)) {
                     return violation;
                 }
             }
         }
 
-        // Default: use the first violation
         return group.get(0);
     }
 }
