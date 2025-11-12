@@ -30,19 +30,17 @@ public class FileLocation implements Serializable {
      * Creates a new instance of {@link FileLocation}.
      *
      * @param pathName
-     *                    the path that contains the affected file
+     *         the path that contains the affected file
      * @param fileName
-     *                    the name of the file
+     *         the name of the file
      * @param lineStart
-     *                    the first line (lines start at 1; 0 indicates the whole
-     *                    file)
+     *         the first line (lines start at 1; 0 indicates the whole file)
      * @param lineEnd
-     *                    the last line (lines start at 1)
+     *         the last line (lines start at 1)
      * @param columnStart
-     *                    the first column (columns start at 1, 0 indicates the
-     *                    whole line)
+     *         the first column (columns start at 1, 0 indicates the whole line)
      * @param columnEnd
-     *                    the last column (columns start at 1)
+     *         the last column (columns start at 1)
      */
     public FileLocation(@CheckForNull final String pathName, final TreeString fileName,
             final int lineStart, final int lineEnd,
@@ -66,7 +64,6 @@ public class FileLocation implements Serializable {
             this.columnStart = providedColumnEnd;
             this.columnEnd = providedColumnEnd;
         } else {
-            // if the line ends on the next line, columnStart can be greater than columnEnd
             this.columnStart = providedLineStart < providedLineEnd
                     ? providedColumnStart
                     : Math.min(providedColumnStart, providedColumnEnd);

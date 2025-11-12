@@ -30,7 +30,7 @@ public class FileLocationList implements Iterable<FileLocation>, Serializable {
      * iterable.
      *
      * @param fileLocations
-     *        the file locations to add
+     *         the file locations to add
      */
     public FileLocationList(final Iterable<? extends FileLocation> fileLocations) {
         for (FileLocation fileLocation : fileLocations) {
