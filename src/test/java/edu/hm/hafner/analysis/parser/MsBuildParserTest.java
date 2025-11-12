@@ -60,6 +60,45 @@ class MsBuildParserTest extends AbstractParserTest {
     }
 
     /**
+     * Extended test for issue 56613 - ensures tool names are properly ignored.
+     * Tests that executables (.exe) and tool names without extensions (NMAKE, rs, cl) are skipped.
+     *
+     * @see <a href="https://issues.jenkins.io/browse/JENKINS-56613">Issue 56613</a>
+     */
+    @Test
+    void issue56613Extended() {
+        assertThat(parse("issue56613-extended.txt")).isEmpty();
+    }
+
+    /**
+     * Test for issue 56613 - ensures that valid source file warnings are still parsed correctly.
+     * This validates that the fix for tool names doesn't break normal warning detection.
+     *
+     * @see <a href="https://issues.jenkins.io/browse/JENKINS-56613">Issue 56613</a>
+     */
+    @Test
+    void issue56613MixedToolNamesAndSourceFiles() {
+        var warnings = parse("issue56613-mixed.txt");
+
+        assertThat(warnings).hasSize(3);
+        assertThatReportHasSeverities(warnings, 1, 0, 2, 0);
+    }
+
+    /**
+     * Test for issue 56613 - ensures valid source file warnings are still parsed correctly.
+     * This validates that the fix for tool names doesn't break normal warning detection.
+     *
+     * @see <a href="https://issues.jenkins.io/browse/JENKINS-56613">Issue 56613</a>
+     */
+    @Test
+    void issue56613ValidWarningsStillParsed() {
+        var warnings = parse("issue56613-valid-warnings.txt");
+
+        assertThat(warnings).hasSize(6);
+        assertThatReportHasSeverities(warnings, 3, 0, 3, 0);
+    }
+
+    /**
      * Parses a file with false positive message.
      *
      * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-42823">Issue 42823</a>
@@ -1109,7 +1148,7 @@ class MsBuildParserTest extends AbstractParserTest {
                     .hasMessage("Private symbol 'GetCodePage' declared but never used")
                     .hasLineStart(205);
 
-           // Fourth warning - different file
+            // Fourth warning - different file
             softly.assertThat(warnings.get(3))
                     .hasFileName("/Program Files (x86)/Jenkins/workspace/POS_Manager_develop/Externals/Lib/Common/FBHStrUtils.pas")
                     .hasCategory("W1024")

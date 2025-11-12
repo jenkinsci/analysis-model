@@ -81,7 +81,16 @@ public class MsBuildParser extends LookaheadParser {
             + PROJECT_DIR_PATTERN
             + "))$";
 
-    private static final Pattern IGNORED_TOOLS_PATTERN = Pattern.compile("(?!.exe)(\\.[^.]+)$");
+    /**
+     * Pattern to identify bare tool names that should be ignored (without path separators).
+     * Only matches tool names when they appear alone, not as part of a path.
+     */
+    private static final Pattern TOOL_NAME_PATTERN = Pattern.compile(
+            "^(?:EXEC|NMAKE|LINK|MSBUILD|MSBuild|link|nmake|msbuild|cl|rs)$|" 
+            + "^[^/\\\\]*\\.exe$|" 
+            + "^<[^>]+>$",  
+            Pattern.CASE_INSENSITIVE);
+
     private static final Pattern LINKER_CAUSE = Pattern.compile(".*imported by '([A-Za-z0-9\\-_.]+)'.*");
     private static final String EXPECTED_CATEGORY = "Expected";
     private static final String MSBUILD = "MSBUILD";
@@ -117,8 +126,8 @@ public class MsBuildParser extends LookaheadParser {
 
         var fileName = determineFileName(matcher);
 
-        var fileExtensionMatcher = IGNORED_TOOLS_PATTERN.matcher(fileName);
-        if (!fileExtensionMatcher.find()) {
+        // Skip if this is a tool name (executable or tool without proper source extension)
+        if (isToolName(fileName)) {
             return Optional.empty();
         }
 
@@ -216,6 +225,28 @@ public class MsBuildParser extends LookaheadParser {
                 .setMessage(cleanedMessage)
                 .setSeverity(Severity.guessFromString(matcher.group(19)))
                 .buildOptional();
+    }
+
+    /**
+     * Determines if the given filename is actually a tool name that should be ignored.
+     * Tool names include executables (e.g., ConsoleTranslator.exe) and bare tool names (e.g., NMAKE, rs).
+     * This method is conservative and only filters known tool names to avoid false positives.
+     *
+     * @param fileName
+     *         the filename to check
+     *
+     * @return true if this is a tool name that should be ignored, false otherwise
+     */
+    private boolean isToolName(final String fileName) {
+        if (StringUtils.isBlank(fileName) || "-".equals(fileName) || "unknown.file".equals(fileName)) {
+            return true;  
+        }
+
+        String baseFileName = FilenameUtils.getName(fileName).trim();
+
+        baseFileName = baseFileName.replaceAll("^\\d{1,2}:\\d{2}:\\d{2}\\s+", "");
+
+        return TOOL_NAME_PATTERN.matcher(baseFileName).matches();
     }
 
     /**

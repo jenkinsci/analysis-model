@@ -1,0 +1,4 @@
+main.cpp(10): warning C4244: conversion
+header.h(20): error C2065: undeclared
+file.cs(30): warning CS0618: deprecated
+lib.c(5): warning: implicit declaration
