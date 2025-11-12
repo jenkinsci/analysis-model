@@ -72,12 +72,29 @@ public class CppCheckAdapter extends AbstractViolationAdapter {
         if (MISSING_OVERRIDE.equals(group.get(0).getRule())) {
             for (Violation violation : group) {
                 var message = violation.getMessage();
-                if (message != null && message.toLowerCase(Locale.ROOT).contains(DERIVED_CLASS_MARKER)) {
+                if (message != null && containsIgnoreCase(message, DERIVED_CLASS_MARKER)) {
                     return violation;
                 }
             }
         }
 
         return group.get(0);
+    }
+
+    /**
+     * Checks if the source string contains the target string, ignoring case considerations.
+     *
+     * @param source
+     *         the string to search in
+     * @param target
+     *         the string to search for
+     *
+     * @return true if the source contains the target (case-insensitive), false otherwise
+     */
+    private boolean containsIgnoreCase(final String source, final String target) {
+        if (source == null || target == null) {
+            return false;
+        }
+        return source.toLowerCase(Locale.ENGLISH).contains(target.toLowerCase(Locale.ENGLISH));
     }
 }
