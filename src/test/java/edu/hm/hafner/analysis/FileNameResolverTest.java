@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 
 import static edu.hm.hafner.analysis.IssueTest.*;
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import static org.assertj.core.api.Assumptions.*;
 
 /**
  * Tests the class {@link FileNameResolver}.
@@ -227,9 +228,7 @@ class FileNameResolverTest {
     @Test
     @DisplayName("Should resolve file with wrong capitalization on Windows (JENKINS-66810)")
     void shouldResolveFileWithWrongCapitalizationOnWindows() {
-        if (!isWindows()) {
-            return; 
-        }
+        assumeThat(isWindows()).as("Running on Windows").isFalse();
 
         try (var builder = new IssueBuilder()) {
             var report = new Report();
