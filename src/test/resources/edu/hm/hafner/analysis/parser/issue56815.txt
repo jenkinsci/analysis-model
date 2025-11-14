@@ -1,0 +1,21 @@
+tt.cpp: In function 'void bar()':
+tt.cpp:2:19: error: invalid conversion from 'int' to 'A*' [-fpermissive]
+tt.cpp:1:6: note: initializing argument 1 of 'void foo(A*)'
+
+tt.cpp: In function 'void bar()':
+tt.cpp:3:19: error: no matching function for call to 'foo(int)'
+tt.cpp:1:6: note: candidate: void foo(A*) <near match>
+tt.cpp:1:6: note:   conversion of argument 1 would be ill-formed:
+tt.cpp:2:6: note: candidate: void foo(B*) <near match>
+tt.cpp:2:6: note:   conversion of argument 1 would be ill-formed:
+
+tt.cpp: In instantiation of 'struct A<1>':
+tt.cpp:1:24: error: invalid use of incomplete type 'struct A<0>'
+tt.cpp:2:19: note: declaration of 'struct A<0>'
+
+template.cpp:5:10: warning: unused variable 'x' [-Wunused-variable]
+template.cpp:3:5: note: previous declaration was here
+
+multiline.cpp:10:15: error: expected ';' before 'int'
+multiline.cpp:10:15: note: each undeclared identifier is reported only once for each function it appears in
+multiline.cpp:8:20: note: declared here

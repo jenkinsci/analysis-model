@@ -23,9 +23,11 @@ public class Gcc4CompilerParser extends LookaheadParser {
     private static final long serialVersionUID = 5490211629355204910L;
 
     private static final String GCC_WARNING_PATTERN =
-            ANT_TASK + "(.+?):(\\d+):(?:(\\d+):)? ?([wW]arning|.*[Ee]rror): (.*)$";
+            ANT_TASK + "(.+?):(\\d+):(?:(\\d+):)? ?([wW]arning|.*[Ee]rror|[Nn]ote): (.*)$";
     private static final Pattern CLASS_PATTERN = Pattern.compile("\\[-W(.+)]$");
+    private static final Pattern GCC_OPTION_PATTERN = Pattern.compile("\\[-(f[^\\]]+)]$");
     private static final Pattern CLANG_TIDY_PATTERN = Pattern.compile("\\[[^\\s\\]]+\\]$");
+    private static final Pattern NOTE_PATTERN = Pattern.compile("^(?<file>.+?):(?<line>\\d+):(?:(?<column>\\d+):)? ?[Nn]ote: (?<message>.*)$");
 
     /**
      * Creates a new instance of {@link Gcc4CompilerParser}.
@@ -44,22 +46,30 @@ public class Gcc4CompilerParser extends LookaheadParser {
 
     @Override
     protected boolean isLineInteresting(final String line) {
-        return (line.contains("arning") || line.contains("rror")) && !line.contains("[javac]");
+        return (line.contains("arning") || line.contains("rror") || line.contains("ote:")) && !line.contains("[javac]");
     }
 
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        var message = new StringBuilder(matcher.group(5));
-
-        var classMatcher = CLASS_PATTERN.matcher(message.toString());
-        if (classMatcher.find() && classMatcher.group(1) != null) {
-            builder.setCategory(classMatcher.group(1));
+        if (isNoteMessage(matcher)) {
+            return Optional.empty();
         }
+
+        var message = new StringBuilder(matcher.group(5));
+        var originalMessage = message.toString();
+
+        setCategory(builder, originalMessage);
 
         while (lookahead.hasNext() && isMessageContinuation(lookahead)) {
             message.append('\n');
             message.append(lookahead.next());
+        }
+
+        var notes = getNotes(lookahead);
+        if (!notes.isEmpty()) {
+            message.append('\n');
+            message.append(notes);
         }
 
         // Reject clang-tidy warnings that have [check-name] but not [-Wwarning-name]
@@ -75,6 +85,61 @@ public class Gcc4CompilerParser extends LookaheadParser {
                 .setMessage(messageStr)
                 .setSeverity(Severity.guessFromString(matcher.group(4)))
                 .buildOptional();
+    }
+
+    /**
+     * Checks if the matched line is a note message.
+     *
+     * @param matcher the matcher for the current line
+     * @return true if the line is a note message, false otherwise
+     */
+    private boolean isNoteMessage(final Matcher matcher) {
+        var messageType = matcher.group(4);
+        return "note".equals(messageType) || "Note".equals(messageType);
+    }
+
+    /**
+     * Sets the category based on the original message content.
+     * Checks for GCC warning categories (e.g., [-Wunused-variable]) or compiler options (e.g., [-fpermissive]).
+     *
+     * @param builder the issue builder
+     * @param originalMessage the original message to extract the category from
+     */
+    private void setCategory(final IssueBuilder builder, final String originalMessage) {
+        var classMatcher = CLASS_PATTERN.matcher(originalMessage);
+        if (classMatcher.find() && classMatcher.group(1) != null) {
+            builder.setCategory(classMatcher.group(1));
+        }
+        else {
+            var optionMatcher = GCC_OPTION_PATTERN.matcher(originalMessage);
+            if (optionMatcher.find() && optionMatcher.group(1) != null) {
+                builder.setCategory(optionMatcher.group(1));
+            }
+        }
+    }
+
+    /**
+     * Collects any subsequent note lines from the lookahead stream.
+     *
+     * @param lookahead the lookahead stream
+     * @return a string containing all collected note lines, or an empty string if no notes were found
+     */
+    private String getNotes(final LookaheadStream lookahead) {
+        var notes = new StringBuilder();
+        while (lookahead.hasNext()) {
+            var nextLine = lookahead.peekNext();
+            var noteMatcher = NOTE_PATTERN.matcher(nextLine);
+            if (noteMatcher.matches()) {
+                if (!notes.isEmpty()) {
+                    notes.append('\n');
+                }
+                notes.append(lookahead.next());
+            }
+            else {
+                break;
+            }
+        }
+        return notes.toString();
     }
 
     @SuppressWarnings("PMD.AvoidLiteralsInIfCondition")
