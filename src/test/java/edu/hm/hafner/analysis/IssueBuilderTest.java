@@ -22,11 +22,11 @@ import static edu.hm.hafner.analysis.assertions.Assertions.*;
 class IssueBuilderTest {
     private static final String FILE_NAME = "C:/users/tester/file-name";
     static final String FILE_NAME_WITH_BACKSLASHES = "C:\\users\\tester/file-name";
-    private static final Issue DEFAULT_ISSUE = new Issue(PATH_NAME, UNDEFINED_TS, 0, 0, 0, 0, new LineRangeList(),
+    private static final Issue DEFAULT_ISSUE = new Issue(PATH_NAME, UNDEFINED_TS, 0, 0, 0, 0, new LineRangeList(), null,
             null, null, UNDEFINED_TS, null, null, EMPTY_TS, EMPTY, null, null, null, null, null);
     private static final Issue FILLED_ISSUE = new Issue(PATH_NAME, TreeString.valueOf(FILE_NAME), LINE_START,
             LINE_END, COLUMN_START, COLUMN_END,
-            LINE_RANGES, CATEGORY, TYPE, TreeString.valueOf(PACKAGE_NAME), MODULE_NAME, SEVERITY,
+            LINE_RANGES, null, CATEGORY, TYPE, TreeString.valueOf(PACKAGE_NAME), MODULE_NAME, SEVERITY,
             TreeString.valueOf(MESSAGE), DESCRIPTION, ORIGIN, ORIGIN_NAME, REFERENCE,
             FINGERPRINT, ADDITIONAL_PROPERTIES);
     private static final String RELATIVE_FILE = "relative.txt";
@@ -367,6 +367,69 @@ class IssueBuilderTest {
 
             assertThat(issue.getMessageTreeString()).isSameAs(anotherIssue.getMessageTreeString());
             assertThat(issue.getDescription()).isSameAs(anotherIssue.getDescription());
+        }
+    }
+
+    @Test
+    void shouldAddAdditionalFileLocations() {
+        try (var builder = new IssueBuilder()) {
+            var location1 = new FileLocation("header.h", 10, 20);
+            var location2 = new FileLocation("impl.cpp", 50, "Implementation here");
+
+            builder.addAdditionalFileLocation(location1);
+            builder.addAdditionalFileLocation(location2);
+
+            var issue = builder.build();
+            org.assertj.core.api.Assertions.assertThat(issue.hasAdditionalFileLocations()).isTrue();
+            org.assertj.core.api.Assertions.assertThat(issue.getAdditionalFileLocations()).hasSize(2);
+            org.assertj.core.api.Assertions.assertThat(issue.getAdditionalFileLocations()).containsExactly(location1, location2);
+        }
+    }
+
+    @Test
+    void shouldSetAdditionalFileLocations() {
+        try (var builder = new IssueBuilder()) {
+            var locations = java.util.List.of(
+                    new FileLocation("header.h", 10, 20),
+                    new FileLocation("impl.cpp", 50, "Implementation here")
+            );
+
+            builder.setAdditionalFileLocations(locations);
+
+            var issue = builder.build();
+            org.assertj.core.api.Assertions.assertThat(issue.hasAdditionalFileLocations()).isTrue();
+            org.assertj.core.api.Assertions.assertThat(issue.getAdditionalFileLocations()).hasSize(2);
+        }
+    }
+
+    @Test
+    void shouldCopyAdditionalFileLocations() {
+        try (var builder = new IssueBuilder()) {
+            var location1 = new FileLocation("header.h", 10, 20);
+            var location2 = new FileLocation("impl.cpp", 50, "Implementation here");
+
+            builder.addAdditionalFileLocation(location1);
+            builder.addAdditionalFileLocation(location2);
+
+            var originalIssue = builder.build();
+
+            try (var copyBuilder = new IssueBuilder()) {
+                copyBuilder.copy(originalIssue);
+                var copiedIssue = copyBuilder.build();
+
+                org.assertj.core.api.Assertions.assertThat(copiedIssue.hasAdditionalFileLocations()).isTrue();
+                org.assertj.core.api.Assertions.assertThat(copiedIssue.getAdditionalFileLocations()).hasSize(2);
+                org.assertj.core.api.Assertions.assertThat(copiedIssue.getAdditionalFileLocations()).containsExactly(location1, location2);
+            }
+        }
+    }
+
+    @Test
+    void shouldNotHaveAdditionalFileLocationsWhenNoneSet() {
+        try (var builder = new IssueBuilder()) {
+            var issue = builder.build();
+            org.assertj.core.api.Assertions.assertThat(issue.hasAdditionalFileLocations()).isFalse();
+            org.assertj.core.api.Assertions.assertThat(issue.getAdditionalFileLocations()).isEmpty();
         }
     }
 }

@@ -8,8 +8,6 @@ import javax.xml.xpath.XPathFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import edu.hm.hafner.analysis.FileLocation;
-import edu.hm.hafner.analysis.FileLocationList;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
@@ -20,7 +18,6 @@ import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.util.XmlElementUtil;
 import edu.hm.hafner.util.LineRange;
 import edu.hm.hafner.util.LineRangeList;
-import edu.hm.hafner.util.TreeString;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import java.io.Serial;
@@ -35,7 +32,6 @@ public class XmlParser extends IssueParser {
     private static final long serialVersionUID = -8099458358775144575L;
 
     private static final String LINE_RANGES_PATH = "lineRanges/lineRange";
-    private static final String FILE_LOCATIONS_PATH = "fileLocations/fileLocation";
 
     /**
      * Path to the issues within the XML-File.
@@ -93,8 +89,6 @@ public class XmlParser extends IssueParser {
                         .setColumnEnd(path.evaluate(COLUMN_END, issue))
                         .setLineRanges(readLineRanges(path,
                                 (NodeList) path.evaluate(LINE_RANGES_PATH, issue, XPathConstants.NODESET)))
-                        .setFileLocations(readFileLocations(path,
-                                (NodeList) path.evaluate(FILE_LOCATIONS_PATH, issue, XPathConstants.NODESET)))
                         .setCategory(path.evaluate(CATEGORY, issue))
                         .setType(path.evaluate(TYPE, issue))
                         .setSeverity(Severity.valueOf(path.evaluate(SEVERITY, issue), Severity.WARNING_NORMAL))
@@ -148,71 +142,5 @@ public class XmlParser extends IssueParser {
             }
         }
         return ranges;
-    }
-
-    /**
-     * Reads file locations from XPath.
-     *
-     * @param path
-     *         path of the current XML file.
-     * @param fileLocations
-     *         list of fileLocation nodes.
-     *
-     * @return all valid file locations from xml file.
-     * @throws XPathExpressionException
-     *          for xml reading errors.
-     */
-    private FileLocationList readFileLocations(final XPath path, final NodeList fileLocations)
-            throws XPathExpressionException {
-        var locations = new FileLocationList();
-        for (Element fileLocationNode : XmlElementUtil.nodeListToList(fileLocations)) {
-            if (fileLocationNode != null) {
-                var pathNode = (Element) path.evaluate(FILE_LOCATION_PATH, fileLocationNode, XPathConstants.NODE);
-                var fileNameNode = (Element) path.evaluate(FILE_LOCATION_FILE_NAME, fileLocationNode,
-                        XPathConstants.NODE);
-                var lineStartNode = (Element) path.evaluate(FILE_LOCATION_LINE_START, fileLocationNode,
-                        XPathConstants.NODE);
-                var lineEndNode = (Element) path.evaluate(FILE_LOCATION_LINE_END, fileLocationNode,
-                        XPathConstants.NODE);
-                var columnStartNode = (Element) path.evaluate(FILE_LOCATION_COLUMN_START, fileLocationNode,
-                        XPathConstants.NODE);
-                var columnEndNode = (Element) path.evaluate(FILE_LOCATION_COLUMN_END, fileLocationNode,
-                        XPathConstants.NODE);
-
-                if (fileNameNode != null && fileNameNode.getFirstChild() != null) {
-                    var pathName = pathNode != null && pathNode.getFirstChild() != null
-                            ? pathNode.getFirstChild().getNodeValue().trim()
-                            : "";
-                    var fileName = fileNameNode.getFirstChild().getNodeValue().trim();
-
-                    int lineStart = 0;
-                    int lineEnd = 0;
-                    int columnStart = 0;
-                    int columnEnd = 0;
-
-                    try {
-                        if (lineStartNode != null && lineStartNode.getFirstChild() != null) {
-                            lineStart = Integer.parseInt(lineStartNode.getFirstChild().getNodeValue().trim());
-                        }
-                        if (lineEndNode != null && lineEndNode.getFirstChild() != null) {
-                            lineEnd = Integer.parseInt(lineEndNode.getFirstChild().getNodeValue().trim());
-                        }
-                        if (columnStartNode != null && columnStartNode.getFirstChild() != null) {
-                            columnStart = Integer.parseInt(columnStartNode.getFirstChild().getNodeValue().trim());
-                        }
-                        if (columnEndNode != null && columnEndNode.getFirstChild() != null) {
-                            columnEnd = Integer.parseInt(columnEndNode.getFirstChild().getNodeValue().trim());
-                        }
-
-                        locations.add(new FileLocation(pathName, TreeString.valueOf(fileName),
-                                lineStart, lineEnd, columnStart, columnEnd));
-                    }
-                    catch (NumberFormatException e) {
-                        // Ignore invalid values in xml
-                    }
-                }
-            }
-        }
-        return locations;
     }
 }

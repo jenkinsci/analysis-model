@@ -12,6 +12,8 @@ import edu.hm.hafner.util.TreeStringBuilder;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -55,7 +57,7 @@ public class IssueBuilder implements AutoCloseable {
     private LineRangeList lineRanges;
 
     @CheckForNull
-    private FileLocationList fileLocations;
+    private List<FileLocation> additionalFileLocations;
 
     @CheckForNull
     private String pathName;
@@ -499,49 +501,34 @@ public class IssueBuilder implements AutoCloseable {
     }
 
     /**
-     * Sets additional file locations for this issue. This is useful for warnings that span multiple files, such as
-     * GNU CC's reorder warning for C++ where the warning shows up in the initializer list but references the header
-     * file, or MicroFocus Fortify and Synopsis Coverity which trace execution potentially through multiple classes or
-     * translation units.
+     * Sets additional file locations for this issue. Some warnings span multiple files, such as GNU CC's reorder
+     * warning for C++ where the warning shows up in the initializer list but references the header file.
      *
-     * @param fileLocations
+     * @param additionalFileLocations
      *         the additional file locations
      *
      * @return this
      */
     @CanIgnoreReturnValue
-    public IssueBuilder setFileLocations(final FileLocationList fileLocations) {
-        this.fileLocations = new FileLocationList(fileLocations);
+    public IssueBuilder setAdditionalFileLocations(final List<FileLocation> additionalFileLocations) {
+        this.additionalFileLocations = new ArrayList<>(additionalFileLocations);
         return this;
     }
 
     /**
-     * Adds a file location to the list of additional file locations for this issue.
+     * Adds an additional file location to this issue.
      *
-     * @param pathName
-     *         the path that contains the affected file
-     * @param fileName
-     *         the name of the file
-     * @param lineStart
-     *         the first line (lines start at 1; 0 indicates the whole file)
-     * @param lineEnd
-     *         the last line (lines start at 1)
-     * @param columnStart
-     *         the first column (columns start at 1, 0 indicates the whole line)
-     * @param columnEnd
-     *         the last column (columns start at 1)
+     * @param fileLocation
+     *         the file location to add
      *
      * @return this
      */
     @CanIgnoreReturnValue
-    public IssueBuilder addFileLocation(final String pathName, final String fileName,
-            final int lineStart, final int lineEnd,
-            final int columnStart, final int columnEnd) {
-        if (fileLocations == null) {
-            fileLocations = new FileLocationList();
+    public IssueBuilder addAdditionalFileLocation(final FileLocation fileLocation) {
+        if (this.additionalFileLocations == null) {
+            this.additionalFileLocations = new ArrayList<>();
         }
-        fileLocations.add(new FileLocation(pathName, fileNameBuilder.intern(fileName),
-                lineStart, lineEnd, columnStart, columnEnd));
+        this.additionalFileLocations.add(fileLocation);
         return this;
     }
 
@@ -561,8 +548,7 @@ public class IssueBuilder implements AutoCloseable {
         columnEnd = copy.getColumnEnd();
         lineRanges = new LineRangeList();
         lineRanges.addAll(copy.getLineRanges());
-        fileLocations = new FileLocationList();
-        fileLocations.addAll(copy.getFileLocations());
+        additionalFileLocations = new ArrayList<>(copy.getAdditionalFileLocations());
         category = copy.getCategory();
         type = copy.getType();
         severity = copy.getSeverity();
@@ -605,8 +591,8 @@ public class IssueBuilder implements AutoCloseable {
     private Issue buildWithConstructor() {
         cleanupLineRanges();
 
-        return new Issue(pathName, fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges, fileLocations,
-                category, type, packageName, moduleName, severity, message, description,
+        return new Issue(pathName, fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges,
+                additionalFileLocations, category, type, packageName, moduleName, severity, message, description,
                 origin, originName, reference, fingerprint, additionalProperties, id);
     }
 
@@ -649,7 +635,7 @@ public class IssueBuilder implements AutoCloseable {
         columnEnd = 0;
 
         lineRanges = new LineRangeList();
-        fileLocations = new FileLocationList();
+        additionalFileLocations = null;
 
         fileName = UNDEFINED_TREE_STRING;
         packageName = UNDEFINED_TREE_STRING;
