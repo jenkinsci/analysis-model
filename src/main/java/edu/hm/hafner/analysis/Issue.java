@@ -658,8 +658,7 @@ public class Issue implements Serializable {
     /**
      * Returns additional file locations for this issue. This is useful for warnings that span multiple files, such as
      * GNU CC's reorder warning for C++ where the warning shows up in the initializer list but references the header
-     * file, or MicroFocus Fortify and Synopsis Coverity which trace execution potentially through multiple classes or
-     * translation units.
+     * file, or MicroFocus Fortify and Synopsis Coverity which trace execution potentially through multiple classes or translation units.
      *
      * @return the additional file locations
      */
