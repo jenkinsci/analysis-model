@@ -1,22 +1,21 @@
 package edu.hm.hafner.analysis.parser;
 
 import java.io.Serial;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import edu.hm.hafner.analysis.FileLocation;
-import edu.hm.hafner.analysis.FileLocationList;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LineRange;
 import edu.hm.hafner.util.LineRangeList;
-import edu.hm.hafner.util.TreeString;
 
 /**
  * Base Parser JSON format.
@@ -86,10 +85,10 @@ abstract class JsonBaseParser extends IssueParser {
             var lineRanges = convertToLineRangeList(jsonRanges);
             builder.setLineRanges(lineRanges);
         }
-        if (jsonIssue.has(FILE_LOCATIONS)) {
-            var jsonFileLocations = jsonIssue.getJSONArray(FILE_LOCATIONS);
-            var fileLocations = convertToFileLocationList(jsonFileLocations);
-            builder.setFileLocations(fileLocations);
+        if (jsonIssue.has(ADDITIONAL_FILE_LOCATIONS)) {
+            var jsonLocations = jsonIssue.getJSONArray(ADDITIONAL_FILE_LOCATIONS);
+            var fileLocations = convertToFileLocationList(jsonLocations);
+            builder.setAdditionalFileLocations(fileLocations);
         }
         if (jsonIssue.has(LINE_START)) {
             builder.setLineStart(jsonIssue.getInt(LINE_START));
@@ -133,20 +132,19 @@ abstract class JsonBaseParser extends IssueParser {
         return lineRanges;
     }
 
-    private FileLocationList convertToFileLocationList(final JSONArray jsonFileLocations) {
-        var fileLocations = new FileLocationList();
-        for (int i = 0; i < jsonFileLocations.length(); i++) {
-            var jsonFileLocation = jsonFileLocations.getJSONObject(i);
-            var pathName = jsonFileLocation.optString(FILE_LOCATION_PATH, "");
-            var fileName = jsonFileLocation.optString(FILE_LOCATION_FILE_NAME, "");
-            var lineStart = jsonFileLocation.optInt(FILE_LOCATION_LINE_START, 0);
-            var lineEnd = jsonFileLocation.optInt(FILE_LOCATION_LINE_END, 0);
-            var columnStart = jsonFileLocation.optInt(FILE_LOCATION_COLUMN_START, 0);
-            var columnEnd = jsonFileLocation.optInt(FILE_LOCATION_COLUMN_END, 0);
-            if (StringUtils.isNotBlank(fileName)) {
-                fileLocations.add(new FileLocation(pathName, TreeString.valueOf(fileName),
-                        lineStart, lineEnd, columnStart, columnEnd));
-            }
+    private List<FileLocation> convertToFileLocationList(final JSONArray jsonLocations) {
+        var fileLocations = new ArrayList<FileLocation>();
+        for (int i = 0; i < jsonLocations.length(); i++) {
+            var jsonLocation = jsonLocations.getJSONObject(i);
+            var fileName = jsonLocation.optString(FILE_LOCATION_FILE_NAME, "");
+            var lineStart = jsonLocation.optInt(FILE_LOCATION_LINE_START, 0);
+            var lineEnd = jsonLocation.optInt(FILE_LOCATION_LINE_END, lineStart);
+            var columnStart = jsonLocation.optInt(FILE_LOCATION_COLUMN_START, 0);
+            var columnEnd = jsonLocation.optInt(FILE_LOCATION_COLUMN_END, 0);
+            var message = jsonLocation.has(FILE_LOCATION_MESSAGE)
+                    ? jsonLocation.getString(FILE_LOCATION_MESSAGE) : null;
+
+            fileLocations.add(new FileLocation(fileName, lineStart, lineEnd, columnStart, columnEnd, message));
         }
         return fileLocations;
     }
