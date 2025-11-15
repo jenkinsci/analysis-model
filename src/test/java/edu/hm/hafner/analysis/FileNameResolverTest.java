@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 
 import static edu.hm.hafner.analysis.IssueTest.*;
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import static org.assertj.core.api.Assumptions.*;
 
 /**
  * Tests the class {@link FileNameResolver}.
@@ -219,6 +220,23 @@ class FileNameResolverTest {
 
             assertThat(report.get(0).getFileName()).isEqualTo("child.txt");
             assertThat(report.getErrorMessages()).isEmpty();
+            assertThat(report.getInfoMessages()).hasSize(1);
+            assertThat(report.getInfoMessages().get(0)).contains("1 found");
+        }
+    }
+
+    @Test
+    @DisplayName("Should resolve file with wrong capitalization on Windows (JENKINS-66810)")
+    void shouldResolveFileWithWrongCapitalizationOnWindows() {
+        assumeThat(isWindows()).as("Running on Windows").isFalse();
+
+        try (var builder = new IssueBuilder()) {
+            var report = new Report();
+            report.add(builder.setFileName("RELATIVE.TXT").build());
+
+            resolvePaths(report, RESOURCE_FOLDER_PATH);
+
+            assertThat(report.get(0).getFileName()).isEqualTo(RELATIVE_FILE);
             assertThat(report.getInfoMessages()).hasSize(1);
             assertThat(report.getInfoMessages().get(0)).contains("1 found");
         }

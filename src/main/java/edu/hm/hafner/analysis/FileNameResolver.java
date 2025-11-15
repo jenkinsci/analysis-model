@@ -1,11 +1,11 @@
 package edu.hm.hafner.analysis;
 
+import edu.hm.hafner.util.PathUtil;
+
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-
-import edu.hm.hafner.util.PathUtil;
 
 /**
  * Resolves the affected files of a set of issues in a given source directory. Replaces all file names with the
