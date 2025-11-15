@@ -2,7 +2,6 @@ package edu.hm.hafner.analysis.parser.violations;
 
 import java.io.Serial;
 import java.util.Comparator;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -34,7 +33,7 @@ public class CppCheckAdapter extends AbstractViolationAdapter {
     @Override
     Report convertToReport(final Set<Violation> violations) {
         try (var issueBuilder = new IssueBuilder()) {
-            var violationsPerGroup = new LinkedHashSet<>(violations).stream()
+            var violationsPerGroup = violations.stream()
                     .collect(Collectors.groupingBy(Violation::getGroup));
 
             var report = new Report();
@@ -64,7 +63,7 @@ public class CppCheckAdapter extends AbstractViolationAdapter {
     private List<Violation> sortByInsertionOrder(final List<Violation> group) {
         return group.stream()
                 .sorted(Comparator.comparingInt(this::getOrder))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     /**
@@ -76,10 +75,11 @@ public class CppCheckAdapter extends AbstractViolationAdapter {
      * @return the order of the violation, or Integer.MAX_VALUE if not present
      */
     private int getOrder(final Violation violation) {
-        String order = violation.getSpecifics().get(ORDER_KEY);
-        int parsed = IntegerParser.parseInt(order);
-        return parsed == 0 && order != null && !"0".equals(order)
-                ? Integer.MAX_VALUE
-                : parsed;
+        try {
+            return IntegerParser.parseInt(violation.getSpecifics().getOrDefault(ORDER_KEY, "0"));
+        }
+        catch (NumberFormatException e) {
+            return Integer.MAX_VALUE;
+        }
     }
 }
