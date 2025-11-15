@@ -112,10 +112,10 @@ class CppCheckAdapterTest extends AbstractParserTest {
 
         assertThat(report.get(1))
                 .hasFileName("that/cloud_composer/src/point_selectors/rectangular_frustum_selector.cpp")
-                .hasLineStart(53)
+                .hasLineStart(51)
                 .hasMessage("Variable 'that' is reassigned a value before the old one has been used.")
                 .hasType("redundantAssignment");
-        assertThat(report.get(1).getLineRanges()).isEqualTo(new LineRangeList(new LineRange(51)));
+        assertThat(report.get(1).getLineRanges()).isEqualTo(new LineRangeList(new LineRange(53)));
     }
 
     /**

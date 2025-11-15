@@ -1,14 +1,15 @@
 package edu.hm.hafner.analysis.parser.violations;
 
 import java.io.Serial;
+import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
+import edu.hm.hafner.analysis.util.IntegerParser;
 import edu.hm.hafner.util.LineRange;
 import edu.hm.hafner.util.LineRangeList;
 
@@ -23,8 +24,7 @@ import se.bjurr.violations.lib.parsers.CPPCheckParser;
 public class CppCheckAdapter extends AbstractViolationAdapter {
     @Serial
     private static final long serialVersionUID = 2244442395053328008L;
-    private static final String MISSING_OVERRIDE = "missingOverride";
-    private static final String DERIVED_CLASS_MARKER = "derived class";
+    private static final String ORDER_KEY = "order";
 
     @Override
     CPPCheckParser createParser() {
@@ -39,13 +39,11 @@ public class CppCheckAdapter extends AbstractViolationAdapter {
 
             var report = new Report();
             for (List<Violation> group : violationsPerGroup.values()) {
-                var primaryViolation = selectPrimaryViolation(group);
-                updateIssueBuilder(primaryViolation, issueBuilder);
+                var sortedGroup = sortByInsertionOrder(group);
+                updateIssueBuilder(sortedGroup.get(0), issueBuilder);
                 var lineRanges = new LineRangeList();
-                for (Violation violation : group) {
-                    if (!violation.equals(primaryViolation)) {
-                        lineRanges.add(new LineRange(violation.getStartLine()));
-                    }
+                for (int i = 1; i < sortedGroup.size(); i++) {
+                    lineRanges.add(new LineRange(sortedGroup.get(i).getStartLine()));
                 }
                 issueBuilder.setLineRanges(lineRanges);
                 report.add(issueBuilder.buildAndClean());
@@ -55,46 +53,31 @@ public class CppCheckAdapter extends AbstractViolationAdapter {
     }
 
     /**
-     * Selects the primary violation from a group of violations that share the same error ID.
-     * For missingOverride errors, prefers the location in the derived class over the base class.
+     * Sorts violations by their insertion order as recorded by the CppCheck parser.
+     * The parser adds an "order" property to each violation to preserve the original order from the XML file.
      *
      * @param group
      *         the list of violations in the same group
      *
-     * @return the primary violation to use as the main issue
+     * @return the violations sorted by their insertion order
      */
-    private Violation selectPrimaryViolation(final List<Violation> group) {
-        if (group.isEmpty()) {
-            throw new IllegalArgumentException("Violation group cannot be empty");
-        }
-
-        // For missingOverride, prefer the derived class location over base class
-        if (MISSING_OVERRIDE.equals(group.get(0).getRule())) {
-            for (Violation violation : group) {
-                var message = violation.getMessage();
-                if (message != null && containsIgnoreCase(message, DERIVED_CLASS_MARKER)) {
-                    return violation;
-                }
-            }
-        }
-
-        return group.get(0);
+    private List<Violation> sortByInsertionOrder(final List<Violation> group) {
+        return group.stream()
+                .sorted(Comparator.comparingInt(this::getOrder))
+                .collect(Collectors.toList());
     }
 
     /**
-     * Checks if the source string contains the target string, ignoring case considerations.
+     * Extracts the order property from a violation.
      *
-     * @param source
-     *         the string to search in
-     * @param target
-     *         the string to search for
+     * @param violation
+     *         the violation
      *
-     * @return true if the source contains the target (case-insensitive), false otherwise
+     * @return the order of the violation, or Integer.MAX_VALUE if not present
      */
-    private boolean containsIgnoreCase(final String source, final String target) {
-        if (source == null || target == null) {
-            return false;
-        }
-        return source.toLowerCase(Locale.ENGLISH).contains(target.toLowerCase(Locale.ENGLISH));
+    private int getOrder(final Violation violation) {
+        String order = violation.getSpecifics().get(ORDER_KEY);
+        int parsed = IntegerParser.parseInt(order);
+        return parsed == 0 && order != null && !order.equals("0") ? Integer.MAX_VALUE : parsed;
     }
 }
