@@ -78,6 +78,8 @@ public class CppCheckAdapter extends AbstractViolationAdapter {
     private int getOrder(final Violation violation) {
         String order = violation.getSpecifics().get(ORDER_KEY);
         int parsed = IntegerParser.parseInt(order);
-        return parsed == 0 && order != null && !order.equals("0") ? Integer.MAX_VALUE : parsed;
+        return parsed == 0 && order != null && !"0".equals(order)
+        ? Integer.MAX_VALUE
+        : parsed;
     }
 }
