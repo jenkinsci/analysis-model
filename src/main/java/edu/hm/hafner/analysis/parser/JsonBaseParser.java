@@ -1,12 +1,15 @@
 package edu.hm.hafner.analysis.parser;
 
 import java.io.Serial;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import edu.hm.hafner.analysis.FileLocation;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
@@ -82,6 +85,11 @@ abstract class JsonBaseParser extends IssueParser {
             var lineRanges = convertToLineRangeList(jsonRanges);
             builder.setLineRanges(lineRanges);
         }
+        if (jsonIssue.has(ADDITIONAL_FILE_LOCATIONS)) {
+            var jsonLocations = jsonIssue.getJSONArray(ADDITIONAL_FILE_LOCATIONS);
+            var fileLocations = convertToFileLocationList(jsonLocations);
+            builder.setAdditionalFileLocations(fileLocations);
+        }
         if (jsonIssue.has(LINE_START)) {
             builder.setLineStart(jsonIssue.getInt(LINE_START));
         }
@@ -122,5 +130,22 @@ abstract class JsonBaseParser extends IssueParser {
             }
         }
         return lineRanges;
+    }
+
+    private List<FileLocation> convertToFileLocationList(final JSONArray jsonLocations) {
+        var fileLocations = new ArrayList<FileLocation>();
+        for (int i = 0; i < jsonLocations.length(); i++) {
+            var jsonLocation = jsonLocations.getJSONObject(i);
+            var fileName = jsonLocation.optString(FILE_LOCATION_FILE_NAME, "");
+            var lineStart = jsonLocation.optInt(FILE_LOCATION_LINE_START, 0);
+            var lineEnd = jsonLocation.optInt(FILE_LOCATION_LINE_END, lineStart);
+            var columnStart = jsonLocation.optInt(FILE_LOCATION_COLUMN_START, 0);
+            var columnEnd = jsonLocation.optInt(FILE_LOCATION_COLUMN_END, 0);
+            var message = jsonLocation.has(FILE_LOCATION_MESSAGE)
+                    ? jsonLocation.getString(FILE_LOCATION_MESSAGE) : null;
+
+            fileLocations.add(new FileLocation(fileName, lineStart, lineEnd, columnStart, columnEnd, message));
+        }
+        return fileLocations;
     }
 }

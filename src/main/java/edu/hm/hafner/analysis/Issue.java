@@ -15,6 +15,9 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.Serial;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 import java.util.function.Function;
@@ -174,6 +177,9 @@ public class Issue implements Serializable {
 
     private final LineRangeList lineRanges; // fixed
 
+    @SuppressWarnings("serial")
+    private final List<FileLocation> additionalFileLocations; // fixed
+
     private final UUID id;                  // fixed
 
     @CheckForNull
@@ -205,7 +211,7 @@ public class Issue implements Serializable {
     Issue(final Issue copy) {
         this(copy.getPath(), copy.getFileNameTreeString(), copy.getLineStart(), copy.getLineEnd(),
                 copy.getColumnStart(),
-                copy.getColumnEnd(), copy.getLineRanges(), copy.getCategory(), copy.getType(),
+                copy.getColumnEnd(), copy.getLineRanges(), copy.getAdditionalFileLocations(), copy.getCategory(), copy.getType(),
                 copy.getPackageNameTreeString(), copy.getModuleName(), copy.getSeverity(), copy.getMessageTreeString(),
                 copy.getDescription(), copy.getOrigin(), copy.getOriginName(), copy.getReference(), copy.getFingerprint(),
                 copy.getAdditionalProperties(), copy.getId());
@@ -229,6 +235,8 @@ public class Issue implements Serializable {
      *         the last column of this issue (columns start at 1)
      * @param lineRanges
      *         additional line ranges of this issue
+     * @param additionalFileLocations
+     *         additional file locations related to this issue
      * @param category
      *         the category of this issue (depends on the available categories of the static analysis tool)
      * @param type
@@ -258,6 +266,7 @@ public class Issue implements Serializable {
     Issue(final String pathName, final TreeString fileName,
             final int lineStart, final int lineEnd, final int columnStart, final int columnEnd,
             @CheckForNull final Iterable<? extends LineRange> lineRanges,
+            @CheckForNull final Iterable<FileLocation> additionalFileLocations,
             @CheckForNull final String category, @CheckForNull final String type,
             final TreeString packageName, @CheckForNull final String moduleName,
             @CheckForNull final Severity severity,
@@ -265,7 +274,7 @@ public class Issue implements Serializable {
             @CheckForNull final String origin, @CheckForNull final String originName, @CheckForNull
             final String reference, @CheckForNull final String fingerprint,
             @CheckForNull final Serializable additionalProperties) {
-        this(pathName, fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges, category, type,
+        this(pathName, fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges, additionalFileLocations, category, type,
                 packageName, moduleName, severity, message, description, origin, originName, reference,
                 fingerprint, additionalProperties, UUID.randomUUID());
     }
@@ -287,6 +296,8 @@ public class Issue implements Serializable {
      *         the last column of this issue (columns start at 1)
      * @param lineRanges
      *         additional line ranges of this issue
+     * @param additionalFileLocations
+     *         additional file locations related to this issue
      * @param category
      *         the category of this issue (depends on the available categories of the static analysis tool)
      * @param type
@@ -318,6 +329,7 @@ public class Issue implements Serializable {
     Issue(@CheckForNull final String pathName, final TreeString fileName, final int lineStart, final int lineEnd,
             final int columnStart,
             final int columnEnd, @CheckForNull final Iterable<? extends LineRange> lineRanges,
+            @CheckForNull final Iterable<FileLocation> additionalFileLocations,
             @CheckForNull final String category,
             @CheckForNull final String type, final TreeString packageName,
             @CheckForNull final String moduleName, @CheckForNull final Severity severity,
@@ -354,6 +366,12 @@ public class Issue implements Serializable {
         this.lineRanges = new LineRangeList();
         if (lineRanges != null) {
             this.lineRanges.addAll(lineRanges);
+        }
+        this.additionalFileLocations = new ArrayList<>();
+        if (additionalFileLocations != null) {
+            for (var location : additionalFileLocations) {
+                this.additionalFileLocations.add(location);
+            }
         }
         this.category = StringUtils.defaultString(category).intern();
         this.type = defaultString(type);
@@ -405,6 +423,11 @@ public class Issue implements Serializable {
         else {
             originName = originName.intern();
         }
+        if (additionalFileLocations == null) { // new in version 13.15.0
+            return new Issue(pathName, fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges,
+                    new ArrayList<>(), category, type, packageName, moduleName, severity, message, description,
+                    origin, originName, reference, fingerprint, additionalProperties, id);
+        }
         return this;
     }
 
@@ -412,7 +435,12 @@ public class Issue implements Serializable {
         if (platformFileName == null || UNDEFINED.equals(platformFileName) || StringUtils.isBlank(platformFileName)) {
             return UNDEFINED;
         }
-        return PATH_UTIL.getAbsolutePath(platformFileName);
+        var absolutePath = PATH_UTIL.getAbsolutePath(platformFileName);
+        // Normalize drive letter to lowercase on Windows (D:/ -> d:/)
+        if (absolutePath.length() >= 2 && Character.isLetter(absolutePath.charAt(0)) && absolutePath.charAt(1) == ':') {
+            return Character.toLowerCase(absolutePath.charAt(0)) + absolutePath.substring(1);
+        }
+        return absolutePath;
     }
 
     /**
@@ -524,7 +552,12 @@ public class Issue implements Serializable {
             return getFileName();
         }
         else {
-            return PATH_UTIL.createAbsolutePath(pathName, getFileName());
+            var absolutePath = PATH_UTIL.createAbsolutePath(pathName, getFileName());
+            // Normalize drive letter to lowercase on Windows (D:/ -> d:/)
+            if (absolutePath.length() >= 2 && Character.isLetter(absolutePath.charAt(0)) && absolutePath.charAt(1) == ':') {
+                return Character.toLowerCase(absolutePath.charAt(0)) + absolutePath.substring(1);
+            }
+            return absolutePath;
         }
     }
 
@@ -644,9 +677,29 @@ public class Issue implements Serializable {
      *
      * @return the last line
      */
-    // TODO: actually we need a list of locations since a warning may involve several files
     public Iterable<? extends LineRange> getLineRanges() {
         return new LineRangeList(lineRanges);
+    }
+
+    /**
+     * Returns additional file locations related to this issue. Some warnings span multiple files, such as GNU CC's
+     * reorder warning for C++ where the warning shows up in the initializer list but references the header file.
+     * More involved cases are MicroFocus Fortify and Synopsis Coverity which trace execution potentially through
+     * multiple classes or translation units.
+     *
+     * @return an unmodifiable list of additional file locations
+     */
+    public List<FileLocation> getAdditionalFileLocations() {
+        return Collections.unmodifiableList(additionalFileLocations);
+    }
+
+    /**
+     * Returns whether this issue has additional file locations.
+     *
+     * @return {@code true} if this issue has additional file locations, {@code false} otherwise
+     */
+    public boolean hasAdditionalFileLocations() {
+        return !additionalFileLocations.isEmpty();
     }
 
     /**
@@ -953,7 +1006,10 @@ public class Issue implements Serializable {
         if (!packageName.equals(issue.packageName)) {
             return false;
         }
-        return fileName.equals(issue.fileName);
+        if (!fileName.equals(issue.fileName)) {
+            return false;
+        }
+        return additionalFileLocations.equals(issue.additionalFileLocations);
     }
 
     @Override
@@ -974,6 +1030,7 @@ public class Issue implements Serializable {
         result = 31 * result + moduleName.hashCode();
         result = 31 * result + packageName.hashCode();
         result = 31 * result + fileName.hashCode();
+        result = 31 * result + additionalFileLocations.hashCode();
         return result;
     }
 
