@@ -112,10 +112,10 @@ class CppCheckAdapterTest extends AbstractParserTest {
 
         assertThat(report.get(1))
                 .hasFileName("that/cloud_composer/src/point_selectors/rectangular_frustum_selector.cpp")
-                .hasLineStart(53)
+                .hasLineStart(51)
                 .hasMessage("Variable 'that' is reassigned a value before the old one has been used.")
                 .hasType("redundantAssignment");
-        assertThat(report.get(1).getLineRanges()).isEqualTo(new LineRangeList(new LineRange(51)));
+        assertThat(report.get(1).getLineRanges()).isEqualTo(new LineRangeList(new LineRange(53)));
     }
 
     /**
@@ -149,6 +149,26 @@ class CppCheckAdapterTest extends AbstractParserTest {
         var aggregation = new Report();
         aggregation.addAll(first, second);
         assertThat(second).hasSize(3);
+    }
+
+    /**
+     * Verifies that the parser uses the first location (derived class) for missingOverride issues,
+     * not the last location (base class).
+     *
+     * @see <a href="https://issues.jenkins.io/browse/JENKINS-75217">Issue 75217</a>
+     */
+    @Test
+    void shouldUseFirstLocationForMissingOverride() {
+        var report = parse("issue75217-missingOverride.xml");
+
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0))
+                .hasFileName("derived.hpp")
+                .hasLineStart(115)
+                .hasColumnStart(7)
+                .hasMessage("The function 'reset' overrides a function in a base class but is not marked with a 'override' specifier.. Function in derived class")
+                .hasType("missingOverride");
+        assertThat(report.get(0).getLineRanges()).isEqualTo(new LineRangeList(new LineRange(117)));
     }
 
     @Override
