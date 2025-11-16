@@ -25,33 +25,33 @@ class LocationTest {
     void shouldCreateLocationWithAllParameters() {
         var location = new Location(FILE_NAME, LINE_START, LINE_END, COLUMN_START, COLUMN_END);
 
-        assertThat(location.getFileName()).isEqualTo(FILE_NAME);
-        assertThat(location.getLineStart()).isEqualTo(LINE_START);
-        assertThat(location.getLineEnd()).isEqualTo(LINE_END);
-        assertThat(location.getColumnStart()).isEqualTo(COLUMN_START);
-        assertThat(location.getColumnEnd()).isEqualTo(COLUMN_END);
+        assertThat(location).hasFileName(FILE_NAME);
+        assertThat(location).hasLineStart(LINE_START);
+        assertThat(location).hasLineEnd(LINE_END);
+        assertThat(location).hasColumnStart(COLUMN_START);
+        assertThat(location).hasColumnEnd(COLUMN_END);
     }
 
     @Test
     void shouldCreateLocationWithLineRange() {
         var location = new Location(FILE_NAME, LINE_START, LINE_END);
 
-        assertThat(location.getFileName()).isEqualTo(FILE_NAME);
-        assertThat(location.getLineStart()).isEqualTo(LINE_START);
-        assertThat(location.getLineEnd()).isEqualTo(LINE_END);
-        assertThat(location.getColumnStart()).isZero();
-        assertThat(location.getColumnEnd()).isZero();
+        assertThat(location).hasFileName(FILE_NAME);
+        assertThat(location).hasLineStart(LINE_START);
+        assertThat(location).hasLineEnd(LINE_END);
+        assertThat(location).hasColumnStart(0);
+        assertThat(location).hasColumnEnd(0);
     }
 
     @Test
     void shouldCreateLocationWithSingleLine() {
         var location = new Location(FILE_NAME, LINE_START);
 
-        assertThat(location.getFileName()).isEqualTo(FILE_NAME);
-        assertThat(location.getLineStart()).isEqualTo(LINE_START);
-        assertThat(location.getLineEnd()).isEqualTo(LINE_START);
-        assertThat(location.getColumnStart()).isZero();
-        assertThat(location.getColumnEnd()).isZero();
+        assertThat(location).hasFileName(FILE_NAME);
+        assertThat(location).hasLineStart(LINE_START);
+        assertThat(location).hasLineEnd(LINE_START);
+        assertThat(location).hasColumnStart(0);
+        assertThat(location).hasColumnEnd(0);
     }
 
     @Test
