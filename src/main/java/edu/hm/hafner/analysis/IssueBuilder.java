@@ -57,7 +57,7 @@ public class IssueBuilder implements AutoCloseable {
     private LineRangeList lineRanges;
 
     @CheckForNull
-    private List<Location> additionalLocations;
+    private List<Location> locations;
 
     @CheckForNull
     private String pathName;
@@ -501,22 +501,21 @@ public class IssueBuilder implements AutoCloseable {
     }
 
     /**
-     * Sets additional file locations for this issue. Some warnings span multiple files, such as GNU CC's reorder
-     * warning for C++ where the warning shows up in the initializer list but references the header file.
+     * Sets the locations of this issue, the first location is considered the main location.
      *
-     * @param additionalLocations
-     *         the additional file locations
+     * @param locations
+     *         the locations of this issue
      *
      * @return this
      */
     @CanIgnoreReturnValue
-    public IssueBuilder setAdditionalLocations(final List<Location> additionalLocations) {
-        this.additionalLocations = new ArrayList<>(additionalLocations);
+    public IssueBuilder setLocations(final List<Location> locations) {
+        this.locations = new ArrayList<>(locations);
         return this;
     }
 
     /**
-     * Adds an additional file location to the issue.
+     * Adds another location to this issue, the first location is considered the main location.
      *
      * @param location
      *         the file location to add
@@ -524,11 +523,11 @@ public class IssueBuilder implements AutoCloseable {
      * @return this
      */
     @CanIgnoreReturnValue
-    public IssueBuilder addAdditionalLocation(final Location location) {
-        if (this.additionalLocations == null) {
-            this.additionalLocations = new ArrayList<>();
+    public IssueBuilder addLocation(final Location location) {
+        if (this.locations == null) {
+            this.locations = new ArrayList<>();
         }
-        this.additionalLocations.add(location);
+        this.locations.add(location);
         return this;
     }
 
@@ -548,7 +547,7 @@ public class IssueBuilder implements AutoCloseable {
         columnEnd = copy.getColumnEnd();
         lineRanges = new LineRangeList();
         lineRanges.addAll(copy.getLineRanges());
-        additionalLocations = new ArrayList<>(copy.getAdditionalLocations());
+        locations = new ArrayList<>(copy.getAdditionalLocations());
         category = copy.getCategory();
         type = copy.getType();
         severity = copy.getSeverity();
@@ -592,7 +591,7 @@ public class IssueBuilder implements AutoCloseable {
         cleanupLineRanges();
 
         return new Issue(pathName, fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges,
-                additionalLocations, category, type, packageName, moduleName, severity, message, description,
+                locations, category, type, packageName, moduleName, severity, message, description,
                 origin, originName, reference, fingerprint, additionalProperties, id);
     }
 
@@ -635,7 +634,7 @@ public class IssueBuilder implements AutoCloseable {
         columnEnd = 0;
 
         lineRanges = new LineRangeList();
-        additionalLocations = null;
+        locations = new ArrayList<>();
 
         fileName = UNDEFINED_TREE_STRING;
         packageName = UNDEFINED_TREE_STRING;

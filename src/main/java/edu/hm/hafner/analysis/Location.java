@@ -6,8 +6,8 @@ import java.io.Serializable;
 import edu.hm.hafner.util.TreeString;
 
 /**
- * Represents a file location associated with an issue. This can be used to represent additional files that are related to a warning, 
- * such as header files referenced in C++ reorder warnings, or multiple files traced in execution paths for tools like Fortify and Coverity.
+ * Represents a location of an issue within a file. It includes the file name, line and column ranges. An issue
+ * can have multiple locations if it spans multiple lines or columns, or files.
  *
  * @author Akash Manna
  */

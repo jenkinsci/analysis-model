@@ -12,6 +12,7 @@ import edu.hm.hafner.util.TreeString;
 import edu.hm.hafner.util.TreeStringBuilder;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import nl.jqno.equalsverifier.EqualsVerifier;
@@ -59,7 +60,7 @@ class IssueTest extends SerializableTest<Issue> {
 
     @Test
     void shouldSplitFileNameElements() {
-        var issue = new Issue(PATH_NAME, FILE_NAME_TS, 2, 1, 2, 1, LINE_RANGES, null, CATEGORY,
+        var issue = new Issue(PATH_NAME, FILE_NAME_TS, 2, 1, 2, 1, LINE_RANGES, Collections.emptyList(), CATEGORY,
                 TYPE, PACKAGE_NAME_TS, MODULE_NAME, SEVERITY,
                 MESSAGE_TS, DESCRIPTION, ORIGIN, ORIGIN_NAME, REFERENCE, FINGERPRINT, ADDITIONAL_PROPERTIES,
                 UUID.randomUUID());

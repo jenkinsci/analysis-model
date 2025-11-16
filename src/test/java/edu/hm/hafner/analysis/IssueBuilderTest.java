@@ -378,25 +378,23 @@ class IssueBuilderTest {
             var location1 = new Location(TREE_STRING_BUILDER.intern("header.h"), 10, 20);
             var location2 = new Location(TREE_STRING_BUILDER.intern("impl.cpp"), 50);
 
-            builder.addAdditionalLocation(location1);
-            builder.addAdditionalLocation(location2);
+            builder.addLocation(location1);
+            builder.addLocation(location2);
 
             var issue = builder.build();
-            org.assertj.core.api.Assertions.assertThat(issue.hasAdditionalLocations()).isTrue();
-            org.assertj.core.api.Assertions.assertThat(issue.getAdditionalLocations()).hasSize(2);
-            org.assertj.core.api.Assertions.assertThat(issue.getAdditionalLocations()).containsExactly(location1, location2);
+            assertThat(issue).hasAdditionalLocations(location1, location2);
         }
     }
 
     @Test
     void shouldSetAdditionalLocations() {
         try (var builder = new IssueBuilder()) {
-            var locations = java.util.List.of(
+            var locations = java.util.List.<Location>of(
                     new Location(TREE_STRING_BUILDER.intern("header.h"), 10, 20),
                     new Location(TREE_STRING_BUILDER.intern("impl.cpp"), 50)
             );
 
-            builder.setAdditionalLocations(locations);
+            builder.setLocations(locations);
 
             var issue = builder.build();
             org.assertj.core.api.Assertions.assertThat(issue.hasAdditionalLocations()).isTrue();
@@ -410,8 +408,8 @@ class IssueBuilderTest {
             var location1 = new Location(TREE_STRING_BUILDER.intern("header.h"), 10, 20);
             var location2 = new Location(TREE_STRING_BUILDER.intern("impl.cpp"), 50);
 
-            builder.addAdditionalLocation(location1);
-            builder.addAdditionalLocation(location2);
+            builder.addLocation(location1);
+            builder.addLocation(location2);
 
             var originalIssue = builder.build();
 

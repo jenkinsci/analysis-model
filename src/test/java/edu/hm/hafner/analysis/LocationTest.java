@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.util.TreeString;
 import edu.hm.hafner.util.TreeStringBuilder;
+import nl.jqno.equalsverifier.EqualsVerifier;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -55,35 +56,23 @@ class LocationTest {
 
     @Test
     void shouldGenerateCorrectToString() {
-        var location1 = new Location(FILE_NAME, LINE_START, LINE_END, COLUMN_START, COLUMN_END);
-        assertThat(location1.toString()).isEqualTo("test.cpp:10-20:5-15");
-
-        var location2 = new Location(FILE_NAME, LINE_START, LINE_END);
-        assertThat(location2.toString()).isEqualTo("test.cpp:10-20");
-
-        var location3 = new Location(FILE_NAME, LINE_START);
-        assertThat(location3.toString()).isEqualTo("test.cpp:10");
-
-        var location4 = new Location(FILE_NAME, 0);
-        assertThat(location4.toString()).isEqualTo("test.cpp");
+        assertThat(new Location(FILE_NAME, LINE_START, LINE_END, COLUMN_START, COLUMN_END))
+                .hasToString("test.cpp:10-20:5-15");
+        assertThat(new Location(FILE_NAME, LINE_START, LINE_END))
+                .hasToString("test.cpp:10-20");
+        assertThat(new Location(FILE_NAME, LINE_START))
+                .hasToString("test.cpp:10");
+        assertThat(new Location(FILE_NAME, 0))
+                .hasToString("test.cpp");
     }
 
     @Test
-    void shouldBeEqual() {
-        var location1 = new Location(FILE_NAME, LINE_START, LINE_END, COLUMN_START, COLUMN_END);
-        var location2 = new Location(FILE_NAME, LINE_START, LINE_END, COLUMN_START, COLUMN_END);
-
-        assertThat(location1).isEqualTo(location2);
-        assertThat(location1.hashCode()).isEqualTo(location2.hashCode());
-    }
-
-    @Test
-    void shouldNotBeEqual() {
-        var location1 = new Location(FILE_NAME, LINE_START, LINE_END, COLUMN_START, COLUMN_END);
-        var location2 = new Location(TREE_STRING_BUILDER.intern("other.cpp"), LINE_START, LINE_END, COLUMN_START, COLUMN_END);
-        var location3 = new Location(FILE_NAME, 5, LINE_END, COLUMN_START, COLUMN_END);
-
-        assertThat(location1).isNotEqualTo(location2);
-        assertThat(location1).isNotEqualTo(location3);
+    void shouldObeyEqualsContract() {
+        EqualsVerifier.simple()
+                .withPrefabValues(TreeString.class,
+                        TREE_STRING_BUILDER.intern("file1.txt"),
+                        TREE_STRING_BUILDER.intern("file2.txt"))
+                .forClass(Location.class)
+                .verify();
     }
 }
