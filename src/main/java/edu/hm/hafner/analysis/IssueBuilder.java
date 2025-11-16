@@ -516,19 +516,19 @@ public class IssueBuilder implements AutoCloseable {
     }
 
     /**
-     * Adds an additional file location to this issue.
+     * Adds an additional file location to the issue.
      *
-     * @param Location
+     * @param location
      *         the file location to add
      *
      * @return this
      */
     @CanIgnoreReturnValue
-    public IssueBuilder addAdditionalLocation(final Location Location) {
+    public IssueBuilder addAdditionalLocation(final Location location) {
         if (this.additionalLocations == null) {
             this.additionalLocations = new ArrayList<>();
         }
-        this.additionalLocations.add(Location);
+        this.additionalLocations.add(location);
         return this;
     }
 

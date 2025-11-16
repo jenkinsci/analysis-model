@@ -16,7 +16,6 @@ import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LineRange;
 import edu.hm.hafner.util.LineRangeList;
-import edu.hm.hafner.util.TreeString;
 import edu.hm.hafner.util.TreeStringBuilder;
 
 /**
@@ -90,8 +89,8 @@ abstract class JsonBaseParser extends IssueParser {
         }
         if (jsonIssue.has(ADDITIONAL_FILE_LOCATIONS)) {
             var jsonLocations = jsonIssue.getJSONArray(ADDITIONAL_FILE_LOCATIONS);
-            var Locations = convertToLocationList(jsonLocations);
-            builder.setAdditionalLocations(Locations);
+            var locations = convertToLocationList(jsonLocations);
+            builder.setAdditionalLocations(locations);
         }
         if (jsonIssue.has(LINE_START)) {
             builder.setLineStart(jsonIssue.getInt(LINE_START));
