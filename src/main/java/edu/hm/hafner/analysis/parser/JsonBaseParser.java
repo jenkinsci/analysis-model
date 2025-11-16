@@ -90,7 +90,7 @@ abstract class JsonBaseParser extends IssueParser {
         if (jsonIssue.has(ADDITIONAL_FILE_LOCATIONS)) {
             var jsonLocations = jsonIssue.getJSONArray(ADDITIONAL_FILE_LOCATIONS);
             var locations = convertToLocationList(jsonLocations);
-            builder.setAdditionalLocations(locations);
+            builder.setLocations(locations);
         }
         if (jsonIssue.has(LINE_START)) {
             builder.setLineStart(jsonIssue.getInt(LINE_START));

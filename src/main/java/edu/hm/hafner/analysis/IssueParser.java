@@ -35,7 +35,7 @@ public abstract class IssueParser implements Serializable {
     protected static final String LINE_RANGE_END = "end";
     protected static final String LINE_RANGE_START = "start";
     protected static final String LINE_START = "lineStart";
-    protected static final String ADDITIONAL_FILE_LOCATIONS = "additionalFileLocations";
+    protected static final String ADDITIONAL_FILE_LOCATIONS = "locations";
     protected static final String FILE_LOCATION_FILE_NAME = "fileName";
     protected static final String FILE_LOCATION_LINE_START = "lineStart";
     protected static final String FILE_LOCATION_LINE_END = "lineEnd";
