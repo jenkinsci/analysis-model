@@ -441,12 +441,7 @@ public class Issue implements Serializable {
         if (platformFileName == null || UNDEFINED.equals(platformFileName) || StringUtils.isBlank(platformFileName)) {
             return UNDEFINED;
         }
-        var absolutePath = PATH_UTIL.getAbsolutePath(platformFileName);
-        // Normalize drive letter to lowercase on Windows (D:/ -> d:/)
-        if (absolutePath.length() >= 2 && Character.isLetter(absolutePath.charAt(0)) && absolutePath.charAt(1) == ':') {
-            return Character.toLowerCase(absolutePath.charAt(0)) + absolutePath.substring(1);
-        }
-        return absolutePath;
+        return PATH_UTIL.getAbsolutePath(platformFileName);
     }
 
     /**
@@ -558,12 +553,7 @@ public class Issue implements Serializable {
             return getFileName();
         }
         else {
-            var absolutePath = PATH_UTIL.createAbsolutePath(pathName, getFileName());
-            // Normalize drive letter to lowercase on Windows (D:/ -> d:/)
-            if (absolutePath.length() >= 2 && Character.isLetter(absolutePath.charAt(0)) && absolutePath.charAt(1) == ':') {
-                return Character.toLowerCase(absolutePath.charAt(0)) + absolutePath.substring(1);
-            }
-            return absolutePath;
+            return PATH_UTIL.createAbsolutePath(pathName, getFileName());
         }
     }
 
