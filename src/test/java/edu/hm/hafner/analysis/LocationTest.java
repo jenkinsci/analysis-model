@@ -1,4 +1,3 @@
-//LocationTest.java
 package edu.hm.hafner.analysis;
 
 import org.junit.jupiter.api.Test;

@@ -369,7 +369,7 @@ class IssueTest extends SerializableTest<Issue> {
                         TREE_STRING_BUILDER.intern("Two"))
                 .withPrefabValues(LineRangeList.class, new LineRangeList(10), filled)
                 .forClass(Issue.class)
-                .withIgnoredFields("id", "reference", "pathName", "fingerprint", "partOfModifiedCode").verify();
+                .withIgnoredFields("id", "reference", "pathName", "fingerprint", "partOfModifiedCode", "fileName", "lineStart", "lineEnd", "columnStart", "columnEnd", "lineRanges").verify();
     }
 
     @Override
