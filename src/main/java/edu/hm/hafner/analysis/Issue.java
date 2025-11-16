@@ -178,7 +178,7 @@ public class Issue implements Serializable {
     private final LineRangeList lineRanges; // fixed
 
     @SuppressWarnings("serial")
-    private final List<FileLocation> additionalFileLocations; // fixed
+    private final List<Location> additionalLocations; // fixed
 
     private final UUID id;                  // fixed
 
@@ -211,7 +211,7 @@ public class Issue implements Serializable {
     Issue(final Issue copy) {
         this(copy.getPath(), copy.getFileNameTreeString(), copy.getLineStart(), copy.getLineEnd(),
                 copy.getColumnStart(),
-                copy.getColumnEnd(), copy.getLineRanges(), copy.getAdditionalFileLocations(), copy.getCategory(), copy.getType(),
+                copy.getColumnEnd(), copy.getLineRanges(), copy.getAdditionalLocations(), copy.getCategory(), copy.getType(),
                 copy.getPackageNameTreeString(), copy.getModuleName(), copy.getSeverity(), copy.getMessageTreeString(),
                 copy.getDescription(), copy.getOrigin(), copy.getOriginName(), copy.getReference(), copy.getFingerprint(),
                 copy.getAdditionalProperties(), copy.getId());
@@ -235,7 +235,7 @@ public class Issue implements Serializable {
      *         the last column of this issue (columns start at 1)
      * @param lineRanges
      *         additional line ranges of this issue
-     * @param additionalFileLocations
+     * @param additionalLocations
      *         additional file locations related to this issue
      * @param category
      *         the category of this issue (depends on the available categories of the static analysis tool)
@@ -266,7 +266,7 @@ public class Issue implements Serializable {
     Issue(final String pathName, final TreeString fileName,
             final int lineStart, final int lineEnd, final int columnStart, final int columnEnd,
             @CheckForNull final Iterable<? extends LineRange> lineRanges,
-            @CheckForNull final Iterable<FileLocation> additionalFileLocations,
+            @CheckForNull final Iterable<Location> additionalLocations,
             @CheckForNull final String category, @CheckForNull final String type,
             final TreeString packageName, @CheckForNull final String moduleName,
             @CheckForNull final Severity severity,
@@ -274,7 +274,7 @@ public class Issue implements Serializable {
             @CheckForNull final String origin, @CheckForNull final String originName, @CheckForNull
             final String reference, @CheckForNull final String fingerprint,
             @CheckForNull final Serializable additionalProperties) {
-        this(pathName, fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges, additionalFileLocations, category, type,
+        this(pathName, fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges, additionalLocations, category, type,
                 packageName, moduleName, severity, message, description, origin, originName, reference,
                 fingerprint, additionalProperties, UUID.randomUUID());
     }
@@ -296,7 +296,7 @@ public class Issue implements Serializable {
      *         the last column of this issue (columns start at 1)
      * @param lineRanges
      *         additional line ranges of this issue
-     * @param additionalFileLocations
+     * @param additionalLocations
      *         additional file locations related to this issue
      * @param category
      *         the category of this issue (depends on the available categories of the static analysis tool)
@@ -329,7 +329,7 @@ public class Issue implements Serializable {
     Issue(@CheckForNull final String pathName, final TreeString fileName, final int lineStart, final int lineEnd,
             final int columnStart,
             final int columnEnd, @CheckForNull final Iterable<? extends LineRange> lineRanges,
-            @CheckForNull final Iterable<FileLocation> additionalFileLocations,
+            @CheckForNull final Iterable<Location> additionalLocations,
             @CheckForNull final String category,
             @CheckForNull final String type, final TreeString packageName,
             @CheckForNull final String moduleName, @CheckForNull final Severity severity,
@@ -367,10 +367,10 @@ public class Issue implements Serializable {
         if (lineRanges != null) {
             this.lineRanges.addAll(lineRanges);
         }
-        this.additionalFileLocations = new ArrayList<>();
-        if (additionalFileLocations != null) {
-            for (var location : additionalFileLocations) {
-                this.additionalFileLocations.add(location);
+        this.additionalLocations = new ArrayList<>();
+        if (additionalLocations != null) {
+            for (var location : additionalLocations) {
+                this.additionalLocations.add(location);
             }
         }
         this.category = StringUtils.defaultString(category).intern();
@@ -423,10 +423,16 @@ public class Issue implements Serializable {
         else {
             originName = originName.intern();
         }
-        if (additionalFileLocations == null) { // new in version 13.15.0
-            return new Issue(pathName, fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges,
-                    new ArrayList<>(), category, type, packageName, moduleName, severity, message, description,
-                    origin, originName, reference, fingerprint, additionalProperties, id);
+        if (additionalLocations == null) { // new in version 13.15.0
+            try {
+                var field = Issue.class.getDeclaredField("additionalLocations");
+                field.setAccessible(true);
+                field.set(this, new ArrayList<Location>());
+            }
+            catch (NoSuchFieldException | IllegalAccessException exception) {
+                // Should never happen
+                throw new IllegalStateException("Failed to initialize additionalLocations", exception);
+            }
         }
         return this;
     }
@@ -689,8 +695,8 @@ public class Issue implements Serializable {
      *
      * @return an unmodifiable list of additional file locations
      */
-    public List<FileLocation> getAdditionalFileLocations() {
-        return Collections.unmodifiableList(additionalFileLocations);
+    public List<Location> getAdditionalLocations() {
+        return Collections.unmodifiableList(additionalLocations);
     }
 
     /**
@@ -698,8 +704,8 @@ public class Issue implements Serializable {
      *
      * @return {@code true} if this issue has additional file locations, {@code false} otherwise
      */
-    public boolean hasAdditionalFileLocations() {
-        return !additionalFileLocations.isEmpty();
+    public boolean hasAdditionalLocations() {
+        return !additionalLocations.isEmpty();
     }
 
     /**
@@ -1009,7 +1015,7 @@ public class Issue implements Serializable {
         if (!fileName.equals(issue.fileName)) {
             return false;
         }
-        return additionalFileLocations.equals(issue.additionalFileLocations);
+        return additionalLocations.equals(issue.additionalLocations);
     }
 
     @Override
@@ -1030,7 +1036,7 @@ public class Issue implements Serializable {
         result = 31 * result + moduleName.hashCode();
         result = 31 * result + packageName.hashCode();
         result = 31 * result + fileName.hashCode();
-        result = 31 * result + additionalFileLocations.hashCode();
+        result = 31 * result + additionalLocations.hashCode();
         return result;
     }
 
