@@ -9,13 +9,15 @@ import java.util.UUID;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import edu.hm.hafner.analysis.FileLocation;
+import edu.hm.hafner.analysis.Location;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LineRange;
 import edu.hm.hafner.util.LineRangeList;
+import edu.hm.hafner.util.TreeString;
+import edu.hm.hafner.util.TreeStringBuilder;
 
 /**
  * Base Parser JSON format.
@@ -25,6 +27,7 @@ import edu.hm.hafner.util.LineRangeList;
 abstract class JsonBaseParser extends IssueParser {
     @Serial
     private static final long serialVersionUID = -2318844382394973833L;
+    private static final TreeStringBuilder TREE_STRING_BUILDER = new TreeStringBuilder();
 
     /**
      * Deserialize an Issue from a JSON object.
@@ -87,8 +90,8 @@ abstract class JsonBaseParser extends IssueParser {
         }
         if (jsonIssue.has(ADDITIONAL_FILE_LOCATIONS)) {
             var jsonLocations = jsonIssue.getJSONArray(ADDITIONAL_FILE_LOCATIONS);
-            var fileLocations = convertToFileLocationList(jsonLocations);
-            builder.setAdditionalFileLocations(fileLocations);
+            var Locations = convertToLocationList(jsonLocations);
+            builder.setAdditionalLocations(Locations);
         }
         if (jsonIssue.has(LINE_START)) {
             builder.setLineStart(jsonIssue.getInt(LINE_START));
@@ -132,20 +135,18 @@ abstract class JsonBaseParser extends IssueParser {
         return lineRanges;
     }
 
-    private List<FileLocation> convertToFileLocationList(final JSONArray jsonLocations) {
-        var fileLocations = new ArrayList<FileLocation>();
+    private List<Location> convertToLocationList(final JSONArray jsonLocations) {
+        var locations = new ArrayList<Location>();
         for (int i = 0; i < jsonLocations.length(); i++) {
             var jsonLocation = jsonLocations.getJSONObject(i);
-            var fileName = jsonLocation.optString(FILE_LOCATION_FILE_NAME, "");
+            var fileName = TREE_STRING_BUILDER.intern(jsonLocation.optString(FILE_LOCATION_FILE_NAME, ""));
             var lineStart = jsonLocation.optInt(FILE_LOCATION_LINE_START, 0);
             var lineEnd = jsonLocation.optInt(FILE_LOCATION_LINE_END, lineStart);
             var columnStart = jsonLocation.optInt(FILE_LOCATION_COLUMN_START, 0);
             var columnEnd = jsonLocation.optInt(FILE_LOCATION_COLUMN_END, 0);
-            var message = jsonLocation.has(FILE_LOCATION_MESSAGE)
-                    ? jsonLocation.getString(FILE_LOCATION_MESSAGE) : null;
 
-            fileLocations.add(new FileLocation(fileName, lineStart, lineEnd, columnStart, columnEnd, message));
+            locations.add(new Location(fileName, lineStart, lineEnd, columnStart, columnEnd));
         }
-        return fileLocations;
+        return locations;
     }
 }

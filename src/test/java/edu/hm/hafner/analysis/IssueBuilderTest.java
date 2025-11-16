@@ -8,6 +8,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import edu.hm.hafner.util.LineRange;
 import edu.hm.hafner.util.LineRangeList;
 import edu.hm.hafner.util.TreeString;
+import edu.hm.hafner.util.TreeStringBuilder;
 
 import java.util.UUID;
 
@@ -20,6 +21,7 @@ import static edu.hm.hafner.analysis.assertions.Assertions.*;
  * @author Marcel Binder
  */
 class IssueBuilderTest {
+    private static final TreeStringBuilder TREE_STRING_BUILDER = new TreeStringBuilder();
     private static final String FILE_NAME = "C:/users/tester/file-name";
     static final String FILE_NAME_WITH_BACKSLASHES = "C:\\users\\tester/file-name";
     private static final Issue DEFAULT_ISSUE = new Issue(PATH_NAME, UNDEFINED_TS, 0, 0, 0, 0, new LineRangeList(), null,
@@ -371,45 +373,45 @@ class IssueBuilderTest {
     }
 
     @Test
-    void shouldAddAdditionalFileLocations() {
+    void shouldAddAdditionalLocations() {
         try (var builder = new IssueBuilder()) {
-            var location1 = new FileLocation("header.h", 10, 20);
-            var location2 = new FileLocation("impl.cpp", 50, "Implementation here");
+            var location1 = new Location(TREE_STRING_BUILDER.intern("header.h"), 10, 20);
+            var location2 = new Location(TREE_STRING_BUILDER.intern("impl.cpp"), 50);
 
-            builder.addAdditionalFileLocation(location1);
-            builder.addAdditionalFileLocation(location2);
+            builder.addAdditionalLocation(location1);
+            builder.addAdditionalLocation(location2);
 
             var issue = builder.build();
-            org.assertj.core.api.Assertions.assertThat(issue.hasAdditionalFileLocations()).isTrue();
-            org.assertj.core.api.Assertions.assertThat(issue.getAdditionalFileLocations()).hasSize(2);
-            org.assertj.core.api.Assertions.assertThat(issue.getAdditionalFileLocations()).containsExactly(location1, location2);
+            org.assertj.core.api.Assertions.assertThat(issue.hasAdditionalLocations()).isTrue();
+            org.assertj.core.api.Assertions.assertThat(issue.getAdditionalLocations()).hasSize(2);
+            org.assertj.core.api.Assertions.assertThat(issue.getAdditionalLocations()).containsExactly(location1, location2);
         }
     }
 
     @Test
-    void shouldSetAdditionalFileLocations() {
+    void shouldSetAdditionalLocations() {
         try (var builder = new IssueBuilder()) {
             var locations = java.util.List.of(
-                    new FileLocation("header.h", 10, 20),
-                    new FileLocation("impl.cpp", 50, "Implementation here")
+                    new Location(TREE_STRING_BUILDER.intern("header.h"), 10, 20),
+                    new Location(TREE_STRING_BUILDER.intern("impl.cpp"), 50)
             );
 
-            builder.setAdditionalFileLocations(locations);
+            builder.setAdditionalLocations(locations);
 
             var issue = builder.build();
-            org.assertj.core.api.Assertions.assertThat(issue.hasAdditionalFileLocations()).isTrue();
-            org.assertj.core.api.Assertions.assertThat(issue.getAdditionalFileLocations()).hasSize(2);
+            org.assertj.core.api.Assertions.assertThat(issue.hasAdditionalLocations()).isTrue();
+            org.assertj.core.api.Assertions.assertThat(issue.getAdditionalLocations()).hasSize(2);
         }
     }
 
     @Test
-    void shouldCopyAdditionalFileLocations() {
+    void shouldCopyAdditionalLocations() {
         try (var builder = new IssueBuilder()) {
-            var location1 = new FileLocation("header.h", 10, 20);
-            var location2 = new FileLocation("impl.cpp", 50, "Implementation here");
+            var location1 = new Location(TREE_STRING_BUILDER.intern("header.h"), 10, 20);
+            var location2 = new Location(TREE_STRING_BUILDER.intern("impl.cpp"), 50);
 
-            builder.addAdditionalFileLocation(location1);
-            builder.addAdditionalFileLocation(location2);
+            builder.addAdditionalLocation(location1);
+            builder.addAdditionalLocation(location2);
 
             var originalIssue = builder.build();
 
@@ -417,19 +419,19 @@ class IssueBuilderTest {
                 copyBuilder.copy(originalIssue);
                 var copiedIssue = copyBuilder.build();
 
-                org.assertj.core.api.Assertions.assertThat(copiedIssue.hasAdditionalFileLocations()).isTrue();
-                org.assertj.core.api.Assertions.assertThat(copiedIssue.getAdditionalFileLocations()).hasSize(2);
-                org.assertj.core.api.Assertions.assertThat(copiedIssue.getAdditionalFileLocations()).containsExactly(location1, location2);
+                org.assertj.core.api.Assertions.assertThat(copiedIssue.hasAdditionalLocations()).isTrue();
+                org.assertj.core.api.Assertions.assertThat(copiedIssue.getAdditionalLocations()).hasSize(2);
+                org.assertj.core.api.Assertions.assertThat(copiedIssue.getAdditionalLocations()).containsExactly(location1, location2);
             }
         }
     }
 
     @Test
-    void shouldNotHaveAdditionalFileLocationsWhenNoneSet() {
+    void shouldNotHaveAdditionalLocationsWhenNoneSet() {
         try (var builder = new IssueBuilder()) {
             var issue = builder.build();
-            org.assertj.core.api.Assertions.assertThat(issue.hasAdditionalFileLocations()).isFalse();
-            org.assertj.core.api.Assertions.assertThat(issue.getAdditionalFileLocations()).isEmpty();
+            org.assertj.core.api.Assertions.assertThat(issue.hasAdditionalLocations()).isFalse();
+            org.assertj.core.api.Assertions.assertThat(issue.getAdditionalLocations()).isEmpty();
         }
     }
 }
