@@ -224,6 +224,25 @@ class FileNameResolverTest {
         }
     }
 
+    @Test
+    @DisplayName("Should resolve file with wrong capitalization on Windows (JENKINS-66810)")
+    void shouldResolveFileWithWrongCapitalizationOnWindows() {
+        if (!isWindows()) {
+            return; 
+        }
+
+        try (var builder = new IssueBuilder()) {
+            var report = new Report();
+            report.add(builder.setFileName("RELATIVE.TXT").build());
+
+            resolvePaths(report, RESOURCE_FOLDER_PATH);
+
+            assertThat(report.get(0).getFileName()).isEqualTo(RELATIVE_FILE);
+            assertThat(report.getInfoMessages()).hasSize(1);
+            assertThat(report.getInfoMessages().get(0)).contains("1 found");
+        }
+    }
+
     private void assertThatOneFileIsUnresolved(final Report report) {
         assertThat(report.getInfoMessages()).hasSize(1);
         assertThat(report.getInfoMessages().get(0)).contains("1 not found");
