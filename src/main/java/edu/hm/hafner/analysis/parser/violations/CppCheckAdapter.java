@@ -7,10 +7,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.Location;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.util.IntegerParser;
 import edu.hm.hafner.util.LineRange;
 import edu.hm.hafner.util.LineRangeList;
+import edu.hm.hafner.util.TreeStringBuilder;
 
 import se.bjurr.violations.lib.model.Violation;
 import se.bjurr.violations.lib.parsers.CPPCheckParser;
@@ -37,12 +39,16 @@ public class CppCheckAdapter extends AbstractViolationAdapter {
                     .collect(Collectors.groupingBy(Violation::getGroup));
 
             var report = new Report();
+            var treeStringBuilder = new TreeStringBuilder();
             for (List<Violation> group : violationsPerGroup.values()) {
                 var sortedGroup = sortByInsertionOrder(group);
                 updateIssueBuilder(sortedGroup.get(0), issueBuilder);
                 var lineRanges = new LineRangeList();
                 for (int i = 1; i < sortedGroup.size(); i++) {
-                    lineRanges.add(new LineRange(sortedGroup.get(i).getStartLine()));
+                    var violation = sortedGroup.get(i);
+                    var fileName = treeStringBuilder.intern(violation.getFile());
+                    issueBuilder.addLocation(new Location(fileName, violation.getStartLine()));
+                    lineRanges.add(new LineRange(violation.getStartLine()));
                 }
                 issueBuilder.setLineRanges(lineRanges);
                 report.add(issueBuilder.buildAndClean());
