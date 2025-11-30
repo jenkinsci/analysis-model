@@ -501,10 +501,10 @@ public class IssueBuilder implements AutoCloseable {
     }
 
     /**
-     * Sets the locations of this issue, the first location is considered the main location.
+     * Sets the additional locations of this issue.
      *
      * @param locations
-     *         the locations of this issue
+     *         the additional locations of this issue
      *
      * @return this
      */
@@ -515,7 +515,7 @@ public class IssueBuilder implements AutoCloseable {
     }
 
     /**
-     * Adds another location to this issue, the first location is considered the main location.
+     * Adds another location to this issue.
      *
      * @param location
      *         the file location to add
