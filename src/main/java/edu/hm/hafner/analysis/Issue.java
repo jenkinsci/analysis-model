@@ -374,14 +374,13 @@ public class Issue implements Serializable {
             this.lineRanges.addAll(lineRanges);
         }
         this.additionalLocations = new ArrayList<>();
-        if (additionalLocations != null && additionalLocations.iterator().hasNext()) {
+        // First location is always the main location (from deprecated fields)
+        this.additionalLocations.add(new Location(fileName, this.lineStart, this.lineEnd, this.columnStart, this.columnEnd));
+        // Additional locations follow
+        if (additionalLocations != null) {
             for (var location : additionalLocations) {
                 this.additionalLocations.add(location);
             }
-        }
-        else {
-            // Populate from old fields for backward compatibility
-            this.additionalLocations.add(new Location(fileName, this.lineStart, this.lineEnd, this.columnStart, this.columnEnd));
         }
         this.category = StringUtils.defaultString(category).intern();
         this.type = defaultString(type);
@@ -512,7 +511,7 @@ public class Issue implements Serializable {
      */
     @Deprecated
     public String getFileName() {
-        return fileName.toString();
+        return additionalLocations.get(0).getFileName().toString();
     }
 
     /**
@@ -522,7 +521,7 @@ public class Issue implements Serializable {
      * @return the cached tree-string containing the name of the file that contains this issue
      */
     TreeString getFileNameTreeString() {
-        return fileName;
+        return additionalLocations.get(0).getFileName();
     }
 
     /**
@@ -678,7 +677,7 @@ public class Issue implements Serializable {
      */
     @Deprecated
     public int getLineStart() {
-        return lineStart;
+        return additionalLocations.get(0).getLineStart();
     }
 
     /**
@@ -689,7 +688,7 @@ public class Issue implements Serializable {
      */
     @Deprecated
     public int getLineEnd() {
-        return lineEnd;
+        return additionalLocations.get(0).getLineEnd();
     }
 
     /**
@@ -701,7 +700,7 @@ public class Issue implements Serializable {
      */
     @Deprecated
     public Iterable<? extends LineRange> getLineRanges() {
-        return new LineRangeList(lineRanges);
+        return lineRanges;
     }
 
     /**
@@ -713,7 +712,10 @@ public class Issue implements Serializable {
      * @return an unmodifiable list of additional file locations
      */
     public List<Location> getAdditionalLocations() {
-        return Collections.unmodifiableList(additionalLocations);
+        if (additionalLocations.size() <= 1) {
+            return Collections.emptyList();
+        }
+        return Collections.unmodifiableList(additionalLocations.subList(1, additionalLocations.size()));
     }
 
     /**
@@ -722,7 +724,7 @@ public class Issue implements Serializable {
      * @return {@code true} if this issue has additional file locations, {@code false} otherwise
      */
     public boolean hasAdditionalLocations() {
-        return !additionalLocations.isEmpty();
+        return additionalLocations.size() > 1;
     }
 
     /**
@@ -757,7 +759,7 @@ public class Issue implements Serializable {
      */
     @Deprecated
     public int getColumnStart() {
-        return columnStart;
+        return additionalLocations.get(0).getColumnStart();
     }
 
     /**
@@ -768,7 +770,7 @@ public class Issue implements Serializable {
      */
     @Deprecated
     public int getColumnEnd() {
-        return columnEnd;
+        return additionalLocations.get(0).getColumnEnd();
     }
 
     /**
