@@ -229,6 +229,82 @@ class FileNameResolverTest {
         assertThat(report.getInfoMessages().get(0)).contains("1 not found");
     }
 
+    @Test
+    @DisplayName("Should remap paths from source to target prefix")
+    void shouldRemapPathPrefixes() {
+        var dockerPath = "/app/src";
+        var dockerFilePath = dockerPath + "/relative.txt";
+
+        try (var builder = new IssueBuilder()) {
+            var report = new Report();
+            report.add(builder.setFileName(dockerFilePath).build());
+
+            new FileNameResolver().run(report, RESOURCE_FOLDER_STRING, f -> false, dockerPath, RESOURCE_FOLDER_STRING);
+
+            assertThat(report).hasSize(1);
+            assertThat(report.get(0)).hasFileName(RELATIVE_FILE).hasPath(RESOURCE_FOLDER_STRING);
+            assertThat(report.getInfoMessages()).hasSize(2); 
+            assertThat(report.getInfoMessages().get(0)).contains("remapping paths from");
+            assertThat(report.getInfoMessages().get(1)).contains("1 found");
+        }
+    }
+
+    @Test
+    @DisplayName("Should not remap paths when source prefix is empty")
+    void shouldNotRemapWhenSourcePrefixEmpty() {
+        try (var builder = new IssueBuilder()) {
+            var report = new Report();
+            report.add(builder.setFileName(RELATIVE_FILE).build());
+
+            new FileNameResolver().run(report, RESOURCE_FOLDER_STRING, f -> false, "", "/some/path");
+
+            assertThat(report).hasSize(1);
+            assertThat(report.get(0)).hasFileName(RELATIVE_FILE).hasPath(RESOURCE_FOLDER_STRING);
+            assertThat(report.getInfoMessages()).hasSize(1); 
+            assertThat(report.getInfoMessages().get(0)).contains("1 found");
+        }
+    }
+
+    @Test
+    @DisplayName("Should not remap paths when target prefix is empty")
+    void shouldNotRemapWhenTargetPrefixEmpty() {
+        try (var builder = new IssueBuilder()) {
+            var report = new Report();
+            report.add(builder.setFileName(RELATIVE_FILE).build());
+
+            new FileNameResolver().run(report, RESOURCE_FOLDER_STRING, f -> false, "/some/path", "");
+
+            assertThat(report).hasSize(1);
+            assertThat(report.get(0)).hasFileName(RELATIVE_FILE).hasPath(RESOURCE_FOLDER_STRING);
+            assertThat(report.getInfoMessages()).hasSize(1); // only resolving, no remapping
+            assertThat(report.getInfoMessages().get(0)).contains("1 found");
+        }
+    }
+
+    @Test
+    @DisplayName("Should only remap paths that start with source prefix")
+    void shouldOnlyRemapMatchingPaths() {
+        var dockerPath = "/docker/src";
+        var otherPath = "/other/path";
+
+        try (var builder = new IssueBuilder()) {
+            var report = new Report();
+            report.add(builder.setFileName(dockerPath + "/relative.txt").build());
+            report.add(builder.setFileName(otherPath + "/other.txt").build());
+            report.add(builder.setFileName(RELATIVE_FILE).build());
+
+            new FileNameResolver().run(report, RESOURCE_FOLDER_STRING, f -> false, dockerPath, RESOURCE_FOLDER_STRING);
+
+            assertThat(report).hasSize(3);
+            assertThat(report.get(0)).hasFileName(RELATIVE_FILE).hasPath(RESOURCE_FOLDER_STRING);
+            assertThat(report.get(1)).hasFileName(otherPath + "/other.txt");
+            assertThat(report.get(2)).hasFileName(RELATIVE_FILE).hasPath(RESOURCE_FOLDER_STRING);
+
+            assertThat(report.getInfoMessages()).hasSize(2); 
+            assertThat(report.getInfoMessages().get(0)).contains("remapping paths");
+        }
+    }
+
     private static String getResourcePath() {
         var workspace = RESOURCE_FOLDER.getPath();
         if (isWindows() && workspace.charAt(0) == SLASH) {
