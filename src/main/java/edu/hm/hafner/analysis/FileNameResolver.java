@@ -62,26 +62,7 @@ public class FileNameResolver {
             return;
         }
 
-        // Apply path remapping if configured
-        boolean shouldRemap = !sourcePathPrefix.isEmpty() && !targetPathPrefix.isEmpty();
-        if (shouldRemap) {
-            report.logInfo("-> remapping paths from '%s' to '%s'", sourcePathPrefix, targetPathPrefix);
-            try (var builder = new IssueBuilder()) {
-                report.stream()
-                        .filter(issue -> issue.getFileName().startsWith(sourcePathPrefix))
-                        .forEach(issue -> {
-                            String originalPath = issue.getFileName();
-                            String remappedPath = targetPathPrefix + originalPath.substring(sourcePathPrefix.length());
-                            issue.setFileName(issue.getPath(), builder.internFileName(remappedPath));
-                        });
-            }
-        }
-
-        // Refresh the files to process after remapping
-        filesToProcess = report.getFiles()
-                .stream()
-                .filter(fileName -> isInterestingFileName(fileName, skipFileNamePredicate))
-                .collect(Collectors.toSet());
+        filesToProcess = applyPathMapping(report, sourcePathPrefix, targetPathPrefix, skipFileNamePredicate);
 
         Map<String, String> pathMapping = filesToProcess.parallelStream()
                 .collect(Collectors.toMap(fileName -> fileName,
@@ -98,6 +79,43 @@ public class FileNameResolver {
         }
         report.logInfo("-> resolved paths in source directory (%d found, %d not found)",
                 pathMapping.size(), filesToProcess.size() - pathMapping.size());
+    }
+
+    /**
+     * Applies path mapping to the issues in the report. This remaps file paths from one prefix to another, which is
+     * useful when the report was generated in a different environment (e.g., inside a Docker container).
+     *
+     * @param report
+     *         the issues to remap paths for
+     * @param sourcePathPrefix
+     *         the path prefix to be replaced (e.g., path inside docker container). Empty string means no remapping.
+     * @param targetPathPrefix
+     *         the path prefix to replace with (e.g., path in Jenkins workspace). Empty string means no remapping.
+     * @param skipFileNamePredicate
+     *         skip specific files based on the file name
+     *
+     * @return the updated set of files to process after remapping
+     */
+    private Set<String> applyPathMapping(final Report report, final String sourcePathPrefix,
+            final String targetPathPrefix, final Predicate<String> skipFileNamePredicate) {
+        boolean shouldRemap = !sourcePathPrefix.isEmpty() && !targetPathPrefix.isEmpty();
+        if (shouldRemap) {
+            report.logInfo("-> remapping paths from '%s' to '%s'", sourcePathPrefix, targetPathPrefix);
+            try (var builder = new IssueBuilder()) {
+                report.stream()
+                        .filter(issue -> issue.getFileName().startsWith(sourcePathPrefix))
+                        .forEach(issue -> {
+                            String originalPath = issue.getFileName();
+                            String remappedPath = targetPathPrefix + originalPath.substring(sourcePathPrefix.length());
+                            issue.setFileName(issue.getPath(), builder.internFileName(remappedPath));
+                        });
+            }
+        }
+
+        return report.getFiles()
+                .stream()
+                .filter(fileName -> isInterestingFileName(fileName, skipFileNamePredicate))
+                .collect(Collectors.toSet());
     }
 
     private String makeRelative(final String sourceDirectoryPrefix, final String fileName) {

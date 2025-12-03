@@ -232,10 +232,9 @@ class FileNameResolverTest {
     @Test
     @DisplayName("Should remap paths from source to target prefix")
     void shouldRemapPathPrefixes() {
-        var dockerPath = "/app/src";
-        var dockerFilePath = dockerPath + "/relative.txt";
-
         try (var builder = new IssueBuilder()) {
+            var dockerPath = "/app/src";
+            var dockerFilePath = dockerPath + "/relative.txt";
             var report = new Report();
             report.add(builder.setFileName(dockerFilePath).build());
 
