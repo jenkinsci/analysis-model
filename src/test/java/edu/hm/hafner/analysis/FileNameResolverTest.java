@@ -283,10 +283,9 @@ class FileNameResolverTest {
     @Test
     @DisplayName("Should only remap paths that start with source prefix")
     void shouldOnlyRemapMatchingPaths() {
-        var dockerPath = "/docker/src";
-        var otherPath = "/other/path";
-
         try (var builder = new IssueBuilder()) {
+            var dockerPath = "/docker/src";
+            var otherPath = "/other/path";
             var report = new Report();
             report.add(builder.setFileName(dockerPath + "/relative.txt").build());
             report.add(builder.setFileName(otherPath + "/other.txt").build());
