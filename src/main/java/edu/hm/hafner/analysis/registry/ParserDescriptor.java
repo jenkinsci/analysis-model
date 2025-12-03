@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.Report.IssueType;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Parent class for all descriptors.
@@ -160,6 +161,29 @@ public abstract class ParserDescriptor {
      */
     public String getDescription(final Issue issue) {
         return issue.getDescription();
+    }
+
+    /**
+     * Returns an optional URL to the documentation of the specified warning category.
+     * This can be used to provide users with additional information about a specific warning type.
+     *
+     * @param category
+     *         the category to get the documentation URL for
+     *
+     * @return the documentation URL for the category, or an empty string if not available
+     */
+    public String getCategoryDocumentationUrl(@CheckForNull final String category) {
+        return StringUtils.EMPTY;
+    }
+
+    /**
+     * Returns whether a documentation URL for categories is available for this parser.
+     *
+     * @return {@code true} if category documentation URLs are available
+     * @see #getCategoryDocumentationUrl(String)
+     */
+    public boolean hasCategoryDocumentation() {
+        return StringUtils.isNotBlank(getCategoryDocumentationUrl("test-category"));
     }
 
     /**
