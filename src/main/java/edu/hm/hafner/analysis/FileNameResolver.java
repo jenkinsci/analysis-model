@@ -29,6 +29,28 @@ public class FileNameResolver {
      */
     public void run(final Report report, final String sourceDirectoryPrefix,
             final Predicate<String> skipFileNamePredicate) {
+        run(report, sourceDirectoryPrefix, skipFileNamePredicate, "", "");
+    }
+
+    /**
+     * Resolves the file names of the affected files of the specified set of issues with optional path remapping.
+     * This is useful when the paths in the report are generated in a different environment (e.g., inside a Docker
+     * container) and need to be remapped to the actual workspace paths.
+     *
+     * @param report
+     *         the issues to resolve the paths
+     * @param sourceDirectoryPrefix
+     *         absolute source path that should be used as parent folder to search for files
+     * @param skipFileNamePredicate
+     *         skip specific files based on the file name
+     * @param sourcePathPrefix
+     *         the path prefix to be replaced (e.g., path inside docker container). Empty string means no remapping.
+     * @param targetPathPrefix
+     *         the path prefix to replace with (e.g., path in Jenkins workspace). Empty string means no remapping.
+     */
+    public void run(final Report report, final String sourceDirectoryPrefix,
+            final Predicate<String> skipFileNamePredicate, final String sourcePathPrefix,
+            final String targetPathPrefix) {
         Set<String> filesToProcess = report.getFiles()
                 .stream()
                 .filter(fileName -> isInterestingFileName(fileName, skipFileNamePredicate))
@@ -39,6 +61,8 @@ public class FileNameResolver {
 
             return;
         }
+
+        filesToProcess = applyPathMapping(report, sourcePathPrefix, targetPathPrefix, skipFileNamePredicate);
 
         Map<String, String> pathMapping = filesToProcess.parallelStream()
                 .collect(Collectors.toMap(fileName -> fileName,
@@ -55,6 +79,43 @@ public class FileNameResolver {
         }
         report.logInfo("-> resolved paths in source directory (%d found, %d not found)",
                 pathMapping.size(), filesToProcess.size() - pathMapping.size());
+    }
+
+    /**
+     * Applies path mapping to the issues in the report. This remaps file paths from one prefix to another, which is
+     * useful when the report was generated in a different environment (e.g., inside a Docker container).
+     *
+     * @param report
+     *         the issues to remap paths for
+     * @param sourcePathPrefix
+     *         the path prefix to be replaced (e.g., path inside docker container). Empty string means no remapping.
+     * @param targetPathPrefix
+     *         the path prefix to replace with (e.g., path in Jenkins workspace). Empty string means no remapping.
+     * @param skipFileNamePredicate
+     *         skip specific files based on the file name
+     *
+     * @return the updated set of files to process after remapping
+     */
+    private Set<String> applyPathMapping(final Report report, final String sourcePathPrefix,
+            final String targetPathPrefix, final Predicate<String> skipFileNamePredicate) {
+        boolean shouldRemap = !sourcePathPrefix.isEmpty() && !targetPathPrefix.isEmpty();
+        if (shouldRemap) {
+            report.logInfo("-> remapping paths from '%s' to '%s'", sourcePathPrefix, targetPathPrefix);
+            try (var builder = new IssueBuilder()) {
+                report.stream()
+                        .filter(issue -> issue.getFileName().startsWith(sourcePathPrefix))
+                        .forEach(issue -> {
+                            String originalPath = issue.getFileName();
+                            String remappedPath = targetPathPrefix + originalPath.substring(sourcePathPrefix.length());
+                            issue.setFileName(issue.getPath(), builder.internFileName(remappedPath));
+                        });
+            }
+        }
+
+        return report.getFiles()
+                .stream()
+                .filter(fileName -> isInterestingFileName(fileName, skipFileNamePredicate))
+                .collect(Collectors.toSet());
     }
 
     private String makeRelative(final String sourceDirectoryPrefix, final String fileName) {
