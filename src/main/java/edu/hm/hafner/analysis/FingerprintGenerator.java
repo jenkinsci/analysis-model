@@ -96,6 +96,6 @@ public class FingerprintGenerator {
                         .append(issue.getCategory())
                         .append(issue.getSeverity())
                         .append(issue.getOrigin())
-                        .append(issue.getLineStart()).build());
+                        .append(issue.getMessage()).build());
     }
 }
