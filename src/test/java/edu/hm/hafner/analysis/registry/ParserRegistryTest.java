@@ -100,6 +100,43 @@ class ParserRegistryTest extends ResourceTest {
     }
 
     @Test
+    void shouldProvideClangTidyCategoryDocumentationUrls() {
+        var parserRegistry = new ParserRegistry();
+        var clangTidyDescriptor = parserRegistry.get("clang-tidy");
+
+        assertThat(clangTidyDescriptor).hasName("Clang-Tidy");
+
+        assertThat(clangTidyDescriptor.getCategoryDocumentationUrl("bugprone-forward-declaration-namespace"))
+                .isEqualTo("https://clang.llvm.org/extra/clang-tidy/checks/bugprone/bugprone-forward-declaration-namespace.html");
+
+        assertThat(clangTidyDescriptor.getCategoryDocumentationUrl("google-explicit-constructor"))
+                .isEqualTo("https://clang.llvm.org/extra/clang-tidy/checks/google/google-explicit-constructor.html");
+
+        assertThat(clangTidyDescriptor.getCategoryDocumentationUrl("readability-identifier-naming"))
+                .isEqualTo("https://clang.llvm.org/extra/clang-tidy/checks/readability/readability-identifier-naming.html");
+
+        assertThat(clangTidyDescriptor.getCategoryDocumentationUrl("clang-diagnostic-sign-conversion"))
+                .isEmpty();
+
+        assertThat(clangTidyDescriptor.getCategoryDocumentationUrl("clang-diagnostic-unused-command-line-argument"))
+                .isEmpty();
+
+        assertThat(clangTidyDescriptor.getCategoryDocumentationUrl("clang-analyzer-deadcode.DeadStores"))
+                .isEmpty();
+
+        assertThat(clangTidyDescriptor.getCategoryDocumentationUrl(""))
+                .isEmpty();
+
+        assertThat(clangTidyDescriptor.getCategoryDocumentationUrl(null))
+                .isEmpty();
+
+        assertThat(clangTidyDescriptor.getCategoryDocumentationUrl("invalidcategory"))
+                .isEmpty();
+
+        assertThat(clangTidyDescriptor.hasCategoryDocumentation()).isTrue();
+    }
+
+    @Test
     void shouldAssignCorrectSeverityForSpotBugs() {
         verifyPriority("CONFIDENCE", 1, 11, 0);
         verifyPriority("RANK", 0, 0, 12);
