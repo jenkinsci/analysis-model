@@ -9,6 +9,7 @@ import edu.hm.hafner.analysis.registry.ParserRegistry;
 import edu.hm.hafner.util.LineRange;
 import edu.hm.hafner.util.LineRangeList;
 import edu.hm.hafner.util.ResourceTest;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
@@ -206,5 +207,61 @@ class IssueDifferenceTest extends ResourceTest {
         var reportFile = new FileReaderFactory(getResourceAsFile("parser/findbugs/spotbugsXml.xml"),
                 StandardCharsets.UTF_8);
         return new ParserRegistry().get("spotbugs").createParser().parseReport(reportFile);
+    }
+
+    /**
+     * Test for JENKINS-6675: When a line is inserted above an existing warning, the warning should not be marked as
+     * "new" and the old warning should not be marked as "fixed". Instead, the warning should be matched by fingerprint
+     * and marked as "outstanding". This test simulates the scenario where source files are not available, so fallback
+     * fingerprints are used.
+     */
+    @Test
+    @org.junitpioneer.jupiter.Issue("JENKINS-6675")
+    void shouldNotMarkWarningAsNewWhenLineIsInsertedAboveWithFallbackFingerprint() {
+        var referenceIssue = createIssueAtLine("unused variable 'i'", null, "test.c", 5);
+        var referenceIssues = new Report().add(referenceIssue);
+
+        referenceIssue.setFingerprint(FingerprintGenerator.createDefaultFingerprint(referenceIssue));
+
+        var currentIssue = createIssueAtLine("unused variable 'i'", null, "test.c", 6);
+        var currentIssues = new Report().add(currentIssue);
+
+        currentIssue.setFingerprint(FingerprintGenerator.createDefaultFingerprint(currentIssue));
+
+        var issueDifference = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues);
+
+        assertThat(issueDifference.getOutstandingIssues()).hasSize(1);
+        assertThat(issueDifference.getOutstandingIssues().get(0))
+                .hasMessage("unused variable 'i'")
+                .hasLineStart(6)
+                .hasReference(REFERENCE_BUILD);
+
+        assertThat(issueDifference.getNewIssues()).isEmpty();
+
+        assertThat(issueDifference.getFixedIssues()).isEmpty();
+    }
+
+    private Issue createIssueAtLine(final String message, @CheckForNull final String fingerprint, 
+            final String fileName, final int lineStart) {
+        try (var builder = new IssueBuilder()) {
+            builder.setFileName(fileName)
+                    .setLineStart(lineStart)
+                    .setLineEnd(lineStart)
+                    .setColumnStart(3)
+                    .setColumnEnd(4)
+                    .setCategory("category")
+                    .setType("gcc")
+                    .setPackageName("package-name")
+                    .setModuleName("module-name")
+                    .setSeverity(Severity.WARNING_NORMAL)
+                    .setMessage(message)
+                    .setDescription("description")
+                    .setOrigin("origin")
+                    .setReference(REFERENCE_BUILD);
+            if (fingerprint != null) {
+                builder.setFingerprint(fingerprint);
+            }
+            return builder.build();
+        }
     }
 }
