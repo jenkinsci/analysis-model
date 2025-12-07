@@ -31,7 +31,7 @@ import java.util.function.Predicate;
 @SuppressWarnings({"PMD.GodClass", "PMD.CyclomaticComplexity", "NoFunctionalReturnType"})
 public class Issue implements Serializable {
     @Serial
-    private static final long serialVersionUID = 1L; // release 1.0.0
+    private static final long serialVersionUID = 2L; // release 13.16.0 - added Location support
 
     private static final PathUtil PATH_UTIL = new PathUtil();
 
