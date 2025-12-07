@@ -144,7 +144,9 @@ public class IssueBuilder implements AutoCloseable {
      *         the file name
      *
      * @return this
+     * @deprecated use {@link #setLocations(List)} or {@link #addLocation(Location)} instead
      */
+    @Deprecated
     @CanIgnoreReturnValue
     public IssueBuilder setFileName(@CheckForNull final String fileName) {
         this.fileName = internFileName(fileName);
@@ -207,7 +209,9 @@ public class IssueBuilder implements AutoCloseable {
      *         the first line
      *
      * @return this
+     * @deprecated use {@link #setLocations(List)} or {@link #addLocation(Location)} instead
      */
+    @Deprecated
     @CanIgnoreReturnValue
     public IssueBuilder setLineStart(final int lineStart) {
         this.lineStart = lineStart;
@@ -221,7 +225,9 @@ public class IssueBuilder implements AutoCloseable {
      *         the first line
      *
      * @return this
+     * @deprecated use {@link #setLocations(List)} or {@link #addLocation(Location)} instead
      */
+    @Deprecated
     @CanIgnoreReturnValue
     public IssueBuilder setLineStart(@CheckForNull final String lineStart) {
         this.lineStart = parseInt(lineStart);
@@ -235,7 +241,9 @@ public class IssueBuilder implements AutoCloseable {
      *         the last line
      *
      * @return this
+     * @deprecated use {@link #setLocations(List)} or {@link #addLocation(Location)} instead
      */
+    @Deprecated
     @CanIgnoreReturnValue
     public IssueBuilder setLineEnd(final int lineEnd) {
         this.lineEnd = lineEnd;
@@ -249,7 +257,9 @@ public class IssueBuilder implements AutoCloseable {
      *         the last line
      *
      * @return this
+     * @deprecated use {@link #setLocations(List)} or {@link #addLocation(Location)} instead
      */
+    @Deprecated
     @CanIgnoreReturnValue
     public IssueBuilder setLineEnd(@CheckForNull final String lineEnd) {
         this.lineEnd = parseInt(lineEnd);
@@ -263,7 +273,9 @@ public class IssueBuilder implements AutoCloseable {
      *         the first column
      *
      * @return this
+     * @deprecated use {@link #setLocations(List)} or {@link #addLocation(Location)} instead
      */
+    @Deprecated
     @CanIgnoreReturnValue
     public IssueBuilder setColumnStart(final int columnStart) {
         this.columnStart = columnStart;
@@ -277,7 +289,9 @@ public class IssueBuilder implements AutoCloseable {
      *         the first column
      *
      * @return this
+     * @deprecated use {@link #setLocations(List)} or {@link #addLocation(Location)} instead
      */
+    @Deprecated
     @CanIgnoreReturnValue
     public IssueBuilder setColumnStart(@CheckForNull final String columnStart) {
         this.columnStart = parseInt(columnStart);
@@ -291,7 +305,9 @@ public class IssueBuilder implements AutoCloseable {
      *         the last column
      *
      * @return this
+     * @deprecated use {@link #setLocations(List)} or {@link #addLocation(Location)} instead
      */
+    @Deprecated
     @CanIgnoreReturnValue
     public IssueBuilder setColumnEnd(final int columnEnd) {
         this.columnEnd = columnEnd;
@@ -305,7 +321,9 @@ public class IssueBuilder implements AutoCloseable {
      *         the last column
      *
      * @return this
+     * @deprecated use {@link #setLocations(List)} or {@link #addLocation(Location)} instead
      */
+    @Deprecated
     @CanIgnoreReturnValue
     public IssueBuilder setColumnEnd(@CheckForNull final String columnEnd) {
         this.columnEnd = parseInt(columnEnd);
@@ -486,14 +504,16 @@ public class IssueBuilder implements AutoCloseable {
     }
 
     /**
-     * Sets additional line ranges for this issue. Not that the primary range given by {@code lineStart} and {@code *
+     * Sets additional line ranges of this issue. Note that the primary range given by {@code lineStart} and {@code
      * lineEnd} is not included.
      *
      * @param lineRanges
      *         the additional line ranges
      *
      * @return this
+     * @deprecated use {@link #setLocations(List)} or {@link #addLocation(Location)} instead
      */
+    @Deprecated
     @CanIgnoreReturnValue
     public IssueBuilder setLineRanges(final LineRangeList lineRanges) {
         this.lineRanges = new LineRangeList(lineRanges);
