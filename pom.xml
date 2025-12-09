@@ -421,6 +421,12 @@
                   <classQualifiedName>edu.hm.hafner.analysis.parser..*Parser</classQualifiedName>
                   <justification>Parsers are not part of the API.</justification>
                 </item>
+                <item>
+                  <ignore>true</ignore>
+                  <code>java.field.serialVersionUIDChanged</code>
+                  <old>field edu.hm.hafner.analysis.Issue.serialVersionUID</old>
+                  <justification>JENKINS-61940: serialVersionUID changed due to new Location support for multiple file locations.</justification>
+                </item>
               </differences>
             </revapi.differences>
           </analysisConfiguration>
