@@ -213,7 +213,7 @@ public class Issue implements Serializable {
      * @param copy
      *         the other issue to copy the properties from
      */
-    @SuppressWarnings("CopyConstructorMissesField")
+    @SuppressWarnings({"CopyConstructorMissesField", "deprecation"})
     Issue(final Issue copy) {
         this(copy.getPath(), copy.getFileNameTreeString(), copy.getLineStart(), copy.getLineEnd(),
                 copy.getColumnStart(),
