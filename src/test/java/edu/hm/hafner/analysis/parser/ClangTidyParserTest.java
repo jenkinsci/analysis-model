@@ -15,8 +15,6 @@ import static edu.hm.hafner.analysis.assertions.Assertions.*;
  * @author Ryan Schaefer
  */
 class ClangTidyParserTest extends AbstractParserTest {
-    private static final String WARNING_TYPE = "Warning";
-
     ClangTidyParserTest() {
         super("ClangTidy.txt");
     }
@@ -35,7 +33,6 @@ class ClangTidyParserTest extends AbstractParserTest {
                 .hasColumnStart(8)
                 .hasFileName("src/../src/main.cpp")
                 .hasMessage("implicit conversion changes signedness: 'int' to 'uint32_t' (aka 'unsigned int')")
-                .hasType(WARNING_TYPE)
                 .hasCategory("clang-diagnostic-sign-conversion")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
@@ -44,7 +41,6 @@ class ClangTidyParserTest extends AbstractParserTest {
                 .hasColumnStart(20)
                 .hasFileName("/src/main.cpp")
                 .hasMessage("implicit conversion changes signedness: 'int' to 'uint32_t' (aka 'unsigned int')")
-                .hasType(WARNING_TYPE)
                 .hasCategory("clang-diagnostic-sign-conversion")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
@@ -53,7 +49,6 @@ class ClangTidyParserTest extends AbstractParserTest {
                 .hasColumnStart(20)
                 .hasFileName("/path/to/project/src/test2.cpp")
                 .hasMessage("implicit conversion changes signedness: 'int' to 'uint32_t' (aka 'unsigned int')")
-                .hasType(WARNING_TYPE)
                 .hasCategory("clang-diagnostic-sign-conversion")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
@@ -62,7 +57,6 @@ class ClangTidyParserTest extends AbstractParserTest {
                 .hasColumnStart(15)
                 .hasFileName("/path/to/project/src/test2.cpp")
                 .hasMessage("suggest braces around initialization of subobject")
-                .hasType(WARNING_TYPE)
                 .hasCategory("clang-diagnostic-missing-braces")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
@@ -71,7 +65,6 @@ class ClangTidyParserTest extends AbstractParserTest {
                 .hasColumnStart(15)
                 .hasFileName("/path/to/project/src/test2.cpp")
                 .hasMessage("suggest braces around initialization of subobject")
-                .hasType(WARNING_TYPE)
                 .hasCategory("clang-diagnostic-missing-braces")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
@@ -79,22 +72,19 @@ class ClangTidyParserTest extends AbstractParserTest {
                 .hasColumnStart(10)
                 .hasFileName("/path/to/project/src/error_test.cpp")
                 .hasMessage("'dbus/dbus.h' file not found")
-                .hasType("Error")
                 .hasCategory("clang-diagnostic-error")
-                .hasSeverity(Severity.WARNING_HIGH);
+                .hasSeverity(Severity.ERROR);
 
         softly.assertThat(annotation.get(6))
                 .hasLineStart(50)
                 .hasColumnStart(57)
                 .hasFileName("/var/lib/jenkins/workspace/job/user/project.cpp")
                 .hasMessage("implicit conversion turns string literal into bool: 'const char [28]' to 'bool'")
-                .hasType(WARNING_TYPE)
                 .hasCategory("clang-diagnostic-string-conversion")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(annotation.get(7))
                 .hasMessage("/path/to/project/tools/yocto-toolchain/sysroots/core2-64-fslc-linux/usr/include/qt5/QtQml: 'linker' input unused")
-                .hasType(WARNING_TYPE)
                 .hasCategory("clang-diagnostic-unused-command-line-argument")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
@@ -102,9 +92,9 @@ class ClangTidyParserTest extends AbstractParserTest {
                 .hasLineStart(24)
                 .hasColumnStart(5)
                 .hasFileName("/path with space/to/project/src/path_with_space.cpp")
-                .hasType(WARNING_TYPE)
                 .hasCategory("google-explicit-constructor")
                 .hasSeverity(Severity.WARNING_NORMAL);
+
         softly.assertThat(annotation.get(8).getDescription())
                 .contains("https://clang.llvm.org/extra/clang-tidy/checks/google/explicit-constructor.html")
                 .contains("Clang-Tidy documentation");
@@ -133,7 +123,6 @@ class ClangTidyParserTest extends AbstractParserTest {
                 .hasColumnStart(8)
                 .hasFileName("src/main.cpp")
                 .hasMessage("implicit conversion changes signedness: 'int' to 'uint32_t' (aka 'unsigned int')")
-                .hasType(WARNING_TYPE)
                 .hasCategory("clang-diagnostic-sign-conversion")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
@@ -142,7 +131,6 @@ class ClangTidyParserTest extends AbstractParserTest {
                 .hasColumnStart(20)
                 .hasFileName("/src/main.cpp")
                 .hasMessage("implicit conversion changes signedness: 'int' to 'uint32_t' (aka 'unsigned int')")
-                .hasType(WARNING_TYPE)
                 .hasCategory("clang-diagnostic-sign-conversion")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
@@ -151,7 +139,6 @@ class ClangTidyParserTest extends AbstractParserTest {
                 .hasColumnStart(20)
                 .hasFileName("/path/to/project/src/test2.cpp")
                 .hasMessage("implicit conversion changes signedness: 'int' to 'uint32_t' (aka 'unsigned int')")
-                .hasType(WARNING_TYPE)
                 .hasCategory("clang-diagnostic-sign-conversion")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
@@ -160,7 +147,6 @@ class ClangTidyParserTest extends AbstractParserTest {
                 .hasColumnStart(15)
                 .hasFileName("/path/to/project/src/test2.cpp")
                 .hasMessage("suggest braces around initialization of subobject")
-                .hasType(WARNING_TYPE)
                 .hasCategory("clang-diagnostic-missing-braces")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
@@ -169,7 +155,6 @@ class ClangTidyParserTest extends AbstractParserTest {
                 .hasColumnStart(5)
                 .hasFileName("/path with space/to/project/src/path_with_space.cpp")
                 .hasMessage("single-argument constructors must be marked explicit to avoid unintentional implicit conversions")
-                .hasType(WARNING_TYPE)
                 .hasCategory("google-explicit-constructor")
                 .hasSeverity(Severity.WARNING_NORMAL);
         assertThat(report.get(4).getDescription())
@@ -179,7 +164,7 @@ class ClangTidyParserTest extends AbstractParserTest {
 
     /**
      * Verifies that clang-tidy parser filters out GCC warnings when processing cmake build output.
-     * When running clang-tidy via cmake with CMAKE_CXX_CLANG_TIDY, both clang-tidy and GCC warnings are generated in the same output. 
+     * When running clang-tidy via cmake with CMAKE_CXX_CLANG_TIDY, both clang-tidy and GCC warnings are generated in the same output.
      * The parser should only include clang-tidy warnings with [check-name] pattern and exclude GCC warnings with [-W...] pattern.
      *
      * @see <a href="https://issues.jenkins.io/browse/JENKINS-64614">Issue 64614</a>
@@ -196,7 +181,6 @@ class ClangTidyParserTest extends AbstractParserTest {
                 .hasColumnStart(10)
                 .hasFileName("/home/user/project/src/main.cpp")
                 .hasMessage("implicit conversion changes signedness: 'int' to 'uint32_t' (aka 'unsigned int')")
-                .hasType(WARNING_TYPE)
                 .hasCategory("clang-diagnostic-sign-conversion")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
@@ -205,7 +189,6 @@ class ClangTidyParserTest extends AbstractParserTest {
                 .hasColumnStart(5)
                 .hasFileName("/home/user/project/src/utils.cpp")
                 .hasMessage("single-argument constructors must be marked explicit to avoid unintentional implicit conversions")
-                .hasType(WARNING_TYPE)
                 .hasCategory("google-explicit-constructor")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
@@ -214,7 +197,6 @@ class ClangTidyParserTest extends AbstractParserTest {
                 .hasColumnStart(20)
                 .hasFileName("/home/user/project/include/helper.h")
                 .hasMessage("suggest braces around initialization of subobject")
-                .hasType(WARNING_TYPE)
                 .hasCategory("clang-diagnostic-missing-braces")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
@@ -223,7 +205,6 @@ class ClangTidyParserTest extends AbstractParserTest {
                 .hasColumnStart(30)
                 .hasFileName("/home/user/project/src/config.cpp")
                 .hasMessage("initializer for member 'data' is redundant")
-                .hasType(WARNING_TYPE)
                 .hasCategory("readability-redundant-member-init")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
@@ -232,7 +213,6 @@ class ClangTidyParserTest extends AbstractParserTest {
                 .hasColumnStart(8)
                 .hasFileName("/home/user/project/src/algorithm.cpp")
                 .hasMessage("use emplace_back instead of push_back")
-                .hasType(WARNING_TYPE)
                 .hasCategory("modernize-use-emplace")
                 .hasSeverity(Severity.WARNING_NORMAL);
     }
