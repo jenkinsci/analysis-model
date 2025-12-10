@@ -56,14 +56,14 @@ public class EsLintParser extends JsonIssueParser {
 
     private Issue convertToIssue(final JSONObject jsonIssue, final IssueBuilder issueBuilder) {
         return issueBuilder
-                .setType(jsonIssue.getString("ruleId"))
-                .setMessage(jsonIssue.getString("message"))
+                .setType(jsonIssue.optString("ruleId", "None"))
+                .setMessage(jsonIssue.optString("message", "n/a"))
                 .setDescription(formatDescription(jsonIssue))
-                .setSeverity(toSeverity(jsonIssue.getInt("severity")))
-                .setLineStart(jsonIssue.getInt("line"))
-                .setColumnStart(jsonIssue.getInt("column"))
-                .setLineEnd(jsonIssue.getInt("endLine"))
-                .setColumnEnd(jsonIssue.getInt("endColumn"))
+                .setSeverity(toSeverity(jsonIssue.optInt("severity")))
+                .setLineStart(jsonIssue.optInt("line"))
+                .setColumnStart(jsonIssue.optInt("column"))
+                .setLineEnd(jsonIssue.optInt("endLine"))
+                .setColumnEnd(jsonIssue.optInt("endColumn"))
                 .build();
     }
 

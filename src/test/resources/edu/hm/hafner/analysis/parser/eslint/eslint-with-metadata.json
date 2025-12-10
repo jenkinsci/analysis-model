@@ -111,10 +111,17 @@
             ],
             "text": ";"
           }
+        },
+        {
+          "ruleId": null,
+          "message": null,
+          "line": null,
+          "column": null,
+          "severity": null
         }
       ],
       "suppressedMessages": [],
-      "errorCount": 4,
+      "errorCount": 5,
       "fatalErrorCount": 0,
       "warningCount": 4,
       "fixableErrorCount": 1,
