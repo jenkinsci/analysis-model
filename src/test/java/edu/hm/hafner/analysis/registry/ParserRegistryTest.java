@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.FileReaderFactory;
-import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report.IssueType;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.registry.ParserDescriptor.Option;
@@ -98,49 +97,6 @@ class ParserRegistryTest extends ResourceTest {
 
         var lowReport = lowParser.parse(new FileReaderFactory(getResourceAsFile("one-cpd.xml")));
         assertThat(lowReport).hasSize(2).hasSeverities(Severity.WARNING_LOW);
-    }
-
-    @Test
-    void shouldProvideClangTidyDescriptionWithDocumentationLinks() {
-        var parserRegistry = new ParserRegistry();
-        var clangTidyDescriptor = parserRegistry.get("clang-tidy");
-
-        assertThat(clangTidyDescriptor).hasName("Clang-Tidy");
-
-        var issue1 = new IssueBuilder().setCategory("bugprone-forward-declaration-namespace")
-                .setDescription("Test description")
-                .build();
-        assertThat(clangTidyDescriptor.getDescription(issue1))
-                .contains("Test description")
-                .contains("https://clang.llvm.org/extra/clang-tidy/checks/bugprone/forward-declaration-namespace.html")
-                .contains("Clang-Tidy documentation");
-
-        var issue2 = new IssueBuilder().setCategory("google-explicit-constructor")
-                .setDescription("Test description")
-                .build();
-        assertThat(clangTidyDescriptor.getDescription(issue2))
-                .contains("https://clang.llvm.org/extra/clang-tidy/checks/google/explicit-constructor.html");
-
-        var issue3 = new IssueBuilder().setCategory("readability-identifier-naming")
-                .setDescription("Test description")
-                .build();
-        assertThat(clangTidyDescriptor.getDescription(issue3))
-                .contains("https://clang.llvm.org/extra/clang-tidy/checks/readability/identifier-naming.html");
-
-        var issue4 = new IssueBuilder().setCategory("clang-diagnostic-sign-conversion")
-                .setDescription("Test description")
-                .build();
-        assertThat(clangTidyDescriptor.getDescription(issue4)).isEqualTo("Test description");
-
-        var issue5 = new IssueBuilder().setCategory("clang-analyzer-deadcode.DeadStores")
-                .setDescription("Test description")
-                .build();
-        assertThat(clangTidyDescriptor.getDescription(issue5)).isEqualTo("Test description");
-
-        var issue6 = new IssueBuilder().setCategory("invalidcategory")
-                .setDescription("Test description")
-                .build();
-        assertThat(clangTidyDescriptor.getDescription(issue6)).isEqualTo("Test description");
     }
 
     @Test

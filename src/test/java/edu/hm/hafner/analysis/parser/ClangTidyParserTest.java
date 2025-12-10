@@ -35,6 +35,7 @@ class ClangTidyParserTest extends AbstractParserTest {
                 .hasColumnStart(8)
                 .hasFileName("src/../src/main.cpp")
                 .hasMessage("implicit conversion changes signedness: 'int' to 'uint32_t' (aka 'unsigned int')")
+                .hasDescription("implicit conversion changes signedness: 'int' to 'uint32_t' (aka 'unsigned int')")
                 .hasType(WARNING_TYPE)
                 .hasCategory("clang-diagnostic-sign-conversion")
                 .hasSeverity(Severity.WARNING_NORMAL);
@@ -105,6 +106,9 @@ class ClangTidyParserTest extends AbstractParserTest {
                 .hasType(WARNING_TYPE)
                 .hasCategory("google-explicit-constructor")
                 .hasSeverity(Severity.WARNING_NORMAL);
+        softly.assertThat(annotation.get(8).getDescription())
+                .contains("https://clang.llvm.org/extra/clang-tidy/checks/google/explicit-constructor.html")
+                .contains("Clang-Tidy documentation");
     }
 
     @Test
@@ -169,6 +173,9 @@ class ClangTidyParserTest extends AbstractParserTest {
                 .hasType(WARNING_TYPE)
                 .hasCategory("google-explicit-constructor")
                 .hasSeverity(Severity.WARNING_NORMAL);
+        assertThat(report.get(4).getDescription())
+                .contains("https://clang.llvm.org/extra/clang-tidy/checks/google/explicit-constructor.html")
+                .contains("Clang-Tidy documentation");
     }
 
     /**

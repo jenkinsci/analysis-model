@@ -22,6 +22,7 @@ public class ClangTidyParser extends LookaheadParser {
     private static final long serialVersionUID = -3015592762345283182L;
     private static final String CLANG_TIDY_WARNING_PATTERN = "(?:clang-tidy\\S* (?:-\\S+ )*|)"
             + "((.+):(\\d+):(\\d+): |)(warning|error): (.*?) \\[([^\\s]*?)\\]$";
+    private static final int CATEGORY_PARTS_COUNT = 2;
 
     /**
      * Creates a new instance of {@link ClangTidyParser}.
@@ -48,13 +49,41 @@ public class ClangTidyParser extends LookaheadParser {
             return Optional.empty();
         }
 
+        var message = matcher.group(6);
+        var description = buildDescriptionWithDocumentation(message, category);
+
         return builder.setFileName(matcher.group(2))
                 .setSeverity(priority)
                 .setLineStart(matcher.group(3))
                 .setColumnStart(matcher.group(4))
                 .setType(StringUtils.capitalize(matcher.group(5)))
                 .setCategory(category)
-                .setMessage(matcher.group(6))
+                .setMessage(message)
+                .setDescription(description)
                 .buildOptional();
+    }
+
+    private String buildDescriptionWithDocumentation(final String message, final String category) {
+        // Clang-Tidy categories follow the pattern: <module>-<check>
+        // Example: bugprone-forward-declaration-namespace
+        // Documentation URL: https://clang.llvm.org/extra/clang-tidy/checks/<module>/<check>.html
+
+        if (StringUtils.isBlank(category)) {
+            return message;
+        }
+
+        if (category.startsWith("clang-diagnostic-") || category.startsWith("clang-analyzer-")) {
+            return message;
+        }
+
+        var parts = category.split("-", CATEGORY_PARTS_COUNT);
+        if (parts.length == CATEGORY_PARTS_COUNT) {
+            var module = parts[0];
+            var check = parts[1];
+            var url = String.format("https://clang.llvm.org/extra/clang-tidy/checks/%s/%s.html", module, check);
+            return String.format("%s See <a href=\"%s\">Clang-Tidy documentation</a>.", message, url);
+        }
+
+        return message;
     }
 }
