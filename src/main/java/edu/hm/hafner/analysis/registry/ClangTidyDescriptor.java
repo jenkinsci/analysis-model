@@ -2,9 +2,9 @@ package edu.hm.hafner.analysis.registry;
 
 import org.apache.commons.lang3.StringUtils;
 
+import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.ClangTidyParser;
-import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * A descriptor for the Clang-Tidy compiler.
@@ -26,30 +26,30 @@ class ClangTidyDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public String getCategoryDocumentationUrl(@CheckForNull final String category) {
+    public String getDescription(final Issue issue) {
+        var description = issue.getDescription();
+        var category = issue.getCategory();
+
         if (StringUtils.isBlank(category)) {
-            return StringUtils.EMPTY;
+            return description;
         }
 
         // Clang-Tidy categories follow the pattern: <module>-<check>
         // Example: bugprone-forward-declaration-namespace
         // Documentation URL: https://clang.llvm.org/extra/clang-tidy/checks/<module>/<check>.html
 
-        if (category.startsWith("clang-diagnostic-")) {
-            return StringUtils.EMPTY;
-        }
-
-        if (category.startsWith("clang-analyzer-")) {
-            return StringUtils.EMPTY;
+        if (category.startsWith("clang-diagnostic-") || category.startsWith("clang-analyzer-")) {
+            return description;
         }
 
         var parts = category.split("-", EXPECTED_PARTS_COUNT);
         if (parts.length == EXPECTED_PARTS_COUNT) {
             var module = parts[0];
             var check = parts[1];
-            return String.format("https://clang.llvm.org/extra/clang-tidy/checks/%s/%s.html", module, check);
+            var url = String.format("https://clang.llvm.org/extra/clang-tidy/checks/%s/%s.html", module, check);
+            return String.format("%s See <a href=\"%s\">Clang-Tidy documentation</a>.", description, url);
         }
 
-        return StringUtils.EMPTY;
+        return description;
     }
 }
