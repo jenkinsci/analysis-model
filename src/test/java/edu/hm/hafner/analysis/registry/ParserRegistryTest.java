@@ -107,13 +107,13 @@ class ParserRegistryTest extends ResourceTest {
         assertThat(clangTidyDescriptor).hasName("Clang-Tidy");
 
         assertThat(clangTidyDescriptor.getCategoryDocumentationUrl("bugprone-forward-declaration-namespace"))
-                .isEqualTo("https://clang.llvm.org/extra/clang-tidy/checks/bugprone/bugprone-forward-declaration-namespace.html");
+                .isEqualTo("https://clang.llvm.org/extra/clang-tidy/checks/bugprone/forward-declaration-namespace.html");
 
         assertThat(clangTidyDescriptor.getCategoryDocumentationUrl("google-explicit-constructor"))
-                .isEqualTo("https://clang.llvm.org/extra/clang-tidy/checks/google/google-explicit-constructor.html");
+                .isEqualTo("https://clang.llvm.org/extra/clang-tidy/checks/google/explicit-constructor.html");
 
         assertThat(clangTidyDescriptor.getCategoryDocumentationUrl("readability-identifier-naming"))
-                .isEqualTo("https://clang.llvm.org/extra/clang-tidy/checks/readability/readability-identifier-naming.html");
+                .isEqualTo("https://clang.llvm.org/extra/clang-tidy/checks/readability/identifier-naming.html");
 
         assertThat(clangTidyDescriptor.getCategoryDocumentationUrl("clang-diagnostic-sign-conversion"))
                 .isEmpty();

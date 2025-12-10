@@ -46,7 +46,8 @@ class ClangTidyDescriptor extends ParserDescriptor {
         var parts = category.split("-", EXPECTED_PARTS_COUNT);
         if (parts.length == EXPECTED_PARTS_COUNT) {
             var module = parts[0];
-            return String.format("https://clang.llvm.org/extra/clang-tidy/checks/%s/%s.html", module, category);
+            var check = parts[1];
+            return String.format("https://clang.llvm.org/extra/clang-tidy/checks/%s/%s.html", module, check);
         }
 
         return StringUtils.EMPTY;
