@@ -69,11 +69,11 @@ public class ClangTidyParser extends LookaheadParser {
         // Documentation URL: https://clang.llvm.org/extra/clang-tidy/checks/<module>/<check>.html
 
         if (StringUtils.isBlank(category)) {
-            return message;
+            return "";
         }
 
         if (category.startsWith("clang-diagnostic-") || category.startsWith("clang-analyzer-")) {
-            return message;
+            return "";
         }
 
         var parts = category.split("-", CATEGORY_PARTS_COUNT);
@@ -84,6 +84,6 @@ public class ClangTidyParser extends LookaheadParser {
             return String.format("%s See <a href=\"%s\">Clang-Tidy documentation</a>.", message, url);
         }
 
-        return message;
+        return "";
     }
 }
