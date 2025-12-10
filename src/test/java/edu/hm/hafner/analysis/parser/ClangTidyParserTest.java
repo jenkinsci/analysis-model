@@ -93,11 +93,8 @@ class ClangTidyParserTest extends AbstractParserTest {
                 .hasColumnStart(5)
                 .hasFileName("/path with space/to/project/src/path_with_space.cpp")
                 .hasCategory("google-explicit-constructor")
-                .hasSeverity(Severity.WARNING_NORMAL);
-
-        softly.assertThat(annotation.get(8).getDescription())
-                .contains("https://clang.llvm.org/extra/clang-tidy/checks/google/explicit-constructor.html")
-                .contains("Clang-Tidy documentation");
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasDescription("See <a href=\"https://clang.llvm.org/extra/clang-tidy/checks/google/explicit-constructor.html\">Clang-Tidy documentation</a>.");
     }
 
     @Test
