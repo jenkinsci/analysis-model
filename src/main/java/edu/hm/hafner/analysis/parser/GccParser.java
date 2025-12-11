@@ -37,6 +37,12 @@ public class GccParser extends LookaheadParser {
     }
 
     @Override
+    protected boolean isLineInteresting(final String line) {
+        // Skip "In file included from" lines - these are include traces, not actual warnings
+        return !line.contains("In file included from") && super.isLineInteresting(line);
+    }
+
+    @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
         if (StringUtils.isNotBlank(matcher.group(7))) {

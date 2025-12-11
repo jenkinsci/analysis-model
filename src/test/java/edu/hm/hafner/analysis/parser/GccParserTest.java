@@ -350,6 +350,88 @@ class GccParserTest extends AbstractParserTest {
         assertThat(warnings).hasSize(8);
     }
 
+    /**
+     * Parses a warning log with consecutive warnings from different compilation units.
+     * The parser should not parse "In file included from" lines as warnings.
+     *
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-62454">Issue 62454</a>
+     */
+    @Test @org.junitpioneer.jupiter.Issue("JENKINS-62454")
+    void issue62454FirstScenario() {
+        var warnings = parse("issue62454-1.txt");
+
+        assertThat(warnings).hasSize(3);
+
+        Iterator<? extends Issue> iterator = warnings.iterator();
+
+        try (var softly = new SoftAssertions()) {
+            softly.assertThat(iterator.next())
+                    .hasLineStart(84)
+                    .hasLineEnd(84)
+                    .hasMessage("comparison between signed and unsigned integer expressions [-Wsign-compare]")
+                    .hasFileName("src/ledpwm/PWMLedManager.cpp")
+                    .hasCategory(GCC_WARNING)
+                    .hasSeverity(Severity.WARNING_NORMAL);
+
+            softly.assertThat(iterator.next())
+                    .hasLineStart(96)
+                    .hasLineEnd(96)
+                    .hasMessage("comparison between signed and unsigned integer expressions [-Wsign-compare]")
+                    .hasFileName("src/ledpwm/PWMLedManager.cpp")
+                    .hasCategory(GCC_WARNING)
+                    .hasSeverity(Severity.WARNING_NORMAL);
+
+            softly.assertThat(iterator.next())
+                    .hasLineStart(26)
+                    .hasLineEnd(26)
+                    .hasMessage("&apos;virtual void idata::AbstractThreadBase::initialize()&apos; was hidden [-Woverloaded-virtual]")
+                    .hasFileName("common/thread/abstract_thread.h")
+                    .hasCategory(GCC_WARNING)
+                    .hasSeverity(Severity.WARNING_NORMAL);
+        }
+    }
+
+    /**
+     * Parses a warning log with consecutive warnings from different compilation units
+     * separated by empty lines. The parser should not parse "In file included from" lines as warnings.
+     *
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-62454">Issue 62454</a>
+     */
+    @Test @org.junitpioneer.jupiter.Issue("JENKINS-62454")
+    void issue62454SecondScenario() {
+        var warnings = parse("issue62454-2.txt");
+
+        assertThat(warnings).hasSize(3);
+
+        Iterator<? extends Issue> iterator = warnings.iterator();
+
+        try (var softly = new SoftAssertions()) {
+            softly.assertThat(iterator.next())
+                    .hasLineStart(84)
+                    .hasLineEnd(84)
+                    .hasMessage("comparison between signed and unsigned integer expressions [-Wsign-compare]")
+                    .hasFileName("src/ledpwm/PWMLedManager.cpp")
+                    .hasCategory(GCC_WARNING)
+                    .hasSeverity(Severity.WARNING_NORMAL);
+
+            softly.assertThat(iterator.next())
+                    .hasLineStart(96)
+                    .hasLineEnd(96)
+                    .hasMessage("comparison between signed and unsigned integer expressions [-Wsign-compare]")
+                    .hasFileName("src/ledpwm/PWMLedManager.cpp")
+                    .hasCategory(GCC_WARNING)
+                    .hasSeverity(Severity.WARNING_NORMAL);
+
+            softly.assertThat(iterator.next())
+                    .hasLineStart(26)
+                    .hasLineEnd(26)
+                    .hasMessage("&apos;virtual void idata::AbstractThreadBase::initialize()&apos; was hidden [-Woverloaded-virtual]")
+                    .hasFileName("common/thread/abstract_thread.h")
+                    .hasCategory(GCC_WARNING)
+                    .hasSeverity(Severity.WARNING_NORMAL);
+        }
+    }
+
     @Override
     protected GccParser createParser() {
         return new GccParser();
