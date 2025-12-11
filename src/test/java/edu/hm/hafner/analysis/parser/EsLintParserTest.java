@@ -26,7 +26,7 @@ class EsLintParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-        softly.assertThat(report).hasSize(6);
+        softly.assertThat(report).hasSize(7);
 
         softly.assertThat(report.get(0))
                 .hasFileName("/var/lib/jenkins/workspace/eslint/fullOfProblems.js")
@@ -91,6 +91,17 @@ class EsLintParserTest extends AbstractParserTest {
                 .hasLineEnd(0)
                 .hasColumnEnd(0)
                 .hasMessage("n/a")
+                .hasDescription("")
+                .hasSeverity(Severity.ERROR);
+
+        softly.assertThat(report.get(6))
+                .hasFileName("/var/lib/jenkins/workspace/eslint/fullOfProblems.js")
+                .hasType("None")
+                .hasLineStart(0)
+                .hasColumnStart(0)
+                .hasLineEnd(0)
+                .hasColumnEnd(0)
+                .hasMessage("no keys")
                 .hasDescription("")
                 .hasSeverity(Severity.ERROR);
     }
