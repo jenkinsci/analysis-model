@@ -26,7 +26,7 @@ class EsLintParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-        softly.assertThat(report).hasSize(5);
+        softly.assertThat(report).hasSize(7);
 
         softly.assertThat(report.get(0))
                 .hasFileName("/var/lib/jenkins/workspace/eslint/fullOfProblems.js")
@@ -82,6 +82,28 @@ class EsLintParserTest extends AbstractParserTest {
                 .hasMessage("Missing semicolon.")
                 .hasDescription("<p>Fix:</p> <pre><code>;</code></pre>")
                 .hasSeverity(Severity.WARNING_NORMAL);
+
+        softly.assertThat(report.get(5))
+                .hasFileName("/var/lib/jenkins/workspace/eslint/fullOfProblems.js")
+                .hasType("None")
+                .hasLineStart(0)
+                .hasColumnStart(0)
+                .hasLineEnd(0)
+                .hasColumnEnd(0)
+                .hasMessage("n/a")
+                .hasDescription("")
+                .hasSeverity(Severity.ERROR);
+
+        softly.assertThat(report.get(6))
+                .hasFileName("/var/lib/jenkins/workspace/eslint/fullOfProblems.js")
+                .hasType("None")
+                .hasLineStart(0)
+                .hasColumnStart(0)
+                .hasLineEnd(0)
+                .hasColumnEnd(0)
+                .hasMessage("no keys")
+                .hasDescription("")
+                .hasSeverity(Severity.ERROR);
     }
 
     @Test

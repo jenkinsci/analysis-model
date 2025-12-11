@@ -110,6 +110,16 @@
           ],
           "text": ";"
         }
+      },
+      {
+        "ruleId": null,
+        "message": null,
+        "line": null,
+        "column": null,
+        "severity": null
+      },
+      {
+        "message": "no keys"
       }
     ],
     "suppressedMessages": [],
