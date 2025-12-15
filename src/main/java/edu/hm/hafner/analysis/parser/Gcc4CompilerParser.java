@@ -153,18 +153,23 @@ public class Gcc4CompilerParser extends LookaheadParser {
         if (peek.length() < 3) {
             return false;
         }
-        if (peek.charAt(0) == '/' || peek.charAt(0) == '[' || peek.charAt(0) == '<' || peek.charAt(0) == '=') {
-            return false;
-        }
-        if (peek.charAt(1) == ':') {
-            return false;
-        }
-        if (peek.charAt(2) == '/' || peek.charAt(0) == '\\') {
+        if (startsWithInvalidCharacter(peek)) {
             return false;
         }
         if (hasCodeSnippet && peek.startsWith("In file included from")) {
             return false;
         }
         return !Strings.CI.containsAny(peek, "arning", "rror", "make");
+    }
+
+    @SuppressWarnings("PMD.AvoidLiteralsInIfCondition")
+    private static boolean startsWithInvalidCharacter(final String peek) {
+        if (peek.charAt(0) == '/' || peek.charAt(0) == '[' || peek.charAt(0) == '<' || peek.charAt(0) == '=') {
+            return true;
+        }
+        if (peek.charAt(1) == ':') {
+            return true;
+        }
+        return peek.charAt(2) == '/' || peek.charAt(0) == '\\';
     }
 }
