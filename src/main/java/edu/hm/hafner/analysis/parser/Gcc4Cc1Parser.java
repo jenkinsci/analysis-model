@@ -50,7 +50,7 @@ public class Gcc4Cc1Parser extends LookaheadParser {
         }
 
         var completeMessage = new StringBuilder(messageContent);
-        while (lookahead.hasNext() && Gcc4CompilerParser.isMessageContinuation(lookahead)) {
+        while (lookahead.hasNext() && Gcc4CompilerParser.isMessageContinuation(lookahead, false)) {
             completeMessage.append(' ');
             completeMessage.append(lookahead.next());
         }
