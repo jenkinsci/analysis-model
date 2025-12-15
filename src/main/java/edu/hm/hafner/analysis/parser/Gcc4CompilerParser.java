@@ -61,9 +61,14 @@ public class Gcc4CompilerParser extends LookaheadParser {
 
         setCategory(builder, originalMessage);
 
-        while (lookahead.hasNext() && isMessageContinuation(lookahead)) {
+        boolean hasCodeSnippet = false;
+        while (lookahead.hasNext() && isMessageContinuation(lookahead, hasCodeSnippet)) {
+            var continuation = lookahead.next();
+            if (continuation.length() > 0 && Character.isWhitespace(continuation.charAt(0))) {
+                hasCodeSnippet = true;
+            }
             message.append('\n');
-            message.append(lookahead.next());
+            message.append(continuation);
         }
 
         var notes = getNotes(lookahead);
@@ -143,20 +148,26 @@ public class Gcc4CompilerParser extends LookaheadParser {
     }
 
     @SuppressWarnings("PMD.AvoidLiteralsInIfCondition")
-    static boolean isMessageContinuation(final LookaheadStream lookahead) {
+    static boolean isMessageContinuation(final LookaheadStream lookahead, final boolean hasCodeSnippet) {
         var peek = lookahead.peekNext();
         if (peek.length() < 3) {
             return false;
         }
+        return !startsWithInvalidCharacter(peek, hasCodeSnippet)
+                && !Strings.CI.containsAny(peek, "arning", "rror", "make");
+    }
+
+    @SuppressWarnings("PMD.AvoidLiteralsInIfCondition")
+    private static boolean startsWithInvalidCharacter(final String peek, final boolean hasCodeSnippet) {
         if (peek.charAt(0) == '/' || peek.charAt(0) == '[' || peek.charAt(0) == '<' || peek.charAt(0) == '=') {
-            return false;
+            return true;
         }
         if (peek.charAt(1) == ':') {
-            return false;
+            return true;
         }
         if (peek.charAt(2) == '/' || peek.charAt(0) == '\\') {
-            return false;
+            return true;
         }
-        return !Strings.CI.containsAny(peek, "arning", "rror", "make");
+        return hasCodeSnippet && peek.startsWith("In file included from");
     }
 }

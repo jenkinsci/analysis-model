@@ -4,6 +4,8 @@ import java.util.Iterator;
 import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
@@ -761,6 +763,47 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
                             multiline.cpp:8:20: note: declared here""")
                     .hasFileName("multiline.cpp")
                     .hasSeverity(Severity.ERROR);
+        }
+    }
+
+    /**
+     * Parses a warning log with consecutive warnings from different compilation units.
+     * The "In file included from" lines should not be treated as message continuation.
+     *
+     * @param fileName the name of the test file to parse
+     * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-62454">Issue 62454</a>
+     */
+    @ParameterizedTest(name = "[{index}] Parse {0}")
+    @ValueSource(strings = {"gcc4-issue62454-1.txt", "gcc4-issue62454-2.txt"})
+    @org.junitpioneer.jupiter.Issue("JENKINS-62454")
+    void issue62454(final String fileName) {
+        var warnings = parse(fileName);
+
+        assertThat(warnings).hasSize(3);
+
+        Iterator<? extends Issue> iterator = warnings.iterator();
+
+        try (var softly = new SoftAssertions()) {
+            softly.assertThat(iterator.next())
+                    .hasLineStart(84)
+                    .hasLineEnd(84)
+                    .hasMessage("comparison between signed and unsigned integer expressions [-Wsign-compare]\n  if (SYSTIME_DIFF(now, lastResult) > MS2ST(SAMPLING_TIME_IN_MS)) {")
+                    .hasFileName("src/ledpwm/PWMLedManager.cpp")
+                    .hasSeverity(Severity.WARNING_NORMAL);
+
+            softly.assertThat(iterator.next())
+                    .hasLineStart(96)
+                    .hasLineEnd(96)
+                    .hasMessage("comparison between signed and unsigned integer expressions [-Wsign-compare]\n    if(S2ST(lightSamplingTime) < SYSTIME_DIFF(now, lastStoredResult)) {")
+                    .hasFileName("src/ledpwm/PWMLedManager.cpp")
+                    .hasSeverity(Severity.WARNING_NORMAL);
+
+            softly.assertThat(iterator.next())
+                    .hasLineStart(26)
+                    .hasLineEnd(26)
+                    .hasMessage("'virtual void idata::AbstractThreadBase::initialize()' was hidden [-Woverloaded-virtual]\n  virtual void initialize();\n               ^~~~~~~~~~")
+                    .hasFileName("common/thread/abstract_thread.h")
+                    .hasSeverity(Severity.WARNING_NORMAL);
         }
     }
 }
