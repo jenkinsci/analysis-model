@@ -770,6 +770,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
      * Parses a warning log with consecutive warnings from different compilation units.
      * The "In file included from" lines should not be treated as message continuation.
      *
+     * @param fileName the name of the test file to parse
      * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-62454">Issue 62454</a>
      */
     @ParameterizedTest(name = "[{index}] Parse {0}")

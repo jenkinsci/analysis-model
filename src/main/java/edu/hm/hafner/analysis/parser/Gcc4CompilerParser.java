@@ -153,10 +153,8 @@ public class Gcc4CompilerParser extends LookaheadParser {
         if (peek.length() < 3) {
             return false;
         }
-        if (startsWithInvalidCharacter(peek, hasCodeSnippet)) {
-            return false;
-        }
-        return !Strings.CI.containsAny(peek, "arning", "rror", "make");
+        return !startsWithInvalidCharacter(peek, hasCodeSnippet)
+                && !Strings.CI.containsAny(peek, "arning", "rror", "make");
     }
 
     @SuppressWarnings("PMD.AvoidLiteralsInIfCondition")
