@@ -1,20 +1,20 @@
-<svg width="74.4" height="20" viewBox="0 0 744 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Lines: 93%">
-  <title>Lines: 93%</title>
+<svg width="92.4" height="20" viewBox="0 0 924 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Lines: 93.30%">
+  <title>Lines: 93.30%</title>
   <linearGradient id="a" x2="0" y2="100%">
     <stop offset="0" stop-opacity=".1" stop-color="#EEE"/>
     <stop offset="1" stop-opacity=".1"/>
   </linearGradient>
-  <mask id="m"><rect width="744" height="200" rx="30" fill="#FFF"/></mask>
+  <mask id="m"><rect width="924" height="200" rx="30" fill="#FFF"/></mask>
   <g mask="url(#m)">
     <rect width="384" height="200" fill="#555"/>
-    <rect width="360" height="200" fill="#3C1" x="384"/>
-    <rect width="744" height="200" fill="url(#a)"/>
+    <rect width="540" height="200" fill="#3C1" x="384"/>
+    <rect width="924" height="200" fill="url(#a)"/>
   </g>
   <g aria-hidden="true" fill="#fff" text-anchor="start" font-family="Verdana,DejaVu Sans,sans-serif" font-size="110">
     <text x="60" y="148" textLength="284" fill="#000" opacity="0.25">Lines</text>
     <text x="50" y="138" textLength="284">Lines</text>
-    <text x="439" y="148" textLength="260" fill="#000" opacity="0.25">93%</text>
-    <text x="429" y="138" textLength="260">93%</text>
+    <text x="439" y="148" textLength="440" fill="#000" opacity="0.25">93.30%</text>
+    <text x="429" y="138" textLength="440">93.30%</text>
   </g>
   
 </svg>
