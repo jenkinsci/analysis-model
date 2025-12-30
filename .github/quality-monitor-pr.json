@@ -69,8 +69,8 @@
       "icon": "shield",
       "tools": [
         {
-          "icon": "shield",
           "id": "owasp-dependency-check",
+          "icon": "shield",
           "pattern": "**/target/dependency-check-report.json"
         }
       ]
@@ -78,7 +78,40 @@
   ],
   "coverage": [
     {
-      "name": "Code Coverage",
+      "name": "Coverage for New Code",
+      "tools": [
+        {
+          "id": "jacoco",
+          "metric": "line",
+          "scope": "new",
+          "sourcePath": "src/main/java",
+          "pattern": "**/target/site/jacoco/jacoco.xml"
+        },
+        {
+          "id": "jacoco",
+          "metric": "branch",
+          "scope": "new",
+          "sourcePath": "src/main/java",
+          "pattern": "**/target/site/jacoco/jacoco.xml"
+        },
+        {
+          "id": "pit",
+          "scope": "new",
+          "metric": "mutation",
+          "sourcePath": "src/main/java",
+          "pattern": "**/target/pit-reports/mutations.xml"
+        },
+        {
+          "id": "pit",
+          "metric": "test-strength",
+          "scope": "new",
+          "sourcePath": "src/main/java",
+          "pattern": "**/target/pit-reports/mutations.xml"
+        }
+      ]
+    },
+    {
+      "name": "Coverage for Whole Project",
       "tools": [
         {
           "id": "jacoco",
@@ -91,6 +124,18 @@
           "metric": "branch",
           "sourcePath": "src/main/java",
           "pattern": "**/target/site/jacoco/jacoco.xml"
+        },
+        {
+          "id": "pit",
+          "metric": "mutation",
+          "sourcePath": "src/main/java",
+          "pattern": "**/target/pit-reports/mutations.xml"
+        },
+        {
+          "id": "pit",
+          "metric": "test-strength",
+          "sourcePath": "src/main/java",
+          "pattern": "**/target/pit-reports/mutations.xml"
         }
       ]
     }
