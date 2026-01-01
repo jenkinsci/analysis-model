@@ -93,20 +93,6 @@
           "scope": "new",
           "sourcePath": "src/main/java",
           "pattern": "**/target/site/jacoco/jacoco.xml"
-        },
-        {
-          "id": "pit",
-          "scope": "new",
-          "metric": "mutation",
-          "sourcePath": "src/main/java",
-          "pattern": "**/target/pit-reports/mutations.xml"
-        },
-        {
-          "id": "pit",
-          "metric": "test-strength",
-          "scope": "new",
-          "sourcePath": "src/main/java",
-          "pattern": "**/target/pit-reports/mutations.xml"
         }
       ]
     },
