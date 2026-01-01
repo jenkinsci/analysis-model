@@ -7,7 +7,7 @@ skinparam rectangle {
   BackgroundColor<<provided>> lightGray
 }
 rectangle "analysis-model\n\n13.19.0-SNAPSHOT" as edu_hm_hafner_analysis_model_jar
-rectangle "jsoup\n\n1.21.2" as org_jsoup_jsoup_jar
+rectangle "jsoup\n\n1.22.1" as org_jsoup_jsoup_jar
 rectangle "commons-io\n\n2.21.0" as commons_io_commons_io_jar
 rectangle "commons-digester3\n\n3.2" as org_apache_commons_commons_digester3_jar
 rectangle "cglib\n\n2.2.2" as cglib_cglib_jar
@@ -32,13 +32,13 @@ rectangle "gson\n\n2.13.2" as com_google_code_gson_gson_jar
 rectangle "Saxon-HE\n\n12.9" as net_sf_saxon_Saxon_HE_jar
 rectangle "xmlresolver\n\n5.3.3" as org_xmlresolver_xmlresolver_jar
 rectangle "xmlresolver\ndata\n5.3.3" as org_xmlresolver_xmlresolver_jar_data
-rectangle "pmd-core\n\n7.19.0" as net_sourceforge_pmd_pmd_core_jar
+rectangle "pmd-core\n\n7.20.0" as net_sourceforge_pmd_pmd_core_jar
 rectangle "slf4j-api\n\n2.0.17" as org_slf4j_slf4j_api_jar
 rectangle "antlr4-runtime\n\n4.9.3" as org_antlr_antlr4_runtime_jar
-rectangle "checker-qual\n\n3.52.0" as org_checkerframework_checker_qual_jar
+rectangle "checker-qual\n\n3.52.1" as org_checkerframework_checker_qual_jar
 rectangle "pcollections\n\n4.0.2" as org_pcollections_pcollections_jar
 rectangle "nice-xml-messages\n\n3.1" as com_github_oowekyala_ooxml_nice_xml_messages_jar
-rectangle "pmd-java\n\n7.19.0" as net_sourceforge_pmd_pmd_java_jar
+rectangle "pmd-java\n\n7.20.0" as net_sourceforge_pmd_pmd_java_jar
 rectangle "json\n\n20251224" as org_json_json_jar
 rectangle "json-smart\n\n2.6.0" as net_minidev_json_smart_jar
 rectangle "accessors-smart\n\n2.6.0" as net_minidev_accessors_smart_jar
