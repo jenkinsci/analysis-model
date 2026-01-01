@@ -69,8 +69,8 @@
       "icon": "shield",
       "tools": [
         {
-          "icon": "shield",
           "id": "owasp-dependency-check",
+          "icon": "shield",
           "pattern": "**/target/dependency-check-report.json"
         }
       ]

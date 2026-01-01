@@ -124,18 +124,6 @@
           "metric": "branch",
           "sourcePath": "src/main/java",
           "pattern": "**/target/site/jacoco/jacoco.xml"
-        },
-        {
-          "id": "pit",
-          "metric": "mutation",
-          "sourcePath": "src/main/java",
-          "pattern": "**/target/pit-reports/mutations.xml"
-        },
-        {
-          "id": "pit",
-          "metric": "test-strength",
-          "sourcePath": "src/main/java",
-          "pattern": "**/target/pit-reports/mutations.xml"
         }
       ]
     }
