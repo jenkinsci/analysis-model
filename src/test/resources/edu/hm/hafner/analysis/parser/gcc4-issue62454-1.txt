@@ -1,0 +1,11 @@
+src/ledpwm/PWMLedManager.cpp: In member function 'void PWMLedManager::updateLightSensorValue(int32_t)':
+src/ledpwm/PWMLedManager.cpp:84:36: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+  if (SYSTIME_DIFF(now, lastResult) > MS2ST(SAMPLING_TIME_IN_MS)) {
+src/ledpwm/PWMLedManager.cpp:96:31: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+    if(S2ST(lightSamplingTime) < SYSTIME_DIFF(now, lastStoredResult)) {
+In file included from common/obudisplay/UD/internalStateStorerThread.h:4:0,
+                 from src/services.h:21,
+                 from src/keyboard.cpp:16:
+common/thread/abstract_thread.h:26:15: warning: 'virtual void idata::AbstractThreadBase::initialize()' was hidden [-Woverloaded-virtual]
+  virtual void initialize();
+               ^~~~~~~~~~

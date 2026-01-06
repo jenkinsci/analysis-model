@@ -6,7 +6,7 @@
   <parent>
     <groupId>edu.hm.hafner</groupId>
     <artifactId>codingstyle-pom</artifactId>
-    <version>5.40.0</version>
+    <version>5.41.0</version>
     <relativePath />
   </parent>
 
@@ -53,9 +53,9 @@
 
   <properties>
     <scmTag>HEAD</scmTag>
-    <revision>13.18.0</revision>
+    <revision>13.19.0</revision>
     <changelist>-SNAPSHOT</changelist>
-    <previousVersion>13.17.0</previousVersion>
+    <previousVersion>13.18.0</previousVersion>
 
     <module.name>edu.hm.hafner.analysis.model</module.name>
 
@@ -68,10 +68,10 @@
     <j2html.version>1.4.0</j2html.version>
     <slf4j.version>2.0.17</slf4j.version>
     <violations-lib.version>1.160.3</violations-lib.version>
-    <jsoup.version>1.21.2</jsoup.version>
-    <json.version>20250517</json.version>
+    <jsoup.version>1.22.1</jsoup.version>
+    <json.version>20251224</json.version>
     <json-smart.version>2.6.0</json-smart.version>
-    <pmd.api.version>7.19.0</pmd.api.version>
+    <pmd.api.version>7.20.0</pmd.api.version>
     <spotbugs.api.version>4.9.8</spotbugs.api.version>
 
     <incrementals-plugin.version>1.13</incrementals-plugin.version>

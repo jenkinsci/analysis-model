@@ -52,7 +52,7 @@ public class DoxygenParser extends LookaheadParser {
             builder.setLineStart(matcher.group(4));
         }
 
-        while (lookahead.hasNext() && Gcc4CompilerParser.isMessageContinuation(lookahead)) {
+        while (lookahead.hasNext() && Gcc4CompilerParser.isMessageContinuation(lookahead, false)) {
             message.append('\n');
             message.append(lookahead.next());
         }
