@@ -12,6 +12,8 @@ import edu.hm.hafner.util.TreeStringBuilder;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -53,6 +55,9 @@ public class IssueBuilder implements AutoCloseable {
 
     @CheckForNull
     private LineRangeList lineRanges;
+
+    @CheckForNull
+    private List<Location> locations;
 
     @CheckForNull
     private String pathName;
@@ -139,7 +144,9 @@ public class IssueBuilder implements AutoCloseable {
      *         the file name
      *
      * @return this
+     * @deprecated use {@link #setLocations(List)} or {@link #addLocation(Location)} instead
      */
+    @Deprecated
     @CanIgnoreReturnValue
     public IssueBuilder setFileName(@CheckForNull final String fileName) {
         this.fileName = internFileName(fileName);
@@ -202,7 +209,9 @@ public class IssueBuilder implements AutoCloseable {
      *         the first line
      *
      * @return this
+     * @deprecated use {@link #setLocations(List)} or {@link #addLocation(Location)} instead
      */
+    @Deprecated
     @CanIgnoreReturnValue
     public IssueBuilder setLineStart(final int lineStart) {
         this.lineStart = lineStart;
@@ -216,7 +225,9 @@ public class IssueBuilder implements AutoCloseable {
      *         the first line
      *
      * @return this
+     * @deprecated use {@link #setLocations(List)} or {@link #addLocation(Location)} instead
      */
+    @Deprecated
     @CanIgnoreReturnValue
     public IssueBuilder setLineStart(@CheckForNull final String lineStart) {
         this.lineStart = parseInt(lineStart);
@@ -230,7 +241,9 @@ public class IssueBuilder implements AutoCloseable {
      *         the last line
      *
      * @return this
+     * @deprecated use {@link #setLocations(List)} or {@link #addLocation(Location)} instead
      */
+    @Deprecated
     @CanIgnoreReturnValue
     public IssueBuilder setLineEnd(final int lineEnd) {
         this.lineEnd = lineEnd;
@@ -244,7 +257,9 @@ public class IssueBuilder implements AutoCloseable {
      *         the last line
      *
      * @return this
+     * @deprecated use {@link #setLocations(List)} or {@link #addLocation(Location)} instead
      */
+    @Deprecated
     @CanIgnoreReturnValue
     public IssueBuilder setLineEnd(@CheckForNull final String lineEnd) {
         this.lineEnd = parseInt(lineEnd);
@@ -258,7 +273,9 @@ public class IssueBuilder implements AutoCloseable {
      *         the first column
      *
      * @return this
+     * @deprecated use {@link #setLocations(List)} or {@link #addLocation(Location)} instead
      */
+    @Deprecated
     @CanIgnoreReturnValue
     public IssueBuilder setColumnStart(final int columnStart) {
         this.columnStart = columnStart;
@@ -272,7 +289,9 @@ public class IssueBuilder implements AutoCloseable {
      *         the first column
      *
      * @return this
+     * @deprecated use {@link #setLocations(List)} or {@link #addLocation(Location)} instead
      */
+    @Deprecated
     @CanIgnoreReturnValue
     public IssueBuilder setColumnStart(@CheckForNull final String columnStart) {
         this.columnStart = parseInt(columnStart);
@@ -286,7 +305,9 @@ public class IssueBuilder implements AutoCloseable {
      *         the last column
      *
      * @return this
+     * @deprecated use {@link #setLocations(List)} or {@link #addLocation(Location)} instead
      */
+    @Deprecated
     @CanIgnoreReturnValue
     public IssueBuilder setColumnEnd(final int columnEnd) {
         this.columnEnd = columnEnd;
@@ -300,7 +321,9 @@ public class IssueBuilder implements AutoCloseable {
      *         the last column
      *
      * @return this
+     * @deprecated use {@link #setLocations(List)} or {@link #addLocation(Location)} instead
      */
+    @Deprecated
     @CanIgnoreReturnValue
     public IssueBuilder setColumnEnd(@CheckForNull final String columnEnd) {
         this.columnEnd = parseInt(columnEnd);
@@ -481,17 +504,50 @@ public class IssueBuilder implements AutoCloseable {
     }
 
     /**
-     * Sets additional line ranges for this issue. Not that the primary range given by {@code lineStart} and {@code *
+     * Sets additional line ranges of this issue. Note that the primary range given by {@code lineStart} and {@code
      * lineEnd} is not included.
      *
      * @param lineRanges
      *         the additional line ranges
      *
      * @return this
+     * @deprecated use {@link #setLocations(List)} or {@link #addLocation(Location)} instead
      */
+    @Deprecated
     @CanIgnoreReturnValue
     public IssueBuilder setLineRanges(final LineRangeList lineRanges) {
         this.lineRanges = new LineRangeList(lineRanges);
+        return this;
+    }
+
+    /**
+     * Sets the additional locations of this issue.
+     *
+     * @param locations
+     *         the additional locations of this issue
+     *
+     * @return this
+     */
+    @CanIgnoreReturnValue
+    public IssueBuilder setLocations(final List<Location> locations) {
+        this.locations = new ArrayList<>(locations);
+        return this;
+    }
+
+    /**
+     * Adds another location to this issue.
+     *
+     * @param location
+     *         the file location to add
+     *
+     * @return this
+     */
+    @CanIgnoreReturnValue
+    public IssueBuilder addLocation(final Location location) {
+        if (this.locations == null) {
+            this.locations = new ArrayList<>();
+        }
+        this.locations.add(location);
         return this;
     }
 
@@ -511,6 +567,7 @@ public class IssueBuilder implements AutoCloseable {
         columnEnd = copy.getColumnEnd();
         lineRanges = new LineRangeList();
         lineRanges.addAll(copy.getLineRanges());
+        locations = new ArrayList<>(copy.getAdditionalLocations());
         category = copy.getCategory();
         type = copy.getType();
         severity = copy.getSeverity();
@@ -554,7 +611,7 @@ public class IssueBuilder implements AutoCloseable {
         cleanupLineRanges();
 
         return new Issue(pathName, fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges,
-                category, type, packageName, moduleName, severity, message, description,
+                locations, category, type, packageName, moduleName, severity, message, description,
                 origin, originName, reference, fingerprint, additionalProperties, id);
     }
 
@@ -597,6 +654,7 @@ public class IssueBuilder implements AutoCloseable {
         columnEnd = 0;
 
         lineRanges = new LineRangeList();
+        locations = new ArrayList<>();
 
         fileName = UNDEFINED_TREE_STRING;
         packageName = UNDEFINED_TREE_STRING;
