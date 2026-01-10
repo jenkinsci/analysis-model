@@ -21,7 +21,6 @@ class ScalacParserTest extends AbstractParserTest {
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
         softly.assertThat(report).hasSize(3);
 
-        softly.assertThat(report).hasSize(3);
         assertThatReportHasSeverities(report, 0, 1, 2, 0);
         softly.assertThat(report.get(0))
                 .hasSeverity(Severity.WARNING_NORMAL)
