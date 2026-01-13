@@ -719,7 +719,7 @@ public class Issue implements Serializable {
      * lineEnd} is not included.
      *
      * @return the last line
-     * @deprecated use {@link #getAdditionalLocations()} instead
+     * @deprecated use {@link #getLocations()} instead
      */
     @Deprecated
     public Iterable<? extends LineRange> getLineRanges() {
