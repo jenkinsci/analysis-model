@@ -217,7 +217,7 @@ public class Issue implements Serializable {
     Issue(final Issue copy) {
         this(copy.getPath(), copy.getFileNameTreeString(), copy.getLineStart(), copy.getLineEnd(),
                 copy.getColumnStart(),
-                copy.getColumnEnd(), copy.getLineRanges(), copy.getAdditionalLocations(), copy.getCategory(), copy.getType(),
+                copy.getColumnEnd(), copy.getLineRanges(), copy.getLocations(), copy.getCategory(), copy.getType(),
                 copy.getPackageNameTreeString(), copy.getModuleName(), copy.getSeverity(), copy.getMessageTreeString(),
                 copy.getDescription(), copy.getOrigin(), copy.getOriginName(), copy.getReference(), copy.getFingerprint(),
                 copy.getAdditionalProperties(), copy.getId());
@@ -374,13 +374,42 @@ public class Issue implements Serializable {
             this.lineRanges.addAll(lineRanges);
         }
         this.additionalLocations = new ArrayList<>();
-        // First location is always the main location (from deprecated fields)
-        this.additionalLocations.add(new Location(fileName, this.lineStart, this.lineEnd, this.columnStart, this.columnEnd));
-        // Additional locations follow
+        
+        // Check if deprecated fields were explicitly set (lineStart != 0 OR fileName != "-")
+        boolean deprecatedFieldsSet = this.lineStart != 0 || !fileName.toString().equals("-");
+        
+        // Check if locations list has a primary location that matches deprecated fields
+        boolean locationsHasPrimary = false;
+        if (additionalLocations != null) {
+            var iterator = additionalLocations.iterator();
+            if (iterator.hasNext()) {
+                var firstLocation = iterator.next();
+                // If first location matches deprecated fields, locations already has primary
+                if (firstLocation.getFileName().equals(fileName)
+                        && firstLocation.getLineStart() == this.lineStart
+                        && firstLocation.getLineEnd() == this.lineEnd
+                        && firstLocation.getColumnStart() == this.columnStart
+                        && firstLocation.getColumnEnd() == this.columnEnd) {
+                    locationsHasPrimary = true;
+                }
+            }
+        }
+        
+        if (deprecatedFieldsSet && !locationsHasPrimary) {
+            // OLD API: Deprecated fields set explicitly, create primary location from them
+            this.additionalLocations.add(new Location(fileName, this.lineStart, this.lineEnd, this.columnStart, this.columnEnd));
+        }
+        
+        // Append all locations from the list
         if (additionalLocations != null) {
             for (var location : additionalLocations) {
                 this.additionalLocations.add(location);
             }
+        }
+        
+        // If no locations at all, create a default primary location
+        if (this.additionalLocations.isEmpty()) {
+            this.additionalLocations.add(new Location(fileName, this.lineStart, this.lineEnd, this.columnStart, this.columnEnd));
         }
         this.category = StringUtils.defaultString(category).intern();
         this.type = defaultString(type);
@@ -507,9 +536,7 @@ public class Issue implements Serializable {
      *
      * @return the name of the file that contains this issue
      * @see #getPath()
-     * @deprecated use {@link #getAdditionalLocations()} instead
      */
-    @Deprecated
     public String getFileName() {
         return additionalLocations.get(0).getFileName().toString();
     }
@@ -673,9 +700,7 @@ public class Issue implements Serializable {
      * Returns the first line of this issue (lines start at 1; 0 indicates the whole file).
      *
      * @return the first line
-     * @deprecated use {@link #getAdditionalLocations()} instead
      */
-    @Deprecated
     public int getLineStart() {
         return additionalLocations.get(0).getLineStart();
     }
@@ -684,9 +709,7 @@ public class Issue implements Serializable {
      * Returns the last line of this issue (lines start at 1).
      *
      * @return the last line
-     * @deprecated use {@link #getAdditionalLocations()} instead
      */
-    @Deprecated
     public int getLineEnd() {
         return additionalLocations.get(0).getLineEnd();
     }
@@ -704,22 +727,29 @@ public class Issue implements Serializable {
     }
 
     /**
-     * Returns additional file locations related to this issue. Some warnings span multiple files, such as GNU CC's
-     * reorder warning for C++ where the warning shows up in the initializer list but references the header file.
-     * More involved cases are MicroFocus Fortify and Synopsis Coverity which trace execution potentially through
-     * multiple classes or translation units.
+     * Returns all locations of this issue. The first location is the primary location.
+     * Some warnings span multiple files, such as GNU CC's reorder warning for C++ where
+     * the warning shows up in the initializer list but references the header file.
+     * More involved cases are MicroFocus Fortify and Synopsis Coverity which trace execution
+     * potentially through multiple classes or translation units.
      *
-     * @return an unmodifiable list of additional file locations
+     * @return an unmodifiable list of all locations
      */
-    public List<Location> getAdditionalLocations() {
-        if (additionalLocations.size() <= 1) {
-            return Collections.emptyList();
-        }
-        return Collections.unmodifiableList(additionalLocations.subList(1, additionalLocations.size()));
+    public List<Location> getLocations() {
+        return Collections.unmodifiableList(additionalLocations);
     }
 
     /**
-     * Returns whether this issue has additional file locations.
+     * Returns the primary (first) location of this issue.
+     *
+     * @return the primary location
+     */
+    public Location getPrimaryLocation() {
+        return additionalLocations.get(0);
+    }
+
+    /**
+     * Returns whether this issue has additional file locations beyond the primary one.
      *
      * @return {@code true} if this issue has additional file locations, {@code false} otherwise
      */
@@ -755,9 +785,7 @@ public class Issue implements Serializable {
      * Returns the first column of this issue (columns start at 1, 0 indicates the whole line).
      *
      * @return the first column
-     * @deprecated use {@link #getAdditionalLocations()} instead
      */
-    @Deprecated
     public int getColumnStart() {
         return additionalLocations.get(0).getColumnStart();
     }
@@ -766,9 +794,7 @@ public class Issue implements Serializable {
      * Returns the last column of this issue (columns start at 1).
      *
      * @return the last column
-     * @deprecated use {@link #getAdditionalLocations()} instead
      */
-    @Deprecated
     public int getColumnEnd() {
         return additionalLocations.get(0).getColumnEnd();
     }

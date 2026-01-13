@@ -382,7 +382,8 @@ class IssueBuilderTest {
             builder.addLocation(location2);
 
             var issue = builder.build();
-            assertThat(issue).hasAdditionalLocations(location1, location2);
+            org.assertj.core.api.Assertions.assertThat(issue.hasAdditionalLocations()).isTrue();
+            org.assertj.core.api.Assertions.assertThat(issue.getLocations()).containsExactly(location1, location2);
         }
     }
 
@@ -398,7 +399,7 @@ class IssueBuilderTest {
 
             var issue = builder.build();
             org.assertj.core.api.Assertions.assertThat(issue.hasAdditionalLocations()).isTrue();
-            org.assertj.core.api.Assertions.assertThat(issue.getAdditionalLocations()).hasSize(2);
+            org.assertj.core.api.Assertions.assertThat(issue.getLocations()).hasSize(2);
         }
     }
 
@@ -418,8 +419,8 @@ class IssueBuilderTest {
                 var copiedIssue = copyBuilder.build();
 
                 org.assertj.core.api.Assertions.assertThat(copiedIssue.hasAdditionalLocations()).isTrue();
-                org.assertj.core.api.Assertions.assertThat(copiedIssue.getAdditionalLocations()).hasSize(2);
-                org.assertj.core.api.Assertions.assertThat(copiedIssue.getAdditionalLocations()).containsExactly(location1, location2);
+                org.assertj.core.api.Assertions.assertThat(copiedIssue.getLocations()).hasSize(2);
+                org.assertj.core.api.Assertions.assertThat(copiedIssue.getLocations()).containsExactly(location1, location2);
             }
         }
     }
@@ -431,7 +432,7 @@ class IssueBuilderTest {
             
             // No additional locations when none are set
             org.assertj.core.api.Assertions.assertThat(issue.hasAdditionalLocations()).isFalse();
-            org.assertj.core.api.Assertions.assertThat(issue.getAdditionalLocations()).isEmpty();
+            org.assertj.core.api.Assertions.assertThat(issue.getLocations()).hasSize(1);  // Primary location always exists
         }
     }
 }

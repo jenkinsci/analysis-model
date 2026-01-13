@@ -521,21 +521,30 @@ public class IssueBuilder implements AutoCloseable {
     }
 
     /**
-     * Sets the additional locations of this issue.
+     * Sets the locations of this issue, the first location is considered the main location.
      *
      * @param locations
-     *         the additional locations of this issue
+     *         the locations of this issue
      *
      * @return this
      */
     @CanIgnoreReturnValue
     public IssueBuilder setLocations(final List<Location> locations) {
         this.locations = new ArrayList<>(locations);
+        // Also populate deprecated fields from first location for backward compatibility
+        if (!locations.isEmpty()) {
+            var firstLocation = locations.get(0);
+            this.fileName = firstLocation.getFileName();
+            this.lineStart = firstLocation.getLineStart();
+            this.lineEnd = firstLocation.getLineEnd();
+            this.columnStart = firstLocation.getColumnStart();
+            this.columnEnd = firstLocation.getColumnEnd();
+        }
         return this;
     }
 
     /**
-     * Adds another location to this issue.
+     * Adds another location to this issue, the first location is considered the main location.
      *
      * @param location
      *         the file location to add
@@ -546,6 +555,14 @@ public class IssueBuilder implements AutoCloseable {
     public IssueBuilder addLocation(final Location location) {
         if (this.locations == null) {
             this.locations = new ArrayList<>();
+        }
+        // Only update deprecated fields if this is the first location and they haven't been set yet
+        if (this.locations.isEmpty() && this.lineStart == 0) {
+            this.fileName = location.getFileName();
+            this.lineStart = location.getLineStart();
+            this.lineEnd = location.getLineEnd();
+            this.columnStart = location.getColumnStart();
+            this.columnEnd = location.getColumnEnd();
         }
         this.locations.add(location);
         return this;
@@ -567,7 +584,7 @@ public class IssueBuilder implements AutoCloseable {
         columnEnd = copy.getColumnEnd();
         lineRanges = new LineRangeList();
         lineRanges.addAll(copy.getLineRanges());
-        locations = new ArrayList<>(copy.getAdditionalLocations());
+        locations = new ArrayList<>(copy.getLocations());
         category = copy.getCategory();
         type = copy.getType();
         severity = copy.getSeverity();

@@ -6,7 +6,7 @@ import edu.hm.hafner.util.TreeString;
 import edu.hm.hafner.util.TreeStringBuilder;
 import nl.jqno.equalsverifier.EqualsVerifier;
 
-import static org.assertj.core.api.Assertions.*;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
  * Tests the class {@link Location}.
@@ -25,33 +25,36 @@ class LocationTest {
     void shouldCreateLocationWithAllParameters() {
         var location = new Location(FILE_NAME, LINE_START, LINE_END, COLUMN_START, COLUMN_END);
 
-        assertThat(location.getFileName()).isEqualTo(FILE_NAME);
-        assertThat(location.getLineStart()).isEqualTo(LINE_START);
-        assertThat(location.getLineEnd()).isEqualTo(LINE_END);
-        assertThat(location.getColumnStart()).isEqualTo(COLUMN_START);
-        assertThat(location.getColumnEnd()).isEqualTo(COLUMN_END);
+        assertThat(location)
+                .hasFileName(FILE_NAME)
+                .hasLineStart(LINE_START)
+                .hasLineEnd(LINE_END)
+                .hasColumnStart(COLUMN_START)
+                .hasColumnEnd(COLUMN_END);
     }
 
     @Test
     void shouldCreateLocationWithLineRange() {
         var location = new Location(FILE_NAME, LINE_START, LINE_END);
 
-        assertThat(location.getFileName()).isEqualTo(FILE_NAME);
-        assertThat(location.getLineStart()).isEqualTo(LINE_START);
-        assertThat(location.getLineEnd()).isEqualTo(LINE_END);
-        assertThat(location.getColumnStart()).isEqualTo(0);
-        assertThat(location.getColumnEnd()).isEqualTo(0);
+        assertThat(location)
+                .hasFileName(FILE_NAME)
+                .hasLineStart(LINE_START)
+                .hasLineEnd(LINE_END)
+                .hasColumnStart(0)
+                .hasColumnEnd(0);
     }
 
     @Test
     void shouldCreateLocationWithSingleLine() {
         var location = new Location(FILE_NAME, LINE_START);
 
-        assertThat(location.getFileName()).isEqualTo(FILE_NAME);
-        assertThat(location.getLineStart()).isEqualTo(LINE_START);
-        assertThat(location.getLineEnd()).isEqualTo(LINE_START);
-        assertThat(location.getColumnStart()).isEqualTo(0);
-        assertThat(location.getColumnEnd()).isEqualTo(0);
+        assertThat(location)
+                .hasFileName(FILE_NAME)
+                .hasLineStart(LINE_START)
+                .hasLineEnd(LINE_START)
+                .hasColumnStart(0)
+                .hasColumnEnd(0);
     }
 
     @Test
