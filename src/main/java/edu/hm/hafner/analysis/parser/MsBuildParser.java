@@ -225,7 +225,7 @@ public class MsBuildParser extends LookaheadParser {
                 .setMessage(cleanedMessage)
                 .setSeverity(Severity.guessFromString(matcher.group(19)))
                 .buildOptional();
-    }
+    }  
 
     /**
      * Determines if the given filename is actually a tool name that should be ignored.
@@ -238,6 +238,12 @@ public class MsBuildParser extends LookaheadParser {
      * @return true if this is a tool name that should be ignored, false otherwise
      */
     private boolean isToolName(final String fileName) {
+
+        //Fix For Issue # 3238 : It will Ignore "/INCREMENTAL" flag which is often mistaken as file
+        if("/INCREMENTAL".equalsIgnoreCase(fileName)){
+            return true;
+        }
+
         if (StringUtils.isBlank(fileName) || "-".equals(fileName) || "unknown.file".equals(fileName)) {
             return true;  
         }
