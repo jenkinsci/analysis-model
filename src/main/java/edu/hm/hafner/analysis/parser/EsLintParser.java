@@ -1,15 +1,16 @@
 package edu.hm.hafner.analysis.parser;
 
-import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Severity;
-import j2html.tags.ContainerTag;
-import j2html.tags.DomContent;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.Report;
+import edu.hm.hafner.analysis.Severity;
+
+import j2html.tags.ContainerTag;
+import j2html.tags.DomContent;
 import java.io.Serial;
 
 import static j2html.TagCreator.*;
@@ -68,14 +69,14 @@ public class EsLintParser extends JsonIssueParser {
     }
 
     private static String formatDescription(final JSONObject jsonIssue) {
-        JSONObject fix = jsonIssue.optJSONObject("fix");
+        var fix = jsonIssue.optJSONObject("fix");
         if (fix != null) {
             var text = fix.getString("text");
             if (StringUtils.isNotBlank(text)) {
                 return join(p("Fix:"), pre().with(code(text))).render();
             }
         }
-        JSONArray suggestions = jsonIssue.optJSONArray("suggestions");
+        var suggestions = jsonIssue.optJSONArray("suggestions");
         if (suggestions != null) {
             ContainerTag ul = ul();
             for (Object issue : suggestions) {

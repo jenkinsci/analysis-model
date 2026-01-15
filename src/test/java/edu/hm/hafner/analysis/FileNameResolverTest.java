@@ -85,7 +85,7 @@ class FileNameResolverTest {
         assertThat(report.get(0)).hasFileName(RELATIVE_FILE).hasPath(RESOURCE_FOLDER_STRING);
 
         assertThat(report.getInfoMessages()).hasSize(1);
-        assertThat(report.getInfoMessages().get(0)).as("Files: "
+        assertThat(report.getInfoMessages().getFirst()).as("Files: "
                 + report.stream().map(Issue::getFileName).collect(Collectors.joining(", ")))
                 .contains("1 found", "0 not found");
         assertThat(report.getErrorMessages()).isEmpty();
@@ -106,7 +106,7 @@ class FileNameResolverTest {
         assertThat(report.get(0)).hasFileName("not here").hasPath(UNDEFINED);
 
         assertThat(report.getInfoMessages()).hasSize(1);
-        assertThat(report.getInfoMessages().get(0)).as("Files: "
+        assertThat(report.getInfoMessages().getFirst()).as("Files: "
                 + report.stream().map(Issue::getFileName).collect(Collectors.joining(", ")))
                 .contains("0 found", "1 not found");
         assertThat(report.getErrorMessages()).isEmpty();
@@ -155,7 +155,7 @@ class FileNameResolverTest {
                 .hasFileName("/not-existing-parent.txt");
 
         assertThat(report.getInfoMessages()).hasSize(1);
-        assertThat(report.getInfoMessages().get(0)).as("Files: "
+        assertThat(report.getInfoMessages().getFirst()).as("Files: "
                 + report.stream().map(Issue::getFileName).collect(Collectors.joining(", ")))
                 .contains("3 found", "2 not found");
         assertThat(report.getErrorMessages()).isEmpty();
@@ -196,7 +196,7 @@ class FileNameResolverTest {
         assertThat(report.get(0).getFileName()).as(description).isEqualTo(RELATIVE_FILE);
         assertThat(report.getErrorMessages()).as(description).isEmpty();
         assertThat(report.getInfoMessages()).as(description).hasSize(1);
-        assertThat(report.getInfoMessages().get(0)).as(description).contains("1 found");
+        assertThat(report.getInfoMessages().getFirst()).as(description).contains("1 found");
     }
 
     @Test
@@ -219,13 +219,13 @@ class FileNameResolverTest {
             assertThat(report.get(0).getFileName()).isEqualTo("child.txt");
             assertThat(report.getErrorMessages()).isEmpty();
             assertThat(report.getInfoMessages()).hasSize(1);
-            assertThat(report.getInfoMessages().get(0)).contains("1 found");
+            assertThat(report.getInfoMessages().getFirst()).contains("1 found");
         }
     }
 
     private void assertThatOneFileIsUnresolved(final Report report) {
         assertThat(report.getInfoMessages()).hasSize(1);
-        assertThat(report.getInfoMessages().get(0)).contains("1 not found");
+        assertThat(report.getInfoMessages().getFirst()).contains("1 not found");
     }
 
     @Test
@@ -242,7 +242,7 @@ class FileNameResolverTest {
             assertThat(report).hasSize(1);
             assertThat(report.get(0)).hasFileName(RELATIVE_FILE).hasPath(RESOURCE_FOLDER_STRING);
             assertThat(report.getInfoMessages()).hasSize(2);
-            assertThat(report.getInfoMessages().get(0)).contains("remapping paths from");
+            assertThat(report.getInfoMessages().getFirst()).contains("remapping paths from");
             assertThat(report.getInfoMessages().get(1)).contains("1 found");
         }
     }
@@ -259,7 +259,7 @@ class FileNameResolverTest {
             assertThat(report).hasSize(1);
             assertThat(report.get(0)).hasFileName(RELATIVE_FILE).hasPath(RESOURCE_FOLDER_STRING);
             assertThat(report.getInfoMessages()).hasSize(1);
-            assertThat(report.getInfoMessages().get(0)).contains("1 found");
+            assertThat(report.getInfoMessages().getFirst()).contains("1 found");
         }
     }
 
@@ -275,7 +275,7 @@ class FileNameResolverTest {
             assertThat(report).hasSize(1);
             assertThat(report.get(0)).hasFileName(RELATIVE_FILE).hasPath(RESOURCE_FOLDER_STRING);
             assertThat(report.getInfoMessages()).hasSize(1); // only resolving, no remapping
-            assertThat(report.getInfoMessages().get(0)).contains("1 found");
+            assertThat(report.getInfoMessages().getFirst()).contains("1 found");
         }
     }
 
@@ -298,7 +298,7 @@ class FileNameResolverTest {
             assertThat(report.get(2)).hasFileName(RELATIVE_FILE).hasPath(RESOURCE_FOLDER_STRING);
 
             assertThat(report.getInfoMessages()).hasSize(2);
-            assertThat(report.getInfoMessages().get(0)).contains("remapping paths");
+            assertThat(report.getInfoMessages().getFirst()).contains("remapping paths");
         }
     }
 

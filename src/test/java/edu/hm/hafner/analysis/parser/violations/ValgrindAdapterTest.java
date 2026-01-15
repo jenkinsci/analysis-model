@@ -61,8 +61,7 @@ class ValgrindAdapterTest extends AbstractParserTest {
                     final var description = issue.getDescription();
                     if (Violation.NO_FILE.equals(issue.getFileName())) {
                         softly.assertThat(description).doesNotContain("Primary Stack Trace");
-                    }
-                    else {
+                    } else {
                         softly.assertThat(description).contains("Primary Stack Trace", "&lt;insert_a_suppression_name_here&gt;");
                     }
                 }
