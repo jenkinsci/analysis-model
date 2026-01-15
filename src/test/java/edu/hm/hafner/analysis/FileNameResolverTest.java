@@ -8,11 +8,10 @@ import org.junit.jupiter.params.provider.ValueSource;
 import edu.hm.hafner.util.PathUtil;
 
 import java.io.File;
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.file.Path;
+import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -242,7 +241,7 @@ class FileNameResolverTest {
 
             assertThat(report).hasSize(1);
             assertThat(report.get(0)).hasFileName(RELATIVE_FILE).hasPath(RESOURCE_FOLDER_STRING);
-            assertThat(report.getInfoMessages()).hasSize(2); 
+            assertThat(report.getInfoMessages()).hasSize(2);
             assertThat(report.getInfoMessages().get(0)).contains("remapping paths from");
             assertThat(report.getInfoMessages().get(1)).contains("1 found");
         }
@@ -259,7 +258,7 @@ class FileNameResolverTest {
 
             assertThat(report).hasSize(1);
             assertThat(report.get(0)).hasFileName(RELATIVE_FILE).hasPath(RESOURCE_FOLDER_STRING);
-            assertThat(report.getInfoMessages()).hasSize(1); 
+            assertThat(report.getInfoMessages()).hasSize(1);
             assertThat(report.getInfoMessages().get(0)).contains("1 found");
         }
     }
@@ -298,7 +297,7 @@ class FileNameResolverTest {
             assertThat(report.get(1)).hasFileName(otherPath + "/other.txt");
             assertThat(report.get(2)).hasFileName(RELATIVE_FILE).hasPath(RESOURCE_FOLDER_STRING);
 
-            assertThat(report.getInfoMessages()).hasSize(2); 
+            assertThat(report.getInfoMessages()).hasSize(2);
             assertThat(report.getInfoMessages().get(0)).contains("remapping paths");
         }
     }
@@ -334,10 +333,10 @@ class FileNameResolverTest {
     private static URI getResourceFolder() {
         try {
             var resource = FileNameResolverTest.class.getResource(RELATIVE_FILE);
-            var fileName = resource.toExternalForm();
-            return new URL(fileName.replace(RELATIVE_FILE, "")).toURI();
+            var fileName = Objects.requireNonNull(resource).toExternalForm();
+            return new URI(fileName.replace(RELATIVE_FILE, ""));
         }
-        catch (MalformedURLException | URISyntaxException e) {
+        catch (URISyntaxException e) {
             throw new AssertionError(e);
         }
     }
