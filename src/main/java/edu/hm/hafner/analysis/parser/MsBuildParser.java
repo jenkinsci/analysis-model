@@ -24,45 +24,44 @@ public class MsBuildParser extends LookaheadParser {
     private static final long serialVersionUID = -2141974437420906595L;
 
     /** Pattern for command line warnings in MSBuild output. */
-    public static final String COMMAND_LINE_WARNING_PATTERN =
-            "(?:^(?:.*)Command line warning ([A-Za-z0-9]+):\\s*(.*)\\s*\\[(.*)\\])"; // Group 1 - 3
+    public static final String COMMAND_LINE_WARNING_PATTERN = "(?:^(?:.*)Command line warning ([A-Za-z0-9]+):\\s*(.*)\\s*\\[(.*)\\])"; // Group
+                                                                                                                                       // 1
+                                                                                                                                       // -
+                                                                                                                                       // 3
 
     /** Pattern for optional line number in MSBuild output. */
-    public static final String OPTIONAL_LINE_NUMBER_PATTERN =
-            "(?:\\s*(?:\\d+|\\d+:\\d+)>)?"; // Optional Group
+    public static final String OPTIONAL_LINE_NUMBER_PATTERN = "(?:\\s*(?:\\d+|\\d+:\\d+)>)?"; // Optional Group
 
     /** Pattern for different line column combinations in MSBuild output. */
-    private static final String LINE_COLUMN_PATTERN =
-            "\\((?:(\\d+),(\\d+),(\\d+),(\\d+)|(\\d+)(?:-(\\d+))?(?:,(\\d+)(?:-(\\d+))?)?)\\)"; // Group 5 - 12
+    private static final String LINE_COLUMN_PATTERN = "\\((?:(\\d+),(\\d+),(\\d+),(\\d+)|(\\d+)(?:-(\\d+))?(?:,(\\d+)(?:-(\\d+))?)?)\\)"; // Group
+                                                                                                                                          // 5
+                                                                                                                                          // -
+                                                                                                                                          // 12
 
     /** Pattern for file name in MSBuild output. */
-    public static final String FILE_NAME_PATTERN =
-            "(?:(?:(?:(.*?)" // Group 9 - filename with line/column
-                    + LINE_COLUMN_PATTERN // Groups 10-17 - line/column combinations
-                    + "|.*LINK)\\s*:|(.*):)"; // Group 18 - simple filename
+    public static final String FILE_NAME_PATTERN = "(?:(?:(?:(.*?)" // Group 9 - filename with line/column
+            + LINE_COLUMN_PATTERN // Groups 10-17 - line/column combinations
+            + "|.*LINK)\\s*:|(.*):)"; // Group 18 - simple filename
 
     /** Pattern for severity type in MSBuild output. */
-    public static final String SEVERITY_PATTERN =
-            "\\s*((?:[A-z-_]+\\s)?(?:[Nn]ote|[Ii]nfo|[Ww]arning|[Hh]int|(?:fatal\\s*)?[Ee]rror))[^A-Za-z0-9]\\s*:?\\s*"; // Group 19
+    public static final String SEVERITY_PATTERN = "\\s*((?:[A-z-_]+\\s)?(?:[Nn]ote|[Ii]nfo|[Ww]arning|[Hh]int|(?:fatal\\s*)?[Ee]rror))[^A-Za-z0-9]\\s*:?\\s*"; // Group
+                                                                                                                                                               // 19
 
     /** Pattern for category of the issue in MSBuild output. */
-    public static final String CATEGORY_PATTERN =
-            "([A-Za-z0-9\\-_]+)?\\s*:\\s"; // Group 20
+    public static final String CATEGORY_PATTERN = "([A-Za-z0-9\\-_]+)?\\s*:\\s"; // Group 20
 
     /** Pattern for type of the issue in MSBuild output. */
-    public static final String TYPE_PATTERN =
-            "(?:\\s*([A-Za-z0-9.]+)\\s*:)?\\s*"; // Group 21
+    public static final String TYPE_PATTERN = "(?:\\s*([A-Za-z0-9.]+)\\s*:)?\\s*"; // Group 21
 
     /** Pattern for message in MSBuild output. */
-    public static final String MESSAGE_PATTERN =
-            "(.*?)"; // Group 22
+    public static final String MESSAGE_PATTERN = "(.*?)"; // Group 22
 
     /** Pattern for project directory in MSBuild output. */
-    public static final String PROJECT_DIR_PATTERN =
-            "(?: \\[([^\\]]*)[/\\\\][^\\]\\\\]+\\])?"; // Group 23
+    public static final String PROJECT_DIR_PATTERN = "(?: \\[([^\\]]*)[/\\\\][^\\]\\\\]+\\])?"; // Group 23
 
     /**
-     * Pattern for Delphi compiler hints/warnings (simplified format without standard MSBuild prefix).
+     * Pattern for Delphi compiler hints/warnings (simplified format without
+     * standard MSBuild prefix).
      */
     // Groups 4-8: 4=filename, 5=line, 6=severity, 7=category, 8=message
     private static final String DELPHI_SIMPLE_PATTERN = "^\\s*([A-Za-z]:[^\\(]+\\.(?:pas|dpr|dpk|dproj))\\((\\d+)\\)\\s+([Ww]arning|[Hh]int)\\s*:\\s*([A-Za-z0-9]+)\\s+(.*)$";
@@ -82,13 +81,14 @@ public class MsBuildParser extends LookaheadParser {
             + "))$";
 
     /**
-     * Pattern to identify bare tool names that should be ignored (without path separators).
+     * Pattern to identify bare tool names that should be ignored (without path
+     * separators).
      * Only matches tool names when they appear alone, not as part of a path.
      */
     private static final Pattern TOOL_NAME_PATTERN = Pattern.compile(
-            "^(?:EXEC|NMAKE|LINK|MSBUILD|MSBuild|link|nmake|msbuild|cl|rs)$|" 
-            + "^[^/\\\\]*\\.exe$|" 
-            + "^<[^>]+>$",  
+            "^(?:EXEC|NMAKE|LINK|MSBUILD|MSBuild|link|nmake|msbuild|cl|rs)$|"
+                    + "^[^/\\\\]*\\.exe$|"
+                    + "^<[^>]+>$",
             Pattern.CASE_INSENSITIVE);
 
     private static final Pattern LINKER_CAUSE = Pattern.compile(".*imported by '([A-Za-z0-9\\-_.]+)'.*");
@@ -96,7 +96,8 @@ public class MsBuildParser extends LookaheadParser {
     private static final String MSBUILD = "MSBUILD";
     private static final Pattern HEADER_COMPILE_MESSAGE = Pattern.compile("\\(compiling source file .*\\)");
 
-    // Pattern to extract Delphi file path from message (e.g., "C:\Path\File.pas(123) Warning: ...")
+    // Pattern to extract Delphi file path from message (e.g.,
+    // "C:\Path\File.pas(123) Warning: ...")
     private static final Pattern DELPHI_FILE_PATTERN = Pattern.compile(
             "^\\s*([^:]+\\.(?:pas|dpr|dpk|dproj))\\((\\d+)\\)\\s+(?:[Ww]arning|[Hh]int)\\s*:\\s*([A-Za-z0-9]+)\\s+(.*)$");
 
@@ -126,12 +127,14 @@ public class MsBuildParser extends LookaheadParser {
 
         var fileName = determineFileName(matcher);
 
-        // Skip if this is a tool name (executable or tool without proper source extension)
+        // Skip if this is a tool name (executable or tool without proper source
+        // extension)
         if (isToolName(fileName)) {
             return Optional.empty();
         }
 
-        // Check if this is a Delphi warning/hint where the actual file is in the message
+        // Check if this is a Delphi warning/hint where the actual file is in the
+        // message
         var message = matcher.group(22);
         var delphiIssue = createDelphiEmbeddedIssue(matcher, message, builder);
         if (delphiIssue.isPresent()) {
@@ -225,23 +228,23 @@ public class MsBuildParser extends LookaheadParser {
                 .setMessage(cleanedMessage)
                 .setSeverity(Severity.guessFromString(matcher.group(19)))
                 .buildOptional();
-    }  
+    }
 
     /**
-     * Determines if the given filename is actually a tool name that should be ignored.
-     * Tool names include executables (e.g., ConsoleTranslator.exe) and bare tool names (e.g., NMAKE, rs).
-     * This method is conservative and only filters known tool names to avoid false positives.
+     * Determines if the given filename is actually a tool name that should be
+     * ignored.
+     * Tool names include executables (e.g., ConsoleTranslator.exe) and bare tool
+     * names (e.g., NMAKE, rs).
+     * This method is conservative and only filters known tool names to avoid false
+     * positives.
      *
      * @param fileName
-     *         the filename to check
+     *                 the filename to check
      *
      * @return true if this is a tool name that should be ignored, false otherwise
      */
     private boolean isToolName(final String fileName) {
-        if ("/INCREMENTAL".equalsIgnoreCase(fileName)
-                || StringUtils.isBlank(fileName)
-                || "-".equals(fileName)
-                || "unknown.file".equals(fileName)) {
+        if (StringUtils.equalsAnyIgnoreCase(fileName, "/INCREMENTAL", "", "-", "unknown.file")) {
             return true;
         }
 
@@ -255,7 +258,7 @@ public class MsBuildParser extends LookaheadParser {
      * Determines the name of the file that is the cause of the warning.
      *
      * @param matcher
-     *         the matcher to get the matches from
+     *                the matcher to get the matches from
      *
      * @return the name of the file with a warning
      */
