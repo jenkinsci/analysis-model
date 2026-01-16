@@ -58,7 +58,7 @@ import java.util.stream.Stream;
 @SuppressWarnings({"PMD.ExcessivePublicCount", "PMD.GodClass", "PMD.CyclomaticComplexity", "checkstyle:ClassFanOutComplexity"})
 public class Report implements Iterable<Issue>, Serializable {
     @Serial
-    private static final long serialVersionUID = 5L; // release 13.0.0
+    private static final long serialVersionUID = 14L; // release 14.0.0
 
     @VisibleForTesting
     static final String DEFAULT_ID = "-";

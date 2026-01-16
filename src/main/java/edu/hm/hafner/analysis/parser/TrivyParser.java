@@ -1,9 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-
-import j2html.tags.ContainerTag;
-import j2html.tags.DomContent;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -12,6 +8,10 @@ import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+import j2html.tags.ContainerTag;
+import j2html.tags.DomContent;
+import java.io.Serial;
 
 import static j2html.TagCreator.*;
 
@@ -34,7 +34,7 @@ import static j2html.TagCreator.*;
  */
 public class TrivyParser extends JsonIssueParser {
     @Serial
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 8424795926301953150L;
 
     private static final String VALUE_NOT_SET = "-";
     private static final String TRIVY_VULNERABILITY_LEVEL_TAG_HIGH = "high";
@@ -53,7 +53,7 @@ public class TrivyParser extends JsonIssueParser {
     }
 
     /**
-     * Used with older schema before trivy 0.20.0.
+     * Used with the older schema before trivy 0.20.0.
      */
     @Override
     protected void parseJsonArray(final Report report, final JSONArray jsonReport, final IssueBuilder issueBuilder) {

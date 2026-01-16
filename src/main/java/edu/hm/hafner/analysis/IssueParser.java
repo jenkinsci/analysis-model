@@ -20,7 +20,7 @@ import java.util.stream.Stream;
 @SuppressWarnings("checkstyle:JavadocVariable")
 public abstract class IssueParser implements Serializable {
     @Serial
-    private static final long serialVersionUID  = 5L; // release 13.0.0
+    private static final long serialVersionUID  = 14L; // release 14.0.0
 
     protected static final String ADDITIONAL_PROPERTIES = "additionalProperties";
     protected static final String CATEGORY = "category";

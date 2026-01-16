@@ -31,7 +31,7 @@ import java.util.function.Predicate;
 @SuppressWarnings({"PMD.GodClass", "PMD.CyclomaticComplexity", "NoFunctionalReturnType"})
 public class Issue implements Serializable {
     @Serial
-    private static final long serialVersionUID = 2L; // release 13.16.0 - added Location support
+    private static final long serialVersionUID = 14L; // release 14.0.0
 
     private static final PathUtil PATH_UTIL = new PathUtil();
 
@@ -374,10 +374,10 @@ public class Issue implements Serializable {
             this.lineRanges.addAll(lineRanges);
         }
         this.additionalLocations = new ArrayList<>();
-        
+
         // Check if deprecated fields were explicitly set (lineStart != 0 OR fileName != "-")
         boolean deprecatedFieldsSet = this.lineStart != 0 || !fileName.toString().equals("-");
-        
+
         // Check if locations list has a primary location that matches deprecated fields
         boolean locationsHasPrimary = false;
         if (additionalLocations != null) {
@@ -394,19 +394,19 @@ public class Issue implements Serializable {
                 }
             }
         }
-        
+
         if (deprecatedFieldsSet && !locationsHasPrimary) {
             // OLD API: Deprecated fields set explicitly, create primary location from them
             this.additionalLocations.add(new Location(fileName, this.lineStart, this.lineEnd, this.columnStart, this.columnEnd));
         }
-        
+
         // Append all locations from the list
         if (additionalLocations != null) {
             for (var location : additionalLocations) {
                 this.additionalLocations.add(location);
             }
         }
-        
+
         // If no locations at all, create a default primary location
         if (this.additionalLocations.isEmpty()) {
             this.additionalLocations.add(new Location(fileName, this.lineStart, this.lineEnd, this.columnStart, this.columnEnd));
@@ -624,7 +624,7 @@ public class Issue implements Serializable {
         // Update the first location to maintain consistency
         if (!additionalLocations.isEmpty()) {
             var oldLocation = additionalLocations.get(0);
-            additionalLocations.set(0, new Location(fileName, oldLocation.getLineStart(), 
+            additionalLocations.set(0, new Location(fileName, oldLocation.getLineStart(),
                     oldLocation.getLineEnd(), oldLocation.getColumnStart(), oldLocation.getColumnEnd()));
         }
     }
