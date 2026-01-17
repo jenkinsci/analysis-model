@@ -250,6 +250,5 @@ public abstract class AbstractParserTest extends ResourceTest {
         public Reader create() {
             return new StringReader(content);
         }
-
     }
 }
