@@ -1,22 +1,22 @@
 package edu.hm.hafner.analysis.parser;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.IssueParser;
+import edu.hm.hafner.analysis.Location;
+import edu.hm.hafner.analysis.Severity;
+import edu.hm.hafner.util.LineRange;
+import edu.hm.hafner.util.LineRangeList;
+import edu.hm.hafner.util.TreeStringBuilder;
+
 import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import edu.hm.hafner.analysis.Location;
-import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.IssueParser;
-import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.util.LineRange;
-import edu.hm.hafner.util.LineRangeList;
-import edu.hm.hafner.util.TreeStringBuilder;
 
 /**
  * Base Parser JSON format.
@@ -82,6 +82,7 @@ abstract class JsonBaseParser extends IssueParser {
         if (jsonIssue.has(LINE_END)) {
             builder.setLineEnd(jsonIssue.getInt(LINE_END));
         }
+        // FIXME: add support for locations instead of line ranges
         if (jsonIssue.has(LINE_RANGES)) {
             var jsonRanges = jsonIssue.getJSONArray(LINE_RANGES);
             var lineRanges = convertToLineRangeList(jsonRanges);

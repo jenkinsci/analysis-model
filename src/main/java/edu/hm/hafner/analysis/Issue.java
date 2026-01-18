@@ -915,6 +915,6 @@ public class Issue implements Serializable {
     public String toString() {
         return String.format(Locale.ENGLISH, "%s%s(%d,%d): %s: %s: %s",
                 isPartOfModifiedCode() ? "*" : StringUtils.EMPTY, getBaseName(),
-                lineStart, columnStart, type, category, message);
+                getLineStart(), getColumnStart(), type, category, message);
     }
 }

@@ -527,7 +527,7 @@ public class IssueBuilder implements AutoCloseable {
     }
 
     /**
-     * Sets the locations of this issue, the first location is considered the main location.
+     * Sets the locations of this issue, the first location is considered the primary location.
      *
      * @param locations
      *         the locations of this issue
@@ -541,7 +541,7 @@ public class IssueBuilder implements AutoCloseable {
     }
 
     /**
-     * Adds another location to this issue, the first location is considered the main location.
+     * Adds another location to this issue, the first location is considered the primary location.
      *
      * @param location
      *         the file location to add
@@ -550,6 +550,9 @@ public class IssueBuilder implements AutoCloseable {
      */
     @CanIgnoreReturnValue
     public IssueBuilder addLocation(final Location location) {
+        if (locations.contains(location)) { // do not add duplicates
+            return this;
+        }
         if (isInPrimaryFile(location)) { // reuse file name instance of the primary location
             locations.add(new Location(locations.get(0).getFileNameTreeString(),
                     location.getLineStart(), location.getLineEnd(),

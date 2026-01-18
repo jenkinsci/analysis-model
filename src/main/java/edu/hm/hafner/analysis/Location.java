@@ -111,7 +111,7 @@ public class Location implements Serializable {
         this(fileName, 0, 0, 0, 0);
     }
 
-    TreeString getFileNameTreeString() {
+    public TreeString getFileNameTreeString() {
         return fileName;
     }
 

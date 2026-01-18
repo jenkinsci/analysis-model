@@ -77,8 +77,8 @@ class CppCheckAdapterTest extends AbstractParserTest {
 
         assertThat(report).hasSize(2);
 
-        assertThat(report.get(0)).hasFileName(
-                "apps/cloud_composer/src/point_selectors/rectangular_frustum_selector.cpp")
+        assertThat(report.get(0))
+                .hasFileName("apps/cloud_composer/src/point_selectors/rectangular_frustum_selector.cpp")
                 .hasLineStart(53)
                 .hasMessage("Variable 'it' is reassigned a value before the old one has been used.")
                 .hasType("redundantAssignment");

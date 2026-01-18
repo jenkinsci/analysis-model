@@ -6,13 +6,13 @@ import org.xml.sax.SAXException;
 
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
+import edu.hm.hafner.analysis.Location;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.SecureDigester;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.util.LineRange;
-import edu.hm.hafner.util.LineRangeList;
+import edu.hm.hafner.util.TreeStringBuilder;
 import edu.hm.hafner.util.VisibleForTesting;
 import edu.umd.cs.findbugs.BugInstance;
 import edu.umd.cs.findbugs.Project;
@@ -147,12 +147,12 @@ public class FindBugsParser extends IssueParser {
         project.addSourceDirs(sources);
 
         try (var sourceFinder = new SourceFinder(project)) {
-            if (StringUtils.isNotBlank(project.getProjectName())) {
-                builder.setModuleName(project.getProjectName());
-            }
-
             var report = new Report();
+            var treeStrings = new TreeStringBuilder();
             for (BugInstance warning : collection.getCollection()) {
+                if (StringUtils.isNotBlank(project.getProjectName())) {
+                    builder.setModuleName(project.getProjectName());
+                }
                 var sourceLine = warning.getPrimarySourceLineAnnotation();
 
                 var message = warning.getMessage();
@@ -165,16 +165,16 @@ public class FindBugsParser extends IssueParser {
                         .setMessage(createMessage(hashToMessageMapping, warning, message))
                         .setCategory(category)
                         .setType(type)
-                        .setLineStart(sourceLine.getStartLine())
-                        .setLineEnd(sourceLine.getEndLine())
-                        .setFileName(findSourceFile(sourceFinder, sourceLine))
                         .setPackageName(warning.getPrimaryClass().getPackageName())
                         .setFingerprint(warning.getInstanceHash());
-                setAffectedLines(warning, builder,
-                        new LineRange(sourceLine.getStartLine(), sourceLine.getEndLine()));
+                var primary = new Location(treeStrings.intern(findSourceFile(sourceFinder, sourceLine)),
+                        sourceLine.getStartLine(), sourceLine.getEndLine());
+                builder.addLocation(primary);
+                setAffectedLines(warning, builder, sourceFinder, treeStrings);
 
-                report.add(builder.build());
+                report.add(builder.buildAndClean());
             }
+            treeStrings.dedup();
             return report;
         }
     }
@@ -240,20 +240,18 @@ public class FindBugsParser extends IssueParser {
         }
     }
 
-    private void setAffectedLines(final BugInstance warning, final IssueBuilder builder,
-            final LineRange primary) {
+    private void setAffectedLines(final BugInstance warning, final IssueBuilder builder, final SourceFinder sourceFinder,
+            final TreeStringBuilder treeStrings) {
         var annotationIterator = warning.annotationIterator();
-        var lineRanges = new LineRangeList();
         while (annotationIterator.hasNext()) {
             var bugAnnotation = annotationIterator.next();
             if (bugAnnotation instanceof final SourceLineAnnotation annotation) {
-                var lineRange = new LineRange(annotation.getStartLine(), annotation.getEndLine());
-                if (!lineRanges.contains(lineRange) && !primary.equals(lineRange)) {
-                    lineRanges.add(lineRange);
-                }
+                builder.addLocation(new Location(
+                        treeStrings.intern(findSourceFile(sourceFinder, annotation)),
+                        annotation.getStartLine(),
+                        annotation.getEndLine()));
             }
         }
-        builder.setLineRanges(lineRanges);
     }
 
     private String findSourceFile(final SourceFinder sourceFinder, final SourceLineAnnotation sourceLine) {

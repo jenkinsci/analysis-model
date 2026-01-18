@@ -1,19 +1,16 @@
 package edu.hm.hafner.analysis.parser.violations;
 
+import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.Location;
+import edu.hm.hafner.analysis.Report;
+import edu.hm.hafner.analysis.util.IntegerParser;
+import edu.hm.hafner.util.TreeStringBuilder;
+
 import java.io.Serial;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Location;
-import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.util.IntegerParser;
-import edu.hm.hafner.util.LineRange;
-import edu.hm.hafner.util.LineRangeList;
-import edu.hm.hafner.util.TreeStringBuilder;
-
 import se.bjurr.violations.lib.model.Violation;
 import se.bjurr.violations.lib.parsers.CPPCheckParser;
 
@@ -43,14 +40,12 @@ public class CppCheckAdapter extends AbstractViolationAdapter {
             for (List<Violation> group : violationsPerGroup.values()) {
                 var sortedGroup = sortByInsertionOrder(group);
                 updateIssueBuilder(sortedGroup.get(0), issueBuilder);
-                var lineRanges = new LineRangeList();
-                for (int i = 1; i < sortedGroup.size(); i++) {
-                    var violation = sortedGroup.get(i);
+                for (Violation violation : sortedGroup) {
                     var fileName = treeStringBuilder.intern(violation.getFile());
-                    issueBuilder.addLocation(new Location(fileName, violation.getStartLine()));
-                    lineRanges.add(new LineRange(violation.getStartLine()));
+                    issueBuilder.addLocation(new Location(fileName,
+                            toValidInt(violation.getStartLine()), toValidInt(violation.getEndLine()),
+                            toValidInt(violation.getColumn()), toValidInt(violation.getEndColumn())));
                 }
-                issueBuilder.setLineRanges(lineRanges);
                 report.add(issueBuilder.buildAndClean());
             }
             return report;
