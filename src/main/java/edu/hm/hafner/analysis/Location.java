@@ -1,9 +1,9 @@
 package edu.hm.hafner.analysis;
 
+import edu.hm.hafner.util.TreeString;
+
 import java.io.Serial;
 import java.io.Serializable;
-
-import edu.hm.hafner.util.TreeString;
 
 /**
  * Represents a location of an issue within a file. It includes the file name, line and column ranges. An issue
@@ -38,10 +38,41 @@ public class Location implements Serializable {
     public Location(final TreeString fileName, final int lineStart, final int lineEnd,
             final int columnStart, final int columnEnd) {
         this.fileName = fileName;
-        this.lineStart = lineStart;
-        this.lineEnd = lineEnd;
-        this.columnStart = columnStart;
-        this.columnEnd = columnEnd;
+
+        int providedLineStart = defaultInteger(lineStart);
+        int providedLineEnd = defaultInteger(lineEnd) == 0 ? providedLineStart : defaultInteger(lineEnd);
+        if (providedLineStart == 0) {
+            this.lineStart = providedLineEnd;
+            this.lineEnd = providedLineEnd;
+        }
+        else {
+            this.lineStart = Math.min(providedLineStart, providedLineEnd);
+            this.lineEnd = Math.max(providedLineStart, providedLineEnd);
+        }
+
+        int providedColumnStart = defaultInteger(columnStart);
+        int providedColumnEnd = defaultInteger(columnEnd) == 0 ? providedColumnStart : defaultInteger(columnEnd);
+        if (providedColumnStart == 0) {
+            this.columnStart = providedColumnEnd;
+            this.columnEnd = providedColumnEnd;
+        }
+        else {
+            // if the line ends on the next line, columnStart can be greater then columnEnd
+            this.columnStart = providedLineStart < providedLineEnd ? providedColumnStart : Math.min(providedColumnStart, providedColumnEnd);
+            this.columnEnd = providedLineStart < providedLineEnd ? providedColumnEnd : Math.max(providedColumnStart, providedColumnEnd);
+        }
+    }
+
+    /**
+     * Creates a default Integer representation for undefined input parameters.
+     *
+     * @param integer
+     *         the integer to check
+     *
+     * @return the valid integer value or 0 if the specified {@link Integer} is {@code null} or less than 0
+     */
+    private int defaultInteger(final int integer) {
+        return Math.max(integer, 0);
     }
 
     /**
@@ -71,12 +102,26 @@ public class Location implements Serializable {
     }
 
     /**
+     * Creates a new {@link Location} with the specified file name.
+     *
+     * @param fileName
+     *         the name of the file
+     */
+    public Location(final TreeString fileName) {
+        this(fileName, 0, 0, 0, 0);
+    }
+
+    TreeString getFileNameTreeString() {
+        return fileName;
+    }
+
+    /**
      * Returns the file name of this location.
      *
      * @return the file name
      */
-    public TreeString getFileName() {
-        return fileName;
+    public String getFileName() {
+        return fileName.toString();
     }
 
     /**
@@ -113,6 +158,16 @@ public class Location implements Serializable {
      */
     public int getColumnEnd() {
         return columnEnd;
+    }
+
+    /**
+     * Returns whether the specified line is contained in this range.
+     *
+     * @param line the line to check
+     * @return {@code true} if the line is contained in this range, {@code false} otherwise
+     */
+    public boolean contains(final int line) {
+        return line >= lineStart && line <= lineEnd;
     }
 
     @Override

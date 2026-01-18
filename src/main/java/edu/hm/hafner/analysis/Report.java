@@ -9,7 +9,6 @@ import com.google.errorprone.annotations.FormatMethod;
 import edu.hm.hafner.util.Ensure;
 import edu.hm.hafner.util.FilteredLog;
 import edu.hm.hafner.util.Generated;
-import edu.hm.hafner.util.LineRangeList;
 import edu.hm.hafner.util.PathUtil;
 import edu.hm.hafner.util.TreeStringBuilder;
 import edu.hm.hafner.util.VisibleForTesting;
@@ -1248,12 +1247,7 @@ public class Report implements Iterable<Issue>, Serializable {
     private void writeIssues(final ObjectOutputStream output) throws IOException {
         for (Issue issue : elements) {
             output.writeUTF(issue.getPath());
-            output.writeUTF(issue.getFileName());
-            output.writeInt(issue.getLineStart());
-            output.writeInt(issue.getLineEnd());
-            output.writeInt(issue.getColumnStart());
-            output.writeInt(issue.getColumnEnd());
-            output.writeObject(issue.getLineRanges());
+            output.writeObject(issue.getLocations());
             output.writeUTF(issue.getCategory());
             output.writeUTF(issue.getType());
             output.writeUTF(issue.getPackageName());
@@ -1305,17 +1299,12 @@ public class Report implements Iterable<Issue>, Serializable {
     }
 
     @SuppressFBWarnings("OBJECT_DESERIALIZATION")
-    @SuppressWarnings("BanSerializableRead")
+    @SuppressWarnings({"BanSerializableRead", "unchecked"})
     private void readIssues(final ObjectInputStream input, final int size) throws IOException, ClassNotFoundException {
         var builder = new TreeStringBuilder();
         for (int i = 0; i < size; i++) {
             var path = input.readUTF();
-            var fileName = builder.intern(input.readUTF());
-            int lineStart = input.readInt();
-            int lineEnd = input.readInt();
-            int columnStart = input.readInt();
-            int columnEnd = input.readInt();
-            var lineRanges = (LineRangeList) input.readObject();
+            List<Location> locations = (List<Location>) input.readObject();
             var category = input.readUTF();
             var type = input.readUTF();
             var packageName = builder.intern(input.readUTF());
@@ -1330,11 +1319,8 @@ public class Report implements Iterable<Issue>, Serializable {
             var additionalProperties = (Serializable) input.readObject();
             var uuid = (UUID) input.readObject();
 
-            var issue = new Issue(path, fileName,
-                    lineStart, lineEnd, columnStart, columnEnd,
-                    lineRanges, null, category, type, packageName, moduleName,
-                    severity, message, description,
-                    origin, originName, reference, fingerprint, additionalProperties, uuid);
+            var issue = new Issue(path, locations, category, type, packageName, moduleName, severity,
+                    message, description, origin, originName, reference, fingerprint, additionalProperties, uuid);
 
             elements.add(issue);
         }
