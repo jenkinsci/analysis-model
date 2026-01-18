@@ -13,7 +13,7 @@ import java.io.Serializable;
  */
 public class Location implements Serializable {
     @Serial
-    private static final long serialVersionUID = 6L;
+    private static final long serialVersionUID = 14L; // release 14.0.0
 
     private final TreeString fileName;
     private final int lineStart;
