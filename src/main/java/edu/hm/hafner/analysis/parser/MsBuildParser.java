@@ -8,6 +8,7 @@ import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
+import edu.hm.hafner.util.Strings;
 
 import java.io.Serial;
 import java.util.Optional;
@@ -31,7 +32,6 @@ public class MsBuildParser extends LookaheadParser {
 
     /** Pattern for optional line number in MSBuild output. */
     public static final String OPTIONAL_LINE_NUMBER_PATTERN = "(?:\\s*(?:\\d+|\\d+:\\d+)>)?"; // Optional Group
-
     /** Pattern for different line column combinations in MSBuild output. */
     private static final String LINE_COLUMN_PATTERN = "\\((?:(\\d+),(\\d+),(\\d+),(\\d+)|(\\d+)(?:-(\\d+))?(?:,(\\d+)(?:-(\\d+))?)?)\\)"; // Group
                                                                                                                                           // 5
@@ -225,9 +225,9 @@ public class MsBuildParser extends LookaheadParser {
         var messageText = message == null ? "" : message;
         var cleanedMessage = HEADER_COMPILE_MESSAGE.matcher(messageText).replaceAll(StringUtils.EMPTY);
         return builder.setCategory(category)
-                .setMessage(cleanedMessage)
-                .setSeverity(Severity.guessFromString(matcher.group(19)))
-                .buildOptional();
+                 .setMessage(cleanedMessage)
+                 .guessSeverity(matcher.group(19))
+                 .buildOptional();
     }
 
     /**
@@ -244,7 +244,7 @@ public class MsBuildParser extends LookaheadParser {
      * @return true if this is a tool name that should be ignored, false otherwise
      */
     private boolean isToolName(final String fileName) {
-        if (StringUtils.equalsAnyIgnoreCase(fileName, "/INCREMENTAL", "", "-", "unknown.file")) {
+        if (Strings.CI.equalsAny(fileName, "/INCREMENTAL", "", "-", "unknown.file")) {
             return true;
         }
 
