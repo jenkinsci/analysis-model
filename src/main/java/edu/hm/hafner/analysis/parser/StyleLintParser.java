@@ -1,11 +1,12 @@
 package edu.hm.hafner.analysis.parser;
 
-import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Report;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.Report;
 
 import java.io.Serial;
 
@@ -53,7 +54,7 @@ public class StyleLintParser extends JsonIssueParser {
     }
 
     private static String formatDescription(final JSONObject jsonIssue) {
-        JSONObject fix = jsonIssue.optJSONObject("fix");
+        var fix = jsonIssue.optJSONObject("fix");
         if (fix != null) {
             var text = fix.getString("text");
             if (StringUtils.isNotBlank(text)) {

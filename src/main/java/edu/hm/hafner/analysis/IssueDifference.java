@@ -141,7 +141,7 @@ public class IssueDifference {
         return equalIssues.stream()
                 .filter(issue -> issue.getFingerprint().equals(current.getFingerprint()))
                 .findFirst()
-                .orElse(equalIssues.get(0));
+                .orElse(equalIssues.getFirst());
     }
 
     private Optional<Issue> findReferenceByFingerprint(final Issue current) {

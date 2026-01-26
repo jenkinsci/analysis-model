@@ -1,7 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.util.Iterator;
-
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.Issue;
@@ -10,6 +8,8 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
+
+import java.util.Iterator;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
@@ -222,7 +222,7 @@ class DoxygenParserTest extends AbstractParserTest {
                 .hasLineStart(789)
                 .hasMessage("test warning with generating prefix")
                 .hasSeverity(Severity.WARNING_NORMAL);
-    } 
+    }
 
     @SuppressWarnings("methodlength")
     @Override

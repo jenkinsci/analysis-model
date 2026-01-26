@@ -1,14 +1,14 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.util.Optional;
-import java.util.regex.Matcher;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
+
+import java.io.Serial;
+import java.util.Optional;
+import java.util.regex.Matcher;
 
 /**
  * A parser for LLVM lld linker warnings and errors.
@@ -21,7 +21,7 @@ public class LlvmLinkerParser extends LookaheadParser {
 
     // Capture optional path + program (handles /foo/bar/ld.lld, C:\foo\ld.lld-15.exe, etc.)
     // Named groups: linker, severity, message
-    private static final String LLD_LINKER_PATTERN = 
+    private static final String LLD_LINKER_PATTERN =
             "^(?<linker>.*[/\\\\]?ld\\.lld(?:-\\d+)?(?:\\.exe)?):\\s*(?<severity>error|warning|note):\\s*(?<message>.*)$";
 
     /**
@@ -34,12 +34,12 @@ public class LlvmLinkerParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        final String linkerPath = matcher.group("linker");
-        final String severity   = matcher.group("severity");
-        final String message    = matcher.group("message");
+        final var linkerPath = matcher.group("linker");
+        final var severity   = matcher.group("severity");
+        final var message    = matcher.group("message");
 
         // Strip any path prefix and prepend "/" to prevent relative path resolution
-        final String fileName = "/" + linkerPath.replaceFirst("^.*[/\\\\]", "");
+        final var fileName = "/" + linkerPath.replaceFirst("^.*[/\\\\]", "");
 
         return builder.setFileName(fileName)
                 .setLineStart(0)
