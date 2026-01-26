@@ -8,6 +8,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import edu.hm.hafner.util.LineRange;
 import edu.hm.hafner.util.LineRangeList;
 import edu.hm.hafner.util.TreeString;
+import edu.hm.hafner.util.TreeStringBuilder;
 
 import java.util.UUID;
 
@@ -20,13 +21,14 @@ import static edu.hm.hafner.analysis.assertions.Assertions.*;
  * @author Marcel Binder
  */
 class IssueBuilderTest {
+    private static final TreeStringBuilder TREE_STRING_BUILDER = new TreeStringBuilder();
     private static final String FILE_NAME = "C:/users/tester/file-name";
     static final String FILE_NAME_WITH_BACKSLASHES = "C:\\users\\tester/file-name";
-    private static final Issue DEFAULT_ISSUE = new Issue(PATH_NAME, UNDEFINED_TS, 0, 0, 0, 0, new LineRangeList(),
+    private static final Issue DEFAULT_ISSUE = new Issue(PATH_NAME, UNDEFINED_TS, 0, 0, 0, 0, new LineRangeList(), null,
             null, null, UNDEFINED_TS, null, null, EMPTY_TS, EMPTY, null, null, null, null, null);
     private static final Issue FILLED_ISSUE = new Issue(PATH_NAME, TreeString.valueOf(FILE_NAME), LINE_START,
             LINE_END, COLUMN_START, COLUMN_END,
-            LINE_RANGES, CATEGORY, TYPE, TreeString.valueOf(PACKAGE_NAME), MODULE_NAME, SEVERITY,
+            LINE_RANGES, null, CATEGORY, TYPE, TreeString.valueOf(PACKAGE_NAME), MODULE_NAME, SEVERITY,
             TreeString.valueOf(MESSAGE), DESCRIPTION, ORIGIN, ORIGIN_NAME, REFERENCE,
             FINGERPRINT, ADDITIONAL_PROPERTIES);
     private static final String RELATIVE_FILE = "relative.txt";
@@ -367,6 +369,70 @@ class IssueBuilderTest {
 
             assertThat(issue.getMessageTreeString()).isSameAs(anotherIssue.getMessageTreeString());
             assertThat(issue.getDescription()).isSameAs(anotherIssue.getDescription());
+        }
+    }
+
+    @Test
+    void shouldAddAdditionalLocations() {
+        try (var builder = new IssueBuilder()) {
+            var location1 = new Location(TREE_STRING_BUILDER.intern("header.h"), 10, 20);
+            var location2 = new Location(TREE_STRING_BUILDER.intern("impl.cpp"), 50);
+
+            builder.addLocation(location1);
+            builder.addLocation(location2);
+
+            var issue = builder.build();
+            org.assertj.core.api.Assertions.assertThat(issue.hasAdditionalLocations()).isTrue();
+            org.assertj.core.api.Assertions.assertThat(issue.getLocations()).containsExactly(location1, location2);
+        }
+    }
+
+    @Test
+    void shouldSetAdditionalLocations() {
+        try (var builder = new IssueBuilder()) {
+            var locations = java.util.List.<Location>of(
+                    new Location(TREE_STRING_BUILDER.intern("header.h"), 10, 20),
+                    new Location(TREE_STRING_BUILDER.intern("impl.cpp"), 50)
+            );
+
+            builder.setLocations(locations);
+
+            var issue = builder.build();
+            org.assertj.core.api.Assertions.assertThat(issue.hasAdditionalLocations()).isTrue();
+            org.assertj.core.api.Assertions.assertThat(issue.getLocations()).hasSize(2);
+        }
+    }
+
+    @Test
+    void shouldCopyAdditionalLocations() {
+        try (var builder = new IssueBuilder()) {
+            var location1 = new Location(TREE_STRING_BUILDER.intern("header.h"), 10, 20);
+            var location2 = new Location(TREE_STRING_BUILDER.intern("impl.cpp"), 50);
+
+            builder.addLocation(location1);
+            builder.addLocation(location2);
+
+            var originalIssue = builder.build();
+
+            try (var copyBuilder = new IssueBuilder()) {
+                copyBuilder.copy(originalIssue);
+                var copiedIssue = copyBuilder.build();
+
+                org.assertj.core.api.Assertions.assertThat(copiedIssue.hasAdditionalLocations()).isTrue();
+                org.assertj.core.api.Assertions.assertThat(copiedIssue.getLocations()).hasSize(2);
+                org.assertj.core.api.Assertions.assertThat(copiedIssue.getLocations()).containsExactly(location1, location2);
+            }
+        }
+    }
+
+    @Test
+    void shouldNotHaveAdditionalLocationsWhenNoneSet() {
+        try (var builder = new IssueBuilder()) {
+            var issue = builder.build();
+            
+            // No additional locations when none are set
+            org.assertj.core.api.Assertions.assertThat(issue.hasAdditionalLocations()).isFalse();
+            org.assertj.core.api.Assertions.assertThat(issue.getLocations()).hasSize(1);  // Primary location always exists
         }
     }
 }

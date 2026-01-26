@@ -1,18 +1,22 @@
 package edu.hm.hafner.analysis.parser;
 
 import java.io.Serial;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import edu.hm.hafner.analysis.Location;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LineRange;
 import edu.hm.hafner.util.LineRangeList;
+import edu.hm.hafner.util.TreeStringBuilder;
 
 /**
  * Base Parser JSON format.
@@ -22,6 +26,7 @@ import edu.hm.hafner.util.LineRangeList;
 abstract class JsonBaseParser extends IssueParser {
     @Serial
     private static final long serialVersionUID = -2318844382394973833L;
+    private static final TreeStringBuilder TREE_STRING_BUILDER = new TreeStringBuilder();
 
     /**
      * Deserialize an Issue from a JSON object.
@@ -82,6 +87,11 @@ abstract class JsonBaseParser extends IssueParser {
             var lineRanges = convertToLineRangeList(jsonRanges);
             builder.setLineRanges(lineRanges);
         }
+        if (jsonIssue.has(ADDITIONAL_FILE_LOCATIONS)) {
+            var jsonLocations = jsonIssue.getJSONArray(ADDITIONAL_FILE_LOCATIONS);
+            var locations = convertToLocationList(jsonLocations);
+            builder.setLocations(locations);
+        }
         if (jsonIssue.has(LINE_START)) {
             builder.setLineStart(jsonIssue.getInt(LINE_START));
         }
@@ -122,5 +132,20 @@ abstract class JsonBaseParser extends IssueParser {
             }
         }
         return lineRanges;
+    }
+
+    private List<Location> convertToLocationList(final JSONArray jsonLocations) {
+        var locations = new ArrayList<Location>();
+        for (int i = 0; i < jsonLocations.length(); i++) {
+            var jsonLocation = jsonLocations.getJSONObject(i);
+            var fileName = TREE_STRING_BUILDER.intern(jsonLocation.optString(FILE_LOCATION_FILE_NAME, ""));
+            var lineStart = jsonLocation.optInt(FILE_LOCATION_LINE_START, 0);
+            var lineEnd = jsonLocation.optInt(FILE_LOCATION_LINE_END, lineStart);
+            var columnStart = jsonLocation.optInt(FILE_LOCATION_COLUMN_START, 0);
+            var columnEnd = jsonLocation.optInt(FILE_LOCATION_COLUMN_END, 0);
+
+            locations.add(new Location(fileName, lineStart, lineEnd, columnStart, columnEnd));
+        }
+        return locations;
     }
 }
