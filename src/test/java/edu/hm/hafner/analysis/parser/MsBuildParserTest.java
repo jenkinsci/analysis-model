@@ -1162,4 +1162,13 @@ class MsBuildParserTest extends AbstractParserTest {
     protected MsBuildParser createParser() {
         return new MsBuildParser();
     }
+
+    @Test
+    void shouldNotParseIncrementalFlag() {
+        String log = "LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/OPT:ICF' specification";
+
+        Report warnings = parseStringContent(log);
+
+        assertThat(warnings).isEmpty();
+    }
 }

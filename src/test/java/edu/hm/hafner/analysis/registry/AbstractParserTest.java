@@ -43,7 +43,7 @@ public abstract class AbstractParserTest extends ResourceTest {
      * Creates a new instance of {@link AbstractParserTest}.
      *
      * @param fileWithIssuesName
-     *         the file that should contain some issues
+     *                           the file that should contain some issues
      */
     protected AbstractParserTest(final String fileWithIssuesName) {
         super();
@@ -61,8 +61,10 @@ public abstract class AbstractParserTest extends ResourceTest {
     }
 
     /**
-     * Parses the default file that must contain issues. Verification of the issues is delegated to method {@link
-     * #assertThatIssuesArePresent(Report, SoftAssertions)} that needs to be implemented by subclasses.
+     * Parses the default file that must contain issues. Verification of the issues
+     * is delegated to method {@link
+     * #assertThatIssuesArePresent(Report, SoftAssertions)} that needs to be
+     * implemented by subclasses.
      */
     @Test
     void shouldParseAllIssues() {
@@ -73,12 +75,15 @@ public abstract class AbstractParserTest extends ResourceTest {
     }
 
     /**
-     * Parses the default file that must contain issues. Verification of the issues is delegated to method {@link
-     * #assertThatIssuesArePresent(Report, SoftAssertions)} that needs to be implemented by subclasses.
+     * Parses the default file that must contain issues. Verification of the issues
+     * is delegated to method {@link
+     * #assertThatIssuesArePresent(Report, SoftAssertions)} that needs to be
+     * implemented by subclasses.
      */
     @Test
     void shouldRegisterParser() {
-        assumeThat(createParser().getClass().getPackageName()).startsWith("edu.hm.hafner.analysis"); // only test our own parsers
+        assumeThat(createParser().getClass().getPackageName()).startsWith("edu.hm.hafner.analysis"); // only test our
+                                                                                                     // own parsers
 
         var parserRegistry = new ParserRegistry();
 
@@ -104,8 +109,7 @@ public abstract class AbstractParserTest extends ResourceTest {
         parserRegistry.getAllDescriptors()
                 .stream()
                 .map(ParserDescriptor::getUrl)
-                .forEach(url ->
-                        assertThat(url).matches("https?://.*|^$"));
+                .forEach(url -> assertThat(url).matches("https?://.*|^$"));
     }
 
     protected void assertThatReportHasSeverities(final Report report, final int expectedSizeError,
@@ -129,8 +133,10 @@ public abstract class AbstractParserTest extends ResourceTest {
     }
 
     /**
-     * Ensures that the parser under test could be serialized. This test will fail with an {@code
-     * NotSerializableException} if the parser does not correctly implement the {@link Serializable} interface.
+     * Ensures that the parser under test could be serialized. This test will fail
+     * with an {@code
+     * NotSerializableException} if the parser does not correctly implement the
+     * {@link Serializable} interface.
      */
     @Test
     void shouldBeSerializable() throws IOException {
@@ -145,7 +151,8 @@ public abstract class AbstractParserTest extends ResourceTest {
     }
 
     /**
-     * Ensures that the parser under test can handle empty files. This test will fail if the parser does not throw a
+     * Ensures that the parser under test can handle empty files. This test will
+     * fail if the parser does not throw a
      * {@link ParsingException} or does not return an empty report.
      */
     @Test
@@ -154,8 +161,7 @@ public abstract class AbstractParserTest extends ResourceTest {
         try {
             var report = parseStringContent("");
             passed = report.isEmpty();
-        }
-        catch (ParsingException e) {
+        } catch (ParsingException e) {
             passed = true;
         }
         assertThat(passed).isTrue();
@@ -165,7 +171,7 @@ public abstract class AbstractParserTest extends ResourceTest {
      * Parses the specified file and returns the found issues.
      *
      * @param fileName
-     *         the file to parse
+     *                 the file to parse
      *
      * @return the found issues
      */
@@ -177,7 +183,7 @@ public abstract class AbstractParserTest extends ResourceTest {
      * Parses the specified string content and returns the found issues.
      *
      * @param content
-     *         the log file given as String
+     *                the log file given as String
      *
      * @return the found issues
      */
@@ -186,14 +192,19 @@ public abstract class AbstractParserTest extends ResourceTest {
     }
 
     /**
-     * Verifies that the provided default file has been parsed correctly. I.e., a concrete test case needs to verify
-     * that the number of issues is correct and that each issue contains the correct properties.
+     * Verifies that the provided default file has been parsed correctly. I.e., a
+     * concrete test case needs to verify
+     * that the number of issues is correct and that each issue contains the correct
+     * properties.
      *
      * @param report
-     *         the issues that have been created while parsing the default file
+     *               the issues that have been created while parsing the default
+     *               file
      * @param softly
-     *         The soft assertions instance you can use for all {@link SoftAssertions#assertThat assertThat} calls. Note
-     *         that {@link SoftAssertions#assertAll} is called automatically, you do not need to call it on your own.
+     *               The soft assertions instance you can use for all
+     *               {@link SoftAssertions#assertThat assertThat} calls. Note
+     *               that {@link SoftAssertions#assertAll} is called automatically,
+     *               you do not need to call it on your own.
      */
     protected abstract void assertThatIssuesArePresent(Report report, SoftAssertions softly);
 
@@ -217,7 +228,7 @@ public abstract class AbstractParserTest extends ResourceTest {
      * Returns a factory that opens the specified {@link File} on every invocation.
      *
      * @param fileName
-     *         the file to read
+     *                 the file to read
      *
      * @return default file with issues
      */
@@ -230,10 +241,11 @@ public abstract class AbstractParserTest extends ResourceTest {
         private final String content;
 
         /**
-         * Creates a new {@link ReaderFactory} that reads the specific {@link String} instance.
+         * Creates a new {@link ReaderFactory} that reads the specific {@link String}
+         * instance.
          *
          * @param content
-         *         the content to read
+         *                the content to read
          */
         public StringReaderFactory(final String content) {
             super(StandardCharsets.UTF_8);
