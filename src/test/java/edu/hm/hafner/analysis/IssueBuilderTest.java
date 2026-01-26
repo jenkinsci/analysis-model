@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -8,7 +9,10 @@ import org.junit.jupiter.params.provider.ValueSource;
 import edu.hm.hafner.util.LineRange;
 import edu.hm.hafner.util.LineRangeList;
 import edu.hm.hafner.util.TreeString;
+import edu.hm.hafner.util.TreeStringBuilder;
 
+import java.util.Iterator;
+import java.util.List;
 import java.util.UUID;
 
 import static edu.hm.hafner.analysis.IssueTest.*;
@@ -20,15 +24,28 @@ import static edu.hm.hafner.analysis.assertions.Assertions.*;
  * @author Marcel Binder
  */
 class IssueBuilderTest {
+    private static final TreeStringBuilder TREE_STRING_BUILDER = new TreeStringBuilder();
     private static final String FILE_NAME = "C:/users/tester/file-name";
-    static final String FILE_NAME_WITH_BACKSLASHES = "C:\\users\\tester/file-name";
-    private static final Issue DEFAULT_ISSUE = new Issue(PATH_NAME, UNDEFINED_TS, 0, 0, 0, 0, new LineRangeList(),
-            null, null, UNDEFINED_TS, null, null, EMPTY_TS, EMPTY, null, null, null, null, null);
-    private static final Issue FILLED_ISSUE = new Issue(PATH_NAME, TreeString.valueOf(FILE_NAME), LINE_START,
-            LINE_END, COLUMN_START, COLUMN_END,
-            LINE_RANGES, CATEGORY, TYPE, TreeString.valueOf(PACKAGE_NAME), MODULE_NAME, SEVERITY,
-            TreeString.valueOf(MESSAGE), DESCRIPTION, ORIGIN, ORIGIN_NAME, REFERENCE,
-            FINGERPRINT, ADDITIONAL_PROPERTIES);
+    private static final String FILE_NAME_WITH_BACKSLASHES = "C:\\users\\tester/file-name";
+
+    private static final Issue DEFAULT_ISSUE = createDefaultIssue();
+    private static final Issue FILLED_ISSUE = createFilledIssue();
+
+    private static Issue createDefaultIssue() {
+        return new Issue(StringUtils.EMPTY, List.of(new Location(UNDEFINED_TS)), null, null, UNDEFINED_TS,
+                UNDEFINED, null, TREE_STRING_BUILDER.intern(StringUtils.EMPTY), EMPTY, EMPTY,
+                null, null, null, null, UUID.randomUUID());
+    }
+
+    private static Issue createFilledIssue() {
+        var locations = Issue.toLocations(TreeString.valueOf(FILE_NAME), LINE_START,
+                LINE_END, COLUMN_START, COLUMN_END, LINE_RANGES);
+
+        return new Issue(PATH_NAME, locations, CATEGORY, TYPE, TreeString.valueOf(PACKAGE_NAME), MODULE_NAME, SEVERITY,
+                TreeString.valueOf(MESSAGE), DESCRIPTION, ORIGIN, ORIGIN_NAME, REFERENCE,
+                FINGERPRINT, ADDITIONAL_PROPERTIES, UUID.randomUUID());
+    }
+
     private static final String RELATIVE_FILE = "relative.txt";
 
     @Test
@@ -265,20 +282,6 @@ class IssueBuilderTest {
     }
 
     @Test
-    void shouldMoveLineRangeToAttributesEvenIfLineEndIsSet() {
-        try (var builder = new IssueBuilder()) {
-            builder.setLineEnd(2);
-            var lineRanges = new LineRangeList();
-            lineRanges.add(new LineRange(1, 2));
-            builder.setLineRanges(lineRanges);
-
-            var issue = builder.build();
-            assertThat(issue).hasLineStart(1).hasLineEnd(2);
-            assertThat(issue).hasNoLineRanges();
-        }
-    }
-
-    @Test
     void shouldCleanupLineRanges() {
         try (var builder = new IssueBuilder()) {
             builder.setLineStart(1).setLineEnd(2);
@@ -367,6 +370,73 @@ class IssueBuilderTest {
 
             assertThat(issue.getMessageTreeString()).isSameAs(anotherIssue.getMessageTreeString());
             assertThat(issue.getDescription()).isSameAs(anotherIssue.getDescription());
+        }
+    }
+
+    @Test
+    void shouldAddAdditionalLocations() {
+        try (var builder = new IssueBuilder()) {
+            var location1 = new Location(TREE_STRING_BUILDER.intern("header.h"), 10, 20);
+            var location2 = new Location(TREE_STRING_BUILDER.intern("impl.cpp"), 50);
+
+            builder.addLocation(location1);
+            builder.addLocation(location2);
+
+            var issue = builder.build();
+            Iterator<? extends Location> iterator = issue.getLocations().iterator();
+            assertThat(iterator.next()).isEqualTo(location1);
+            assertThat(iterator.next()).isEqualTo(location2);
+        }
+    }
+
+    @Test
+    void shouldSetAdditionalLocations() {
+        try (var builder = new IssueBuilder()) {
+            var locations = java.util.List.of(
+                    new Location(TREE_STRING_BUILDER.intern("header.h"), 10, 20),
+                    new Location(TREE_STRING_BUILDER.intern("impl.cpp"), 50)
+            );
+
+            builder.setLocations(locations);
+
+            var issue = builder.build();
+            assertThat(issue.hasAdditionalLocations()).isTrue();
+            assertThat(issue.getLocations()).hasSize(2);
+        }
+    }
+
+    @Test
+    void shouldCopyAdditionalLocations() {
+        try (var builder = new IssueBuilder()) {
+            var location1 = new Location(TREE_STRING_BUILDER.intern("header.h"), 10, 20);
+            var location2 = new Location(TREE_STRING_BUILDER.intern("impl.cpp"), 50);
+
+            builder.addLocation(location1);
+            builder.addLocation(location2);
+
+            var originalIssue = builder.build();
+
+            try (var copyBuilder = new IssueBuilder()) {
+                copyBuilder.copy(originalIssue);
+                var copiedIssue = copyBuilder.build();
+
+                assertThat(copiedIssue.hasAdditionalLocations()).isTrue();
+                assertThat(copiedIssue.getLocations()).hasSize(2);
+                Iterator<? extends Location> iterator = copiedIssue.getLocations().iterator();
+                assertThat(iterator.next()).isEqualTo(location1);
+                assertThat(iterator.next()).isEqualTo(location2);
+            }
+        }
+    }
+
+    @Test
+    void shouldNotHaveAdditionalLocationsWhenNoneSet() {
+        try (var builder = new IssueBuilder()) {
+            var issue = builder.build();
+
+            // No additional locations when none are set
+            assertThat(issue.hasAdditionalLocations()).isFalse();
+            assertThat(issue.getLocations()).hasSize(1);  // Primary location always exists
         }
     }
 }

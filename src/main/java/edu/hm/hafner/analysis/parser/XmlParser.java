@@ -87,6 +87,7 @@ public class XmlParser extends IssueParser {
                         .setLineEnd(path.evaluate(LINE_END, issue))
                         .setColumnStart(path.evaluate(COLUMN_START, issue))
                         .setColumnEnd(path.evaluate(COLUMN_END, issue))
+                        // FIXME: add support for locations instead of line ranges
                         .setLineRanges(readLineRanges(path,
                                 (NodeList) path.evaluate(LINE_RANGES_PATH, issue, XPathConstants.NODESET)))
                         .setCategory(path.evaluate(CATEGORY, issue))

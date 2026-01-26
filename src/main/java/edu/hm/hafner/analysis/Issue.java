@@ -15,7 +15,10 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.Serial;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -28,7 +31,7 @@ import java.util.function.Predicate;
 @SuppressWarnings({"PMD.GodClass", "PMD.CyclomaticComplexity", "NoFunctionalReturnType"})
 public class Issue implements Serializable {
     @Serial
-    private static final long serialVersionUID = 1L; // release 1.0.0
+    private static final long serialVersionUID = 14L; // release 14.0.0
 
     private static final PathUtil PATH_UTIL = new PathUtil();
 
@@ -151,7 +154,7 @@ public class Issue implements Serializable {
     }
 
     /**
-     * Returns a predicate that checks if the type of an issue is equal to the specified type.
+     * Returns a predicate that checks if the type of issue is equal to the specified type.
      *
      * @param type
      *         the type to match
@@ -167,12 +170,22 @@ public class Issue implements Serializable {
 
     private final Severity severity;
 
-    private final int lineStart;            // fixed
-    private final int lineEnd;              // fixed
-    private final int columnStart;          // fixed
-    private final int columnEnd;            // fixed
+    @Deprecated
+    private final int lineStart = 0;                // replaced by Location
+    @Deprecated
+    private final int lineEnd = 0;                  // replaced by Location
+    @Deprecated
+    private final int columnStart = 0;              // replaced by Location
+    @Deprecated
+    private final int columnEnd = 0;                // replaced by Location
+    @Deprecated
+    private LineRangeList lineRanges = null;  // replaced by Location
+    @Deprecated
+    private TreeString fileName;                    // replaced by Location
 
-    private final LineRangeList lineRanges; // fixed
+    @CheckForNull
+    @SuppressWarnings("PMD.LooseCoupling")
+    private ArrayList<Location> locations; // fixed
 
     private final UUID id;                  // fixed
 
@@ -186,7 +199,6 @@ public class Issue implements Serializable {
     private String moduleName;      // mutable
     private TreeString packageName; // mutable
     private String pathName;        // mutable, not part of equals, @since 8.0.0
-    private TreeString fileName;    // mutable
 
     private final TreeString message;   // fixed
     private String description;   // fixed
@@ -195,98 +207,12 @@ public class Issue implements Serializable {
     private boolean partOfModifiedCode;     // mutable, not part of equals
 
     /**
-     * Creates a new instance of {@link Issue} using the properties of the other issue instance. The new issue has the
-     * same ID as the copy.
-     *
-     * @param copy
-     *         the other issue to copy the properties from
-     */
-    @SuppressWarnings("CopyConstructorMissesField")
-    Issue(final Issue copy) {
-        this(copy.getPath(), copy.getFileNameTreeString(), copy.getLineStart(), copy.getLineEnd(),
-                copy.getColumnStart(),
-                copy.getColumnEnd(), copy.getLineRanges(), copy.getCategory(), copy.getType(),
-                copy.getPackageNameTreeString(), copy.getModuleName(), copy.getSeverity(), copy.getMessageTreeString(),
-                copy.getDescription(), copy.getOrigin(), copy.getOriginName(), copy.getReference(), copy.getFingerprint(),
-                copy.getAdditionalProperties(), copy.getId());
-    }
-
-    /**
-     * Creates a new instance of {@link Issue} using the specified properties. The new issue will get a new generated
-     * ID.
-     *
-     * @param pathName
-     *         the path that contains the affected file
-     * @param fileName
-     *         the name of the file that contains this issue
-     * @param lineStart
-     *         the first line of this issue (lines start at 1; 0 indicates the whole file)
-     * @param lineEnd
-     *         the last line of this issue (lines start at 1)
-     * @param columnStart
-     *         the first column of this issue (columns start at 1, 0 indicates the whole line)
-     * @param columnEnd
-     *         the last column of this issue (columns start at 1)
-     * @param lineRanges
-     *         additional line ranges of this issue
-     * @param category
-     *         the category of this issue (depends on the available categories of the static analysis tool)
-     * @param type
-     *         the type of this issue (depends on the available types of the static analysis tool)
-     * @param packageName
-     *         the name of the package (or name space) that contains this issue
-     * @param moduleName
-     *         the name of the moduleName (or project) that contains this issue
-     * @param severity
-     *         the severity of this issue
-     * @param message
-     *         the detail message of this issue
-     * @param description
-     *         the description for this issue
-     * @param origin
-     *         the ID of the tool that did report this issue
-     * @param originName
-     *         the name of the tool that did report this issue
-     * @param reference
-     *         an arbitrary reference to the execution of the static analysis tool (build ID, timestamp, etc.)
-     * @param fingerprint
-     *         the fingerprint for this issue
-     * @param additionalProperties
-     *         additional properties from the statical analysis tool
-     */
-    @SuppressWarnings("ParameterNumber")
-    Issue(final String pathName, final TreeString fileName,
-            final int lineStart, final int lineEnd, final int columnStart, final int columnEnd,
-            @CheckForNull final Iterable<? extends LineRange> lineRanges,
-            @CheckForNull final String category, @CheckForNull final String type,
-            final TreeString packageName, @CheckForNull final String moduleName,
-            @CheckForNull final Severity severity,
-            final TreeString message, final String description,
-            @CheckForNull final String origin, @CheckForNull final String originName, @CheckForNull
-            final String reference, @CheckForNull final String fingerprint,
-            @CheckForNull final Serializable additionalProperties) {
-        this(pathName, fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges, category, type,
-                packageName, moduleName, severity, message, description, origin, originName, reference,
-                fingerprint, additionalProperties, UUID.randomUUID());
-    }
-
-    /**
      * Creates a new instance of {@link Issue} using the specified properties.
      *
      * @param pathName
-     *         the path that contains the affected file
-     * @param fileName
-     *         the name of the file that contains this issue
-     * @param lineStart
-     *         the first line of this issue (lines start at 1; 0 indicates the whole file)
-     * @param lineEnd
-     *         the last line of this issue (lines start at 1)
-     * @param columnStart
-     *         the first column of this issue (columns start at 1, 0 indicates the whole line)
-     * @param columnEnd
-     *         the last column of this issue (columns start at 1)
-     * @param lineRanges
-     *         additional line ranges of this issue
+     *         the path that contains the affected file and the other files related to this issue
+     * @param locations
+     *         file locations related to this issue, the first location is the primary one
      * @param category
      *         the category of this issue (depends on the available categories of the static analysis tool)
      * @param type
@@ -315,46 +241,15 @@ public class Issue implements Serializable {
      *         the ID of this issue
      */
     @SuppressWarnings("ParameterNumber")
-    Issue(@CheckForNull final String pathName, final TreeString fileName, final int lineStart, final int lineEnd,
-            final int columnStart,
-            final int columnEnd, @CheckForNull final Iterable<? extends LineRange> lineRanges,
-            @CheckForNull final String category,
-            @CheckForNull final String type, final TreeString packageName,
-            @CheckForNull final String moduleName, @CheckForNull final Severity severity,
-            final TreeString message, final String description,
+    Issue(@CheckForNull final String pathName, final List<Location> locations,
+            @CheckForNull final String category, @CheckForNull final String type,
+            final TreeString packageName, @CheckForNull final String moduleName,
+            @CheckForNull final Severity severity, final TreeString message, final String description,
             @CheckForNull final String origin, @CheckForNull final String originName,
             @CheckForNull final String reference, @CheckForNull final String fingerprint,
-            @CheckForNull final Serializable additionalProperties,
-            final UUID id) {
+            @CheckForNull final Serializable additionalProperties, final UUID id) {
         this.pathName = normalizeFileName(pathName);
-        this.fileName = fileName;
-
-        int providedLineStart = defaultInteger(lineStart);
-        int providedLineEnd = defaultInteger(lineEnd) == 0 ? providedLineStart : defaultInteger(lineEnd);
-        if (providedLineStart == 0) {
-            this.lineStart = providedLineEnd;
-            this.lineEnd = providedLineEnd;
-        }
-        else {
-            this.lineStart = Math.min(providedLineStart, providedLineEnd);
-            this.lineEnd = Math.max(providedLineStart, providedLineEnd);
-        }
-
-        int providedColumnStart = defaultInteger(columnStart);
-        int providedColumnEnd = defaultInteger(columnEnd) == 0 ? providedColumnStart : defaultInteger(columnEnd);
-        if (providedColumnStart == 0) {
-            this.columnStart = providedColumnEnd;
-            this.columnEnd = providedColumnEnd;
-        }
-        else {
-            // if the line ends on the next line, columnStart can be greater then columnEnd
-            this.columnStart = providedLineStart < providedLineEnd ? providedColumnStart : Math.min(providedColumnStart, providedColumnEnd);
-            this.columnEnd = providedLineStart < providedLineEnd ? providedColumnEnd : Math.max(providedColumnStart, providedColumnEnd);
-        }
-        this.lineRanges = new LineRangeList();
-        if (lineRanges != null) {
-            this.lineRanges.addAll(lineRanges);
-        }
+        this.locations = new ArrayList<>(locations);
         this.category = StringUtils.defaultString(category).intern();
         this.type = defaultString(type);
 
@@ -376,10 +271,11 @@ public class Issue implements Serializable {
     }
 
     /**
-     * Called after deserialization to improve the memory usage.
+     * Called after deserialization to improve the memory usage and to restore new fields with default values.
      *
      * @return this
      */
+    @Serial
     @SuppressFBWarnings(value = "RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE", justification = "Deserialization of instances that do not have all fields yet")
     protected Object readResolve() {
         category = category.intern();
@@ -387,6 +283,7 @@ public class Issue implements Serializable {
         moduleName = moduleName.intern();
         origin = origin.intern();
         reference = reference.intern();
+
         if (pathName == null) { // new in version 8.0.0
             pathName = UNDEFINED;
         }
@@ -405,7 +302,24 @@ public class Issue implements Serializable {
         else {
             originName = originName.intern();
         }
+        if (locations == null) { // new in version 14.0.0
+            // Create a Location from the old fields to retain backward compatibility
+            locations = toLocations(fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges);
+            fileName = null; // free memory
+            lineRanges = null; // free memory
+        }
         return this;
+    }
+
+    static ArrayList<Location> toLocations(final TreeString oldFileName,
+            final int oldLineStart, final int oldLineEnd, final int oldColumnStart, final int oldColumnEnd,
+            final LineRangeList oldLineRanges) {
+        var converted = new ArrayList<Location>();
+        converted.add(new Location(oldFileName, oldLineStart, oldLineEnd, oldColumnStart, oldColumnEnd));
+        oldLineRanges.stream()
+                .map(lr -> new Location(oldFileName, lr.getStart(), lr.getEnd()))
+                .forEach(converted::add);
+        return converted;
     }
 
     private String normalizeFileName(@CheckForNull final String platformFileName) {
@@ -413,18 +327,6 @@ public class Issue implements Serializable {
             return UNDEFINED;
         }
         return PATH_UTIL.getAbsolutePath(platformFileName);
-    }
-
-    /**
-     * Creates a default Integer representation for undefined input parameters.
-     *
-     * @param integer
-     *         the integer to check
-     *
-     * @return the valid integer value or 0 if the specified {@link Integer} is {@code null} or less than 0
-     */
-    private int defaultInteger(final int integer) {
-        return Math.max(integer, 0);
     }
 
     /**
@@ -468,7 +370,7 @@ public class Issue implements Serializable {
      * @see #getPath()
      */
     public String getFileName() {
-        return fileName.toString();
+        return getPrimaryLocation().getFileName();
     }
 
     /**
@@ -478,7 +380,7 @@ public class Issue implements Serializable {
      * @return the cached tree-string containing the name of the file that contains this issue
      */
     TreeString getFileNameTreeString() {
-        return fileName;
+        return getPrimaryLocation().getFileNameTreeString();
     }
 
     /**
@@ -501,7 +403,7 @@ public class Issue implements Serializable {
     }
 
     /**
-     * Returns the base name of the file that contains this issue (i.e. the file name without the full path).
+     * Returns the base name of the file that contains this issue (i.e., the file name without the full path).
      *
      * @return the base name of the file that contains this issue
      */
@@ -530,7 +432,7 @@ public class Issue implements Serializable {
 
     /**
      * Returns the path of the affected file. Note that this path is not the parent folder of the affected file. This
-     * path is the folder that contains all of the affected files of a {@link Report}. If this path is not defined, then
+     * path is the folder that contains all the affected files of a {@link Report}. If this path is not defined, then
      * the default value {@link #UNDEFINED} is returned.
      *
      * @return the base name of the file that contains this issue
@@ -550,7 +452,18 @@ public class Issue implements Serializable {
     @SuppressWarnings("checkstyle:HiddenField")
     void setFileName(final String pathName, final TreeString fileName) {
         this.pathName = normalizeFileName(pathName);
-        this.fileName = fileName;
+        var oldFileName = getFileNameTreeString();
+        var changedLocations = locations.stream().map(l -> createLocation(l, oldFileName, fileName)).toList();
+        locations.clear();
+        locations.addAll(changedLocations);
+    }
+
+    private Location createLocation(final Location existing, final TreeString oldFileName, final TreeString newFileName) {
+        if (existing.getFileNameTreeString().equals(oldFileName)) {
+            return new Location(newFileName,
+                    existing.getLineStart(), existing.getLineEnd(), existing.getColumnStart(), existing.getColumnEnd());
+        }
+        return existing;
     }
 
     /**
@@ -565,7 +478,7 @@ public class Issue implements Serializable {
 
     /**
      * Returns the category of this issue (depends on the available categories of the static analysis tool). Examples
-     * for categories are "Deprecation", "Design", or "JavaDoc".
+     * for categories are "Deprecation", "Design", or "Javadoc".
      *
      * @return the category
      */
@@ -601,11 +514,6 @@ public class Issue implements Serializable {
         return message.toString();
     }
 
-    /**
-     * Returns the tree-string containing the detailed message for this issue.
-     *
-     * @return the message
-     */
     TreeString getMessageTreeString() {
         return message;
     }
@@ -626,7 +534,7 @@ public class Issue implements Serializable {
      * @return the first line
      */
     public int getLineStart() {
-        return lineStart;
+        return getPrimaryLocation().getLineStart();
     }
 
     /**
@@ -635,7 +543,7 @@ public class Issue implements Serializable {
      * @return the last line
      */
     public int getLineEnd() {
-        return lineEnd;
+        return getPrimaryLocation().getLineEnd();
     }
 
     /**
@@ -643,15 +551,61 @@ public class Issue implements Serializable {
      * lineEnd} is not included.
      *
      * @return the last line
+     * @deprecated use {@link #getLocations()} instead
      */
-    // TODO: actually we need a list of locations since a warning may involve several files
+    @Deprecated
     public Iterable<? extends LineRange> getLineRanges() {
-        return new LineRangeList(lineRanges);
+        return locations.stream()
+                .skip(1) // primary location is not included
+                .map(location -> new LineRange(location.getLineStart(), location.getLineEnd()))
+                .toList();
     }
 
     /**
-     * Returns whether this issue line ranges contain the specified line. If this issue has no lines defined, then this
-     * method will return {@code true}.
+     * Returns all locations of this issue. The first location is the primary location.
+     * Some warnings span multiple files, such as GNU CC's reorder warning for C++ where
+     * the warning shows up in the initializer list but references the header file.
+     * More involved cases are MicroFocus Fortify and Synopsis Coverity, which trace execution
+     * potentially through multiple classes or translation units.
+     *
+     * @return the locations
+     */
+    public Iterable<? extends Location> getLocations() {
+        return List.copyOf(locations);
+    }
+
+    /**
+     * Returns all locations of this issue that are within the affected file of the primary location.
+     *
+     * @return the locations in the affected file
+     */
+    public Iterable<? extends Location> getAffectedLocations() {
+        return locations.stream()
+                .filter(l -> getFileName().equals(l.getFileName()))
+                .toList();
+    }
+
+    /**
+     * Returns the primary (first) location of this issue.
+     *
+     * @return the primary location
+     */
+    public Location getPrimaryLocation() {
+        return locations.get(0);
+    }
+
+    /**
+     * Returns whether this issue has additional file locations beyond the primary one.
+     *
+     * @return {@code true} if this issue has additional file locations, {@code false} otherwise
+     */
+    public boolean hasAdditionalLocations() {
+        return locations.size() > 1;
+    }
+
+    /**
+     * Returns whether the locations of this issue contain the specified line.
+     * If this issue has no lines defined, then this method will return {@code true}.
      *
      * @param line
      *         the line to check
@@ -659,14 +613,14 @@ public class Issue implements Serializable {
      * @return {@code true} if the specified line is within the line ranges of this issue, {@code false} otherwise
      */
     public boolean affectsLine(final int line) {
-        if (lineStart == 0 || line == 0) {
+        if (getLineStart() == 0 || line == 0) {
             return true; // the whole file is marked, so every line is affected
         }
-        if (lineStart <= line && line <= lineEnd) {
+        if (getLineStart() <= line && line <= lineEnd) {
             return true; // the line is within the primary range of this issue
         }
-        for (LineRange lineRange : lineRanges) {
-            if (lineRange.contains(line)) {
+        for (Location location : getAffectedLocations()) {
+            if (location.contains(line)) {
                 return true; // the line is within an additional line range of this issue
             }
         }
@@ -679,7 +633,7 @@ public class Issue implements Serializable {
      * @return the first column
      */
     public int getColumnStart() {
-        return columnStart;
+        return getPrimaryLocation().getColumnStart();
     }
 
     /**
@@ -688,7 +642,7 @@ public class Issue implements Serializable {
      * @return the last column
      */
     public int getColumnEnd() {
-        return columnEnd;
+        return getPrimaryLocation().getColumnEnd();
     }
 
     /**
@@ -907,18 +861,6 @@ public class Issue implements Serializable {
 
         var issue = (Issue) o;
 
-        if (lineStart != issue.lineStart) {
-            return false;
-        }
-        if (lineEnd != issue.lineEnd) {
-            return false;
-        }
-        if (columnStart != issue.columnStart) {
-            return false;
-        }
-        if (columnEnd != issue.columnEnd) {
-            return false;
-        }
         if (!category.equals(issue.category)) {
             return false;
         }
@@ -929,9 +871,6 @@ public class Issue implements Serializable {
             return false;
         }
         if (!message.equals(issue.message)) {
-            return false;
-        }
-        if (!lineRanges.equals(issue.lineRanges)) {
             return false;
         }
         if (!description.equals(issue.description)) {
@@ -953,7 +892,7 @@ public class Issue implements Serializable {
         if (!packageName.equals(issue.packageName)) {
             return false;
         }
-        return fileName.equals(issue.fileName);
+        return Objects.equals(locations, issue.locations);
     }
 
     @Override
@@ -962,18 +901,13 @@ public class Issue implements Serializable {
         result = 31 * result + type.hashCode();
         result = 31 * result + severity.hashCode();
         result = 31 * result + message.hashCode();
-        result = 31 * result + lineStart;
-        result = 31 * result + lineEnd;
-        result = 31 * result + columnStart;
-        result = 31 * result + columnEnd;
-        result = 31 * result + lineRanges.hashCode();
         result = 31 * result + description.hashCode();
         result = 31 * result + (additionalProperties == null ? 0 : additionalProperties.hashCode());
         result = 31 * result + origin.hashCode();
         result = 31 * result + originName.hashCode();
         result = 31 * result + moduleName.hashCode();
         result = 31 * result + packageName.hashCode();
-        result = 31 * result + fileName.hashCode();
+        result = 31 * result + (locations == null ? 0 : locations.hashCode());
         return result;
     }
 
@@ -981,6 +915,6 @@ public class Issue implements Serializable {
     public String toString() {
         return String.format(Locale.ENGLISH, "%s%s(%d,%d): %s: %s: %s",
                 isPartOfModifiedCode() ? "*" : StringUtils.EMPTY, getBaseName(),
-                lineStart, columnStart, type, category, message);
+                getLineStart(), getColumnStart(), type, category, message);
     }
 }

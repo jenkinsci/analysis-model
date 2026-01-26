@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Strings;
 
@@ -12,6 +13,8 @@ import edu.hm.hafner.util.TreeStringBuilder;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -24,12 +27,13 @@ import static edu.hm.hafner.analysis.util.IntegerParser.*;
  * <p>Example:</p>
  *
  * <blockquote><pre>
- * Issue issue = new IssueBuilder()
- *                      .setFileName("affected.file")
- *                      .setLineStart(0)
- *                      .setCategory("JavaDoc")
- *                      .setMessage("Missing JavaDoc")
- *                      .setSeverity(Severity.WARNING_LOW);
+ * try (var builder = new IssueBuilder()) {
+ *     builder.setFileName("affected.file")
+ *            .setLineStart(0)
+ *            .setCategory("Javadoc")
+ *            .setMessage("Missing Javadoc")
+ *            .setSeverity(Severity.WARNING_LOW);
+ * }
  * </pre></blockquote>
  *
  * @author Ullrich Hafner
@@ -51,8 +55,7 @@ public class IssueBuilder implements AutoCloseable {
     private int columnStart;
     private int columnEnd;
 
-    @CheckForNull
-    private LineRangeList lineRanges;
+    private List<Location> locations = new ArrayList<>();
 
     @CheckForNull
     private String pathName;
@@ -147,6 +150,10 @@ public class IssueBuilder implements AutoCloseable {
         return this;
     }
 
+    TreeString getFileName() {
+        return ObjectUtils.requireNonEmpty(fileName);
+    }
+
     TreeString internFileName(@CheckForNull final String unsafeFileName) {
         if (unsafeFileName == null || StringUtils.isEmpty(unsafeFileName)) {
             return UNDEFINED_TREE_STRING;
@@ -223,6 +230,10 @@ public class IssueBuilder implements AutoCloseable {
         return this;
     }
 
+    int getLineStart() {
+        return lineStart;
+    }
+
     /**
      * Sets the last line of this issue (lines start at 1).
      *
@@ -249,6 +260,10 @@ public class IssueBuilder implements AutoCloseable {
     public IssueBuilder setLineEnd(@CheckForNull final String lineEnd) {
         this.lineEnd = parseInt(lineEnd);
         return this;
+    }
+
+    int getLineEnd() {
+        return lineEnd;
     }
 
     /**
@@ -279,6 +294,10 @@ public class IssueBuilder implements AutoCloseable {
         return this;
     }
 
+    int getColumnStart() {
+        return columnStart;
+    }
+
     /**
      * Sets the last column of this issue (columns start at 1).
      *
@@ -307,9 +326,13 @@ public class IssueBuilder implements AutoCloseable {
         return this;
     }
 
+    int getColumnEnd() {
+        return columnEnd;
+    }
+
     /**
      * Sets the category of this issue (depends on the available categories of the static analysis tool). Examples for
-     * categories are "Deprecation", "Design", or "JavaDoc".
+     * categories are "Deprecation", "Design", or "Javadoc".
      *
      * @param category
      *         the category
@@ -432,8 +455,8 @@ public class IssueBuilder implements AutoCloseable {
     }
 
     /**
-     * Guesses a severity for the issues: converts a String severity to one of the predefined severities. If the
-     * provided String does not match (even partly) then the default severity will be returned.
+     * Guesses severity for the issues: converts String severity to one of the predefined severities. If the
+     * provided String does not match (even partly), then the default severity will be returned.
      *
      * @param severityString
      *         the severity given as a string representation
@@ -481,18 +504,69 @@ public class IssueBuilder implements AutoCloseable {
     }
 
     /**
-     * Sets additional line ranges for this issue. Not that the primary range given by {@code lineStart} and {@code *
+     * Sets additional line ranges of this issue. Note that the primary range given by {@code lineStart} and {@code
      * lineEnd} is not included.
      *
      * @param lineRanges
      *         the additional line ranges
      *
      * @return this
+     * @deprecated use {@link #setLocations(List)} or {@link #addLocation(Location)} instead
      */
+    @Deprecated
     @CanIgnoreReturnValue
     public IssueBuilder setLineRanges(final LineRangeList lineRanges) {
-        this.lineRanges = new LineRangeList(lineRanges);
+        if (getLineStart() > 0 || getLineEnd() > 0) {
+            locations.add(new Location(getFileName(), getLineStart(), getLineEnd(), getColumnStart(), getColumnEnd()));
+        }
+        lineRanges.stream()
+                .map(lr -> new Location(getFileName(), lr.getStart(), lr.getEnd()))
+                .filter(l -> !locations.contains(l))
+                .forEach(locations::add);
         return this;
+    }
+
+    /**
+     * Sets the locations of this issue, the first location is considered the primary location.
+     *
+     * @param locations
+     *         the locations of this issue
+     *
+     * @return this
+     */
+    @CanIgnoreReturnValue
+    public IssueBuilder setLocations(final List<Location> locations) {
+        this.locations = new ArrayList<>(locations);
+        return this;
+    }
+
+    /**
+     * Adds another location to this issue, the first location is considered the primary location.
+     *
+     * @param location
+     *         the file location to add
+     *
+     * @return this
+     */
+    @CanIgnoreReturnValue
+    public IssueBuilder addLocation(final Location location) {
+        if (locations.contains(location)) { // do not add duplicates
+            return this;
+        }
+        if (isInPrimaryFile(location)) { // reuse file name instance of the primary location
+            locations.add(new Location(locations.get(0).getFileNameTreeString(),
+                    location.getLineStart(), location.getLineEnd(),
+                    location.getColumnStart(), location.getColumnEnd()));
+        }
+        else {
+            locations.add(location);
+        }
+        return this;
+    }
+
+    private boolean isInPrimaryFile(final Location location) {
+        return !locations.isEmpty()
+                && locations.get(0).getFileName().equals(location.getFileName());
     }
 
     /**
@@ -504,13 +578,14 @@ public class IssueBuilder implements AutoCloseable {
      * @return the initialized builder
      */
     public IssueBuilder copy(final Issue copy) {
+        // TODO use setters?
         fileName = copy.getFileNameTreeString();
         lineStart = copy.getLineStart();
         lineEnd = copy.getLineEnd();
         columnStart = copy.getColumnStart();
         columnEnd = copy.getColumnEnd();
-        lineRanges = new LineRangeList();
-        lineRanges.addAll(copy.getLineRanges());
+        locations.clear();
+        copy.getLocations().forEach(locations::add);
         category = copy.getCategory();
         type = copy.getType();
         severity = copy.getSeverity();
@@ -551,29 +626,31 @@ public class IssueBuilder implements AutoCloseable {
     }
 
     private Issue buildWithConstructor() {
-        cleanupLineRanges();
+        List<Location> actualLocations;
+        if (locations.isEmpty()) {
+            var primary = new Location(getFileName(), getLineStart(), getLineEnd(),
+                    getColumnStart(), getColumnEnd());
+            actualLocations = List.of(primary);
+        }
+        else {
+            actualLocations = List.copyOf(locations);
+        }
 
-        return new Issue(pathName, fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges,
-                category, type, packageName, moduleName, severity, message, description,
-                origin, originName, reference, fingerprint, additionalProperties, id);
+        // TODO: check parameters here and not in issue
+        return new Issue(pathName, actualLocations, category, type, packageName, moduleName, severity, message,
+                description, origin, originName, reference, fingerprint, additionalProperties, id);
     }
 
     /**
-     * Sets lineStart and lineEnd if they are not set, and then removes the first element of
-     * lineRanges if its start and end are the same as lineStart and lineEnd.
+     * Creates a default Integer representation for undefined input parameters.
+     *
+     * @param integer
+     *         the integer to check
+     *
+     * @return the valid integer value or 0 if the specified {@link Integer} is {@code null} or less than 0
      */
-    private void cleanupLineRanges() {
-        if (lineRanges != null && !lineRanges.isEmpty()) {
-            var firstRange = lineRanges.get(0);
-            if (lineStart == 0) {
-                this.lineStart = firstRange.getStart();
-                this.lineEnd = firstRange.getEnd();
-            }
-            if (firstRange.getStart() == lineStart
-                    && firstRange.getEnd() == lineEnd) {
-                lineRanges.remove(0);
-            }
-        }
+    private int defaultInteger(final int integer) {
+        return Math.max(integer, 0);
     }
 
     /**
@@ -596,7 +673,7 @@ public class IssueBuilder implements AutoCloseable {
         columnStart = 0;
         columnEnd = 0;
 
-        lineRanges = new LineRangeList();
+        locations = new ArrayList<>();
 
         fileName = UNDEFINED_TREE_STRING;
         packageName = UNDEFINED_TREE_STRING;

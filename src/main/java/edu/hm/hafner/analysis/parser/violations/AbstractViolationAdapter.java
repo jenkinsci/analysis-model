@@ -146,7 +146,7 @@ public abstract class AbstractViolationAdapter extends IssueParser {
      *
      * @return the valid integer value or 0 if the specified {@link Integer} is {@code null} or less than 0
      */
-    private int toValidInt(@CheckForNull final Integer integer) {
+    int toValidInt(@CheckForNull final Integer integer) {
         if (integer == null) {
             return 0;
         }
