@@ -11,7 +11,6 @@ import edu.hm.hafner.util.LineRangeList;
 import edu.hm.hafner.util.TreeString;
 import edu.hm.hafner.util.TreeStringBuilder;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
@@ -382,26 +381,29 @@ class IssueBuilderTest {
             builder.addLocation(location1);
             builder.addLocation(location2);
 
-            var issue = builder.build();
-            Iterator<? extends Location> iterator = issue.getLocations().iterator();
-            assertThat(iterator.next()).isEqualTo(location1);
-            assertThat(iterator.next()).isEqualTo(location2);
+            assertThatBuilderContains2Locations(builder, location1, location2);
         }
+    }
+
+    private void assertThatBuilderContains2Locations(final IssueBuilder builder, final Location location1, final Location location2) {
+        var issue = builder.build();
+        assertThat(issue.getLocations()).contains(location1, location2);
+        assertThat(issue.getPrimaryLocation()).isEqualTo(location1);
+        assertThat(issue.hasSecondaryLocations()).isTrue();
+        assertThat(issue.getSecondaryLocations()).containsExactly(location2);
     }
 
     @Test
     void shouldSetAdditionalLocations() {
         try (var builder = new IssueBuilder()) {
-            var locations = java.util.List.of(
+            var locations = List.of(
                     new Location(TREE_STRING_BUILDER.intern("header.h"), 10, 20),
                     new Location(TREE_STRING_BUILDER.intern("impl.cpp"), 50)
             );
 
             builder.setLocations(locations);
 
-            var issue = builder.build();
-            assertThat(issue.hasAdditionalLocations()).isTrue();
-            assertThat(issue.getLocations()).hasSize(2);
+            assertThatBuilderContains2Locations(builder, locations.get(0), locations.get(1));
         }
     }
 
@@ -420,11 +422,9 @@ class IssueBuilderTest {
                 copyBuilder.copy(originalIssue);
                 var copiedIssue = copyBuilder.build();
 
-                assertThat(copiedIssue.hasAdditionalLocations()).isTrue();
+                assertThat(copiedIssue.hasSecondaryLocations()).isTrue();
                 assertThat(copiedIssue.getLocations()).hasSize(2);
-                Iterator<? extends Location> iterator = copiedIssue.getLocations().iterator();
-                assertThat(iterator.next()).isEqualTo(location1);
-                assertThat(iterator.next()).isEqualTo(location2);
+                assertThat(copiedIssue.getLocations()).containsExactly(location1, location2);
             }
         }
     }
@@ -435,7 +435,7 @@ class IssueBuilderTest {
             var issue = builder.build();
 
             // No additional locations when none are set
-            assertThat(issue.hasAdditionalLocations()).isFalse();
+            assertThat(issue.hasSecondaryLocations()).isFalse();
             assertThat(issue.getLocations()).hasSize(1);  // Primary location always exists
         }
     }

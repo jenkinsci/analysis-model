@@ -1,11 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.Issue;
@@ -16,6 +10,12 @@ import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.parser.FindBugsParser.PriorityProperty;
 import edu.hm.hafner.analysis.parser.FindBugsParser.XmlBugInstance;
+
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 import static edu.hm.hafner.analysis.parser.FindBugsParser.PriorityProperty.*;
@@ -251,7 +251,7 @@ class FindBugsParserTest {
                     .hasModuleName(projectName)
                     .hasLineStart(start1)
                     .hasLineEnd(end1);
-            softly.assertThat(first.getLineRanges()).hasSize(ranges1);
+            softly.assertThat(first.getLocations()).hasSize(ranges1 + 1); // including primary location
             softly.assertThat(second)
                     .hasFileName(fileName2)
                     .hasPackageName(packageName2)
@@ -259,7 +259,7 @@ class FindBugsParserTest {
                     .hasModuleName(projectName)
                     .hasLineStart(start2)
                     .hasLineEnd(end2);
-            softly.assertThat(second.getLineRanges()).hasSize(ranges2);
+            softly.assertThat(second.getLocations()).hasSize(ranges2 + 1); // including primary location
         }
     }
 }

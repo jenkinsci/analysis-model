@@ -16,6 +16,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -565,24 +566,11 @@ public class Issue implements Serializable {
      * Returns all locations of this issue. The first location is the primary location.
      * Some warnings span multiple files, such as GNU CC's reorder warning for C++ where
      * the warning shows up in the initializer list but references the header file.
-     * More involved cases are MicroFocus Fortify and Synopsis Coverity, which trace execution
-     * potentially through multiple classes or translation units.
      *
      * @return the locations
      */
-    public Iterable<? extends Location> getLocations() {
+    public List<Location> getLocations() {
         return List.copyOf(locations);
-    }
-
-    /**
-     * Returns all locations of this issue that are within the affected file of the primary location.
-     *
-     * @return the locations in the affected file
-     */
-    public Iterable<? extends Location> getAffectedLocations() {
-        return locations.stream()
-                .filter(l -> getFileName().equals(l.getFileName()))
-                .toList();
     }
 
     /**
@@ -599,8 +587,20 @@ public class Issue implements Serializable {
      *
      * @return {@code true} if this issue has additional file locations, {@code false} otherwise
      */
-    public boolean hasAdditionalLocations() {
+    public boolean hasSecondaryLocations() {
         return locations.size() > 1;
+    }
+
+    /**
+     * Returns all secondary locations of this issue. The first location is the primary location.
+     *
+     * @return an unmodifiable list of all locations
+     */
+    public List<Location> getSecondaryLocations() {
+        if (locations.size() <= 1) {
+            return Collections.emptyList();
+        }
+        return Collections.unmodifiableList(locations.subList(1, locations.size()));
     }
 
     /**
@@ -619,7 +619,7 @@ public class Issue implements Serializable {
         if (getLineStart() <= line && line <= lineEnd) {
             return true; // the line is within the primary range of this issue
         }
-        for (Location location : getAffectedLocations()) {
+        for (Location location : getLocations()) {
             if (location.contains(line)) {
                 return true; // the line is within an additional line range of this issue
             }

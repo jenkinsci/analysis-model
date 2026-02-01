@@ -6,8 +6,6 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
-import edu.hm.hafner.util.LineRange;
-import edu.hm.hafner.util.LineRangeList;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
@@ -82,14 +80,29 @@ class CppCheckAdapterTest extends AbstractParserTest {
                 .hasLineStart(53)
                 .hasMessage("Variable 'it' is reassigned a value before the old one has been used.")
                 .hasType("redundantAssignment");
-        assertThat(report.get(0).getLineRanges()).isEqualTo(new LineRangeList(new LineRange(51)));
-
+        assertThat(report.get(0).getLocations()).hasSize(2);
+        assertThat(report.get(0).hasSecondaryLocations()).isTrue();
+        assertThat(report.get(0).getSecondaryLocations()).hasSize(1).first()
+                .satisfies(location -> {
+                    assertThat(location.getFileName())
+                            .hasToString("apps/cloud_composer/src/point_selectors/rectangular_frustum_selector.cpp");
+                    assertThat(location.getLineStart())
+                            .isEqualTo(51);
+                });
         assertThat(report.get(1)).hasFileName(
                 "surface/src/3rdparty/opennurbs/opennurbs_brep_tools.cpp")
                 .hasLineStart(346)
                 .hasMessage("Condition 'rc' is always true")
                 .hasType("knownConditionTrueFalse");
-        assertThat(report.get(1).getLineRanges()).isEqualTo(new LineRangeList(new LineRange(335)));
+        assertThat(report.get(1).getLocations()).hasSize(2);
+        assertThat(report.get(1).hasSecondaryLocations()).isTrue();
+        assertThat(report.get(1).getSecondaryLocations()).hasSize(1).first()
+                .satisfies(location -> {
+                            assertThat(location.getFileName())
+                                    .hasToString("surface/src/3rdparty/opennurbs/opennurbs_brep_tools.cpp");
+                            assertThat(location.getLineStart())
+                                    .isEqualTo(335);
+                });
     }
 
     /**
@@ -108,14 +121,29 @@ class CppCheckAdapterTest extends AbstractParserTest {
                 .hasLineStart(53)
                 .hasMessage("Variable 'it' is reassigned a value before the old one has been used.")
                 .hasType("redundantAssignment");
-        assertThat(report.get(0).getLineRanges()).isEqualTo(new LineRangeList(new LineRange(51)));
+        assertThat(report.get(0).getLocations()).hasSize(2);
+        assertThat(report.get(0).hasSecondaryLocations()).isTrue();
+        assertThat(report.get(0).getSecondaryLocations()).hasSize(1).first()
+                .satisfies(location -> {
+                    assertThat(location.getFileName())
+                            .hasToString("apps/cloud_composer/src/point_selectors/rectangular_frustum_selector.cpp");
+                    assertThat(location.getLineStart())
+                            .isEqualTo(51);
+                });
 
         assertThat(report.get(1))
                 .hasFileName("that/cloud_composer/src/point_selectors/rectangular_frustum_selector.cpp")
                 .hasLineStart(51)
                 .hasMessage("Variable 'that' is reassigned a value before the old one has been used.")
                 .hasType("redundantAssignment");
-        assertThat(report.get(1).getLineRanges()).isEqualTo(new LineRangeList(new LineRange(53)));
+        assertThat(report.get(1).getSecondaryLocations()).hasSize(1).first()
+                .satisfies(location -> {
+                    assertThat(location.getFileName())
+                            .hasToString("that/cloud_composer/src/point_selectors/rectangular_frustum_selector.cpp");
+                    assertThat(location.getLineStart())
+                            .isEqualTo(53);
+                });
+
     }
 
     /**
@@ -168,7 +196,13 @@ class CppCheckAdapterTest extends AbstractParserTest {
                 .hasColumnStart(7)
                 .hasMessage("The function 'reset' overrides a function in a base class but is not marked with a 'override' specifier.. Function in derived class")
                 .hasType("missingOverride");
-        assertThat(report.get(0).getLineRanges()).isEqualTo(new LineRangeList(new LineRange(117)));
+        assertThat(report.get(0).getLocations()).hasSize(2);
+        assertThat(report.get(0).hasSecondaryLocations()).isTrue();
+        assertThat(report.get(0).getSecondaryLocations()).hasSize(1).first()
+                .satisfies(location -> {
+                    assertThat(location.getFileName()).hasToString("base.hpp");
+                    assertThat(location.getLineStart()).isEqualTo(117);
+                });
     }
 
     @Override
