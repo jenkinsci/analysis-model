@@ -29,14 +29,14 @@ import static edu.hm.hafner.analysis.util.IntegerParser.*;
  * Issue issue = new IssueBuilder()
  *                      .setFileName("affected.file")
  *                      .setLineStart(0)
- *                      .setCategory("JavaDoc")
- *                      .setMessage("Missing JavaDoc")
+ *                      .setCategory("Javadoc")
+ *                      .setMessage("Missing Javadoc")
  *                      .setSeverity(Severity.WARNING_LOW);
  * </pre></blockquote>
  *
  * @author Ullrich Hafner
  */
-@SuppressWarnings({"InstanceVariableMayNotBeInitialized", "JavaDocMethod", "PMD.TooManyFields", "PMD.GodClass"})
+@SuppressWarnings({"InstanceVariableMayNotBeInitialized", "JavadocMethod", "PMD.TooManyFields", "PMD.GodClass"})
 public class IssueBuilder implements AutoCloseable {
     private static final String EMPTY = StringUtils.EMPTY;
     private static final String UNDEFINED = "-";
@@ -209,9 +209,7 @@ public class IssueBuilder implements AutoCloseable {
      *         the first line
      *
      * @return this
-     * @deprecated use {@link #setLocations(List)} or {@link #addLocation(Location)} instead
      */
-    @Deprecated
     @CanIgnoreReturnValue
     public IssueBuilder setLineStart(final int lineStart) {
         this.lineStart = lineStart;
@@ -225,9 +223,7 @@ public class IssueBuilder implements AutoCloseable {
      *         the first line
      *
      * @return this
-     * @deprecated use {@link #setLocations(List)} or {@link #addLocation(Location)} instead
      */
-    @Deprecated
     @CanIgnoreReturnValue
     public IssueBuilder setLineStart(@CheckForNull final String lineStart) {
         this.lineStart = parseInt(lineStart);
@@ -241,9 +237,7 @@ public class IssueBuilder implements AutoCloseable {
      *         the last line
      *
      * @return this
-     * @deprecated use {@link #setLocations(List)} or {@link #addLocation(Location)} instead
      */
-    @Deprecated
     @CanIgnoreReturnValue
     public IssueBuilder setLineEnd(final int lineEnd) {
         this.lineEnd = lineEnd;
@@ -257,9 +251,7 @@ public class IssueBuilder implements AutoCloseable {
      *         the last line
      *
      * @return this
-     * @deprecated use {@link #setLocations(List)} or {@link #addLocation(Location)} instead
      */
-    @Deprecated
     @CanIgnoreReturnValue
     public IssueBuilder setLineEnd(@CheckForNull final String lineEnd) {
         this.lineEnd = parseInt(lineEnd);
@@ -273,9 +265,7 @@ public class IssueBuilder implements AutoCloseable {
      *         the first column
      *
      * @return this
-     * @deprecated use {@link #setLocations(List)} or {@link #addLocation(Location)} instead
      */
-    @Deprecated
     @CanIgnoreReturnValue
     public IssueBuilder setColumnStart(final int columnStart) {
         this.columnStart = columnStart;
@@ -289,9 +279,7 @@ public class IssueBuilder implements AutoCloseable {
      *         the first column
      *
      * @return this
-     * @deprecated use {@link #setLocations(List)} or {@link #addLocation(Location)} instead
      */
-    @Deprecated
     @CanIgnoreReturnValue
     public IssueBuilder setColumnStart(@CheckForNull final String columnStart) {
         this.columnStart = parseInt(columnStart);
@@ -305,9 +293,7 @@ public class IssueBuilder implements AutoCloseable {
      *         the last column
      *
      * @return this
-     * @deprecated use {@link #setLocations(List)} or {@link #addLocation(Location)} instead
      */
-    @Deprecated
     @CanIgnoreReturnValue
     public IssueBuilder setColumnEnd(final int columnEnd) {
         this.columnEnd = columnEnd;
@@ -321,9 +307,7 @@ public class IssueBuilder implements AutoCloseable {
      *         the last column
      *
      * @return this
-     * @deprecated use {@link #setLocations(List)} or {@link #addLocation(Location)} instead
      */
-    @Deprecated
     @CanIgnoreReturnValue
     public IssueBuilder setColumnEnd(@CheckForNull final String columnEnd) {
         this.columnEnd = parseInt(columnEnd);
@@ -332,7 +316,7 @@ public class IssueBuilder implements AutoCloseable {
 
     /**
      * Sets the category of this issue (depends on the available categories of the static analysis tool). Examples for
-     * categories are "Deprecation", "Design", or "JavaDoc".
+     * categories are "Deprecation", "Design", or "Javadoc".
      *
      * @param category
      *         the category
@@ -455,8 +439,8 @@ public class IssueBuilder implements AutoCloseable {
     }
 
     /**
-     * Guesses a severity for the issues: converts a String severity to one of the predefined severities. If the
-     * provided String does not match (even partly) then the default severity will be returned.
+     * Guesses the severity for the issues: converts the String severity to one of the predefined severities. If the
+     * provided String does not match (even partly), then the default severity will be returned.
      *
      * @param severityString
      *         the severity given as a string representation
