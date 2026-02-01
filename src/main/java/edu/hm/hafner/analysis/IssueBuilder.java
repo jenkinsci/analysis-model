@@ -455,7 +455,7 @@ public class IssueBuilder implements AutoCloseable {
     }
 
     /**
-     * Guesses severity for the issues: converts String severity to one of the predefined severities. If the
+     * Guesses the severity for the issues: converts the String severity to one of the predefined severities. If the
      * provided String does not match (even partly), then the default severity will be returned.
      *
      * @param severityString
