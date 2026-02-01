@@ -168,7 +168,7 @@ public class IssueBuilder implements AutoCloseable {
     }
 
     /**
-     * Sets the current work directory. This directory is used as a prefix for all subsequent issue file names. If the
+     * Sets the current work directory. This directory is used as a prefix for all following issue file names. If the
      * path is set as well, then the final path of an issue is the concatenation of {@code path}, {@code directory}, and
      * {@code fileName}. Note that this directory is not visible later on, the issue does only store the path in the
      * {@code path} and {@code fileName} properties. I.e., the created issue will get a new file name that is composed
@@ -537,6 +537,7 @@ public class IssueBuilder implements AutoCloseable {
     @CanIgnoreReturnValue
     public IssueBuilder setLocations(final List<Location> locations) {
         this.locations = new ArrayList<>(locations);
+
         return this;
     }
 
@@ -561,6 +562,7 @@ public class IssueBuilder implements AutoCloseable {
         else {
             locations.add(location);
         }
+
         return this;
     }
 
@@ -568,6 +570,17 @@ public class IssueBuilder implements AutoCloseable {
         return !locations.isEmpty()
                 && locations.get(0).getFileName().equals(location.getFileName());
     }
+
+    /**
+     * Replaces the file name of the primary location and all additional locations of this issue.
+     *
+     * @param fileName
+     *         the new file name
+     */
+    public void replaceFileName(final String fileName) {
+
+    }
+
 
     /**
      * Initializes this builder with an exact copy of all properties of the specified issue.

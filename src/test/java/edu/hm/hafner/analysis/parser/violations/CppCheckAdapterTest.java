@@ -75,22 +75,22 @@ class CppCheckAdapterTest extends AbstractParserTest {
 
         assertThat(report).hasSize(2);
 
-        assertThat(report.get(0))
-                .hasFileName("apps/cloud_composer/src/point_selectors/rectangular_frustum_selector.cpp")
+        var primaryFile = "apps/cloud_composer/src/point_selectors/rectangular_frustum_selector.cpp";
+        assertThat(report.get(0)).hasFileName(primaryFile)
                 .hasLineStart(53)
                 .hasMessage("Variable 'it' is reassigned a value before the old one has been used.")
-                .hasType("redundantAssignment");
+                .hasType("redundantAssignment")
+                .hasSecondaryLocations();
         assertThat(report.get(0).getLocations()).hasSize(2);
-        assertThat(report.get(0).hasSecondaryLocations()).isTrue();
         assertThat(report.get(0).getSecondaryLocations()).hasSize(1).first()
                 .satisfies(location -> {
-                    assertThat(location.getFileName())
-                            .hasToString("apps/cloud_composer/src/point_selectors/rectangular_frustum_selector.cpp");
+                    assertThat(location).hasFileName(primaryFile);
                     assertThat(location.getLineStart())
                             .isEqualTo(51);
                 });
+        var secondaryFile = "surface/src/3rdparty/opennurbs/opennurbs_brep_tools.cpp";
         assertThat(report.get(1)).hasFileName(
-                "surface/src/3rdparty/opennurbs/opennurbs_brep_tools.cpp")
+                        secondaryFile)
                 .hasLineStart(346)
                 .hasMessage("Condition 'rc' is always true")
                 .hasType("knownConditionTrueFalse");
@@ -99,7 +99,7 @@ class CppCheckAdapterTest extends AbstractParserTest {
         assertThat(report.get(1).getSecondaryLocations()).hasSize(1).first()
                 .satisfies(location -> {
                             assertThat(location.getFileName())
-                                    .hasToString("surface/src/3rdparty/opennurbs/opennurbs_brep_tools.cpp");
+                                    .hasToString(secondaryFile);
                             assertThat(location.getLineStart())
                                     .isEqualTo(335);
                 });

@@ -3,11 +3,13 @@ package edu.hm.hafner.analysis.parser.violations;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
+import edu.hm.hafner.analysis.Location;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
+import edu.hm.hafner.util.TreeString;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 import java.io.Serial;
@@ -127,15 +129,20 @@ public abstract class AbstractViolationAdapter extends IssueParser {
      *         the issue builder to change
      */
     void updateIssueBuilder(final Violation violation, final IssueBuilder builder) {
+        var location = new Location(TreeString.valueOf(getFileName(violation)),
+                toValidInt(violation.getStartLine()),
+                        toValidInt(violation.getEndLine()),
+                        toValidInt(violation.getColumn()),
+                        toValidInt(violation.getEndColumn()));
         builder.setSeverity(convertSeverity(violation.getSeverity(), violation))
-                .setFileName(violation.getFile())
                 .setMessage(violation.getMessage())
-                .setLineStart(toValidInt(violation.getStartLine()))
-                .setLineEnd(toValidInt(violation.getEndLine()))
-                .setColumnStart(toValidInt(violation.getColumn()))
-                .setColumnEnd(toValidInt(violation.getEndColumn()))
+                .addLocation(location)
                 .setType(violation.getRule())
                 .setCategory(violation.getCategory());
+    }
+
+    protected String getFileName(final Violation violation) {
+        return violation.getFile();
     }
 
     /**

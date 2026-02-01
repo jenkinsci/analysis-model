@@ -17,7 +17,7 @@ import static edu.hm.hafner.analysis.assertions.Assertions.*;
 class LocationTest {
     private static final TreeStringBuilder BUILDER = new TreeStringBuilder();
     private static final String FILE_NAME = "test.cpp";
-    private static final TreeString FILE_NAME_TREE = BUILDER.intern("test.cpp");
+    private static final TreeString INTERNAL_FILE_NAME = BUILDER.intern(FILE_NAME);
     private static final int LINE_START = 10;
     private static final int LINE_END = 20;
     private static final int COLUMN_START = 5;
@@ -25,16 +25,9 @@ class LocationTest {
 
     @Test
     void shouldCreateLocationWithAllParameters() {
-        assertThatLocationHasAllPropertiesSet(
-                new Location(FILE_NAME_TREE, LINE_START, LINE_END, COLUMN_START, COLUMN_END));
-        assertThatLocationHasAllPropertiesSet(
-                new Location(FILE_NAME_TREE, LINE_END, LINE_START, COLUMN_START, COLUMN_END));
-        assertThatLocationHasAllPropertiesSet(
-                new Location(FILE_NAME_TREE, LINE_END, LINE_START, COLUMN_END, COLUMN_START));
-    }
+        var location = new Location(INTERNAL_FILE_NAME, LINE_START, LINE_END, COLUMN_START, COLUMN_END);
 
-    private void assertThatLocationHasAllPropertiesSet(final Location location) {
-        assertThat(location)
+       assertThat(location)
                 .hasFileName(FILE_NAME)
                 .hasLineStart(LINE_START)
                 .hasLineEnd(LINE_END)
@@ -43,8 +36,8 @@ class LocationTest {
     }
 
     @Test
-    void shouldCreateLocationWithLines() {
-        var location = new Location(FILE_NAME_TREE, LINE_START, LINE_END);
+    void shouldCreateLocationWithLineRange() {
+        var location = new Location(INTERNAL_FILE_NAME, LINE_START, LINE_END);
 
         assertThat(location)
                 .hasFileName(FILE_NAME)
@@ -56,7 +49,7 @@ class LocationTest {
 
     @Test
     void shouldCreateLocationWithSingleLine() {
-        var location = new Location(FILE_NAME_TREE, LINE_START);
+        var location = new Location(INTERNAL_FILE_NAME, LINE_START);
 
         assertThat(location)
                 .hasFileName(FILE_NAME)
@@ -68,14 +61,41 @@ class LocationTest {
 
     @Test
     void shouldGenerateCorrectToString() {
-        assertThat(new Location(FILE_NAME_TREE, LINE_START, LINE_END, COLUMN_START, COLUMN_END))
+        assertThat(new Location(INTERNAL_FILE_NAME, LINE_START, LINE_END, COLUMN_START, COLUMN_END))
                 .hasToString("test.cpp:10-20:5-15");
-        assertThat(new Location(FILE_NAME_TREE, LINE_START, LINE_END))
+        assertThat(new Location(INTERNAL_FILE_NAME, LINE_START, LINE_END))
                 .hasToString("test.cpp:10-20");
-        assertThat(new Location(FILE_NAME_TREE, LINE_START))
+        assertThat(new Location(INTERNAL_FILE_NAME, LINE_START))
                 .hasToString("test.cpp:10");
-        assertThat(new Location(FILE_NAME_TREE, 0))
-                .hasToString("test.cpp");
+        assertThat(new Location(INTERNAL_FILE_NAME, 0))
+                .hasToString(FILE_NAME);
+    }
+
+        @Test
+    void shouldFindLinesInsideAndOutsideOfLineRange() {
+        var location = new Location(INTERNAL_FILE_NAME, 1, 2);
+
+        assertThat(location.contains(0)).isFalse();
+        assertThat(location.contains(1)).isTrue();
+        assertThat(location.contains(2)).isTrue();
+        assertThat(location.contains(3)).isFalse();
+        assertThat(location).hasLineStart(1).hasLineEnd(2)
+                .hasLines(1, 2).isNotSingleLine().hasToString("test.cpp:1-2");
+
+        var wrongOrder = new Location(INTERNAL_FILE_NAME, 2, 1);
+        assertThat(wrongOrder.contains(0)).isFalse();
+        assertThat(wrongOrder.contains(1)).isTrue();
+        assertThat(wrongOrder.contains(2)).isTrue();
+        assertThat(wrongOrder.contains(3)).isFalse();
+        assertThat(wrongOrder).hasLineStart(1).hasLineEnd(2)
+                .hasLines(1, 2).isNotSingleLine().hasToString("test.cpp:1-2");
+
+        var point = new Location(INTERNAL_FILE_NAME, 2);
+        assertThat(point.contains(1)).isFalse();
+        assertThat(point.contains(2)).isTrue();
+        assertThat(point.contains(3)).isFalse();
+        assertThat(point).hasLineStart(2).hasLineEnd(2)
+                .hasLines(2).isSingleLine().hasToString("test.cpp:2");
     }
 
     @Test

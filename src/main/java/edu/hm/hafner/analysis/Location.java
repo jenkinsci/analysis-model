@@ -4,6 +4,8 @@ import edu.hm.hafner.util.TreeString;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.NavigableSet;
+import java.util.TreeSet;
 
 /**
  * Represents a location of an issue within a file. It includes the file name, line and column ranges. An issue
@@ -111,10 +113,6 @@ public class Location implements Serializable {
         this(fileName, 0, 0, 0, 0);
     }
 
-    public TreeString getFileNameTreeString() {
-        return fileName;
-    }
-
     /**
      * Returns the file name of this location.
      *
@@ -122,6 +120,10 @@ public class Location implements Serializable {
      */
     public String getFileName() {
         return fileName.toString();
+    }
+
+    TreeString getFileNameTreeString() {
+        return fileName;
     }
 
     /**
@@ -158,6 +160,29 @@ public class Location implements Serializable {
      */
     public int getColumnEnd() {
         return columnEnd;
+    }
+
+    /**
+     * Returns whether this range is just a single line.
+     *
+     * @return {@code true} if this range is just a single line, {@code false} otherwise
+     */
+    public boolean isSingleLine() {
+        return lineStart == lineEnd;
+    }
+
+
+    /**
+     * Returns the lines of this line lange in a sorted set.
+     *
+     * @return the containing lines, one by one
+     */
+    public NavigableSet<Integer> getLines() {
+        var lines = new TreeSet<Integer>();
+        for (int line = getLineStart(); line <= getLineEnd(); line++) {
+            lines.add(line);
+        }
+        return lines;
     }
 
     /**

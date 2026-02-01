@@ -410,21 +410,25 @@ class IssueBuilderTest {
     @Test
     void shouldCopyAdditionalLocations() {
         try (var builder = new IssueBuilder()) {
-            var location1 = new Location(TREE_STRING_BUILDER.intern("header.h"), 10, 20);
-            var location2 = new Location(TREE_STRING_BUILDER.intern("impl.cpp"), 50);
+            var firstLocation = new Location(TREE_STRING_BUILDER.intern("header.h"), 10, 20);
+            builder.addLocation(firstLocation);
 
-            builder.addLocation(location1);
-            builder.addLocation(location2);
+            var secondLocation = new Location(TREE_STRING_BUILDER.intern("impl.cpp"), 50);
+            builder.addLocation(secondLocation);
 
             var originalIssue = builder.build();
+            assertThat(originalIssue.hasSecondaryLocations()).isTrue();
+            assertThat(originalIssue.getLocations()).hasSize(2);
+            assertThat(originalIssue.getLocations()).containsExactly(firstLocation, secondLocation);
 
             try (var copyBuilder = new IssueBuilder()) {
                 copyBuilder.copy(originalIssue);
+
                 var copiedIssue = copyBuilder.build();
 
                 assertThat(copiedIssue.hasSecondaryLocations()).isTrue();
                 assertThat(copiedIssue.getLocations()).hasSize(2);
-                assertThat(copiedIssue.getLocations()).containsExactly(location1, location2);
+                assertThat(copiedIssue.getLocations()).containsExactly(firstLocation, secondLocation);
             }
         }
     }

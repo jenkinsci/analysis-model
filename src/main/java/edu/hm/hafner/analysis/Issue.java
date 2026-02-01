@@ -172,21 +172,20 @@ public class Issue implements Serializable {
     private final Severity severity;
 
     @Deprecated
-    private final int lineStart = 0;                // replaced by Location
+    private int lineStart = -1;               // replaced by locations since 14.0.0
     @Deprecated
-    private final int lineEnd = 0;                  // replaced by Location
+    private int lineEnd = -1;                 // replaced by locations since 14.0.0
     @Deprecated
-    private final int columnStart = 0;              // replaced by Location
+    private int columnStart = -1;             // replaced by locations since 14.0.0
     @Deprecated
-    private final int columnEnd = 0;                // replaced by Location
+    private int columnEnd = -1;               // replaced by locations since 14.0.0
     @Deprecated
-    private LineRangeList lineRanges = null;  // replaced by Location
+    private TreeString fileName = null;             // replaced by locations since 14.0.0
     @Deprecated
-    private TreeString fileName;                    // replaced by Location
+    private LineRangeList lineRanges = null;  // replaced by locations since 14.0.0
 
-    @CheckForNull
-    @SuppressWarnings("PMD.LooseCoupling")
-    private ArrayList<Location> locations; // fixed
+    @SuppressWarnings("serial")
+    private List<Location> locations; // fixed
 
     private final UUID id;                  // fixed
 
@@ -211,9 +210,10 @@ public class Issue implements Serializable {
      * Creates a new instance of {@link Issue} using the specified properties.
      *
      * @param pathName
-     *         the path that contains the affected file and the other files related to this issue
+     *         the path that contains the affected file
      * @param locations
-     *         file locations related to this issue, the first location is the primary one
+     *         the locations related to this issue, the first location is the primary location
+     *         the path that contains the affected file and the other files related to this issue
      * @param category
      *         the category of this issue (depends on the available categories of the static analysis tool)
      * @param type
@@ -242,15 +242,18 @@ public class Issue implements Serializable {
      *         the ID of this issue
      */
     @SuppressWarnings("ParameterNumber")
-    Issue(@CheckForNull final String pathName, final List<Location> locations,
-            @CheckForNull final String category, @CheckForNull final String type,
-            final TreeString packageName, @CheckForNull final String moduleName,
-            @CheckForNull final Severity severity, final TreeString message, final String description,
+    Issue(@CheckForNull final String pathName,
+            final List<Location> locations,
+            @CheckForNull final String category,
+            @CheckForNull final String type, final TreeString packageName,
+            @CheckForNull final String moduleName, @CheckForNull final Severity severity,
+            final TreeString message, final String description,
             @CheckForNull final String origin, @CheckForNull final String originName,
             @CheckForNull final String reference, @CheckForNull final String fingerprint,
             @CheckForNull final Serializable additionalProperties, final UUID id) {
         this.pathName = normalizeFileName(pathName);
         this.locations = new ArrayList<>(locations);
+
         this.category = StringUtils.defaultString(category).intern();
         this.type = defaultString(type);
 
@@ -304,10 +307,19 @@ public class Issue implements Serializable {
             originName = originName.intern();
         }
         if (locations == null) { // new in version 14.0.0
-            // Create a Location from the old fields to retain backward compatibility
-            locations = toLocations(fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges);
-            fileName = null; // free memory
-            lineRanges = null; // free memory
+            locations = new ArrayList<>();
+            locations.add(new Location(fileName, lineStart, lineEnd, columnStart, columnEnd)); // primary location
+            Objects.requireNonNull(lineRanges).stream()
+                    .map(range -> new Location(fileName, range.getStart(), range.getEnd()))
+                    .forEach(locations::add); // secondary locations
+
+            // clear deprecated fields
+            fileName = null;
+            lineRanges = null;
+            lineStart = 0;
+            lineEnd = 0;
+            columnStart = 0;
+            columnEnd = 0;
         }
         return this;
     }
