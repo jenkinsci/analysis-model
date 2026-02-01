@@ -537,18 +537,12 @@ public class IssueBuilder implements AutoCloseable {
      */
     @CanIgnoreReturnValue
     public IssueBuilder addLocation(final Location location) {
-        if (this.locations == null) {
+        if (this.locations == null) { // FIXME: would it work with empty list as well?
             this.locations = new ArrayList<>();
         }
-        // Only update deprecated fields if this is the first location and they haven't been set yet
-        if (this.locations.isEmpty() && this.lineStart == 0) {
-            this.fileName = location.getFileName();
-            this.lineStart = location.getLineStart();
-            this.lineEnd = location.getLineEnd();
-            this.columnStart = location.getColumnStart();
-            this.columnEnd = location.getColumnEnd();
+        if (!locations.contains(location)) {
+            locations.add(location);
         }
-        this.locations.add(location);
         return this;
     }
 
