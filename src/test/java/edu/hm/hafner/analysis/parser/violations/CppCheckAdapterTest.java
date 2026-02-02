@@ -2,6 +2,7 @@ package edu.hm.hafner.analysis.parser.violations;
 
 import org.junit.jupiter.api.Test;
 
+import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
@@ -76,22 +77,20 @@ class CppCheckAdapterTest extends AbstractParserTest {
         assertThat(report).hasSize(2);
 
         var primaryFile = "apps/cloud_composer/src/point_selectors/rectangular_frustum_selector.cpp";
-        verifyFirstIssue(report, primaryFile);
+        verifyFirstIssue(report.get(0), primaryFile);
 
         var secondaryFile = "surface/src/3rdparty/opennurbs/opennurbs_brep_tools.cpp";
-        assertThat(report.get(1)).hasFileName(secondaryFile)
+        var secondIssue = report.get(1);
+        assertThat(secondIssue)
+                .hasFileName(secondaryFile)
                 .hasLineStart(346)
                 .hasMessage("Condition 'rc' is always true")
-                .hasType("knownConditionTrueFalse");
-        assertThat(report.get(1).getLocations()).hasSize(2);
-        assertThat(report.get(1).hasSecondaryLocations()).isTrue();
-        assertThat(report.get(1).getSecondaryLocations()).hasSize(1).first()
-                .satisfies(location -> {
-                            assertThat(location.getFileName())
-                                    .isEqualTo(secondaryFile);
-                            assertThat(location.getLineStart())
-                                    .isEqualTo(335);
-                });
+                .hasType("knownConditionTrueFalse")
+                .hasSecondaryLocations();
+
+        assertThat(secondIssue.getLocations()).hasSize(2);
+        assertThat(secondIssue.getSecondaryLocations()).hasSize(1).first().satisfies(location ->
+                assertThat(location).hasFileName(secondaryFile).hasLineStart(335));
     }
 
     /**
@@ -105,40 +104,32 @@ class CppCheckAdapterTest extends AbstractParserTest {
 
         assertThat(report).hasSize(2);
 
-        var primaryFIle = "apps/cloud_composer/src/point_selectors/rectangular_frustum_selector.cpp";
-        verifyFirstIssue(report, primaryFIle);
+        var primaryFile = "apps/cloud_composer/src/point_selectors/rectangular_frustum_selector.cpp";
+        verifyFirstIssue(report.get(0), primaryFile);
 
-        assertThat(report.get(1))
+        var secondIssue = report.get(1);
+        assertThat(secondIssue)
                 .hasFileName("that/cloud_composer/src/point_selectors/rectangular_frustum_selector.cpp")
                 .hasLineStart(51)
                 .hasMessage("Variable 'that' is reassigned a value before the old one has been used.")
                 .hasType("redundantAssignment");
-        assertThat(report.get(1).getSecondaryLocations()).hasSize(1).first()
-                .satisfies(location -> {
-                    assertThat(location.getFileName())
-                            .isEqualTo("that/cloud_composer/src/point_selectors/rectangular_frustum_selector.cpp");
-                    assertThat(location.getLineStart())
-                            .isEqualTo(53);
-                });
+        assertThat(secondIssue.getSecondaryLocations()).hasSize(1).first().satisfies(location ->
+                assertThat(location)
+                        .hasFileName("that/cloud_composer/src/point_selectors/rectangular_frustum_selector.cpp")
+                        .hasLineStart(53));
 
     }
 
-    private void verifyFirstIssue(final Report report, final String primaryFIle) {
-        assertThat(report.get(0))
-                .hasFileName(primaryFIle)
+    private void verifyFirstIssue(final Issue issue, final String fileName) {
+        assertThat(issue)
+                .hasFileName(fileName)
                 .hasLineStart(53)
                 .hasMessage("Variable 'it' is reassigned a value before the old one has been used.")
                 .hasType("redundantAssignment")
                 .hasSecondaryLocations();
-        assertThat(report.get(0).getLocations()).hasSize(2);
-        assertThat(report.get(0).hasSecondaryLocations()).isTrue();
-        assertThat(report.get(0).getSecondaryLocations()).hasSize(1).first()
-                .satisfies(location -> {
-                    assertThat(location.getFileName())
-                            .isEqualTo(primaryFIle);
-                    assertThat(location.getLineStart())
-                            .isEqualTo(51);
-                });
+        assertThat(issue.getLocations()).hasSize(2);
+        assertThat(issue.getSecondaryLocations()).hasSize(1).first().satisfies(location ->
+                assertThat(location).hasFileName(fileName).hasLineStart(51));
     }
 
     /**
@@ -175,8 +166,8 @@ class CppCheckAdapterTest extends AbstractParserTest {
     }
 
     /**
-     * Verifies that the parser uses the first location (derived class) for missingOverride issues,
-     * not the last location (base class).
+     * Verifies that the parser uses the first location (derived class) for missingOverride issues, not the last
+     * location (base class).
      *
      * @see <a href="https://issues.jenkins.io/browse/JENKINS-75217">Issue 75217</a>
      */
@@ -185,19 +176,16 @@ class CppCheckAdapterTest extends AbstractParserTest {
         var report = parse("issue75217-missingOverride.xml");
 
         assertThat(report).hasSize(1);
-        assertThat(report.get(0))
+        var issue = report.get(0);
+        assertThat(issue)
                 .hasFileName("derived.hpp")
                 .hasLineStart(115)
                 .hasColumnStart(7)
                 .hasMessage("The function 'reset' overrides a function in a base class but is not marked with a 'override' specifier.. Function in derived class")
-                .hasType("missingOverride");
-        assertThat(report.get(0).getLocations()).hasSize(2);
-        assertThat(report.get(0).hasSecondaryLocations()).isTrue();
-        assertThat(report.get(0).getSecondaryLocations()).hasSize(1).first()
-                .satisfies(location -> {
-                    assertThat(location.getFileName()).hasToString("base.hpp");
-                    assertThat(location.getLineStart()).isEqualTo(117);
-                });
+                .hasType("missingOverride").hasSecondaryLocations();
+        assertThat(issue.getLocations()).hasSize(2);
+        assertThat(issue.getSecondaryLocations()).hasSize(1).first().satisfies(location ->
+                assertThat(location).hasFileName("base.hpp").hasLineStart(117));
     }
 
     @Override
