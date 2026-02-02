@@ -76,21 +76,10 @@ class CppCheckAdapterTest extends AbstractParserTest {
         assertThat(report).hasSize(2);
 
         var primaryFile = "apps/cloud_composer/src/point_selectors/rectangular_frustum_selector.cpp";
-        assertThat(report.get(0)).hasFileName(primaryFile)
-                .hasLineStart(53)
-                .hasMessage("Variable 'it' is reassigned a value before the old one has been used.")
-                .hasType("redundantAssignment")
-                .hasSecondaryLocations();
-        assertThat(report.get(0).getLocations()).hasSize(2);
-        assertThat(report.get(0).getSecondaryLocations()).hasSize(1).first()
-                .satisfies(location -> {
-                    assertThat(location).hasFileName(primaryFile);
-                    assertThat(location.getLineStart())
-                            .isEqualTo(51);
-                });
+        verifyFirstIssue(report, primaryFile);
+
         var secondaryFile = "surface/src/3rdparty/opennurbs/opennurbs_brep_tools.cpp";
-        assertThat(report.get(1)).hasFileName(
-                        secondaryFile)
+        assertThat(report.get(1)).hasFileName(secondaryFile)
                 .hasLineStart(346)
                 .hasMessage("Condition 'rc' is always true")
                 .hasType("knownConditionTrueFalse");
@@ -99,7 +88,7 @@ class CppCheckAdapterTest extends AbstractParserTest {
         assertThat(report.get(1).getSecondaryLocations()).hasSize(1).first()
                 .satisfies(location -> {
                             assertThat(location.getFileName())
-                                    .hasToString(secondaryFile);
+                                    .isEqualTo(secondaryFile);
                             assertThat(location.getLineStart())
                                     .isEqualTo(335);
                 });
@@ -116,20 +105,8 @@ class CppCheckAdapterTest extends AbstractParserTest {
 
         assertThat(report).hasSize(2);
 
-        assertThat(report.get(0))
-                .hasFileName("apps/cloud_composer/src/point_selectors/rectangular_frustum_selector.cpp")
-                .hasLineStart(53)
-                .hasMessage("Variable 'it' is reassigned a value before the old one has been used.")
-                .hasType("redundantAssignment");
-        assertThat(report.get(0).getLocations()).hasSize(2);
-        assertThat(report.get(0).hasSecondaryLocations()).isTrue();
-        assertThat(report.get(0).getSecondaryLocations()).hasSize(1).first()
-                .satisfies(location -> {
-                    assertThat(location.getFileName())
-                            .hasToString("apps/cloud_composer/src/point_selectors/rectangular_frustum_selector.cpp");
-                    assertThat(location.getLineStart())
-                            .isEqualTo(51);
-                });
+        var primaryFIle = "apps/cloud_composer/src/point_selectors/rectangular_frustum_selector.cpp";
+        verifyFirstIssue(report, primaryFIle);
 
         assertThat(report.get(1))
                 .hasFileName("that/cloud_composer/src/point_selectors/rectangular_frustum_selector.cpp")
@@ -139,11 +116,29 @@ class CppCheckAdapterTest extends AbstractParserTest {
         assertThat(report.get(1).getSecondaryLocations()).hasSize(1).first()
                 .satisfies(location -> {
                     assertThat(location.getFileName())
-                            .hasToString("that/cloud_composer/src/point_selectors/rectangular_frustum_selector.cpp");
+                            .isEqualTo("that/cloud_composer/src/point_selectors/rectangular_frustum_selector.cpp");
                     assertThat(location.getLineStart())
                             .isEqualTo(53);
                 });
 
+    }
+
+    private void verifyFirstIssue(final Report report, final String primaryFIle) {
+        assertThat(report.get(0))
+                .hasFileName(primaryFIle)
+                .hasLineStart(53)
+                .hasMessage("Variable 'it' is reassigned a value before the old one has been used.")
+                .hasType("redundantAssignment")
+                .hasSecondaryLocations();
+        assertThat(report.get(0).getLocations()).hasSize(2);
+        assertThat(report.get(0).hasSecondaryLocations()).isTrue();
+        assertThat(report.get(0).getSecondaryLocations()).hasSize(1).first()
+                .satisfies(location -> {
+                    assertThat(location.getFileName())
+                            .isEqualTo(primaryFIle);
+                    assertThat(location.getLineStart())
+                            .isEqualTo(51);
+                });
     }
 
     /**

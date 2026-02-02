@@ -66,18 +66,6 @@ public class Location implements Serializable {
     }
 
     /**
-     * Creates a default Integer representation for undefined input parameters.
-     *
-     * @param integer
-     *         the integer to check
-     *
-     * @return the valid integer value or 0 if the specified {@link Integer} is {@code null} or less than 0
-     */
-    private int defaultInteger(final int integer) {
-        return Math.max(integer, 0);
-    }
-
-    /**
      * Creates a new {@link Location} with the specified file name and line range.
      *
      * @param fileName
@@ -111,6 +99,18 @@ public class Location implements Serializable {
      */
     public Location(final TreeString fileName) {
         this(fileName, 0, 0, 0, 0);
+    }
+
+    /**
+     * Creates a default Integer representation for undefined input parameters.
+     *
+     * @param integer
+     *         the integer to check
+     *
+     * @return the valid integer value or 0 if the specified {@link Integer} is {@code null} or less than 0
+     */
+    private int defaultInteger(final int integer) {
+        return Math.max(integer, 0);
     }
 
     /**
