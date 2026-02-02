@@ -244,31 +244,27 @@ public class Issue implements Serializable {
     @SuppressWarnings("ParameterNumber")
     Issue(@CheckForNull final String pathName,
             final List<Location> locations,
-            @CheckForNull final String category,
-            @CheckForNull final String type, final TreeString packageName,
-            @CheckForNull final String moduleName, @CheckForNull final Severity severity,
+            final String category,
+            final String type, final TreeString packageName,
+            final String moduleName, final Severity severity,
             final TreeString message, final String description,
-            @CheckForNull final String origin, @CheckForNull final String originName,
-            @CheckForNull final String reference, @CheckForNull final String fingerprint,
-            @CheckForNull final Serializable additionalProperties, final UUID id) {
+            final String origin, final String originName,
+            final String reference, final String fingerprint,
+            @CheckForNull final Serializable additionalProperties,
+            final UUID id) {
         this.pathName = normalizeFileName(pathName);
         this.locations = new ArrayList<>(locations);
-
-        this.category = StringUtils.defaultString(category).intern();
-        this.type = defaultString(type);
-
+        this.category = category;
+        this.type = type;
         this.packageName = packageName;
-        this.moduleName = defaultString(moduleName);
-
-        this.severity = severity == null ? Severity.WARNING_NORMAL : severity;
+        this.moduleName = moduleName;
+        this.severity = severity;
         this.message = message;
-        this.description = description.intern();
-
-        this.origin = stripToEmpty(origin);
-        this.originName = stripToEmpty(originName);
-        this.reference = stripToEmpty(reference);
-
-        this.fingerprint = defaultString(fingerprint);
+        this.description = description;
+        this.origin = origin;
+        this.originName = originName;
+        this.reference = reference;
+        this.fingerprint = fingerprint;
         this.additionalProperties = additionalProperties;
 
         this.id = id;
@@ -337,30 +333,6 @@ public class Issue implements Serializable {
             return UNDEFINED;
         }
         return PATH_UTIL.getAbsolutePath(platformFileName);
-    }
-
-    /**
-     * Creates a default String representation for undefined input parameters.
-     *
-     * @param string
-     *         the string to check
-     *
-     * @return the valid string or a default string if the specified string is not valid
-     */
-    private String defaultString(@CheckForNull final String string) {
-        return StringUtils.defaultIfEmpty(string, UNDEFINED).intern();
-    }
-
-    /**
-     * Strips whitespace from the start and end of a String returning an empty String if {@code null} input.
-     *
-     * @param string
-     *         the string to check
-     *
-     * @return the stripped string or the empty string if the specified string is {@code null}
-     */
-    private String stripToEmpty(@CheckForNull final String string) {
-        return StringUtils.stripToEmpty(string).intern();
     }
 
     /**
@@ -855,6 +827,18 @@ public class Issue implements Serializable {
     @CheckForNull
     public Serializable getAdditionalProperties() {
         return additionalProperties;
+    }
+
+    /**
+     * Strips whitespace from the start and end of a String returning an empty String if {@code null} input.
+     *
+     * @param string
+     *         the string to check
+     *
+     * @return the stripped string or the empty string if the specified string is {@code null}
+     */
+    private String stripToEmpty(@CheckForNull final String string) {
+        return StringUtils.stripToEmpty(string).intern();
     }
 
     @SuppressWarnings("all")

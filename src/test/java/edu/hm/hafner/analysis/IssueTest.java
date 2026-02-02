@@ -274,26 +274,6 @@ class IssueTest extends SerializableTest<Issue> {
         }
     }
 
-    @Test
-    @SuppressWarnings("NullAway")
-    void testDefaultIssueNullStringsNegativeIntegers() {
-        var issue = createIssue(null, UNDEFINED_TS, 0, 0, 0, 0, LINE_RANGES, null, null,
-                UNDEFINED_TS, null, SEVERITY, EMPTY_TS, EMPTY, null, ORIGIN_NAME, null, null,
-                null, UUID.randomUUID());
-
-        assertIsDefaultIssue(issue);
-        assertThat(issue.affectsLine(10)).isTrue();
-    }
-
-    @Test
-    void testDefaultIssueEmptyStringsNegativeIntegers() {
-        var issue = createIssue(EMPTY, UNDEFINED_TS, -1, -1, -1, -1, LINE_RANGES, EMPTY, EMPTY,
-                UNDEFINED_TS, EMPTY, SEVERITY, EMPTY_TS, EMPTY, EMPTY, ORIGIN_NAME, EMPTY, EMPTY,
-                EMPTY, UUID.randomUUID());
-
-        assertIsDefaultIssue(issue);
-    }
-
     private void assertIsDefaultIssue(final Issue issue) {
         try (var softly = new SoftAssertions()) {
             softly.assertThat(issue.getId()).isNotNull();
@@ -330,17 +310,6 @@ class IssueTest extends SerializableTest<Issue> {
                     .hasColumnStart(COLUMN_START)
                     .hasColumnEnd(COLUMN_START);
         }
-    }
-
-    @Test
-    void testNullPriorityDefaultsToNormal() {
-        var issue = createIssue(PATH_NAME, FILE_NAME_TS, LINE_START, LINE_END, COLUMN_START, COLUMN_END, LINE_RANGES,
-                CATEGORY, TYPE,
-                PACKAGE_NAME_TS, MODULE_NAME, null, MESSAGE_TS, DESCRIPTION, ORIGIN, ORIGIN_NAME, REFERENCE,
-                FINGERPRINT,
-                ADDITIONAL_PROPERTIES, UUID.randomUUID());
-
-        assertThat(issue.getSeverity()).isEqualTo(Severity.WARNING_NORMAL);
     }
 
     @Test

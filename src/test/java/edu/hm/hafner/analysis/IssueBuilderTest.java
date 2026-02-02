@@ -31,9 +31,10 @@ class IssueBuilderTest {
     private static final Issue FILLED_ISSUE = createFilledIssue();
 
     private static Issue createDefaultIssue() {
-        return new Issue(StringUtils.EMPTY, List.of(new Location(UNDEFINED_TS)), null, null, UNDEFINED_TS,
-                UNDEFINED, null, TREE_STRING_BUILDER.intern(StringUtils.EMPTY), EMPTY, EMPTY,
-                null, null, null, null, UUID.randomUUID());
+        return new Issue(StringUtils.EMPTY, List.of(new Location(UNDEFINED_TS)), StringUtils.EMPTY,
+                Issue.UNDEFINED, UNDEFINED_TS, UNDEFINED, Severity.WARNING_NORMAL,
+                TREE_STRING_BUILDER.intern(StringUtils.EMPTY), EMPTY, EMPTY,
+                StringUtils.EMPTY, StringUtils.EMPTY, StringUtils.EMPTY, null, UUID.randomUUID());
     }
 
     private static Issue createFilledIssue() {

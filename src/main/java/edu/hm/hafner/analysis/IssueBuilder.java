@@ -594,17 +594,6 @@ public class IssueBuilder implements AutoCloseable {
     }
 
     /**
-     * Replaces the file name of the primary location and all additional locations of this issue.
-     *
-     * @param fileName
-     *         the new file name
-     */
-    public void replaceFileName(final String fileName) {
-
-    }
-
-
-    /**
      * Initializes this builder with an exact copy of all properties of the specified issue.
      *
      * @param copy
@@ -664,21 +653,32 @@ public class IssueBuilder implements AutoCloseable {
             actualLocations = List.copyOf(locations);
         }
 
-        // TODO: check parameters here and not in issue
-        return new Issue(pathName, actualLocations, category, type, packageName, moduleName, severity, message,
-                description, origin, originName, reference, fingerprint, additionalProperties, id);
+        return new Issue(pathName, actualLocations,
+                StringUtils.defaultString(category).intern(),
+                defaultString(type),
+                packageName,
+                defaultString(moduleName),
+                severity == null ? Severity.WARNING_NORMAL : severity,
+                message,
+                description.intern(),
+                stripToEmpty(origin),
+                stripToEmpty(originName),
+                stripToEmpty(reference),
+                defaultString(fingerprint),
+                additionalProperties,
+                id);
     }
 
     /**
-     * Creates a default Integer representation for undefined input parameters.
+     * Strips whitespace from the start and end of a String returning an empty String if {@code null} input.
      *
-     * @param integer
-     *         the integer to check
+     * @param string
+     *         the string to check
      *
-     * @return the valid integer value or 0 if the specified {@link Integer} is {@code null} or less than 0
+     * @return the stripped string or the empty string if the specified string is {@code null}
      */
-    private int defaultInteger(final int integer) {
-        return Math.max(integer, 0);
+    private String stripToEmpty(@CheckForNull final String string) {
+        return StringUtils.stripToEmpty(string).intern();
     }
 
     /**
