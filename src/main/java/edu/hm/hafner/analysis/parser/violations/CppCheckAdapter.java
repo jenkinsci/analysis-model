@@ -36,13 +36,13 @@ public class CppCheckAdapter extends AbstractViolationAdapter {
                     .collect(Collectors.groupingBy(Violation::getGroup));
 
             var report = new Report();
-            var treeStringBuilder = new TreeStringBuilder();
-            for (List<Violation> group : violationsPerGroup.values()) {
-                var sortedGroup = sortByInsertionOrder(group);
-                updateIssueBuilder(sortedGroup.get(0), issueBuilder);
-                for (int i = 1; i < sortedGroup.size(); i++) {
-                    var violation = sortedGroup.get(i);
-                    var fileName = treeStringBuilder.intern(violation.getFile());
+            var fileNames = new TreeStringBuilder();
+            for (var unsortedViolations : violationsPerGroup.values()) {
+                var sortedViolations = sortByInsertionOrder(unsortedViolations);
+                updateIssueBuilder(sortedViolations.get(0), issueBuilder);
+                for (int i = 1; i < sortedViolations.size(); i++) {
+                    var violation = sortedViolations.get(i);
+                    var fileName = fileNames.intern(violation.getFile());
                     issueBuilder.addLocation(new Location(fileName, violation.getStartLine()));
                 }
                 report.add(issueBuilder.buildAndClean());

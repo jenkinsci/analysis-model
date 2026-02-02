@@ -347,7 +347,7 @@ class IssueBuilderTest {
             var issue = builder.setPackageName("packageName").build();
             var anotherIssue = builder.setFileName("packageName").build();
 
-            assertThat(issue.getPackageNameTreeString()).isSameAs(anotherIssue.getPackageNameTreeString());
+            assertThat(issue.getInternalPackageName()).isSameAs(anotherIssue.getInternalPackageName());
         }
     }
 
@@ -357,7 +357,7 @@ class IssueBuilderTest {
             var issue = builder.setMessage("message").build();
             var anotherIssue = builder.setMessage("message").build();
 
-            assertThat(issue.getMessageTreeString()).isSameAs(anotherIssue.getMessageTreeString());
+            assertThat(issue.getInternalMessage()).isSameAs(anotherIssue.getInternalMessage());
         }
     }
 
@@ -367,7 +367,7 @@ class IssueBuilderTest {
             var issue = builder.setMessage("    message  ").setDescription("    description  ").build();
             var anotherIssue = builder.setMessage("message").setDescription("description").build();
 
-            assertThat(issue.getMessageTreeString()).isSameAs(anotherIssue.getMessageTreeString());
+            assertThat(issue.getInternalMessage()).isSameAs(anotherIssue.getInternalMessage());
             assertThat(issue.getDescription()).isSameAs(anotherIssue.getDescription());
         }
     }

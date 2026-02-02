@@ -131,9 +131,9 @@ public abstract class AbstractViolationAdapter extends IssueParser {
     void updateIssueBuilder(final Violation violation, final IssueBuilder builder) {
         var location = new Location(TreeString.valueOf(getFileName(violation)),
                 toValidInt(violation.getStartLine()),
-                        toValidInt(violation.getEndLine()),
-                        toValidInt(violation.getColumn()),
-                        toValidInt(violation.getEndColumn()));
+                toValidInt(violation.getEndLine()),
+                toValidInt(violation.getColumn()),
+                toValidInt(violation.getEndColumn()));
         builder.setSeverity(convertSeverity(violation.getSeverity(), violation))
                 .setMessage(violation.getMessage())
                 .addLocation(location)
@@ -141,6 +141,15 @@ public abstract class AbstractViolationAdapter extends IssueParser {
                 .setCategory(violation.getCategory());
     }
 
+    /**
+     * Returns the file name for the specified violation. Subclasses may override to provide a different file name or a
+     * modified version of the file name.
+     *
+     * @param violation
+     *         the violation
+     *
+     * @return the file name
+     */
     protected String getFileName(final Violation violation) {
         return violation.getFile();
     }
@@ -161,8 +170,8 @@ public abstract class AbstractViolationAdapter extends IssueParser {
     }
 
     /**
-     * Subclasses may add additional {@link IssueBuilder} properties based on the content of the specified {@link
-     * Violation}. This default implementation is empty.
+     * Subclasses may add additional {@link IssueBuilder} properties based on the content of the specified
+     * {@link Violation}. This default implementation is empty.
      *
      * @param builder
      *         the issue builder to change

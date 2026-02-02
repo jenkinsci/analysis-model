@@ -180,14 +180,14 @@ public class Issue implements Serializable {
     @Deprecated
     private int columnEnd = -1;               // replaced by locations since 14.0.0
     @Deprecated
-    private TreeString fileName = null;             // replaced by locations since 14.0.0
+    private TreeString fileName = null;       // replaced by locations since 14.0.0
     @Deprecated
     private LineRangeList lineRanges = null;  // replaced by locations since 14.0.0
 
-    @SuppressWarnings("serial")
-    private List<Location> locations; // fixed
+    @SuppressWarnings("PMD.LooseCoupling")
+    private ArrayList<Location> locations; // fixed
 
-    private final UUID id;                  // fixed
+    private final UUID id;            // fixed
 
     @CheckForNull
     private final Serializable additionalProperties;  // fixed
@@ -200,11 +200,11 @@ public class Issue implements Serializable {
     private TreeString packageName; // mutable
     private String pathName;        // mutable, not part of equals, @since 8.0.0
 
-    private final TreeString message;   // fixed
-    private String description;   // fixed
+    private final TreeString message; // fixed
+    private String description;       // fixed
 
-    private String fingerprint;     // mutable, not part of equals
-    private boolean partOfModifiedCode;     // mutable, not part of equals
+    private String fingerprint;         // mutable, not part of equals
+    private boolean partOfModifiedCode; // mutable, not part of equals
 
     /**
      * Creates a new instance of {@link Issue} using the specified properties.
@@ -213,7 +213,7 @@ public class Issue implements Serializable {
      *         the path that contains the affected file
      * @param locations
      *         the locations related to this issue, the first location is the primary location
-     *         the path that contains the affected file and the other files related to this issue
+     *         that contains file name, line, and column information
      * @param category
      *         the category of this issue (depends on the available categories of the static analysis tool)
      * @param type
@@ -307,11 +307,8 @@ public class Issue implements Serializable {
             originName = originName.intern();
         }
         if (locations == null) { // new in version 14.0.0
-            locations = new ArrayList<>();
-            locations.add(new Location(fileName, lineStart, lineEnd, columnStart, columnEnd)); // primary location
-            Objects.requireNonNull(lineRanges).stream()
-                    .map(range -> new Location(fileName, range.getStart(), range.getEnd()))
-                    .forEach(locations::add); // secondary locations
+            locations = toLocations(fileName, lineStart, lineEnd, columnStart, columnEnd,
+                    Objects.requireNonNull(lineRanges));
 
             // clear deprecated fields
             fileName = null;
@@ -466,15 +463,18 @@ public class Issue implements Serializable {
     void setFileName(final String pathName, final TreeString fileName) {
         this.pathName = normalizeFileName(pathName);
         var oldFileName = getFileNameTreeString();
-        var changedLocations = locations.stream().map(l -> createLocation(l, oldFileName, fileName)).toList();
-        locations.clear();
-        locations.addAll(changedLocations);
+        var changedLocations = locations.stream()
+                .map(l -> createLocation(l, oldFileName, fileName))
+                .toList();
+        locations = new ArrayList<>(changedLocations);
     }
 
-    private Location createLocation(final Location existing, final TreeString oldFileName, final TreeString newFileName) {
+    private Location createLocation(final Location existing,
+            final TreeString oldFileName, final TreeString newFileName) {
         if (existing.getFileNameTreeString().equals(oldFileName)) {
             return new Location(newFileName,
-                    existing.getLineStart(), existing.getLineEnd(), existing.getColumnStart(), existing.getColumnEnd());
+                    existing.getLineStart(), existing.getLineEnd(),
+                    existing.getColumnStart(), existing.getColumnEnd());
         }
         return existing;
     }
@@ -527,7 +527,7 @@ public class Issue implements Serializable {
         return message.toString();
     }
 
-    TreeString getMessageTreeString() {
+    TreeString getInternalMessage() {
         return message;
     }
 
@@ -628,15 +628,11 @@ public class Issue implements Serializable {
         if (getLineStart() == 0 || line == 0) {
             return true; // the whole file is marked, so every line is affected
         }
-        if (getLineStart() <= line && line <= lineEnd) {
+        if (getLineStart() <= line && line <= getLineEnd()) {
             return true; // the line is within the primary range of this issue
         }
-        for (Location location : getLocations()) {
-            if (location.contains(line)) {
-                return true; // the line is within an additional line range of this issue
-            }
-        }
-        return false;
+        return getLocations().stream()
+                .anyMatch(location -> location.contains(line));
     }
 
     /**
@@ -672,7 +668,7 @@ public class Issue implements Serializable {
      *
      * @return the package name
      */
-    TreeString getPackageNameTreeString() {
+    TreeString getInternalPackageName() {
         return packageName;
     }
 

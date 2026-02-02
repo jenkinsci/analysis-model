@@ -6,6 +6,7 @@ import org.apache.commons.lang3.Strings;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
+import edu.hm.hafner.util.Ensure;
 import edu.hm.hafner.util.LineRangeList;
 import edu.hm.hafner.util.PathUtil;
 import edu.hm.hafner.util.TreeString;
@@ -134,6 +135,11 @@ public class IssueBuilder implements AutoCloseable {
         return this;
     }
 
+    private void ensureThatLocationsAreEmpty() {
+        Ensure.that(locations.isEmpty()).isTrue(
+                "Cannot set single location properties when locations are already defined");
+    }
+
     /**
      * Sets the name of the affected file. This file name is a path relative to the path of the affected files (see
      * {@link #setPathName(String)}).
@@ -145,6 +151,8 @@ public class IssueBuilder implements AutoCloseable {
      */
     @CanIgnoreReturnValue
     public IssueBuilder setFileName(@CheckForNull final String fileName) {
+        ensureThatLocationsAreEmpty();
+
         this.fileName = internFileName(fileName);
 
         return this;
@@ -212,6 +220,8 @@ public class IssueBuilder implements AutoCloseable {
      */
     @CanIgnoreReturnValue
     public IssueBuilder setLineStart(final int lineStart) {
+        ensureThatLocationsAreEmpty();
+
         this.lineStart = lineStart;
         return this;
     }
@@ -226,6 +236,8 @@ public class IssueBuilder implements AutoCloseable {
      */
     @CanIgnoreReturnValue
     public IssueBuilder setLineStart(@CheckForNull final String lineStart) {
+        ensureThatLocationsAreEmpty();
+
         this.lineStart = parseInt(lineStart);
         return this;
     }
@@ -244,6 +256,8 @@ public class IssueBuilder implements AutoCloseable {
      */
     @CanIgnoreReturnValue
     public IssueBuilder setLineEnd(final int lineEnd) {
+        ensureThatLocationsAreEmpty();
+
         this.lineEnd = lineEnd;
         return this;
     }
@@ -258,6 +272,8 @@ public class IssueBuilder implements AutoCloseable {
      */
     @CanIgnoreReturnValue
     public IssueBuilder setLineEnd(@CheckForNull final String lineEnd) {
+        ensureThatLocationsAreEmpty();
+
         this.lineEnd = parseInt(lineEnd);
         return this;
     }
@@ -276,6 +292,8 @@ public class IssueBuilder implements AutoCloseable {
      */
     @CanIgnoreReturnValue
     public IssueBuilder setColumnStart(final int columnStart) {
+        ensureThatLocationsAreEmpty();
+
         this.columnStart = columnStart;
         return this;
     }
@@ -290,11 +308,13 @@ public class IssueBuilder implements AutoCloseable {
      */
     @CanIgnoreReturnValue
     public IssueBuilder setColumnStart(@CheckForNull final String columnStart) {
+        ensureThatLocationsAreEmpty();
+
         this.columnStart = parseInt(columnStart);
         return this;
     }
 
-    int getColumnStart() {
+    private int getColumnStart() {
         return columnStart;
     }
 
@@ -308,6 +328,8 @@ public class IssueBuilder implements AutoCloseable {
      */
     @CanIgnoreReturnValue
     public IssueBuilder setColumnEnd(final int columnEnd) {
+        ensureThatLocationsAreEmpty();
+
         this.columnEnd = columnEnd;
         return this;
     }
@@ -322,11 +344,13 @@ public class IssueBuilder implements AutoCloseable {
      */
     @CanIgnoreReturnValue
     public IssueBuilder setColumnEnd(@CheckForNull final String columnEnd) {
+        ensureThatLocationsAreEmpty();
+
         this.columnEnd = parseInt(columnEnd);
         return this;
     }
 
-    int getColumnEnd() {
+    private int getColumnEnd() {
         return columnEnd;
     }
 
@@ -379,9 +403,7 @@ public class IssueBuilder implements AutoCloseable {
         if (unsafePackageName == null || StringUtils.isBlank(unsafePackageName)) {
             return UNDEFINED_TREE_STRING;
         }
-        else {
-            return packageNameBuilder.intern(unsafePackageName);
-        }
+        return packageNameBuilder.intern(unsafePackageName);
     }
 
     /**
@@ -590,21 +612,14 @@ public class IssueBuilder implements AutoCloseable {
      *
      * @return the initialized builder
      */
-    public IssueBuilder copy(final Issue copy) {
-        // TODO use setters?
-        fileName = copy.getFileNameTreeString();
-        lineStart = copy.getLineStart();
-        lineEnd = copy.getLineEnd();
-        columnStart = copy.getColumnStart();
-        columnEnd = copy.getColumnEnd();
-        locations.clear();
-        copy.getLocations().forEach(locations::add);
+    IssueBuilder copy(final Issue copy) {
+        locations = new ArrayList<>(copy.getLocations());
         category = copy.getCategory();
         type = copy.getType();
         severity = copy.getSeverity();
-        message = copy.getMessageTreeString();
+        message = copy.getInternalMessage();
         description = copy.getDescription();
-        packageName = copy.getPackageNameTreeString();
+        packageName = copy.getInternalPackageName();
         moduleName = copy.getModuleName();
         origin = copy.getOrigin();
         originName = copy.getOriginName();

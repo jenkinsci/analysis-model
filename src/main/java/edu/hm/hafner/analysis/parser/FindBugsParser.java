@@ -154,20 +154,11 @@ public class FindBugsParser extends IssueParser {
                     builder.setModuleName(project.getProjectName());
                 }
 
-                var sourceLine = warning.getPrimarySourceLineAnnotation();
-
-                var message = warning.getMessage();
                 var type = warning.getType();
-                var category = categories.get(type);
-                if (category == null) { // alternately, only if warning.getBugPattern().getType().equals("UNKNOWN")
-                    category = warning.getBugPattern().getCategory();
-                }
-                var primaryPath = pathBuilder.intern(findSourceFile(sourceFinder, sourceLine));
-                var primaryLocation = new Location(primaryPath, sourceLine.getStartLine(), sourceLine.getEndLine());
                 builder.setSeverity(getPriority(warning))
-                        .setMessage(createMessage(hashToMessageMapping, warning, message))
-                        .addLocation(primaryLocation)
-                        .setCategory(category)
+                        .setMessage(createMessage(hashToMessageMapping, warning, warning.getMessage()))
+                        .addLocation(extractPrimaryLocation(warning, pathBuilder, sourceFinder))
+                        .setCategory(categories.getOrDefault(type, warning.getBugPattern().getCategory()))
                         .setType(type)
                         .setPackageName(warning.getPrimaryClass().getPackageName())
                         .setFingerprint(warning.getInstanceHash());
@@ -178,6 +169,13 @@ public class FindBugsParser extends IssueParser {
             pathBuilder.dedup();
             return report;
         }
+    }
+
+    private Location extractPrimaryLocation(final BugInstance warning, final TreeStringBuilder pathBuilder,
+            final SourceFinder sourceFinder) {
+        var sourceLine = warning.getPrimarySourceLineAnnotation();
+        var primaryPath = pathBuilder.intern(findSourceFile(sourceFinder, sourceLine));
+        return new Location(primaryPath, sourceLine.getStartLine(), sourceLine.getEndLine());
     }
 
     /**
@@ -222,9 +220,7 @@ public class FindBugsParser extends IssueParser {
         if (priorityProperty == RANK) {
             return getPriorityByRank(warning);
         }
-        else {
-            return getPriorityByPriority(warning);
-        }
+        return getPriorityByPriority(warning);
     }
 
     @SuppressWarnings("PMD.DoNotUseThreads")
