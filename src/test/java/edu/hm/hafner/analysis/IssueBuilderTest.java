@@ -6,11 +6,14 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
+
 import edu.hm.hafner.util.LineRange;
 import edu.hm.hafner.util.LineRangeList;
 import edu.hm.hafner.util.TreeString;
 import edu.hm.hafner.util.TreeStringBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -38,12 +41,16 @@ class IssueBuilderTest {
     }
 
     private static Issue createFilledIssue() {
-        var locations = Issue.toLocations(TreeString.valueOf(FILE_NAME), LINE_START,
-                LINE_END, COLUMN_START, COLUMN_END, LINE_RANGES);
-
-        return new Issue(PATH_NAME, locations, CATEGORY, TYPE, TreeString.valueOf(PACKAGE_NAME), MODULE_NAME, SEVERITY,
+        return new Issue(PATH_NAME, createLocations(), CATEGORY, TYPE, TreeString.valueOf(PACKAGE_NAME), MODULE_NAME, SEVERITY,
                 TreeString.valueOf(MESSAGE), DESCRIPTION, ORIGIN, ORIGIN_NAME, REFERENCE,
                 FINGERPRINT, ADDITIONAL_PROPERTIES, UUID.randomUUID());
+    }
+
+    private static List<Location> createLocations() {
+        var locations = new ArrayList<Location>();
+        locations.add(new Location(TreeString.valueOf(FILE_NAME), LINE_START, LINE_END, COLUMN_START, COLUMN_END));
+        locations.add(new Location(TreeString.valueOf(FILE_NAME), 5, 6));
+        return locations;
     }
 
     private static final String RELATIVE_FILE = "relative.txt";
@@ -187,11 +194,6 @@ class IssueBuilderTest {
     void shouldCreateIssueWithAllPropertiesInitialized() {
         try (var builder = new IssueBuilder()) {
             var issue = builder
-                    .setFileName(FILE_NAME)
-                    .setLineStart(LINE_START)
-                    .setLineEnd(LINE_END)
-                    .setColumnStart(COLUMN_START)
-                    .setColumnEnd(COLUMN_END)
                     .setCategory(CATEGORY)
                     .setType(TYPE)
                     .setPackageName(PACKAGE_NAME)
@@ -201,7 +203,7 @@ class IssueBuilderTest {
                     .setDescription(DESCRIPTION)
                     .setOrigin(ORIGIN)
                     .setOriginName(ORIGIN_NAME)
-                    .setLineRanges(LINE_RANGES)
+                    .setLocations(createLocations())
                     .setReference(REFERENCE)
                     .setFingerprint(FINGERPRINT)
                     .setAdditionalProperties(ADDITIONAL_PROPERTIES)
@@ -249,6 +251,7 @@ class IssueBuilderTest {
     }
 
     @Test
+    @SuppressWarnings("deprecation") // make sure that deprecated methods work as expected
     void shouldCollectLineRanges() {
         try (var builder = new IssueBuilder()) {
             builder.setLineStart(1).setLineEnd(2);
@@ -269,6 +272,7 @@ class IssueBuilderTest {
     }
 
     @Test
+    @SuppressWarnings("deprecation") // make sure that deprecated methods work as expected
     void shouldMoveLineRangeToAttributes() {
         try (var builder = new IssueBuilder()) {
             var lineRanges = new LineRangeList();
@@ -282,6 +286,7 @@ class IssueBuilderTest {
     }
 
     @Test
+    @SuppressWarnings("deprecation") // make sure that deprecated methods work as expected
     void shouldCleanupLineRanges() {
         try (var builder = new IssueBuilder()) {
             builder.setLineStart(1).setLineEnd(2);
@@ -296,6 +301,7 @@ class IssueBuilderTest {
     }
 
     @Test
+    @SuppressWarnings("deprecation") // make sure that deprecated methods work as expected
     void shouldNotCleanupDifferentLineRanges() {
         try (var builder = new IssueBuilder()) {
             builder.setLineStart(1).setLineEnd(2);
@@ -386,6 +392,7 @@ class IssueBuilderTest {
         }
     }
 
+    @CanIgnoreReturnValue
     private Issue assertThatIssueContains(final Issue issue, final Location location1, final Location location2) {
         assertThat(issue)
                 .hasLocations(location1, location2)

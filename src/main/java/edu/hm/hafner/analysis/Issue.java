@@ -171,17 +171,18 @@ public class Issue implements Serializable {
 
     private final Severity severity;
 
-    @Deprecated
+    @Deprecated @SuppressWarnings("DeprecatedIsStillUsed") // used in readResolve()
     private int lineStart = -1;               // replaced by locations since 14.0.0
-    @Deprecated
+    @Deprecated @SuppressWarnings("DeprecatedIsStillUsed") // used in readResolve()
     private int lineEnd = -1;                 // replaced by locations since 14.0.0
-    @Deprecated
+    @Deprecated @SuppressWarnings("DeprecatedIsStillUsed") // used in readResolve()
     private int columnStart = -1;             // replaced by locations since 14.0.0
-    @Deprecated
+    @Deprecated @SuppressWarnings("DeprecatedIsStillUsed") // used in readResolve()
     private int columnEnd = -1;               // replaced by locations since 14.0.0
-    @Deprecated
+
+    @Deprecated @CheckForNull @SuppressWarnings("DeprecatedIsStillUsed") // used in readResolve()
     private TreeString fileName = null;       // replaced by locations since 14.0.0
-    @Deprecated
+    @Deprecated @CheckForNull @SuppressWarnings("DeprecatedIsStillUsed") // used in readResolve()
     private LineRangeList lineRanges = null;  // replaced by locations since 14.0.0
 
     @SuppressWarnings("PMD.LooseCoupling")
@@ -303,8 +304,14 @@ public class Issue implements Serializable {
             originName = originName.intern();
         }
         if (locations == null) { // new in version 14.0.0
-            locations = toLocations(fileName, lineStart, lineEnd, columnStart, columnEnd,
-                    Objects.requireNonNull(lineRanges));
+            final TreeString oldFileName = Objects.requireNonNull(fileName);
+
+            var converted = new ArrayList<Location>();
+            converted.add(new Location(oldFileName, lineStart, lineEnd, columnStart, columnEnd));
+            Objects.requireNonNull(lineRanges).stream()
+                    .map(lr -> new Location(oldFileName, lr.getStart(), lr.getEnd()))
+                    .forEach(converted::add);
+            locations = converted;
 
             // clear deprecated fields
             fileName = null;
@@ -315,17 +322,6 @@ public class Issue implements Serializable {
             columnEnd = 0;
         }
         return this;
-    }
-
-    static ArrayList<Location> toLocations(final TreeString oldFileName,
-            final int oldLineStart, final int oldLineEnd, final int oldColumnStart, final int oldColumnEnd,
-            final LineRangeList oldLineRanges) {
-        var converted = new ArrayList<Location>();
-        converted.add(new Location(oldFileName, oldLineStart, oldLineEnd, oldColumnStart, oldColumnEnd));
-        oldLineRanges.stream()
-                .map(lr -> new Location(oldFileName, lr.getStart(), lr.getEnd()))
-                .forEach(converted::add);
-        return converted;
     }
 
     private String normalizeFileName(@CheckForNull final String platformFileName) {
@@ -539,6 +535,7 @@ public class Issue implements Serializable {
      * @deprecated use {@link #getLocations()} instead
      */
     @Deprecated
+    @SuppressWarnings("DeprecatedIsStillUsed") // it is used in generated assertions only
     public Iterable<? extends LineRange> getLineRanges() {
         return locations.stream()
                 .skip(1) // primary location is not included

@@ -1304,7 +1304,7 @@ public class Report implements Iterable<Issue>, Serializable {
         var builder = new TreeStringBuilder();
         for (int i = 0; i < size; i++) {
             var path = input.readUTF();
-            List<Location> locations = (List<Location>) input.readObject();
+            var locations = (List<Location>) input.readObject();
             var category = input.readUTF();
             var type = input.readUTF();
             var packageName = builder.intern(input.readUTF());
