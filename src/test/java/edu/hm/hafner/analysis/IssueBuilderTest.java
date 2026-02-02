@@ -375,22 +375,23 @@ class IssueBuilderTest {
     @Test
     void shouldAddAdditionalLocations() {
         try (var builder = new IssueBuilder()) {
-            var location1 = new Location(TREE_STRING_BUILDER.intern("header.h"), 10, 20);
-            var location2 = new Location(TREE_STRING_BUILDER.intern("impl.cpp"), 50);
+            var first = new Location(TREE_STRING_BUILDER.intern("header.h"), 10, 20);
+            var second = new Location(TREE_STRING_BUILDER.intern("impl.cpp"), 50);
 
-            builder.addLocation(location1);
-            builder.addLocation(location2);
+            builder.addLocation(first);
+            builder.addLocation(second);
 
-            assertThatBuilderContains2Locations(builder, location1, location2);
+            assertThatIssueContains(builder.build(), first, second);
         }
     }
 
-    private void assertThatBuilderContains2Locations(final IssueBuilder builder, final Location location1, final Location location2) {
-        var issue = builder.build();
-        assertThat(issue.getLocations()).contains(location1, location2);
-        assertThat(issue.getPrimaryLocation()).isEqualTo(location1);
-        assertThat(issue.hasSecondaryLocations()).isTrue();
-        assertThat(issue.getSecondaryLocations()).containsExactly(location2);
+    private Issue assertThatIssueContains(final Issue issue, final Location location1, final Location location2) {
+        assertThat(issue)
+                .hasLocations(location1, location2)
+                .hasPrimaryLocation(location1)
+                .hasSecondaryLocations()
+                .hasSecondaryLocations(location2);
+        return issue;
     }
 
     @Test
@@ -403,7 +404,7 @@ class IssueBuilderTest {
 
             builder.setLocations(locations);
 
-            assertThatBuilderContains2Locations(builder, locations.get(0), locations.get(1));
+            assertThatIssueContains(builder.build(), locations.get(0), locations.get(1));
         }
     }
 
@@ -416,19 +417,12 @@ class IssueBuilderTest {
             var secondLocation = new Location(TREE_STRING_BUILDER.intern("impl.cpp"), 50);
             builder.addLocation(secondLocation);
 
-            var originalIssue = builder.build();
-            assertThat(originalIssue.hasSecondaryLocations()).isTrue();
-            assertThat(originalIssue.getLocations()).hasSize(2);
-            assertThat(originalIssue.getLocations()).containsExactly(firstLocation, secondLocation);
+            var originalIssue = assertThatIssueContains(builder.build(), firstLocation, secondLocation);
 
             try (var copyBuilder = new IssueBuilder()) {
                 copyBuilder.copy(originalIssue);
 
-                var copiedIssue = copyBuilder.build();
-
-                assertThat(copiedIssue.hasSecondaryLocations()).isTrue();
-                assertThat(copiedIssue.getLocations()).hasSize(2);
-                assertThat(copiedIssue.getLocations()).containsExactly(firstLocation, secondLocation);
+                assertThatIssueContains(copyBuilder.build(), firstLocation, secondLocation);
             }
         }
     }
@@ -439,7 +433,7 @@ class IssueBuilderTest {
             var issue = builder.build();
 
             // No additional locations when none are set
-            assertThat(issue.hasSecondaryLocations()).isFalse();
+            assertThat(issue).hasNoSecondaryLocations();
             assertThat(issue.getLocations()).hasSize(1);  // Primary location always exists
         }
     }
