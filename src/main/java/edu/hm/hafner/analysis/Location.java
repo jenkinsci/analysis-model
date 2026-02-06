@@ -194,7 +194,6 @@ public class Location implements Serializable {
         return lineStart == lineEnd;
     }
 
-
     /**
      * Returns the lines of this line lange in a sorted set.
      *

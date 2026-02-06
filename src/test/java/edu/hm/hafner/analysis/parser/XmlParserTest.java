@@ -52,7 +52,12 @@ class XmlParserTest extends StructuredFileParserTest {
                 .hasModuleName("module-name")
                 .hasFingerprint("fingerprint")
                 .hasAdditionalProperties("")
-                .hasOnlyLineRanges(new LineRange(5, 6));
+                .hasReference("")
+                .hasNoLineRanges()
+                .hasLocations(
+                        new Location("file-name", 1, 2, 3, 4),
+                        new Location("file-name", 5, 6, 0, 0)
+                );
     }
 
     @Override
@@ -80,6 +85,7 @@ class XmlParserTest extends StructuredFileParserTest {
                 .hasModuleName("module-name")
                 .hasFingerprint("fingerprint")
                 .hasAdditionalProperties("")
+                .hasNoLineRanges()
                 .hasLocations(
                         new Location("file-name", 1, 2, 3, 4),
                         new Location("another-file-name", 5, 6, 0, 0)

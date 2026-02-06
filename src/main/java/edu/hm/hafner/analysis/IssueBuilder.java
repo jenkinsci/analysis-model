@@ -588,25 +588,33 @@ public class IssueBuilder implements AutoCloseable {
         return this;
     }
 
-    private boolean isInPrimaryFile(final Location location) {
-        return !locations.isEmpty()
-                && locations.get(0).getFileName().equals(location.getFileName());
-    }
-
     /**
      * Adds another location to this issue, the first location is considered the primary location.
      *
-     * @param lineStart
+     * @param start
      *         the first line
-     * @param lineEnd
+     * @param end
      *         the last line
      *
      * @return this
      */
-    @SuppressWarnings("ParameterHidesMemberVariable")
     @CanIgnoreReturnValue
-    public IssueBuilder addLocation(final int lineStart, final int lineEnd) {
-        return addLocation(new Location(getFileName(), lineStart, lineEnd));
+    public IssueBuilder addLocation(final int start, final int end) {
+        return addLocation(new Location(getFileName(), start, end));
+    }
+
+    /**
+     * Returns whether this issue has at least one location set.
+     *
+     * @return {@code true} if this issue has at least one location, {@code false} otherwise
+     */
+    public boolean hasLocations() {
+        return !locations.isEmpty();
+    }
+
+    private boolean isInPrimaryFile(final Location location) {
+        return !locations.isEmpty()
+                && locations.get(0).getFileName().equals(location.getFileName());
     }
 
     /**

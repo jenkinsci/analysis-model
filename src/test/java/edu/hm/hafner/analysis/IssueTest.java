@@ -261,28 +261,6 @@ class IssueTest extends SerializableTest<Issue> {
         }
     }
 
-    private void assertIsDefaultIssue(final Issue issue) {
-        try (var softly = new SoftAssertions()) {
-            softly.assertThat(issue.getId()).isNotNull();
-            softly.assertThat(issue)
-                    .hasFileName(UNDEFINED)
-                    .hasCategory(EMPTY)
-                    .hasLineStart(0)
-                    .hasLineEnd(0)
-                    .hasColumnStart(0)
-                    .hasColumnEnd(0)
-                    .hasType(UNDEFINED)
-                    .hasPackageName(UNDEFINED)
-                    .hasMessage(EMPTY)
-                    .hasDescription(EMPTY)
-                    .hasFingerprint(UNDEFINED);
-            softly.assertThat(issue.hasFingerprint()).isFalse();
-            softly.assertThat(issue.hasPackageName()).isFalse();
-            softly.assertThat(issue.hasFileName()).isFalse();
-            softly.assertThat(issue.hasModuleName()).isFalse();
-        }
-    }
-
     @Test
     void testZeroLineColumnEndsDefaultToLineColumnStarts() {
         var issue = createIssue(PATH_NAME, FILE_NAME_TS, LINE_START, 0, COLUMN_START, 0,
@@ -355,7 +333,7 @@ class IssueTest extends SerializableTest<Issue> {
     }
 
     /**
-     * Verifies that saved serialized format (from a previous release) still can be resolved with the current
+     * Verifies that the saved serialized format (from a previous release) still can be resolved with the current
      * implementation of {@link Issue}.
      */
     @Test
