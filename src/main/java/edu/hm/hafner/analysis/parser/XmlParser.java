@@ -115,10 +115,11 @@ public class XmlParser extends IssueParser {
         issueBuilder.addLocation(new Location(fileName,
                 readInt(issue, path, LINE_START), readInt(issue, path, LINE_END),
                 readInt(issue, path, COLUMN_START), readInt(issue, path, COLUMN_END)));
-        final NodeList lineRanges = (NodeList) path.evaluate(LINE_RANGES_PATH, issue, XPathConstants.NODESET);
-        for (Element lineRange : XmlElementUtil.nodeListToList(lineRanges)) {
+        var lineElements = XmlElementUtil.nodeListToList(
+                (NodeList) path.evaluate(LINE_RANGES_PATH, issue, XPathConstants.NODESET));
+        for (Element lineRange : lineElements) {
             issueBuilder.addLocation(new Location(fileName,
-                    readInt(lineRange, path, LINE_START), readInt(lineRange, path, LINE_END)));
+                    readInt(lineRange, path, LINE_RANGE_START), readInt(lineRange, path, LINE_RANGE_END)));
         }
     }
 
