@@ -117,7 +117,6 @@ class CppCheckAdapterTest extends AbstractParserTest {
                 assertThat(location)
                         .hasFileName("that/cloud_composer/src/point_selectors/rectangular_frustum_selector.cpp")
                         .hasLineStart(53));
-
     }
 
     private void verifyFirstIssue(final Issue issue, final String fileName) {
