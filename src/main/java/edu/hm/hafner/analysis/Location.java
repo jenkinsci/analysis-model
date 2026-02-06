@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis;
 
 import edu.hm.hafner.util.TreeString;
+import edu.hm.hafner.util.VisibleForTesting;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -63,6 +64,28 @@ public class Location implements Serializable {
             this.columnStart = providedLineStart < providedLineEnd ? providedColumnStart : Math.min(providedColumnStart, providedColumnEnd);
             this.columnEnd = providedLineStart < providedLineEnd ? providedColumnEnd : Math.max(providedColumnStart, providedColumnEnd);
         }
+    }
+
+    /**
+     * Creates a new {@link Location} with the specified parameters. This method is visible for testing purposes only.
+     * It uses a {@link String} for the file name instead of a {@link TreeString} which is not ideal for production
+     * code.
+     *
+     * @param fileName
+     *         the name of the file
+     * @param lineStart
+     *         the first line (lines start at 1; 0 indicates the whole file)
+     * @param lineEnd
+     *         the last line (lines start at 1)
+     * @param columnStart
+     *         the first column (columns start at 1, 0 indicates the whole line)
+     * @param columnEnd
+     *         the last column (columns start at 1)
+     */
+    @VisibleForTesting
+    public Location(final String fileName, final int lineStart, final int lineEnd,
+            final int columnStart, final int columnEnd) {
+        this(TreeString.valueOf(fileName), lineStart, lineEnd, columnStart, columnEnd);
     }
 
     /**

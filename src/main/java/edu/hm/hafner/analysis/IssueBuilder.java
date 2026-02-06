@@ -594,6 +594,22 @@ public class IssueBuilder implements AutoCloseable {
     }
 
     /**
+     * Adds another location to this issue, the first location is considered the primary location.
+     *
+     * @param lineStart
+     *         the first line
+     * @param lineEnd
+     *         the last line
+     *
+     * @return this
+     */
+    @SuppressWarnings("ParameterHidesMemberVariable")
+    @CanIgnoreReturnValue
+    public IssueBuilder addLocation(final int lineStart, final int lineEnd) {
+        return addLocation(new Location(getFileName(), lineStart, lineEnd));
+    }
+
+    /**
      * Initializes this builder with an exact copy of all properties of the specified issue.
      *
      * @param copy
