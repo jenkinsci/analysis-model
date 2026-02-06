@@ -27,7 +27,7 @@ class LocationTest {
     void shouldCreateLocationWithAllParameters() {
         var location = new Location(INTERNAL_FILE_NAME, LINE_START, LINE_END, COLUMN_START, COLUMN_END);
 
-       assertThat(location)
+        assertThat(location)
                 .hasFileName(FILE_NAME)
                 .hasLineStart(LINE_START)
                 .hasLineEnd(LINE_END)
@@ -71,7 +71,7 @@ class LocationTest {
                 .hasToString(FILE_NAME);
     }
 
-        @Test
+    @Test
     void shouldFindLinesInsideAndOutsideOfLineRange() {
         var location = new Location(INTERNAL_FILE_NAME, 1, 2);
 
