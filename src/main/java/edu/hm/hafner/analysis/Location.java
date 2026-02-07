@@ -226,13 +226,17 @@ public class Location implements Serializable {
                 builder.append('-').append(lineEnd);
             }
             if (columnStart > 0) {
-                builder.append(':').append(columnStart);
-                if (columnEnd != columnStart) {
-                    builder.append('-').append(columnEnd);
-                }
+                appendColumns(builder);
             }
         }
         return builder.toString();
+    }
+
+    private void appendColumns(final StringBuilder builder) {
+        builder.append(':').append(columnStart);
+        if (columnEnd != columnStart) {
+            builder.append('-').append(columnEnd);
+        }
     }
 
     @Override

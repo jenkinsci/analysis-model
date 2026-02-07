@@ -301,10 +301,10 @@ class IssueTest extends SerializableTest<Issue> {
         locations.add(new Location(fileName, lineStart, lineEnd, columnStart, columnEnd));
         locations.add(new Location(fileName, 5, 6));
 
-        return new Issue(pathName, locations, IssueTest.CATEGORY, IssueTest.TYPE, IssueTest.PACKAGE_NAME_TS,
-                IssueTest.MODULE_NAME, IssueTest.SEVERITY, IssueTest.MESSAGE_TS, IssueTest.DESCRIPTION,
-                IssueTest.ORIGIN, IssueTest.ORIGIN_NAME, IssueTest.REFERENCE, IssueTest.FINGERPRINT,
-                IssueTest.ADDITIONAL_PROPERTIES, id);
+        return new Issue(pathName, locations, CATEGORY, TYPE, PACKAGE_NAME_TS,
+                MODULE_NAME, SEVERITY, MESSAGE_TS, DESCRIPTION,
+                ORIGIN, ORIGIN_NAME, REFERENCE, FINGERPRINT,
+                ADDITIONAL_PROPERTIES, id);
     }
 
     @Test

@@ -29,7 +29,7 @@ import java.util.function.Predicate;
  *
  * @author Ullrich Hafner
  */
-@SuppressWarnings({"PMD.GodClass", "PMD.CyclomaticComplexity", "NoFunctionalReturnType"})
+@SuppressWarnings({"PMD.GodClass", "PMD.CyclomaticComplexity", "PMD.ExcessivePublicCount", "PMD.TooManyFields", "NoFunctionalReturnType"})
 public class Issue implements Serializable {
     @Serial
     private static final long serialVersionUID = 14L; // release 14.0.0
@@ -278,6 +278,7 @@ public class Issue implements Serializable {
      */
     @Serial
     @SuppressFBWarnings(value = "RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE", justification = "Deserialization of instances that do not have all fields yet")
+    @SuppressWarnings("PMD.NullAssignment") // we need to assign null to deprecated fields to clear them
     protected Object readResolve() {
         category = category.intern();
         type = type.intern();
@@ -593,6 +594,7 @@ public class Issue implements Serializable {
      *
      * @return {@code true} if the specified line is within the line ranges of this issue, {@code false} otherwise
      */
+    @SuppressWarnings("PMD.SimplifyBooleanReturns")
     public boolean affectsLine(final int line) {
         if (getLineStart() == 0 || line == 0) {
             return true; // the whole file is marked, so every line is affected
