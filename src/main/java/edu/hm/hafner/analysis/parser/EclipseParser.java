@@ -66,7 +66,7 @@ public class EclipseParser extends LookaheadParser {
         }
 
         if (!context.isEmpty()) {
-            extractMessage(builder, context.remove(context.size() - 1));
+            extractMessage(builder, context.removeLast());
         }
         builder.setAdditionalProperties(context.hashCode());
 

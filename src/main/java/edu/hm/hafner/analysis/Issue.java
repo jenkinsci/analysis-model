@@ -973,8 +973,7 @@ public class Issue implements Serializable {
         result = 31 * result + originName.hashCode();
         result = 31 * result + moduleName.hashCode();
         result = 31 * result + packageName.hashCode();
-        result = 31 * result + fileName.hashCode();
-        return result;
+        return 31 * result + fileName.hashCode();
     }
 
     @Override

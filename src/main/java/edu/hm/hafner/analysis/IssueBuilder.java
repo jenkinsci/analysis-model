@@ -564,14 +564,14 @@ public class IssueBuilder implements AutoCloseable {
      */
     private void cleanupLineRanges() {
         if (lineRanges != null && !lineRanges.isEmpty()) {
-            var firstRange = lineRanges.get(0);
+            var firstRange = lineRanges.getFirst();
             if (lineStart == 0) {
                 this.lineStart = firstRange.getStart();
                 this.lineEnd = firstRange.getEnd();
             }
             if (firstRange.getStart() == lineStart
                     && firstRange.getEnd() == lineEnd) {
-                lineRanges.remove(0);
+                lineRanges.removeFirst();
             }
         }
     }

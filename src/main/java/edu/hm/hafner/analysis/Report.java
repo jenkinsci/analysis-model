@@ -796,7 +796,7 @@ public class Report implements Iterable<Issue>, Serializable {
     private String getItemName(final int size) {
         var items = getItemCount(size);
         if (size == 0) {
-            return String.format("No %s", items);
+            return "No %s".formatted(items);
         }
         return String.format(Locale.ENGLISH, "%d %s", size, items);
     }

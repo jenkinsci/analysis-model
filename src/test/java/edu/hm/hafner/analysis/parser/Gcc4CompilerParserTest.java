@@ -1,8 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.util.Iterator;
-import java.util.function.Predicate;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -13,6 +10,9 @@ import edu.hm.hafner.analysis.Report.IssueFilterBuilder;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
+
+import java.util.Iterator;
+import java.util.function.Predicate;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 import static org.assertj.core.api.Assumptions.*;
