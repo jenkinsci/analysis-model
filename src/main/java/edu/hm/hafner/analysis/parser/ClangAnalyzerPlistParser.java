@@ -30,7 +30,8 @@ import java.util.List;
  */
 public class ClangAnalyzerPlistParser extends IssueParser {
     @Serial
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1560206091592916486L;
+
     static final String ID = "ClangAnalyzer Plist Parser";
 
     @Override

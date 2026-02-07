@@ -1,18 +1,20 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.util.Optional;
-import java.util.UUID;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
+import edu.hm.hafner.analysis.Location;
 import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.util.LineRange;
-import edu.hm.hafner.util.LineRangeList;
+import edu.hm.hafner.util.TreeStringBuilder;
+
+import java.io.Serial;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 /**
  * Base Parser JSON format.
@@ -22,12 +24,13 @@ import edu.hm.hafner.util.LineRangeList;
 abstract class JsonBaseParser extends IssueParser {
     @Serial
     private static final long serialVersionUID = -2318844382394973833L;
+    private static final TreeStringBuilder TREE_STRING_BUILDER = new TreeStringBuilder();
 
     /**
      * Deserialize an Issue from a JSON object.
      *
      * @param jsonIssue
-     *         the issue as JSON object
+     *         the issue as a JSON object
      *
      * @return issue instance
      */
@@ -42,7 +45,7 @@ abstract class JsonBaseParser extends IssueParser {
      * {@code directory} will be skipped.
      *
      * @param jsonIssue
-     *         the issue as JSON object
+     *         the issue as a JSON object
      * @param builder
      *         the issue builder to use
      *
@@ -65,7 +68,7 @@ abstract class JsonBaseParser extends IssueParser {
         if (jsonIssue.has(DESCRIPTION)) {
             builder.setDescription(jsonIssue.getString(DESCRIPTION));
         }
-        if (jsonIssue.has(FINGERPRINT)) { // even though not part of equals it makes sense to read if available
+        if (jsonIssue.has(FINGERPRINT)) { // even though not part of equals, it makes sense to read if available
             builder.setFingerprint(jsonIssue.getString(FINGERPRINT));
         }
         if (jsonIssue.has(FILE_NAME)) {
@@ -78,9 +81,12 @@ abstract class JsonBaseParser extends IssueParser {
             builder.setLineEnd(jsonIssue.getInt(LINE_END));
         }
         if (jsonIssue.has(LINE_RANGES)) {
-            var jsonRanges = jsonIssue.getJSONArray(LINE_RANGES);
-            var lineRanges = convertToLineRangeList(jsonRanges);
-            builder.setLineRanges(lineRanges);
+            convertToLineRangeList(jsonIssue.getJSONArray(LINE_RANGES), builder);
+        }
+        if (jsonIssue.has(LOCATIONS)) {
+            var jsonLocations = jsonIssue.getJSONArray(LOCATIONS);
+            var locations = convertToLocationList(jsonLocations);
+            builder.setLocations(locations);
         }
         if (jsonIssue.has(LINE_START)) {
             builder.setLineStart(jsonIssue.getInt(LINE_START));
@@ -103,24 +109,37 @@ abstract class JsonBaseParser extends IssueParser {
         return builder.buildOptional();
     }
 
-    private LineRangeList convertToLineRangeList(final JSONArray jsonRanges) {
-        var lineRanges = new LineRangeList();
+    private void convertToLineRangeList(final JSONArray jsonRanges, final IssueBuilder builder) {
         for (int i = 0; i < jsonRanges.length(); i++) {
             var jsonRange = jsonRanges.getJSONObject(i);
             if (jsonRange.has(LINE_RANGE_START)) {
+                var lineStart = jsonRange.getInt(LINE_RANGE_START);
                 if (jsonRange.has(LINE_RANGE_END)) {
-                    lineRanges.add(new LineRange(jsonRange.getInt(LINE_RANGE_START),
-                            jsonRange.getInt(LINE_RANGE_END)));
+                    builder.addLocation(lineStart, jsonRange.getInt(LINE_RANGE_END));
                 }
                 else {
-                    lineRanges.add(new LineRange(jsonRange.getInt(LINE_RANGE_START)));
+                    builder.addLocation(lineStart, lineStart);
                 }
             }
             else if (jsonRange.has(LINE_RANGE_END)) {
-                lineRanges.add(new LineRange(jsonRange.getInt(LINE_RANGE_END),
-                        jsonRange.getInt(LINE_RANGE_END)));
+                var line = jsonRange.getInt(LINE_RANGE_END);
+                builder.addLocation(line, line);
             }
         }
-        return lineRanges;
+    }
+
+    private List<Location> convertToLocationList(final JSONArray jsonLocations) {
+        var locations = new ArrayList<Location>();
+        for (int i = 0; i < jsonLocations.length(); i++) {
+            var jsonLocation = jsonLocations.getJSONObject(i);
+            var fileName = TREE_STRING_BUILDER.intern(jsonLocation.optString(FILE_LOCATION_FILE_NAME, "-"));
+            var lineStart = jsonLocation.optInt(FILE_LOCATION_LINE_START, 0);
+            var lineEnd = jsonLocation.optInt(FILE_LOCATION_LINE_END, lineStart);
+            var columnStart = jsonLocation.optInt(FILE_LOCATION_COLUMN_START, 0);
+            var columnEnd = jsonLocation.optInt(FILE_LOCATION_COLUMN_END, columnStart);
+
+            locations.add(new Location(fileName, lineStart, lineEnd, columnStart, columnEnd));
+        }
+        return locations;
     }
 }

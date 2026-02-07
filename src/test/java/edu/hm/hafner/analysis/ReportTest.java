@@ -681,7 +681,8 @@ class ReportTest extends SerializableTest<Report> {
     @Test
     void shouldReturnFiles() {
         var report = new Report();
-        report.addAll(allIssuesAsList());
+        var issues = allIssuesAsList();
+        report.addAll(issues);
 
         assertThat(report.getFiles()).contains("file-1", "file-1", "file-3");
     }
