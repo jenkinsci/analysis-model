@@ -1,14 +1,15 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.util.LookaheadStream;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+import java.io.Serial;
+import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Parser for Mentor Graphics Modelsim/Questa Simulator.
@@ -16,7 +17,8 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * @author Derrick Gibelyou
  */
 public class MentorParser extends LookaheadParser {
-    public static final long serialVersionUID = 1L;
+    @Serial
+    private static final long serialVersionUID = -3730787747172209082L;
 
     /**
      * Matches the beginning of a Modelsim/Questa message "** [priority] : [The remainder of the message]".

@@ -19,13 +19,14 @@ import static j2html.TagCreator.*;
  * @author Juri Duval
  */
 public class AquaScannerParser extends JsonIssueParser {
+    @Serial
+    private static final long serialVersionUID = 6965385328487594584L;
+
     private static final String VALUE_NOT_SET = "-";
     private static final String AQUA_VULNERABILITY_LEVEL_TAG_HIGH = "high";
     private static final String AQUA_VULNERABILITY_LEVEL_TAG_MEDIUM = "medium";
     private static final String AQUA_VULNERABILITY_LEVEL_TAG_LOW = "low";
     private static final String AQUA_VULNERABILITY_LEVEL_TAG_NEGLIGIBLE = "negligible";
-    @Serial
-    private static final long serialVersionUID = 1L;
 
     @Override
     protected void parseJsonObject(final Report report, final JSONObject jsonReport, final IssueBuilder issueBuilder) {

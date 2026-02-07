@@ -20,7 +20,7 @@ import java.util.stream.Stream;
 @SuppressWarnings("checkstyle:JavadocVariable")
 public abstract class IssueParser implements Serializable {
     @Serial
-    private static final long serialVersionUID  = 5L; // release 13.0.0
+    private static final long serialVersionUID  = 14L; // release 14.0.0
 
     protected static final String ADDITIONAL_PROPERTIES = "additionalProperties";
     protected static final String CATEGORY = "category";
@@ -35,6 +35,13 @@ public abstract class IssueParser implements Serializable {
     protected static final String LINE_RANGE_END = "end";
     protected static final String LINE_RANGE_START = "start";
     protected static final String LINE_START = "lineStart";
+    protected static final String ADDITIONAL_FILE_LOCATIONS = "locations";
+    protected static final String FILE_LOCATION_FILE_NAME = "fileName";
+    protected static final String FILE_LOCATION_LINE_START = "lineStart";
+    protected static final String FILE_LOCATION_LINE_END = "lineEnd";
+    protected static final String FILE_LOCATION_COLUMN_START = "columnStart";
+    protected static final String FILE_LOCATION_COLUMN_END = "columnEnd";
+    protected static final String FILE_LOCATION_MESSAGE = "message";
     protected static final String MESSAGE = "message";
     protected static final String MODULE_NAME = "moduleName";
     protected static final String PACKAGE_NAME = "packageName";

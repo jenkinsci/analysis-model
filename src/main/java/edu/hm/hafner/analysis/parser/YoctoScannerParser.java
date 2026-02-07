@@ -18,9 +18,10 @@ import static j2html.TagCreator.*;
  * @author Michael Trimarchi
  */
 public class YoctoScannerParser extends JsonIssueParser {
-    private static final String VALUE_NOT_SET = "-";
     @Serial
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2315638709656637493L;
+
+    private static final String VALUE_NOT_SET = "-";
     private static final double INVALID_SCORE = -1.0;
 
     @Override
