@@ -1158,6 +1158,19 @@ class MsBuildParserTest extends AbstractParserTest {
         }
     }
 
+    /**
+     * MSBuildParser should not treat linker parameters as filenames.
+     * Tests multiple linker parameters like /INCREMENTAL, /OPT:REF, etc.
+     *
+     * @see <a href="https://github.com/jenkinsci/warnings-ng-plugin/issues/3238">Issue 3238</a>
+     */
+    @Test
+    void issue3238() {
+        var warnings = parse("issue3238.txt");
+
+        assertThat(warnings).isEmpty();
+    }
+
     @Override
     protected MsBuildParser createParser() {
         return new MsBuildParser();
