@@ -1,7 +1,6 @@
 # Static Analysis Model and Parsers Library
 
 [![Join the chat at Gitter/Matrix](https://badges.gitter.im/jenkinsci/warnings-plugin.svg)](https://gitter.im/jenkinsci/warnings-plugin?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Jenkins](https://ci.jenkins.io/job/Plugins/job/analysis-model/job/main/badge/icon?subject=Jenkins%20CI)](https://ci.jenkins.io/job/Plugins/job/analysis-model/job/main/)
 [![CI on all platforms](https://github.com/jenkinsci/analysis-model/workflows/GitHub%20CI/badge.svg)](https://github.com/jenkinsci/analysis-model/actions)
 [![CodeQL](https://github.com/jenkinsci/analysis-model/workflows/CodeQL/badge.svg)](https://github.com/jenkinsci/analysis-model/actions/workflows/codeql.yml)
 [![Line Coverage](https://raw.githubusercontent.com/jenkinsci/analysis-model/main/badges/line-coverage.svg)](https://github.com/jenkinsci/analysis-model/actions/workflows/quality-monitor-comment.yml)

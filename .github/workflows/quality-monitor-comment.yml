@@ -21,7 +21,7 @@ jobs:
       - name: Checkout main branch
         uses: actions/checkout@v6
       - name: Download Quality Reports from Quality Monitor Build workflow
-        uses: dawidd6/action-download-artifact@v12
+        uses: dawidd6/action-download-artifact@v14
         with:
           run_id: ${{ github.event.workflow_run.id }}
           name: quality-reports
@@ -32,7 +32,7 @@ jobs:
         id: quality-gates
         run: echo "json=$(jq -c . .github/quality-gates.json)" >> "$GITHUB_OUTPUT"
       - name: Run Quality Monitor and Comment on PR
-        uses: uhafner/quality-monitor@main
+        uses: uhafner/quality-monitor@v4
         with:
           config: ${{ steps.quality-monitor.outputs.json }}
           quality-gates: ${{ steps.quality-gates.outputs.json }}
