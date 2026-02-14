@@ -251,8 +251,6 @@ public class MsBuildParser extends LookaheadParser {
             return true;  
         }
 
-        // Check if this is a linker/compiler parameter BEFORE extracting the base name
-        // because FilenameUtils.getName would strip the leading / or -
         String trimmedFileName = fileName.trim();
         if (LINKER_PARAMETER_PATTERN.matcher(trimmedFileName).matches()) {
             return true;
