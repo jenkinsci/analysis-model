@@ -64,7 +64,7 @@ public class NixParser extends LookaheadParser {
             
             Matcher locationMatcher = LOCATION_PATTERN.matcher(line);
             if (locationMatcher.matches()) {
-                lookahead.next(); // consume the location line
+                lookahead.next();
                 fileName = locationMatcher.group(1).trim();
                 lineNumber = locationMatcher.group(2);
                 columnNumber = locationMatcher.group(3);
