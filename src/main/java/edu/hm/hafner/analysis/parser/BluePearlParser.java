@@ -1,13 +1,14 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.util.Optional;
-import java.util.regex.Matcher;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
+
+import java.io.Serial;
+import java.util.Optional;
+import java.util.regex.Matcher;
 
 /**
  * Parser for BluePearl Software Visual Verification Suite.
@@ -15,18 +16,19 @@ import edu.hm.hafner.util.LookaheadStream;
  * @author Simon Matthews
  */
 public class BluePearlParser extends LookaheadParser {
-    public static final long serialVersionUID = 1L;
+    @Serial
+    private static final long serialVersionUID = -4714938576520880670L;
 
     /**
      * Matches the beginning of a Blue Pearl message".
      */
-    private static final String BLUEPEARL_MESSAGE_REGEX = "^(?<severity>[WEF])-(?<type>\\w{3,4})-(?<messageNo>\\d{4}): ((?<filename>[a-zA-Z-0-9._/:\\\\]+)\\(?(?<lineNo>\\d+)?\\):)? *(?<messageString>.*)";
+    private static final String BLUE_PEARL_MESSAGE_REGEX = "^(?<severity>[WEF])-(?<type>\\w{3,4})-(?<messageNo>\\d{4}): ((?<filename>[a-zA-Z-0-9._/:\\\\]+)\\(?(?<lineNo>\\d+)?\\):)? *(?<messageString>.*)";
 
     /**
      * Creates a parser for BluePearlSoftware logs.
      */
     public BluePearlParser() {
-        super(BLUEPEARL_MESSAGE_REGEX);
+        super(BLUE_PEARL_MESSAGE_REGEX);
     }
 
     @Override

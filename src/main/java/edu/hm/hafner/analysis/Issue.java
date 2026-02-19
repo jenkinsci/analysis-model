@@ -15,6 +15,9 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.Serial;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 import java.util.function.Function;
@@ -28,7 +31,7 @@ import java.util.function.Predicate;
 @SuppressWarnings({"PMD.GodClass", "PMD.CyclomaticComplexity", "NoFunctionalReturnType"})
 public class Issue implements Serializable {
     @Serial
-    private static final long serialVersionUID = 1L; // release 1.0.0
+    private static final long serialVersionUID = 14L; // release 14.0.0
 
     private static final PathUtil PATH_UTIL = new PathUtil();
 
@@ -167,12 +170,20 @@ public class Issue implements Serializable {
 
     private final Severity severity;
 
+    @Deprecated
     private final int lineStart;            // fixed
+    @Deprecated
     private final int lineEnd;              // fixed
+    @Deprecated
     private final int columnStart;          // fixed
+    @Deprecated
     private final int columnEnd;            // fixed
 
+    @Deprecated
     private final LineRangeList lineRanges; // fixed
+
+    @SuppressWarnings("serial")
+    private final List<Location> additionalLocations; // fixed
 
     private final UUID id;                  // fixed
 
@@ -186,6 +197,7 @@ public class Issue implements Serializable {
     private String moduleName;      // mutable
     private TreeString packageName; // mutable
     private String pathName;        // mutable, not part of equals, @since 8.0.0
+    @Deprecated
     private TreeString fileName;    // mutable
 
     private final TreeString message;   // fixed
@@ -201,11 +213,11 @@ public class Issue implements Serializable {
      * @param copy
      *         the other issue to copy the properties from
      */
-    @SuppressWarnings("CopyConstructorMissesField")
+    @SuppressWarnings({"CopyConstructorMissesField", "deprecation"})
     Issue(final Issue copy) {
         this(copy.getPath(), copy.getFileNameTreeString(), copy.getLineStart(), copy.getLineEnd(),
                 copy.getColumnStart(),
-                copy.getColumnEnd(), copy.getLineRanges(), copy.getCategory(), copy.getType(),
+                copy.getColumnEnd(), copy.getLineRanges(), copy.getLocations(), copy.getCategory(), copy.getType(),
                 copy.getPackageNameTreeString(), copy.getModuleName(), copy.getSeverity(), copy.getMessageTreeString(),
                 copy.getDescription(), copy.getOrigin(), copy.getOriginName(), copy.getReference(), copy.getFingerprint(),
                 copy.getAdditionalProperties(), copy.getId());
@@ -229,6 +241,8 @@ public class Issue implements Serializable {
      *         the last column of this issue (columns start at 1)
      * @param lineRanges
      *         additional line ranges of this issue
+     * @param additionalLocations
+     *         additional file locations related to this issue
      * @param category
      *         the category of this issue (depends on the available categories of the static analysis tool)
      * @param type
@@ -258,6 +272,7 @@ public class Issue implements Serializable {
     Issue(final String pathName, final TreeString fileName,
             final int lineStart, final int lineEnd, final int columnStart, final int columnEnd,
             @CheckForNull final Iterable<? extends LineRange> lineRanges,
+            @CheckForNull final Iterable<Location> additionalLocations,
             @CheckForNull final String category, @CheckForNull final String type,
             final TreeString packageName, @CheckForNull final String moduleName,
             @CheckForNull final Severity severity,
@@ -265,7 +280,7 @@ public class Issue implements Serializable {
             @CheckForNull final String origin, @CheckForNull final String originName, @CheckForNull
             final String reference, @CheckForNull final String fingerprint,
             @CheckForNull final Serializable additionalProperties) {
-        this(pathName, fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges, category, type,
+        this(pathName, fileName, lineStart, lineEnd, columnStart, columnEnd, lineRanges, additionalLocations, category, type,
                 packageName, moduleName, severity, message, description, origin, originName, reference,
                 fingerprint, additionalProperties, UUID.randomUUID());
     }
@@ -287,6 +302,8 @@ public class Issue implements Serializable {
      *         the last column of this issue (columns start at 1)
      * @param lineRanges
      *         additional line ranges of this issue
+     * @param additionalLocations
+     *         additional file locations related to this issue
      * @param category
      *         the category of this issue (depends on the available categories of the static analysis tool)
      * @param type
@@ -318,6 +335,7 @@ public class Issue implements Serializable {
     Issue(@CheckForNull final String pathName, final TreeString fileName, final int lineStart, final int lineEnd,
             final int columnStart,
             final int columnEnd, @CheckForNull final Iterable<? extends LineRange> lineRanges,
+            @CheckForNull final Iterable<Location> additionalLocations,
             @CheckForNull final String category,
             @CheckForNull final String type, final TreeString packageName,
             @CheckForNull final String moduleName, @CheckForNull final Severity severity,
@@ -354,6 +372,44 @@ public class Issue implements Serializable {
         this.lineRanges = new LineRangeList();
         if (lineRanges != null) {
             this.lineRanges.addAll(lineRanges);
+        }
+        this.additionalLocations = new ArrayList<>();
+
+        // Check if deprecated fields were explicitly set (lineStart != 0 OR fileName != "-")
+        boolean deprecatedFieldsSet = this.lineStart != 0 || !fileName.toString().equals("-");
+
+        // Check if locations list has a primary location that matches deprecated fields
+        boolean locationsHasPrimary = false;
+        if (additionalLocations != null) {
+            var iterator = additionalLocations.iterator();
+            if (iterator.hasNext()) {
+                var firstLocation = iterator.next();
+                // If first location matches deprecated fields, locations already has primary
+                if (firstLocation.getFileName().equals(fileName)
+                        && firstLocation.getLineStart() == this.lineStart
+                        && firstLocation.getLineEnd() == this.lineEnd
+                        && firstLocation.getColumnStart() == this.columnStart
+                        && firstLocation.getColumnEnd() == this.columnEnd) {
+                    locationsHasPrimary = true;
+                }
+            }
+        }
+
+        if (deprecatedFieldsSet && !locationsHasPrimary) {
+            // OLD API: Deprecated fields set explicitly, create primary location from them
+            this.additionalLocations.add(new Location(fileName, this.lineStart, this.lineEnd, this.columnStart, this.columnEnd));
+        }
+
+        // Append all locations from the list
+        if (additionalLocations != null) {
+            for (var location : additionalLocations) {
+                this.additionalLocations.add(location);
+            }
+        }
+
+        // If no locations at all, create a default primary location
+        if (this.additionalLocations.isEmpty()) {
+            this.additionalLocations.add(new Location(fileName, this.lineStart, this.lineEnd, this.columnStart, this.columnEnd));
         }
         this.category = StringUtils.defaultString(category).intern();
         this.type = defaultString(type);
@@ -404,6 +460,20 @@ public class Issue implements Serializable {
         }
         else {
             originName = originName.intern();
+        }
+        if (additionalLocations == null) { // new in version 13.15.0
+            try {
+                var field = Issue.class.getDeclaredField("additionalLocations");
+                field.setAccessible(true);
+                var locations = new ArrayList<Location>();
+                // Create a Location from the old fields for backward compatibility
+                locations.add(new Location(fileName, lineStart, lineEnd, columnStart, columnEnd));
+                field.set(this, locations);
+            }
+            catch (NoSuchFieldException | IllegalAccessException exception) {
+                // Should never happen
+                throw new IllegalStateException("Failed to initialize additionalLocations", exception);
+            }
         }
         return this;
     }
@@ -468,7 +538,7 @@ public class Issue implements Serializable {
      * @see #getPath()
      */
     public String getFileName() {
-        return fileName.toString();
+        return additionalLocations.get(0).getFileName().toString();
     }
 
     /**
@@ -478,7 +548,7 @@ public class Issue implements Serializable {
      * @return the cached tree-string containing the name of the file that contains this issue
      */
     TreeString getFileNameTreeString() {
-        return fileName;
+        return additionalLocations.get(0).getFileName();
     }
 
     /**
@@ -551,6 +621,12 @@ public class Issue implements Serializable {
     void setFileName(final String pathName, final TreeString fileName) {
         this.pathName = normalizeFileName(pathName);
         this.fileName = fileName;
+        // Update the first location to maintain consistency
+        if (!additionalLocations.isEmpty()) {
+            var oldLocation = additionalLocations.get(0);
+            additionalLocations.set(0, new Location(fileName, oldLocation.getLineStart(),
+                    oldLocation.getLineEnd(), oldLocation.getColumnStart(), oldLocation.getColumnEnd()));
+        }
     }
 
     /**
@@ -626,7 +702,7 @@ public class Issue implements Serializable {
      * @return the first line
      */
     public int getLineStart() {
-        return lineStart;
+        return additionalLocations.get(0).getLineStart();
     }
 
     /**
@@ -635,7 +711,7 @@ public class Issue implements Serializable {
      * @return the last line
      */
     public int getLineEnd() {
-        return lineEnd;
+        return additionalLocations.get(0).getLineEnd();
     }
 
     /**
@@ -643,10 +719,42 @@ public class Issue implements Serializable {
      * lineEnd} is not included.
      *
      * @return the last line
+     * @deprecated use {@link #getLocations()} instead
      */
-    // TODO: actually we need a list of locations since a warning may involve several files
+    @Deprecated
     public Iterable<? extends LineRange> getLineRanges() {
-        return new LineRangeList(lineRanges);
+        return lineRanges;
+    }
+
+    /**
+     * Returns all locations of this issue. The first location is the primary location.
+     * Some warnings span multiple files, such as GNU CC's reorder warning for C++ where
+     * the warning shows up in the initializer list but references the header file.
+     * More involved cases are MicroFocus Fortify and Synopsis Coverity which trace execution
+     * potentially through multiple classes or translation units.
+     *
+     * @return an unmodifiable list of all locations
+     */
+    public List<Location> getLocations() {
+        return Collections.unmodifiableList(additionalLocations);
+    }
+
+    /**
+     * Returns the primary (first) location of this issue.
+     *
+     * @return the primary location
+     */
+    public Location getPrimaryLocation() {
+        return additionalLocations.get(0);
+    }
+
+    /**
+     * Returns whether this issue has additional file locations beyond the primary one.
+     *
+     * @return {@code true} if this issue has additional file locations, {@code false} otherwise
+     */
+    public boolean hasAdditionalLocations() {
+        return additionalLocations.size() > 1;
     }
 
     /**
@@ -679,7 +787,7 @@ public class Issue implements Serializable {
      * @return the first column
      */
     public int getColumnStart() {
-        return columnStart;
+        return additionalLocations.get(0).getColumnStart();
     }
 
     /**
@@ -688,7 +796,7 @@ public class Issue implements Serializable {
      * @return the last column
      */
     public int getColumnEnd() {
-        return columnEnd;
+        return additionalLocations.get(0).getColumnEnd();
     }
 
     /**
@@ -907,18 +1015,6 @@ public class Issue implements Serializable {
 
         var issue = (Issue) o;
 
-        if (lineStart != issue.lineStart) {
-            return false;
-        }
-        if (lineEnd != issue.lineEnd) {
-            return false;
-        }
-        if (columnStart != issue.columnStart) {
-            return false;
-        }
-        if (columnEnd != issue.columnEnd) {
-            return false;
-        }
         if (!category.equals(issue.category)) {
             return false;
         }
@@ -929,9 +1025,6 @@ public class Issue implements Serializable {
             return false;
         }
         if (!message.equals(issue.message)) {
-            return false;
-        }
-        if (!lineRanges.equals(issue.lineRanges)) {
             return false;
         }
         if (!description.equals(issue.description)) {
@@ -953,7 +1046,7 @@ public class Issue implements Serializable {
         if (!packageName.equals(issue.packageName)) {
             return false;
         }
-        return fileName.equals(issue.fileName);
+        return additionalLocations.equals(issue.additionalLocations);
     }
 
     @Override
@@ -962,18 +1055,13 @@ public class Issue implements Serializable {
         result = 31 * result + type.hashCode();
         result = 31 * result + severity.hashCode();
         result = 31 * result + message.hashCode();
-        result = 31 * result + lineStart;
-        result = 31 * result + lineEnd;
-        result = 31 * result + columnStart;
-        result = 31 * result + columnEnd;
-        result = 31 * result + lineRanges.hashCode();
         result = 31 * result + description.hashCode();
         result = 31 * result + (additionalProperties == null ? 0 : additionalProperties.hashCode());
         result = 31 * result + origin.hashCode();
         result = 31 * result + originName.hashCode();
         result = 31 * result + moduleName.hashCode();
         result = 31 * result + packageName.hashCode();
-        result = 31 * result + fileName.hashCode();
+        result = 31 * result + additionalLocations.hashCode();
         return result;
     }
 
