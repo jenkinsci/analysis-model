@@ -91,6 +91,14 @@ public class MsBuildParser extends LookaheadParser {
             + "^<[^>]+>$",  
             Pattern.CASE_INSENSITIVE);
 
+    /**
+     * Pattern to identify compiler/linker parameters (e.g., /INCREMENTAL, /OPT:ICF, -Wall).
+     * These should not be treated as filenames.
+     */
+    private static final Pattern LINKER_PARAMETER_PATTERN = Pattern.compile(
+            "^[/-][A-Z][A-Z0-9]*(?::[A-Z0-9]+)?$",
+            Pattern.CASE_INSENSITIVE);
+
     private static final Pattern LINKER_CAUSE = Pattern.compile(".*imported by '([A-Za-z0-9\\-_.]+)'.*");
     private static final String EXPECTED_CATEGORY = "Expected";
     private static final String MSBUILD = "MSBUILD";
@@ -126,8 +134,11 @@ public class MsBuildParser extends LookaheadParser {
 
         var fileName = determineFileName(matcher);
 
+        if (isLinkerParameter(fileName)) {
+            fileName = "-";
+        }
         // Skip if this is a tool name (executable or tool without proper source extension)
-        if (isToolName(fileName)) {
+        else if (isToolName(fileName)) {
             return Optional.empty();
         }
 
@@ -228,7 +239,23 @@ public class MsBuildParser extends LookaheadParser {
     }
 
     /**
-     * Determines if the given filename is actually a tool name that should be ignored.
+     * Checks if the given fileName is a compiler/linker parameter (e.g., /INCREMENTAL, /OPT:ICF).
+     *
+     * @param fileName
+     *         the filename to check
+     *
+     * @return true if this is a linker parameter, false otherwise
+     */
+    private boolean isLinkerParameter(final String fileName) {
+        if (StringUtils.isBlank(fileName)) {
+            return false;
+        }
+        String trimmedFileName = fileName.trim();
+        return LINKER_PARAMETER_PATTERN.matcher(trimmedFileName).matches();
+    }
+
+    /**
+     * Checks if the given fileName is a known tool name that should be ignored.
      * Tool names include executables (e.g., ConsoleTranslator.exe) and bare tool names (e.g., NMAKE, rs).
      * This method is conservative and only filters known tool names to avoid false positives.
      *
@@ -239,7 +266,7 @@ public class MsBuildParser extends LookaheadParser {
      */
     private boolean isToolName(final String fileName) {
         if (StringUtils.isBlank(fileName) || "-".equals(fileName) || "unknown.file".equals(fileName)) {
-            return true;  
+            return true;
         }
 
         String baseFileName = FilenameUtils.getName(fileName).trim();

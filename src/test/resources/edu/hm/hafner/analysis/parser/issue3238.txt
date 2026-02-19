@@ -1,0 +1,2 @@
+     [exec] LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/OPT:ICF' specification [D:\Jenkins\workspace\MyProject\MyProject.vcxproj]
+     [exec] LINK : warning LNK4075: ignoring '/OPT:REF' due to '/DEBUG' specification [D:\Jenkins\workspace\MyProject\MyProject.vcxproj]

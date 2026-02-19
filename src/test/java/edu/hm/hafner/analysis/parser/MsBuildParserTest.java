@@ -1158,6 +1158,28 @@ class MsBuildParserTest extends AbstractParserTest {
         }
     }
 
+    /**
+     * MSBuildParser should not treat linker parameters as filenames but still report the warnings.
+     * Tests multiple linker parameters like /INCREMENTAL, /OPT:REF, etc.
+     * The warnings should be visible with filename set to "-".
+     *
+     * @see <a href="https://github.com/jenkinsci/warnings-ng-plugin/issues/3238">Issue 3238</a>
+     */
+    @Test
+    void issue3238() {
+        var warnings = parse("issue3238.txt");
+
+        assertThat(warnings).hasSize(2);
+        assertThat(warnings.get(0))
+                .hasFileName("-")
+                .hasCategory("LNK4075")
+                .hasMessage("ignoring '/INCREMENTAL' due to '/OPT:ICF' specification");
+        assertThat(warnings.get(1))
+                .hasFileName("-")
+                .hasCategory("LNK4075")
+                .hasMessage("ignoring '/OPT:REF' due to '/DEBUG' specification");
+    }
+
     @Override
     protected MsBuildParser createParser() {
         return new MsBuildParser();
