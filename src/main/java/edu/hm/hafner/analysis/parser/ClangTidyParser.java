@@ -62,7 +62,7 @@ public class ClangTidyParser extends LookaheadParser {
             if (parts.length == CATEGORY_PARTS_COUNT) {
                 var module = parts[0];
                 var check = parts[1];
-                var url = String.format("https://clang.llvm.org/extra/clang-tidy/checks/%s/%s.html", module, check);
+                var url = "https://clang.llvm.org/extra/clang-tidy/checks/%s/%s.html".formatted(module, check);
 
                 builder.setDescription("See <a href=\"%s\">Clang-Tidy documentation</a>.".formatted(url));
             }

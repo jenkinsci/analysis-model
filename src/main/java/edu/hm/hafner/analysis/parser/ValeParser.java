@@ -1,14 +1,13 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
+
+import java.io.Serial;
 
 /**
  * Parser for vale reports.
@@ -27,10 +26,10 @@ public class ValeParser extends JsonIssueParser {
 
     @Override
     protected void parseJsonObject(final Report report, final JSONObject jsonReport, final IssueBuilder issueBuilder) {
-        JSONArray fileNames = jsonReport.names();
+        var fileNames = jsonReport.names();
         for (Object o : fileNames) {
             if (o instanceof String f) {
-                JSONArray jsonArray = jsonReport.getJSONArray(f);
+                var jsonArray = jsonReport.getJSONArray(f);
                 for (Object data : jsonArray) {
                     if (data instanceof JSONObject dataObject) {
                         report.add(createIssue(issueBuilder, f, dataObject));
@@ -41,7 +40,7 @@ public class ValeParser extends JsonIssueParser {
     }
 
     private Issue createIssue(final IssueBuilder issueBuilder, final String fileName, final JSONObject data) {
-        JSONArray span = data.getJSONArray(SPAN_KEY);
+        var span = data.getJSONArray(SPAN_KEY);
         int line = data.getInt(LINE_KEY);
         return issueBuilder.setFileName(fileName)
                 .setDescription(data.getString(CHECK))
