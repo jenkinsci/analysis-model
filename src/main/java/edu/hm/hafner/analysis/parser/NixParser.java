@@ -112,7 +112,7 @@ public class NixParser extends LookaheadParser {
             Matcher locationMatcher = LOCATION_PATTERN.matcher(line);
             if (locationMatcher.matches()) {
                 lookahead.next();
-                LocationInfo location = new LocationInfo(
+                var location = new LocationInfo(
                         locationMatcher.group(1).trim(),
                         locationMatcher.group(2),
                         locationMatcher.group(3)
