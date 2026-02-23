@@ -5,7 +5,10 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringUtils;
+
 import edu.hm.hafner.analysis.Issue;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
@@ -43,62 +46,100 @@ public class NixParser extends LookaheadParser {
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
         String severityStr = matcher.group(1);
+        String message = extractMessage(matcher, lookahead);
+        Severity severity = "error".equals(severityStr) ? Severity.WARNING_HIGH : Severity.WARNING_NORMAL;
+        
+        LocationInfo location = findLocationInfo(lookahead);
+        if (location == null) {
+            return Optional.empty();
+        }
+        
+        builder.setFileName(location.fileName)
+                .setLineStart(location.lineNumber)
+                .setSeverity(severity)
+                .setMessage(message.isEmpty() ? "Nix build " + severityStr : message);
+        
+        if (StringUtils.isNotEmpty(location.columnNumber)) {
+            builder.setColumnStart(location.columnNumber);
+        }
+        
+        return builder.buildOptional();
+    }
+
+    /**
+     * Extracts the error message from the matcher and lookahead stream.
+     *
+     * @param matcher the regex matcher
+     * @param lookahead the lookahead stream
+     * @return the error message
+     */
+    private String extractMessage(final Matcher matcher, final LookaheadStream lookahead) {
         String message = matcher.group(2).trim();
         
         if (message.isEmpty() && lookahead.hasNext()) {
             String nextLine = lookahead.peekNext();
-            if (!nextLine.trim().isEmpty() && !nextLine.trim().startsWith("at ") 
-                    && !nextLine.trim().startsWith("…")) {
+            if (isMessageLine(nextLine)) {
                 message = lookahead.next().trim();
             }
         }
         
-        Severity severity = "error".equals(severityStr) ? Severity.WARNING_HIGH : Severity.WARNING_NORMAL;
-        
-        String fileName = null;
-        String lineNumber = null;
-        String columnNumber = null;
-        
+        return message;
+    }
+
+    /**
+     * Checks if a line contains the error message.
+     *
+     * @param line the line to check
+     * @return true if the line is a message line
+     */
+    private boolean isMessageLine(final String line) {
+        return StringUtils.isNotBlank(line) 
+                && !line.trim().startsWith("at ") 
+                && !line.trim().startsWith("…");
+    }
+
+    /**
+     * Finds location information (file, line, column) from the lookahead stream.
+     *
+     * @param lookahead the lookahead stream
+     * @return the location info, or null if not found
+     */
+    @CheckForNull
+    private LocationInfo findLocationInfo(final LookaheadStream lookahead) {
         while (lookahead.hasNext()) {
             String line = lookahead.peekNext();
             
             Matcher locationMatcher = LOCATION_PATTERN.matcher(line);
             if (locationMatcher.matches()) {
                 lookahead.next();
-                fileName = locationMatcher.group(1).trim();
-                lineNumber = locationMatcher.group(2);
-                columnNumber = locationMatcher.group(3);
-                
+                LocationInfo location = new LocationInfo(
+                        locationMatcher.group(1).trim(),
+                        locationMatcher.group(2),
+                        locationMatcher.group(3)
+                );
                 consumeSourceContext(lookahead);
-                break;
+                return location;
             }
             
-            if (line.trim().startsWith("…") || line.trim().isEmpty()) {
-                lookahead.next();
-                continue;
-            }
-            
-            if (line.trim().startsWith("error:") || line.trim().startsWith("warning:")) {
+            if (shouldStopSearching(line)) {
                 break;
             }
             
             lookahead.next();
         }
         
-        if (fileName == null) {
-            return Optional.empty();
-        }
-        
-        builder.setFileName(fileName)
-                .setLineStart(lineNumber)
-                .setSeverity(severity)
-                .setMessage(message.isEmpty() ? "Nix build " + severityStr : message);
-        
-        if (columnNumber != null && !columnNumber.isEmpty()) {
-            builder.setColumnStart(columnNumber);
-        }
-        
-        return builder.buildOptional();
+        return null;
+    }
+
+    /**
+     * Checks if we should stop searching for location information.
+     *
+     * @param line the current line
+     * @return true if we should stop searching
+     */
+    private boolean shouldStopSearching(final String line) {
+        String trimmed = line.trim();
+        return trimmed.startsWith("error:") || trimmed.startsWith("warning:");
     }
 
     /**
@@ -111,12 +152,26 @@ public class NixParser extends LookaheadParser {
         while (lookahead.hasNext()) {
             String line = lookahead.peekNext();
             
-            if (line.matches("^\\s+\\d+\\|.*$") || line.matches("^\\s+\\|.*$")) {
-                lookahead.next(); 
-                continue;
+            if (!line.matches("^\\s+\\d+\\|.*$") && !line.matches("^\\s+\\|.*$")) {
+                return;
             }
             
-            break;
+            lookahead.next();
+        }
+    }
+
+    /**
+     * Helper class to store location information.
+     */
+    private static final class LocationInfo {
+        private final String fileName;
+        private final String lineNumber;
+        private final String columnNumber;
+
+        LocationInfo(final String fileName, final String lineNumber, final String columnNumber) {
+            this.fileName = fileName;
+            this.lineNumber = lineNumber;
+            this.columnNumber = columnNumber;
         }
     }
 }
