@@ -1,16 +1,11 @@
 package edu.hm.hafner.analysis;
 
-import java.util.List;
-
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Level;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.infra.Blackhole;
-
-import edu.hm.hafner.util.LineRange;
-import edu.hm.hafner.util.LineRangeList;
 
 /**
  * Performance benchmarks for the class {@link IssueDifference}.
@@ -86,7 +81,6 @@ public class IssueDifferenceBenchmark extends AbstractBenchmark {
                         .setMessage(message)
                         .setDescription("description")
                         .setOrigin("origin")
-                        .setLineRanges(new LineRangeList(List.of(new LineRange(5, 6))))
                         .setFingerprint(fingerprint)
                         .setReference(REFERENCE_BUILD);
                 return builder.build();

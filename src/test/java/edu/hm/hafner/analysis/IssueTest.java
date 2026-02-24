@@ -12,7 +12,7 @@ import edu.hm.hafner.util.TreeString;
 import edu.hm.hafner.util.TreeStringBuilder;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.UUID;
 import nl.jqno.equalsverifier.EqualsVerifier;
 
@@ -46,7 +46,6 @@ class IssueTest extends SerializableTest<Issue> {
     static final TreeString MESSAGE_TS = TREE_STRING_BUILDER.intern(MESSAGE);
     static final String DESCRIPTION = "description";
     static final String EMPTY = "";
-    static final TreeString EMPTY_TS = TREE_STRING_BUILDER.intern(EMPTY);
     static final String UNDEFINED = "-";
     static final TreeString UNDEFINED_TS = TREE_STRING_BUILDER.intern(UNDEFINED);
     static final String FINGERPRINT = "fingerprint";
@@ -54,14 +53,11 @@ class IssueTest extends SerializableTest<Issue> {
     static final String ORIGIN_NAME = "Origin";
     static final String REFERENCE = "reference";
     static final String ADDITIONAL_PROPERTIES = "additional";
-    static final LineRangeList LINE_RANGES = new LineRangeList(List.of(new LineRange(5, 6)));
     private static final String WINDOWS_PATH = "C:/Windows";
 
     @Test
     void shouldSplitFileNameElements() {
-        var issue = new Issue(PATH_NAME, FILE_NAME_TS, 2, 1, 2, 1, LINE_RANGES, CATEGORY,
-                TYPE, PACKAGE_NAME_TS, MODULE_NAME, SEVERITY,
-                MESSAGE_TS, DESCRIPTION, ORIGIN, ORIGIN_NAME, REFERENCE, FINGERPRINT, ADDITIONAL_PROPERTIES,
+        var issue = createIssue(PATH_NAME, FILE_NAME_TS, 2, 1, 2, 1,
                 UUID.randomUUID());
 
         try (var softly = new SoftAssertions()) {
@@ -82,15 +78,11 @@ class IssueTest extends SerializableTest<Issue> {
                     .hasBaseName("new.txt");
         }
 
-        var other = new Issue(PATH_NAME, newName, 2, 1, 2, 1, LINE_RANGES, CATEGORY,
-                TYPE, PACKAGE_NAME_TS, MODULE_NAME, SEVERITY,
-                MESSAGE_TS, DESCRIPTION, ORIGIN, ORIGIN_NAME, REFERENCE, FINGERPRINT, ADDITIONAL_PROPERTIES,
+        var other = createIssue(PATH_NAME, newName, 2, 1, 2, 1,
                 UUID.randomUUID());
         assertThat(issue).as("Equals should not consider pathName in computation").isEqualTo(other);
 
-        var emptyPath = new Issue("", FILE_NAME_TS, 2, 1, 2, 1, LINE_RANGES, CATEGORY,
-                TYPE, PACKAGE_NAME_TS, MODULE_NAME, SEVERITY,
-                MESSAGE_TS, DESCRIPTION, ORIGIN, ORIGIN_NAME, REFERENCE, FINGERPRINT, ADDITIONAL_PROPERTIES,
+        var emptyPath = createIssue("", FILE_NAME_TS, 2, 1, 2, 1,
                 UUID.randomUUID());
 
         try (var softly = new SoftAssertions()) {
@@ -104,9 +96,7 @@ class IssueTest extends SerializableTest<Issue> {
 
     @Test
     void shouldConvertWindowsNames() {
-        var issue = new Issue("C:\\Windows", FILE_NAME_TS, 2, 1, 2, 1, LINE_RANGES, CATEGORY,
-                TYPE, PACKAGE_NAME_TS, MODULE_NAME, SEVERITY,
-                MESSAGE_TS, DESCRIPTION, ORIGIN, ORIGIN_NAME, REFERENCE, FINGERPRINT, ADDITIONAL_PROPERTIES,
+        var issue = createIssue("C:\\Windows", FILE_NAME_TS, 2, 1, 2, 1,
                 UUID.randomUUID());
 
         try (var softly = new SoftAssertions()) {
@@ -134,9 +124,7 @@ class IssueTest extends SerializableTest<Issue> {
 
     @Test
     void shouldEnsureThatEndIsGreaterOrEqualStart() {
-        var issue = new Issue(PATH_NAME, FILE_NAME_TS, 3, 2, 2, 1, LINE_RANGES, CATEGORY,
-                TYPE, PACKAGE_NAME_TS, MODULE_NAME, SEVERITY,
-                MESSAGE_TS, DESCRIPTION, ORIGIN, ORIGIN_NAME, REFERENCE, FINGERPRINT, ADDITIONAL_PROPERTIES,
+        var issue = createIssue(PATH_NAME, FILE_NAME_TS, 3, 2, 2, 1,
                 UUID.randomUUID());
         assertThat(issue).hasLineStart(2).hasLineEnd(3);
         assertThat(issue).hasColumnStart(1).hasColumnEnd(2);
@@ -163,12 +151,17 @@ class IssueTest extends SerializableTest<Issue> {
             "'Multiline, startLine < endLine, startColumn > endColumn', 5, 8, 6, 4, 5, 8, 6, 4"
     })
     @SuppressWarnings("checkstyle:ParameterNumber")
-    void shouldFixStartEndLineColumnValues(final String description, final int lineStart, final int columnStart, final int lineEnd, final int columnEnd, final int expectedLineStart, final int expectedColumnStart, final int expectedLineEnd, final int expectedColumnEnd) {
-        var issue = new Issue(null, FILE_NAME_TS,
-                lineStart, lineEnd, columnStart, columnEnd,
-                null, null, null, PACKAGE_NAME_TS, null, null, MESSAGE_TS, DESCRIPTION, null, null, null, null, null, UUID.randomUUID());
-
-        try (var softly = new SoftAssertions()) {
+    void shouldFixStartEndLineColumnValues(final String description,
+            final int lineStart, final int columnStart,
+            final int lineEnd, final int columnEnd,
+            final int expectedLineStart, final int expectedColumnStart,
+            final int expectedLineEnd, final int expectedColumnEnd) {
+        try (var builder = new IssueBuilder(); var softly = new SoftAssertions()) {
+            var issue = builder.setLineStart(lineStart)
+                    .setLineEnd(lineEnd)
+                    .setColumnStart(columnStart)
+                    .setColumnEnd(columnEnd)
+                    .build();
             softly.assertThat(issue)
                     .as(description)
                     .hasLineStart(expectedLineStart)
@@ -269,53 +262,9 @@ class IssueTest extends SerializableTest<Issue> {
     }
 
     @Test
-    @SuppressWarnings("NullAway")
-    void testDefaultIssueNullStringsNegativeIntegers() {
-        var issue = new Issue(null, UNDEFINED_TS, 0, 0, 0, 0, LINE_RANGES, null, null,
-                UNDEFINED_TS, null, SEVERITY, EMPTY_TS, EMPTY, null, ORIGIN_NAME, null, null,
-                null, UUID.randomUUID());
-
-        assertIsDefaultIssue(issue);
-        assertThat(issue.affectsLine(10)).isTrue();
-    }
-
-    @Test
-    void testDefaultIssueEmptyStringsNegativeIntegers() {
-        var issue = new Issue(EMPTY, UNDEFINED_TS, -1, -1, -1, -1, LINE_RANGES, EMPTY, EMPTY,
-                UNDEFINED_TS, EMPTY, SEVERITY, EMPTY_TS, EMPTY, EMPTY, ORIGIN_NAME, EMPTY, EMPTY,
-                EMPTY, UUID.randomUUID());
-
-        assertIsDefaultIssue(issue);
-    }
-
-    private void assertIsDefaultIssue(final Issue issue) {
-        try (var softly = new SoftAssertions()) {
-            softly.assertThat(issue.getId()).isNotNull();
-            softly.assertThat(issue)
-                    .hasFileName(UNDEFINED)
-                    .hasCategory(EMPTY)
-                    .hasLineStart(0)
-                    .hasLineEnd(0)
-                    .hasColumnStart(0)
-                    .hasColumnEnd(0)
-                    .hasType(UNDEFINED)
-                    .hasPackageName(UNDEFINED)
-                    .hasMessage(EMPTY)
-                    .hasDescription(EMPTY)
-                    .hasFingerprint(UNDEFINED);
-            softly.assertThat(issue.hasFingerprint()).isFalse();
-            softly.assertThat(issue.hasPackageName()).isFalse();
-            softly.assertThat(issue.hasFileName()).isFalse();
-            softly.assertThat(issue.hasModuleName()).isFalse();
-        }
-    }
-
-    @Test
     void testZeroLineColumnEndsDefaultToLineColumnStarts() {
-        var issue = new Issue(PATH_NAME, FILE_NAME_TS, LINE_START, 0, COLUMN_START, 0, LINE_RANGES, CATEGORY, TYPE,
-                PACKAGE_NAME_TS, MODULE_NAME, SEVERITY, MESSAGE_TS, DESCRIPTION, ORIGIN, ORIGIN_NAME, REFERENCE,
-                FINGERPRINT,
-                ADDITIONAL_PROPERTIES, UUID.randomUUID());
+        var issue = createIssue(PATH_NAME, FILE_NAME_TS, LINE_START, 0, COLUMN_START, 0,
+                UUID.randomUUID());
 
         try (var softly = new SoftAssertions()) {
             softly.assertThat(issue)
@@ -324,17 +273,6 @@ class IssueTest extends SerializableTest<Issue> {
                     .hasColumnStart(COLUMN_START)
                     .hasColumnEnd(COLUMN_START);
         }
-    }
-
-    @Test
-    void testNullPriorityDefaultsToNormal() {
-        var issue = new Issue(PATH_NAME, FILE_NAME_TS, LINE_START, LINE_END, COLUMN_START, COLUMN_END, LINE_RANGES,
-                CATEGORY, TYPE,
-                PACKAGE_NAME_TS, MODULE_NAME, null, MESSAGE_TS, DESCRIPTION, ORIGIN, ORIGIN_NAME, REFERENCE,
-                FINGERPRINT,
-                ADDITIONAL_PROPERTIES, UUID.randomUUID());
-
-        assertThat(issue.getSeverity()).isEqualTo(Severity.WARNING_NORMAL);
     }
 
     @Test
@@ -351,11 +289,22 @@ class IssueTest extends SerializableTest<Issue> {
      * @return a correctly filled issue
      */
     protected Issue createFilledIssue() {
-        return new Issue(PATH_NAME, FILE_NAME_TS, LINE_START, LINE_END, COLUMN_START, COLUMN_END, LINE_RANGES, CATEGORY,
-                TYPE,
-                PACKAGE_NAME_TS, MODULE_NAME, SEVERITY, MESSAGE_TS, DESCRIPTION, ORIGIN, ORIGIN_NAME, REFERENCE,
-                FINGERPRINT,
-                ADDITIONAL_PROPERTIES, UUID.randomUUID());
+        return createIssue(PATH_NAME, FILE_NAME_TS, LINE_START, LINE_END, COLUMN_START, COLUMN_END,
+                UUID.randomUUID());
+    }
+
+    @SuppressWarnings("checkstyle:ParameterNumber")
+    private Issue createIssue(final String pathName, final TreeString fileName,
+            final int lineStart, final int lineEnd, final int columnStart, final int columnEnd,
+            final UUID id) {
+        var locations = new ArrayList<Location>();
+        locations.add(new Location(fileName, lineStart, lineEnd, columnStart, columnEnd));
+        locations.add(new Location(fileName, 5, 6));
+
+        return new Issue(pathName, locations, CATEGORY, TYPE, PACKAGE_NAME_TS,
+                MODULE_NAME, SEVERITY, MESSAGE_TS, DESCRIPTION,
+                ORIGIN, ORIGIN_NAME, REFERENCE, FINGERPRINT,
+                ADDITIONAL_PROPERTIES, id);
     }
 
     @Test
@@ -369,7 +318,8 @@ class IssueTest extends SerializableTest<Issue> {
                         TREE_STRING_BUILDER.intern("Two"))
                 .withPrefabValues(LineRangeList.class, new LineRangeList(10), filled)
                 .forClass(Issue.class)
-                .withIgnoredFields("id", "reference", "pathName", "fingerprint", "partOfModifiedCode").verify();
+                .withIgnoredFields("id", "reference", "pathName", "fingerprint", "partOfModifiedCode",
+                        "fileName", "lineStart", "lineEnd", "columnStart", "columnEnd", "lineRanges").verify();
     }
 
     @Override
@@ -383,7 +333,7 @@ class IssueTest extends SerializableTest<Issue> {
     }
 
     /**
-     * Verifies that saved serialized format (from a previous release) still can be resolved with the current
+     * Verifies that the saved serialized format (from a previous release) still can be resolved with the current
      * implementation of {@link Issue}.
      */
     @Test

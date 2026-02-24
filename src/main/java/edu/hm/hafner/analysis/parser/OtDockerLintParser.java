@@ -1,13 +1,13 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
+
+import java.io.Serial;
 
 /**
  * A parser for ot-docker-linter json output.
@@ -17,7 +17,7 @@ import edu.hm.hafner.analysis.Severity;
  */
 public class OtDockerLintParser extends JsonIssueParser {
     @Serial
-    private static final long serialVersionUID = 42L;
+    private static final long serialVersionUID = 1316973497861475787L;
 
     @Override
     protected void parseJsonArray(final Report report, final JSONArray jsonReport, final IssueBuilder issueBuilder) {

@@ -1,0 +1,35 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<issue>
+    <category>category</category>
+    <type>type</type>
+    <severity>HIGH</severity>
+    <message>message</message>
+    <lineStart>1</lineStart>
+    <lineEnd>2</lineEnd>
+    <columnStart>3</columnStart>
+    <columnEnd>4</columnEnd>
+    <locations>
+        <location>
+            <fileName>file-name</fileName>
+            <lineStart>1</lineStart>
+            <lineEnd>2</lineEnd>
+            <columnStart>3</columnStart>
+            <columnEnd>4</columnEnd>
+        </location>
+        <location>
+            <fileName>another-file-name</fileName>
+            <lineStart>5</lineStart>
+            <lineEnd>6</lineEnd>
+            <columnStart>0</columnStart>
+            <columnEnd>0</columnEnd>
+        </location>
+    </locations>
+    <id>63d61b1f-0cac-4e31-8bb9-f390ed1acfe8</id>
+    <description>description</description>
+    <reference>reference</reference>
+    <origin>origin</origin>
+    <moduleName>module-name</moduleName>
+    <packageName>package-name</packageName>
+    <fileName>file-name</fileName>
+    <fingerprint>fingerprint</fingerprint>
+</issue>

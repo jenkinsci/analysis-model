@@ -1,14 +1,11 @@
 package edu.hm.hafner.analysis;
 
-import java.nio.charset.StandardCharsets;
-import java.util.List;
-
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.registry.ParserRegistry;
-import edu.hm.hafner.util.LineRange;
-import edu.hm.hafner.util.LineRangeList;
 import edu.hm.hafner.util.ResourceTest;
+
+import java.nio.charset.StandardCharsets;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
@@ -174,7 +171,6 @@ class IssueDifferenceTest extends ResourceTest {
                     .setMessage(message)
                     .setDescription("description")
                     .setOrigin("origin")
-                    .setLineRanges(new LineRangeList(List.of(new LineRange(5, 6))))
                     .setFingerprint(fingerprint)
                     .setReference(REFERENCE_BUILD);
             return builder.build();

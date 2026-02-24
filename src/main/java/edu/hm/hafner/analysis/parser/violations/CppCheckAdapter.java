@@ -1,17 +1,16 @@
 package edu.hm.hafner.analysis.parser.violations;
 
+import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.Location;
+import edu.hm.hafner.analysis.Report;
+import edu.hm.hafner.analysis.util.IntegerParser;
+import edu.hm.hafner.util.TreeStringBuilder;
+
 import java.io.Serial;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.util.IntegerParser;
-import edu.hm.hafner.util.LineRange;
-import edu.hm.hafner.util.LineRangeList;
-
 import se.bjurr.violations.lib.model.Violation;
 import se.bjurr.violations.lib.parsers.CPPCheckParser;
 
@@ -37,14 +36,15 @@ public class CppCheckAdapter extends AbstractViolationAdapter {
                     .collect(Collectors.groupingBy(Violation::getGroup));
 
             var report = new Report();
-            for (List<Violation> group : violationsPerGroup.values()) {
-                var sortedGroup = sortByInsertionOrder(group);
-                updateIssueBuilder(sortedGroup.get(0), issueBuilder);
-                var lineRanges = new LineRangeList();
-                for (int i = 1; i < sortedGroup.size(); i++) {
-                    lineRanges.add(new LineRange(sortedGroup.get(i).getStartLine()));
+            var fileNames = new TreeStringBuilder();
+            for (var unsortedViolations : violationsPerGroup.values()) {
+                var sortedViolations = sortByInsertionOrder(unsortedViolations);
+                updateIssueBuilder(sortedViolations.get(0), issueBuilder);
+                for (int i = 1; i < sortedViolations.size(); i++) {
+                    var violation = sortedViolations.get(i);
+                    var fileName = fileNames.intern(violation.getFile());
+                    issueBuilder.addLocation(new Location(fileName, violation.getStartLine()));
                 }
-                issueBuilder.setLineRanges(lineRanges);
                 report.add(issueBuilder.buildAndClean());
             }
             return report;

@@ -3,11 +3,13 @@ package edu.hm.hafner.analysis.parser.violations;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
+import edu.hm.hafner.analysis.Location;
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
+import edu.hm.hafner.util.TreeString;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 import java.io.Serial;
@@ -127,15 +129,29 @@ public abstract class AbstractViolationAdapter extends IssueParser {
      *         the issue builder to change
      */
     void updateIssueBuilder(final Violation violation, final IssueBuilder builder) {
+        var location = new Location(TreeString.valueOf(getFileName(violation)),
+                toValidInt(violation.getStartLine()),
+                toValidInt(violation.getEndLine()),
+                toValidInt(violation.getColumn()),
+                toValidInt(violation.getEndColumn()));
         builder.setSeverity(convertSeverity(violation.getSeverity(), violation))
-                .setFileName(violation.getFile())
                 .setMessage(violation.getMessage())
-                .setLineStart(toValidInt(violation.getStartLine()))
-                .setLineEnd(toValidInt(violation.getEndLine()))
-                .setColumnStart(toValidInt(violation.getColumn()))
-                .setColumnEnd(toValidInt(violation.getEndColumn()))
+                .addLocation(location)
                 .setType(violation.getRule())
                 .setCategory(violation.getCategory());
+    }
+
+    /**
+     * Returns the file name for the specified violation. Subclasses may override to provide a different file name or a
+     * modified version of the file name.
+     *
+     * @param violation
+     *         the violation
+     *
+     * @return the file name
+     */
+    protected String getFileName(final Violation violation) {
+        return violation.getFile();
     }
 
     /**
@@ -146,7 +162,7 @@ public abstract class AbstractViolationAdapter extends IssueParser {
      *
      * @return the valid integer value or 0 if the specified {@link Integer} is {@code null} or less than 0
      */
-    private int toValidInt(@CheckForNull final Integer integer) {
+    int toValidInt(@CheckForNull final Integer integer) {
         if (integer == null) {
             return 0;
         }
@@ -154,8 +170,8 @@ public abstract class AbstractViolationAdapter extends IssueParser {
     }
 
     /**
-     * Subclasses may add additional {@link IssueBuilder} properties based on the content of the specified {@link
-     * Violation}. This default implementation is empty.
+     * Subclasses may add additional {@link IssueBuilder} properties based on the content of the specified
+     * {@link Violation}. This default implementation is empty.
      *
      * @param builder
      *         the issue builder to change

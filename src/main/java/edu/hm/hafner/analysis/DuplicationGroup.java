@@ -17,10 +17,10 @@ import java.util.Objects;
  */
 public final class DuplicationGroup implements Serializable {
     @Serial
-    private static final long serialVersionUID = -5005784523279541971L;
+    private static final long serialVersionUID = 14L; // release 14.0.0
 
-    @SuppressWarnings("serial")
-    private final List<Issue> occurrences = new ArrayList<>();
+    @SuppressWarnings("PMD.LooseCoupling")
+    private final ArrayList<Issue> occurrences = new ArrayList<>();
     private String codeFragment = StringUtils.EMPTY;
 
     /**

@@ -1,16 +1,17 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.util.Iterator;
-
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Location;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.util.LineRange;
 
-import static org.assertj.core.api.Assertions.*;
+import java.util.Iterator;
+
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
  * Tests the class {@link XmlParser}.
@@ -51,12 +52,44 @@ class XmlParserTest extends StructuredFileParserTest {
                 .hasModuleName("module-name")
                 .hasFingerprint("fingerprint")
                 .hasAdditionalProperties("")
-                .hasOnlyLineRanges(new LineRange(5, 6));
+                .hasReference("")
+                .hasLineRanges(new LineRange(5, 6))
+                .hasLocations(
+                        new Location("file-name", 1, 2, 3, 4),
+                        new Location("file-name", 5, 6, 0, 0)
+                );
     }
 
     @Override
     protected XmlParser createParser() {
         return new XmlParser();
+    }
+
+    @Test
+    void shouldHandleLocations() {
+        var report = createParser().parseReport(createReaderFactory("xmlParserLocations.xml"));
+
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0))
+                .hasFileName("file-name")
+                .hasLineStart(1)
+                .hasLineEnd(2)
+                .hasColumnStart(3)
+                .hasColumnEnd(4)
+                .hasCategory("category")
+                .hasType("type")
+                .hasSeverity(Severity.WARNING_HIGH)
+                .hasMessage("message")
+                .hasDescription("description")
+                .hasPackageName("package-name")
+                .hasModuleName("module-name")
+                .hasFingerprint("fingerprint")
+                .hasAdditionalProperties("")
+                .hasLineRanges(new LineRange(5, 6))
+                .hasLocations(
+                        new Location("file-name", 1, 2, 3, 4),
+                        new Location("another-file-name", 5, 6, 0, 0)
+                );
     }
 
     @Test
@@ -117,8 +150,8 @@ class XmlParserTest extends StructuredFileParserTest {
                     .hasSize(1);
             softly.assertThat(iterator.next())
                     .hasFileName("-")
-                    .hasLineStart(1)
-                    .hasLineEnd(2)
+                    .hasLineStart(0)
+                    .hasLineEnd(0)
                     .hasColumnStart(0)
                     .hasColumnEnd(0)
                     .hasCategory("")
@@ -131,7 +164,7 @@ class XmlParserTest extends StructuredFileParserTest {
                     .hasReference("")
                     .hasFingerprint("-")
                     .hasAdditionalProperties("")
-                    .hasNoLineRanges();
+                    .hasLocations(new Location("-", 1, 2, 0, 0));
         }
     }
 }
