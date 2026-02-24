@@ -26,7 +26,7 @@ import java.io.Serial;
  */
 public class TaglistParser extends IssueParser {
     @Serial
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -6027388931430613361L;
 
     @Override
     public Report parseReport(final ReaderFactory readerFactory) throws ParsingException {

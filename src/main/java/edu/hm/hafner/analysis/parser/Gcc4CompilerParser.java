@@ -4,9 +4,12 @@ import org.apache.commons.lang3.Strings;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.Location;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
+import edu.hm.hafner.analysis.util.IntegerParser;
 import edu.hm.hafner.util.LookaheadStream;
+import edu.hm.hafner.util.TreeStringBuilder;
 
 import java.io.Serial;
 import java.util.Optional;
@@ -71,7 +74,8 @@ public class Gcc4CompilerParser extends LookaheadParser {
             message.append(continuation);
         }
 
-        var notes = getNotes(lookahead);
+        var treeStringBuilder = new TreeStringBuilder();
+        var notes = collectNotes(lookahead, builder, treeStringBuilder);
         if (!notes.isEmpty()) {
             message.append('\n');
             message.append(notes);
@@ -124,12 +128,15 @@ public class Gcc4CompilerParser extends LookaheadParser {
     }
 
     /**
-     * Collects any subsequent note lines from the lookahead stream.
+     * Collects any subsequent note lines from the lookahead stream and adds them as additional locations.
      *
      * @param lookahead the lookahead stream
+     * @param builder the issue builder to add locations to
+     * @param treeStringBuilder the tree string builder for interning file names
      * @return a string containing all collected note lines, or an empty string if no notes were found
      */
-    private String getNotes(final LookaheadStream lookahead) {
+    private String collectNotes(final LookaheadStream lookahead, final IssueBuilder builder,
+            final TreeStringBuilder treeStringBuilder) {
         var notes = new StringBuilder();
         while (lookahead.hasNext()) {
             var nextLine = lookahead.peekNext();
@@ -139,6 +146,14 @@ public class Gcc4CompilerParser extends LookaheadParser {
                     notes.append('\n');
                 }
                 notes.append(lookahead.next());
+
+                // Add the note as an additional location
+                var file = noteMatcher.group("file");
+                var line = IntegerParser.parseInt(noteMatcher.group("line"));
+                var column = IntegerParser.parseInt(noteMatcher.group("column"));
+
+                var fileName = treeStringBuilder.intern(file);
+                builder.addLocation(new Location(fileName, line, line, column, column));
             }
             else {
                 break;

@@ -1,15 +1,15 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
+
+import java.io.Serial;
+import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * A parser for (compile-time) messages from the GNU Fortran Compiler.
@@ -18,11 +18,11 @@ import edu.hm.hafner.util.LookaheadStream;
  */
 public class GnuFortranParser extends LookaheadParser {
     @Serial
-    private static final long serialVersionUID = 0L;
+    private static final long serialVersionUID = -1473951397615098271L;
 
     /**
-     * The gfortran regex string that follows has been reverse engineered from the show_locus function in
-     * gcc/fortran/error.c at r204295. By inspection of the GCC release branches this regex should be compatible with
+     * The gfortran regex string that follows has been reverse-engineered from the show_locus function in
+     * gcc/fortran/error.c at r204295. By inspection of the GCC release branches, this regex should be compatible with
      * GCC 4.2 and newer.
      */
     private static final String MESSAGE_START_REGEX = "(?s)^(.+\\.[^:]+):(\\d+)(?:\\.(\\d+)(?:-(\\d+))?)?:";
