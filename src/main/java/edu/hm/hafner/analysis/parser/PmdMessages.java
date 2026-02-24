@@ -1,11 +1,10 @@
 package edu.hm.hafner.analysis.parser;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.commons.lang3.StringUtils;
-
 import net.sourceforge.pmd.lang.rule.Rule;
 import net.sourceforge.pmd.lang.rule.RuleSet;
 import net.sourceforge.pmd.lang.rule.RuleSetLoader;
@@ -76,7 +75,7 @@ public class PmdMessages {
         var message = new StringBuilder(rule.getDescription());
         List<String> examples = rule.getExamples();
         if (!examples.isEmpty()) {
-            message.append(pre().with(code(examples.get(0))).renderFormatted());
+            message.append(pre().with(code(examples.getFirst())).renderFormatted());
         }
         if (StringUtils.isNotBlank(rule.getExternalInfoUrl())) {
             message.append(a().withHref(rule.getExternalInfoUrl()).withText("See PMD documentation.").renderFormatted());

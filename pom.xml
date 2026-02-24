@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
     <groupId>edu.hm.hafner</groupId>
     <artifactId>codingstyle-pom</artifactId>
-    <version>5.42.0</version>
-    <relativePath />
+    <version>6.1.0</version>
+    <relativePath/>
   </parent>
 
   <artifactId>analysis-model</artifactId>
@@ -53,7 +54,7 @@
 
   <properties>
     <scmTag>HEAD</scmTag>
-    <revision>13.19.0</revision>
+    <revision>14.0.0</revision>
     <changelist>-SNAPSHOT</changelist>
     <previousVersion>13.18.0</previousVersion>
 
@@ -301,13 +302,6 @@
         </configuration>
       </plugin>
       <plugin>
-        <groupId>org.sonatype.plugins</groupId>
-        <artifactId>nexus-staging-maven-plugin</artifactId>
-        <configuration>
-          <stagingProgressTimeoutMinutes>15</stagingProgressTimeoutMinutes>
-        </configuration>
-      </plugin>
-      <plugin>
         <groupId>org.pitest</groupId>
         <artifactId>pitest-maven</artifactId>
         <configuration>
@@ -487,7 +481,9 @@
           <plugin>
             <artifactId>maven-release-plugin</artifactId>
             <configuration>
-              <preparationGoals>build-helper:parse-version versions:set-property -Dproperty=previousVersion -DnewVersion=${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}</preparationGoals>
+              <preparationGoals>build-helper:parse-version versions:set-property -Dproperty=previousVersion
+                -DnewVersion=${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}
+              </preparationGoals>
               <completionGoals>incrementals:reincrementalify</completionGoals>
             </configuration>
           </plugin>

@@ -41,7 +41,7 @@ public abstract class ReaderFactory {
      * @param charset
      *         the charset to use when reading the file
      */
-    public ReaderFactory(final Charset charset) {
+    protected ReaderFactory(final Charset charset) {
         this(charset, IDENTITY);
     }
 
@@ -53,7 +53,7 @@ public abstract class ReaderFactory {
      * @param lineMapper
      *         provides a mapper to transform each of the resource lines
      */
-    public ReaderFactory(final Charset charset, final Function<String, String> lineMapper) {
+    protected ReaderFactory(final Charset charset, final Function<String, String> lineMapper) {
         this.charset = charset;
         this.lineMapper = REMOVE_COLOR_CODES.compose(lineMapper);
     }

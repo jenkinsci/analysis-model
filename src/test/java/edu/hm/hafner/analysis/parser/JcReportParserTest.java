@@ -45,7 +45,7 @@ class JcReportParserTest extends AbstractParserTest {
 
         assertThat(testReportProps.getFiles()).hasSize(1);
 
-        var file = testReportProps.getFiles().get(0);
+        var file = testReportProps.getFiles().getFirst();
         assertThat(file.getClassname()).isEqualTo("SomeClass");
         assertThat(file.getLevel()).isEqualTo("SomeLevel");
         assertThat(file.getLoc()).isEqualTo("173");
@@ -53,7 +53,7 @@ class JcReportParserTest extends AbstractParserTest {
         assertThat(file.getPackageName()).isEqualTo("SomePackage");
         assertThat(file.getSrcdir()).isEqualTo("SomeDirectory");
 
-        var item = file.getItems().get(0);
+        var item = file.getItems().getFirst();
         assertThat(item.getColumn()).isEqualTo("0");
         assertThat(item.getEndcolumn()).isEqualTo("3");
         assertThat(item.getFindingtype()).isEqualTo("SomeType");

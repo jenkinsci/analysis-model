@@ -50,7 +50,7 @@ public class SimulinkCheckParser extends IssueParser {
             var report = new Report();
 
             var modelNameElement = systemElement.selectFirst(MODEL_NAME_SELECTOR);
-            var system = (modelNameElement == null) ? systemElement.id() : modelNameElement.text();
+            var system = modelNameElement == null ? systemElement.id() : modelNameElement.text();
             parseIssues(report, document, issueBuilder, system, WARNING);
             parseIssues(report, document, issueBuilder, system, FAILED);
             parseIssues(report, document, issueBuilder, system, NOT_RUN);

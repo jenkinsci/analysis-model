@@ -1,10 +1,10 @@
 package edu.hm.hafner.analysis.registry;
 
-import java.util.Collection;
-
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.ClangParser;
 import edu.hm.hafner.analysis.parser.LlvmLinkerParser;
+
+import java.util.Collection;
 
 /**
  * A descriptor for the Clang parser (compiler + linker).

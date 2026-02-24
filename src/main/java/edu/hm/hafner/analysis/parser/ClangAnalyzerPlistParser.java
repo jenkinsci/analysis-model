@@ -126,7 +126,7 @@ public class ClangAnalyzerPlistParser extends IssueParser {
             return "";
         }
 
-        return elements.get(0).getTextContent();
+        return elements.getFirst().getTextContent();
     }
 
     private static int extractIntField(final Element diag, final XPathExpression expr) throws XPathExpressionException {

@@ -1,17 +1,16 @@
 package edu.hm.hafner.analysis.parser.violations;
 
-import java.io.Serial;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.util.IntegerParser;
 import edu.hm.hafner.util.LineRange;
 import edu.hm.hafner.util.LineRangeList;
 
+import java.io.Serial;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import se.bjurr.violations.lib.model.Violation;
 import se.bjurr.violations.lib.parsers.CPPCheckParser;
 
@@ -39,7 +38,7 @@ public class CppCheckAdapter extends AbstractViolationAdapter {
             var report = new Report();
             for (List<Violation> group : violationsPerGroup.values()) {
                 var sortedGroup = sortByInsertionOrder(group);
-                updateIssueBuilder(sortedGroup.get(0), issueBuilder);
+                updateIssueBuilder(sortedGroup.getFirst(), issueBuilder);
                 var lineRanges = new LineRangeList();
                 for (int i = 1; i < sortedGroup.size(); i++) {
                     lineRanges.add(new LineRange(sortedGroup.get(i).getStartLine()));

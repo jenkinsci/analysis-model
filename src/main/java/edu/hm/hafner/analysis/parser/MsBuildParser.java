@@ -86,9 +86,9 @@ public class MsBuildParser extends LookaheadParser {
      * Only matches tool names when they appear alone, not as part of a path.
      */
     private static final Pattern TOOL_NAME_PATTERN = Pattern.compile(
-            "^(?:EXEC|NMAKE|LINK|MSBUILD|MSBuild|link|nmake|msbuild|cl|rs)$|" 
-            + "^[^/\\\\]*\\.exe$|" 
-            + "^<[^>]+>$",  
+            "^(?:EXEC|NMAKE|LINK|MSBUILD|MSBuild|link|nmake|msbuild|cl|rs)$|"
+            + "^[^/\\\\]*\\.exe$|"
+            + "^<[^>]+>$",
             Pattern.CASE_INSENSITIVE);
 
     /**
@@ -269,7 +269,7 @@ public class MsBuildParser extends LookaheadParser {
             return true;
         }
 
-        String baseFileName = FilenameUtils.getName(fileName).trim();
+        var baseFileName = FilenameUtils.getName(fileName).trim();
 
         baseFileName = baseFileName.replaceAll("^\\d{1,2}:\\d{2}:\\d{2}\\s+", "");
 
@@ -285,7 +285,7 @@ public class MsBuildParser extends LookaheadParser {
      * @return the name of the file with a warning
      */
     private String determineFileName(final Matcher matcher) {
-        String fileName = extractFileNameFromGroups(matcher);
+        var fileName = extractFileNameFromGroups(matcher);
         fileName = resolveFileName(fileName, matcher);
         return normalizeFileName(fileName, matcher.group(23));
     }
@@ -319,7 +319,7 @@ public class MsBuildParser extends LookaheadParser {
     }
 
     private String normalizeFileName(final String fileName, final String projectDir) {
-        String normalizedFileName = fileName;
+        var normalizedFileName = fileName;
 
         if (canResolveRelativeFileName(normalizedFileName, projectDir)) {
             normalizedFileName = FilenameUtils.concat(projectDir, normalizedFileName);

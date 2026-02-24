@@ -1,13 +1,14 @@
 package edu.hm.hafner.analysis.parser;
 
+import org.json.JSONObject;
+
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
+
 import j2html.TagCreator;
 import j2html.tags.ContainerTag;
 import j2html.tags.DomContent;
-import org.json.JSONObject;
-
 import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
@@ -101,7 +102,7 @@ public class NpmAuditParser extends JsonIssueParser {
                 .setMessage(vulnerability.optString("title", VALUE_NOT_SET))
                 .guessSeverity(vulnerability.optString("severity", "UNKNOWN"))
                 .setDescription(formatDescription(vulnerability, tags, weaknessCategories))
-                .setCategory(weaknessCategories.isEmpty() ? UNCATEGORIZED : weaknessCategories.first())
+                .setCategory(weaknessCategories.isEmpty() ? UNCATEGORIZED : weaknessCategories.getFirst())
                 .buildAndClean();
     }
 

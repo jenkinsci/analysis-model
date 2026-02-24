@@ -1,15 +1,15 @@
 package edu.hm.hafner.analysis.parser;
 
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.LookaheadParser;
+import edu.hm.hafner.analysis.Severity;
+import edu.hm.hafner.util.LookaheadStream;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+
 import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
-
-import edu.umd.cs.findbugs.annotations.CheckForNull;
-import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Severity;
-import edu.hm.hafner.analysis.LookaheadParser;
-import edu.hm.hafner.util.LookaheadStream;
 
 /**
  * A parser for Doxygen.
@@ -77,7 +77,7 @@ public class DoxygenParser extends LookaheadParser {
         }
 
         // Try to extract Windows absolute path (e.g., D:/path or D:\path)
-        String extracted = extractWindowsPath(fileName);
+        var extracted = extractWindowsPath(fileName);
         if (extracted != null) {
             return extracted;
         }

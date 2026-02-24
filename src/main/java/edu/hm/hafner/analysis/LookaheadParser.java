@@ -242,7 +242,6 @@ public abstract class LookaheadParser extends IssueParser {
     private String removeHyphen(final String dir) {
         var path = dir;
         path = StringUtils.stripStart(path, HYPHEN);
-        path = StringUtils.stripEnd(path, HYPHEN);
-        return path;
+        return StringUtils.stripEnd(path, HYPHEN);
     }
 }
