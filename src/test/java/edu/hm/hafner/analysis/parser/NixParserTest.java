@@ -27,7 +27,7 @@ class NixParserTest extends AbstractParserTest {
         assertThat(report).hasSize(4);
 
         softly.assertThat(report.get(0))
-                .hasSeverity(Severity.WARNING_HIGH)
+                .hasSeverity(Severity.ERROR)
                 .hasLineStart(18)
                 .hasLineEnd(18)
                 .hasColumnStart(23)
@@ -35,7 +35,7 @@ class NixParserTest extends AbstractParserTest {
                 .hasFileName("/home/user/project/flake.nix");
 
         softly.assertThat(report.get(1))
-                .hasSeverity(Severity.WARNING_HIGH)
+                .hasSeverity(Severity.ERROR)
                 .hasLineStart(25)
                 .hasLineEnd(25)
                 .hasColumnStart(1)
@@ -43,7 +43,7 @@ class NixParserTest extends AbstractParserTest {
                 .hasFileName("/nix/store/hash-source/default.nix");
 
         softly.assertThat(report.get(2))
-                .hasSeverity(Severity.WARNING_HIGH)
+                .hasSeverity(Severity.ERROR)
                 .hasLineStart(10)
                 .hasLineEnd(10)
                 .hasColumnStart(5)
@@ -51,7 +51,7 @@ class NixParserTest extends AbstractParserTest {
                 .hasFileName("/home/build/flake.nix");
 
         softly.assertThat(report.get(3))
-                .hasSeverity(Severity.WARNING_HIGH)
+                .hasSeverity(Severity.ERROR)
                 .hasLineStart(15)
                 .hasLineEnd(15)
                 .hasColumnStart(3)

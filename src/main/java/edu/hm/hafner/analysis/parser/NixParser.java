@@ -47,7 +47,7 @@ public class NixParser extends LookaheadParser {
             final IssueBuilder builder) {
         String severityStr = matcher.group(1);
         String message = extractMessage(matcher, lookahead);
-        Severity severity = "error".equals(severityStr) ? Severity.WARNING_HIGH : Severity.WARNING_NORMAL;
+        Severity severity = Severity.guessFromString(severityStr);
         
         LocationInfo location = findLocationInfo(lookahead);
         if (location == null) {

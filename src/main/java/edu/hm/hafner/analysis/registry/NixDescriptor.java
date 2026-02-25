@@ -20,4 +20,14 @@ class NixDescriptor extends ParserDescriptor {
     public IssueParser create(final Option... options) {
         return new NixParser();
     }
+
+    @Override
+    public String getUrl() {
+        return "https://nixos.org/";
+    }
+
+    @Override
+    public String getIconUrl() {
+        return "https://nixos.org/logo/nixos-logo-only-hires.png";
+    }
 }
