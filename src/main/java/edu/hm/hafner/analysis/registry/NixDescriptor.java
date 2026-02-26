@@ -28,6 +28,6 @@ class NixDescriptor extends ParserDescriptor {
 
     @Override
     public String getIconUrl() {
-        return "https://nixos.org/logo/nixos-logo-only-hires.png";
+        return "https://brand.nixos.org/logos/nixos-logo-default-gradient-black-regular-horizontal-recommended.svg";
     }
 }
