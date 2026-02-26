@@ -26,7 +26,7 @@
     <connection>scm:git:https://github.com/jenkinsci/analysis-model.git</connection>
     <developerConnection>scm:git:git@github.com:jenkinsci/analysis-model.git</developerConnection>
     <url>https://github.com/jenkinsci/analysis-model</url>
-    <tag>v13.20.0</tag>
+    <tag>${scmTag}</tag>
   </scm>
 
   <licenses>
@@ -53,8 +53,8 @@
 
   <properties>
     <scmTag>HEAD</scmTag>
-    <revision>13.20.0</revision>
-    <changelist></changelist>
+    <revision>13.21.0</revision>
+    <changelist>-SNAPSHOT</changelist>
     <previousVersion>13.20.0</previousVersion>
 
     <module.name>edu.hm.hafner.analysis.model</module.name>
