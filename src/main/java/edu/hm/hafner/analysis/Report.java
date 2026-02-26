@@ -62,6 +62,7 @@ public class Report implements Iterable<Issue>, Serializable {
 
     @VisibleForTesting
     static final String DEFAULT_ID = "-";
+    private static final ReportFormatter FORMATTER = new ReportFormatter();
 
     private String id;
     private String name;
@@ -751,15 +752,7 @@ public class Report implements Iterable<Issue>, Serializable {
      * @return a string representation of severity distribution
      */
     public String getSeverityDistribution() {
-        var severityDistribution = Severity.getPredefinedValues()
-                .stream()
-                .map(this::reportSeverity)
-                .flatMap(Optional::stream)
-                .collect(Collectors.joining(", "));
-        if (StringUtils.isEmpty(severityDistribution)) {
-            return severityDistribution;
-        }
-        return " (" + severityDistribution + ")";
+        return " (" + FORMATTER.formatSeverities(this) + ")";
     }
 
     /**
@@ -768,7 +761,7 @@ public class Report implements Iterable<Issue>, Serializable {
      * @return a string representation of this report
      */
     public String getSummary() {
-        return getItemName(size());
+        return FORMATTER.formatSizeOfElements(this);
     }
 
     private String getNamePrefix() {
@@ -782,43 +775,6 @@ public class Report implements Iterable<Issue>, Serializable {
 
     private boolean isEmptyOrDefault(final String value) {
         return StringUtils.isEmpty(value) || DEFAULT_ID.equals(value);
-    }
-
-    private Optional<String> reportSeverity(final Severity severity) {
-        var size = getSizeOf(severity);
-        if (size > 0) {
-            return Optional.of(
-                    String.format(Locale.ENGLISH, "%s: %d", StringUtils.lowerCase(severity.getName()), size));
-        }
-        return Optional.empty();
-    }
-
-    private String getItemName(final int size) {
-        var items = getItemCount(size);
-        if (size == 0) {
-            return String.format("No %s", items);
-        }
-        return String.format(Locale.ENGLISH, "%d %s", size, items);
-    }
-
-    // Open as API?
-    private String getItemCount(final int count) {
-        if (count == 1) {
-            return switch (getElementType()) {
-                case WARNING -> "warning";
-                case BUG -> "bug";
-                case DUPLICATION -> "duplication";
-                case VULNERABILITY -> "vulnerability";
-            };
-        }
-        else {
-            return switch (getElementType()) {
-                case WARNING -> "warnings";
-                case BUG -> "bugs";
-                case DUPLICATION -> "duplications";
-                case VULNERABILITY -> "vulnerabilities";
-            };
-        }
     }
 
     private String getDuplicates() {
