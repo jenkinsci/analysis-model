@@ -20,9 +20,12 @@ class ReportFormatterTest {
     })
     @DisplayName("Should format size of empty report")
     void shouldFormatSizeForEmptyReport(final IssueType issueType, final String itemName) {
-        var bugs = new Report("id", "name", "origin", issueType);
-        assertThat(formatter.formatSizeOfElements(bugs)).isEqualTo(itemName);
-        assertThat(formatter.formatSeverities(bugs)).isEmpty();
+        var report = new Report("id", "name", "origin", issueType);
+        assertThat(formatter.formatSizeOfElements(report)).isEqualTo(itemName);
+        assertThat(formatter.formatSeverities(report)).isEmpty();
+
+        assertThat(report.toString()).endsWith(itemName);
+        assertThat(report.getSeverityDistribution()).isEmpty();
     }
 
     @ParameterizedTest(name = "type {0} should be formatted as {1}")
@@ -41,6 +44,10 @@ class ReportFormatterTest {
 
             assertThat(formatter.formatSizeOfElements(report)).isEqualTo(itemName);
             assertThat(formatter.formatSeverities(report)).isEqualTo("normal: 1");
+
+            var suffix = " (normal: 1)";
+            assertThat(report.toString()).endsWith(itemName + suffix);
+            assertThat(report.getSeverityDistribution()).isEqualTo(suffix);
         }
     }
 

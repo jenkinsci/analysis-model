@@ -743,6 +743,9 @@ public class Report implements Iterable<Issue>, Serializable {
     public String toString() {
         var summary = String.format(Locale.ENGLISH, "%s%s%s", getNamePrefix(), getSummary(), getDuplicates());
 
+        if (isEmpty()) {
+            return summary;
+        }
         return summary + getSeverityDistribution();
     }
 
@@ -752,6 +755,9 @@ public class Report implements Iterable<Issue>, Serializable {
      * @return a string representation of severity distribution
      */
     public String getSeverityDistribution() {
+        if (isEmpty()) {
+            return StringUtils.EMPTY;
+        }
         return " (" + FORMATTER.formatSeverities(this) + ")";
     }
 
