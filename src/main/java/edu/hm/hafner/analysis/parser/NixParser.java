@@ -28,7 +28,7 @@ public class NixParser extends LookaheadParser {
     private static final long serialVersionUID = 1L;
 
     private static final String NIX_ERROR_PATTERN = "^(error|warning):\\s*(.*)$";
-    private static final Pattern LOCATION_PATTERN = Pattern.compile("^\\s+at\\s+(.+?):(\\d+):(\\d+)?:?\\s*$");
+    private static final Pattern LOCATION_PATTERN = Pattern.compile("^\\s+at\\s+(?<file>.+?):(?<line>\\d+):(?<column>\\d+)?:?\\s*$");
 
     /**
      * Creates a new instance of {@link NixParser}.
@@ -47,16 +47,17 @@ public class NixParser extends LookaheadParser {
             final IssueBuilder builder) {
         String severityStr = matcher.group(1);
         String message = extractMessage(matcher, lookahead);
-        Severity severity = Severity.guessFromString(severityStr);
         
         LocationInfo location = findLocationInfo(lookahead);
         if (location == null) {
-            return Optional.empty();
+            return builder.guessSeverity(severityStr)
+                    .setMessage(message.isEmpty() ? "Nix build " + severityStr : message)
+                    .buildOptional();
         }
         
         builder.setFileName(location.fileName)
                 .setLineStart(location.lineNumber)
-                .setSeverity(severity)
+                .guessSeverity(severityStr)
                 .setMessage(message.isEmpty() ? "Nix build " + severityStr : message);
         
         if (StringUtils.isNotEmpty(location.columnNumber)) {
@@ -113,15 +114,15 @@ public class NixParser extends LookaheadParser {
             if (locationMatcher.matches()) {
                 lookahead.next();
                 var location = new LocationInfo(
-                        locationMatcher.group(1).trim(),
-                        locationMatcher.group(2),
-                        locationMatcher.group(3)
+                        locationMatcher.group("file").trim(),
+                        locationMatcher.group("line"),
+                        locationMatcher.group("column")
                 );
                 consumeSourceContext(lookahead);
                 return location;
             }
             
-            if (shouldStopSearching(line)) {
+            if (isLineInteresting(line.trim())) {
                 break;
             }
             
@@ -129,17 +130,6 @@ public class NixParser extends LookaheadParser {
         }
         
         return null;
-    }
-
-    /**
-     * Checks if we should stop searching for location information.
-     *
-     * @param line the current line
-     * @return true if we should stop searching
-     */
-    private boolean shouldStopSearching(final String line) {
-        String trimmed = line.trim();
-        return trimmed.startsWith("error:") || trimmed.startsWith("warning:");
     }
 
     /**

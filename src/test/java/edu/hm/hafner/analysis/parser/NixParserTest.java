@@ -24,7 +24,7 @@ class NixParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-        assertThat(report).hasSize(4);
+        assertThat(report).hasSize(5);
 
         softly.assertThat(report.get(0))
                 .hasSeverity(Severity.ERROR)
@@ -43,6 +43,13 @@ class NixParserTest extends AbstractParserTest {
                 .hasFileName("/nix/store/hash-source/default.nix");
 
         softly.assertThat(report.get(2))
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasLineStart(0)
+                .hasLineEnd(0)
+                .hasMessage("Git tree '/path/to/project' is dirty")
+                .hasFileName("-");
+
+        softly.assertThat(report.get(3))
                 .hasSeverity(Severity.ERROR)
                 .hasLineStart(10)
                 .hasLineEnd(10)
@@ -50,7 +57,7 @@ class NixParserTest extends AbstractParserTest {
                 .hasMessage("attribute 'packages.x86_64-linux.default' missing")
                 .hasFileName("/home/build/flake.nix");
 
-        softly.assertThat(report.get(3))
+        softly.assertThat(report.get(4))
                 .hasSeverity(Severity.ERROR)
                 .hasLineStart(15)
                 .hasLineEnd(15)
