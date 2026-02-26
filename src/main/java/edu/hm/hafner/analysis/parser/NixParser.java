@@ -11,7 +11,6 @@ import edu.hm.hafner.analysis.Issue;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
-import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
 
 /**
