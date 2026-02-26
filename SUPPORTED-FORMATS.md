@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2026-02-24T20:45:47.060887251 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2026-02-26T11:24:38.367924047 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -1469,6 +1469,22 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
         <tr>
             <td colspan="4">
                 :bulb: <p>Create an output file that contains issues in the native analysis-model format, in either XML or JSON. The parser is even capable of reading individual lines of a log file that contains issues in JSON format.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                nix
+            </td>
+            <td>
+                <img src="https://brand.nixos.org/logos/nixos-logo-default-gradient-black-regular-horizontal-recommended.svg" alt="Nix" height="64" width="64">
+            </td>
+            <td>
+                <a href="https://nixos.org/">
+                    Nix
+                </a>
+            </td>
+            <td>
+                -
             </td>
         </tr>
         <tr>
