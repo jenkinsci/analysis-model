@@ -71,7 +71,7 @@
     <jsoup.version>1.22.1</jsoup.version>
     <json.version>20251224</json.version>
     <json-smart.version>2.6.0</json-smart.version>
-    <pmd.api.version>7.21.0</pmd.api.version>
+    <pmd.api.version>7.22.0</pmd.api.version>
     <spotbugs.api.version>4.9.8</spotbugs.api.version>
 
     <incrementals-plugin.version>1.13</incrementals-plugin.version>
