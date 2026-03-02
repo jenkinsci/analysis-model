@@ -65,8 +65,3 @@ We consider all contributions as MIT unless it's explicitly stated otherwise.
 MIT-incompatible code contributions will be rejected.
 Contributions under MIT-compatible licenses may be also rejected if they are not ultimately necessary.
 
-## Continuous Integration
-
-The Jenkins project has a Continuous Integration server... powered by Jenkins, of course.
-The CI job for this project is located at [ci.jenkins.io](https://ci.jenkins.io/job/Plugins/job/analysis-model/).
-

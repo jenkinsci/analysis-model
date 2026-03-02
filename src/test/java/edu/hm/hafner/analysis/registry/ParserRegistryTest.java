@@ -22,7 +22,7 @@ import static edu.hm.hafner.analysis.assertions.Assertions.*;
 class ParserRegistryTest extends ResourceTest {
     // Note for parser developers: if you add a new parser,
     // please check if you are using the correct type and increment the corresponding count
-    private static final long WARNING_PARSERS_COUNT = 128L;
+    private static final long WARNING_PARSERS_COUNT = 129L;
     private static final long BUG_PARSERS_COUNT = 3L;
     private static final long VULNERABILITY_PARSERS_COUNT = 8L;
     private static final long DUPLICATION_PARSERS_COUNT = 3L;
