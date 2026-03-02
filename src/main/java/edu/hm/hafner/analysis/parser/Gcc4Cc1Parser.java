@@ -1,9 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.util.Optional;
-import java.util.regex.Matcher;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
 
@@ -12,6 +8,10 @@ import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
+
+import java.io.Serial;
+import java.util.Optional;
+import java.util.regex.Matcher;
 
 /**
  * A parser for GCC cc1/cc1plus internal compiler warnings and errors.
@@ -40,9 +40,9 @@ public class Gcc4Cc1Parser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        String compilerName = matcher.group("compiler");
-        String severityLevel = matcher.group("severity");
-        String messageContent = matcher.group("message");
+        var compilerName = matcher.group("compiler");
+        var severityLevel = matcher.group("severity");
+        var messageContent = matcher.group("message");
 
         if (StringUtils.isBlank(compilerName) || StringUtils.isBlank(severityLevel)
                 || StringUtils.isBlank(messageContent)) {
@@ -55,8 +55,8 @@ public class Gcc4Cc1Parser extends LookaheadParser {
             completeMessage.append(lookahead.next());
         }
 
-        String message = completeMessage.toString();
-        String category = extractCategory(message);
+        var message = completeMessage.toString();
+        var category = extractCategory(message);
 
         return builder.setFileName("-")
                 .setLineStart(0)
@@ -82,7 +82,7 @@ public class Gcc4Cc1Parser extends LookaheadParser {
             return "GCC warning";
         }
 
-        String category = message.substring(start + 3, end);
+        var category = message.substring(start + 3, end);
         int equalsPos = category.indexOf('=');
         if (equalsPos != -1) {
             return category.substring(0, equalsPos);

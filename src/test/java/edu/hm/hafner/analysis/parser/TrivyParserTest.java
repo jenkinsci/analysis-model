@@ -110,7 +110,7 @@ class TrivyParserTest extends AbstractParserTest {
         var report = parse("trivy_conf.json");
 
         assertThat(report).hasSize(5);
-        
+
         // Kubernetes misconfigurations with line numbers
         assertThat(report.get(0))
                 .hasFileName("kubernetes/deployment.yaml")
@@ -120,7 +120,7 @@ class TrivyParserTest extends AbstractParserTest {
                 .hasMessage("Process can elevate its own privileges")
                 .hasLineStart(15)
                 .hasLineEnd(20);
-        
+
         assertThat(report.get(1))
                 .hasFileName("kubernetes/deployment.yaml")
                 .hasSeverity(Severity.WARNING_LOW)
@@ -129,7 +129,7 @@ class TrivyParserTest extends AbstractParserTest {
                 .hasMessage("Default capabilities not dropped")
                 .hasLineStart(16)
                 .hasLineEnd(20);
-        
+
         assertThat(report.get(2))
                 .hasFileName("kubernetes/deployment.yaml")
                 .hasSeverity(Severity.WARNING_NORMAL)
@@ -138,7 +138,7 @@ class TrivyParserTest extends AbstractParserTest {
                 .hasMessage("Runs as root user")
                 .hasLineStart(16)
                 .hasLineEnd(20);
-        
+
         // Terraform misconfigurations with line numbers
         assertThat(report.get(3))
                 .hasFileName("terraform/main.tf")
@@ -148,7 +148,7 @@ class TrivyParserTest extends AbstractParserTest {
                 .hasMessage("S3 Bucket has an ACL defined which allows public access.")
                 .hasLineStart(5)
                 .hasLineEnd(8);
-        
+
         assertThat(report.get(4))
                 .hasFileName("terraform/main.tf")
                 .hasSeverity(Severity.WARNING_HIGH)

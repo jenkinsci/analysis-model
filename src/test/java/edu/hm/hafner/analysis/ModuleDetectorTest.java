@@ -10,6 +10,7 @@ import edu.hm.hafner.util.ResourceTest;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -109,7 +110,7 @@ class ModuleDetectorTest extends ResourceTest {
     }
 
     private InputStream createEmptyStream() {
-        return IOUtils.toInputStream("", "UTF-8");
+        return IOUtils.toInputStream("", StandardCharsets.UTF_8);
     }
 
     private FileSystemFacade createFileSystemStub(final Stub stub) {

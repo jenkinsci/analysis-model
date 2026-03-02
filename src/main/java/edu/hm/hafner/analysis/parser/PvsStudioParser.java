@@ -1,15 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.stream.Stream;
-
 import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -24,6 +14,16 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.parser.PvsStudioParser.PlogMessagesReader.PlogMessage;
 import edu.hm.hafner.analysis.util.IntegerParser;
+
+import java.io.Serial;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Stream;
 
 /**
  * A parser for the PVS-Studio static analyzer.
@@ -184,7 +184,7 @@ public class PvsStudioParser extends IssueParser {
             private String message = StringUtils.EMPTY;
             private String level = StringUtils.EMPTY;
 
-            public String getHash() {
+            String getHash() {
                 return errorCode + message + file + lineNumber;
             }
 
@@ -197,15 +197,15 @@ public class PvsStudioParser extends IssueParser {
                 return file;
             }
 
-            public int getLine() {
+            int getLine() {
                 return lineNumber;
             }
 
-            public String getType() {
+            String getType() {
                 return errorCode;
             }
 
-            public String getLevel() {
+            String getLevel() {
                 return level;
             }
         }
