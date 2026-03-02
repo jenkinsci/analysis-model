@@ -1,7 +1,5 @@
 package edu.hm.hafner.analysis;
 
-import java.io.IOException;
-
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.util.LineRange;
@@ -9,6 +7,7 @@ import edu.hm.hafner.util.LineRangeList;
 import edu.hm.hafner.util.SerializableTest;
 import edu.hm.hafner.util.TreeString;
 
+import java.io.IOException;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
 
@@ -125,6 +124,7 @@ class DuplicationGroupTest extends SerializableTest<DuplicationGroup> {
      * @throws IOException
      *         if the file could not be written
      */
+    @SuppressWarnings("PMD.PublicMemberInNonPublicType")
     public static void main(final String... args) throws IOException {
         new DuplicationGroupTest().createSerializationFile();
     }
