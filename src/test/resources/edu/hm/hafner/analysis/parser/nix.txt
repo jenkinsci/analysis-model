@@ -1,0 +1,32 @@
+error: undefined variable 'stdnev'
+
+       at /home/user/project/flake.nix:18:23:
+           17|     packages.x86_64-linux.default = 
+           18|       pkgs.callPackage ./. { inherit stdnev; };
+             |                                       ^
+           19|   };
+
+error: syntax error, unexpected '}', expecting ';'
+
+       at /nix/store/hash-source/default.nix:25:1:
+           24|   };
+           25| }
+             | ^
+
+warning: Git tree '/path/to/project' is dirty
+
+error: attribute 'packages.x86_64-linux.default' missing
+
+       at /home/build/flake.nix:10:5:
+            9|   outputs = { self, nixpkgs }: {
+           10|     packages.x86_64-linux = {
+             |     ^
+           11|       default = self.packages.x86_64-linux.myapp;
+
+error: builder for '/nix/store/abc123-mypackage-1.0.0.drv' failed with exit code 2
+
+       at /nix/store/xyz789-source/package.nix:15:3:
+           14|   buildInputs = [
+           15|     pkgs.does-not-exist
+             |   ^
+           16|   ];
