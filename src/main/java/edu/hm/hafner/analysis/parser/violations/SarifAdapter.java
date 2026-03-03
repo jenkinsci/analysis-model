@@ -1,7 +1,5 @@
 package edu.hm.hafner.analysis.parser.violations;
 
-import edu.hm.hafner.analysis.IssueBuilder;
-
 import java.io.Serial;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -26,17 +24,19 @@ public class SarifAdapter extends AbstractViolationAdapter {
     }
 
     @Override
-    void extractAdditionalProperties(final IssueBuilder builder, final Violation violation) {
+    protected String getFileName(final Violation violation) {
+        var fileName = violation.getFile();
         try {
-            var uri = new URI(violation.getFile());
+            var uri = new URI(fileName);
             var path = uri.getPath();
             if (path != null) {
-                builder.setFileName(removePrefix(path));
+                return removePrefix(path);
             }
         }
         catch (URISyntaxException exception) {
             // ignore
         }
+        return fileName;
     }
 
     @Override
