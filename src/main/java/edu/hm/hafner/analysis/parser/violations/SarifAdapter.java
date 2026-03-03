@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis.parser.violations;
 
+import edu.hm.hafner.analysis.IssueBuilder;
+
 import java.io.Serial;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -41,7 +43,7 @@ public class SarifAdapter extends AbstractViolationAdapter {
 
     @Override
     boolean isValid(final Violation violation) {
-        return violation.getSpecifics().getOrDefault("suppressed", "false").equals("false");
+        return "false".equals(violation.getSpecifics().getOrDefault("suppressed", "false"));
     }
 
     private String removePrefix(final String fileName) {

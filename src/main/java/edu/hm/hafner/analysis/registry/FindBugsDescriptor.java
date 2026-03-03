@@ -18,7 +18,7 @@ class FindBugsDescriptor extends ParserDescriptor {
     private static final String NAME = "FindBugs";
 
     /** Key to define minimum number of duplicate lines for high priority warnings. */
-    public static final String PRIORITY_OPTION_KEY = "SPOT_BUGS_CONFIDENCE";
+    static final String PRIORITY_OPTION_KEY = "SPOT_BUGS_CONFIDENCE";
 
     private final Deferred<FindBugsMessages> messages = new Deferred<>(FindBugsMessages::new);
 

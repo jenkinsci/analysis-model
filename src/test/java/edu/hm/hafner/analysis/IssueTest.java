@@ -358,6 +358,7 @@ class IssueTest extends SerializableTest<Issue> {
          * @throws IOException
          *         if the file could not be written
          */
+        @SuppressWarnings("PMD.PublicMemberInNonPublicType")
         public static void main(final String... args) throws IOException {
             new IssueTest().createSerializationFile();
         }

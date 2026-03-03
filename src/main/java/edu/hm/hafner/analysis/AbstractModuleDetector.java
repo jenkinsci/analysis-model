@@ -1,11 +1,11 @@
 package edu.hm.hafner.analysis;
 
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.ModuleDetectorRunner.FileSystemFacade;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Abstract class for all Module Detectors.
@@ -43,7 +43,7 @@ abstract class AbstractModuleDetector {
         }
     }
 
-    public FileSystemFacade getFactory() {
+    FileSystemFacade getFactory() {
         return factory;
     }
 }

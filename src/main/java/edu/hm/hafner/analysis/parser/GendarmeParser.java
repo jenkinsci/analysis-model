@@ -13,8 +13,6 @@ import edu.hm.hafner.analysis.util.XmlElementUtil;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 import java.io.Serial;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -117,12 +115,7 @@ public class GendarmeParser extends IssueParser {
                     // ignore the type
                 }
             }
-            try {
-                rule.setUrl(new URL(ruleElement.getAttribute("Uri")));
-            }
-            catch (MalformedURLException ignored) {
-                rule.setUrl(null);
-            }
+            rule.setUri(ruleElement.getAttribute("Uri"));
 
             // add the rule to the cache
             rules.put(rule.getName(), rule);
@@ -140,7 +133,7 @@ public class GendarmeParser extends IssueParser {
         @CheckForNull
         private GendarmeRuleType type;
         @CheckForNull
-        private URL url;
+        private String uri;
 
         @CheckForNull
         public String getTypeName() {
@@ -170,12 +163,12 @@ public class GendarmeParser extends IssueParser {
         }
 
         @CheckForNull
-        public URL getUrl() {
-            return url;
+        public String getUri() {
+            return uri;
         }
 
-        public void setUrl(@CheckForNull final URL url) {
-            this.url = url;
+        public void setUri(@CheckForNull final String url) {
+            this.uri = url;
         }
     }
 

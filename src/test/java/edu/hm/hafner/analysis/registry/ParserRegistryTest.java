@@ -1,9 +1,5 @@
 package edu.hm.hafner.analysis.registry;
 
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
-
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.FileReaderFactory;
@@ -11,6 +7,10 @@ import edu.hm.hafner.analysis.Report.IssueType;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.registry.ParserDescriptor.Option;
 import edu.hm.hafner.util.ResourceTest;
+
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
@@ -27,9 +27,9 @@ class ParserRegistryTest extends ResourceTest {
     private static final long VULNERABILITY_PARSERS_COUNT = 8L;
     private static final long DUPLICATION_PARSERS_COUNT = 3L;
 
-    public static final String SPOTBUGS = "spotbugs";
-    public static final String CHECKSTYLE = "checkstyle";
-    public static final String PMD = "pmd";
+    private static final String SPOTBUGS = "spotbugs";
+    private static final String CHECKSTYLE = "checkstyle";
+    private static final String PMD = "pmd";
 
     @Test
     void shouldThrowExceptionIfParserNotFound() {
