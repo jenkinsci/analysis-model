@@ -1,7 +1,5 @@
 package edu.hm.hafner.analysis.parser.violations;
 
-import edu.hm.hafner.analysis.IssueBuilder;
-
 import java.io.Serial;
 import java.net.URI;
 import java.net.URISyntaxException;
