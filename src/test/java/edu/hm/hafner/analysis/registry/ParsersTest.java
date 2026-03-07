@@ -835,6 +835,12 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(5, "hadolint", "hadolint.json");
     }
 
+    /** Runs the Ruff parser on an output file that contains 6 issues. */
+    @Test
+    void shouldFindAllRuffIssues() {
+        findIssuesOfTool(6, "ruff", "ruff.json");
+    }
+
     /** Runs the DockerLint parser on an output file that contains 3 issues. */
     @Test
     void shouldFindAllDockerLintIssues() {

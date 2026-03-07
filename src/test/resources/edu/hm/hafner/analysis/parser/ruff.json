@@ -1,0 +1,122 @@
+[
+  {
+    "code": "F401",
+    "message": "`os` imported but unused",
+    "location": {
+      "row": 1,
+      "column": 8
+    },
+    "end_location": {
+      "row": 1,
+      "column": 10
+    },
+    "filename": "example.py",
+    "fix": {
+      "content": "",
+      "location": {
+        "row": 1,
+        "column": 1
+      },
+      "end_location": {
+        "row": 2,
+        "column": 1
+      }
+    },
+    "url": "https://docs.astral.sh/ruff/rules/unused-import"
+  },
+  {
+    "code": "E501",
+    "message": "Line too long (122 > 88 characters)",
+    "location": {
+      "row": 15,
+      "column": 89
+    },
+    "end_location": {
+      "row": 15,
+      "column": 123
+    },
+    "filename": "example.py",
+    "fix": null,
+    "url": "https://docs.astral.sh/ruff/rules/pycodestyle/E501"
+  },
+  {
+    "code": "D103",
+    "message": "Missing docstring in public function",
+    "location": {
+      "row": 10,
+      "column": 1
+    },
+    "end_location": {
+      "row": 10,
+      "column": 4
+    },
+    "filename": "src/module.py",
+    "fix": null,
+    "url": "https://docs.astral.sh/ruff/rules/pydocstyle/D103"
+  },
+  {
+    "code": "W291",
+    "message": "Trailing whitespace",
+    "location": {
+      "row": 25,
+      "column": 50
+    },
+    "end_location": {
+      "row": 25,
+      "column": 52
+    },
+    "filename": "test.py",
+    "fix": {
+      "content": "",
+      "location": {
+        "row": 25,
+        "column": 50
+      },
+      "end_location": {
+        "row": 25,
+        "column": 52
+      }
+    },
+    "url": "https://docs.astral.sh/ruff/rules/trailing-whitespace"
+  },
+  {
+    "code": "B008",
+    "message": "Do not perform function call `dict` in argument defaults; instead, use None",
+    "location": {
+      "row": 42,
+      "column": 20
+    },
+    "end_location": {
+      "row": 42,
+      "column": 26
+    },
+    "filename": "utils.py",
+    "fix": null,
+    "url": "https://docs.astral.sh/ruff/rules/flake8-bugbear/B008"
+  },
+  {
+    "code": "I001",
+    "message": "Import block is un-sorted or un-formatted",
+    "location": {
+      "row": 3,
+      "column": 1
+    },
+    "end_location": {
+      "row": 5,
+      "column": 1
+    },
+    "filename": "main.py",
+    "fix": {
+      "content": "import json\nimport os\nimport sys\n",
+      "location": {
+        "row": 3,
+        "column": 1
+      },
+      "end_location": {
+        "row": 5,
+        "column": 1
+      }
+    },
+    "url": "https://docs.astral.sh/ruff/rules/isort/I001"
+  }
+]
