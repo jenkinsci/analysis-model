@@ -10,6 +10,7 @@ import edu.hm.hafner.analysis.Severity;
 
 import java.io.Serial;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * A parser for Ruff JSON output.
@@ -20,6 +21,32 @@ import java.util.Locale;
 public class RuffParser extends JsonIssueParser {
     @Serial
     private static final long serialVersionUID = 1L;
+
+    private static final Map<Character, Severity> SEVERITY_MAP = Map.of(
+            'E', Severity.ERROR,           // Errors
+            'F', Severity.WARNING_HIGH,    // Pyflakes (likely bugs)
+            'B', Severity.WARNING_HIGH,    // flake8-bugbear (likely bugs)
+            'W', Severity.WARNING_NORMAL,  // Warnings
+            'C', Severity.WARNING_NORMAL,  // Complexity
+            'D', Severity.WARNING_LOW,     // Documentation
+            'I', Severity.WARNING_LOW,     // Import sorting
+            'N', Severity.WARNING_LOW      // Naming conventions
+    );
+
+    private static final Map<String, String> CATEGORY_MAP = Map.ofEntries(
+            Map.entry("E", "pycodestyle"),
+            Map.entry("W", "pycodestyle"),
+            Map.entry("F", "pyflakes"),
+            Map.entry("C", "mccabe"),
+            Map.entry("I", "isort"),
+            Map.entry("N", "pep8-naming"),
+            Map.entry("D", "pydocstyle"),
+            Map.entry("UP", "pyupgrade"),
+            Map.entry("B", "flake8-bugbear"),
+            Map.entry("A", "flake8-builtins"),
+            Map.entry("COM", "flake8-commas"),
+            Map.entry("S", "flake8-bandit")
+    );
 
     @Override
     protected void parseJsonArray(final Report report, final JSONArray jsonReport, final IssueBuilder issueBuilder) {
@@ -131,28 +158,7 @@ public class RuffParser extends JsonIssueParser {
         if (code.isEmpty()) {
             return Severity.WARNING_NORMAL;
         }
-        
-        // Ruff uses various rule codes:
-        // E/W - pycodestyle errors and warnings
-        // F - Pyflakes
-        // C - mccabe complexity
-        // I - isort
-        // N - pep8-naming
-        // D - pydocstyle
-        // etc.
-        
-        char prefix = code.charAt(0);
-        return switch (prefix) {
-            case 'E' -> Severity.ERROR;           // Errors
-            case 'F' -> Severity.WARNING_HIGH;    // Pyflakes (likely bugs)
-            case 'B' -> Severity.WARNING_HIGH;    // flake8-bugbear (likely bugs)
-            case 'W' -> Severity.WARNING_NORMAL;  // Warnings
-            case 'C' -> Severity.WARNING_NORMAL;  // Complexity
-            case 'D' -> Severity.WARNING_LOW;     // Documentation
-            case 'I' -> Severity.WARNING_LOW;     // Import sorting
-            case 'N' -> Severity.WARNING_LOW;     // Naming conventions
-            default -> Severity.WARNING_NORMAL;
-        };
+        return SEVERITY_MAP.getOrDefault(code.charAt(0), Severity.WARNING_NORMAL);
     }
 
     private String getCategoryFromCode(final String code) {
@@ -160,29 +166,19 @@ public class RuffParser extends JsonIssueParser {
             return "ruff";
         }
         
+        String prefix = extractPrefix(code);
+        if (prefix.isEmpty()) {
+            return "ruff";
+        }
+        
+        return CATEGORY_MAP.getOrDefault(prefix, "ruff-" + prefix.toLowerCase(Locale.ENGLISH));
+    }
+
+    private String extractPrefix(final String code) {
         int i = 0;
         while (i < code.length() && !Character.isDigit(code.charAt(i))) {
             i++;
         }
-        
-        if (i > 0) {
-            String prefix = code.substring(0, i);
-            return switch (prefix) {
-                case "E", "W" -> "pycodestyle";
-                case "F" -> "pyflakes";
-                case "C" -> "mccabe";
-                case "I" -> "isort";
-                case "N" -> "pep8-naming";
-                case "D" -> "pydocstyle";
-                case "UP" -> "pyupgrade";
-                case "B" -> "flake8-bugbear";
-                case "A" -> "flake8-builtins";
-                case "COM" -> "flake8-commas";
-                case "S" -> "flake8-bandit";
-                default -> "ruff-" + prefix.toLowerCase(Locale.ENGLISH);
-            };
-        }
-        
-        return "ruff";
+        return i > 0 ? code.substring(0, i) : "";
     }
 }
