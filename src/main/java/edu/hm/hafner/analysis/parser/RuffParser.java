@@ -31,14 +31,27 @@ public class RuffParser extends JsonIssueParser {
     }
 
     Issue convertToIssue(final JSONObject jsonIssue, final IssueBuilder issueBuilder) {
+        setCodeAndType(jsonIssue, issueBuilder);
+        setMessageWithFixable(jsonIssue, issueBuilder);
+        setLocation(jsonIssue, issueBuilder);
+        setEndLocation(jsonIssue, issueBuilder);
+        setFileName(jsonIssue, issueBuilder);
+        
+        String code = jsonIssue.optString("code", "");
+        issueBuilder.setSeverity(mapSeverity(code));
+        issueBuilder.setCategory(extractCategory(jsonIssue, code));
+        
+        return issueBuilder.buildAndClean();
+    }
+
+    private void setCodeAndType(final JSONObject jsonIssue, final IssueBuilder issueBuilder) {
         if (jsonIssue.has("code")) {
             issueBuilder.setType(jsonIssue.getString("code"));
         }
-        
-        String message = "";
-        if (jsonIssue.has("message")) {
-            message = jsonIssue.getString("message");
-        }
+    }
+
+    private void setMessageWithFixable(final JSONObject jsonIssue, final IssueBuilder issueBuilder) {
+        String message = jsonIssue.optString("message", "");
         
         if (jsonIssue.has("fix") && !jsonIssue.isNull("fix")) {
             JSONObject fix = jsonIssue.getJSONObject("fix");
@@ -48,51 +61,70 @@ public class RuffParser extends JsonIssueParser {
         }
         
         issueBuilder.setMessage(message);
-        
+    }
+
+    private void setLocation(final JSONObject jsonIssue, final IssueBuilder issueBuilder) {
         if (jsonIssue.has("location")) {
             JSONObject location = jsonIssue.getJSONObject("location");
             
             if (location.has("row")) {
                 issueBuilder.setLineStart(location.getInt("row"));
             }
-            
             if (location.has("column")) {
                 issueBuilder.setColumnStart(location.getInt("column"));
             }
         }
-        
+    }
+
+    private void setEndLocation(final JSONObject jsonIssue, final IssueBuilder issueBuilder) {
         if (jsonIssue.has("end_location")) {
             JSONObject endLocation = jsonIssue.getJSONObject("end_location");
             
             if (endLocation.has("row")) {
                 issueBuilder.setLineEnd(endLocation.getInt("row"));
             }
-            
             if (endLocation.has("column")) {
                 issueBuilder.setColumnEnd(endLocation.getInt("column"));
             }
         }
-        
+    }
+
+    private void setFileName(final JSONObject jsonIssue, final IssueBuilder issueBuilder) {
         if (jsonIssue.has("filename")) {
             issueBuilder.setFileName(jsonIssue.getString("filename"));
         }
-        
-        String code = jsonIssue.optString("code", "");
-        issueBuilder.setSeverity(mapSeverity(code));
-        
+    }
+
+    private String extractCategory(final JSONObject jsonIssue, final String code) {
         String category = getCategoryFromCode(code);
+        
         if (jsonIssue.has("url")) {
             String url = jsonIssue.getString("url");
-            if (url.contains("/rules/") && url.lastIndexOf("/") > url.lastIndexOf("/rules/") + 7) {
-                String urlCategory = url.substring(url.lastIndexOf("/rules/") + 7);
-                if (urlCategory.contains("/")) {
-                    category = urlCategory.substring(0, urlCategory.indexOf("/"));
-                }
+            String urlCategory = extractCategoryFromUrl(url);
+            if (!urlCategory.isEmpty()) {
+                category = urlCategory;
             }
         }
-        issueBuilder.setCategory(category);
         
-        return issueBuilder.buildAndClean();
+        return category;
+    }
+
+    private String extractCategoryFromUrl(final String url) {
+        if (!url.contains("/rules/")) {
+            return "";
+        }
+        
+        int rulesIndex = url.lastIndexOf("/rules/");
+        int lastSlashIndex = url.lastIndexOf('/');
+        
+        if (lastSlashIndex <= rulesIndex + 7) {
+            return "";
+        }
+        
+        String urlCategory = url.substring(rulesIndex + 7);
+        int slashIndex = urlCategory.indexOf('/');
+        
+        return slashIndex > 0 ? urlCategory.substring(0, slashIndex) : "";
     }
 
     private Severity mapSeverity(final String code) {
