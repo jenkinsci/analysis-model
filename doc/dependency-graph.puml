@@ -15,7 +15,7 @@ rectangle "commons-logging\n\n1.3.5" as commons_logging_commons_logging_jar
 rectangle "commons-beanutils\n\n1.11.0" as commons_beanutils_commons_beanutils_jar
 rectangle "commons-collections\n\n3.2.2" as commons_collections_commons_collections_jar
 rectangle "commons-text\n\n1.15.0" as org_apache_commons_commons_text_jar
-rectangle "violations-lib\n\n1.160.3" as se_bjurr_violations_violations_lib_jar
+rectangle "violations-lib\n\n1.160.4" as se_bjurr_violations_violations_lib_jar
 rectangle "j2html\n\n1.4.0" as com_j2html_j2html_jar
 rectangle "xercesImpl\n\n2.12.2" as xerces_xercesImpl_jar
 rectangle "xml-apis\n\n1.4.01" as xml_apis_xml_apis_jar
@@ -42,7 +42,7 @@ rectangle "pmd-java\n\n7.22.0" as net_sourceforge_pmd_pmd_java_jar
 rectangle "json\n\n20251224" as org_json_json_jar
 rectangle "json-smart\n\n2.6.0" as net_minidev_json_smart_jar
 rectangle "accessors-smart\n\n2.6.0" as net_minidev_accessors_smart_jar
-rectangle "codingstyle\n\n6.5.0" as edu_hm_hafner_codingstyle_jar
+rectangle "codingstyle\n\n6.6.0" as edu_hm_hafner_codingstyle_jar
 rectangle "spotbugs-annotations\n\n4.9.8" as com_github_spotbugs_spotbugs_annotations_jar
 rectangle "jsr305\n\n3.0.2" as com_google_code_findbugs_jsr305_jar
 rectangle "error_prone_annotations\n\n2.48.0" as com_google_errorprone_error_prone_annotations_jar
