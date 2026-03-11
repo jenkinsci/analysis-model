@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2026-03-05T18:29:41.053835768 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2026-03-11T09:47:26.542831287 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -1939,6 +1939,27 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
         <tr>
             <td colspan="4">
                 :bulb: Use commandline <code>rubocop --format progress</code>.
+            </td>
+        </tr>
+        <tr>
+            <td>
+                ruff
+            </td>
+            <td>
+                <img src="https://raw.githubusercontent.com/astral-sh/ruff/main/docs/assets/bolt.svg" alt="Ruff" height="64" width="64">
+            </td>
+            <td>
+                <a href="https://github.com/astral-sh/ruff">
+                    Ruff
+                </a>
+            </td>
+            <td>
+                -
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Use commandline <code>ruff check --output-format=json</code> to generate the JSON report.<br/>See <a href='https://docs.astral.sh/ruff/'>Ruff Documentation</a> for usage details.
             </td>
         </tr>
         <tr>
