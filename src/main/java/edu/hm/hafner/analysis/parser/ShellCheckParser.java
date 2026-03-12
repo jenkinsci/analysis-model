@@ -7,6 +7,7 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import java.io.Serial;
 import java.util.Locale;
@@ -50,19 +51,28 @@ public class ShellCheckParser extends JsonIssueParser {
                 .setMessage(message)
                 .setSeverity(mapSeverity(level));
 
-        if (jsonIssue.has("fix")) {
-            JSONObject fix = jsonIssue.getJSONObject("fix");
-            if (fix.has("replacements") && !fix.isNull("replacements")) {
-                JSONArray replacements = fix.getJSONArray("replacements");
-                if (replacements.length() > 0) {
-                    issueBuilder.setMessage(message + " [fixable]");
-                }
-            }
-        }
+        addFixableMessage(jsonIssue, issueBuilder, message);
 
         return issueBuilder.buildAndClean();
     }
 
+    private void addFixableMessage(final JSONObject jsonIssue, final IssueBuilder issueBuilder, final String message) {
+        if (!jsonIssue.has("fix")) {
+            return;
+        }
+        
+        JSONObject fix = jsonIssue.getJSONObject("fix");
+        if (!fix.has("replacements") || fix.isNull("replacements")) {
+            return;
+        }
+        
+        JSONArray replacements = fix.getJSONArray("replacements");
+        if (replacements.length() > 0) {
+            issueBuilder.setMessage(message + " [fixable]");
+        }
+    }
+
+    @SuppressFBWarnings(value = "IMPROPER_UNICODE", justification = "Locale.ENGLISH is explicitly used for case conversion")
     private Severity mapSeverity(final String level) {
         return switch (level.toLowerCase(Locale.ENGLISH)) {
             case "error" -> Severity.ERROR;
