@@ -1,0 +1,53 @@
+[
+  {
+    "fileName": "README.md",
+    "lineNumber": 1,
+    "ruleNames": [
+      "MD041",
+      "first-line-heading"
+    ],
+    "ruleDescription": "First line in file should be a top level heading",
+    "errorDetail": "",
+    "errorContext": "",
+    "errorRange": [
+      1,
+      1
+    ]
+  },
+  {
+    "fileName": "README.md",
+    "lineNumber": 7,
+    "ruleNames": [
+      "MD013",
+      "line-length"
+    ],
+    "ruleDescription": "Line length",
+    "errorDetail": "Expected: 80; Actual: 88",
+    "errorContext": "",
+    "errorRange": [
+      81,
+      9
+    ]
+  },
+  {
+    "fileName": "docs/usage.md",
+    "lineNumber": 5,
+    "ruleNames": [
+      "MD012",
+      "no-multiple-blanks"
+    ],
+    "ruleDescription": "Multiple consecutive blank lines",
+    "errorDetail": "",
+    "errorContext": "",
+    "errorRange": [
+      1,
+      2
+    ]
+  },
+  {
+    "fileName": "docs/usage.md",
+    "lineNumber": 12,
+    "ruleDescription": "Missing language for fenced code block",
+    "errorDetail": ""
+  }
+]
