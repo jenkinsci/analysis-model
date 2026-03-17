@@ -49,7 +49,7 @@ class ShellCheckParserTest extends AbstractParserTest {
                 .hasCategory("2046")
                 .hasMessage("Quote this to prevent word splitting.")
                 .hasFileName("script.sh")
-                .hasSeverity(Severity.WARNING_HIGH);
+                .hasSeverity(Severity.WARNING_NORMAL);
         
         // Test third issue - SC2155: warning level
         softly.assertThat(report.get(2))
@@ -61,7 +61,7 @@ class ShellCheckParserTest extends AbstractParserTest {
                 .hasCategory("2155")
                 .hasMessage("Declare and assign separately to avoid masking return values.")
                 .hasFileName("deploy.sh")
-                .hasSeverity(Severity.WARNING_HIGH);
+                .hasSeverity(Severity.WARNING_NORMAL);
         
         // Test fourth issue - SC2164: warning level (cd without error check)
         softly.assertThat(report.get(3))
@@ -73,7 +73,7 @@ class ShellCheckParserTest extends AbstractParserTest {
                 .hasCategory("2164")
                 .hasMessage("Use 'cd ... || exit' or 'cd ... || return' in case cd fails.")
                 .hasFileName("deploy.sh")
-                .hasSeverity(Severity.WARNING_HIGH);
+                .hasSeverity(Severity.WARNING_NORMAL);
         
         // Test fifth issue - SC2034: info level (unused variable)
         softly.assertThat(report.get(4))
@@ -85,7 +85,7 @@ class ShellCheckParserTest extends AbstractParserTest {
                 .hasCategory("2034")
                 .hasMessage("unused_var appears unused. Verify use (or export if used externally).")
                 .hasFileName("utils.sh")
-                .hasSeverity(Severity.WARNING_NORMAL);
+                .hasSeverity(Severity.WARNING_LOW);
         
         // Test sixth issue - SC2006: style level (deprecated backticks)
         softly.assertThat(report.get(5))
@@ -109,7 +109,7 @@ class ShellCheckParserTest extends AbstractParserTest {
                 .hasCategory("2230")
                 .hasMessage("which is non-standard. Use builtin 'command -v' instead.")
                 .hasFileName("check.sh")
-                .hasSeverity(Severity.WARNING_NORMAL);
+                .hasSeverity(Severity.WARNING_LOW);
         
         // Test eighth issue - SC1091: info level (source file not found)
         softly.assertThat(report.get(7))
@@ -121,7 +121,7 @@ class ShellCheckParserTest extends AbstractParserTest {
                 .hasCategory("1091")
                 .hasMessage("Not following: /etc/config: openBinaryFile: does not exist (No such file or directory)")
                 .hasFileName("init.sh")
-                .hasSeverity(Severity.WARNING_NORMAL);
+                .hasSeverity(Severity.WARNING_LOW);
     }
 
     @Test

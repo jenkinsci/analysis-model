@@ -6,10 +6,8 @@ import org.json.JSONObject;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Severity;
 
 import java.io.Serial;
-import java.util.Map;
 
 /**
  * A parser for ShellCheck JSON output.
@@ -20,12 +18,6 @@ import java.util.Map;
 public class ShellCheckParser extends JsonIssueParser {
     @Serial
     private static final long serialVersionUID = 1L;
-
-    private static final Map<String, Severity> SEVERITY_MAP = Map.of(
-            "error", Severity.ERROR,
-            "warning", Severity.WARNING_HIGH,
-            "info", Severity.WARNING_NORMAL,
-            "style", Severity.WARNING_LOW);
 
     @Override
     protected void parseJsonArray(final Report report, final JSONArray jsonReport, final IssueBuilder issueBuilder) {
@@ -53,8 +45,8 @@ public class ShellCheckParser extends JsonIssueParser {
                 .setColumnEnd(endColumn)
                 .setCategory(String.valueOf(code))
                 .setType("SC" + code)
-                .setMessage(message)
-                .setSeverity(SEVERITY_MAP.getOrDefault(level, Severity.WARNING_NORMAL));
+            .setMessage(message)
+            .guessSeverity(level);
 
         addFixableMessage(jsonIssue, issueBuilder, message);
 
