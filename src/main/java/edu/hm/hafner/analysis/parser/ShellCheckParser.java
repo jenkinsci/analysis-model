@@ -45,8 +45,8 @@ public class ShellCheckParser extends JsonIssueParser {
                 .setColumnEnd(endColumn)
                 .setCategory(String.valueOf(code))
                 .setType("SC" + code)
-            .setMessage(message)
-            .guessSeverity(level);
+                .setMessage(message)
+                .guessSeverity(level);
 
         addFixableMessage(jsonIssue, issueBuilder, message);
 
