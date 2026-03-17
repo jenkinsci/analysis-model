@@ -1,5 +1,10 @@
 package edu.hm.hafner.analysis.parser;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.junit.jupiter.api.Test;
+
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
@@ -117,6 +122,54 @@ class ShellCheckParserTest extends AbstractParserTest {
                 .hasMessage("Not following: /etc/config: openBinaryFile: does not exist (No such file or directory)")
                 .hasFileName("init.sh")
                 .hasSeverity(Severity.WARNING_NORMAL);
+    }
+
+    @Test
+    void shouldIgnoreFixWithMissingReplacementsKey() {
+        var parser = new ShellCheckParser();
+        var jsonIssue = new JSONObject()
+                .put("file", "test.sh")
+                .put("line", 1)
+                .put("column", 1)
+                .put("level", "warning")
+                .put("code", 2086)
+                .put("message", "Some warning")
+                .put("fix", new JSONObject());
+
+        var issue = parser.convertToIssue(jsonIssue, new IssueBuilder());
+        assertThat(issue).hasMessage("Some warning");
+    }
+
+    @Test
+    void shouldIgnoreFixWithNullReplacements() {
+        var parser = new ShellCheckParser();
+        var jsonIssue = new JSONObject()
+                .put("file", "test.sh")
+                .put("line", 1)
+                .put("column", 1)
+                .put("level", "warning")
+                .put("code", 2086)
+                .put("message", "Some warning")
+                .put("fix", new JSONObject().put("replacements", JSONObject.NULL));
+
+        var issue = parser.convertToIssue(jsonIssue, new IssueBuilder());
+        assertThat(issue).hasMessage("Some warning");
+    }
+
+    @Test
+    void shouldIgnoreFixWithEmptyReplacements() {
+        var parser = new ShellCheckParser();
+        var jsonIssue = new JSONObject()
+                .put("file", "test.sh")
+                .put("line", 1)
+                .put("column", 1)
+                .put("level", "warning")
+                .put("code", 2086)
+                .put("message", "Some warning")
+                .put("fix", new JSONObject().put("replacements", new JSONArray()));
+
+        var issue = parser.convertToIssue(jsonIssue, new IssueBuilder());
+        assertThat(issue).hasMessage("Some warning");
     }
 
     @Override

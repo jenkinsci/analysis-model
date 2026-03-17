@@ -7,10 +7,9 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import java.io.Serial;
-import java.util.Locale;
+import java.util.Map;
 
 /**
  * A parser for ShellCheck JSON output.
@@ -21,6 +20,12 @@ import java.util.Locale;
 public class ShellCheckParser extends JsonIssueParser {
     @Serial
     private static final long serialVersionUID = 1L;
+
+    private static final Map<String, Severity> SEVERITY_MAP = Map.of(
+            "error", Severity.ERROR,
+            "warning", Severity.WARNING_HIGH,
+            "info", Severity.WARNING_NORMAL,
+            "style", Severity.WARNING_LOW);
 
     @Override
     protected void parseJsonArray(final Report report, final JSONArray jsonReport, final IssueBuilder issueBuilder) {
@@ -49,7 +54,7 @@ public class ShellCheckParser extends JsonIssueParser {
                 .setCategory(String.valueOf(code))
                 .setType("SC" + code)
                 .setMessage(message)
-                .setSeverity(mapSeverity(level));
+                .setSeverity(SEVERITY_MAP.getOrDefault(level, Severity.WARNING_NORMAL));
 
         addFixableMessage(jsonIssue, issueBuilder, message);
 
@@ -70,16 +75,5 @@ public class ShellCheckParser extends JsonIssueParser {
         if (replacements.length() > 0) {
             issueBuilder.setMessage(message + " [fixable]");
         }
-    }
-
-    @SuppressFBWarnings(value = "IMPROPER_UNICODE", justification = "Locale.ENGLISH is explicitly used for case conversion")
-    private Severity mapSeverity(final String level) {
-        return switch (level.toLowerCase(Locale.ENGLISH)) {
-            case "error" -> Severity.ERROR;
-            case "warning" -> Severity.WARNING_HIGH;
-            case "info" -> Severity.WARNING_NORMAL;
-            case "style" -> Severity.WARNING_LOW;
-            default -> Severity.WARNING_NORMAL;
-        };
     }
 }
