@@ -155,6 +155,7 @@ public class ParserRegistry {
             new SarifDescriptor(),
             new ScalaDescriptor(),
             new SemgrepDescriptor(),
+            new ShellCheckDescriptor(),
             new SimianDescriptor(),
             new SimulinkCheckDescriptor(),
             new SonarQubeDescriptor(),
