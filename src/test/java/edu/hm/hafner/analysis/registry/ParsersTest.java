@@ -92,6 +92,12 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(1, "semgrep", "violations/semgrep-report.json");
     }
 
+    /** Runs the ShellCheck parser on an output file that contains 8 issues. */
+    @Test
+    void shouldFindAllShellCheckIssues() {
+        findIssuesOfTool(8, "shellcheck", "shellcheck.json");
+    }
+
     /** Runs the Dart analysis parser on an output file that contains 6 issues. */
     @Test
     void shouldFindAllDartIssues() {

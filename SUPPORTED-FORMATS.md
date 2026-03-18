@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2026-03-17T18:39:30.726756621 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2026-03-17T23:30:06.734343012 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -2025,6 +2025,27 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
         <tr>
             <td colspan="4">
                 :bulb: Use <code>--json</code>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                shellcheck
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                <a href="https://github.com/koalaman/shellcheck">
+                    ShellCheck
+                </a>
+            </td>
+            <td>
+                **/shellcheck.json
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Use commandline <code>shellcheck -f json script.sh</code> to generate the JSON report.<br/>See <a href='https://github.com/koalaman/shellcheck'>ShellCheck Documentation</a> for usage details.
             </td>
         </tr>
         <tr>
