@@ -1,16 +1,14 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-
 import java.io.Serial;
 import java.util.Locale;
 import java.util.Map;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * A parser for Ruff JSON output.
@@ -20,7 +18,7 @@ import java.util.Map;
  */
 public class RuffParser extends JsonIssueParser {
     @Serial
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 7219981561481086494L;
 
     private static final Map<Character, Severity> SEVERITY_MAP = Map.of(
             'E', Severity.ERROR,           // Errors
@@ -63,11 +61,11 @@ public class RuffParser extends JsonIssueParser {
         setLocation(jsonIssue, issueBuilder);
         setEndLocation(jsonIssue, issueBuilder);
         setFileName(jsonIssue, issueBuilder);
-        
+
         String code = jsonIssue.optString("code", "");
         issueBuilder.setSeverity(mapSeverity(code));
         issueBuilder.setCategory(extractCategory(jsonIssue, code));
-        
+
         return issueBuilder.buildAndClean();
     }
 
@@ -79,21 +77,21 @@ public class RuffParser extends JsonIssueParser {
 
     private void setMessageWithFixable(final JSONObject jsonIssue, final IssueBuilder issueBuilder) {
         String message = jsonIssue.optString("message", "");
-        
+
         if (jsonIssue.has("fix") && !jsonIssue.isNull("fix")) {
             JSONObject fix = jsonIssue.getJSONObject("fix");
             if (!fix.isEmpty()) {
                 message = message + " [fixable]";
             }
         }
-        
+
         issueBuilder.setMessage(message);
     }
 
     private void setLocation(final JSONObject jsonIssue, final IssueBuilder issueBuilder) {
         if (jsonIssue.has("location")) {
             JSONObject location = jsonIssue.getJSONObject("location");
-            
+
             if (location.has("row")) {
                 issueBuilder.setLineStart(location.getInt("row"));
             }
@@ -106,7 +104,7 @@ public class RuffParser extends JsonIssueParser {
     private void setEndLocation(final JSONObject jsonIssue, final IssueBuilder issueBuilder) {
         if (jsonIssue.has("end_location")) {
             JSONObject endLocation = jsonIssue.getJSONObject("end_location");
-            
+
             if (endLocation.has("row")) {
                 issueBuilder.setLineEnd(endLocation.getInt("row"));
             }
@@ -124,7 +122,7 @@ public class RuffParser extends JsonIssueParser {
 
     private String extractCategory(final JSONObject jsonIssue, final String code) {
         String category = getCategoryFromCode(code);
-        
+
         if (jsonIssue.has("url")) {
             String url = jsonIssue.getString("url");
             String urlCategory = extractCategoryFromUrl(url);
@@ -132,7 +130,7 @@ public class RuffParser extends JsonIssueParser {
                 category = urlCategory;
             }
         }
-        
+
         return category;
     }
 
@@ -140,17 +138,17 @@ public class RuffParser extends JsonIssueParser {
         if (!url.contains("/rules/")) {
             return "";
         }
-        
+
         int rulesIndex = url.lastIndexOf("/rules/");
         int lastSlashIndex = url.lastIndexOf('/');
-        
+
         if (lastSlashIndex <= rulesIndex + 7) {
             return "";
         }
-        
+
         String urlCategory = url.substring(rulesIndex + 7);
         int slashIndex = urlCategory.indexOf('/');
-        
+
         return slashIndex > 0 ? urlCategory.substring(0, slashIndex) : "";
     }
 
@@ -165,12 +163,12 @@ public class RuffParser extends JsonIssueParser {
         if (code.isEmpty()) {
             return "ruff";
         }
-        
+
         String prefix = extractPrefix(code);
         if (prefix.isEmpty()) {
             return "ruff";
         }
-        
+
         return CATEGORY_MAP.getOrDefault(prefix, "ruff-" + prefix.toLowerCase(Locale.ENGLISH));
     }
 

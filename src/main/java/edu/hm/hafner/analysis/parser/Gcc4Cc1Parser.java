@@ -1,17 +1,15 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.text.StringEscapeUtils;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
-
 import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
 
 /**
  * A parser for GCC cc1/cc1plus internal compiler warnings and errors.
@@ -23,7 +21,7 @@ import java.util.regex.Matcher;
  */
 public class Gcc4Cc1Parser extends LookaheadParser {
     @Serial
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2777151484839664688L;
 
     private static final String GCC_CC1_WARNING_PATTERN = "^(?:In .+?:\\s*)?"
             + "(?<compiler>cc1(?:plus)?):\\s*"

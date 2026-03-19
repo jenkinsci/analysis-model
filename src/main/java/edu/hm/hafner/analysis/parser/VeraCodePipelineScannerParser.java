@@ -20,11 +20,12 @@ import static j2html.TagCreator.*;
  * @author Juri Duval
  */
 public class VeraCodePipelineScannerParser extends JsonIssueParser {
+    @Serial
+    private static final long serialVersionUID = 1735309035894412065L;
+
     private static final String VALUE_NOT_SET = "-";
     private static final int VERACODE_LOW_THRESHOLD = 2;
     private static final int VERACODE_HIGH_THRESHOLD = 4;
-    @Serial
-    private static final long serialVersionUID = 1L;
 
     @Override
     protected void parseJsonObject(final Report report, final JSONObject jsonReport, final IssueBuilder issueBuilder) {
@@ -67,9 +68,8 @@ public class VeraCodePipelineScannerParser extends JsonIssueParser {
 
     /**
      * Prepends .java files with src/main/java so that they can be correctly linked to source code files in Jenkins UI.
-     * Otherwise, files are returned as is.
-     * The solution does not cater for all scenarios but should be sufficient for most common use case (Java/Kotlin project
-     * with Maven folder structure).
+     * Otherwise, files are returned as is. The solution does not cater for all scenarios but should be sufficient for
+     * most common use case (Java/Kotlin project with Maven folder structure).
      *
      * @param rawFileName
      *         file name reported by Veracode
@@ -96,9 +96,8 @@ public class VeraCodePipelineScannerParser extends JsonIssueParser {
     }
 
     /**
-     * Retrieve source file values in a null safe manner.
-     * Veracode has nested JSON objects representing a source file (files -> source_file -> values) for which we need
-     * to do null checking.
+     * Retrieve source file values in a null safe manner. Veracode has nested JSON objects representing a source file
+     * (files -> source_file -> values) for which we need to do null checking.
      *
      * @param finding
      *         contains top level vulnerability information
@@ -125,9 +124,9 @@ public class VeraCodePipelineScannerParser extends JsonIssueParser {
     }
 
     /**
-     * Map veracode severity to analysis-model severity.
-     * See <a href="https://docs.veracode.com/r/review_severity_exploitability">Veracode severity table</a> for details
-     * on scoring.
+     * Map veracode severity to analysis-model severity. See <a
+     * href="https://docs.veracode.com/r/review_severity_exploitability">Veracode severity table</a> for details on
+     * scoring.
      *
      * @param severity
      *         as an integer from 0 to 5 (inclusive).
@@ -155,6 +154,7 @@ public class VeraCodePipelineScannerParser extends JsonIssueParser {
                 div(b("CWE Id: "), text(cweId)),
                 div(b("Flaw Details: "), text(flawLink)),
                 div(b("Severity: "), text(severity)),
-                p(rawHtml(displayHtml))).render();
+                p(rawHtml(displayHtml)))
+                .render();
     }
 }

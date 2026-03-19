@@ -1,12 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
-
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-
 import edu.hm.hafner.analysis.Categories;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
@@ -14,9 +7,13 @@ import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.util.XmlElementUtil;
-
 import java.io.Serial;
 import java.util.Optional;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 /**
  * Parser for Eclipse Compiler output in XML format.
@@ -24,6 +21,9 @@ import java.util.Optional;
  * @author Jason Faust
  */
 public class EclipseXmlParser extends IssueParser {
+    @Serial
+    private static final long serialVersionUID = -3373277051259487600L;
+
     static final String PREVIEW_RELATED = "Preview Related";
     static final String COMPLIANCE = "Compliance";
     static final String MODULE = "Module";
@@ -41,9 +41,6 @@ public class EclipseXmlParser extends IssueParser {
     static final String SYNTAX = "Syntax";
     static final String BUILDPATH = "Buildpath";
     static final String UNSPECIFIED = "Unspecified";
-
-    @Serial
-    private static final long serialVersionUID = 1L;
 
     @Override
     public boolean accepts(final ReaderFactory readerFactory) {
