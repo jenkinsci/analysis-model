@@ -847,6 +847,12 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(6, "ruff", "ruff.json");
     }
 
+    /** Runs the MarkdownLint parser on an output file that contains 4 issues. */
+    @Test
+    void shouldFindAllMarkdownLintIssues() {
+        findIssuesOfTool(4, "markdownlint", "markdownlint.json");
+    }
+
     /** Runs the DockerLint parser on an output file that contains 3 issues. */
     @Test
     void shouldFindAllDockerLintIssues() {
