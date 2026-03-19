@@ -31,42 +31,34 @@ class MarkdownLintParserTest extends AbstractParserTest {
         softly.assertThat(report.get(0))
                 .hasFileName("README.md")
                 .hasLineStart(1)
-                .hasLineEnd(1)
                 .hasColumnStart(1)
                 .hasColumnEnd(1)
                 .hasType("MD041")
-                .hasCategory("markdownlint")
                 .hasMessage("First line in file should be a top level heading")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(report.get(1))
                 .hasFileName("README.md")
                 .hasLineStart(7)
-                .hasLineEnd(7)
                 .hasColumnStart(81)
                 .hasColumnEnd(89)
                 .hasType("MD013")
-                .hasCategory("markdownlint")
                 .hasMessage("Line length: Expected: 80; Actual: 88")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(report.get(2))
                 .hasFileName("docs/usage.md")
                 .hasLineStart(5)
-                .hasLineEnd(5)
                 .hasColumnStart(1)
                 .hasColumnEnd(2)
                 .hasType("MD012")
-                .hasCategory("markdownlint")
                 .hasMessage("Multiple consecutive blank lines")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(report.get(3))
                 .hasFileName("docs/usage.md")
                 .hasLineStart(12)
-                .hasLineEnd(12)
-                .hasType("markdownlint")
-                .hasCategory("markdownlint")
+                .hasType("-")
                 .hasMessage("Missing language for fenced code block")
                 .hasSeverity(Severity.WARNING_NORMAL);
     }

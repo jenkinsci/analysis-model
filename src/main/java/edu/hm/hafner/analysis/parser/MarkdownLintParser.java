@@ -18,20 +18,19 @@ import java.io.Serial;
  */
 public class MarkdownLintParser extends JsonIssueParser {
     @Serial
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2335221513744535623L;
 
     @Override
     protected void parseJsonArray(final Report report, final JSONArray jsonReport, final IssueBuilder issueBuilder) {
         for (Object issue : jsonReport) {
             if (issue instanceof JSONObject object) {
+                issueBuilder.setSeverity(Severity.WARNING_NORMAL);
                 report.add(convertToIssue(object, issueBuilder));
             }
         }
     }
 
-    Issue convertToIssue(final JSONObject jsonIssue, final IssueBuilder issueBuilder) {
-        issueBuilder.setSeverity(Severity.WARNING_NORMAL);
-        issueBuilder.setCategory("markdownlint");
+    private Issue convertToIssue(final JSONObject jsonIssue, final IssueBuilder issueBuilder) {
         issueBuilder.setType(getRuleId(jsonIssue));
         issueBuilder.setMessage(getMessage(jsonIssue));
 
@@ -42,7 +41,6 @@ public class MarkdownLintParser extends JsonIssueParser {
         int line = jsonIssue.optInt("lineNumber", 0);
         if (line > 0) {
             issueBuilder.setLineStart(line);
-            issueBuilder.setLineEnd(line);
         }
 
         var range = jsonIssue.optJSONArray("errorRange");
@@ -60,9 +58,9 @@ public class MarkdownLintParser extends JsonIssueParser {
     private String getRuleId(final JSONObject jsonIssue) {
         var ruleNames = jsonIssue.optJSONArray("ruleNames");
         if (ruleNames != null && !ruleNames.isEmpty()) {
-            return ruleNames.optString(0, "markdownlint");
+            return ruleNames.optString(0, "-");
         }
-        return "markdownlint";
+        return "-";
     }
 
     private String getMessage(final JSONObject jsonIssue) {
