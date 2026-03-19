@@ -17,7 +17,7 @@ import java.util.regex.Matcher;
  */
 public class LlvmLinkerParser extends LookaheadParser {
     @Serial
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 4182770703576758825L;
 
     // Capture optional path + program (handles /foo/bar/ld.lld, C:\foo\ld.lld-15.exe, etc.)
     // Named groups: linker, severity, message
