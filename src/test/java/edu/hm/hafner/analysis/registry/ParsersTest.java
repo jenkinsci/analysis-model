@@ -895,6 +895,12 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(8, "oelint-adv", "oelint-adv.txt");
     }
 
+    /** Runs the Snyk parser on an output file that contains 3 issues. */
+    @Test
+    void shouldFindAllSnykIssues() {
+        findIssuesOfTool(3, "snyk", "snyk-report.json");
+    }
+
     private Report findIssuesOfTool(final int expectedSizeOfIssues, final String tool, final String... fileNames) {
         var registry = new ParserRegistry();
         var descriptor = registry.get(tool);

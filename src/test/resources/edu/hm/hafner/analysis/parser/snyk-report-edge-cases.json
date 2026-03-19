@@ -1,0 +1,66 @@
+{
+  "vulnerabilities": [
+    {
+      "id": "SNYK-PYTHON-PYYAML-590824",
+      "title": "Code Injection",
+      "description": "",
+      "severity": "critical",
+      "packageName": "PyYAML",
+      "packageVersion": "5.3.1",
+      "from": [
+        "app@1.0.0",
+        "PyYAML@5.3.1"
+      ],
+      "upgradePath": [
+        "app@1.0.0",
+        "PyYAML@5.4"
+      ],
+      "isUpgradable": true,
+      "filePath": "requirements.txt",
+      "identifiers": {
+        "CVE": [
+          "CVE-2020-14343"
+        ],
+        "CWE": [
+          "CWE-94"
+        ]
+      },
+      "references": [
+        {
+          "url": "https://snyk.io/vuln/SNYK-PYTHON-PYYAML-590824"
+        }
+      ],
+      "exploitMaturity": "proven",
+      "isPatched": false,
+      "language": "python",
+      "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    },
+    {
+      "id": "SNYK-JAVA-ORGAPACHESTRUTSJARS-STRUTSSHUTDOWN-2328360",
+      "title": "Arbitrary Code Execution",
+      "description": "This is a vulnerability in Apache Struts that allows arbitrary code execution through OGNL injection.",
+      "severity": "critical",
+      "packageName": "org.apache.struts:struts-core",
+      "packageVersion": "2.3.20",
+      "from": [
+        "app@1.0.0",
+        "org.apache.struts:struts-core@2.3.20"
+      ],
+      "upgradePath": [
+        "app@1.0.0",
+        "org.apache.struts:struts-core@2.3.36"
+      ],
+      "isUpgradable": true,
+      "filePath": "pom.xml",
+      "identifiers": {
+        "CVE": [
+          "CVE-2015-4807"
+        ]
+      },
+      "references": [],
+      "exploitMaturity": "proven",
+      "isPatched": false,
+      "language": "java"
+    }
+  ]
+}
