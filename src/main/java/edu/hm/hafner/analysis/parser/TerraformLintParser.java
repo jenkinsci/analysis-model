@@ -31,41 +31,63 @@ public class TerraformLintParser extends JsonIssueParser {
     }
 
     private Issue convertToIssue(final JSONObject jsonIssue, final IssueBuilder issueBuilder) {
-        var rule = jsonIssue.optJSONObject("rule");
-        if (rule != null) {
-            issueBuilder.setType(rule.optString("name", "-"));
-            issueBuilder.setSeverity(Severity.guessFromString(rule.optString("severity", "warning")));
-        }
-        else {
-            issueBuilder.setType("-");
-            issueBuilder.setSeverity(Severity.WARNING_NORMAL);
-        }
+        applyRule(jsonIssue.optJSONObject("rule"), issueBuilder);
 
         issueBuilder.setMessage(jsonIssue.optString("message", ""));
 
-        var range = jsonIssue.optJSONObject("range");
-        if (range != null) {
-            issueBuilder.setFileName(range.optString("filename", ""));
-
-            var start = range.optJSONObject("start");
-            if (start != null) {
-                int line = start.optInt("line", 0);
-                if (line > 0) {
-                    issueBuilder.setLineStart(line);
-                }
-                issueBuilder.setColumnStart(start.optInt("column", 0));
-            }
-
-            var end = range.optJSONObject("end");
-            if (end != null) {
-                int line = end.optInt("line", 0);
-                if (line > 0) {
-                    issueBuilder.setLineEnd(line);
-                }
-                issueBuilder.setColumnEnd(end.optInt("column", 0));
-            }
-        }
+        applyRange(jsonIssue.optJSONObject("range"), issueBuilder);
 
         return issueBuilder.buildAndClean();
+    }
+
+    private void applyRule(final JSONObject rule, final IssueBuilder issueBuilder) {
+        if (rule == null) {
+            issueBuilder.setType("-");
+            issueBuilder.setSeverity(Severity.WARNING_NORMAL);
+            return;
+        }
+
+        issueBuilder.setType(rule.optString("name", "-"));
+        issueBuilder.setSeverity(Severity.guessFromString(rule.optString("severity", "warning")));
+    }
+
+    private void applyRange(final JSONObject range, final IssueBuilder issueBuilder) {
+        if (range == null) {
+            return;
+        }
+
+        issueBuilder.setFileName(range.optString("filename", ""));
+        applyStart(range.optJSONObject("start"), issueBuilder);
+        applyEnd(range.optJSONObject("end"), issueBuilder);
+    }
+
+    private void applyStart(final JSONObject start, final IssueBuilder issueBuilder) {
+        if (start == null) {
+            return;
+        }
+
+        setLineStart(start.optInt("line", 0), issueBuilder);
+        issueBuilder.setColumnStart(start.optInt("column", 0));
+    }
+
+    private void applyEnd(final JSONObject end, final IssueBuilder issueBuilder) {
+        if (end == null) {
+            return;
+        }
+
+        setLineEnd(end.optInt("line", 0), issueBuilder);
+        issueBuilder.setColumnEnd(end.optInt("column", 0));
+    }
+
+    private void setLineStart(final int line, final IssueBuilder issueBuilder) {
+        if (line > 0) {
+            issueBuilder.setLineStart(line);
+        }
+    }
+
+    private void setLineEnd(final int line, final IssueBuilder issueBuilder) {
+        if (line > 0) {
+            issueBuilder.setLineEnd(line);
+        }
     }
 }

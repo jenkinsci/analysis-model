@@ -11,6 +11,7 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
+import edu.hm.hafner.analysis.registry.ParserRegistry;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
@@ -90,4 +91,77 @@ class TerraformLintParserTest extends AbstractParserTest {
 
         assertThat(report).isEmpty();
     }
+
+        @Test
+        void shouldHandleMissingRuleAndRange() {
+                var report = parseStringContent("""
+                                {
+                                    "issues": [
+                                        {
+                                            "message": "fallback branches"
+                                        }
+                                    ]
+                                }
+                                """);
+
+                assertThat(report).hasSize(1);
+                assertThat(report.get(0))
+                                .hasType("-")
+                                .hasSeverity(Severity.WARNING_NORMAL)
+                                .hasMessage("fallback branches")
+                                .hasFileName("-")
+                                .hasLineStart(0)
+                                .hasLineEnd(0)
+                                .hasColumnStart(0)
+                                .hasColumnEnd(0);
+        }
+
+        @Test
+        void shouldHandleZeroLineNumbersInRange() {
+                var report = parseStringContent("""
+                                {
+                                    "issues": [
+                                        {
+                                            "rule": {
+                                                "name": "terraform_custom_rule",
+                                                "severity": "warning"
+                                            },
+                                            "message": "line number defaults",
+                                            "range": {
+                                                "filename": "main.tf",
+                                                "start": {
+                                                    "line": 0,
+                                                    "column": 7
+                                                },
+                                                "end": {
+                                                    "line": 0,
+                                                    "column": 9
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                                """);
+
+                assertThat(report).hasSize(1);
+                assertThat(report.get(0))
+                                .hasType("terraform_custom_rule")
+                                .hasSeverity(Severity.WARNING_NORMAL)
+                                .hasFileName("main.tf")
+                                .hasLineStart(0)
+                                .hasLineEnd(0)
+                                .hasColumnStart(7)
+                                .hasColumnEnd(9);
+        }
+
+        @Test
+        void shouldProvideDescriptorMetadata() {
+                var descriptor = new ParserRegistry().get("tflint");
+
+                assertThat(descriptor.getPattern()).isEqualTo("**/tflint-report.json");
+                assertThat(descriptor.getHelp()).contains("tflint --format json");
+                assertThat(descriptor.getUrl()).isEqualTo("https://github.com/terraform-linters/tflint");
+                assertThat(descriptor.hasHelp()).isTrue();
+                assertThat(descriptor.hasUrl()).isTrue();
+        }
 }
