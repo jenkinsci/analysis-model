@@ -4,6 +4,7 @@ import java.io.Serial;
 
 import org.json.JSONObject;
 
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
@@ -30,47 +31,47 @@ public class TerraformLintParser extends JsonIssueParser {
         }
     }
 
-    private Issue convertToIssue(final JSONObject jsonIssue, final IssueBuilder issueBuilder) {
+    private Issue convertToIssue(@CheckForNull final JSONObject jsonIssue, final IssueBuilder issueBuilder) {
         applyRule(jsonIssue.optJSONObject("rule"), issueBuilder);
 
-        issueBuilder.setMessage(jsonIssue.optString("message", ""));
+        issueBuilder.setMessage(jsonIssue.optString("message"));
 
         applyRange(jsonIssue.optJSONObject("range"), issueBuilder);
 
         return issueBuilder.buildAndClean();
     }
 
-    private void applyRule(final JSONObject rule, final IssueBuilder issueBuilder) {
+    private void applyRule(@CheckForNull final JSONObject rule, final IssueBuilder issueBuilder) {
         if (rule == null) {
             issueBuilder.setType("-");
             issueBuilder.setSeverity(Severity.WARNING_NORMAL);
             return;
         }
 
-        issueBuilder.setType(rule.optString("name", "-"));
+        issueBuilder.setType(rule.optString("name"));
         issueBuilder.setSeverity(Severity.guessFromString(rule.optString("severity", "warning")));
     }
 
-    private void applyRange(final JSONObject range, final IssueBuilder issueBuilder) {
+    private void applyRange(@CheckForNull final JSONObject range, final IssueBuilder issueBuilder) {
         if (range == null) {
             return;
         }
 
-        issueBuilder.setFileName(range.optString("filename", ""));
+        issueBuilder.setFileName(range.optString("filename"));
         applyStart(range.optJSONObject("start"), issueBuilder);
         applyEnd(range.optJSONObject("end"), issueBuilder);
     }
 
-    private void applyStart(final JSONObject start, final IssueBuilder issueBuilder) {
+    private void applyStart(@CheckForNull final JSONObject start, final IssueBuilder issueBuilder) {
         if (start == null) {
             return;
         }
 
-        setLineStart(start.optInt("line", 0), issueBuilder);
+        setLineStart(start.optInt("line"), issueBuilder);
         issueBuilder.setColumnStart(start.optInt("column", 0));
     }
 
-    private void applyEnd(final JSONObject end, final IssueBuilder issueBuilder) {
+    private void applyEnd(@CheckForNull final JSONObject end, final IssueBuilder issueBuilder) {
         if (end == null) {
             return;
         }
