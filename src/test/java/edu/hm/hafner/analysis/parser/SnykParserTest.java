@@ -11,7 +11,7 @@ import edu.hm.hafner.analysis.registry.AbstractParserTest;
 import static j2html.TagCreator.*;
 
 /**
- * Tests for Snyk parser {@link SnykParser}.
+ * Tests the class {@link SnykParser}.
  *
  * @author Akash Manna
  */
