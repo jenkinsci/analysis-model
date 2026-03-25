@@ -125,7 +125,10 @@ public class SnykParser extends JsonIssueParser {
         var trimmedCve = cve.trim();
         if (!trimmedCve.isEmpty() && trimmedCve.matches("CVE-\\d{4}-\\d+")) {
             html.append("<a href=\"https://nvd.nist.gov/vuln/detail/")
-                    .append(trimmedCve).append("\">").append(trimmedCve).append("</a>");
+                .append(trimmedCve)
+                .append("\">")
+                .append(trimmedCve)
+                .append("</a>");
         } 
         else {
             html.append(escapeHtml(trimmedCve));
