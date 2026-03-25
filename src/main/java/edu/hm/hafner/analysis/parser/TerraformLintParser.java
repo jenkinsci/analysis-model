@@ -32,6 +32,10 @@ public class TerraformLintParser extends JsonIssueParser {
     }
 
     private Issue convertToIssue(@CheckForNull final JSONObject jsonIssue, final IssueBuilder issueBuilder) {
+        if (jsonIssue == null) {
+            return issueBuilder.buildAndClean();
+        }
+
         applyRule(jsonIssue.optJSONObject("rule"), issueBuilder);
 
         issueBuilder.setMessage(jsonIssue.optString("message"));
