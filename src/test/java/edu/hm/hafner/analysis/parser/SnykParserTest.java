@@ -8,8 +8,6 @@ import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
 
-import static j2html.TagCreator.*;
-
 /**
  * Tests the class {@link SnykParser}.
  *

@@ -93,17 +93,15 @@ public class SnykParser extends JsonIssueParser {
 
     private void appendMessageSection(final StringBuilder html, final String message) {
         if (!message.isEmpty()) {
-            html.append("<p><strong>")
-                .append(escapeHtml(message))
-                .append("</strong></p>");
+            var escapedMessage = escapeHtml(message);
+            html.append("<p><strong>").append(escapedMessage).append("</strong></p>");
         }
     }
 
     private void appendDescriptionSection(final StringBuilder html, final String description) {
         if (!description.isEmpty()) {
-            html.append("<p>")
-                .append(escapeHtml(description))
-                .append("</p>");
+            var escapedDescription = escapeHtml(description);
+            html.append("<p>").append(escapedDescription).append("</p>");
         }
     }
 
@@ -162,9 +160,8 @@ public class SnykParser extends JsonIssueParser {
             return;
         }
         var cvss = vulnerability.getString(CVSS_V3_TAG);
-        html.append("<p><strong>CVSS:</strong> ")
-            .append(escapeHtml(cvss))
-            .append("</p>");
+        var escapedCvss = escapeHtml(cvss);
+        html.append("<p><strong>CVSS:</strong> ").append(escapedCvss).append("</p>");
     }
 
     private void appendUpgradeSection(final StringBuilder html, final JSONObject vulnerability) {
