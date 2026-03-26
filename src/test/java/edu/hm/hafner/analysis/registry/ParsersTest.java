@@ -877,6 +877,12 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(32, "brakeman", "brakeman.json");
     }
 
+    /** Runs the Terraform Lint parser on an output file that contains 4 issues. */
+    @Test
+    void shouldFindAllTerraformLintIssues() {
+        findIssuesOfTool(4, "tflint", "tflint.json");
+    }
+
     /** Runs the trivy parser on an output file that contains 4 issues. */
     @Test
     void shouldFindAllTrivyIssues() {

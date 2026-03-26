@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2026-03-24T17:26:04.308748009 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2026-03-26T13:10:15.950126472 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -2251,6 +2251,27 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
         <tr>
             <td colspan="4">
                 :bulb: Use option --format checkstyle.
+            </td>
+        </tr>
+        <tr>
+            <td>
+                tflint
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                <a href="https://github.com/terraform-linters/tflint">
+                    Terraform Lint
+                </a>
+            </td>
+            <td>
+                **/tflint-report.json
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Use commandline <code>tflint --format json</code> to generate JSON output.<br/>See <a href='https://github.com/terraform-linters/tflint'>tflint on GitHub</a> for usage details.
             </td>
         </tr>
         <tr>

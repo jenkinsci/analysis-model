@@ -169,6 +169,7 @@ public class ParserRegistry {
             new SwiftLintDescriptor(),
             new TaglistDescriptor(),
             new TaskingVxCompilerDescriptor(),
+            new TerraformLintDescriptor(),
             new TiCcsDescriptor(),
             new TnsdlDescriptor(),
             new TrivyDescriptor(),
