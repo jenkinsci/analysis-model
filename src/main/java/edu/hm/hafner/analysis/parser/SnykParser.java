@@ -94,14 +94,16 @@ public class SnykParser extends JsonIssueParser {
     private void appendMessageSection(final StringBuilder html, final String message) {
         if (!message.isEmpty()) {
             var escapedMessage = escapeHtml(message);
-            html.append("<p><strong>").append(escapedMessage).append("</strong></p>");
+            var messageHtml = "<p><strong>" + escapedMessage + "</strong></p>";
+            html.append(messageHtml);
         }
     }
 
     private void appendDescriptionSection(final StringBuilder html, final String description) {
         if (!description.isEmpty()) {
             var escapedDescription = escapeHtml(description);
-            html.append("<p>").append(escapedDescription).append("</p>");
+            var descriptionHtml = "<p>" + escapedDescription + "</p>";
+            html.append(descriptionHtml);
         }
     }
 
@@ -126,11 +128,8 @@ public class SnykParser extends JsonIssueParser {
     private void appendCveLink(final StringBuilder html, final String cve) {
         var trimmedCve = cve.trim();
         if (!trimmedCve.isEmpty() && trimmedCve.matches("CVE-\\d{4}-\\d+")) {
-            html.append("<a href=\"https://nvd.nist.gov/vuln/detail/")
-                .append(trimmedCve)
-                .append("\">")
-                .append(trimmedCve)
-                .append("</a>");
+            var cveLink = "<a href=\"https://nvd.nist.gov/vuln/detail/" + trimmedCve + "\">" + trimmedCve + "</a>";
+            html.append(cveLink);
         } 
         else {
             html.append(escapeHtml(trimmedCve));
@@ -161,7 +160,8 @@ public class SnykParser extends JsonIssueParser {
         }
         var cvss = vulnerability.getString(CVSS_V3_TAG);
         var escapedCvss = escapeHtml(cvss);
-        html.append("<p><strong>CVSS:</strong> ").append(escapedCvss).append("</p>");
+        var cvssHtml = "<p><strong>CVSS:</strong> " + escapedCvss + "</p>";
+        html.append(cvssHtml);
     }
 
     private void appendUpgradeSection(final StringBuilder html, final JSONObject vulnerability) {
