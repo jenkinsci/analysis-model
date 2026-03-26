@@ -2,12 +2,12 @@ package edu.hm.hafner.analysis.parser;
 
 import java.io.Serial;
 
+import org.apache.commons.text.StringEscapeUtils;
 import org.json.JSONObject;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Severity;
 
 /**
  * Parser for Snyk security vulnerability reports in JSON format.
@@ -39,9 +39,9 @@ public class SnykParser extends JsonIssueParser {
     @Override
     protected void parseJsonObject(final Report report, final JSONObject jsonReport, final IssueBuilder issueBuilder) {
         if (jsonReport.has(VULNERABILITIES_TAG)) {
-            final var vulnerabilities = jsonReport.getJSONArray(VULNERABILITIES_TAG);
+            var vulnerabilities = jsonReport.getJSONArray(VULNERABILITIES_TAG);
             for (int i = 0; i < vulnerabilities.length(); i++) {
-                final var vulnerability = vulnerabilities.getJSONObject(i);
+                var vulnerability = vulnerabilities.getJSONObject(i);
                 var issue = createIssue(issueBuilder, vulnerability);
                 report.add(issue);
             }
@@ -50,20 +50,16 @@ public class SnykParser extends JsonIssueParser {
 
     private Issue createIssue(final IssueBuilder issueBuilder, final JSONObject vulnerability) {
         var packageName = formatPackageName(vulnerability);
-        var fileName = getFileName(vulnerability, packageName);
         var message = vulnerability.optString(TITLE_TAG, "");
         var description = vulnerability.optString(DESCRIPTION_TAG, "");
-        var severity = Severity.guessFromString(vulnerability.optString(SEVERITY_TAG, "medium"));
-        var id = vulnerability.optString(ID_TAG, "-");
-
         var descriptionHtml = buildDescription(message, description, vulnerability);
 
         return issueBuilder
-                .setFileName(fileName)
+                .setFileName(getFileName(vulnerability, packageName))
                 .setPackageName(packageName)
                 .setCategory(vulnerability.optString(LANGUAGE_TAG, "Unknown"))
-                .setSeverity(severity)
-                .setType(id)
+                .guessSeverity(vulnerability.optString(SEVERITY_TAG, "medium"))
+                .setType(vulnerability.optString(ID_TAG, "-"))
                 .setMessage(message)
                 .setDescription(descriptionHtml)
                 .build();
@@ -93,7 +89,7 @@ public class SnykParser extends JsonIssueParser {
 
     private void appendMessageSection(final StringBuilder html, final String message) {
         if (!message.isEmpty()) {
-            var escapedMessage = escapeHtml(message);
+            var escapedMessage = StringEscapeUtils.escapeHtml4(message);
             var messageHtml = "<p><strong>" + escapedMessage + "</strong></p>";
             html.append(messageHtml);
         }
@@ -101,7 +97,7 @@ public class SnykParser extends JsonIssueParser {
 
     private void appendDescriptionSection(final StringBuilder html, final String description) {
         if (!description.isEmpty()) {
-            var escapedDescription = escapeHtml(description);
+            var escapedDescription = StringEscapeUtils.escapeHtml4(description);
             var descriptionHtml = "<p>" + escapedDescription + "</p>";
             html.append(descriptionHtml);
         }
@@ -132,7 +128,7 @@ public class SnykParser extends JsonIssueParser {
             html.append(cveLink);
         } 
         else {
-            html.append(escapeHtml(trimmedCve));
+            html.append(StringEscapeUtils.escapeHtml4(trimmedCve));
         }
     }
 
@@ -159,7 +155,7 @@ public class SnykParser extends JsonIssueParser {
             return;
         }
         var cvss = vulnerability.getString(CVSS_V3_TAG);
-        var escapedCvss = escapeHtml(cvss);
+        var escapedCvss = StringEscapeUtils.escapeHtml4(cvss);
         var cvssHtml = "<p><strong>CVSS:</strong> " + escapedCvss + "</p>";
         html.append(cvssHtml);
     }
@@ -177,7 +173,7 @@ public class SnykParser extends JsonIssueParser {
             if (i > 0) {
                 html.append(" → ");
             }
-            html.append(escapeHtml(upgradePath.getString(i)));
+            html.append(StringEscapeUtils.escapeHtml4(upgradePath.getString(i)));
         }
         html.append("</p>");
     }
@@ -185,19 +181,5 @@ public class SnykParser extends JsonIssueParser {
     private boolean hasIdentifierArray(final JSONObject vulnerability, final String tag) {
         return vulnerability.has(IDENTIFIERS_TAG)
                 && vulnerability.getJSONObject(IDENTIFIERS_TAG).has(tag);
-    }
-
-    /**
-     * Escapes HTML special characters in a string.
-     *
-     * @param text the text to escape
-     * @return the escaped text
-     */
-    private String escapeHtml(final String text) {
-        return text.replace("&", "&amp;")
-                .replace("<", "&lt;")
-                .replace(">", "&gt;")
-                .replace("\"", "&quot;")
-                .replace("'", "&#39;");
     }
 }

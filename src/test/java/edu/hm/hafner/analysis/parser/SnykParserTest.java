@@ -136,6 +136,45 @@ class SnykParserTest extends AbstractParserTest {
         }
     }
 
+    @Test
+    void testHtmlStructureOfDescription() {
+        var report = parse("snyk-report.json");
+
+        try (var softly = new SoftAssertions()) {
+            var description = report.get(0).getDescription();
+            
+            softly.assertThat(description)
+                    .as("Description should contain message section")
+                    .contains("<p><strong>")
+                    .contains("</strong></p>")
+                    .as("Description should contain paragraph tags")
+                    .contains("<p>")
+                    .contains("</p>")
+                    .as("Description should contain CVE section")
+                    .contains("CVE ID(s):")
+                    .as("Description should contain valid hyperlink to NVD")
+                    .contains("https://nvd.nist.gov/vuln/detail/")
+                    .as("Description should have anchor tag")
+                    .contains("<a href=")
+                    .contains("</a>")
+                    .as("Description should contain CWE section")
+                    .contains("CWE ID(s):")
+                    .as("Description should contain CVSS section")
+                    .contains("CVSS:");
+            
+            softly.assertThat(description)
+                    .as("Should not contain double-escaped HTML entities")
+                    .doesNotContain("&amp;amp;")
+                    .doesNotContain("&lt;strong&gt;");
+            
+            int openingPTags = description.split("<p>", -1).length - 1;
+            int closingPTags = description.split("</p>", -1).length - 1;
+            softly.assertThat(openingPTags)
+                    .as("Opening <p> tags count should match closing tags")
+                    .isEqualTo(closingPTags);
+        }
+    }
+
     @Override
     protected IssueParser createParser() {
         return new SnykParser();
