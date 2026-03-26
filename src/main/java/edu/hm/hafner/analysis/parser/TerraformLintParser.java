@@ -1,14 +1,14 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-
 import org.json.JSONObject;
 
-import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+
+import java.io.Serial;
 
 /**
  * A parser for Terraform Lint (tflint) JSON output.
@@ -47,13 +47,12 @@ public class TerraformLintParser extends JsonIssueParser {
 
     private void applyRule(@CheckForNull final JSONObject rule, final IssueBuilder issueBuilder) {
         if (rule == null) {
-            issueBuilder.setType("-");
-            issueBuilder.setSeverity(Severity.WARNING_NORMAL);
+            issueBuilder.setType("-").setSeverity(Severity.WARNING_NORMAL);
             return;
         }
 
-        issueBuilder.setType(rule.optString("name"));
-        issueBuilder.setSeverity(Severity.guessFromString(rule.optString("severity", "warning")));
+        issueBuilder.setType(rule.optString("name"))
+                .guessSeverity(rule.optString("severity", "warning"));
     }
 
     private void applyRange(@CheckForNull final JSONObject range, final IssueBuilder issueBuilder) {
@@ -71,8 +70,7 @@ public class TerraformLintParser extends JsonIssueParser {
             return;
         }
 
-        setLineStart(start.optInt("line"), issueBuilder);
-        issueBuilder.setColumnStart(start.optInt("column", 0));
+        issueBuilder.setLineStart(start.optInt("line")).setColumnStart(start.optInt("column"));
     }
 
     private void applyEnd(@CheckForNull final JSONObject end, final IssueBuilder issueBuilder) {
@@ -80,19 +78,6 @@ public class TerraformLintParser extends JsonIssueParser {
             return;
         }
 
-        setLineEnd(end.optInt("line", 0), issueBuilder);
-        issueBuilder.setColumnEnd(end.optInt("column", 0));
-    }
-
-    private void setLineStart(final int line, final IssueBuilder issueBuilder) {
-        if (line > 0) {
-            issueBuilder.setLineStart(line);
-        }
-    }
-
-    private void setLineEnd(final int line, final IssueBuilder issueBuilder) {
-        if (line > 0) {
-            issueBuilder.setLineEnd(line);
-        }
+        issueBuilder.setLineEnd(end.optInt("line")).setColumnEnd(end.optInt("column"));
     }
 }
