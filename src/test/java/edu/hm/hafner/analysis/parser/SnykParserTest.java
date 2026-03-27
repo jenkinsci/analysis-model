@@ -2,11 +2,14 @@ package edu.hm.hafner.analysis.parser;
 
 import org.junit.jupiter.api.Test;
 
+import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
+
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
  * Tests the class {@link SnykParser}.
@@ -61,118 +64,81 @@ class SnykParserTest extends AbstractParserTest {
     }
 
     @Test
-    void testParsingEdgeCases() {
+    void shouldParseEdgeCases() {
         var report = parse("snyk-report-edge-cases.json");
 
-        try (var softly = new SoftAssertions()) {
-            softly.assertThat(report).hasSize(2).hasDuplicatesSize(0);
+        assertThat(report).hasSize(2).hasDuplicatesSize(0);
 
-            softly.assertThat(report.get(0))
-                    .hasFileName("requirements.txt")
-                    .hasPackageName("PyYAML@5.3.1")
-                    .hasSeverity(Severity.ERROR)
-                    .hasCategory("python")
-                    .hasType("SNYK-PYTHON-PYYAML-590824")
-                    .hasMessage("Code Injection");
+        assertThat(report.get(0))
+                .hasFileName("requirements.txt")
+                .hasPackageName("PyYAML@5.3.1")
+                .hasSeverity(Severity.ERROR)
+                .hasCategory("python")
+                .hasType("SNYK-PYTHON-PYYAML-590824")
+                .hasMessage("Code Injection");
 
-            softly.assertThat(report.get(0).getDescription())
-                    .contains("Code Injection")
-                    .contains("CVE-2020-14343")
-                    .contains("CWE-94")
-                    .contains("Suggested Fix")
-                    .contains("PyYAML@5.4");
+        assertThat(report.get(0).getDescription())
+                .contains("Code Injection")
+                .contains("CVE-2020-14343")
+                .contains("CWE-94")
+                .contains("Suggested Fix")
+                .contains("PyYAML@5.4");
 
-            softly.assertThat(report.get(1))
-                    .hasFileName("pom.xml")
-                    .hasPackageName("org.apache.struts:struts-core@2.3.20")
-                    .hasSeverity(Severity.ERROR)
-                    .hasCategory("java")
-                    .hasType("SNYK-JAVA-ORGAPACHESTRUTSJARS-STRUTSSHUTDOWN-2328360")
-                    .hasMessage("Arbitrary Code Execution");
+        assertThat(report.get(1))
+                .hasFileName("pom.xml")
+                .hasPackageName("org.apache.struts:struts-core@2.3.20")
+                .hasSeverity(Severity.ERROR)
+                .hasCategory("java")
+                .hasType("SNYK-JAVA-ORGAPACHESTRUTSJARS-STRUTSSHUTDOWN-2328360")
+                .hasMessage("Arbitrary Code Execution");
 
-            softly.assertThat(report.get(1).getDescription())
-                    .contains("Arbitrary Code Execution")
-                    .contains("CVE-2015-4807")
-                    .contains("OGNL injection");
-        }
+        assertThat(report.get(1).getDescription())
+                .contains("Arbitrary Code Execution")
+                .contains("CVE-2015-4807")
+                .contains("OGNL injection");
     }
 
     @Test
     void testMessageAndDescriptionParsing() {
         var report = parse("snyk-report.json");
 
-        try (var softly = new SoftAssertions()) {
-            var issue0 = report.get(0);
-            softly.assertThat(issue0.getMessage())
-                    .isEqualTo("Prototype Pollution");
+        var first = report.get(0);
+        assertThat(first.getMessage())
+                .isEqualTo("Prototype Pollution");
 
-            var desc0 = issue0.getDescription();
-            softly.assertThat(desc0)
-                    .contains("All versions of lodash")
-                    .contains("CVE-2021-23337")
-                    .contains("CVSS:3.1");
-        }
+        assertThat(first.getDescription())
+                .contains("All versions of lodash")
+                .contains("CVE-2021-23337")
+                .contains("CVSS:3.1");
     }
 
     @Test
-    void testPackageNameFormatting() {
+    void shouldContainProperties() {
         var report = parse("snyk-report.json");
 
-        try (var softly = new SoftAssertions()) {
-            softly.assertThat(report.get(0).getPackageName()).isEqualTo("lodash@4.17.15");
-            softly.assertThat(report.get(1).getPackageName()).isEqualTo("yargs-parser@13.1.1");
-            softly.assertThat(report.get(2).getPackageName()).isEqualTo("minimist@1.2.0");
-        }
-    }
-
-    @Test
-    void testSeverityMapping() {
-        var report = parse("snyk-report.json");
-
-        try (var softly = new SoftAssertions()) {
-            softly.assertThat(report.get(0).getSeverity()).isEqualTo(Severity.ERROR);
-            softly.assertThat(report.get(1).getSeverity()).isEqualTo(Severity.WARNING_HIGH);
-            softly.assertThat(report.get(2).getSeverity()).isEqualTo(Severity.WARNING_NORMAL);
-        }
+        assertThat(report.stream()).map(Issue::getPackageName).containsExactly(
+                "lodash@4.17.15", "yargs-parser@13.1.1", "minimist@1.2.0");
+        assertThat(report.stream()).map(Issue::getSeverity).containsExactly(
+                Severity.ERROR, Severity.WARNING_HIGH, Severity.WARNING_NORMAL);
     }
 
     @Test
     void testHtmlStructureOfDescription() {
         var report = parse("snyk-report.json");
+        var description = report.get(0).getDescription();
 
-        try (var softly = new SoftAssertions()) {
-            var description = report.get(0).getDescription();
-            
-            softly.assertThat(description)
-                    .as("Description should contain message section")
-                    .contains("<p><strong>")
-                    .contains("</strong></p>")
-                    .as("Description should contain paragraph tags")
-                    .contains("<p>")
-                    .contains("</p>")
-                    .as("Description should contain CVE section")
-                    .contains("CVE ID(s):")
-                    .as("Description should contain valid hyperlink to NVD")
-                    .contains("https://nvd.nist.gov/vuln/detail/")
-                    .as("Description should have anchor tag")
-                    .contains("<a href=")
-                    .contains("</a>")
-                    .as("Description should contain CWE section")
-                    .contains("CWE ID(s):")
-                    .as("Description should contain CVSS section")
-                    .contains("CVSS:");
-            
-            softly.assertThat(description)
-                    .as("Should not contain double-escaped HTML entities")
-                    .doesNotContain("&amp;amp;")
-                    .doesNotContain("&lt;strong&gt;");
-            
-            int openingPTags = description.split("<p>", -1).length - 1;
-            int closingPTags = description.split("</p>", -1).length - 1;
-            softly.assertThat(openingPTags)
-                    .as("Opening <p> tags count should match closing tags")
-                    .isEqualTo(closingPTags);
-        }
+        assertThat(description)
+                .as("Description should contain message section")
+                .isEqualToIgnoringWhitespace("""
+                        <p><strong>Prototype Pollution</strong></p>
+                        <p>All versions of lodash versions before 4.17.21 are vulnerable to Prototype pollution via the toObject converter. This
+                            allows attackers to inject arbitrary properties on Object.prototype which may lead to Denial of Service or Remote
+                            Code Execution in specific circumstances.</p>
+                        <p><strong>CVE ID(s):</strong> <a href="https://nvd.nist.gov/vuln/detail/CVE-2021-23337">CVE-2021-23337</a></p>
+                        <p><strong>CWE ID(s):</strong> CWE-1321</p>
+                        <p><strong>CVSS:</strong> CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H</p>
+                        <p><strong>Suggested Fix:</strong> app@1.0.0 → lodash@4.17.21</p>
+                        """);
     }
 
     @Override
