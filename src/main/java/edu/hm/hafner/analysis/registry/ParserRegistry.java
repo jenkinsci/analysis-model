@@ -115,6 +115,7 @@ public class ParserRegistry {
             new KlocWorkDescriptor(),
             new KotlinDescriptor(),
             new KtLintDescriptor(),
+            new KubeLinterDescriptor(),
             new MarkdownLintDescriptor(),
             new MavenConsoleDescriptor(),
             new MentorGraphicsDescriptor(),
