@@ -1,0 +1,67 @@
+{
+  "Reports": [
+    {
+      "Diagnostic": {
+        "Message": "container \"sec-ctx-demo\" does not have a read-only root file system"
+      },
+      "Check": "no-read-only-root-fs",
+      "Remediation": "Set readOnlyRootFilesystem to true in your container's securityContext.",
+      "Object": {
+        "Metadata": {
+          "FilePath": "k8s/pod.yaml"
+        },
+        "K8sObject": {
+          "Namespace": "",
+          "Name": "security-context-demo",
+          "GroupVersionKind": {
+            "Group": "",
+            "Version": "v1",
+            "Kind": "Pod"
+          }
+        }
+      }
+    },
+    {
+      "Diagnostic": {
+        "Message": "container \"sec-ctx-demo\" has memory limit 0"
+      },
+      "Check": "unset-memory-requirements",
+      "Remediation": "Set your container's memory requests and limits depending on its requirements.",
+      "Object": {
+        "Metadata": {
+          "FilePath": "k8s/pod.yaml"
+        },
+        "K8sObject": {
+          "Namespace": "",
+          "Name": "security-context-demo",
+          "GroupVersionKind": {
+            "Group": "",
+            "Version": "v1",
+            "Kind": "Pod"
+          }
+        }
+      }
+    },
+    {
+      "Diagnostic": {
+        "Message": "container \"api\" is not set to runAsNonRoot"
+      },
+      "Check": "run-as-non-root",
+      "Remediation": "Set runAsNonRoot to true in your container securityContext.",
+      "Object": {
+        "Metadata": {
+          "FilePath": "helm/templates/deployment.yaml"
+        },
+        "K8sObject": {
+          "Namespace": "production",
+          "Name": "api",
+          "GroupVersionKind": {
+            "Group": "apps",
+            "Version": "v1",
+            "Kind": "Deployment"
+          }
+        }
+      }
+    }
+  ]
+}
