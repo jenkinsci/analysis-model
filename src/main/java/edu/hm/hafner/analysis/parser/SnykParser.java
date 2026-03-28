@@ -104,7 +104,7 @@ public class SnykParser extends JsonIssueParser {
         }
         appendUpgradeSection(vulnerability).ifPresent(tags::add);
 
-        return join(tags.toArray()).render();
+        return join(tags.toArray(new DomContent[0])).render();
     }
 
     private Optional<ContainerTag> appendSection(final JSONObject vulnerability, final String tag) {
@@ -131,8 +131,8 @@ public class SnykParser extends JsonIssueParser {
     private List<DomContent> arrayAsElements(final JSONArray cves, final Function<String, DomContent> converter) {
         var content = new ArrayList<DomContent>();
         cves.forEach(cve -> {
-            if (cve instanceof String) {
-                content.add(converter.apply((String) cve));
+            if (cve instanceof String string) {
+                content.add(converter.apply(string));
             }
         });
         return content;
