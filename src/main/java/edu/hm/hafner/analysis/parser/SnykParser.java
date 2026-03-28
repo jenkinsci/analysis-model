@@ -1,13 +1,23 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-
-import org.apache.commons.text.StringEscapeUtils;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
+
+import j2html.tags.ContainerTag;
+import j2html.tags.DomContent;
+import j2html.tags.Text;
+import j2html.tags.UnescapedText;
+import java.io.Serial;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.function.Function;
+
+import static j2html.TagCreator.*;
 
 /**
  * Parser for Snyk security vulnerability reports in JSON format.
@@ -35,6 +45,9 @@ public class SnykParser extends JsonIssueParser {
     private static final String IS_UPGRADABLE_TAG = "isUpgradable";
     private static final String CVSS_V3_TAG = "CVSSv3";
     private static final String LANGUAGE_TAG = "language";
+    private static final UnescapedText NBSP = new UnescapedText("&nbsp;");
+    private static final Text COMMA = text(", ");
+    private static final Text ARROW = text(" → ");
 
     @Override
     protected void parseJsonObject(final Report report, final JSONObject jsonReport, final IssueBuilder issueBuilder) {
@@ -49,11 +62,11 @@ public class SnykParser extends JsonIssueParser {
     }
 
     private Issue createIssue(final IssueBuilder issueBuilder, final JSONObject vulnerability) {
-        var packageName = formatPackageName(vulnerability);
         var message = vulnerability.optString(TITLE_TAG, "");
         var description = vulnerability.optString(DESCRIPTION_TAG, "");
         var descriptionHtml = buildDescription(message, description, vulnerability);
 
+        var packageName = formatPackageName(vulnerability);
         return issueBuilder
                 .setFileName(getFileName(vulnerability, packageName))
                 .setPackageName(packageName)
@@ -77,109 +90,102 @@ public class SnykParser extends JsonIssueParser {
     }
 
     private String buildDescription(final String message, final String description, final JSONObject vulnerability) {
-        var html = new StringBuilder();
-        appendMessageSection(html, message);
-        appendDescriptionSection(html, description);
-        appendCveSection(html, vulnerability);
-        appendCweSection(html, vulnerability);
-        appendCvssSection(html, vulnerability);
-        appendUpgradeSection(html, vulnerability);
-        return html.toString();
-    }
-
-    private void appendMessageSection(final StringBuilder html, final String message) {
+        var tags = new ArrayList<DomContent>();
         if (!message.isEmpty()) {
-            var escapedMessage = StringEscapeUtils.escapeHtml4(message);
-            var messageHtml = "<p><strong>" + escapedMessage + "</strong></p>";
-            html.append(messageHtml);
+            tags.add(p(strong(message)));
         }
-    }
-
-    private void appendDescriptionSection(final StringBuilder html, final String description) {
         if (!description.isEmpty()) {
-            var escapedDescription = StringEscapeUtils.escapeHtml4(description);
-            var descriptionHtml = "<p>" + escapedDescription + "</p>";
-            html.append(descriptionHtml);
+            tags.add(p(description));
         }
+        appendSection(vulnerability, CVE_TAG).ifPresent(tags::add);
+        appendSection(vulnerability, CWE_TAG).ifPresent(tags::add);
+        if (vulnerability.has(CVSS_V3_TAG)) {
+            tags.add(p(strong("CVSS:"), NBSP, new Text(vulnerability.getString(CVSS_V3_TAG))));
+        }
+        appendUpgradeSection(vulnerability).ifPresent(tags::add);
+
+        return join(tags.toArray()).render();
     }
 
-    private void appendCveSection(final StringBuilder html, final JSONObject vulnerability) {
-        if (!hasIdentifierArray(vulnerability, CVE_TAG)) {
-            return;
+    private Optional<ContainerTag> appendSection(final JSONObject vulnerability, final String tag) {
+        if (hasNoTag(vulnerability, tag)) {
+            return Optional.empty();
         }
-        var cves = vulnerability.getJSONObject(IDENTIFIERS_TAG).getJSONArray(CVE_TAG);
-        if (cves.length() == 0) {
-            return;
+        JSONArray cves = getTag(vulnerability, tag);
+        if (cves.isEmpty()) {
+            return Optional.empty();
         }
-        html.append("<p><strong>CVE ID(s):</strong> ");
-        for (int i = 0; i < cves.length(); i++) {
-            if (i > 0) {
-                html.append(", ");
+        var doms = arrayAsElements(cves, this::appendCveLink);
+        return Optional.of(p(strong(tag + " ID(s):"), NBSP, joinWithSeparator(doms, COMMA)));
+    }
+
+    private JSONArray getTag(final JSONObject vulnerability, final String tag) {
+        return vulnerability.getJSONObject(IDENTIFIERS_TAG).getJSONArray(tag);
+    }
+
+    private boolean hasNoTag(final JSONObject vulnerability, final String tag) {
+        return !vulnerability.has(IDENTIFIERS_TAG)
+                || !vulnerability.getJSONObject(IDENTIFIERS_TAG).has(tag);
+    }
+
+    private List<DomContent> arrayAsElements(final JSONArray cves, final Function<String, DomContent> converter) {
+        var content = new ArrayList<DomContent>();
+        cves.forEach(cve -> {
+            if (cve instanceof String) {
+                content.add(converter.apply((String) cve));
             }
-            appendCveLink(html, cves.getString(i));
-        }
-        html.append("</p>");
+        });
+        return content;
     }
 
-    private void appendCveLink(final StringBuilder html, final String cve) {
+    private DomContent appendCwe(final String value) {
+        return new Text(value.trim());
+    }
+
+    private DomContent appendCveLink(final String cve) {
         var trimmedCve = cve.trim();
-        if (!trimmedCve.isEmpty() && trimmedCve.matches("CVE-\\d{4}-\\d+")) {
-            var cveLink = "<a href=\"https://nvd.nist.gov/vuln/detail/" + trimmedCve + "\">" + trimmedCve + "</a>";
-            html.append(cveLink);
-        } 
+        if (trimmedCve.matches("CVE-\\d{4}-\\d+")) {
+            return a().withHref("https://nvd.nist.gov/vuln/detail/" + trimmedCve).withText(trimmedCve);
+        }
         else {
-            html.append(StringEscapeUtils.escapeHtml4(trimmedCve));
+            return text(trimmedCve);
         }
     }
 
-    private void appendCweSection(final StringBuilder html, final JSONObject vulnerability) {
-        if (!hasIdentifierArray(vulnerability, CWE_TAG)) {
-            return;
-        }
-        var cwes = vulnerability.getJSONObject(IDENTIFIERS_TAG).getJSONArray(CWE_TAG);
-        if (cwes.length() == 0) {
-            return;
-        }
-        html.append("<p><strong>CWE ID(s):</strong> ");
-        for (int i = 0; i < cwes.length(); i++) {
-            if (i > 0) {
-                html.append(", ");
+    /**
+     * Joins the specified {@link DomContent} elements with the given separator. The separator is inserted only between
+     * elements (never as trailing content).
+     *
+     * @param contents
+     *         the contents to join
+     * @param separator
+     *         the separator to insert between contents
+     *
+     * @return the joined {@link DomContent}
+     */
+    private DomContent joinWithSeparator(final List<DomContent> contents, final Text separator) {
+        var joined = new ArrayList<DomContent>();
+        var it = contents.iterator();
+        while (it.hasNext()) {
+            joined.add(it.next());
+            if (it.hasNext()) {
+                joined.add(separator);
             }
-            html.append(cwes.getString(i));
         }
-        html.append("</p>");
+        return join(joined.toArray());
     }
 
-    private void appendCvssSection(final StringBuilder html, final JSONObject vulnerability) {
-        if (!vulnerability.has(CVSS_V3_TAG)) {
-            return;
-        }
-        var cvss = vulnerability.getString(CVSS_V3_TAG);
-        var escapedCvss = StringEscapeUtils.escapeHtml4(cvss);
-        var cvssHtml = "<p><strong>CVSS:</strong> " + escapedCvss + "</p>";
-        html.append(cvssHtml);
-    }
-
-    private void appendUpgradeSection(final StringBuilder html, final JSONObject vulnerability) {
-        if (!vulnerability.has(UPGRADE_PATH_TAG) || !vulnerability.optBoolean(IS_UPGRADABLE_TAG, false)) {
-            return;
+    private Optional<DomContent> appendUpgradeSection(final JSONObject vulnerability) {
+        if (!vulnerability.has(UPGRADE_PATH_TAG)
+                || !vulnerability.optBoolean(IS_UPGRADABLE_TAG, false)) {
+            return Optional.empty();
         }
         var upgradePath = vulnerability.getJSONArray(UPGRADE_PATH_TAG);
-        if (upgradePath.length() == 0) {
-            return;
+        if (upgradePath.isEmpty()) {
+            return Optional.empty();
         }
-        html.append("<p><strong>Suggested Fix:</strong> ");
-        for (int i = 0; i < upgradePath.length(); i++) {
-            if (i > 0) {
-                html.append(" → ");
-            }
-            html.append(StringEscapeUtils.escapeHtml4(upgradePath.getString(i)));
-        }
-        html.append("</p>");
-    }
 
-    private boolean hasIdentifierArray(final JSONObject vulnerability, final String tag) {
-        return vulnerability.has(IDENTIFIERS_TAG)
-                && vulnerability.getJSONObject(IDENTIFIERS_TAG).has(tag);
+        var doms = arrayAsElements(upgradePath, this::appendCwe);
+        return Optional.of(p(strong("Suggested Fix:"), NBSP, joinWithSeparator(doms, ARROW)));
     }
 }

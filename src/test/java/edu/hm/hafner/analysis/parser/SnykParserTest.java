@@ -134,10 +134,10 @@ class SnykParserTest extends AbstractParserTest {
                         <p>All versions of lodash versions before 4.17.21 are vulnerable to Prototype pollution via the toObject converter. This
                             allows attackers to inject arbitrary properties on Object.prototype which may lead to Denial of Service or Remote
                             Code Execution in specific circumstances.</p>
-                        <p><strong>CVE ID(s):</strong> <a href="https://nvd.nist.gov/vuln/detail/CVE-2021-23337">CVE-2021-23337</a></p>
-                        <p><strong>CWE ID(s):</strong> CWE-1321</p>
-                        <p><strong>CVSS:</strong> CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H</p>
-                        <p><strong>Suggested Fix:</strong> app@1.0.0 → lodash@4.17.21</p>
+                        <p><strong>CVE ID(s):</strong>&nbsp;<a href="https://nvd.nist.gov/vuln/detail/CVE-2021-23337">CVE-2021-23337</a></p>
+                        <p><strong>CWE ID(s):</strong>&nbsp;CWE-1321</p>
+                        <p><strong>CVSS:</strong>&nbsp;CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H</p>
+                        <p><strong>Suggested Fix:</strong>&nbsp;app@1.0.0 → lodash@4.17.21</p>
                         """);
     }
 
