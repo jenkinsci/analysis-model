@@ -76,6 +76,63 @@ class KubeLinterParserTest extends AbstractParserTest {
     }
 
     @Test
+    void shouldHandleMissingReportsArray() {
+        var report = parseStringContent("{}");
+
+        assertThat(report).isEmpty();
+    }
+
+    @Test
+    void shouldParseJsonArrayRootFormat() {
+        var report = parseStringContent("""
+                [
+                  {
+                    "Diagnostic": {
+                      "Message": "array root format"
+                    },
+                    "Check": "run-as-non-root",
+                    "Object": {
+                      "Metadata": {
+                        "FilePath": "k8s/deployment.yaml"
+                      },
+                      "K8sObject": {
+                        "Namespace": "",
+                        "Name": "api"
+                      }
+                    }
+                  }
+                ]
+                """);
+
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0))
+                .hasType("run-as-non-root")
+                .hasFileName("k8s/deployment.yaml")
+                .hasCategory("-/api")
+                .hasMessage("array root format")
+                .hasSeverity(Severity.WARNING_NORMAL);
+    }
+
+    @Test
+    void shouldHandleNonObjectReportEntry() {
+        var report = parseStringContent("""
+                {
+                  "Reports": [
+                    42
+                  ]
+                }
+                """);
+
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0))
+                .hasType("-")
+                .hasFileName("-")
+                .hasCategory("")
+                .hasMessage("")
+                .hasSeverity(Severity.WARNING_NORMAL);
+    }
+
+    @Test
     void brokenInput() {
         assertThatThrownBy(() -> parse("eclipse.txt")).isInstanceOf(ParsingException.class);
     }

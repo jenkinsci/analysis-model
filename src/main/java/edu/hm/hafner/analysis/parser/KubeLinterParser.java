@@ -89,17 +89,11 @@ public class KubeLinterParser extends JsonIssueParser {
     }
 
     private void applyObject(@CheckForNull final JSONObject object, final IssueBuilder issueBuilder) {
-        if (object == null) {
-            issueBuilder.setFileName(NOT_AVAILABLE);
-            issueBuilder.setCategory(NOT_AVAILABLE);
-            return;
-        }
-        
         issueBuilder.setFileName(findFilePath(object));
         issueBuilder.setCategory(findKind(object));
     }
 
-    private String findFilePath(final JSONObject object) {
+    private String findFilePath(@CheckForNull final JSONObject object) {
         if (object == null) {
             return NOT_AVAILABLE;
         }
@@ -111,7 +105,7 @@ public class KubeLinterParser extends JsonIssueParser {
         return NOT_AVAILABLE;
     }
 
-    private String findKind(final JSONObject object) {
+    private String findKind(@CheckForNull final JSONObject object) {
         if (object == null) {
             return NOT_AVAILABLE;
         }
