@@ -1,0 +1,83 @@
+[
+  {
+    "Filename": "templates/vpc.yaml",
+    "Level": "Error",
+    "Location": {
+      "Start": {
+        "ColumnNumber": 1,
+        "LineNumber": 2
+      },
+      "End": {
+        "ColumnNumber": 18,
+        "LineNumber": 2
+      },
+      "Path": [
+        "Resources"
+      ]
+    },
+    "Message": "Template format error: Resources section is required",
+    "ParentId": null,
+    "Rule": {
+      "Description": "Validates basic template structure",
+      "Id": "E1001",
+      "ShortDescription": "Basic template checks",
+      "Source": "https://github.com/aws-cloudformation/cfn-lint"
+    }
+  },
+  {
+    "Filename": "templates/network.yaml",
+    "Level": "Warning",
+    "Location": {
+      "Start": {
+        "ColumnNumber": 9,
+        "LineNumber": 21
+      },
+      "End": {
+        "ColumnNumber": 23,
+        "LineNumber": 21
+      },
+      "Path": [
+        "Resources",
+        "MyBucket",
+        "Properties",
+        "BucketName"
+      ]
+    },
+    "Message": "Hardcoded bucket names can cause deployment collisions",
+    "ParentId": null,
+    "Rule": {
+      "Description": "Checks for values that should be parameterized",
+      "Id": "W1031",
+      "ShortDescription": "Use dynamic values",
+      "Source": "https://github.com/aws-cloudformation/cfn-lint"
+    }
+  },
+  {
+    "Filename": "templates/app.yaml",
+    "Level": "Informational",
+    "Location": {
+      "Start": {
+        "ColumnNumber": 5,
+        "LineNumber": 35
+      },
+      "End": {
+        "ColumnNumber": 16,
+        "LineNumber": 35
+      },
+      "Path": [
+        "Resources",
+        "MyFunction",
+        "Properties",
+        "Timeout"
+      ]
+    },
+    "Message": "Function timeout can be tuned to improve cost efficiency",
+    "ParentId": null,
+    "Rule": {
+      "Description": "Provides optimization hints",
+      "Id": "I3011",
+      "ShortDescription": "Optimization hint",
+      "Source": "https://github.com/aws-cloudformation/cfn-lint"
+    }
+  }
+]
