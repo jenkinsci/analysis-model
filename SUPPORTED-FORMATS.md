@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2026-03-26T13:31:02.925747365 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2026-03-29T18:24:16.659724523 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -2102,6 +2102,22 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
         <tr>
             <td colspan="4">
                 :bulb: Reads and Parses HTML reports of Simulink Check Tool by MathWorks. Report can be generated with command: <code>ModelAdvisor.summaryReport(ModelAdvisor.run(<SYSTEMS>, <CONFIG>, <FILENAME>, <ARGS>))</code>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                snyk
+            </td>
+            <td>
+                <img src="https://logo.svgcdn.com/logos/snyk.png" alt="Snyk" height="64" width="64">
+            </td>
+            <td>
+                <a href="https://snyk.io/">
+                    Snyk
+                </a>
+            </td>
+            <td>
+                **/snyk-report.json
             </td>
         </tr>
         <tr>
