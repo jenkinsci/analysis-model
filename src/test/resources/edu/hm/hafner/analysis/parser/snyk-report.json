@@ -1,0 +1,99 @@
+{
+  "vulnerabilities": [
+    {
+      "id": "SNYK-JS-LODASH-73638",
+      "title": "Prototype Pollution",
+      "description": "All versions of lodash versions before 4.17.21 are vulnerable to Prototype pollution via the toObject converter. This allows attackers to inject arbitrary properties on Object.prototype which may lead to Denial of Service or Remote Code Execution in specific circumstances.",
+      "severity": "critical",
+      "packageName": "lodash",
+      "packageVersion": "4.17.15",
+      "from": [
+        "app@1.0.0",
+        "lodash@4.17.15"
+      ],
+      "upgradePath": [
+        "app@1.0.0",
+        "lodash@4.17.21"
+      ],
+      "isUpgradable": true,
+      "filePath": "package.json",
+      "identifiers": {
+        "CVE": [
+          "CVE-2021-23337"
+        ],
+        "CWE": [
+          "CWE-1321"
+        ]
+      },
+      "references": [
+        {
+          "url": "https://snyk.io/vuln/SNYK-JS-LODASH-73638"
+        }
+      ],
+      "exploitMaturity": "mature",
+      "isPatched": false,
+      "language": "javascript",
+      "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    },
+    {
+      "id": "SNYK-JS-YARGS-PARSER-2855821",
+      "title": "Command Injection",
+      "description": "yargs-parser is vulnerable to command injection via the shell-quote module. An attacker can inject shell metacharacters using string interpolation to execute arbitrary commands.",
+      "severity": "high",
+      "packageName": "yargs-parser",
+      "packageVersion": "13.1.1",
+      "from": [
+        "app@1.0.0",
+        "yargs@15.0.0",
+        "yargs-parser@13.1.1"
+      ],
+      "upgradePath": [
+        "app@1.0.0",
+        "yargs@16.0.0"
+      ],
+      "isUpgradable": true,
+      "filePath": "package.json",
+      "identifiers": {
+        "CVE": [
+          "CVE-2020-7608"
+        ],
+        "CWE": [
+          "CWE-78"
+        ]
+      },
+      "references": [
+        {
+          "url": "https://snyk.io/vuln/SNYK-JS-YARGS-PARSER-2855821"
+        }
+      ],
+      "exploitMaturity": "proven",
+      "isPatched": false,
+      "language": "javascript",
+      "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    },
+    {
+      "id": "SNYK-JS-MINIMIST-2429795",
+      "title": "Prototype Pollution",
+      "description": "Minimist is vulnerable to prototype pollution. An attacker can inject arbitrary properties on Object.prototype via the minimist library when processing command-line arguments.",
+      "severity": "medium",
+      "packageName": "minimist",
+      "packageVersion": "1.2.0",
+      "from": [
+        "app@1.0.0",
+        "minimist@1.2.0"
+      ],
+      "upgradePath": [],
+      "isUpgradable": false,
+      "filePath": "package.json",
+      "identifiers": {
+        "CWE": [
+          "CWE-1321"
+        ]
+      },
+      "references": [],
+      "exploitMaturity": "unproven",
+      "isPatched": true,
+      "language": "javascript"
+    }
+  ]
+}
