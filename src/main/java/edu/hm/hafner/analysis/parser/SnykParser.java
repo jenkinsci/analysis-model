@@ -104,7 +104,7 @@ public class SnykParser extends JsonIssueParser {
         }
         appendUpgradeSection(vulnerability).ifPresent(tags::add);
 
-        return join(tags.toArray(new DomContent[0])).render();
+        return join((Object[]) tags.toArray(new DomContent[0])).render();
     }
 
     private Optional<ContainerTag> appendSection(final JSONObject vulnerability, final String tag) {
