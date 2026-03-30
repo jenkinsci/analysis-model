@@ -63,12 +63,10 @@ public class KubeLinterParser extends JsonIssueParser {
         applyDiagnostic(issueReport.optJSONObject(DIAGNOSTIC), issueBuilder);
 
         var object = issueReport.optJSONObject(OBJECT);
-        issueBuilder.setFileName(findFilePath(object));
-        issueBuilder.setCategory(findKind(object));
-
-        issueBuilder.setDescription(issueReport.optString(REMEDIATION));
-
-        return issueBuilder.buildAndClean();
+        return issueBuilder.setFileName(findFilePath(object))
+                .setCategory(findKind(object))
+                .setDescription(issueReport.optString(REMEDIATION))
+                .buildAndClean();
     }
 
     private void applyDiagnostic(@CheckForNull final JSONObject diagnostic, final IssueBuilder issueBuilder) {
