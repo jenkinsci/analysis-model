@@ -57,14 +57,13 @@ public class KubeLinterParser extends JsonIssueParser {
     }
 
     private Issue convertToIssue(final JSONObject issueReport, final IssueBuilder issueBuilder) {
-        issueBuilder.setSeverity(Severity.WARNING_NORMAL)
-                .setType(issueReport.optString(CHECK, NOT_AVAILABLE));
-
         applyDiagnostic(issueReport.optJSONObject(DIAGNOSTIC), issueBuilder);
 
         var object = issueReport.optJSONObject(OBJECT);
         return issueBuilder.setFileName(findFilePath(object))
                 .setCategory(findKind(object))
+                .setSeverity(Severity.WARNING_NORMAL)
+                .setType(issueReport.optString(CHECK, NOT_AVAILABLE))
                 .setDescription(issueReport.optString(REMEDIATION))
                 .buildAndClean();
     }
