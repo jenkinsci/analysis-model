@@ -1,0 +1,61 @@
+{
+  "check_type": "terraform",
+  "results": {
+    "passed_checks": [],
+    "failed_checks": [
+      {
+        "check_id": "CKV_AWS_20",
+        "check_name": "S3 Bucket has an ACL defined which allows public READ access.",
+        "check_result": {
+          "result": "FAILED"
+        },
+        "file_path": "terraform/main.tf",
+        "file_line_range": [
+          12,
+          20
+        ],
+        "resource": "aws_s3_bucket.public_data",
+        "severity": "HIGH",
+        "guideline": "https://docs.bridgecrew.io/docs/s3_1-acl-read-permissions-everyone"
+      },
+      {
+        "check_id": "CKV_AWS_130",
+        "check_name": "Ensure VPC subnets do not assign public IP by default",
+        "check_result": {
+          "result": "FAILED"
+        },
+        "file_path": "terraform/network.tf",
+        "file_line_range": [
+          30,
+          30
+        ],
+        "resource": "aws_subnet.public",
+        "severity": "CRITICAL",
+        "guideline": "https://docs.bridgecrew.io/docs/bc_aws_networking_31"
+      },
+      {
+        "check_id": "CKV_K8S_13",
+        "check_name": "Memory limits should be set",
+        "check_result": {
+          "result": "FAILED"
+        },
+        "file_path": "kubernetes/deployment.yaml",
+        "file_line_range": [
+          8,
+          12
+        ],
+        "resource": "Deployment.default.web",
+        "severity": "LOW"
+      }
+    ],
+    "skipped_checks": []
+  },
+  "summary": {
+    "passed": 0,
+    "failed": 3,
+    "skipped": 0,
+    "parsing_errors": 0,
+    "resource_count": 3,
+    "checkov_version": "3.2.0"
+  }
+}
