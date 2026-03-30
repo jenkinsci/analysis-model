@@ -48,33 +48,25 @@ public class KubeLinterParser extends JsonIssueParser {
         }
     }
 
-    @Override
-    protected void parseJsonArray(final Report report, final JSONArray jsonReport, final IssueBuilder issueBuilder) {
-        parseReports(report, jsonReport, issueBuilder);
-    }
-
     private void parseReports(final Report report, final JSONArray reports, final IssueBuilder issueBuilder) {
         for (Object entry : reports) {
-            report.add(convertToIssue(entry instanceof JSONObject issueReport ? issueReport : null, issueBuilder));
+            if (entry instanceof JSONObject issueReport) {
+                report.add(convertToIssue(issueReport, issueBuilder));
+            }
         }
     }
 
-    private Issue convertToIssue(@CheckForNull final JSONObject issueReport, final IssueBuilder issueBuilder) {
-        if (issueReport == null) {
-            return issueBuilder.buildAndClean();
-        }
-
+    private Issue convertToIssue(final JSONObject issueReport, final IssueBuilder issueBuilder) {
         issueBuilder.setSeverity(Severity.WARNING_NORMAL)
                 .setType(issueReport.optString(CHECK, NOT_AVAILABLE));
 
         applyDiagnostic(issueReport.optJSONObject(DIAGNOSTIC), issueBuilder);
 
-        applyObject(issueReport.optJSONObject(OBJECT), issueBuilder);
+        var object = issueReport.optJSONObject(OBJECT);
+        issueBuilder.setFileName(findFilePath(object));
+        issueBuilder.setCategory(findKind(object));
 
-        var remediation = issueReport.optString(REMEDIATION, "");
-        if (!remediation.isBlank()) {
-            issueBuilder.setDescription(remediation);
-        }
+        issueBuilder.setDescription(issueReport.optString(REMEDIATION));
 
         return issueBuilder.buildAndClean();
     }
@@ -86,11 +78,6 @@ public class KubeLinterParser extends JsonIssueParser {
         }
 
         issueBuilder.setMessage(diagnostic.optString(MESSAGE, NOT_AVAILABLE));
-    }
-
-    private void applyObject(@CheckForNull final JSONObject object, final IssueBuilder issueBuilder) {
-        issueBuilder.setFileName(findFilePath(object));
-        issueBuilder.setCategory(findKind(object));
     }
 
     private String findFilePath(@CheckForNull final JSONObject object) {
