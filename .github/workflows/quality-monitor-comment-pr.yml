@@ -65,9 +65,8 @@ jobs:
         id: quality-gates
         run: echo "json=$(jq -c . .github/quality-gates-pr.json)" >> "$GITHUB_OUTPUT"
       - name: Run Quality Monitor and Comment on PR
-        uses: uhafner/quality-monitor@v4.10.0
+        uses: uhafner/quality-monitor@v4
         with:
-          log-comments: true
           sha: ${{ github.event.workflow_run.head_sha }}
           config: ${{ steps.quality-monitor.outputs.json }}
           quality-gates: ${{ steps.quality-gates.outputs.json }}
