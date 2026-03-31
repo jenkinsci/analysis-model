@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   comment:
-    if: ${{ github.event.workflow_run.event == 'pull_request' }}
+    if: ${{ github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     name: Comment on PR
 
@@ -21,9 +21,19 @@ jobs:
       - name: Extract PR number and SHA
         id: pr
         run: |
-          pr_number='${{ github.event.workflow_run.pull_requests[0].number }}'
+          pr_number=$(jq -r '(.pull_requests[0].number // empty)' <<<'${{ toJson(github.event.workflow_run) }}')
+          if [ -z "$pr_number" ] || [ "$pr_number" = "null" ]; then
+            echo "No PR associated with this workflow_run (pull_requests array empty)." >&2
+            echo "Workflow run event: ${{ github.event.workflow_run.event }}" >&2
+            exit 1
+          fi
           echo "number=$pr_number" >> "$GITHUB_OUTPUT"
+
           sha='${{ github.event.workflow_run.head_sha }}'
+          if [ -z "$sha" ]; then
+            echo "Missing head_sha in workflow_run payload." >&2
+            exit 1
+          fi
           echo "sha=$sha" >> "$GITHUB_OUTPUT"
       - name: Checkout PR
         uses: actions/checkout@v6
