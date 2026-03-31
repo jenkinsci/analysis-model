@@ -16,6 +16,7 @@ import java.io.Serial;
  *
  * @author Akash Manna
  * @see <a href="https://www.checkov.io/">Checkov</a>
+ * @see <a href="https://github.com/bridgecrewio/checkov">Checkov on GitHub</a>
  */
 public class CheckovParser extends JsonIssueParser {
     @Serial
