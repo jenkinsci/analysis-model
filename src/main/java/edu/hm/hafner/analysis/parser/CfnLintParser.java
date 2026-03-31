@@ -46,10 +46,7 @@ public class CfnLintParser extends JsonIssueParser {
     @Override
     protected void parseJsonArray(final Report report, final JSONArray jsonReport, final IssueBuilder issueBuilder) {
         for (int i = 0; i < jsonReport.length(); i++) {
-            var issue = jsonReport.getJSONObject(i);
-            if (issue != null) {
-                report.add(convertToIssue(issue, issueBuilder));
-            }
+            report.add(convertToIssue(jsonReport.getJSONObject(i), issueBuilder));
         }
     }
 

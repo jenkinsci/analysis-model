@@ -1,7 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.nio.file.FileSystems;
-
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.FileReaderFactory;
@@ -12,6 +10,8 @@ import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
 import edu.hm.hafner.analysis.registry.ParserRegistry;
+
+import java.nio.file.FileSystems;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
@@ -70,10 +70,13 @@ class CfnLintParserTest extends AbstractParserTest {
 
     @Test
     void accepts() {
-        assertThat(new CfnLintParser().accepts(
-                new FileReaderFactory(FileSystems.getDefault().getPath("cfn-lint-report.json")))).isTrue();
-        assertThat(new CfnLintParser().accepts(
-                new FileReaderFactory(FileSystems.getDefault().getPath("foo.txt")))).isFalse();
+        var parser = new CfnLintParser();
+        assertThat(parser.accepts(read("cfn-lint-report.json"))).isTrue();
+        assertThat(parser.accepts(read("foo.txt"))).isFalse();
+    }
+
+    private FileReaderFactory read(final String first) {
+        return new FileReaderFactory(FileSystems.getDefault().getPath(first));
     }
 
     @Test
@@ -148,6 +151,37 @@ class CfnLintParserTest extends AbstractParserTest {
                 .hasColumnStart(7)
                 .hasLineEnd(3)
                 .hasColumnEnd(14);
+    }
+
+    @Test
+    void shouldSkipStartAndEndIfMissing() {
+        var report = parseStringContent("""
+                {
+                  "matches": [
+                    {
+                      "Filename": "template.yaml",
+                      "Level": "Warning",
+                      "Message": "wrapped payload",
+                      "Rule": {
+                        "Id": "W1000"
+                      },
+                      "Location": {
+                      }
+                    }
+                  ]
+                }
+                """);
+
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0))
+                .hasFileName("template.yaml")
+                .hasType("W1000")
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasMessage("wrapped payload")
+                .hasLineStart(0)
+                .hasColumnStart(0)
+                .hasLineEnd(0)
+                .hasColumnEnd(0);
     }
 
     @Test
