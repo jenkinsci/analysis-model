@@ -18,6 +18,8 @@ jobs:
     name: Comment on PR
 
     steps:
+      - name: Checkout PR
+        uses: actions/checkout@v6
       - name: Fetch reports from dependency check and quality monitor workflows
         env:
           REPO: ${{ github.repository }}
