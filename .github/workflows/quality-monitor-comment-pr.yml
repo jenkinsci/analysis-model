@@ -37,6 +37,7 @@ jobs:
           mkdir -p reports/target
           mv artifacts/*/target/* reports/target
           ls -la reports/target/* || true
+          mv artifacts/pr-number.txt reports/
       - name: Extract PR number and SHA
         id: pr
         run: |
