@@ -47,17 +47,14 @@ public class CfnLintParser extends JsonIssueParser {
     protected void parseJsonArray(final Report report, final JSONArray jsonReport, final IssueBuilder issueBuilder) {
         for (int i = 0; i < jsonReport.length(); i++) {
             var issue = jsonReport.getJSONObject(i);
-            report.add(convertToIssue(issue, issueBuilder));
+            if (issue != null) {
+                report.add(convertToIssue(issue, issueBuilder));
+            }
         }
     }
 
-    private Issue convertToIssue(@CheckForNull final JSONObject jsonIssue, final IssueBuilder issueBuilder) {
-        if (jsonIssue == null) {
-            return issueBuilder.buildAndClean();
-        }
-
-        issueBuilder
-                .setFileName(jsonIssue.optString(FILE_NAME))
+    private Issue convertToIssue(final JSONObject jsonIssue, final IssueBuilder issueBuilder) {
+        issueBuilder.setFileName(jsonIssue.optString(FILE_NAME))
                 .guessSeverity(jsonIssue.optString(LEVEL, "warning"))
                 .setMessage(jsonIssue.optString(MESSAGE));
 
