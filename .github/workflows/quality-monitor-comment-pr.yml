@@ -48,17 +48,6 @@ jobs:
           fi
           echo "PR number from reports/pr-number.txt: $pr_number"
           echo "number=$pr_number" >> "$GITHUB_OUTPUT"
-
-          sha="${{ github.event.workflow_run.head_sha }}"
-          if [ -z "$sha" ]; then
-            echo "Missing head_sha in workflow_run payload." >&2
-            exit 1
-          fi
-          echo "sha=$sha" >> "$GITHUB_OUTPUT"
-      - name: Checkout PR
-        uses: actions/checkout@v6
-        with:
-          ref: ${{ steps.pr.outputs.sha }}
       - name: Install jq and unzip
         run: sudo apt-get update && sudo apt-get install -y jq unzip
       - name: Prepare environment
@@ -79,7 +68,7 @@ jobs:
         uses: uhafner/quality-monitor@v4.10.0
         with:
           log-comments: true
-          sha: ${{ steps.pr.outputs.sha }}
+          sha: ${{ github.event.workflow_run.head_sha }}
           config: ${{ steps.quality-monitor.outputs.json }}
           quality-gates: ${{ steps.quality-gates.outputs.json }}
           pr-number: ${{ steps.pr.outputs.number }}
