@@ -18,13 +18,29 @@ jobs:
     name: Comment on PR
 
     steps:
+      - name: Fetch reports from dependency check and quality monitor workflows
+        env:
+          REPO: ${{ github.repository }}
+          HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OTHER_WORKFLOWS: "quality-monitor-build.yml,dependency-check.yml"
+          ARTIFACT_NAMES: "quality-reports,dependency-report"
+          RETRIES: 30
+          SLEEP_SEC: 10
+        run: |
+          chmod +x ./.github/scripts/fetch-artifacts.sh
+          ./.github/scripts/fetch-artifacts.sh
+      - name: List downloaded reports
+        run: |
+          mkdir -p reports/target
+          mv artifacts/*/target/* reports/target
+          ls -la reports/target/* || true
       - name: Extract PR number and SHA
         id: pr
         run: |
-          pr_number=$(jq -r '(.pull_requests[0].number // empty)' <<<'${{ toJson(github.event.workflow_run) }}')
+          pr_number=cat reports/pr-number.txt
           if [ -z "$pr_number" ] || [ "$pr_number" = "null" ]; then
-            echo "No PR associated with this workflow_run (pull_requests array empty)." >&2
-            echo "Workflow run event: ${{ github.event.workflow_run.event }}" >&2
+            echo "No PR associated with this workflow run" >&2
             exit 1
           fi
           echo "number=$pr_number" >> "$GITHUB_OUTPUT"
@@ -49,23 +65,6 @@ jobs:
         run: |
           echo "HEAD_SHA=$HEAD_SHA"
           echo "REPO=$REPO"
-      - name: Fetch reports from dependency check and quality monitor workflows
-        env:
-          REPO: ${{ github.repository }}
-          HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
-          TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          OTHER_WORKFLOWS: "quality-monitor-build.yml,dependency-check.yml"
-          ARTIFACT_NAMES: "quality-reports,dependency-report"
-          RETRIES: 30
-          SLEEP_SEC: 10
-        run: |
-          chmod +x ./.github/scripts/fetch-artifacts.sh
-          ./.github/scripts/fetch-artifacts.sh
-      - name: List downloaded reports
-        run: |
-          mkdir -p reports/target
-          mv artifacts/*/target/* reports/target
-          ls -la reports/target/* || true
       - name: Read Quality Monitor Configuration
         id: quality-monitor
         run: echo "json=$(jq -c . .github/quality-monitor-pr.json)" >> "$GITHUB_OUTPUT"
