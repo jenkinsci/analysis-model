@@ -41,14 +41,15 @@ jobs:
       - name: Extract PR number and SHA
         id: pr
         run: |
-          pr_number=cat reports/pr-number.txt
+          pr_number="$(cat reports/pr-number.txt | tr -d '\r\n' | xargs)"
           if [ -z "$pr_number" ] || [ "$pr_number" = "null" ]; then
             echo "No PR associated with this workflow run" >&2
             exit 1
           fi
+          echo "PR number from reports/pr-number.txt: $pr_number"
           echo "number=$pr_number" >> "$GITHUB_OUTPUT"
 
-          sha='${{ github.event.workflow_run.head_sha }}'
+          sha="${{ github.event.workflow_run.head_sha }}"
           if [ -z "$sha" ]; then
             echo "Missing head_sha in workflow_run payload." >&2
             exit 1
