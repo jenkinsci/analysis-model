@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2026-03-29T18:24:16.659724523 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2026-03-30T22:41:07.223715490 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -1337,6 +1337,27 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
         <tr>
             <td colspan="4">
                 :bulb: Use option --reporter=checkstyle.
+            </td>
+        </tr>
+        <tr>
+            <td>
+                kube-linter
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                <a href="https://github.com/stackrox/kube-linter">
+                    KubeLinter
+                </a>
+            </td>
+            <td>
+                **/kube-linter.json
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Use commandline <code>kube-linter lint --format json --output kube-linter.json</code> output.<br/>See <a href='https://github.com/stackrox/kube-linter'>KubeLinter on GitHub</a> for usage details.
             </td>
         </tr>
         <tr>

@@ -853,6 +853,12 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(4, "markdownlint", "markdownlint.json");
     }
 
+    /** Runs the KubeLinter parser on an output file that contains 3 issues. */
+    @Test
+    void shouldFindAllKubeLinterIssues() {
+        findIssuesOfTool(3, "kube-linter", "kubelinter.json");
+    }
+
     /** Runs the DockerLint parser on an output file that contains 3 issues. */
     @Test
     void shouldFindAllDockerLintIssues() {
