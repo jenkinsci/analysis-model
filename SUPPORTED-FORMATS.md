@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2026-03-30T22:41:07.223715490 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2026-04-01T21:51:42.844906542 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -266,6 +266,27 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
             </td>
             <td>
                 -
+            </td>
+        </tr>
+        <tr>
+            <td>
+                cfn-lint
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                <a href="https://github.com/aws-cloudformation/cfn-lint">
+                    CFN-Lint
+                </a>
+            </td>
+            <td>
+                **/cfn-lint-report.json
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Use commandline <code>cfn-lint --format json</code> to generate JSON output.<br/>See <a href='https://github.com/aws-cloudformation/cfn-lint'>cfn-lint on GitHub</a> for usage details.
             </td>
         </tr>
         <tr>
