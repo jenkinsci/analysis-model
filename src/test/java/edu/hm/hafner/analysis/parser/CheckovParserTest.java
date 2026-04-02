@@ -115,6 +115,34 @@ class CheckovParserTest extends AbstractParserTest {
     }
 
     @Test
+    void shouldSkipNonObjectFailedCheckEntries() {
+        var report = parseStringContent("""
+                {
+                    "failed_checks": [
+                        42,
+                        "invalid",
+                        {
+                            "check_id": "CKV_CUSTOM_2",
+                            "check_name": "Valid object",
+                            "severity": "LOW",
+                            "file_path": "valid/file.tf",
+                            "file_line_range": [7, 9]
+                        }
+                    ]
+                }
+                """);
+
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0))
+                .hasType("CKV_CUSTOM_2")
+                .hasMessage("Valid object")
+                .hasSeverity(Severity.WARNING_LOW)
+                .hasFileName("valid/file.tf")
+                .hasLineStart(7)
+                .hasLineEnd(9);
+    }
+
+    @Test
     void shouldHandleMissingFields() {
         var report = parseStringContent("""
                 {
@@ -138,6 +166,42 @@ class CheckovParserTest extends AbstractParserTest {
                 .hasLineEnd(0)
                 .hasCategory(DEFAULT_CATEGORY)
                 .hasDescription("");
+    }
+
+    @Test
+    void shouldHandleResultsWithoutFailedChecks() {
+        var report = parseStringContent("""
+                {
+                    "results": {
+                        "passed_checks": []
+                    }
+                }
+                """);
+
+        assertThat(report).isEmpty();
+    }
+
+    @Test
+    void shouldHandleEmptyLineRangeArray() {
+        var report = parseStringContent("""
+                {
+                    "failed_checks": [
+                        {
+                            "check_id": "CKV_CUSTOM_3",
+                            "check_name": "Empty line range",
+                            "severity": "MEDIUM",
+                            "file_path": "empty-range.tf",
+                            "file_line_range": []
+                        }
+                    ]
+                }
+                """);
+
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0))
+                .hasType("CKV_CUSTOM_3")
+                .hasLineStart(0)
+                .hasLineEnd(0);
     }
 
     @Test
