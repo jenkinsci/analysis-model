@@ -10,6 +10,7 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 import java.io.Serial;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * A parser for Spectral JSON output.
@@ -31,6 +32,19 @@ public class SpectralParser extends JsonIssueParser {
     private static final String END = "end";
     private static final String LINE = "line";
     private static final String CHARACTER = "character";
+    private static final Map<String, String> STRING_SEVERITIES = Map.ofEntries(
+            Map.entry("0", "error"),
+            Map.entry("error", "error"),
+            Map.entry("fatal", "error"),
+            Map.entry("1", "warning"),
+            Map.entry("warn", "warning"),
+            Map.entry("warning", "warning"),
+            Map.entry("2", "notice"),
+            Map.entry("3", "notice"),
+            Map.entry("info", "notice"),
+            Map.entry("information", "notice"),
+            Map.entry("hint", "notice")
+    );
 
     @Override
     protected void parseJsonObject(final Report report, final JSONObject jsonReport, final IssueBuilder issueBuilder) {
@@ -95,14 +109,8 @@ public class SpectralParser extends JsonIssueParser {
     }
 
     private String mapStringSeverity(final String severity) {
-        var normalized = severity.toLowerCase(Locale.ENGLISH).trim();
-
-        return switch (normalized) {
-            case "0", "error", "fatal" -> "error";
-            case "1", "warn", "warning" -> "warning";
-            case "2", "3", "info", "information", "hint" -> "notice";
-            default -> "warning";
-        };
+        var normalized = severity.trim().toLowerCase(Locale.ROOT);
+        return STRING_SEVERITIES.getOrDefault(normalized, "warning");
     }
 
     private void applyRange(@CheckForNull final JSONObject range, final IssueBuilder issueBuilder) {

@@ -159,6 +159,201 @@ class SpectralParserTest extends AbstractParserTest {
     }
 
     @Test
+    void shouldHandleNullResultsArray() {
+        var report = parseStringContent("""
+                {
+                    "results": null
+                }
+                """);
+
+        assertThat(report).isEmpty();
+    }
+
+    @Test
+    void shouldHandleNonObjectArrayEntry() {
+        var report = parseStringContent("""
+                [
+                    17
+                ]
+                """);
+
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0))
+                .hasType("-")
+                .hasFileName("-")
+                .hasMessage("")
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasLineStart(0)
+                .hasColumnStart(0)
+                .hasLineEnd(0)
+                .hasColumnEnd(0);
+    }
+
+    @Test
+    void shouldDefaultToWarningForMissingAndUnsupportedSeverityValues() {
+        var report = parseStringContent("""
+                [
+                    {
+                        "code": "missing-severity",
+                        "message": "No severity field"
+                    },
+                    {
+                        "code": "unsupported-type",
+                        "message": "JSONArray severity",
+                        "severity": []
+                    }
+                ]
+                """);
+
+        assertThat(report).hasSize(2);
+        assertThat(report.get(0)).hasSeverity(Severity.WARNING_NORMAL);
+        assertThat(report.get(1)).hasSeverity(Severity.WARNING_NORMAL);
+    }
+
+    @Test
+    void shouldMapAllKnownStringSeverityAliases() {
+        var report = parseStringContent("""
+                [
+                    {
+                        "code": "s0",
+                        "message": "0 alias",
+                        "severity": "0"
+                    },
+                    {
+                        "code": "serror",
+                        "message": "error alias",
+                        "severity": "error"
+                    },
+                    {
+                        "code": "sfatal",
+                        "message": "fatal alias",
+                        "severity": "fatal"
+                    },
+                    {
+                        "code": "s1",
+                        "message": "1 alias",
+                        "severity": "1"
+                    },
+                    {
+                        "code": "swarn",
+                        "message": "warn alias",
+                        "severity": "warn"
+                    },
+                    {
+                        "code": "swarning",
+                        "message": "warning alias",
+                        "severity": "warning"
+                    },
+                    {
+                        "code": "s2",
+                        "message": "2 alias",
+                        "severity": "2"
+                    },
+                    {
+                        "code": "s3",
+                        "message": "3 alias",
+                        "severity": "3"
+                    },
+                    {
+                        "code": "sinfo",
+                        "message": "info alias",
+                        "severity": "info"
+                    },
+                    {
+                        "code": "sinformation",
+                        "message": "information alias",
+                        "severity": "information"
+                    },
+                    {
+                        "code": "shint",
+                        "message": "hint alias",
+                        "severity": "hint"
+                    }
+                ]
+                """);
+
+        assertThat(report).hasSize(11);
+        assertThat(report.get(0)).hasSeverity(Severity.ERROR);
+        assertThat(report.get(1)).hasSeverity(Severity.ERROR);
+        assertThat(report.get(2)).hasSeverity(Severity.ERROR);
+        assertThat(report.get(3)).hasSeverity(Severity.WARNING_NORMAL);
+        assertThat(report.get(4)).hasSeverity(Severity.WARNING_NORMAL);
+        assertThat(report.get(5)).hasSeverity(Severity.WARNING_NORMAL);
+        assertThat(report.get(6)).hasSeverity(Severity.WARNING_LOW);
+        assertThat(report.get(7)).hasSeverity(Severity.WARNING_LOW);
+        assertThat(report.get(8)).hasSeverity(Severity.WARNING_LOW);
+        assertThat(report.get(9)).hasSeverity(Severity.WARNING_LOW);
+        assertThat(report.get(10)).hasSeverity(Severity.WARNING_LOW);
+    }
+
+    @Test
+    void shouldHandleMissingStartAndEndRanges() {
+        var report = parseStringContent("""
+                [
+                    {
+                        "code": "range-missing-boundaries",
+                        "message": "Range exists but start and end are absent.",
+                        "severity": 1,
+                        "source": "openapi/petstore.yaml",
+                        "range": {}
+                    }
+                ]
+                """);
+
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0))
+                .hasLineStart(0)
+                .hasColumnStart(0)
+                .hasLineEnd(0)
+                .hasColumnEnd(0)
+                .hasSeverity(Severity.WARNING_NORMAL);
+    }
+
+    @Test
+    void shouldHandleOnlyStartOrOnlyEndRange() {
+        var report = parseStringContent("""
+                [
+                    {
+                        "code": "only-start",
+                        "message": "Only start is present.",
+                        "severity": 1,
+                        "source": "openapi/petstore.yaml",
+                        "range": {
+                            "start": {
+                                "line": 8,
+                                "character": 2
+                            }
+                        }
+                    },
+                    {
+                        "code": "only-end",
+                        "message": "Only end is present.",
+                        "severity": 1,
+                        "source": "openapi/petstore.yaml",
+                        "range": {
+                            "end": {
+                                "line": 12,
+                                "character": 5
+                            }
+                        }
+                    }
+                ]
+                """);
+
+        assertThat(report).hasSize(2);
+        assertThat(report.get(0))
+                .hasLineStart(8)
+                .hasColumnStart(2)
+                .hasLineEnd(8)
+                .hasColumnEnd(2);
+        assertThat(report.get(1))
+                .hasLineStart(12)
+                .hasColumnStart(5)
+                .hasLineEnd(12)
+                .hasColumnEnd(5);
+    }
+
+    @Test
     void shouldProvideDescriptorMetadata() {
         var descriptor = new ParserRegistry().get("spectral");
 
