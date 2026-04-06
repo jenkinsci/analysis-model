@@ -86,7 +86,7 @@ public class MsBuildParser extends LookaheadParser {
      * Only matches tool names when they appear alone, not as part of a path.
      */
     private static final Pattern TOOL_NAME_PATTERN = Pattern.compile(
-            "^(?:EXEC|NMAKE|LINK|MSBUILD|MSBuild|link|nmake|msbuild|cl|rs)$|"
+            "^(?:EXEC|NMAKE|LINK|MSBUILD|CSC|MSBuild|link|nmake|msbuild|cl|rs)$|"
             + "^[^/\\\\]*\\.exe$|"
             + "^<[^>]+>$",
             Pattern.CASE_INSENSITIVE);
