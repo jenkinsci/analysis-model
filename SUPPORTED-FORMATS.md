@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2026-04-09T15:59:01.618036883 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2026-04-09T21:19:52.178426826 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -419,6 +419,27 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
             </td>
             <td>
                 **/checkstyle-result.xml
+            </td>
+        </tr>
+        <tr>
+            <td>
+                checkov
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                <a href="https://www.checkov.io/">
+                    Checkov
+                </a>
+            </td>
+            <td>
+                **/checkov-report.json
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Use commandline <code>checkov --output json --output-file-path checkov-report.json</code> to generate JSON output.<br/>See <a href='https://www.checkov.io/'>Checkov documentation</a> for usage details.
             </td>
         </tr>
         <tr>
