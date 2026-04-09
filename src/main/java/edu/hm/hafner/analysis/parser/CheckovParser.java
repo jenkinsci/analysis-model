@@ -1,13 +1,11 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
-import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 import java.io.Serial;
 
@@ -66,28 +64,16 @@ public class CheckovParser extends JsonIssueParser {
                 .setType(failedCheck.optString(CHECK_ID, "-"))
                 .setMessage(failedCheck.optString(CHECK_NAME, "-"))
                 .guessSeverity(failedCheck.optString(SEVERITY, "warning"))
-                .setFileName(failedCheck.optString(FILE_PATH));
+                .setFileName(failedCheck.optString(FILE_PATH))
+                .setCategory(failedCheck.optString(RESOURCE))
+                .setDescription(failedCheck.optString(GUIDELINE));
 
-        applyResource(failedCheck.optString(RESOURCE), issueBuilder);
-        applyGuideline(failedCheck.optString(GUIDELINE), issueBuilder);
         applyLineRange(failedCheck.optJSONArray(FILE_LINE_RANGE), issueBuilder);
 
         return issueBuilder.buildAndClean();
     }
 
-    private void applyResource(@CheckForNull final String resource, final IssueBuilder issueBuilder) {
-        if (StringUtils.isNotBlank(resource)) {
-            issueBuilder.setCategory(resource);
-        }
-    }
-
-    private void applyGuideline(@CheckForNull final String guideline, final IssueBuilder issueBuilder) {
-        if (StringUtils.isNotBlank(guideline)) {
-            issueBuilder.setDescription(guideline);
-        }
-    }
-
-    private void applyLineRange(@CheckForNull final JSONArray fileLineRange, final IssueBuilder issueBuilder) {
+    private void applyLineRange(final JSONArray fileLineRange, final IssueBuilder issueBuilder) {
         if (fileLineRange == null || fileLineRange.isEmpty()) {
             return;
         }
