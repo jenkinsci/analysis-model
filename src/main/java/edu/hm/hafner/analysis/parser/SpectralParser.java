@@ -10,7 +10,8 @@ import edu.hm.hafner.analysis.Severity;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 import java.io.Serial;
-import java.util.Locale;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * A parser for Spectral JSON output.
@@ -32,6 +33,7 @@ public class SpectralParser extends JsonIssueParser {
     private static final String END = "end";
     private static final String LINE = "line";
     private static final String CHARACTER = "character";
+    private static final Map<String, Severity> STRING_SEVERITIES = createSeverityMapping();
 
     @Override
     protected void parseJsonObject(final Report report, final JSONObject jsonReport, final IssueBuilder issueBuilder) {
@@ -78,14 +80,27 @@ public class SpectralParser extends JsonIssueParser {
     }
 
     private Severity mapStringSeverity(final String severity) {
-        var normalized = severity.trim().toLowerCase(Locale.ROOT);
+        return STRING_SEVERITIES.getOrDefault(severity.trim(), Severity.WARNING_NORMAL);
+    }
 
-        return switch (normalized) {
-            case "0", "error", "fatal" -> Severity.ERROR;
-            case "1", "warn", "warning" -> Severity.WARNING_NORMAL;
-            case "2", "3", "info", "information", "hint" -> Severity.WARNING_LOW;
-            default -> Severity.WARNING_NORMAL;
-        };
+    private static Map<String, Severity> createSeverityMapping() {
+        var mapping = new TreeMap<String, Severity>(String.CASE_INSENSITIVE_ORDER);
+
+        mapping.put("0", Severity.ERROR);
+        mapping.put("error", Severity.ERROR);
+        mapping.put("fatal", Severity.ERROR);
+
+        mapping.put("1", Severity.WARNING_NORMAL);
+        mapping.put("warn", Severity.WARNING_NORMAL);
+        mapping.put("warning", Severity.WARNING_NORMAL);
+
+        mapping.put("2", Severity.WARNING_LOW);
+        mapping.put("3", Severity.WARNING_LOW);
+        mapping.put("info", Severity.WARNING_LOW);
+        mapping.put("information", Severity.WARNING_LOW);
+        mapping.put("hint", Severity.WARNING_LOW);
+
+        return mapping;
     }
 
     private void applyRange(@CheckForNull final JSONObject range, final IssueBuilder issueBuilder) {
