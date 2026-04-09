@@ -925,6 +925,12 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(3, "snyk", "snyk-report.json");
     }
 
+    /** Runs the Spectral parser on an output file that contains 4 issues. */
+    @Test
+    void shouldFindAllSpectralIssues() {
+        findIssuesOfTool(4, "spectral", "spectral-report.json");
+    }
+
     private Report findIssuesOfTool(final int expectedSizeOfIssues, final String tool, final String... fileNames) {
         var registry = new ParserRegistry();
         var descriptor = registry.get(tool);

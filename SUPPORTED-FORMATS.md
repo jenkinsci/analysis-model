@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2026-04-01T21:51:42.844906542 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2026-04-09T15:59:01.618036883 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -2174,6 +2174,27 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
             </td>
             <td>
                 **/sonar-report.json
+            </td>
+        </tr>
+        <tr>
+            <td>
+                spectral
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                <a href="https://github.com/stoplightio/spectral">
+                    Spectral
+                </a>
+            </td>
+            <td>
+                **/spectral-report.json
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Use commandline <code>spectral lint api.yaml --format json</code> to generate JSON output.<br/>See <a href='https://github.com/stoplightio/spectral'>Spectral on GitHub</a> for usage details.
             </td>
         </tr>
         <tr>

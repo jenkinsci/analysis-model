@@ -5,3 +5,4 @@ EXEC : warning : Project file C:\J\ws\project@2\src\website\ cannot be found. [C
 16:55:11 rs: error 002: Renaming the File  was not possible. Message: The process cannot access the file '...' because it is being used by another process.
 cl : Command line warning D9035 : option 'Wp64' has been deprecated
 MSBuild : warning MSB1234: Some warning message
+[2026-04-02T09:33:29.474Z]          CSC : warning CA1824: Assemblys mit NeutralResourcesLanguageAttribute markieren (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1824) [d:\agent\workspace\Client_nllgt1hp_wpftmp.csproj]
