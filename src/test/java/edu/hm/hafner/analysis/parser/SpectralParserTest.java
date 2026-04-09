@@ -177,16 +177,7 @@ class SpectralParserTest extends AbstractParserTest {
                 ]
                 """);
 
-        assertThat(report).hasSize(1);
-        assertThat(report.get(0))
-                .hasType("-")
-                .hasFileName("-")
-                .hasMessage("")
-                .hasSeverity(Severity.WARNING_NORMAL)
-                .hasLineStart(0)
-                .hasColumnStart(0)
-                .hasLineEnd(0)
-                .hasColumnEnd(0);
+        assertThat(report).isEmpty();
     }
 
     @Test

@@ -6,11 +6,11 @@ import org.json.JSONObject;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
+import edu.hm.hafner.analysis.Severity;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 import java.io.Serial;
 import java.util.Locale;
-import java.util.Map;
 
 /**
  * A parser for Spectral JSON output.
@@ -32,44 +32,33 @@ public class SpectralParser extends JsonIssueParser {
     private static final String END = "end";
     private static final String LINE = "line";
     private static final String CHARACTER = "character";
-    private static final Map<String, String> STRING_SEVERITIES = Map.ofEntries(
-            Map.entry("0", "error"),
-            Map.entry("error", "error"),
-            Map.entry("fatal", "error"),
-            Map.entry("1", "warning"),
-            Map.entry("warn", "warning"),
-            Map.entry("warning", "warning"),
-            Map.entry("2", "notice"),
-            Map.entry("3", "notice"),
-            Map.entry("info", "notice"),
-            Map.entry("information", "notice"),
-            Map.entry("hint", "notice")
-    );
 
     @Override
     protected void parseJsonObject(final Report report, final JSONObject jsonReport, final IssueBuilder issueBuilder) {
         if (jsonReport.has(RESULTS)) {
-            parseJsonArray(report, jsonReport.optJSONArray(RESULTS), issueBuilder);
+            parseIssues(report, jsonReport.optJSONArray(RESULTS), issueBuilder);
         }
     }
 
     @Override
     protected void parseJsonArray(final Report report, final JSONArray jsonReport, final IssueBuilder issueBuilder) {
-        if (jsonReport == null) {
+        parseIssues(report, jsonReport, issueBuilder);
+    }
+
+    private void parseIssues(final Report report, @CheckForNull final JSONArray issues, final IssueBuilder issueBuilder) {
+        if (issues == null) {
             return;
         }
 
-        for (int i = 0; i < jsonReport.length(); i++) {
-            var issue = jsonReport.optJSONObject(i);
-            report.add(convertToIssue(issue, issueBuilder));
+        for (int i = 0; i < issues.length(); i++) {
+            var issue = issues.optJSONObject(i);
+            if (issue != null) {
+                report.add(convertToIssue(issue, issueBuilder));
+            }
         }
     }
 
-    private Issue convertToIssue(@CheckForNull final JSONObject jsonIssue, final IssueBuilder issueBuilder) {
-        if (jsonIssue == null) {
-            return issueBuilder.buildAndClean();
-        }
-
+    private Issue convertToIssue(final JSONObject jsonIssue, final IssueBuilder issueBuilder) {
         issueBuilder.setType(jsonIssue.optString(CODE, "-"))
                 .setMessage(jsonIssue.optString(MESSAGE))
                 .setFileName(jsonIssue.optString(SOURCE, "-"));
@@ -82,35 +71,21 @@ public class SpectralParser extends JsonIssueParser {
 
     private void applySeverity(@CheckForNull final Object rawSeverity, final IssueBuilder issueBuilder) {
         if (rawSeverity == null) {
-            issueBuilder.guessSeverity("warning");
             return;
         }
 
-        if (rawSeverity instanceof Number severityNumber) {
-            issueBuilder.guessSeverity(mapNumericSeverity(severityNumber.intValue()));
-            return;
-        }
-
-        if (rawSeverity instanceof String severityLabel) {
-            issueBuilder.guessSeverity(mapStringSeverity(severityLabel));
-            return;
-        }
-
-        issueBuilder.guessSeverity("warning");
+        issueBuilder.setSeverity(mapStringSeverity(String.valueOf(rawSeverity)));
     }
 
-    private String mapNumericSeverity(final int severity) {
-        return switch (severity) {
-            case 0 -> "error";
-            case 1 -> "warning";
-            case 2, 3 -> "notice";
-            default -> "warning";
-        };
-    }
-
-    private String mapStringSeverity(final String severity) {
+    private Severity mapStringSeverity(final String severity) {
         var normalized = severity.trim().toLowerCase(Locale.ROOT);
-        return STRING_SEVERITIES.getOrDefault(normalized, "warning");
+
+        return switch (normalized) {
+            case "0", "error", "fatal" -> Severity.ERROR;
+            case "1", "warn", "warning" -> Severity.WARNING_NORMAL;
+            case "2", "3", "info", "information", "hint" -> Severity.WARNING_LOW;
+            default -> Severity.WARNING_NORMAL;
+        };
     }
 
     private void applyRange(@CheckForNull final JSONObject range, final IssueBuilder issueBuilder) {
