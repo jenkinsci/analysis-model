@@ -84,7 +84,7 @@ class KubesecParserTest extends AbstractParserTest {
     void shouldParseEdgeCases() {
         var report = parse("kubesec-edge-cases.json");
 
-                assertThat(report).hasSize(5).hasDuplicatesSize(0);
+        assertThat(report).hasSize(5).hasDuplicatesSize(0);
 
         assertThat(report.get(0))
                 .hasFileName("Pod/minimal-pod.default")
