@@ -7,7 +7,6 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 import java.io.Serial;
 
@@ -111,8 +110,8 @@ public class KubesecParser extends JsonIssueParser {
                 .buildAndClean();
     }
 
-    private String extractFileNameFromObject(@CheckForNull final String object) {
-        if (object == null || object.equals(NOT_AVAILABLE)) {
+    private String extractFileNameFromObject(final String object) {
+        if (NOT_AVAILABLE.equals(object)) {
             return NOT_AVAILABLE;
         }
 

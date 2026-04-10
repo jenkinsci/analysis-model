@@ -10,6 +10,7 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
+import edu.hm.hafner.analysis.registry.ParserRegistry;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
@@ -84,7 +85,7 @@ class KubesecParserTest extends AbstractParserTest {
     void shouldParseEdgeCases() {
         var report = parse("kubesec-edge-cases.json");
 
-        assertThat(report).hasSize(5).hasDuplicatesSize(0);
+        assertThat(report).hasSize(7).hasDuplicatesSize(0);
 
         assertThat(report.get(0))
                 .hasFileName("Pod/minimal-pod.default")
@@ -129,6 +130,25 @@ class KubesecParserTest extends AbstractParserTest {
         assertThat(report.get(4).getDescription())
                 .contains("CronJob/backup.default")
                 .contains("Score: -1");
+
+        assertThat(report.get(5))
+                .hasFileName("-")
+                .hasSeverity(Severity.ERROR)
+                .hasCategory("Kubernetes Security")
+                .hasType("kubesec-validation")
+                .hasMessage("Object field is not available");
+
+        assertThat(report.get(6))
+                .hasFileName("Pod/no-selector.default")
+                .hasSeverity(Severity.ERROR)
+                .hasCategory("Kubernetes Security")
+                .hasType("-")
+                .hasMessage("Selector unavailable in input");
+
+        assertThat(report.get(6).getDescription())
+                .contains("Pod/no-selector.default")
+                .contains("Score Impact: -2 points")
+                .doesNotContain("Selector:");
     }
 
     @Override
@@ -142,5 +162,16 @@ class KubesecParserTest extends AbstractParserTest {
                 new FileReaderFactory(FileSystems.getDefault().getPath("kubesec.json")))).isTrue();
         assertThat(new KubesecParser().accepts(
                 new FileReaderFactory(FileSystems.getDefault().getPath("foo.txt")))).isFalse();
+    }
+
+    @Test
+    void shouldProvideDescriptorMetadata() {
+        var descriptor = new ParserRegistry().get("kubesec");
+
+        assertThat(descriptor.getPattern()).isEqualTo("**/kubesec.json");
+        assertThat(descriptor.getHelp()).contains("kubesec scan -f deployment.yaml -o json > kubesec.json");
+        assertThat(descriptor.getUrl()).isEqualTo("https://kubesec.io/");
+        assertThat(descriptor.hasHelp()).isTrue();
+        assertThat(descriptor.hasUrl()).isTrue();
     }
 }

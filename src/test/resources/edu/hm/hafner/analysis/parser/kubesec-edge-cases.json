@@ -1,4 +1,5 @@
 [
+  "skip-this-non-object-entry",
   {
     "object": "Pod/minimal-pod.default",
     "valid": true,
@@ -23,6 +24,7 @@
     "score": -100,
     "scoring": {
       "critical": [
+        "skip-this-non-object-finding",
         {
           "selector": "containers[] .securityContext .runAsUser < 1000",
           "reason": "Running as low-numbered UID can be a security risk",
@@ -48,5 +50,39 @@
     "valid": false,
     "message": "Resource manifest is not valid",
     "score": -1
+  },
+  {
+    "object": "Pod/null-arrays.default",
+    "valid": true,
+    "message": "Null scoring arrays should be ignored",
+    "score": 0,
+    "scoring": {
+      "critical": null,
+      "passed": [],
+      "advise": null
+    }
+  },
+  {
+    "object": "-",
+    "valid": false,
+    "message": "Object field is not available",
+    "score": -7
+  },
+  {
+    "object": "Pod/no-selector.default",
+    "valid": true,
+    "message": "Selector is unavailable",
+    "score": -2,
+    "scoring": {
+      "critical": [
+        {
+          "selector": "-",
+          "reason": "Selector unavailable in input",
+          "points": -2
+        }
+      ],
+      "passed": [],
+      "advise": []
+    }
   }
 ]
