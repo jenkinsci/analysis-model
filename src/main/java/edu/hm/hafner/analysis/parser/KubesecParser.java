@@ -120,7 +120,7 @@ public class KubesecParser extends JsonIssueParser {
     }
 
     private String formatDescription(final JSONObject finding, final String object) {
-        var sb = new StringBuilder();
+        var sb = new StringBuilder(128);
         sb.append("Resource: ").append(object).append("\n");
         
         var selector = finding.optString(SELECTOR, NOT_AVAILABLE);
