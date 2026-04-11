@@ -23,7 +23,7 @@ jobs:
       - name: Set up Maven
         uses: stCarolas/setup-maven@v5
         with:
-          maven-version: 3.9.11
+          maven-version: 3.9.14
       - name: Check if quality monitor reports mutation coverage
         run: |
           FILE='.github/quality-monitor.json'
@@ -40,6 +40,8 @@ jobs:
           key: dependency-check
       - name: Build and test with Maven
         env:
+          NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
+          OSS_INDEX_TOKEN: ${{ secrets.OSS_INDEX_TOKEN }}
           PIT: ${{ env.PIT }}
         run: |
           mvn -V --color always -ntp clean verify -Pci $PIT -Powasp -Pdepgraph | tee maven.log
