@@ -11,6 +11,7 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
+import edu.hm.hafner.analysis.registry.ParserRegistry;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
@@ -77,5 +78,69 @@ class TfsecParserTest extends AbstractParserTest {
     @Test
     void brokenInput() {
         assertThatThrownBy(() -> parse("eclipse.txt")).isInstanceOf(ParsingException.class);
+    }
+
+    @Test
+    void shouldProvideDescriptorMetadata() {
+        var parserRegistry = new ParserRegistry();
+        var tfsecDescriptor = parserRegistry.get("tfsec");
+
+        assertThat(tfsecDescriptor.getPattern()).isEqualTo("**/tfsec-report.json");
+        assertThat(tfsecDescriptor.getHelp()).contains("tfsec . -f json -o tfsec-report.json");
+        assertThat(tfsecDescriptor.getUrl()).isEqualTo("https://aquasecurity.github.io/tfsec/");
+    }
+
+    @Test
+    void shouldIgnoreMissingResultsArray() {
+        var report = parseStringContent("{}");
+
+        assertThat(report).isEmpty();
+    }
+
+    @Test
+    void shouldSkipNullResultsAndHandleMissingRange() {
+        var report = parseStringContent("""
+                {
+                    "results": [
+                        null,
+                        {
+                            "rule_id": "AVD-AWS-9999",
+                            "description": "Issue without range",
+                            "severity": "LOW"
+                        }
+                    ]
+                }
+                """);
+
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0))
+                .hasType("AVD-AWS-9999")
+                .hasMessage("Issue without range")
+                .hasSeverity(Severity.WARNING_LOW);
+    }
+
+    @Test
+    void shouldHandleRangeWithoutStartAndEnd() {
+        var report = parseStringContent("""
+                {
+                    "results": [
+                        {
+                            "rule_id": "AVD-AWS-1000",
+                            "description": "Issue with incomplete range",
+                            "severity": "MEDIUM",
+                            "range": {
+                                "filename": "incomplete.tf"
+                            }
+                        }
+                    ]
+                }
+                """);
+
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0))
+                .hasFileName("incomplete.tf")
+                .hasType("AVD-AWS-1000")
+                .hasMessage("Issue with incomplete range")
+                .hasSeverity(Severity.WARNING_NORMAL);
     }
 }
