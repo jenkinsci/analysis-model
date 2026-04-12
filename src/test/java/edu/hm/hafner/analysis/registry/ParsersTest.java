@@ -925,6 +925,12 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(3, "snyk", "snyk-report.json");
     }
 
+    /** Runs the Psalm parser on an output file that contains 3 issues. */
+    @Test
+    void shouldFindAllPsalmIssues() {
+        findIssuesOfTool(3, "psalm", "psalm-report.json");
+    }
+
     /** Runs the Spectral parser on an output file that contains 4 issues. */
     @Test
     void shouldFindAllSpectralIssues() {
