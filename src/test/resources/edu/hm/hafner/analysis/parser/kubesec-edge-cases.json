@@ -1,0 +1,88 @@
+[
+  "skip-this-non-object-entry",
+  {
+    "object": "Pod/minimal-pod.default",
+    "valid": true,
+    "message": "Status not available",
+    "score": 0,
+    "scoring": {
+      "critical": [],
+      "passed": [],
+      "advise": [
+        {
+          "selector": "containers[] .resources .requests .cpu",
+          "reason": "Setting requests for CPU helps Kubernetes scheduler make better decisions",
+          "points": 1
+        }
+      ]
+    }
+  },
+  {
+    "object": "DaemonSet/logging-agent.kube-system",
+    "valid": false,
+    "message": "Invalid Kubernetes YAML",
+    "score": -100,
+    "scoring": {
+      "critical": [
+        "skip-this-non-object-finding",
+        {
+          "selector": "containers[] .securityContext .runAsUser < 1000",
+          "reason": "Running as low-numbered UID can be a security risk",
+          "points": -10
+        },
+        {
+          "selector": "containers[] .securityContext .privileged == true",
+          "reason": "Privileged containers are dangerous",
+          "points": -5
+        },
+        {
+          "selector": "containers[] .hostNetwork == true",
+          "reason": "Using host network namespace poses security risks",
+          "points": -85
+        }
+      ],
+      "passed": [],
+      "advise": []
+    }
+  },
+  {
+    "object": "CronJob/backup.default",
+    "valid": false,
+    "message": "Resource manifest is not valid",
+    "score": -1
+  },
+  {
+    "object": "Pod/null-arrays.default",
+    "valid": true,
+    "message": "Null scoring arrays should be ignored",
+    "score": 0,
+    "scoring": {
+      "critical": null,
+      "passed": [],
+      "advise": null
+    }
+  },
+  {
+    "object": "-",
+    "valid": false,
+    "message": "Object field is not available",
+    "score": -7
+  },
+  {
+    "object": "Pod/no-selector.default",
+    "valid": true,
+    "message": "Selector is unavailable",
+    "score": -2,
+    "scoring": {
+      "critical": [
+        {
+          "selector": "-",
+          "reason": "Selector unavailable in input",
+          "points": -2
+        }
+      ],
+      "passed": [],
+      "advise": []
+    }
+  }
+]
