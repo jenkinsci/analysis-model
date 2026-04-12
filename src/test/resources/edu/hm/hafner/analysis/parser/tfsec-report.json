@@ -1,0 +1,52 @@
+{
+  "results": [
+    {
+      "rule_id": "AVD-AWS-0001",
+      "description": "S3 bucket should have been encrypted",
+      "severity": "HIGH",
+      "range": {
+        "filename": "main.tf",
+        "start": {
+          "line": 5,
+          "column": 1
+        },
+        "end": {
+          "line": 12,
+          "column": 1
+        }
+      }
+    },
+    {
+      "rule_id": "AVD-AWS-0002",
+      "description": "S3 bucket does not have logging enabled",
+      "severity": "MEDIUM",
+      "range": {
+        "filename": "storage.tf",
+        "start": {
+          "line": 15,
+          "column": 1
+        },
+        "end": {
+          "line": 22,
+          "column": 1
+        }
+      }
+    },
+    {
+      "rule_id": "AVD-AWS-0003",
+      "description": "Security group should not allow unrestricted ingress",
+      "severity": "CRITICAL",
+      "range": {
+        "filename": "security.tf",
+        "start": {
+          "line": 8,
+          "column": 1
+        },
+        "end": {
+          "line": 20,
+          "column": 1
+        }
+      }
+    }
+  ]
+}

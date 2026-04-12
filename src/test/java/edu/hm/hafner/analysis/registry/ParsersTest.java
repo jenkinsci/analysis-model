@@ -901,6 +901,12 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(4, "tflint", "tflint.json");
     }
 
+    /** Runs the tfsec parser on an output file that contains 3 issues. */
+    @Test
+    void shouldFindAllTfsecIssues() {
+        findIssuesOfTool(3, "tfsec", "tfsec-report.json");
+    }
+
     /** Runs the Checkov parser on an output file that contains 3 issues. */
     @Test
     void shouldFindAllCheckovIssues() {

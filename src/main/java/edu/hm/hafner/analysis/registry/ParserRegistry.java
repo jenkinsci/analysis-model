@@ -175,6 +175,7 @@ public class ParserRegistry {
             new TaglistDescriptor(),
             new TaskingVxCompilerDescriptor(),
             new TerraformLintDescriptor(),
+            new TfsecDescriptor(),
             new TiCcsDescriptor(),
             new TnsdlDescriptor(),
             new TrivyDescriptor(),
