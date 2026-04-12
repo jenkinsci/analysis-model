@@ -10,6 +10,7 @@ import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 import java.io.IOException;
 import java.io.Serial;
@@ -75,5 +76,23 @@ public abstract class JsonIssueParser extends IssueParser {
      */
     protected void parseJsonArray(final Report report, final JSONArray jsonReport, final IssueBuilder issueBuilder) {
         // by default, no issues are reported
+    }
+
+    protected void applyStart(@CheckForNull final JSONObject start, final IssueBuilder issueBuilder,
+            final String lineKey, final String columnKey) {
+        if (start == null) {
+            return;
+        }
+
+        issueBuilder.setLineStart(start.optInt(lineKey)).setColumnStart(start.optInt(columnKey));
+    }
+
+    protected void applyEnd(@CheckForNull final JSONObject end, final IssueBuilder issueBuilder,
+            final String lineKey, final String columnKey) {
+        if (end == null) {
+            return;
+        }
+
+        issueBuilder.setLineEnd(end.optInt(lineKey)).setColumnEnd(end.optInt(columnKey));
     }
 }

@@ -79,23 +79,7 @@ public class CfnLintParser extends JsonIssueParser {
             return;
         }
 
-        applyStart(location.optJSONObject(START), issueBuilder);
-        applyEnd(location.optJSONObject(END), issueBuilder);
-    }
-
-    private void applyStart(@CheckForNull final JSONObject start, final IssueBuilder issueBuilder) {
-        if (start == null) {
-            return;
-        }
-
-        issueBuilder.setLineStart(start.optInt(LINE_NUMBER)).setColumnStart(start.optInt(COLUMN_NUMBER));
-    }
-
-    private void applyEnd(@CheckForNull final JSONObject end, final IssueBuilder issueBuilder) {
-        if (end == null) {
-            return;
-        }
-
-        issueBuilder.setLineEnd(end.optInt(LINE_NUMBER)).setColumnEnd(end.optInt(COLUMN_NUMBER));
+        applyStart(location.optJSONObject(START), issueBuilder, LINE_NUMBER, COLUMN_NUMBER);
+        applyEnd(location.optJSONObject(END), issueBuilder, LINE_NUMBER, COLUMN_NUMBER);
     }
 }

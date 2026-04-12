@@ -859,6 +859,12 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(3, "kube-linter", "kubelinter.json");
     }
 
+    /** Runs the Kubesec parser on an output file that contains 6 issues. */
+    @Test
+    void shouldFindAllKubesecIssues() {
+        findIssuesOfTool(6, "kubesec", "kubesec.json");
+    }
+
     /** Runs the DockerLint parser on an output file that contains 3 issues. */
     @Test
     void shouldFindAllDockerLintIssues() {
@@ -893,6 +899,12 @@ class ParsersTest extends ResourceTest {
     @Test
     void shouldFindAllTerraformLintIssues() {
         findIssuesOfTool(4, "tflint", "tflint.json");
+    }
+
+    /** Runs the tfsec parser on an output file that contains 3 issues. */
+    @Test
+    void shouldFindAllTfsecIssues() {
+        findIssuesOfTool(3, "tfsec", "tfsec-report.json");
     }
 
     /** Runs the Checkov parser on an output file that contains 3 issues. */
