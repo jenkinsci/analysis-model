@@ -86,7 +86,7 @@ public class KubesecParser extends JsonIssueParser {
     private Issue convertToIssue(final JSONObject finding, final String object, final Severity severity,
                                 final IssueBuilder issueBuilder) {
         return issueBuilder
-                .setFileName(extractFileNameFromObject(object))
+                .setFileName(object)
                 .setType(finding.optString(SELECTOR, NOT_AVAILABLE))
                 .setMessage(finding.optString(REASON, NOT_AVAILABLE))
                 .setSeverity(severity)
@@ -101,21 +101,13 @@ public class KubesecParser extends JsonIssueParser {
         var description = "Resource: " + object + "\nScore: " + score;
 
         return issueBuilder
-                .setFileName(extractFileNameFromObject(object))
+                .setFileName(object)
                 .setType(KUBESEC_VALIDATION)
                 .setMessage(kubesecResult.optString(MESSAGE, "Invalid Kubernetes resource"))
                 .setSeverity(Severity.ERROR)
                 .setCategory(KUBERNETES_SECURITY)
                 .setDescription(description)
                 .buildAndClean();
-    }
-
-    private String extractFileNameFromObject(final String object) {
-        if (NOT_AVAILABLE.equals(object)) {
-            return NOT_AVAILABLE;
-        }
-
-        return object;
     }
 
     private String formatDescription(final JSONObject finding, final String object) {
