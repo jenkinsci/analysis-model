@@ -172,6 +172,37 @@ class PsalmParserTest extends AbstractParserTest {
     }
 
     @Test
+    void shouldSkipNonObjectFileEntries() {
+        var report = parseStringContent("""
+                {
+                    "files": {
+                        "src/ignored.php": "invalid-entry",
+                        "src/Valid.php": {
+                            "issues": [
+                                {
+                                    "severity": "warning",
+                                    "type": "PossiblyFalseReference",
+                                    "message": "Value can be false",
+                                    "line_from": 4,
+                                    "column_from": 8
+                                }
+                            ]
+                        }
+                    }
+                }
+                """);
+
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0))
+                .hasFileName("src/Valid.php")
+                .hasType("PossiblyFalseReference")
+                .hasMessage("Value can be false")
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasLineStart(4)
+                .hasColumnStart(8);
+    }
+
+    @Test
     void shouldProvideDescriptorMetadata() {
         var descriptor = new ParserRegistry().get("psalm");
 
