@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2026-04-10T09:13:50.798238460 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2026-04-12T17:11:11.087638991 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -1404,6 +1404,27 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
         </tr>
         <tr>
             <td>
+                kubesec
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                <a href="https://kubesec.io/">
+                    Kubesec
+                </a>
+            </td>
+            <td>
+                **/kubesec.json
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Use commandline <code>kubesec scan -f deployment.yaml -o json > kubesec.json</code> output.<br/>See <a href='https://kubesec.io/'>Kubesec</a> for usage details.
+            </td>
+        </tr>
+        <tr>
+            <td>
                 msbuild
             </td>
             <td>
@@ -2605,6 +2626,27 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
         <tr>
             <td colspan="4">
                 :bulb: Use commandline <code>pnpm audit --json &gt; pnpm-audit.json</code>, see <a href="https://pnpm.io/cli/audit">pnpm audit</a> for usage details.
+            </td>
+        </tr>
+        <tr>
+            <td>
+                tfsec
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                <a href="https://aquasecurity.github.io/tfsec/">
+                    tfsec
+                </a>
+            </td>
+            <td>
+                **/tfsec-report.json
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Use commandline <code>tfsec. -f json -o tfsec-report.json</code> to generate JSON output.<br/>See <a href='https://aquasecurity.github.io/tfsec/latest/'>tfsec documentation</a> for usage details.
             </td>
         </tr>
     </tbody>
