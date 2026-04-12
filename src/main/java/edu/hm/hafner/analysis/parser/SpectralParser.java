@@ -108,23 +108,7 @@ public class SpectralParser extends JsonIssueParser {
             return;
         }
 
-        applyStart(range.optJSONObject(START), issueBuilder);
-        applyEnd(range.optJSONObject(END), issueBuilder);
-    }
-
-    private void applyStart(@CheckForNull final JSONObject start, final IssueBuilder issueBuilder) {
-        if (start == null) {
-            return;
-        }
-
-        issueBuilder.setLineStart(start.optInt(LINE)).setColumnStart(start.optInt(CHARACTER));
-    }
-
-    private void applyEnd(@CheckForNull final JSONObject end, final IssueBuilder issueBuilder) {
-        if (end == null) {
-            return;
-        }
-
-        issueBuilder.setLineEnd(end.optInt(LINE)).setColumnEnd(end.optInt(CHARACTER));
+        applyStart(range.optJSONObject(START), issueBuilder, LINE, CHARACTER);
+        applyEnd(range.optJSONObject(END), issueBuilder, LINE, CHARACTER);
     }
 }

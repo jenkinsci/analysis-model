@@ -19,6 +19,10 @@ import java.io.Serial;
 public class TerraformLintParser extends JsonIssueParser {
     @Serial
     private static final long serialVersionUID = 6629181893482024873L;
+    private static final String START = "start";
+    private static final String END = "end";
+    private static final String LINE = "line";
+    private static final String COLUMN = "column";
 
     @Override
     protected void parseJsonObject(final Report report, final JSONObject jsonReport, final IssueBuilder issueBuilder) {
@@ -61,23 +65,7 @@ public class TerraformLintParser extends JsonIssueParser {
         }
 
         issueBuilder.setFileName(range.optString("filename"));
-        applyStart(range.optJSONObject("start"), issueBuilder);
-        applyEnd(range.optJSONObject("end"), issueBuilder);
-    }
-
-    private void applyStart(@CheckForNull final JSONObject start, final IssueBuilder issueBuilder) {
-        if (start == null) {
-            return;
-        }
-
-        issueBuilder.setLineStart(start.optInt("line")).setColumnStart(start.optInt("column"));
-    }
-
-    private void applyEnd(@CheckForNull final JSONObject end, final IssueBuilder issueBuilder) {
-        if (end == null) {
-            return;
-        }
-
-        issueBuilder.setLineEnd(end.optInt("line")).setColumnEnd(end.optInt("column"));
+        applyStart(range.optJSONObject(START), issueBuilder, LINE, COLUMN);
+        applyEnd(range.optJSONObject(END), issueBuilder, LINE, COLUMN);
     }
 }

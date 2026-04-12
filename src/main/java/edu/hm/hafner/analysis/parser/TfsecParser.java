@@ -61,23 +61,7 @@ public class TfsecParser extends JsonIssueParser {
         }
 
         issueBuilder.setFileName(range.optString(FILENAME));
-        applyStart(range.optJSONObject(START), issueBuilder);
-        applyEnd(range.optJSONObject(END), issueBuilder);
-    }
-
-    private void applyStart(final JSONObject start, final IssueBuilder issueBuilder) {
-        if (start == null) {
-            return;
-        }
-
-        issueBuilder.setLineStart(start.optInt(LINE)).setColumnStart(start.optInt(COLUMN));
-    }
-
-    private void applyEnd(final JSONObject end, final IssueBuilder issueBuilder) {
-        if (end == null) {
-            return;
-        }
-
-        issueBuilder.setLineEnd(end.optInt(LINE)).setColumnEnd(end.optInt(COLUMN));
+        applyStart(range.optJSONObject(START), issueBuilder, LINE, COLUMN);
+        applyEnd(range.optJSONObject(END), issueBuilder, LINE, COLUMN);
     }
 }
