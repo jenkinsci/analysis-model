@@ -28,7 +28,8 @@ class PsalmDescriptor extends ParserDescriptor {
 
     @Override
     public String getHelp() {
-        return "Use commandline <code>psalm --output-format=json > psalm-report.json</code> to generate JSON output.";
+        return "Use commandline <code>psalm --output-format=json > psalm-report.json</code> to generate JSON output."
+                + " See <a href='https://github.com/vimeo/psalm'>Psalm on GitHub</a> for usage details.";
     }
 
     @Override

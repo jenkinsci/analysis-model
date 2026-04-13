@@ -15,6 +15,7 @@ import java.io.Serial;
  *
  * @author Akash Manna
  * @see <a href="https://psalm.dev/">Psalm</a>
+ * @see <a href="https://github.com/vimeo/psalm">Psalm on GitHub</a>
  */
 public class PsalmParser extends JsonIssueParser {
     @Serial

@@ -208,6 +208,7 @@ class PsalmParserTest extends AbstractParserTest {
 
         assertThat(descriptor.getPattern()).isEqualTo("**/psalm-report.json");
         assertThat(descriptor.getHelp()).contains("psalm --output-format=json");
+        assertThat(descriptor.getHelp()).contains("github.com/vimeo/psalm");
         assertThat(descriptor.getUrl()).isEqualTo("https://psalm.dev/");
         assertThat(descriptor.hasHelp()).isTrue();
         assertThat(descriptor.hasUrl()).isTrue();
