@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2026-04-14T13:36:34.037804495 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2026-04-14T17:07:55.251846229 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -1866,6 +1866,27 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
         <tr>
             <td colspan="4">
                 :bulb: Use protolint with options <code>-reporter=json -output_file=protolint-report.json</code>, see <a href="https://github.com/yoheimuta/protolint?tab=readme-ov-file#usage">protoLint CLI options</a> for usage details.
+            </td>
+        </tr>
+        <tr>
+            <td>
+                psalm
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                <a href="https://psalm.dev/">
+                    Psalm
+                </a>
+            </td>
+            <td>
+                **/psalm-report.json
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Use commandline <code>psalm --output-format=json > psalm-report.json</code> to generate JSON output. See <a href='https://github.com/vimeo/psalm'>Psalm on GitHub</a> for usage details.
             </td>
         </tr>
         <tr>
