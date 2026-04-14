@@ -157,6 +157,106 @@ class StaticcheckParserTest extends AbstractParserTest {
     }
 
     @Test
+    void shouldParseSingleIssueObject() {
+        var report = parseStringContent("""
+                {
+                  "code": "SA9999",
+                  "severity": "warning",
+                  "message": "single issue object",
+                  "location": {
+                    "file": "single.go",
+                    "line": 11,
+                    "column": 2
+                  }
+                }
+                """);
+
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0))
+                .hasFileName("single.go")
+                .hasType("SA9999")
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasMessage("single issue object")
+                .hasLineStart(11)
+                .hasColumnStart(2);
+    }
+
+    @Test
+    void shouldIgnoreNonIssueRootObject() {
+        var report = parseStringContent("""
+                {
+                  "metadata": {
+                    "tool": "staticcheck"
+                  }
+                }
+                """);
+
+        assertThat(report).isEmpty();
+    }
+
+    @Test
+    void shouldHandleNullDiagnosticEntry() {
+        var report = parseStringContent("""
+                {
+                  "diagnostics": [
+                    null
+                  ]
+                }
+                """);
+
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0))
+                .hasType("-")
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasMessage("")
+                .hasFileName("-")
+                .hasLineStart(0)
+                .hasLineEnd(0)
+                .hasColumnStart(0)
+                .hasColumnEnd(0);
+    }
+
+    @Test
+    void shouldDetectIssueByLocationOnly() {
+        var report = parseStringContent("""
+                {
+                  "location": {
+                    "file": "location-only.go",
+                    "line": 5,
+                    "column": 9
+                  }
+                }
+                """);
+
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0))
+                .hasFileName("location-only.go")
+                .hasType("-")
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasMessage("")
+                .hasLineStart(5)
+                .hasColumnStart(9);
+    }
+
+    @Test
+    void shouldDetectIssueByCodeOnly() {
+        var report = parseStringContent("""
+                {
+                  "code": "SA5000"
+                }
+                """);
+
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0))
+                .hasType("SA5000")
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasMessage("")
+                .hasFileName("-")
+                .hasLineStart(0)
+                .hasColumnStart(0);
+    }
+
+    @Test
     void shouldProvideDescriptorMetadata() {
         var descriptor = new ParserRegistry().get("staticcheck");
 
