@@ -1,0 +1,34 @@
+{
+  "issues": [
+    {
+      "severity": "error",
+      "line_from": 12,
+      "line_to": 12,
+      "type": "UndefinedMethod",
+      "message": "Method App\\Service\\UserService::findByUuid does not exist",
+      "file_name": "src/Service/UserService.php",
+      "column_from": 15,
+      "column_to": 33
+    },
+    {
+      "severity": "warning",
+      "line_from": 33,
+      "line_to": 35,
+      "type": "PossiblyNullArgument",
+      "message": "Argument 1 of App\\Domain\\Mailer::send cannot be null",
+      "file_name": "src/Domain/NotificationSender.php",
+      "column_from": 19,
+      "column_to": 27
+    },
+    {
+      "severity": "info",
+      "line_from": 8,
+      "line_to": 8,
+      "type": "UnusedVariable",
+      "message": "$temporaryToken is never referenced or the value is not used",
+      "file_name": "src/Utils/Tokens.php",
+      "column_from": 9,
+      "column_to": 23
+    }
+  ]
+}
