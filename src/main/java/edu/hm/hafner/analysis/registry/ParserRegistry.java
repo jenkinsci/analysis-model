@@ -146,6 +146,7 @@ public class ParserRegistry {
             new PreFastDescriptor(),
             new ProtoLintDescriptor(),
             new PuppetLintDescriptor(),
+            new PsalmDescriptor(),
             new PvsStudioDescriptor(),
             new PyDocStyleDescriptor(),
             new PyLintDescriptor(),
