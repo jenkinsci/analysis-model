@@ -185,8 +185,8 @@ public class Issue implements Serializable {
     @Deprecated @CheckForNull @SuppressWarnings("DeprecatedIsStillUsed") // used in readResolve()
     private LineRangeList lineRanges = null;  // replaced by locations since 14.0.0
 
-    @SuppressWarnings("PMD.LooseCoupling")
-    private ArrayList<Location> locations; // fixed
+    @SuppressWarnings("serial")
+    private List<Location> locations; // fixed
 
     private final UUID id;            // fixed
 

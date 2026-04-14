@@ -414,6 +414,20 @@
                   <classQualifiedName>edu.hm.hafner.analysis.parser..*Parser</classQualifiedName>
                   <justification>Parsers are not part of the API.</justification>
                 </item>
+                <item>
+                  <ignore>true</ignore>
+                  <regex>true</regex>
+                  <code>java.field.serialVersionUIDUnchanged</code>
+                  <classSimpleName>Issue</classSimpleName>
+                  <justification>We are using the interface which still serialzes correctly.</justification>
+                </item>
+                <item>
+                  <ignore>true</ignore>
+                  <regex>true</regex>
+                  <code>java.field.serialVersionUIDUnchanged</code>
+                  <classSimpleName>DuplicationGroup</classSimpleName>
+                  <justification>We are using the interface which still serialzes correctly.</justification>
+                </item>
               </differences>
             </revapi.differences>
           </analysisConfiguration>
