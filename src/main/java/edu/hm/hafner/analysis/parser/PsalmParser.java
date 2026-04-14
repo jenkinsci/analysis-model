@@ -31,10 +31,11 @@ public class PsalmParser extends JsonIssueParser {
     private static final String LINE_TO = "line_to";
     private static final String COLUMN_FROM = "column_from";
     private static final String COLUMN_TO = "column_to";
+    private static final String UNDEFINED = "-";
 
     @Override
     protected void parseJsonObject(final Report report, final JSONObject jsonReport, final IssueBuilder issueBuilder) {
-        parseIssues(report, jsonReport.optJSONArray(ISSUES), issueBuilder, "-");
+        parseIssues(report, jsonReport.optJSONArray(ISSUES), issueBuilder, UNDEFINED);
 
         var files = jsonReport.optJSONObject(FILES);
         if (files != null) {
@@ -48,7 +49,7 @@ public class PsalmParser extends JsonIssueParser {
     }
 
     private void parseIssues(final Report report, final JSONArray issues,
-            final IssueBuilder issueBuilder, final String fallbackFileName) {
+            final IssueBuilder issueBuilder, final String fileName) {
         if (issues == null) {
             return;
         }
@@ -56,21 +57,21 @@ public class PsalmParser extends JsonIssueParser {
         for (int i = 0; i < issues.length(); i++) {
             var issue = issues.optJSONObject(i);
             if (issue != null) {
-                report.add(convertToIssue(issue, issueBuilder, fallbackFileName));
+                report.add(convertToIssue(issue, issueBuilder, fileName));
             }
         }
     }
 
     private Issue convertToIssue(final JSONObject jsonIssue,
-            final IssueBuilder issueBuilder, final String fallbackFileName) {
+            final IssueBuilder issueBuilder, final String fileName) {
         var lineStart = jsonIssue.optInt(LINE_FROM, 0);
         var lineEnd = jsonIssue.optInt(LINE_TO, lineStart);
 
         return issueBuilder
-                .setType(jsonIssue.optString(TYPE, "-"))
-                .setMessage(jsonIssue.optString(MESSAGE, "-"))
+                .setType(jsonIssue.optString(TYPE, UNDEFINED))
+                .setMessage(jsonIssue.optString(MESSAGE, UNDEFINED))
                 .guessSeverity(jsonIssue.optString(SEVERITY, "warning"))
-                .setFileName(resolveFileName(jsonIssue, fallbackFileName))
+                .setFileName(resolveFileName(jsonIssue, fileName))
                 .setLineStart(lineStart)
                 .setLineEnd(lineEnd)
                 .setColumnStart(jsonIssue.optInt(COLUMN_FROM, 0))
@@ -78,8 +79,8 @@ public class PsalmParser extends JsonIssueParser {
                 .buildAndClean();
     }
 
-    private String resolveFileName(final JSONObject issue, final String fallbackFileName) {
+    private String resolveFileName(final JSONObject issue, final String fileName) {
         var primary = issue.optString(FILE_NAME);
-        return StringUtils.defaultIfBlank(primary, StringUtils.defaultIfBlank(fallbackFileName, "-"));
+        return StringUtils.defaultIfBlank(primary, fileName);
     }
 }
