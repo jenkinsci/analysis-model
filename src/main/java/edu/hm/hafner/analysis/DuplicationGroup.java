@@ -19,8 +19,8 @@ public final class DuplicationGroup implements Serializable {
     @Serial
     private static final long serialVersionUID = 14L; // release 14.0.0
 
-    @SuppressWarnings("PMD.LooseCoupling")
-    private final ArrayList<Issue> occurrences = new ArrayList<>();
+    @SuppressWarnings("serial")
+    private final List<Issue> occurrences = new ArrayList<>();
     private String codeFragment = StringUtils.EMPTY;
 
     /**
