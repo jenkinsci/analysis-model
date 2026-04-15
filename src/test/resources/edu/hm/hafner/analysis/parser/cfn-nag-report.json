@@ -1,0 +1,62 @@
+[
+  {
+    "filename": "templates/efs-encryption.yaml",
+    "file_results": {
+      "failure_count": 1,
+      "violations": [
+        {
+          "id": "F27",
+          "type": "FAIL",
+          "message": "EFS FileSystem should have encryption enabled",
+          "logical_resource_ids": [
+            "EncryptedFileSystem"
+          ],
+          "line_numbers": [
+            12
+          ],
+          "element_types": [
+            "resource"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "filename": "templates/public-sg.yaml",
+    "file_results": {
+      "failure_count": 0,
+      "violations": [
+        {
+          "id": "W2",
+          "type": "WARN",
+          "message": "Security Groups found with cidr open to world on ingress",
+          "logical_resource_ids": [
+            "PublicAlbSecurityGroup",
+            "PublicAlbIngressRule"
+          ],
+          "line_numbers": [
+            19,
+            27
+          ],
+          "element_types": [
+            "resource",
+            "resource"
+          ]
+        },
+        {
+          "type": "WARN",
+          "message": "Fallback rule id handling",
+          "logical_resource_ids": [
+            "NoIdResource"
+          ],
+          "line_numbers": [
+            41
+          ],
+          "element_types": [
+            "resource"
+          ]
+        }
+      ]
+    }
+  }
+]
