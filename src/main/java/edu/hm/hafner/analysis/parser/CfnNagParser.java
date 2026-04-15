@@ -6,7 +6,6 @@ import org.json.JSONObject;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Severity;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 import java.io.Serial;
@@ -68,25 +67,13 @@ public class CfnNagParser extends JsonIssueParser {
     private Issue convertToIssue(final JSONObject violation, final String fileName, final IssueBuilder issueBuilder) {
         issueBuilder.setFileName(fileName)
                 .setType(violation.optString(ID, "-"))
-                .setMessage(violation.optString(MESSAGE));
+                .setMessage(violation.optString(MESSAGE))
+                .guessSeverity(violation.optString(TYPE));
 
-        applySeverity(violation.optString(TYPE), issueBuilder);
         applyLineNumbers(violation.optJSONArray(LINE_NUMBERS), issueBuilder);
         applyLogicalResourceIds(violation.optJSONArray(LOGICAL_RESOURCE_IDS), issueBuilder);
 
         return issueBuilder.buildAndClean();
-    }
-
-    private void applySeverity(final String type, final IssueBuilder issueBuilder) {
-        if (equalsIgnoreCase(type, "FAIL")) {
-            issueBuilder.setSeverity(Severity.ERROR);
-        }
-        else if (equalsIgnoreCase(type, "WARN")) {
-            issueBuilder.setSeverity(Severity.WARNING_NORMAL);
-        }
-        else {
-            issueBuilder.guessSeverity(type);
-        }
     }
 
     private void applyLineNumbers(@CheckForNull final JSONArray lineNumbers, final IssueBuilder issueBuilder) {
