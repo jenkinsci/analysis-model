@@ -98,13 +98,13 @@ public class Severity implements Serializable {
      * @return mapped level.
      */
     public static Severity guessFromString(@CheckForNull final String severity) {
-        if (Strings.CI.containsAny(severity, "error", "severe", "critical", "fatal")) {
+        if (Strings.CI.containsAny(severity, "error", "severe", "critical", "fatal", "fail")) {
             return ERROR;
         }
         if (Strings.CI.containsAny(severity, "info", "note", "low", "suggestion")) {
             return WARNING_LOW;
         }
-        if (Strings.CI.containsAny(severity, "warning", "medium", "moderate")) {
+        if (Strings.CI.containsAny(severity, "warn", "medium", "moderate")) {
             return WARNING_NORMAL;
         }
         if (Strings.CI.contains(severity, "high")) {

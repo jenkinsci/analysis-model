@@ -883,6 +883,12 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(3, "cfn-lint", "cfn-lint-report.json");
     }
 
+    /** Runs the CFN-Nag parser on an output file that contains 3 issues. */
+    @Test
+    void shouldFindAllCfnNagIssues() {
+        findIssuesOfTool(3, "cfn-nag", "cfn-nag-report.json");
+    }
+
     /** Runs the OTDockerLint parser on an output file that contains 5 issues. */
     @Test
     void shouldFindAllOTDockerLintIssues() {
