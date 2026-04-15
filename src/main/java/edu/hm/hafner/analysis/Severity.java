@@ -104,7 +104,7 @@ public class Severity implements Serializable {
         if (Strings.CI.containsAny(severity, "info", "note", "low", "suggestion")) {
             return WARNING_LOW;
         }
-        if (Strings.CI.containsAny(severity, "warning", "warn", "medium", "moderate")) {
+        if (Strings.CI.containsAny(severity, "warn", "medium", "moderate")) {
             return WARNING_NORMAL;
         }
         if (Strings.CI.contains(severity, "high")) {
