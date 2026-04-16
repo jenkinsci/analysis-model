@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2026-04-15T12:58:20.300007752 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2026-04-16T16:07:34.286749950 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -2309,6 +2309,27 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
             </td>
             <td>
                 **/spotbugsXml.xml
+            </td>
+        </tr>
+        <tr>
+            <td>
+                staticcheck
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                <a href="https://github.com/dominikh/go-tools">
+                    Staticcheck
+                </a>
+            </td>
+            <td>
+                **/staticcheck-report.json
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Use commandline <code>staticcheck -f json./... > staticcheck-report.json</code> to generate JSON output.<br/>See <a href='https://github.com/dominikh/go-tools'>Staticcheck on GitHub</a> for usage details.
             </td>
         </tr>
         <tr>
