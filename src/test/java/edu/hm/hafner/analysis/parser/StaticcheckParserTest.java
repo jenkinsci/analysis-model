@@ -204,7 +204,7 @@ class StaticcheckParserTest extends AbstractParserTest {
                 }
                 """);
 
-              assertThat(report).isEmpty();
+        assertThat(report).isEmpty();
     }
 
     @Test
