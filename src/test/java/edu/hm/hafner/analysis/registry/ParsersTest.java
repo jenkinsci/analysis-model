@@ -943,6 +943,12 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(3, "snyk", "snyk-report.json");
     }
 
+    /** Runs the Staticcheck parser on an output file that contains 4 issues. */
+    @Test
+    void shouldFindAllStaticcheckIssues() {
+        findIssuesOfTool(4, "staticcheck", "staticcheck-report.json");
+    }
+
     /** Runs the Psalm parser on an output file that contains 3 issues. */
     @Test
     void shouldFindAllPsalmIssues() {
