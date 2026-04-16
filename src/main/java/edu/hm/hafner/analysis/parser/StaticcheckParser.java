@@ -6,7 +6,6 @@ import org.json.JSONObject;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
-import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 import java.io.Serial;
 
@@ -48,7 +47,10 @@ public class StaticcheckParser extends JsonIssueParser {
 
     private void parseDiagnostics(final Report report, final JSONArray diagnostics, final IssueBuilder issueBuilder) {
         for (int i = 0; i < diagnostics.length(); i++) {
-            report.add(convertToIssue(diagnostics.optJSONObject(i), issueBuilder));
+            var issue = diagnostics.optJSONObject(i);
+            if (issue != null) {
+                report.add(convertToIssue(issue, issueBuilder));
+            }
         }
     }
 
@@ -56,11 +58,7 @@ public class StaticcheckParser extends JsonIssueParser {
         return jsonReport.has(MESSAGE) || jsonReport.has(CODE) || jsonReport.has(LOCATION);
     }
 
-    private Issue convertToIssue(@CheckForNull final JSONObject jsonIssue, final IssueBuilder issueBuilder) {
-        if (jsonIssue == null) {
-            return issueBuilder.buildAndClean();
-        }
-
+    private Issue convertToIssue(final JSONObject jsonIssue, final IssueBuilder issueBuilder) {
         issueBuilder.setType(jsonIssue.optString(CODE, "-"))
                 .guessSeverity(jsonIssue.optString(SEVERITY, "warning"))
                 .setMessage(jsonIssue.optString(MESSAGE));
@@ -71,7 +69,7 @@ public class StaticcheckParser extends JsonIssueParser {
         return issueBuilder.buildAndClean();
     }
 
-    private void applyLocation(@CheckForNull final JSONObject location, final IssueBuilder issueBuilder) {
+    private void applyLocation(final JSONObject location, final IssueBuilder issueBuilder) {
         if (location == null) {
             return;
         }

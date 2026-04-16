@@ -204,16 +204,7 @@ class StaticcheckParserTest extends AbstractParserTest {
                 }
                 """);
 
-        assertThat(report).hasSize(1);
-        assertThat(report.get(0))
-                .hasType("-")
-                .hasSeverity(Severity.WARNING_NORMAL)
-                .hasMessage("")
-                .hasFileName("-")
-                .hasLineStart(0)
-                .hasLineEnd(0)
-                .hasColumnStart(0)
-                .hasColumnEnd(0);
+              assertThat(report).isEmpty();
     }
 
     @Test
