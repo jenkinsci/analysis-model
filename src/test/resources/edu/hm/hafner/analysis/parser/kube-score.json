@@ -1,0 +1,70 @@
+[
+  {
+    "object_name": "Deployment/web.default",
+    "type_meta": {
+      "kind": "Deployment",
+      "apiVersion": "apps/v1"
+    },
+    "object_meta": {
+      "name": "web",
+      "namespace": "default"
+    },
+    "file_name": "manifests/deployment.yaml",
+    "file_row": 7,
+    "checks": [
+      {
+        "check": {
+          "id": "container-security-context-privileged",
+          "name": "Privileged containers should not be used",
+          "target_type": "containers",
+          "comment": "Do not run containers in privileged mode.",
+          "optional": false
+        },
+        "grade": 1,
+        "skipped": false,
+        "comments": [
+          {
+            "path": "spec.template.spec.containers[0].securityContext.privileged",
+            "summary": "Privileged container",
+            "description": "The main container is privileged."
+          },
+          {
+            "path": "spec.template.spec.containers[1].securityContext.privileged",
+            "summary": "Privileged sidecar",
+            "description": "Sidecar containers must not be privileged."
+          }
+        ]
+      },
+      {
+        "check": {
+          "id": "container-security-context-run-as-non-root",
+          "name": "Run containers as non-root",
+          "target_type": "containers",
+          "comment": "Run containers as non-root.",
+          "optional": false
+        },
+        "grade": 5,
+        "skipped": false,
+        "comments": []
+      },
+      {
+        "check": {
+          "id": "container-probes",
+          "name": "Readiness and liveness probes should differ",
+          "target_type": "containers",
+          "comment": "Configure distinct readiness and liveness probes.",
+          "optional": true
+        },
+        "grade": 7,
+        "skipped": false,
+        "comments": [
+          {
+            "path": "spec.template.spec.containers[0].readinessProbe",
+            "summary": "Optional probe",
+            "description": "This entry must be ignored because the grade is not actionable."
+          }
+        ]
+      }
+    ]
+  }
+]
