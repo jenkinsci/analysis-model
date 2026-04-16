@@ -1,0 +1,58 @@
+[
+  {
+    "code": "SA4006",
+    "severity": "warning",
+    "location": {
+      "file": "internal/config/config.go",
+      "line": 42,
+      "column": 2
+    },
+    "end": {
+      "line": 42,
+      "column": 13
+    },
+    "message": "this value of err is never used"
+  },
+  {
+    "code": "ST1005",
+    "severity": "info",
+    "location": {
+      "file": "pkg/http/server.go",
+      "line": 18,
+      "column": 6
+    },
+    "end": {
+      "line": 18,
+      "column": 19
+    },
+    "message": "error strings should not be capitalized"
+  },
+  {
+    "code": "S1002",
+    "severity": "warning",
+    "location": {
+      "file": "cmd/app/main.go",
+      "line": 65,
+      "column": 3,
+      "end": {
+        "line": 65,
+        "column": 21
+      }
+    },
+    "message": "should omit comparison to bool constant"
+  },
+  {
+    "code": "U1000",
+    "severity": "error",
+    "location": {
+      "file": "pkg/cache/cache.go",
+      "line": 90,
+      "column": 1
+    },
+    "end": {
+      "line": 95,
+      "column": 2
+    },
+    "message": "func warmupCache is unused"
+  }
+]
