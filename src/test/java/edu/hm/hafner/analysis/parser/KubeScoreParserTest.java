@@ -146,6 +146,171 @@ class KubeScoreParserTest extends AbstractParserTest {
     }
 
     @Test
+    void shouldSkipNonObjectArrayEntries() {
+        var report = parseStringContent("""
+                [
+                  42,
+                  "invalid"
+                ]
+                """);
+
+        assertThat(report).isEmpty();
+    }
+
+    @Test
+    void shouldSkipNonObjectMapEntries() {
+        var report = parseStringContent("""
+                {
+                  "not-an-object": 1,
+                  "also-not-an-object": "value"
+                }
+                """);
+
+        assertThat(report).isEmpty();
+    }
+
+    @Test
+    void shouldHandleDefensiveFallbackBranches() {
+        var report = parseStringContent("""
+                [
+                  {
+                    "object_name": "skip.non-object-checks",
+                    "checks": [42]
+                  },
+                  {
+                    "object_name": "missing.checks"
+                  },
+                  {
+                    "object_name": "skip.skipped-check",
+                    "file_name": "skipped.yaml",
+                    "checks": [
+                      {
+                        "grade": 1,
+                        "skipped": true,
+                        "check": {
+                          "id": "ignored",
+                          "name": "ignored",
+                          "comment": "ignored"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "object_name": "null.check.object",
+                    "file_name": "nocheck.yaml",
+                    "checks": [
+                      {
+                        "grade": 1,
+                        "comments": []
+                      }
+                    ]
+                  },
+                  {
+                    "object_name": "comments.missing",
+                    "file_name": "comments-missing.yaml",
+                    "checks": [
+                      {
+                        "grade": 1,
+                        "check": {
+                          "id": "id-missing-comments",
+                          "name": "Missing comments check"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "object_name": "comments.non-object",
+                    "file_name": "comments-non-object.yaml",
+                    "checks": [
+                      {
+                        "grade": 1,
+                        "check": {
+                          "id": "id-non-object-comment",
+                          "name": "Non object comments",
+                          "comment": ""
+                        },
+                        "comments": [1]
+                      }
+                    ]
+                  },
+                  {
+                    "object_name": "fallback.filename",
+                    "FileLocation": {
+                      "Name": "",
+                      "Line": 0
+                    },
+                    "file_name": "fallback.yaml",
+                    "checks": [
+                      {
+                        "grade": 1,
+                        "check": {
+                          "id": "id-fallback-name",
+                          "name": "Fallback name",
+                          "comment": "Fallback comment"
+                        },
+                        "comments": [
+                          {
+                            "summary": "No path or description"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "object_name": "default.values",
+                    "file_name": "default-values.yaml",
+                    "checks": [
+                      {
+                        "grade": 1,
+                        "check": {},
+                        "comments": [
+                          {}
+                        ]
+                      }
+                    ]
+                  }
+                ]
+                """);
+
+        assertThat(report).hasSize(5);
+
+        assertThat(report.get(0))
+                .hasFileName("nocheck.yaml")
+                .hasType("-")
+                .hasMessage("-")
+                .hasLineStart(0)
+                .hasLineEnd(0);
+
+        assertThat(report.get(1))
+                .hasFileName("comments-missing.yaml")
+                .hasType("id-missing-comments")
+                .hasMessage("Missing comments check")
+                .hasDescription("")
+                .hasLineStart(0)
+                .hasLineEnd(0);
+
+        assertThat(report.get(2))
+                .hasFileName("comments-non-object.yaml")
+                .hasType("id-non-object-comment")
+                .hasMessage("Non object comments")
+                .hasDescription("");
+
+        assertThat(report.get(3))
+                .hasFileName("fallback.yaml")
+                .hasType("id-fallback-name")
+                .hasMessage("No path or description")
+                .hasDescription("Fallback comment")
+                .hasLineStart(0)
+                .hasLineEnd(0);
+
+        assertThat(report.get(4))
+                .hasFileName("default-values.yaml")
+                .hasType("-")
+                .hasMessage("-")
+                .hasDescription("");
+    }
+
+    @Test
     void shouldProvideDescriptorMetadata() {
         var descriptor = new ParserRegistry().get("kube-score");
 
