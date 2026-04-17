@@ -1,0 +1,47 @@
+{
+  "status": "ok",
+  "issue_count": 3,
+  "issues": [
+    {
+      "type": "issue",
+      "check_name": "PhanSyntaxError",
+      "description": "Syntax PhanSyntaxError Unexpected token '}'",
+      "severity": 10,
+      "location": {
+        "path": "src/Foo.php",
+        "lines": {
+          "begin": 12,
+          "end": 12,
+          "begin_column": 4
+        }
+      }
+    },
+    {
+      "type": "issue",
+      "check_name": "PhanTypeMismatchArgument",
+      "description": "Type PhanTypeMismatchArgument Argument 1 passed to foo() must be of the type string, int given",
+      "severity": 5,
+      "location": {
+        "path": "src/Bar.php",
+        "lines": {
+          "begin": 27,
+          "end": 27
+        }
+      }
+    },
+    {
+      "type": "issue",
+      "check_name": "PhanUndeclaredVariable",
+      "description": "UndefError PhanUndeclaredVariable Variable $value is not defined",
+      "severity": 0,
+      "location": {
+        "path": "src/Baz.php",
+        "lines": {
+          "begin": 8,
+          "end": 8,
+          "begin_column": 9
+        }
+      }
+    }
+  ]
+}
