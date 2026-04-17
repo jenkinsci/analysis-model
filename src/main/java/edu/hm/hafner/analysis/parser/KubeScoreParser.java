@@ -58,9 +58,6 @@ public class KubeScoreParser extends JsonIssueParser {
     private static final int CRITICAL_GRADE = 1;
     private static final int WARNING_GRADE = 5;
 
-    private record IssueDetails(String objectName, String fileName, int fileRow, Severity severity) {
-    }
-
     @Override
     protected void parseJsonArray(final Report report, final JSONArray jsonReport, final IssueBuilder issueBuilder) {
         for (int i = 0; i < jsonReport.length(); i++) {
@@ -246,5 +243,8 @@ public class KubeScoreParser extends JsonIssueParser {
             }
         }
         return defaultValue;
+    }
+
+    private record IssueDetails(String objectName, String fileName, int fileRow, Severity severity) {
     }
 }
