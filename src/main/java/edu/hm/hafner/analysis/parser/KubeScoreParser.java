@@ -100,21 +100,38 @@ public class KubeScoreParser extends JsonIssueParser {
     private void parseCheck(final Report report, final JSONObject checkResult, final String objectName,
             final String fileName, final int fileRow, final IssueBuilder issueBuilder) {
         var grade = checkResult.optInt(GRADE, checkResult.optInt(GRADE_LEGACY, -1));
-        if (grade > WARNING_GRADE || isSkipped(checkResult)) {
+        if (shouldSkipCheck(checkResult, grade)) {
             return;
         }
 
         var severity = grade == CRITICAL_GRADE ? Severity.ERROR : Severity.WARNING_NORMAL;
-        var check = checkResult.optJSONObject(CHECK);
-        if (check == null) {
-            check = checkResult.optJSONObject(CHECK_LEGACY);
-        }
+        var check = findCheck(checkResult);
 
         if (check == null) {
             report.add(createIssue(checkResult, null, objectName, fileName, fileRow, severity, issueBuilder));
             return;
         }
 
+        addIssuesForCheck(report, checkResult, check, objectName, fileName, fileRow, severity, issueBuilder);
+    }
+
+    private boolean shouldSkipCheck(final JSONObject checkResult, final int grade) {
+        return grade > WARNING_GRADE || isSkipped(checkResult);
+    }
+
+    @CheckForNull
+    private JSONObject findCheck(final JSONObject checkResult) {
+        var check = checkResult.optJSONObject(CHECK);
+        if (check != null) {
+            return check;
+        }
+
+        return checkResult.optJSONObject(CHECK_LEGACY);
+    }
+
+    private void addIssuesForCheck(final Report report, final JSONObject checkResult, final JSONObject check,
+            final String objectName, final String fileName, final int fileRow, final Severity severity,
+            final IssueBuilder issueBuilder) {
         var comments = optJSONArray(checkResult, COMMENTS, COMMENTS_LEGACY);
         if (comments == null || comments.isEmpty()) {
             report.add(createIssue(check, null, objectName, fileName, fileRow, severity, issueBuilder));
@@ -139,6 +156,7 @@ public class KubeScoreParser extends JsonIssueParser {
         return checkResult.optBoolean(SKIPPED, checkResult.optBoolean(SKIPPED_LEGACY, false));
     }
 
+    @SuppressWarnings("PMD.CloseResource")
     private Issue createIssue(final JSONObject check, @CheckForNull final JSONObject comment, final String objectName,
             final String fileName, final int fileRow, final Severity severity, final IssueBuilder issueBuilder) {
         var builder = issueBuilder
