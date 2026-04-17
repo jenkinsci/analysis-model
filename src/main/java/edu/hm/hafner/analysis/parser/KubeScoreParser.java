@@ -58,6 +58,9 @@ public class KubeScoreParser extends JsonIssueParser {
     private static final int CRITICAL_GRADE = 1;
     private static final int WARNING_GRADE = 5;
 
+    private record IssueDetails(String objectName, String fileName, int fileRow, Severity severity) {
+    }
+
     @Override
     protected void parseJsonArray(final Report report, final JSONArray jsonReport, final IssueBuilder issueBuilder) {
         for (int i = 0; i < jsonReport.length(); i++) {
@@ -106,13 +109,14 @@ public class KubeScoreParser extends JsonIssueParser {
 
         var severity = grade == CRITICAL_GRADE ? Severity.ERROR : Severity.WARNING_NORMAL;
         var check = findCheck(checkResult);
+        var details = new IssueDetails(objectName, fileName, fileRow, severity);
 
         if (check == null) {
-            report.add(createIssue(checkResult, null, objectName, fileName, fileRow, severity, issueBuilder));
+            report.add(createIssue(checkResult, null, details, issueBuilder));
             return;
         }
 
-        addIssuesForCheck(report, checkResult, check, objectName, fileName, fileRow, severity, issueBuilder);
+        addIssuesForCheck(report, checkResult, check, details, issueBuilder);
     }
 
     private boolean shouldSkipCheck(final JSONObject checkResult, final int grade) {
@@ -130,11 +134,10 @@ public class KubeScoreParser extends JsonIssueParser {
     }
 
     private void addIssuesForCheck(final Report report, final JSONObject checkResult, final JSONObject check,
-            final String objectName, final String fileName, final int fileRow, final Severity severity,
-            final IssueBuilder issueBuilder) {
+            final IssueDetails details, final IssueBuilder issueBuilder) {
         var comments = optJSONArray(checkResult, COMMENTS, COMMENTS_LEGACY);
         if (comments == null || comments.isEmpty()) {
-            report.add(createIssue(check, null, objectName, fileName, fileRow, severity, issueBuilder));
+            report.add(createIssue(check, null, details, issueBuilder));
             return;
         }
 
@@ -142,13 +145,13 @@ public class KubeScoreParser extends JsonIssueParser {
         for (int i = 0; i < comments.length(); i++) {
             var comment = comments.optJSONObject(i);
             if (comment != null) {
-                report.add(createIssue(check, comment, objectName, fileName, fileRow, severity, issueBuilder));
+                report.add(createIssue(check, comment, details, issueBuilder));
                 addedComment = true;
             }
         }
 
         if (!addedComment) {
-            report.add(createIssue(check, null, objectName, fileName, fileRow, severity, issueBuilder));
+            report.add(createIssue(check, null, details, issueBuilder));
         }
     }
 
@@ -157,20 +160,20 @@ public class KubeScoreParser extends JsonIssueParser {
     }
 
     @SuppressWarnings("PMD.CloseResource")
-    private Issue createIssue(final JSONObject check, @CheckForNull final JSONObject comment, final String objectName,
-            final String fileName, final int fileRow, final Severity severity, final IssueBuilder issueBuilder) {
+    private Issue createIssue(final JSONObject check, @CheckForNull final JSONObject comment,
+            final IssueDetails details, final IssueBuilder issueBuilder) {
         var builder = issueBuilder
-                .setFileName(fileName)
-                .setCategory(objectName)
+                .setFileName(details.fileName())
+                .setCategory(details.objectName())
                 .setType(stringValue(check, NOT_AVAILABLE, ID, ID_LEGACY, NAME, NAME_LEGACY))
                 .setMessage(comment == null ? stringValue(check, NOT_AVAILABLE, NAME, NAME_LEGACY)
                         : stringValue(comment, stringValue(check, NOT_AVAILABLE, NAME, NAME_LEGACY), SUMMARY,
                                 SUMMARY_LEGACY))
-                .setSeverity(severity)
+                .setSeverity(details.severity())
                 .setDescription(buildDescription(check, comment));
 
-        if (fileRow > 0) {
-            builder.setLineStart(fileRow).setLineEnd(fileRow);
+        if (details.fileRow() > 0) {
+            builder.setLineStart(details.fileRow()).setLineEnd(details.fileRow());
         }
 
         return builder.buildAndClean();
