@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2026-04-16T16:07:34.286749950 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2026-04-18T22:20:14.633219587 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -1421,6 +1421,27 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
         <tr>
             <td colspan="4">
                 :bulb: Use commandline <code>kube-linter lint --format json --output kube-linter.json</code> output.<br/>See <a href='https://github.com/stackrox/kube-linter'>KubeLinter on GitHub</a> for usage details.
+            </td>
+        </tr>
+        <tr>
+            <td>
+                kube-score
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                <a href="https://github.com/zegl/kube-score">
+                    KubeScore
+                </a>
+            </td>
+            <td>
+                **/kube-score.json
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Use commandline <code>kube-score score -o json &gt; kube-score.json</code> output.<br/>See <a href='https://github.com/zegl/kube-score'>kube-score on GitHub</a> for usage details.
             </td>
         </tr>
         <tr>
