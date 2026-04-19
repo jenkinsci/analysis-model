@@ -15,6 +15,7 @@ import java.io.Serial;
  *
  * @author Akash Manna
  * @see <a href="https://github.com/phan/phan">Phan on GitHub</a>
+ * @see <a href="https://phpqa.io/projects/phan.html">Phan documentation</a>
  */
 public class PhanParser extends JsonIssueParser {
     @Serial

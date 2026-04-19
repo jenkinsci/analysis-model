@@ -335,6 +335,7 @@ class PhanParserTest extends AbstractParserTest {
 
         assertThat(descriptor.getPattern()).isEqualTo("**/phan-report.json");
         assertThat(descriptor.getHelp()).contains("phan --output-mode json");
+        assertThat(descriptor.getHelp()).contains("https://phpqa.io/projects/phan.html");
         assertThat(descriptor.getUrl()).isEqualTo("https://github.com/phan/phan");
         assertThat(descriptor.hasHelp()).isTrue();
         assertThat(descriptor.hasUrl()).isTrue();

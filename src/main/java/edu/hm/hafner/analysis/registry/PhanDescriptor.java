@@ -29,7 +29,8 @@ class PhanDescriptor extends ParserDescriptor {
     @Override
     public String getHelp() {
         return "Use <code>phan --output-mode json &gt; phan-report.json</code> to generate JSON output.<br/>"
-                + "See <a href='https://github.com/phan/phan'>Phan on GitHub</a> for usage details.";
+                + "See <a href='https://github.com/phan/phan'>Phan on GitHub</a> for usage details. "
+                + "See <a href='https://phpqa.io/projects/phan.html'>Phan documentation</a> for usage details.";
     }
 
     @Override
