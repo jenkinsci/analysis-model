@@ -190,7 +190,7 @@ class PhanParserTest extends AbstractParserTest {
         assertThat(report.get(0))
                 .hasType("issue")
                 .hasSeverity(Severity.WARNING_LOW)
-            .hasMessage("");
+                .hasMessage("");
 
         assertThat(report.get(1))
                 .hasType("-")

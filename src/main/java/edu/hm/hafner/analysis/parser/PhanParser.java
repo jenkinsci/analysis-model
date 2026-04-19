@@ -32,6 +32,7 @@ public class PhanParser extends JsonIssueParser {
     private static final String END = "end";
     private static final String BEGIN_COLUMN = "begin_column";
     private static final String COLUMN = "column";
+    private static final int SPLIT_LIMIT = 3;
 
     @Override
     protected void parseJsonObject(final Report report, final JSONObject jsonReport, final IssueBuilder issueBuilder) {
@@ -136,8 +137,8 @@ public class PhanParser extends JsonIssueParser {
             }
         }
 
-        var parts = description.split(" ", 3);
-        if (parts.length == 3) {
+        var parts = description.split(" ", SPLIT_LIMIT);
+        if (parts.length == SPLIT_LIMIT) {
             return parts[2];
         }
 
