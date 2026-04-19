@@ -120,6 +120,7 @@ public class ParserRegistry {
             new KtLintDescriptor(),
             new KubesecDescriptor(),
             new KubeLinterDescriptor(),
+            new KubeScoreDescriptor(),
             new MarkdownLintDescriptor(),
             new MavenConsoleDescriptor(),
             new MentorGraphicsDescriptor(),
