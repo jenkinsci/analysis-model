@@ -500,6 +500,19 @@ public class IssueBuilder implements AutoCloseable {
      * @return this
      */
     @CanIgnoreReturnValue
+    public IssueBuilder setMessage(final StringBuilder message) {
+        return setMessage(message.toString());
+    }
+
+    /**
+     * Sets the detailed message for this issue.
+     *
+     * @param message
+     *         the message
+     *
+     * @return this
+     */
+    @CanIgnoreReturnValue
     public IssueBuilder setMessage(@CheckForNull final String message) {
         if (StringUtils.isBlank(message)) {
             this.message = EMPTY_TREE_STRING;
@@ -586,6 +599,30 @@ public class IssueBuilder implements AutoCloseable {
         }
 
         return this;
+    }
+
+    /**
+     * Adds another location to this issue, the first location is considered the primary location.
+     *
+     * @param fileName
+     *         the name of the affected file
+     * @param lineStart
+     *         the first line of the affected code
+     * @param lineEnd
+     *         the last line of the affected code
+     * @param columnStart
+     *         the first column of the affected code
+     * @param columnEnd
+     *         the last column of the affected code
+     *
+     * @return this
+     */
+    @CanIgnoreReturnValue
+    @SuppressWarnings("checkstyle:HiddenField")
+    public IssueBuilder addLocation(final String fileName,
+            final int lineStart, final int lineEnd,
+            final int columnStart, final int columnEnd) {
+        return addLocation(new Location(internFileName(fileName), lineStart, lineEnd, columnStart, columnEnd));
     }
 
     /**
