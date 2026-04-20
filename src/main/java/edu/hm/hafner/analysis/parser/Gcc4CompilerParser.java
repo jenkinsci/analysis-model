@@ -4,12 +4,14 @@ import org.apache.commons.lang3.Strings;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.Location;
 import edu.hm.hafner.analysis.LookaheadParser;
+import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.util.IntegerParser;
 import edu.hm.hafner.util.LookaheadStream;
+import edu.hm.hafner.util.TreeStringBuilder;
 
 import java.io.Serial;
-import java.util.ArrayList;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -23,13 +25,12 @@ public class Gcc4CompilerParser extends LookaheadParser {
     @Serial
     private static final long serialVersionUID = 5490211629355204910L;
 
-    private static final String LOCATION = "(?<file>.+?):(?<line>\\d+):(?:(?<column>\\d+):)?";
     private static final String GCC_WARNING_PATTERN =
-            ANT_TASK + LOCATION + " ?(?<severity>[wW]arning|.*[Ee]rror): (?<message>.*)$";
+            ANT_TASK + "(.+?):(\\d+):(?:(\\d+):)? ?([wW]arning|.*[Ee]rror|[Nn]ote): (.*)$";
     private static final Pattern CLASS_PATTERN = Pattern.compile("\\[-W(.+)]$");
     private static final Pattern GCC_OPTION_PATTERN = Pattern.compile("\\[-(f[^\\]]+)]$");
     private static final Pattern CLANG_TIDY_PATTERN = Pattern.compile("\\[[^\\s\\]]+\\]$");
-    private static final Pattern NOTE_PATTERN = Pattern.compile("^" + LOCATION + " ?[Nn]ote: (?<message>.*)$");
+    private static final Pattern NOTE_PATTERN = Pattern.compile("^(?<file>.+?):(?<line>\\d+):(?:(?<column>\\d+):)? ?[Nn]ote: (?<message>.*)$");
 
     /**
      * Creates a new instance of {@link Gcc4CompilerParser}.
@@ -39,10 +40,8 @@ public class Gcc4CompilerParser extends LookaheadParser {
     }
 
     /**
-     * Creates a new instance of {@link Gcc4CompilerParser} with the specified pattern.
-     *
-     * @param pattern
-     *         a regex pattern to be used instead of the default one
+     * Creates a new instance of {@link Gcc4CompilerParser} with specified pattern.
+     * @param pattern a regex pattern to be used instead of the default one
      */
     Gcc4CompilerParser(final String pattern) {
         super(pattern);
@@ -56,69 +55,64 @@ public class Gcc4CompilerParser extends LookaheadParser {
     @Override
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
-        var originalMessage = matcher.group("message");
-        if (isClangTidyWarning(originalMessage)) {
+        if (isNoteMessage(matcher)) {
             return Optional.empty();
         }
 
-        addLocation(matcher, builder);
+        var message = new StringBuilder(matcher.group(5));
+        var originalMessage = message.toString();
 
-        var message = new StringBuilder(originalMessage);
+        setCategory(builder, originalMessage);
+
         boolean hasCodeSnippet = false;
         while (lookahead.hasNext() && isMessageContinuation(lookahead, hasCodeSnippet)) {
             var continuation = lookahead.next();
-            if (!continuation.isEmpty() && Character.isWhitespace(continuation.charAt(0))) {
+            if (continuation.length() > 0 && Character.isWhitespace(continuation.charAt(0))) {
                 hasCodeSnippet = true;
             }
             message.append('\n');
             message.append(continuation);
         }
 
-        var notes = collectNotes(lookahead, builder);
+        var treeStringBuilder = new TreeStringBuilder();
+        var notes = collectNotes(lookahead, builder, treeStringBuilder);
         if (!notes.isEmpty()) {
             message.append('\n');
             message.append(notes);
         }
 
-        setCategory(builder, originalMessage);
-        return builder.setMessage(message)
-                .guessSeverity(matcher.group("severity"))
+        // Reject clang-tidy warnings that have [check-name] but not [-Wwarning-name]
+        // clang-tidy warnings should be handled by ClangTidyParser
+        var messageStr = message.toString();
+        if (CLANG_TIDY_PATTERN.matcher(messageStr).find() && !CLASS_PATTERN.matcher(messageStr).find()) {
+            return Optional.empty();
+        }
+
+        return builder.setFileName(matcher.group(1))
+                .setLineStart(matcher.group(2))
+                .setColumnStart(matcher.group(3))
+                .setMessage(messageStr)
+                .setSeverity(Severity.guessFromString(matcher.group(4)))
                 .buildOptional();
     }
 
-    private void addLocation(final Matcher matcher, final IssueBuilder builder) {
-        var fileName = matcher.group("file");
-        var line = toInt(matcher.group("line"));
-        var column = toInt(matcher.group("column"));
-
-        builder.addLocation(fileName, line, line, column, column);
-    }
-
-    private int toInt(final String number) {
-        return IntegerParser.parseInt(number);
-    }
-
     /**
-     * Check if the warning is from clang-tidy. Those warnings are quite similar and have [check-name] but not
-     * [-Wwarning-name] or [-fcompiler-option]. Since a separate parser handles clang-tidy warnings, we can skip them
-     * here.
+     * Checks if the matched line is a note message.
      *
-     * @return {@code true} if the message is a clang-tidy warning, {@code false} otherwise
+     * @param matcher the matcher for the current line
+     * @return true if the line is a note message, false otherwise
      */
-    private boolean isClangTidyWarning(final String message) {
-        return CLANG_TIDY_PATTERN.matcher(message).find()
-                && !CLASS_PATTERN.matcher(message).find()
-                && !GCC_OPTION_PATTERN.matcher(message).find();
+    private boolean isNoteMessage(final Matcher matcher) {
+        var messageType = matcher.group(4);
+        return "note".equals(messageType) || "Note".equals(messageType);
     }
 
     /**
-     * Sets the category based on the original message content. Checks for GCC warning categories (e.g.,
-     * [-Wunused-variable]) or compiler options (e.g., [-fpermissive]).
+     * Sets the category based on the original message content.
+     * Checks for GCC warning categories (e.g., [-Wunused-variable]) or compiler options (e.g., [-fpermissive]).
      *
-     * @param builder
-     *         the issue builder
-     * @param originalMessage
-     *         the original message to extract the category from
+     * @param builder the issue builder
+     * @param originalMessage the original message to extract the category from
      */
     private void setCategory(final IssueBuilder builder, final String originalMessage) {
         var classMatcher = CLASS_PATTERN.matcher(originalMessage);
@@ -134,27 +128,38 @@ public class Gcc4CompilerParser extends LookaheadParser {
     }
 
     /**
-     * Collects any further note lines from the lookahead stream and adds them as additional locations.
+     * Collects any subsequent note lines from the lookahead stream and adds them as additional locations.
      *
-     * @param lookahead
-     *         the lookahead stream
-     * @param builder
-     *         the issue builder to add locations to
+     * @param lookahead the lookahead stream
+     * @param builder the issue builder to add locations to
+     * @param treeStringBuilder the tree string builder for interning file names
      * @return a string containing all collected note lines, or an empty string if no notes were found
      */
-    private String collectNotes(final LookaheadStream lookahead, final IssueBuilder builder) {
-        var notes = new ArrayList<String>();
+    private String collectNotes(final LookaheadStream lookahead, final IssueBuilder builder,
+            final TreeStringBuilder treeStringBuilder) {
+        var notes = new StringBuilder();
         while (lookahead.hasNext()) {
-            var noteMatcher = NOTE_PATTERN.matcher(lookahead.peekNext());
+            var nextLine = lookahead.peekNext();
+            var noteMatcher = NOTE_PATTERN.matcher(nextLine);
             if (noteMatcher.matches()) {
-                notes.add(lookahead.next());
-                addLocation(noteMatcher, builder);
+                if (!notes.isEmpty()) {
+                    notes.append('\n');
+                }
+                notes.append(lookahead.next());
+
+                // Add the note as an additional location
+                var file = noteMatcher.group("file");
+                var line = IntegerParser.parseInt(noteMatcher.group("line"));
+                var column = IntegerParser.parseInt(noteMatcher.group("column"));
+
+                var fileName = treeStringBuilder.intern(file);
+                builder.addLocation(new Location(fileName, line, line, column, column));
             }
             else {
                 break;
             }
         }
-        return String.join("\n", notes);
+        return notes.toString();
     }
 
     @SuppressWarnings("PMD.AvoidLiteralsInIfCondition")

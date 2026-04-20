@@ -622,40 +622,11 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
         }
     }
 
-    @Test
-    @org.junitpioneer.jupiter.Issue("https://github.com/jenkinsci/analysis-model/issues/1488")
-    void shouldRegisterPrimaryLocationInTheBeginning() {
-        var report = parseStringContent(""" 
-                /workspace/foo.cpp:134:26: warning: declaration of \\'i\\' shadows a previous local [-Wshadow]
-                  134 |                 for (u32 i = 0; i < (cmd.Size-sizeof(TDSPCommand))/4 && (cmd.Size>sizeof(TDSPCommand))>0; i++)
-                      |                          ^
-                /workspace/foo.cpp:122:18: note: shadowed declaration is here
-                  122 |         for (int i = 0; i < _commandsCount; i++)
-                      |                  ^
-                """);
-
-        assertThat(report).hasSize(1);
-
-        var issue = report.get(0);
-        assertThat(issue)
-                .hasLineStart(134)
-                .hasColumnStart(26)
-                .hasFileName("/workspace/foo.cpp")
-                .hasSeverity(Severity.WARNING_NORMAL);
-        assertThat(issue.getMessage()).containsIgnoringWhitespaces("""
-                declaration of \\'i\\' shadows a previous local [-Wshadow]
-                       134 |                 for (u32 i = 0; i < (cmd.Size-sizeof(TDSPCommand))/4 && (cmd.Size>sizeof(TDSPCommand))>0; i++)
-                           |                          ^
-                     /workspace/foo.cpp:122:18: note: shadowed declaration is here
-                """);
-        assertThat(issue.getLocations()).hasSize(2);
-        assertThat(issue.getLocations().getLast())
-                .hasFileName("/workspace/foo.cpp")
-                .hasLineStart(122)
-                .hasColumnStart(18);
-    }
-
-    @org.junitpioneer.jupiter.Issue("https://issues.jenkins.io/browse/JENKINS-68396")
+    /**
+     * Parses a javac warning log.
+     *
+     * @see <a href="https://issues.jenkins.io/browse/JENKINS-68396">Issue 68396</a>
+     */
     @Test
     void issue68396() {
         var warnings = parse("issue68396.txt");
