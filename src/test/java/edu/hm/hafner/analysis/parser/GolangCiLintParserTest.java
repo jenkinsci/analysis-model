@@ -167,6 +167,33 @@ class GolangCiLintParserTest extends AbstractParserTest {
     }
 
     @Test
+    void shouldParseRootArray() {
+        var report = parseStringContent("""
+                [
+                  {
+                    "FromLinter": "ineffassign",
+                    "Text": "ineffectual assignment to err",
+                    "Severity": "warning",
+                    "Pos": {
+                      "Filename": "array.go",
+                      "Line": 12,
+                      "Column": 6
+                    }
+                  }
+                ]
+                """);
+
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0))
+                .hasFileName("array.go")
+                .hasType("ineffassign")
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasMessage("ineffectual assignment to err")
+                .hasLineStart(12)
+                .hasColumnStart(6);
+    }
+
+    @Test
     void shouldIgnoreNonIssueRootObject() {
         var report = parseStringContent("""
                 {
@@ -177,6 +204,46 @@ class GolangCiLintParserTest extends AbstractParserTest {
                 """);
 
         assertThat(report).isEmpty();
+    }
+
+    @Test
+    void shouldDetectIssueByFromLinterOnly() {
+        var report = parseStringContent("""
+                {
+                  "FromLinter": "unused"
+                }
+                """);
+
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0))
+                .hasFileName("-")
+                .hasType("unused")
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasMessage("")
+                .hasLineStart(0)
+                .hasColumnStart(0);
+    }
+
+    @Test
+    void shouldDetectIssueByPositionOnly() {
+        var report = parseStringContent("""
+                {
+                  "Pos": {
+                    "Filename": "position-only.go",
+                    "Line": 5,
+                    "Column": 8
+                  }
+                }
+                """);
+
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0))
+                .hasFileName("position-only.go")
+                .hasType("-")
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasMessage("")
+                .hasLineStart(5)
+                .hasColumnStart(8);
     }
 
     @Test
@@ -220,6 +287,40 @@ class GolangCiLintParserTest extends AbstractParserTest {
                 .hasLineEnd(7)
                 .hasColumnStart(0)
                 .hasColumnEnd(0);
+    }
+
+    @Test
+    void shouldUseLineRangeFallbackWhenPositionLineIsZero() {
+        var report = parseStringContent("""
+                {
+                  "Issues": [
+                    {
+                      "FromLinter": "gocritic",
+                      "Text": "line range fallback for zero line",
+                      "Severity": null,
+                      "Pos": {
+                        "Filename": "line-zero.go",
+                        "Line": 0,
+                        "Column": 9
+                      },
+                      "LineRange": {
+                        "From": 15,
+                        "To": 16
+                      }
+                    }
+                  ]
+                }
+                """);
+
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0))
+                .hasFileName("line-zero.go")
+                .hasType("gocritic")
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasMessage("line range fallback for zero line")
+                .hasLineStart(15)
+                .hasLineEnd(16)
+                .hasColumnStart(9);
     }
 
     @Test
