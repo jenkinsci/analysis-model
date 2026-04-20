@@ -1,0 +1,62 @@
+{
+  "Issues": [
+    {
+      "FromLinter": "misspell",
+      "Text": "`occured` is a misspelling of `occurred`",
+      "Severity": "",
+      "SourceLines": [
+        "\t// comment with incorrect spelling: occured"
+      ],
+      "Pos": {
+        "Filename": "pkg/sample/output.go",
+        "Offset": 159,
+        "Line": 6,
+        "Column": 38
+      }
+    },
+    {
+      "FromLinter": "govet",
+      "Text": "unreachable code",
+      "Severity": "error",
+      "Pos": {
+        "Filename": "cmd/server/main.go",
+        "Offset": 320,
+        "Line": 23,
+        "Column": 2
+      },
+      "LineRange": {
+        "From": 23,
+        "To": 25
+      }
+    },
+    {
+      "FromLinter": "revive",
+      "Text": "package comment should be of the form \"Package sample ...\"",
+      "Severity": "info",
+      "Pos": {
+        "Filename": "internal/sample/doc.go",
+        "Offset": 101,
+        "Line": 48,
+        "Column": 1
+      }
+    },
+    {
+      "FromLinter": "gocritic",
+      "Text": "unslice: could simplify expression",
+      "Severity": "warning",
+      "LineRange": {
+        "From": 100,
+        "To": 102
+      }
+    }
+  ],
+  "Report": {
+    "Warnings": [],
+    "Linters": [
+      {
+        "Name": "misspell",
+        "Enabled": true
+      }
+    ]
+  }
+}

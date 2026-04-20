@@ -98,6 +98,7 @@ public class ParserRegistry {
             new GhsMultiDescriptor(),
             new GnatDescriptor(),
             new GnuFortranDescriptor(),
+            new GolangCiLintDescriptor(),
             new GoLintDescriptor(),
             new GoVetDescriptor(),
             new GrypeDescriptor(),
