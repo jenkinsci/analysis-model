@@ -6,7 +6,7 @@
   <parent>
     <groupId>edu.hm.hafner</groupId>
     <artifactId>codingstyle-pom</artifactId>
-    <version>6.8.0</version>
+    <version>6.9.0</version>
     <relativePath />
   </parent>
 
@@ -53,9 +53,9 @@
 
   <properties>
     <scmTag>HEAD</scmTag>
-    <revision>14.4.0</revision>
+    <revision>14.5.0</revision>
     <changelist>-SNAPSHOT</changelist>
-    <previousVersion>14.3.0</previousVersion>
+    <previousVersion>14.4.0</previousVersion>
 
     <module.name>edu.hm.hafner.analysis.model</module.name>
 
