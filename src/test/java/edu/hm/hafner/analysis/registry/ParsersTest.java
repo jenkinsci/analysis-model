@@ -355,6 +355,12 @@ class ParsersTest extends ResourceTest {
                 "The check finds classes that are designed for extension (subclass creation).");
     }
 
+    /** Runs the Phan parser on an output file that contains 3 issues. */
+    @Test
+    void shouldFindAllPhanIssues() {
+        findIssuesOfTool(3, "phan", "phan-report.json");
+    }
+
     private void assertThatDescriptionOfIssueIsSet(final String tool, final Issue issue,
             final String expectedDescription) {
         var parserRegistry = new ParserRegistry();

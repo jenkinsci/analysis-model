@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2026-04-18T23:37:51.869722136 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2026-04-20T23:17:01.629978556 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -1866,6 +1866,27 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
             </td>
             <td>
                 -
+            </td>
+        </tr>
+        <tr>
+            <td>
+                phan
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                <a href="https://github.com/phan/phan">
+                    Phan
+                </a>
+            </td>
+            <td>
+                **/phan-report.json
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Use <code>phan --output-mode json &gt; phan-report.json</code> to generate JSON output.<br/>See <a href='https://github.com/phan/phan'>Phan on GitHub</a> for usage details. See <a href='https://phpqa.io/projects/phan.html'>Phan documentation</a> for usage details.
             </td>
         </tr>
         <tr>

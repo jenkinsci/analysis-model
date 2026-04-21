@@ -141,6 +141,7 @@ public class ParserRegistry {
             new PerlCriticDescriptor(),
             new PhpCodeSnifferDescriptor(),
             new PhpDescriptor(),
+            new PhanDescriptor(),
             new PhpStanDescriptor(),
             new PitDescriptor(),
             new PmdDescriptor(),
