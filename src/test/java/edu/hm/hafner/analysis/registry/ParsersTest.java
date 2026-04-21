@@ -955,6 +955,12 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(3, "snyk", "snyk-report.json");
     }
 
+    /** Runs the golangci-lint parser on an output file that contains 4 issues. */
+    @Test
+    void shouldFindAllGolangCiLintIssues() {
+        findIssuesOfTool(4, "golangci-lint", "golangci-lint-report.json");
+    }
+
     /** Runs the Staticcheck parser on an output file that contains 4 issues. */
     @Test
     void shouldFindAllStaticcheckIssues() {
