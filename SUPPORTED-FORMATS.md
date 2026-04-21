@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2026-04-20T23:17:01.629978556 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2026-04-21T17:55:20.389938100 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -2673,6 +2673,27 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
             </td>
             <td>
                 -
+            </td>
+        </tr>
+        <tr>
+            <td>
+                golangci-lint
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                <a href="https://github.com/golangci/golangci-lint">
+                    golangci-lint
+                </a>
+            </td>
+            <td>
+                **/golangci-lint-report.json
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Use commandline <code>golangci-lint run --output.json.path=golangci-lint-report.json</code> to generate JSON output.<br/>See <a href='https://github.com/golangci/golangci-lint'>golangci-lint on GitHub</a> for usage details.
             </td>
         </tr>
         <tr>
