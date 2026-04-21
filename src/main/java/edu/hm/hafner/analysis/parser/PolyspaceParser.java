@@ -50,8 +50,9 @@ public class PolyspaceParser extends IssueParser {
             while (lineIterator.hasNext()) {
                 var line = lineIterator.next();
 
-                var attributes = line.split("\\t", 15 + offset);
-                if (Strings.CI.containsAny(attributes[9], "Unreviewed", "To investigate", "To fix", "Other")) {
+                var limit = 15 + offset;
+                var attributes = line.split("\\t", limit);
+                if (attributes.length >= limit && Strings.CI.containsAny(attributes[9], "Unreviewed", "To investigate", "To fix", "Other")) {
                     builder.setFileName(attributes[8]);
                     builder.setCategory(attributes[2]);
                     builder.setDescription(attributes[1]);
