@@ -64,20 +64,17 @@ public class GolangCiLintParser extends JsonIssueParser {
     }
 
     private Issue convertToIssue(final JSONObject jsonIssue, final IssueBuilder issueBuilder) {
-        var position = jsonIssue.optJSONObject(POS);
         issueBuilder
                 .setType(jsonIssue.optString(FROM_LINTER, "-"))
                 .guessSeverity(getSeverity(jsonIssue))
                 .setMessage(jsonIssue.optString(TEXT));
 
+        var position = jsonIssue.optJSONObject(POS);
+
         applyPosition(position, issueBuilder);
-        applyLineRange(jsonIssue.optJSONObject(LINE_RANGE), issueBuilder, hasNoLine(position));
+        applyLineRange(jsonIssue.optJSONObject(LINE_RANGE), issueBuilder, position);
 
         return issueBuilder.buildAndClean();
-    }
-
-    private boolean hasNoLine(@CheckForNull final JSONObject position) {
-        return position == null || position.optInt(LINE) == 0;
     }
 
     private String getSeverity(final JSONObject jsonIssue) {
@@ -90,21 +87,27 @@ public class GolangCiLintParser extends JsonIssueParser {
             return;
         }
 
-        issueBuilder.setFileName(position.optString(FILENAME));
-        issueBuilder.setLineStart(position.optInt(LINE));
-        issueBuilder.setColumnStart(position.optInt(COLUMN));
+        issueBuilder.setFileName(position.optString(FILENAME))
+                .setLineStart(position.optInt(LINE))
+                .setColumnStart(position.optInt(COLUMN));
     }
 
     private void applyLineRange(@CheckForNull final JSONObject lineRange, final IssueBuilder issueBuilder,
-            final boolean shouldSetStartLine) {
+            @CheckForNull final JSONObject position) {
         if (lineRange == null) {
             return;
         }
 
-        issueBuilder.setLineEnd(lineRange.optInt(TO));
-
-        if (shouldSetStartLine) {
-            issueBuilder.setLineStart(lineRange.optInt(FROM));
+        var startLine = position == null ? 0 : position.optInt(LINE);
+        if (startLine == 0) {
+            startLine = lineRange.optInt(FROM);
+            issueBuilder.setLineStart(startLine);
         }
+
+        if (startLine == 0) {
+            return;
+        }
+
+        issueBuilder.setLineEnd(lineRange.optInt(TO, startLine));
     }
 }

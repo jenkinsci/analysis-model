@@ -324,6 +324,33 @@ class GolangCiLintParserTest extends AbstractParserTest {
     }
 
     @Test
+    void shouldIgnoreLineRangeWithoutAnyStartLine() {
+        var report = parseStringContent("""
+                {
+                  "Issues": [
+                    {
+                      "FromLinter": "unused",
+                      "Text": "range without start",
+                      "LineRange": {
+                        "To": 50
+                      }
+                    }
+                  ]
+                }
+                """);
+
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0))
+                .hasFileName("-")
+                .hasType("unused")
+                .hasMessage("range without start")
+                .hasLineStart(0)
+                .hasLineEnd(0)
+                .hasColumnStart(0)
+                .hasColumnEnd(0);
+    }
+
+    @Test
     void shouldProvideDescriptorMetadata() {
         var descriptor = new ParserRegistry().get("golangci-lint");
 
