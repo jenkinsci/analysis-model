@@ -1,0 +1,27 @@
+[
+  {
+    "filename": "config.yml",
+    "secrets": [
+      {
+        "policy": "Slack Token",
+        "occurrences": [
+          {
+            "line_start": 8,
+            "index_start": 1,
+            "index_end": 25,
+            "match": "xoxb-************************"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "path": "scripts/deploy.sh",
+    "matches": [
+      {
+        "detector": "Private Key",
+        "message": "Private key material found"
+      }
+    ]
+  }
+]
