@@ -71,7 +71,7 @@ public final class GitGuardianParser extends JsonIssueParser {
     private static final String[] FINDING_KEYS = {
             LINE_START, LINE, MATCH, MESSAGE, DETECTOR_NAME,
             POLICY, TYPE, ID, SEVERITY, CONFIDENCE
-        };
+    };
 
     @Override
     protected void parseJsonObject(final Report report, final JSONObject jsonReport, final IssueBuilder issueBuilder) {
