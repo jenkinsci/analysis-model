@@ -69,8 +69,8 @@ public final class GitGuardianParser extends JsonIssueParser {
     private static final String BREAKS = "breaks";
     private static final String OCCURRENCES = "occurrences";
     private static final String[] FINDING_KEYS = {
-                LINE_START, LINE, MATCH, MESSAGE, DETECTOR_NAME,
-                POLICY, TYPE, ID, SEVERITY, CONFIDENCE
+            LINE_START, LINE, MATCH, MESSAGE, DETECTOR_NAME,
+            POLICY, TYPE, ID, SEVERITY, CONFIDENCE
         };
 
     @Override
@@ -87,6 +87,16 @@ public final class GitGuardianParser extends JsonIssueParser {
                 scanner.parseRoot(item);
             }
         }
+    }
+
+    private static String firstNonBlank(final JSONObject jsonObject, final String... keys) {
+        for (String key : keys) {
+            var value = jsonObject.optString(key, "").trim();
+            if (!value.isBlank()) {
+                return value;
+            }
+        }
+        return "";
     }
 
     private static final class FindingScanner {
@@ -349,15 +359,5 @@ public final class GitGuardianParser extends JsonIssueParser {
             }
             return 0;
         }
-    }
-
-    private static String firstNonBlank(final JSONObject jsonObject, final String... keys) {
-        for (String key : keys) {
-            var value = jsonObject.optString(key, "").trim();
-            if (!value.isBlank()) {
-                return value;
-            }
-        }
-        return "";
     }
 }
