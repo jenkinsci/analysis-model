@@ -16,7 +16,7 @@ import java.io.Serial;
  * @author Akash Manna
  * @see <a href="https://www.gitguardian.com/">GitGuardian</a>
  */
-public class GitGuardianParser extends JsonIssueParser {
+public final class GitGuardianParser extends JsonIssueParser {
     @Serial
     private static final long serialVersionUID = 2161757376885991300L;
 
@@ -68,34 +68,34 @@ public class GitGuardianParser extends JsonIssueParser {
     private static final String END = "end";
     private static final String BREAKS = "breaks";
     private static final String OCCURRENCES = "occurrences";
-    private static final String[] FINDING_KEYS = {
-                LINE_START, LINE, MATCH, MESSAGE, DETECTOR_NAME,
-                POLICY, TYPE, ID, SEVERITY, CONFIDENCE
+        private static final String[] FINDING_KEYS = {
+            LINE_START, LINE, MATCH, MESSAGE, DETECTOR_NAME,
+            POLICY, TYPE, ID, SEVERITY, CONFIDENCE
     };
 
     @Override
     protected void parseJsonObject(final Report report, final JSONObject jsonReport, final IssueBuilder issueBuilder) {
-        new FindingCollector(report, issueBuilder).parseRoot(jsonReport);
+        new FindingScanner(report, new IssueConverter(issueBuilder)).parseRoot(jsonReport);
     }
 
     @Override
     protected void parseJsonArray(final Report report, final JSONArray jsonReport, final IssueBuilder issueBuilder) {
-        var collector = new FindingCollector(report, issueBuilder);
+        var scanner = new FindingScanner(report, new IssueConverter(issueBuilder));
         for (int i = 0; i < jsonReport.length(); i++) {
             var item = jsonReport.optJSONObject(i);
             if (item != null) {
-                collector.parseRoot(item);
+                scanner.parseRoot(item);
             }
         }
     }
 
-    private static final class FindingCollector {
+    private static final class FindingScanner {
         private final Report report;
-        private final IssueBuilder issueBuilder;
+        private final IssueConverter converter;
 
-        private FindingCollector(final Report report, final IssueBuilder issueBuilder) {
-            this.report = report;
-            this.issueBuilder = issueBuilder;
+        private FindingScanner(final Report targetReport, final IssueConverter issueConverter) {
+            report = targetReport;
+            converter = issueConverter;
         }
 
         private void parseRoot(final JSONObject jsonReport) {
@@ -110,7 +110,7 @@ public class GitGuardianParser extends JsonIssueParser {
             addedIssues += parseSecrets(jsonReport.optJSONArray(SECRETS), defaultFileName);
 
             if (addedIssues == 0 && looksLikeFinding(jsonReport)) {
-                report.add(convertToIssue(jsonReport, defaultFileName, "", ""));
+                report.add(converter.convert(jsonReport, defaultFileName, "", ""));
             }
         }
 
@@ -135,7 +135,7 @@ public class GitGuardianParser extends JsonIssueParser {
                 addedForEntry += parseSecrets(entry.optJSONArray(SECRETS), fileName);
 
                 if (addedForEntry == 0 && looksLikeFinding(entry)) {
-                    report.add(convertToIssue(entry, fileName, "", ""));
+                    report.add(converter.convert(entry, fileName, "", ""));
                     addedForEntry++;
                 }
 
@@ -166,7 +166,7 @@ public class GitGuardianParser extends JsonIssueParser {
                         defaultFileName, defaultType, defaultDescription);
 
                 if (addedForPolicy == 0 && looksLikeFinding(policy)) {
-                    report.add(convertToIssue(policy, defaultFileName, defaultType, defaultDescription));
+                    report.add(converter.convert(policy, defaultFileName, defaultType, defaultDescription));
                     addedForPolicy++;
                 }
 
@@ -197,7 +197,7 @@ public class GitGuardianParser extends JsonIssueParser {
                         defaultFileName, defaultType, defaultDescription);
 
                 if (addedForSecret == 0 && looksLikeFinding(secret)) {
-                    report.add(convertToIssue(secret, defaultFileName, defaultType, defaultDescription));
+                    report.add(converter.convert(secret, defaultFileName, defaultType, defaultDescription));
                     addedForSecret++;
                 }
 
@@ -216,14 +216,31 @@ public class GitGuardianParser extends JsonIssueParser {
             for (int i = 0; i < findings.length(); i++) {
                 var finding = findings.optJSONObject(i);
                 if (finding != null) {
-                    report.add(convertToIssue(finding, defaultFileName, defaultType, defaultDescription));
+                    report.add(converter.convert(finding, defaultFileName, defaultType, defaultDescription));
                     added++;
                 }
             }
             return added;
         }
 
-        private Issue convertToIssue(final JSONObject finding,
+        private boolean looksLikeFinding(final JSONObject jsonObject) {
+            for (String key : FINDING_KEYS) {
+                if (jsonObject.has(key)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
+    private static final class IssueConverter {
+        private final IssueBuilder issueBuilder;
+
+        private IssueConverter(final IssueBuilder builder) {
+            issueBuilder = builder;
+        }
+
+        private Issue convert(final JSONObject finding,
                 final String defaultFileName, final String defaultType, final String defaultDescription) {
             var fileName = firstNonBlank(finding, FILENAME, FILE, PATH, FILE_PATH, FILEPATH);
             if (fileName.isBlank()) {
@@ -324,15 +341,6 @@ public class GitGuardianParser extends JsonIssueParser {
             return nested.optInt(key, 0);
         }
 
-        private boolean looksLikeFinding(final JSONObject jsonObject) {
-            for (String key : FINDING_KEYS) {
-                if (jsonObject.has(key)) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
         private int firstPositive(final int... values) {
             for (int value : values) {
                 if (value > 0) {
@@ -341,15 +349,15 @@ public class GitGuardianParser extends JsonIssueParser {
             }
             return 0;
         }
+    }
 
-        private String firstNonBlank(final JSONObject jsonObject, final String... keys) {
-            for (String key : keys) {
-                var value = jsonObject.optString(key, "").trim();
-                if (!value.isBlank()) {
-                    return value;
-                }
+    private static String firstNonBlank(final JSONObject jsonObject, final String... keys) {
+        for (String key : keys) {
+            var value = jsonObject.optString(key, "").trim();
+            if (!value.isBlank()) {
+                return value;
             }
-            return "";
         }
+        return "";
     }
 }
