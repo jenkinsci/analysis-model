@@ -503,6 +503,12 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(2, "go-vet", "govet.txt");
     }
 
+    /** Runs the gosec parser on an output file that contains 3 issues. */
+    @Test
+    void shouldFindAllGosecIssues() {
+        findIssuesOfTool(3, "gosec", "gosec-report.json");
+    }
+
     /** Runs the SunC parser on an output file that contains 8 issues. */
     @Test
     void shouldFindAllSunCIssues() {
