@@ -179,6 +179,99 @@ class GosecParserTest extends AbstractParserTest {
     }
 
     @Test
+    void shouldIgnoreNullIssueEntries() {
+        var report = parseStringContent("""
+                {
+                  "Issues": [
+                    null,
+                    {
+                      "rule_id": "G303",
+                      "details": "insecure tempfile",
+                      "file": "tmp.go",
+                      "line": 5
+                    }
+                  ]
+                }
+                """);
+
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0))
+                .hasType("G303")
+                .hasMessage("insecure tempfile")
+                .hasFileName("tmp.go")
+                .hasLineStart(5);
+    }
+
+    @Test
+    void shouldDetectIssueByFileOnly() {
+        var report = parseStringContent("""
+                {
+                  "file": "only-file.go"
+                }
+                """);
+
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0))
+                .hasFileName("only-file.go")
+                .hasType("-")
+                .hasMessage("Security issue detected")
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasDescription("");
+    }
+
+    @Test
+    void shouldDetectIssueByDetailsOnly() {
+        var report = parseStringContent("""
+                {
+                  "details": "details-only payload"
+                }
+                """);
+
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0))
+                .hasFileName("-")
+                .hasType("-")
+                .hasMessage("details-only payload")
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasDescription("");
+    }
+
+    @Test
+    void shouldHandleCweAndCodeEdgeCases() {
+        var report = parseStringContent("""
+                [
+                  {
+                    "details": "blank cwe payload",
+                    "cwe": {
+                    }
+                  },
+                  {
+                    "details": "code only payload",
+                    "code": "token := readSecret()"
+                  },
+                  {
+                    "details": "url only payload",
+                    "cwe": {
+                      "url": "https://cwe.mitre.org/data/definitions/79.html"
+                    }
+                  },
+                  {
+                    "details": "id only payload",
+                    "cwe": {
+                      "id": "79"
+                    }
+                  }
+                ]
+                """);
+
+        assertThat(report).hasSize(4);
+        assertThat(report.get(0)).hasDescription("");
+        assertThat(report.get(1)).hasDescription("token := readSecret()");
+        assertThat(report.get(2)).hasDescription("https://cwe.mitre.org/data/definitions/79.html");
+        assertThat(report.get(3)).hasDescription("CWE-79");
+    }
+
+    @Test
     void shouldProvideDescriptorMetadata() {
         var descriptor = new ParserRegistry().get("gosec");
 
