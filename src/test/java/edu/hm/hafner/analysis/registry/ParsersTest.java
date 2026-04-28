@@ -961,6 +961,12 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(3, "snyk", "snyk-report.json");
     }
 
+    /** Runs the GitGuardian parser on an output file that contains 3 issues. */
+    @Test
+    void shouldFindAllGitGuardianIssues() {
+        findIssuesOfTool(3, "gitguardian", "gitguardian-report.json");
+    }
+
     /** Runs the golangci-lint parser on an output file that contains 4 issues. */
     @Test
     void shouldFindAllGolangCiLintIssues() {

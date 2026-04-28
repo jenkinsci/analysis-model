@@ -1,0 +1,46 @@
+{
+  "scanned_paths": [
+    {
+      "path": "src/app.py",
+      "incidents": [
+        {
+          "detector_name": "GitHub Token",
+          "message": "GitHub token detected",
+          "severity": "high",
+          "line_start": 12,
+          "line_end": 12,
+          "index_start": 9,
+          "index_end": 44,
+          "incident_url": "https://dashboard.gitguardian.com/incidents/123"
+        }
+      ]
+    },
+    {
+      "path": "infra/main.tf",
+      "policies": [
+        {
+          "name": "Hardcoded AWS Access Key",
+          "description": "AWS access key should never be committed in source files.",
+          "breaks": [
+            {
+              "message": "Hardcoded AWS access key detected",
+              "severity": "critical",
+              "line": 27,
+              "column": 15,
+              "end_column": 35
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "incidents": [
+    {
+      "filename": "README.md",
+      "type": "Generic Password",
+      "description": "Possible password-like string in markdown content.",
+      "confidence": "medium",
+      "line_start": 3
+    }
+  ]
+}
