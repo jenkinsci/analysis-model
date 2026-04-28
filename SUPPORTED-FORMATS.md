@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2026-04-28T13:09:52.151085529 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2026-04-28T15:39:43.972356775 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -1075,6 +1075,27 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
             </td>
             <td>
                 -
+            </td>
+        </tr>
+        <tr>
+            <td>
+                gitguardian
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                <a href="https://www.gitguardian.com/">
+                    GitGuardian
+                </a>
+            </td>
+            <td>
+                **/gitguardian-report.json
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Use commandline <code>ggshield secret scan path --recursive --json > gitguardian-report.json</code> to generate JSON output.<br/>See <a href='https://docs.gitguardian.com/ggshield-docs/reference/secret/scan/path'>GitGuardian ggshield documentation</a> for usage details.
             </td>
         </tr>
         <tr>
