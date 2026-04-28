@@ -7,6 +7,7 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 import java.io.Serial;
 
@@ -89,16 +90,6 @@ public final class GitGuardianParser extends JsonIssueParser {
         }
     }
 
-    private static String firstNonBlank(final JSONObject jsonObject, final String... keys) {
-        for (String key : keys) {
-            var value = jsonObject.optString(key, "").trim();
-            if (!value.isBlank()) {
-                return value;
-            }
-        }
-        return "";
-    }
-
     private static final class FindingScanner {
         private final Report report;
         private final IssueConverter converter;
@@ -124,7 +115,7 @@ public final class GitGuardianParser extends JsonIssueParser {
             }
         }
 
-        private int parseFileEntries(final JSONArray entries) {
+        private int parseFileEntries(@CheckForNull final JSONArray entries) {
             if (entries == null || entries.isEmpty()) {
                 return 0;
             }
@@ -154,7 +145,7 @@ public final class GitGuardianParser extends JsonIssueParser {
             return added;
         }
 
-        private int parsePolicies(final JSONArray policies, final String defaultFileName) {
+        private int parsePolicies(@CheckForNull final JSONArray policies, final String defaultFileName) {
             if (policies == null || policies.isEmpty()) {
                 return 0;
             }
@@ -185,7 +176,7 @@ public final class GitGuardianParser extends JsonIssueParser {
             return added;
         }
 
-        private int parseSecrets(final JSONArray secrets, final String defaultFileName) {
+        private int parseSecrets(@CheckForNull final JSONArray secrets, final String defaultFileName) {
             if (secrets == null || secrets.isEmpty()) {
                 return 0;
             }
@@ -216,7 +207,7 @@ public final class GitGuardianParser extends JsonIssueParser {
             return added;
         }
 
-        private int parseFindings(final JSONArray findings, final String defaultFileName,
+        private int parseFindings(@CheckForNull final JSONArray findings, final String defaultFileName,
                 final String defaultType, final String defaultDescription) {
             if (findings == null || findings.isEmpty()) {
                 return 0;
@@ -338,7 +329,7 @@ public final class GitGuardianParser extends JsonIssueParser {
             }
         }
 
-        private int getNestedInt(final JSONObject object, final String container, final String key) {
+        private int getNestedInt(@CheckForNull final JSONObject object, final String container, final String key) {
             if (object == null) {
                 return 0;
             }

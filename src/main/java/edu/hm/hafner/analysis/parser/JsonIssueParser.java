@@ -95,4 +95,18 @@ public abstract class JsonIssueParser extends IssueParser {
 
         issueBuilder.setLineEnd(end.optInt(lineKey)).setColumnEnd(end.optInt(columnKey));
     }
+
+    protected static String firstNonBlank(@CheckForNull final JSONObject jsonObject, final String... keys) {
+        if (jsonObject == null) {
+            return "";
+        }
+
+        for (String key : keys) {
+            var value = jsonObject.optString(key, "").trim();
+            if (!value.isBlank()) {
+                return value;
+            }
+        }
+        return "";
+    }
 }
