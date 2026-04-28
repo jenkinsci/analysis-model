@@ -100,6 +100,7 @@ public class ParserRegistry {
             new GnatDescriptor(),
             new GnuFortranDescriptor(),
             new GolangCiLintDescriptor(),
+            new GosecDescriptor(),
             new GoLintDescriptor(),
             new GoVetDescriptor(),
             new GrypeDescriptor(),
