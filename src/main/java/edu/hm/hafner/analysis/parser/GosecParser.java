@@ -77,11 +77,10 @@ public class GosecParser extends JsonIssueParser {
         int line = issue.optInt(LINE, 0);
         if (line > 0) {
             issueBuilder.setLineStart(line).setLineEnd(line);
-        }
-
-        int column = issue.optInt(COLUMN, 0);
-        if (column > 0) {
-            issueBuilder.setColumnStart(column).setColumnEnd(column);
+            int column = issue.optInt(COLUMN, 0);
+            if (column > 0) {
+                issueBuilder.setColumnStart(column).setColumnEnd(column);
+            }
         }
 
         return issueBuilder.buildAndClean();
