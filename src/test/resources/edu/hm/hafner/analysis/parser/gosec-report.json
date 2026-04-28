@@ -1,0 +1,45 @@
+{
+  "Golang errors": "",
+  "Issues": [
+    {
+      "severity": "HIGH",
+      "confidence": "HIGH",
+      "cwe": {
+        "id": "22",
+        "url": "https://cwe.mitre.org/data/definitions/22.html"
+      },
+      "rule_id": "G304",
+      "details": "Potential file inclusion via variable",
+      "file": "cmd/server/main.go",
+      "code": "f, err := os.Open(path)",
+      "line": "42",
+      "column": "13"
+    },
+    {
+      "severity": "MEDIUM",
+      "confidence": "LOW",
+      "cwe": {
+        "id": "89",
+        "url": "https://cwe.mitre.org/data/definitions/89.html"
+      },
+      "rule_id": "G201",
+      "details": "SQL string formatting detected",
+      "file": "internal/db/query.go",
+      "code": "query := fmt.Sprintf(\"SELECT * FROM users WHERE id = %s\", userId)",
+      "line": 15,
+      "column": 10
+    },
+    {
+      "confidence": "HIGH",
+      "details": "TLS MinVersion too low",
+      "file": "pkg/http/client.go",
+      "line": 9
+    }
+  ],
+  "Stats": {
+    "files": 12,
+    "nosec": 0,
+    "found": 3
+  },
+  "GosecVersion": "2.22.3"
+}
