@@ -1,12 +1,12 @@
 package edu.hm.hafner.analysis.parser;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
-import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 import java.io.Serial;
 
@@ -50,27 +50,14 @@ public class GitleaksParser extends JsonIssueParser {
         }
     }
 
-    private Issue convertToIssue(@CheckForNull final JSONObject leak, final IssueBuilder issueBuilder) {
-        if (leak == null) {
-            return issueBuilder.buildAndClean();
-        }
-
+    private Issue convertToIssue(final JSONObject leak, final IssueBuilder issueBuilder) {
         var ruleId = firstNonBlank(leak, RULE_ID, RULE);
         var description = leak.optString(DESCRIPTION, "");
         var fileName = firstNonBlank(leak, FILE);
 
-        if (ruleId.isEmpty()) {
-            issueBuilder.setType("-");
-        }
-        else {
-            issueBuilder.setType(ruleId);
-        }
-
-        issueBuilder.setMessage(description.isBlank() ? ruleId : description);
-
-        if (!fileName.isBlank()) {
-            issueBuilder.setFileName(fileName);
-        }
+        issueBuilder.setType(StringUtils.defaultIfBlank(ruleId, "-"));
+        issueBuilder.setMessage(StringUtils.defaultIfBlank(description, ruleId));
+        issueBuilder.setFileName(fileName);
 
         if (leak.has(START_LINE) || leak.has(END_LINE)) {
             issueBuilder.setLineStart(leak.optInt(START_LINE)).setLineEnd(leak.optInt(END_LINE));
