@@ -967,6 +967,12 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(3, "gitguardian", "gitguardian-report.json");
     }
 
+    /** Runs the Gitleaks parser on an output file that contains 3 issues. */
+    @Test
+    void shouldFindAllGitleaksIssues() {
+        findIssuesOfTool(3, "gitleaks", "gitleaks.json");
+    }
+
     /** Runs the golangci-lint parser on an output file that contains 4 issues. */
     @Test
     void shouldFindAllGolangCiLintIssues() {
