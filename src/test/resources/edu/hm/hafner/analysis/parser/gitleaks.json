@@ -1,0 +1,31 @@
+{
+  "leaks": [
+    {
+      "rule": "Generic API Key",
+      "rule_id": "G101",
+      "description": "Potential API key",
+      "file": "src/main/App.java",
+      "start_line": 12,
+      "end_line": 12,
+      "offender": "apikey=ABC123",
+      "severity": "HIGH"
+    },
+    {
+      "rule": "Hardcoded password",
+      "rule_id": "G102",
+      "description": "Hardcoded credentials",
+      "file": "config/passwords.yml",
+      "start_line": 3,
+      "end_line": 4,
+      "offender": "password: secret",
+      "severity": "MEDIUM"
+    },
+    {
+      "rule": "No file info",
+      "rule_id": "G103",
+      "description": "Missing file and line",
+      "offender": "token=xyz"
+    }
+  ],
+  "errors": []
+}

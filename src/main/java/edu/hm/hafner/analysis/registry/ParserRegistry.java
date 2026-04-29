@@ -97,6 +97,7 @@ public class ParserRegistry {
             new GendarmeDescriptor(),
             new GhsMultiDescriptor(),
             new GitGuardianDescriptor(),
+            new GitleaksDescriptor(),
             new GnatDescriptor(),
             new GnuFortranDescriptor(),
             new GolangCiLintDescriptor(),
