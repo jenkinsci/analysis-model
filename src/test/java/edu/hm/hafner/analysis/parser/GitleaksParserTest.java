@@ -92,6 +92,13 @@ class GitleaksParserTest extends AbstractParserTest {
     }
 
     @Test
+    void shouldVerifyDescriptorType() {
+        var descriptor = new ParserRegistry().get("gitleaks");
+
+        assertThat(descriptor.getType()).isEqualTo(Report.IssueType.VULNERABILITY);
+    }
+
+    @Test
     void shouldHandleMissingFileAndLineInfo() {
         var report = parseStringContent("""
                 {
@@ -240,5 +247,17 @@ class GitleaksParserTest extends AbstractParserTest {
                 .hasFileName("src/config.java")
                 .hasLineStart(20)
                 .hasLineEnd(20);
+    }
+
+    @Test
+    void shouldHandleJsonObjectWithoutLeaksKey() {
+        var report = parseStringContent("""
+                {
+                  "errors": [],
+                  "metadata": {}
+                }
+                """);
+
+        assertThat(report).isEmpty();
     }
 }
