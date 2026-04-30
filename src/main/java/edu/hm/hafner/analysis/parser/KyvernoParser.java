@@ -12,6 +12,7 @@ import j2html.tags.DomContent;
 
 import java.io.Serial;
 import java.util.ArrayList;
+import java.util.List;
 
 import static j2html.TagCreator.*;
 
@@ -24,7 +25,7 @@ import static j2html.TagCreator.*;
  */
 public class KyvernoParser extends JsonIssueParser {
     @Serial
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1523847234679L;
 
     private static final String RESULTS = "results";
     private static final String RESOURCE = "resource";
@@ -94,18 +95,17 @@ public class KyvernoParser extends JsonIssueParser {
         }
 
         var metadata = resource.optJSONObject(METADATA);
-        if (metadata != null) {
-            var name = metadata.optString(NAME);
-            var namespace = metadata.optString(NAMESPACE);
-            if (!name.isEmpty()) {
-                if (!namespace.isEmpty()) {
-                    return namespace + "/" + name;
-                }
-                return name;
-            }
-        }
+        var name = getMetadataString(metadata, NAME);
+        var namespace = getMetadataString(metadata, NAMESPACE);
 
+        if (!name.isEmpty()) {
+            return namespace.isEmpty() ? name : namespace + "/" + name;
+        }
         return "-";
+    }
+
+    private String getMetadataString(@CheckForNull final JSONObject metadata, final String key) {
+        return metadata == null ? "" : metadata.optString(key, "");
     }
 
     private String buildDescription(final String ruleName, final String ruleType,
@@ -118,33 +118,41 @@ public class KyvernoParser extends JsonIssueParser {
         parts.add(text(ruleType));
 
         if (resource != null) {
-            parts.add(br());
-            parts.add(b("Resource Kind: "));
-            parts.add(text(resource.optString(KIND, "-")));
-
-            parts.add(br());
-            parts.add(b("API Version: "));
-            parts.add(text(resource.optString(API_VERSION, "-")));
-
-            var metadata = resource.optJSONObject(METADATA);
-            if (metadata != null) {
-                var name = metadata.optString(NAME);
-                if (!name.isEmpty()) {
-                    parts.add(br());
-                    parts.add(b("Resource Name: "));
-                    parts.add(text(name));
-                }
-
-                var namespace = metadata.optString(NAMESPACE);
-                if (!namespace.isEmpty()) {
-                    parts.add(br());
-                    parts.add(b("Namespace: "));
-                    parts.add(text(namespace));
-                }
-            }
+            addResourceDetails(parts, resource);
         }
 
         return join((Object[]) parts.toArray(new DomContent[0])).render();
+    }
+
+    private void addResourceDetails(final List<DomContent> parts, final JSONObject resource) {
+        parts.add(br());
+        parts.add(b("Resource Kind: "));
+        parts.add(text(resource.optString(KIND, "-")));
+
+        parts.add(br());
+        parts.add(b("API Version: "));
+        parts.add(text(resource.optString(API_VERSION, "-")));
+
+        var metadata = resource.optJSONObject(METADATA);
+        if (metadata != null) {
+            addMetadataDetails(parts, metadata);
+        }
+    }
+
+    private void addMetadataDetails(final List<DomContent> parts, final JSONObject metadata) {
+        var name = metadata.optString(NAME);
+        if (!name.isEmpty()) {
+            parts.add(br());
+            parts.add(b("Resource Name: "));
+            parts.add(text(name));
+        }
+
+        var namespace = metadata.optString(NAMESPACE);
+        if (!namespace.isEmpty()) {
+            parts.add(br());
+            parts.add(b("Namespace: "));
+            parts.add(text(namespace));
+        }
     }
 
     private Severity mapSeverity(final String status) {
