@@ -69,7 +69,7 @@ public class KyvernoParser extends JsonIssueParser {
         }
     }
 
-    private Issue convertToIssue(@CheckForNull final JSONObject rule, final String resourceName,
+    private Issue convertToIssue(final JSONObject rule, final String resourceName,
                                   @CheckForNull final JSONObject resource, final IssueBuilder issueBuilder) {
         var ruleName = rule.optString(RULE_NAME, "-");
         var ruleType = rule.optString(RULE_TYPE, "-");
