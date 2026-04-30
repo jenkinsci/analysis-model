@@ -877,6 +877,12 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(3, "kube-score", "kube-score.json");
     }
 
+    /** Runs the Kyverno parser on an output file that contains 5 issues. */
+    @Test
+    void shouldFindAllKyvernoIssues() {
+        findIssuesOfTool(5, "kyverno", "kyverno-report.json");
+    }
+
     /** Runs the Kubesec parser on an output file that contains 6 issues. */
     @Test
     void shouldFindAllKubesecIssues() {
