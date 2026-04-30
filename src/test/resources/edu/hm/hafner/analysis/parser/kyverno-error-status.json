@@ -1,0 +1,22 @@
+{
+  "results": [
+    {
+      "resource": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "metadata": {
+          "name": "error-pod",
+          "namespace": "default"
+        }
+      },
+      "rules": [
+        {
+          "name": "critical-rule",
+          "type": "validation",
+          "status": "error",
+          "message": "Critical policy violation detected"
+        }
+      ]
+    }
+  ]
+}

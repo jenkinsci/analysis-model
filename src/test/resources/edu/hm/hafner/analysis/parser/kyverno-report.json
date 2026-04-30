@@ -1,0 +1,81 @@
+{
+  "results": [
+    {
+      "resource": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "metadata": {
+          "name": "test-pod",
+          "namespace": "default"
+        }
+      },
+      "rules": [
+        {
+          "name": "require-labels",
+          "type": "validation",
+          "status": "fail",
+          "message": "Pod must have 'app' and 'version' labels"
+        }
+      ]
+    },
+    {
+      "resource": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "metadata": {
+          "name": "nginx-pod",
+          "namespace": "production"
+        }
+      },
+      "rules": [
+        {
+          "name": "require-resource-limits",
+          "type": "validation",
+          "status": "fail",
+          "message": "CPU and memory limits must be specified"
+        },
+        {
+          "name": "disallow-privileged",
+          "type": "validation",
+          "status": "fail",
+          "message": "Privileged containers are not allowed"
+        }
+      ]
+    },
+    {
+      "resource": {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "metadata": {
+          "name": "backend-service",
+          "namespace": "staging"
+        }
+      },
+      "rules": [
+        {
+          "name": "require-non-root-user",
+          "type": "validation",
+          "status": "fail",
+          "message": "Container must run as non-root user"
+        }
+      ]
+    },
+    {
+      "resource": {
+        "apiVersion": "v1",
+        "kind": "ConfigMap",
+        "metadata": {
+          "name": "app-config"
+        }
+      },
+      "rules": [
+        {
+          "name": "require-resource-naming",
+          "type": "validation",
+          "status": "fail",
+          "message": "Resource name does not follow naming convention"
+        }
+      ]
+    }
+  ]
+}

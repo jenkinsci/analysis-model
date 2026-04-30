@@ -1,0 +1,55 @@
+{
+  "results": [
+    {
+      "resource": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "metadata": {
+        }
+      },
+      "rules": [
+        {
+          "name": "minimal-rule",
+          "type": "validation",
+          "status": "fail",
+          "message": "Rule with minimal metadata"
+        }
+      ]
+    },
+    {
+      "resource": null,
+      "rules": [
+        {
+          "name": "null-resource-rule",
+          "type": "validation",
+          "status": "fail",
+          "message": "Rule with null resource"
+        }
+      ]
+    },
+    {
+      "rules": [
+        {
+          "name": "no-resource-rule",
+          "type": "validation",
+          "status": "fail",
+          "message": "Rule without resource"
+        }
+      ]
+    },
+    {
+      "resource": {
+        "apiVersion": "v1",
+        "kind": "Service"
+      },
+      "rules": [
+        {
+          "name": "no-metadata-rule",
+          "type": "validation",
+          "status": "fail",
+          "message": "Rule with resource but no metadata"
+        }
+      ]
+    }
+  ]
+}

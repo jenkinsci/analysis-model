@@ -1,0 +1,34 @@
+{
+  "results": [
+    {
+      "resource": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "metadata": {
+          "name": "good-pod",
+          "namespace": "default"
+        }
+      },
+      "rules": [
+        {
+          "name": "pass-rule",
+          "type": "validation",
+          "status": "pass",
+          "message": "All policies passed"
+        },
+        {
+          "name": "success-rule",
+          "type": "validation",
+          "status": "success",
+          "message": "Policy check successful"
+        },
+        {
+          "name": "skip-rule",
+          "type": "validation",
+          "status": "skip",
+          "message": "Policy was skipped"
+        }
+      ]
+    }
+  ]
+}
