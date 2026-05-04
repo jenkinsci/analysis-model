@@ -124,6 +124,7 @@ public class ParserRegistry {
             new KubesecDescriptor(),
             new KubeLinterDescriptor(),
             new KubeScoreDescriptor(),
+            new KyvernoDescriptor(),
             new MarkdownLintDescriptor(),
             new MavenConsoleDescriptor(),
             new MentorGraphicsDescriptor(),

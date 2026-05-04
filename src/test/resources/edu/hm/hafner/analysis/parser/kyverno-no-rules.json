@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "resource": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "metadata": {
+          "name": "no-rules-pod",
+          "namespace": "default"
+        }
+      }
+    }
+  ]
+}
