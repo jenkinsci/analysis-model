@@ -1,0 +1,48 @@
+{
+  "violations": [
+    {
+      "rule_code": "L001",
+      "rule_name": "Indentation",
+      "rule_description": "Indentation not a multiple of 4",
+      "description": "Expected indentation of 4, got 8",
+      "path": "queries/users.sql",
+      "line_no": 1,
+      "line_pos": 1,
+      "end_line_no": 1,
+      "end_line_pos": 10
+    },
+    {
+      "rule_code": "L002",
+      "rule_name": "Whitespace",
+      "rule_description": "Missing whitespace around operator",
+      "description": "Missing space before operator",
+      "path": "queries/orders.sql",
+      "line_no": 5,
+      "line_pos": 15,
+      "end_line_no": 5,
+      "end_line_pos": 20
+    },
+    {
+      "rule_code": "L003",
+      "rule_name": "Names",
+      "rule_description": "Name is not in snake_case",
+      "description": "Expected camelCase names to be in snake_case",
+      "path": "queries/products.sql",
+      "line_no": 10,
+      "line_pos": 5,
+      "end_line_no": 10,
+      "end_line_pos": 20
+    },
+    {
+      "rule_code": "L004",
+      "rule_name": "Keywords",
+      "rule_description": "Keyword is not capitalized",
+      "description": "Expected 'SELECT' to be capitalized",
+      "path": "queries/inventory.sql",
+      "line_no": 15,
+      "line_pos": 1,
+      "end_line_no": 15,
+      "end_line_pos": 6
+    }
+  ]
+}
