@@ -212,4 +212,154 @@ class SqlFluffParserTest extends AbstractParserTest {
         assertThat(report.get(2).getFileName()).isEqualTo("queries/products.sql");
         assertThat(report.get(3).getFileName()).isEqualTo("queries/inventory.sql");
     }
+
+    @Test
+    void shouldHandleComprehensiveMessageCoverage() {
+        var report = parse("sqlfluff-comprehensive.json");
+
+        assertThat(report).hasSize(9);
+
+        assertThat(report.get(0))
+                .hasType("L008")
+                .hasMessage("Only description field available")
+                .hasFileName("test1.sql")
+                .hasLineStart(1);
+
+        assertThat(report.get(1))
+                .hasType("L009")
+                .hasMessage("Test description")
+                .hasFileName("test2.sql");
+
+        assertThat(report.get(2))
+                .hasType("L010")
+                .hasMessage("")
+                .hasFileName("test3.sql");
+
+        assertThat(report.get(3))
+                .hasType("L011")
+                .hasMessage("OnlyRuleName")
+                .hasFileName("test4.sql")
+                .hasSeverity(Severity.WARNING_NORMAL);
+
+        assertThat(report.get(4))
+                .hasType("L012")
+                .hasMessage("")
+                .hasFileName("test5.sql");
+
+        assertThat(report.get(5))
+                .hasType("L013")
+                .hasMessage("RuleName")
+                .hasFileName("test6.sql")
+                .hasLineStart(5)
+                .hasLineEnd(10)
+                .hasColumnStart(3)
+                .hasColumnEnd(8)
+                .hasCategory("RuleName");
+
+        assertThat(report.get(6))
+                .hasType("L014")
+                .hasFileName("test7.sql")
+                .hasColumnStart(2)
+                .hasColumnEnd(7)
+                .hasCategory("ColumnOnly");
+
+        assertThat(report.get(7))
+                .hasType("L015")
+                .hasFileName("test8.sql")
+                .hasLineStart(15)
+                .hasColumnStart(5)
+                .hasCategory("MixedFields");
+
+        assertThat(report.get(8))
+                .hasType("L016")
+                .hasFileName("test9.sql")
+                .hasLineEnd(20)
+                .hasColumnEnd(10)
+                .hasCategory("EndLinesOnly");
+    }
+
+    @Test
+    void shouldHandleAllFieldCombinations() {
+        var report = parse("sqlfluff-comprehensive.json");
+
+        assertThat(report).hasSize(9);
+
+        for (var issue : report) {
+            assertThat(issue.getSeverity()).isEqualTo(Severity.WARNING_NORMAL);
+        }
+
+        assertThat(report.get(0).getCategory()).isEmpty(); 
+        assertThat(report.get(1).getCategory()).isEmpty(); 
+        assertThat(report.get(2).getCategory()).isEmpty(); 
+        assertThat(report.get(3).getCategory()).isEqualTo("OnlyRuleName");
+        assertThat(report.get(4).getCategory()).isEmpty(); 
+        assertThat(report.get(5).getCategory()).isEqualTo("RuleName");
+        assertThat(report.get(6).getCategory()).isEqualTo("ColumnOnly");
+        assertThat(report.get(7).getCategory()).isEqualTo("MixedFields");
+        assertThat(report.get(8).getCategory()).isEqualTo("EndLinesOnly");
+    }
+
+    @Test
+    void shouldHandleMissingOptionalFields() {
+        var report = parse("sqlfluff-comprehensive.json");
+
+        var issue0 = report.get(0);
+        assertThat(issue0.getLineStart()).isEqualTo(1);
+        assertThat(issue0.getLineEnd()).isEqualTo(1);
+
+        var issue1 = report.get(1);
+        assertThat(issue1.getLineStart()).isEqualTo(0);
+        assertThat(issue1.getLineEnd()).isEqualTo(0);
+        assertThat(issue1.getColumnStart()).isEqualTo(0);
+        assertThat(issue1.getColumnEnd()).isEqualTo(0);
+
+        var issue5 = report.get(5);
+        assertThat(issue5.getLineStart()).isEqualTo(5);
+        assertThat(issue5.getLineEnd()).isEqualTo(10);
+        assertThat(issue5.getColumnStart()).isEqualTo(3);
+        assertThat(issue5.getColumnEnd()).isEqualTo(8);
+
+        var issue6 = report.get(6);
+        assertThat(issue6.getLineStart()).isEqualTo(0);
+        assertThat(issue6.getColumnStart()).isEqualTo(2);
+        assertThat(issue6.getColumnEnd()).isEqualTo(7);
+
+        var issue7 = report.get(7);
+        assertThat(issue7.getLineStart()).isEqualTo(15);
+        assertThat(issue7.getColumnStart()).isEqualTo(5);
+
+        var issue8 = report.get(8);
+        assertThat(issue8.getLineEnd()).isEqualTo(20);
+        assertThat(issue8.getColumnEnd()).isEqualTo(10);
+    }
+
+    @Test
+    void shouldHandleJsonObjectWithoutViolationsKey() {
+        var report = parse("sqlfluff-no-violations-key.json");
+
+        assertThat(report).isEmpty();
+    }
+
+    @Test
+    void shouldHandleDirectJsonArrayFormat() {
+        var report = parse("sqlfluff-array-format.json");
+
+        assertThat(report).hasSize(2);
+
+        assertThat(report.get(0))
+                .hasType("L001")
+                .hasMessage("Direct array violation")
+                .hasFileName("direct.sql")
+                .hasLineStart(1)
+                .hasCategory("DirectArray")
+                .hasSeverity(Severity.WARNING_NORMAL);
+
+        assertThat(report.get(1))
+                .hasType("L002")
+                .hasMessage("AnotherOne")
+                .hasFileName("another.sql")
+                .hasLineStart(5)
+                .hasCategory("AnotherOne")
+                .hasSeverity(Severity.WARNING_NORMAL);
+    }
 }
