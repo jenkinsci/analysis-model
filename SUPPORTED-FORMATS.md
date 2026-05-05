@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2026-04-28T15:39:43.972356775 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2026-05-05T22:06:43.419047374 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -1100,6 +1100,27 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
         </tr>
         <tr>
             <td>
+                gitleaks
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                <a href="https://github.com/zricethezav/gitleaks">
+                    Gitleaks
+                </a>
+            </td>
+            <td>
+                **/gitleaks.json
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Use commandline <code>gitleaks detect --report-format json</code> to generate JSON output.<br/>See <a href='https://github.com/zricethezav/gitleaks'>gitleaks on GitHub</a> for usage details.
+            </td>
+        </tr>
+        <tr>
+            <td>
                 golint
             </td>
             <td>
@@ -1484,6 +1505,27 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
         <tr>
             <td colspan="4">
                 :bulb: Use commandline <code>kubesec scan -f deployment.yaml -o json > kubesec.json</code> output.<br/>See <a href='https://kubesec.io/'>Kubesec</a> for usage details.
+            </td>
+        </tr>
+        <tr>
+            <td>
+                kyverno
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                <a href="https://kyverno.io/">
+                    Kyverno
+                </a>
+            </td>
+            <td>
+                **/kyverno-report.json
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Use commandline <code>kyverno apply policy.yaml resource.yaml --output json</code> to generate JSON output.<br/>See <a href='https://kyverno.io/docs/kyverno-cli/commands/apply/'>Kyverno CLI documentation</a> for usage details.
             </td>
         </tr>
         <tr>
