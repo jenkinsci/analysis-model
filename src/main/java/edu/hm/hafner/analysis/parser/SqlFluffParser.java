@@ -14,7 +14,8 @@ import java.io.Serial;
  * Parser for SQLFluff JSON reports.
  *
  * @author Akash Manna
- * @see <a href="https://www.sqlfluff.com/">SQLFluff on GitHub</a>
+ * @see <a href="https://www.sqlfluff.com/">SQLFluff</a>
+ * @see <a href="https://github.com/sqlfluff/sqlfluff">SQLFluff on GitHub</a>
  */
 public class SqlFluffParser extends JsonIssueParser {
     @Serial
