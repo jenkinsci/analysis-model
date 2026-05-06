@@ -27,7 +27,7 @@ IntelliJ or Eclipse this style will used automatically.
 
 Moreover (since this project is about static code analysis :wink:) a configuration for the following static code
 analysis tools is defined in the POM and the `etc` and `.idea` folders:
-- [Checkstyle](https://checkstyle.sourceforge.net/)
+- [Checkstyle](https://checkstyle.org/)
 - [PMD](https://pmd.github.io/)
 - [SpotBugs](https://spotbugs.github.io)
 - [Error Prone](https://errorprone.info)
