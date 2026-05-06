@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
+import edu.hm.hafner.analysis.Severity;
 
 import java.io.Serial;
 
@@ -53,18 +54,12 @@ public class SqlFluffParser extends JsonIssueParser {
     }
 
     private Issue convertToIssue(final JSONObject violation, final IssueBuilder issueBuilder) {
-        var ruleCode = violation.optString(RULE_CODE, "-");
-        var ruleName = violation.optString(RULE_NAME, "");
-        var ruleDescription = violation.optString(RULE_DESCRIPTION, "");
-        var description = violation.optString(DESCRIPTION, "");
-        var fileName = violation.optString(PATH, "-");
-
-        issueBuilder.setType(ruleCode);
-
-        var message = buildMessage(description, ruleName, ruleDescription);
-        issueBuilder.setMessage(message);
-
-        issueBuilder.setFileName(fileName);
+        issueBuilder.setType(violation.optString(RULE_CODE, "-"));
+        issueBuilder.setMessage(StringUtils.firstNonBlank(
+                violation.optString(DESCRIPTION, ""),
+                violation.optString(RULE_NAME, ""),
+                violation.optString(RULE_DESCRIPTION, "")));
+        issueBuilder.setFileName(violation.optString(PATH, "-"));
 
         if (violation.has(LINE_NO)) {
             issueBuilder.setLineStart(violation.optInt(LINE_NO));
@@ -82,33 +77,10 @@ public class SqlFluffParser extends JsonIssueParser {
             issueBuilder.setColumnEnd(violation.optInt(END_LINE_POS));
         }
 
-        if (StringUtils.isNotBlank(ruleName)) {
-            issueBuilder.setCategory(ruleName);
-        }
-
-        issueBuilder.guessSeverity("warning");
+        var ruleName = violation.optString(RULE_NAME, "");
+        issueBuilder.setCategory(ruleName);
+        issueBuilder.setSeverity(Severity.WARNING_NORMAL);
 
         return issueBuilder.buildAndClean();
-    }
-
-    /**
-     * Builds the issue message from description, rule name, and rule description.
-     *
-     * @param description 
-     *         the violation description
-     * @param ruleName 
-     *         the rule name
-     * @param ruleDescription 
-     *         the rule description
-     * @return the combined message
-     */
-    private String buildMessage(final String description, final String ruleName, final String ruleDescription) {
-        if (StringUtils.isNotBlank(description)) {
-            return description;
-        }
-        if (StringUtils.isNotBlank(ruleName)) {
-            return ruleName;
-        }
-        return ruleDescription;
     }
 }
