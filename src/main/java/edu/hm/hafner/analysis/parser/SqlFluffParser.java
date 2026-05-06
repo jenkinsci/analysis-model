@@ -54,12 +54,12 @@ public class SqlFluffParser extends JsonIssueParser {
     }
 
     private Issue convertToIssue(final JSONObject violation, final IssueBuilder issueBuilder) {
-        issueBuilder.setType(violation.optString(RULE_CODE, "-"));
-        issueBuilder.setMessage(StringUtils.firstNonBlank(
-                violation.optString(DESCRIPTION, ""),
-                violation.optString(RULE_NAME, ""),
-                violation.optString(RULE_DESCRIPTION, "")));
-        issueBuilder.setFileName(violation.optString(PATH, "-"));
+        issueBuilder.setType(violation.optString(RULE_CODE, "-"))
+                .setMessage(StringUtils.firstNonBlank(
+                        violation.optString(DESCRIPTION, ""),
+                        violation.optString(RULE_NAME, ""),
+                        violation.optString(RULE_DESCRIPTION, "")))
+                .setFileName(violation.optString(PATH, "-"));
 
         if (violation.has(LINE_NO)) {
             issueBuilder.setLineStart(violation.optInt(LINE_NO));
@@ -78,9 +78,8 @@ public class SqlFluffParser extends JsonIssueParser {
         }
 
         var ruleName = violation.optString(RULE_NAME, "");
-        issueBuilder.setCategory(ruleName);
-        issueBuilder.setSeverity(Severity.WARNING_NORMAL);
-
-        return issueBuilder.buildAndClean();
+        return issueBuilder.setCategory(ruleName)
+                .setSeverity(Severity.WARNING_NORMAL)
+                .buildAndClean();
     }
 }
