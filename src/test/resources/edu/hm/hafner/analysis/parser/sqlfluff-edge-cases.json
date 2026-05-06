@@ -1,0 +1,26 @@
+{
+  "violations": [
+    {
+      "rule_code": "L005",
+      "rule_name": "Style",
+      "rule_description": "Inconsistent style",
+      "description": "Inconsistent style detected",
+      "path": "test.sql"
+    },
+    {
+      "rule_code": "L006",
+      "rule_description": "Missing rule name and description",
+      "path": "edge_case.sql",
+      "line_no": 20,
+      "end_line_no": 20
+    },
+    {
+      "rule_code": "L007",
+      "rule_name": "Format",
+      "rule_description": "Rule description only",
+      "path": "format.sql",
+      "line_no": 25,
+      "line_pos": 10
+    }
+  ]
+}

@@ -173,6 +173,7 @@ public class ParserRegistry {
             new SimianDescriptor(),
             new SimulinkCheckDescriptor(),
             new SnykDescriptor(),
+            new SqlFluffDescriptor(),
             new StaticcheckDescriptor(),
             new SonarQubeDescriptor(),
             new SpectralDescriptor(),

@@ -967,6 +967,12 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(3, "snyk", "snyk-report.json");
     }
 
+    /** Runs the SQLFluff parser on an output file that contains 4 issues. */
+    @Test
+    void shouldFindAllSqlFluffIssues() {
+        findIssuesOfTool(4, "sqlfluff", "sqlfluff.json");
+    }
+
     /** Runs the GitGuardian parser on an output file that contains 3 issues. */
     @Test
     void shouldFindAllGitGuardianIssues() {

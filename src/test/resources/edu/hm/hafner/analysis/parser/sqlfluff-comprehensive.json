@@ -1,0 +1,68 @@
+{
+  "violations": [
+    {
+      "rule_code": "L008",
+      "rule_name": "",
+      "rule_description": "Only description field available",
+      "description": "",
+      "path": "test1.sql",
+      "line_no": 1
+    },
+    {
+      "rule_code": "L009",
+      "rule_name": "",
+      "rule_description": "Test description",
+      "description": "",
+      "path": "test2.sql"
+    },
+    {
+      "rule_code": "L010",
+      "rule_name": "",
+      "rule_description": "",
+      "description": "",
+      "path": "test3.sql"
+    },
+    {
+      "rule_code": "L011",
+      "rule_name": "OnlyRuleName",
+      "rule_description": "Rule description",
+      "path": "test4.sql"
+    },
+    {
+      "rule_code": "L012",
+      "path": "test5.sql"
+    },
+    {
+      "rule_code": "L013",
+      "rule_name": "RuleName",
+      "rule_description": "Rule description",
+      "description": "",
+      "path": "test6.sql",
+      "line_no": 5,
+      "end_line_no": 10,
+      "line_pos": 3,
+      "end_line_pos": 8
+    },
+    {
+      "rule_code": "L014",
+      "rule_name": "ColumnOnly",
+      "path": "test7.sql",
+      "line_pos": 2,
+      "end_line_pos": 7
+    },
+    {
+      "rule_code": "L015",
+      "rule_name": "MixedFields",
+      "path": "test8.sql",
+      "line_no": 15,
+      "line_pos": 5
+    },
+    {
+      "rule_code": "L016",
+      "rule_name": "EndLinesOnly",
+      "path": "test9.sql",
+      "end_line_no": 20,
+      "end_line_pos": 10
+    }
+  ]
+}

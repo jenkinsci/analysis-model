@@ -1,0 +1,16 @@
+[
+  {
+    "rule_code": "L001",
+    "rule_name": "DirectArray",
+    "rule_description": "Testing direct array format",
+    "description": "Direct array violation",
+    "path": "direct.sql",
+    "line_no": 1
+  },
+  {
+    "rule_code": "L002",
+    "rule_name": "AnotherOne",
+    "path": "another.sql",
+    "line_no": 5
+  }
+]
