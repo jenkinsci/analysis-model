@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2026-05-06T10:21:16.855004019 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2026-05-06T14:57:45.955987171 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -2228,6 +2228,27 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
             </td>
             <td>
                 -
+            </td>
+        </tr>
+        <tr>
+            <td>
+                sqlfluff
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                <a href="https://www.sqlfluff.com/">
+                    SQLFluff
+                </a>
+            </td>
+            <td>
+                **/sqlfluff.json
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Use commandline <code>sqlfluff lint --format json &gt; report.json</code> to generate JSON output.<br/>See <a href='https://www.sqlfluff.com/'>SQLFluff documentation</a> for usage details.
             </td>
         </tr>
         <tr>
