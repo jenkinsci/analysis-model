@@ -10,6 +10,7 @@ import edu.hm.hafner.analysis.Severity;
 import j2html.tags.Text;
 import j2html.tags.UnescapedText;
 import java.io.Serial;
+import java.util.Locale;
 
 import static j2html.TagCreator.*;
 
@@ -73,7 +74,7 @@ public class CargoAuditParser extends JsonIssueParser {
         if (severityString == null) {
             return Severity.WARNING_NORMAL;
         }
-        String severity = severityString.toLowerCase();
+        String severity = severityString.toLowerCase(Locale.ENGLISH);
         if (severity.contains("critical")) {
             return Severity.ERROR;
         }
@@ -121,6 +122,6 @@ public class CargoAuditParser extends JsonIssueParser {
             }
         }
 
-        return join((Object[]) tags.toArray(new Object[0])).render();
+        return join(tags.toArray()).render();
     }
 }
