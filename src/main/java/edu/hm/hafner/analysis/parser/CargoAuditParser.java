@@ -67,7 +67,7 @@ public class CargoAuditParser extends JsonIssueParser {
     private Severity adaptSeverity(final String severityString) {
         var severity = Severity.guessFromString(severityString);
         
-        if (severity == Severity.WARNING_HIGH) {
+        if (severity.equals(Severity.WARNING_HIGH)) {
             return Severity.ERROR;
         }
         
