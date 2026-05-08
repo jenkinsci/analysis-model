@@ -28,11 +28,6 @@ class CargoAuditDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public String getIconUrl() {
-        return "https://raw.githubusercontent.com/rustsec/cargo-audit/main/logo.png";
-    }
-
-    @Override
     public String getPattern() {
         return "**/cargo-audit.json";
     }
