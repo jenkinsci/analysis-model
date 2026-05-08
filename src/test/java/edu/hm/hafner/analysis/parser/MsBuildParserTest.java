@@ -1180,6 +1180,35 @@ class MsBuildParserTest extends AbstractParserTest {
                 .hasMessage("ignoring '/OPT:REF' due to '/DEBUG' specification");
     }
 
+    /**
+     * MSBuildParser should keep warnings when Jenkins log masking replaces a directory segment with "****".
+     *
+     * @see <a href="https://github.com/jenkinsci/analysis-model/issues/1476">Issue 1476</a>
+     */
+    @Test
+    void issue1476() {
+        var withoutMask = parseStringContent(
+                "d:\\workspace\\foo\\Bar.cs(26,57): warning CS8625: Example warning text [d:\\workspace\\foo\\foo.csproj]");
+        assertThat(withoutMask).hasSize(1);
+
+        var withMask = parseStringContent(
+                "d:\\****\\workspace\\foo\\Bar.cs(26,57): warning CS8625: Example warning text [d:\\****\\workspace\\foo\\foo.csproj]");
+        assertThat(withMask).hasSize(1);
+
+        var warnings = parseStringContent(
+                "[2025-11-24T09:30:26.235Z]     34>d:\\****\\workspace\\foo\\Bar.cs(26,57): warning CS8625: Example warning text [d:\\****\\workspace\\foo\\foo.csproj]");
+
+        assertThat(warnings).hasSize(1);
+
+        assertThat(warnings.get(0))
+                .hasFileName("D:/****/workspace/foo/Bar.cs")
+                .hasCategory("CS8625")
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasMessage("Example warning text")
+                .hasLineStart(26)
+                .hasColumnStart(57);
+    }
+
     @Override
     protected MsBuildParser createParser() {
         return new MsBuildParser();
