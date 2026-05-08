@@ -51,24 +51,16 @@ public class CargoAuditParser extends JsonIssueParser {
 
     private Issue createIssue(final IssueBuilder issueBuilder, final JSONObject vulnerability) {
         var advisory = vulnerability.optJSONObject(ADVISORY);
-
-        var advisoryId = advisory.optString(ID, "-");
         var packageName = advisory.optString(PACKAGE, "unknown");
-        var title = advisory.optString(TITLE, "");
-        var description = advisory.optString(DESCRIPTION, "");
-        var severityString = advisory.optString(SEVERITY, "");
-
-        var descriptionHtml = buildDescription(title, description, advisory);
-        
-        var adjustedSeverity = adaptSeverity(severityString);
 
         return issueBuilder
                 .setFileName(packageName)
                 .setPackageName(packageName)
-                .setType(advisoryId)
-                .setMessage(title)
-                .setDescription(descriptionHtml)
-                .setSeverity(adjustedSeverity)
+                .setType(advisory.optString(ID, "-"))
+                .setMessage(advisory.optString(TITLE, ""))
+                .setDescription(buildDescription(advisory.optString(TITLE, ""), 
+                    advisory.optString(DESCRIPTION, ""), advisory))
+                .setSeverity(adaptSeverity(advisory.optString(SEVERITY, "")))
                 .build();
     }
 
@@ -79,18 +71,19 @@ public class CargoAuditParser extends JsonIssueParser {
             return Severity.ERROR;
         }
         
-        var lowerSeverity = severityString.toLowerCase(Locale.ENGLISH);
-        if (lowerSeverity.isEmpty() || 
-            (!lowerSeverity.contains("critical") && !lowerSeverity.contains("high") && 
-             !lowerSeverity.contains("medium") && !lowerSeverity.contains("low") &&
-             !lowerSeverity.contains("error") && !lowerSeverity.contains("warning"))) {
+        if (!isKnownSeverity(severityString)) {
             return Severity.WARNING_NORMAL;
         }
         
         return severity;
     }
 
-
+    private boolean isKnownSeverity(final String severityString) {
+        var lower = severityString.toLowerCase(Locale.ENGLISH);
+        return lower.contains("critical") || lower.contains("high")
+               || lower.contains("medium") || lower.contains("low")
+               || lower.contains("error") || lower.contains("warning");
+    }
 
     private String buildDescription(final String title, final String description, final JSONObject advisory) {
         var tags = new java.util.ArrayList<>();
