@@ -80,9 +80,10 @@ public class CargoAuditParser extends JsonIssueParser {
 
     private boolean isKnownSeverity(final String severityString) {
         var lower = severityString.toLowerCase(Locale.ENGLISH);
-        return lower.contains("critical") || lower.contains("high")
-               || lower.contains("medium") || lower.contains("low")
-               || lower.contains("error") || lower.contains("warning");
+        if (lower.contains("critical") || lower.contains("high") || lower.contains("medium")) {
+            return true;
+        }
+        return lower.contains("low") || lower.contains("error") || lower.contains("warning");
     }
 
     private String buildDescription(final String title, final String description, final JSONObject advisory) {
