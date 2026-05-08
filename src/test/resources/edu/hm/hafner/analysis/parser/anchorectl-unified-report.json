@@ -1,0 +1,23 @@
+{
+  "sbom": {},
+  "policyEvaluation": {},
+  "vulnerabilities": {
+    "sbomId": "sha256:abc123",
+    "extendedSupport": false,
+    "vulnerabilities": [
+      {
+        "fix": "None",
+        "nvdData": [{ "isKev": true }],
+        "packageName": "busybox-binsh",
+        "packagePath": "/lib/apk/db/installed",
+        "packageType": "APKG",
+        "packageVersion": "1.35.0-r17",
+        "purl": "pkg:apk/alpine/busybox-binsh@1.35.0-r17",
+        "severity": "Low",
+        "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-46394",
+        "vuln": "CVE-2025-46394",
+        "willNotFix": false
+      }
+    ]
+  }
+}

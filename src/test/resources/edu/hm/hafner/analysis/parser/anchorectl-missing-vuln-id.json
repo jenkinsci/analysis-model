@@ -1,0 +1,22 @@
+{
+  "vulnerabilities": [
+    {
+      "vuln": "",
+      "packageName": "openssl",
+      "packagePath": "/usr/lib64/libssl.so.1.1",
+      "packageType": "rpm",
+      "packageVersion": "1.1.1k",
+      "severity": "High",
+      "fix": "1.1.1l"
+    },
+    {
+      "vuln": "CVE-2021-5678",
+      "packageName": "busybox",
+      "packagePath": "/lib/apk/db/installed",
+      "packageType": "APKG",
+      "packageVersion": "1.34.0-r0",
+      "severity": "Critical",
+      "fix": "None"
+    }
+  ]
+}
