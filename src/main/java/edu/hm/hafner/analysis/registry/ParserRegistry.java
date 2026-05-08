@@ -37,7 +37,7 @@ public class ParserRegistry {
     private static final ParserDescriptor[] ALL_DESCRIPTORS = {
             new AcuCobolDescriptor(),
             new AjcDescriptor(),
-            new AnchoreCTLDescriptor(),
+            new AnchoreCtlDescriptor(),
             new AndroidLintDescriptor(),
             new AnsibleLintDescriptor(),
             new AnsibleLaterDescriptor(),

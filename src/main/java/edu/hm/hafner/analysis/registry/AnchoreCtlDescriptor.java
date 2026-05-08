@@ -8,11 +8,11 @@ import static j2html.TagCreator.*;
 /**
  * Descriptor for the AnchoreCTL vulnerability report parser.
  */
-class AnchoreCTLDescriptor extends ParserDescriptor {
-    private static final String ID = "anchorectl";
+class AnchoreCtlDescriptor extends ParserDescriptor {
+    private static final String ID = "anchore-ctl";
     private static final String NAME = "AnchoreCTL";
 
-    AnchoreCTLDescriptor() {
+    AnchoreCtlDescriptor() {
         super(ID, NAME);
     }
 

@@ -1,13 +1,14 @@
 package edu.hm.hafner.analysis.parser;
 
 import java.io.Serial;
+import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Severity;
 
 import static j2html.TagCreator.*;
 
@@ -33,27 +34,25 @@ public class AnchoreCTLParser extends JsonIssueParser {
     @Override
     protected void parseJsonObject(final Report report, final JSONObject jsonReport,
             final IssueBuilder issueBuilder) {
-        var vulns = extractVulnArray(jsonReport);
-        if (vulns == null) {
-            return;
-        }
-        for (int i = 0; i < vulns.length(); i++) {
-            parseVuln(report, vulns.getJSONObject(i), issueBuilder);
-        }
+        extractVulnArray(jsonReport).ifPresent(vulns -> {
+            for (int i = 0; i < vulns.length(); i++) {
+                parseVuln(report, vulns.getJSONObject(i), issueBuilder);
+            }
+        });
     }
 
-    private JSONArray extractVulnArray(final JSONObject root) {
+    private Optional<JSONArray> extractVulnArray(final JSONObject root) {
         if (!root.has("vulnerabilities") || root.isNull("vulnerabilities")) {
-            return null;
+            return Optional.empty();
         }
         var raw = root.get("vulnerabilities");
         if (raw instanceof JSONArray array) {
-            return array;
+            return Optional.of(array);
         }
         if (raw instanceof JSONObject envelope) {
-            return envelope.optJSONArray("vulnerabilities");
+            return Optional.ofNullable(envelope.optJSONArray("vulnerabilities"));
         }
-        return null;
+        return Optional.empty();
     }
 
     private void parseVuln(final Report report, final JSONObject vuln, final IssueBuilder builder) {
@@ -73,12 +72,19 @@ public class AnchoreCTLParser extends JsonIssueParser {
                 || vuln.optBoolean("will_not_fix", false);
         var isKev = isKevFromNvdData(vuln);
 
-        var fileName = !packagePath.isBlank() ? packagePath
-                : !purl.isBlank() ? purl
-                : "-";
+        String fileName;
+        if (!packagePath.isBlank()) {
+            fileName = packagePath;
+        }
+        else if (!purl.isBlank()) {
+            fileName = purl;
+        }
+        else {
+            fileName = "-";
+        }
 
         builder.setMessage(vulnId)
-                .setSeverity(mapSeverity(vuln.optString("severity", "")))
+                .guessSeverity(vuln.optString("severity", ""))
                 .setPackageName(packageName)
                 .setCategory(packageType)
                 .setFileName(fileName)
@@ -117,16 +123,7 @@ public class AnchoreCTLParser extends JsonIssueParser {
         ).render();
     }
 
-    private static Severity mapSeverity(final String severity) {
-        return switch (severity.toLowerCase()) {
-            case "critical" -> Severity.ERROR;
-            case "high" -> Severity.WARNING_HIGH;
-            case "medium" -> Severity.WARNING_NORMAL;
-            default -> Severity.WARNING_LOW;
-        };
-    }
-
     private static String cleanNone(final String value) {
-        return "none".equalsIgnoreCase(value.trim()) ? "" : value;
+        return StringUtils.equalsIgnoreCase(value.trim(), "none") ? "" : value;
     }
 }

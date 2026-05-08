@@ -147,6 +147,23 @@ class AnchoreCTLParserTest extends AbstractParserTest {
         }
     }
 
+    @Test
+    void shouldUseDashWhenPackagePathAndPurlAreBlank() {
+        var report = parse("anchorectl-no-path-no-purl.json");
+
+        try (var softly = new SoftAssertions()) {
+            softly.assertThat(report).hasSize(1);
+            softly.assertThat(report.get(0))
+                    .hasMessage("CVE-2021-7777")
+                    .hasSeverity(Severity.WARNING_HIGH)
+                    .hasFileName("-")
+                    .hasDescription(join(
+                            p(text("No fix available")),
+                            p(join(text("Affected version: "), text("1.0.0")))
+                    ).render());
+        }
+    }
+
     @Override
     protected IssueParser createParser() {
         return new AnchoreCTLParser();
