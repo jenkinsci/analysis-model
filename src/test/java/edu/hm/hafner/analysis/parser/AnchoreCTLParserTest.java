@@ -148,6 +148,25 @@ class AnchoreCTLParserTest extends AbstractParserTest {
     }
 
     @Test
+    void shouldParseBareArrayFromImageVulnOutput() {
+        var report = parse("anchorectl-vuln-bare-array.json");
+
+        try (var softly = new SoftAssertions()) {
+            softly.assertThat(report).hasSize(2);
+            softly.assertThat(report.get(0))
+                    .hasMessage("CVE-2024-1234")
+                    .hasSeverity(Severity.WARNING_HIGH)
+                    .hasPackageName("openssl")
+                    .hasFileName("/usr/lib/x86_64-linux-gnu/libssl.so.3");
+            softly.assertThat(report.get(1))
+                    .hasMessage("CVE-2024-5678")
+                    .hasSeverity(Severity.ERROR)
+                    .hasPackageName("zlib1g")
+                    .hasFileName("/lib/x86_64-linux-gnu/libz.so.1");
+        }
+    }
+
+    @Test
     void shouldUseDashWhenPackagePathAndPurlAreBlank() {
         var report = parse("anchorectl-no-path-no-purl.json");
 

@@ -34,11 +34,15 @@ public class AnchoreCTLParser extends JsonIssueParser {
     @Override
     protected void parseJsonObject(final Report report, final JSONObject jsonReport,
             final IssueBuilder issueBuilder) {
-        extractVulnArray(jsonReport).ifPresent(vulns -> {
-            for (int i = 0; i < vulns.length(); i++) {
-                parseVuln(report, vulns.getJSONObject(i), issueBuilder);
-            }
-        });
+        extractVulnArray(jsonReport).ifPresent(vulns -> parseJsonArray(report, vulns, issueBuilder));
+    }
+
+    @Override
+    protected void parseJsonArray(final Report report, final JSONArray jsonReport,
+            final IssueBuilder issueBuilder) {
+        for (int i = 0; i < jsonReport.length(); i++) {
+            parseVuln(report, jsonReport.getJSONObject(i), issueBuilder);
+        }
     }
 
     private Optional<JSONArray> extractVulnArray(final JSONObject root) {
