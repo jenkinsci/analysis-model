@@ -56,9 +56,11 @@ public class CargoAuditParser extends JsonIssueParser {
         var packageName = advisory.optString(PACKAGE, "unknown");
         var title = advisory.optString(TITLE, "");
         var description = advisory.optString(DESCRIPTION, "");
-        var severityString = advisory.optString(SEVERITY, "unknown");
+        var severityString = advisory.optString(SEVERITY, "");
 
         var descriptionHtml = buildDescription(title, description, advisory);
+        
+        var adjustedSeverity = adaptSeverity(severityString);
 
         return issueBuilder
                 .setFileName(packageName)
@@ -66,29 +68,29 @@ public class CargoAuditParser extends JsonIssueParser {
                 .setType(advisoryId)
                 .setMessage(title)
                 .setDescription(descriptionHtml)
-                .setSeverity(mapSeverity(severityString))
+                .setSeverity(adjustedSeverity)
                 .build();
     }
 
-    private Severity mapSeverity(final String severityString) {
-        if (severityString == null) {
-            return Severity.WARNING_NORMAL;
-        }
-        String severity = severityString.toLowerCase(Locale.ENGLISH);
-        if (severity.contains("critical")) {
+    private Severity adaptSeverity(final String severityString) {
+        var severity = Severity.guessFromString(severityString);
+        
+        if (severity == Severity.WARNING_HIGH) {
             return Severity.ERROR;
         }
-        if (severity.contains("high")) {
-            return Severity.ERROR;
-        }
-        if (severity.contains("medium")) {
+        
+        var lowerSeverity = severityString.toLowerCase(Locale.ENGLISH);
+        if (lowerSeverity.isEmpty() || 
+            (!lowerSeverity.contains("critical") && !lowerSeverity.contains("high") && 
+             !lowerSeverity.contains("medium") && !lowerSeverity.contains("low") &&
+             !lowerSeverity.contains("error") && !lowerSeverity.contains("warning"))) {
             return Severity.WARNING_NORMAL;
         }
-        if (severity.contains("low")) {
-            return Severity.WARNING_LOW;
-        }
-        return Severity.WARNING_NORMAL;
+        
+        return severity;
     }
+
+
 
     private String buildDescription(final String title, final String description, final JSONObject advisory) {
         var tags = new java.util.ArrayList<>();
@@ -101,11 +103,8 @@ public class CargoAuditParser extends JsonIssueParser {
             tags.add(p(description));
         }
 
-        if (advisory.has(CVSS)) {
-            var cvss = advisory.optString(CVSS, "");
-            if (!cvss.isEmpty()) {
-                tags.add(p(strong("CVSS:"), new UnescapedText("&nbsp;"), new Text(cvss)));
-            }
+        if (advisory.has(CVSS) && !advisory.optString(CVSS, "").isEmpty()) {
+            tags.add(p(strong("CVSS:"), new UnescapedText("&nbsp;"), new Text(advisory.optString(CVSS, ""))));
         }
 
         if (advisory.has(URL)) {
@@ -115,11 +114,8 @@ public class CargoAuditParser extends JsonIssueParser {
             }
         }
 
-        if (advisory.has(DATE)) {
-            var date = advisory.optString(DATE, "");
-            if (!date.isEmpty()) {
-                tags.add(p(strong("Published:"), new UnescapedText("&nbsp;"), new Text(date)));
-            }
+        if (advisory.has(DATE) && !advisory.optString(DATE, "").isEmpty()) {
+            tags.add(p(strong("Published:"), new UnescapedText("&nbsp;"), new Text(advisory.optString(DATE, ""))));
         }
 
         return join(tags.toArray()).render();
