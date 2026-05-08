@@ -87,6 +87,8 @@ class AnchoreCTLParserTest extends AbstractParserTest {
                     .hasDescription(join(
                             p(join(b("Fix:"), text(" 1.2.12"))),
                             p(join(text("Affected version: "), text("1.2.11"))),
+                            p(b("CISA Known Exploited Vulnerability (KEV)")),
+                            p(text("Vendor will not fix")),
                             p(a("CVE-2022-3333").withHref("https://nvd.nist.gov/vuln/detail/CVE-2022-3333"))
                     ).render());
         }
@@ -113,6 +115,22 @@ class AnchoreCTLParserTest extends AbstractParserTest {
     @Test
     void shouldReturnEmptyReportWhenVulnerabilitiesKeyAbsent() {
         var report = parse("anchorectl-no-vuln-key.json");
+        try (var softly = new SoftAssertions()) {
+            softly.assertThat(report).isEmpty();
+        }
+    }
+
+    @Test
+    void shouldReturnEmptyReportWhenVulnerabilitiesIsNull() {
+        var report = parse("anchorectl-null-vulns.json");
+        try (var softly = new SoftAssertions()) {
+            softly.assertThat(report).isEmpty();
+        }
+    }
+
+    @Test
+    void shouldReturnEmptyReportWhenEnvelopeHasNoInnerArray() {
+        var report = parse("anchorectl-empty-envelope.json");
         try (var softly = new SoftAssertions()) {
             softly.assertThat(report).isEmpty();
         }
