@@ -1,0 +1,15 @@
+{
+  "vulnerabilities": [
+    {
+      "vuln": "CVE-2021-9999",
+      "severity": "Low",
+      "packageName": "requests",
+      "packageType": "pypi",
+      "packageVersion": "2.26.0",
+      "packagePath": "",
+      "purl": "pkg:pypi/requests@2.26.0",
+      "fix": "2.27.0",
+      "url": ""
+    }
+  ]
+}

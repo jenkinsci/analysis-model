@@ -9,11 +9,6 @@ import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import j2html.tags.DomContent;
-
 import static j2html.TagCreator.*;
 
 /**
@@ -113,21 +108,13 @@ public class AnchoreCTLParser extends JsonIssueParser {
 
     private String buildDescription(final String fix, final String packageVersion,
             final boolean isKev, final boolean willNotFix, final String url, final String vulnId) {
-        List<DomContent> items = new ArrayList<>();
-        items.add(fix.isBlank() ? p(text("No fix available")) : p(join(b("Fix:"), text(" " + fix))));
-        if (!packageVersion.isBlank()) {
-            items.add(p(join(text("Affected version: "), text(packageVersion))));
-        }
-        if (isKev) {
-            items.add(p(b("CISA Known Exploited Vulnerability (KEV)")));
-        }
-        if (willNotFix) {
-            items.add(p(text("Vendor will not fix")));
-        }
-        if (!url.isBlank()) {
-            items.add(p(a(vulnId).withHref(url)));
-        }
-        return div(items.toArray(new DomContent[0])).render();
+        return join(
+                fix.isBlank() ? p(text("No fix available")) : p(join(b("Fix:"), text(" " + fix))),
+                iff(!packageVersion.isBlank(), p(join(text("Affected version: "), text(packageVersion)))),
+                iff(isKev, p(b("CISA Known Exploited Vulnerability (KEV)"))),
+                iff(willNotFix, p(text("Vendor will not fix"))),
+                iff(!url.isBlank(), p(a(vulnId).withHref(url)))
+        ).render();
     }
 
     private static Severity mapSeverity(final String severity) {
