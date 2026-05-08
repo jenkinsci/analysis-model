@@ -39,6 +39,6 @@ class AnchoreCTLDescriptor extends ParserDescriptor {
                 text(", see"),
                 a("anchorectl documentation").withHref(getUrl()),
                 text("for usage details.")
-        );
+        ).render();
     }
 }
