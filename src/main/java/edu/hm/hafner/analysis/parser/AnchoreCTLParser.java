@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
 import java.io.Serial;
-import java.util.Locale;
 import java.util.Optional;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -127,6 +126,6 @@ public class AnchoreCTLParser extends JsonIssueParser {
     }
 
     private static String cleanNone(final String value) {
-        return "none".equals(value.trim().toLowerCase(Locale.ENGLISH)) ? "" : value;
+        return value.trim().equalsIgnoreCase("none") ? "" : value;
     }
 }

@@ -201,6 +201,39 @@ class AnchoreCTLParserTest extends AbstractParserTest {
         }
     }
 
+    @Test
+    void shouldReturnEmptyReportWhenVulnerabilitiesIsPrimitive() {
+        var report = parse("anchorectl-primitive-vulns.json");
+        try (var softly = new SoftAssertions()) {
+            softly.assertThat(report).isEmpty();
+        }
+    }
+
+    @Test
+    void shouldSkipNullNvdDataEntries() {
+        var report = parse("anchorectl-null-nvd-entry.json");
+        try (var softly = new SoftAssertions()) {
+            softly.assertThat(report).hasSize(1);
+            softly.assertThat(report.get(0))
+                    .hasMessage("CVE-2021-4444")
+                    .hasSeverity(Severity.WARNING_NORMAL);
+        }
+    }
+
+    @Test
+    void shouldOmitAffectedVersionWhenPackageVersionIsBlank() {
+        var report = parse("anchorectl-blank-version.json");
+        try (var softly = new SoftAssertions()) {
+            softly.assertThat(report).hasSize(1);
+            softly.assertThat(report.get(0))
+                    .hasMessage("CVE-2021-8888")
+                    .hasSeverity(Severity.WARNING_LOW)
+                    .hasDescription(join(
+                            p(join(b("Fix:"), text(" 7.79.2-r0")))
+                    ).render());
+        }
+    }
+
     @Override
     protected IssueParser createParser() {
         return new AnchoreCTLParser();
