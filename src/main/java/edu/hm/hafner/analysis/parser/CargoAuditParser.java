@@ -60,30 +60,30 @@ public class CargoAuditParser extends JsonIssueParser {
                 .setMessage(advisory.optString(TITLE, ""))
                 .setDescription(buildDescription(advisory.optString(TITLE, ""), 
                     advisory.optString(DESCRIPTION, ""), advisory))
-                .setSeverity(adaptSeverity(advisory.optString(SEVERITY, "")))
+                .setSeverity(mapSeverity(advisory.optString(SEVERITY, "")))
                 .build();
     }
 
-    private Severity adaptSeverity(final String severityString) {
+    /**
+     * Maps cargo audit severity levels to analysis model severities. Cargo audit vulnerability severities
+     * in a security context require higher priority mapping: "high" vulnerabilities are treated as ERROR
+     * (critical issues), and unknown severities default to NORMAL (not LOW) to avoid minimizing unknowns.
+     *
+     * @param severityString the severity string from cargo audit
+     * @return the mapped Severity
+     */
+    private Severity mapSeverity(final String severityString) {
         var severity = Severity.guessFromString(severityString);
         
         if (severity.equals(Severity.WARNING_HIGH)) {
             return Severity.ERROR;
         }
         
-        if (!isKnownSeverity(severityString)) {
+        if (severity.equals(Severity.WARNING_LOW) && !severityString.toLowerCase(Locale.ENGLISH).contains("low")) {
             return Severity.WARNING_NORMAL;
         }
         
         return severity;
-    }
-
-    private boolean isKnownSeverity(final String severityString) {
-        var lower = severityString.toLowerCase(Locale.ENGLISH);
-        if (lower.contains("critical") || lower.contains("high") || lower.contains("medium")) {
-            return true;
-        }
-        return lower.contains("low") || lower.contains("error") || lower.contains("warning");
     }
 
     private String buildDescription(final String title, final String description, final JSONObject advisory) {
