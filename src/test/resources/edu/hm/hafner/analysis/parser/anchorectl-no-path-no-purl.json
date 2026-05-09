@@ -1,0 +1,15 @@
+{
+  "vulnerabilities": [
+    {
+      "vuln": "CVE-2021-7777",
+      "severity": "High",
+      "packageName": "libfoo",
+      "packageType": "rpm",
+      "packageVersion": "1.0.0",
+      "packagePath": "",
+      "purl": "",
+      "fix": "none",
+      "url": ""
+    }
+  ]
+}
