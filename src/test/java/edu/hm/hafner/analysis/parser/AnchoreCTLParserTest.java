@@ -7,6 +7,7 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
+import edu.hm.hafner.analysis.registry.ParserRegistry;
 
 import static j2html.TagCreator.*;
 
@@ -198,6 +199,15 @@ class AnchoreCTLParserTest extends AbstractParserTest {
                             p(text("No fix available")),
                             p(join(text("Affected version: "), text("1.0.0")))
                     ).render());
+        }
+    }
+
+    @Test
+    void shouldHaveValidDescriptor() {
+        var descriptor = new ParserRegistry().get("anchore-ctl");
+        try (var softly = new SoftAssertions()) {
+            softly.assertThat(descriptor.getPattern()).isEqualTo("**/*vulnerabilities*.json");
+            softly.assertThat(descriptor.getHelp()).isNotEmpty();
         }
     }
 

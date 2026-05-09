@@ -126,6 +126,6 @@ public class AnchoreCTLParser extends JsonIssueParser {
     }
 
     private static String cleanNone(final String value) {
-        return value.trim().equalsIgnoreCase("none") ? "" : value;
+        return equalsIgnoreCase(value.trim(), "none") ? "" : value;
     }
 }
