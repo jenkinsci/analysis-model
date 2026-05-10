@@ -1,0 +1,14 @@
+{
+  "vulnerabilities": [
+    {
+      "vuln": "CVE-2021-8888",
+      "severity": "Low",
+      "packageName": "curl",
+      "packageType": "APKG",
+      "packageVersion": "",
+      "packagePath": "/lib/apk/db/installed",
+      "fix": "7.79.2-r0",
+      "url": ""
+    }
+  ]
+}
