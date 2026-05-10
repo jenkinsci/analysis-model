@@ -30,7 +30,6 @@ class CargoAuditParserTest extends AbstractParserTest {
 
         softly.assertThat(report.get(0))
                 .hasFileName("chrono")
-                .hasPackageName("chrono")
                 .hasSeverity(Severity.ERROR)
                 .hasType("RUSTSEC-2021-0079")
                 .hasMessage("Buffer overflow in chrono before 0.4.19");
@@ -43,7 +42,6 @@ class CargoAuditParserTest extends AbstractParserTest {
 
         softly.assertThat(report.get(1))
                 .hasFileName("sodiumoxide")
-                .hasPackageName("sodiumoxide")
                 .hasSeverity(Severity.ERROR)
                 .hasType("RUSTSEC-2020-0001")
                 .hasMessage("Cryptographic failure in sodiumoxide before 0.2.6");
@@ -55,7 +53,6 @@ class CargoAuditParserTest extends AbstractParserTest {
 
         softly.assertThat(report.get(2))
                 .hasFileName("rusqlite")
-                .hasPackageName("rusqlite")
                 .hasSeverity(Severity.WARNING_NORMAL)
                 .hasType("RUSTSEC-2021-0120")
                 .hasMessage("SQL injection in rusqlite before 0.25");
@@ -409,7 +406,6 @@ class CargoAuditParserTest extends AbstractParserTest {
                 """);
 
         assertThat(report).hasSize(1);
-        assertThat(report.get(0).getPackageName()).isEqualTo("unknown");
         assertThat(report.get(0).getFileName()).isEqualTo("unknown");
     }
 

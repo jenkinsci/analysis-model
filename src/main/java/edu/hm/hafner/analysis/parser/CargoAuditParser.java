@@ -55,7 +55,6 @@ public class CargoAuditParser extends JsonIssueParser {
 
         return issueBuilder
                 .setFileName(packageName)
-                .setPackageName(packageName)
                 .setType(advisory.optString(ID, "-"))
                 .setMessage(advisory.optString(TITLE, ""))
                 .setDescription(buildDescription(advisory.optString(TITLE, ""), 
