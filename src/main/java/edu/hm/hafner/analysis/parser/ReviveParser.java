@@ -5,7 +5,6 @@ import org.json.JSONObject;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
-import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 import java.io.Serial;
 
@@ -34,12 +33,8 @@ public class ReviveParser extends JsonIssueParser {
         }
     }
 
-    private Issue convertToIssue(final String fileName, @CheckForNull final JSONObject jsonIssue,
+    private Issue convertToIssue(final String fileName, final JSONObject jsonIssue,
             final IssueBuilder issueBuilder) {
-        if (jsonIssue == null) {
-            return issueBuilder.buildAndClean();
-        }
-
         issueBuilder.setFileName(fileName)
                 .setLineStart(jsonIssue.optInt("line", 0))
                 .setColumnStart(jsonIssue.optInt("column", 0))
