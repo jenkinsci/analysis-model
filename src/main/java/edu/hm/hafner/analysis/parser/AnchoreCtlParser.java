@@ -1,12 +1,13 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.util.Optional;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
+
+import java.io.Serial;
+import java.util.Optional;
 
 import static j2html.TagCreator.*;
 
@@ -25,25 +26,25 @@ import static j2html.TagCreator.*;
  *
  * @see <a href="https://github.com/anchore/anchorectl">anchorectl</a>
  */
-public class AnchoreCTLParser extends JsonIssueParser {
+public class AnchoreCtlParser extends JsonIssueParser {
     @Serial
     private static final long serialVersionUID = 3847261938475610293L;
 
     @Override
     protected void parseJsonObject(final Report report, final JSONObject jsonReport,
             final IssueBuilder issueBuilder) {
-        extractVulnArray(jsonReport).ifPresent(vulns -> parseJsonArray(report, vulns, issueBuilder));
+        extractVulnerabilities(jsonReport).ifPresent(vulnerabilities -> parseJsonArray(report, vulnerabilities, issueBuilder));
     }
 
     @Override
     protected void parseJsonArray(final Report report, final JSONArray jsonReport,
             final IssueBuilder issueBuilder) {
         for (int i = 0; i < jsonReport.length(); i++) {
-            parseVuln(report, jsonReport.getJSONObject(i), issueBuilder);
+            parseVulnerability(report, jsonReport.getJSONObject(i), issueBuilder);
         }
     }
 
-    private Optional<JSONArray> extractVulnArray(final JSONObject root) {
+    private Optional<JSONArray> extractVulnerabilities(final JSONObject root) {
         if (!root.has("vulnerabilities") || root.isNull("vulnerabilities")) {
             return Optional.empty();
         }
@@ -57,57 +58,55 @@ public class AnchoreCTLParser extends JsonIssueParser {
         return Optional.empty();
     }
 
-    private void parseVuln(final Report report, final JSONObject vuln, final IssueBuilder builder) {
-        var vulnId = vuln.optString("vuln", "").trim();
-        if (vulnId.isBlank()) {
+    private void parseVulnerability(final Report report, final JSONObject vulnerability, final IssueBuilder builder) {
+        var vulnerabilityId = vulnerability.optString("vuln", "").trim();
+        if (vulnerabilityId.isBlank()) {
             return;
         }
 
-        var packageName = firstNonBlank(vuln, "packageName", "package_name");
-        var packageVersion = firstNonBlank(vuln, "packageVersion", "package_version");
-        var packageType = firstNonBlank(vuln, "packageType", "package_type");
-        var packagePath = firstNonBlank(vuln, "packagePath", "package_path");
-        var purl = vuln.optString("purl", "");
-        var fix = cleanNone(vuln.optString("fix", ""));
-        var url = vuln.optString("url", "");
-        var willNotFix = vuln.optBoolean("willNotFix", false)
-                || vuln.optBoolean("will_not_fix", false);
-        var isKev = isKevFromNvdData(vuln);
+        var packagePath = firstNonBlank(vulnerability, "packagePath", "package_path");
+        var purl = vulnerability.optString("purl", "");
 
-        String fileName;
-        if (!packagePath.isBlank()) {
-            fileName = packagePath;
-        }
-        else if (!purl.isBlank()) {
-            fileName = purl;
-        }
-        else {
-            fileName = "-";
-        }
+        var fix = cleanNone(vulnerability.optString("fix", ""));
+        var url = vulnerability.optString("url", "");
+        var willNotFix = vulnerability.optBoolean("willNotFix") || vulnerability.optBoolean("will_not_fix");
+        var isKev = isKevFromNvdData(vulnerability);
 
-        builder.setMessage(vulnId)
-                .guessSeverity(vuln.optString("severity", ""))
-                .setPackageName(packageName)
-                .setCategory(packageType)
-                .setFileName(fileName)
-                .setDescription(buildDescription(fix, packageVersion, isKev, willNotFix, url, vulnId))
-                .setFingerprint(vulnId + ":" + packageName + ":" + packageVersion + ":" + packagePath);
+        var packageVersion = firstNonBlank(vulnerability, "packageVersion", "package_version");
+        builder.setMessage(vulnerabilityId)
+                .guessSeverity(vulnerability.optString("severity", ""))
+                .setPackageName(firstNonBlank(vulnerability, "packageName", "package_name"))
+                .setCategory(firstNonBlank(vulnerability, "packageType", "package_type"))
+                .setFileName(extractFileName(packagePath, purl))
+                .setDescription(buildDescription(fix, packageVersion, isKev, willNotFix, url, vulnerabilityId))
+                .setFingerprint(vulnerabilityId + ":" + firstNonBlank(vulnerability, "packageName", "package_name") + ":" + packageVersion + ":" + packagePath);
 
         report.add(builder.build());
     }
 
-    private boolean isKevFromNvdData(final JSONObject vuln) {
-        var nvdData = vuln.optJSONArray("nvdData");
+    private String extractFileName(final String packagePath, final String purl) {
+        if (!packagePath.isBlank()) {
+            return packagePath;
+        }
+        else if (!purl.isBlank()) {
+            return purl;
+        }
+        else {
+            return "-";
+        }
+    }
+
+    private boolean isKevFromNvdData(final JSONObject vulnerability) {
+        var nvdData = vulnerability.optJSONArray("nvdData");
         if (nvdData == null) {
-            nvdData = vuln.optJSONArray("nvd_data");
+            nvdData = vulnerability.optJSONArray("nvd_data");
         }
         if (nvdData == null) {
             return false;
         }
         for (int i = 0; i < nvdData.length(); i++) {
             var entry = nvdData.optJSONObject(i);
-            if (entry != null
-                    && (entry.optBoolean("isKev", false) || entry.optBoolean("is_kev", false))) {
+            if (entry != null && (entry.optBoolean("isKev") || entry.optBoolean("is_kev"))) {
                 return true;
             }
         }

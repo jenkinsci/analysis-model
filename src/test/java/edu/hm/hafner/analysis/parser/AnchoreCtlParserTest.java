@@ -11,8 +11,8 @@ import edu.hm.hafner.analysis.registry.ParserRegistry;
 
 import static j2html.TagCreator.*;
 
-class AnchoreCTLParserTest extends AbstractParserTest {
-    AnchoreCTLParserTest() {
+class AnchoreCtlParserTest extends AbstractParserTest {
+    AnchoreCtlParserTest() {
         super("anchorectl-report.json");
     }
 
@@ -246,6 +246,6 @@ class AnchoreCTLParserTest extends AbstractParserTest {
 
     @Override
     protected IssueParser createParser() {
-        return new AnchoreCTLParser();
+        return new AnchoreCtlParser();
     }
 }
