@@ -50,6 +50,7 @@ public class ParserRegistry {
             new CadenceIncisiveDescriptor(),
             new CargoDescriptor(),
             new CargoClippyDescriptor(),
+            new CargoAuditDescriptor(),
             new CcmDescriptor(),
             new CfnLintDescriptor(),
             new CfnNagDescriptor(),

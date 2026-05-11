@@ -1,0 +1,55 @@
+{
+  "vulnerabilities": {
+    "0": {
+      "advisory": {
+        "id": "RUSTSEC-2021-0079",
+        "package": "chrono",
+        "title": "Buffer overflow in chrono before 0.4.19",
+        "description": "A vulnerability exists in chrono where parsing of certain inputs could cause a buffer overflow, allowing remote attackers to cause a denial of service.",
+        "date": "2021-07-05",
+        "url": "https://rustsec.org/advisories/RUSTSEC-2021-0079",
+        "severity": "high",
+        "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "versions": {
+        "patched": ["0.4.19"],
+        "unaffected": []
+      }
+    },
+    "1": {
+      "advisory": {
+        "id": "RUSTSEC-2020-0001",
+        "package": "sodiumoxide",
+        "title": "Cryptographic failure in sodiumoxide before 0.2.6",
+        "description": "The sodiumoxide crate before version 0.2.6 contains a cryptographic issue that allows attackers to bypass security measures.",
+        "date": "2020-01-01",
+        "url": "https://rustsec.org/advisories/RUSTSEC-2020-0001",
+        "severity": "critical",
+        "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "versions": {
+        "patched": ["0.2.6"],
+        "unaffected": []
+      }
+    },
+    "2": {
+      "advisory": {
+        "id": "RUSTSEC-2021-0120",
+        "package": "rusqlite",
+        "title": "SQL injection in rusqlite before 0.25",
+        "description": "Improper input validation in rusqlite before 0.25 could allow SQL injection attacks.",
+        "date": "2021-10-15",
+        "url": "https://rustsec.org/advisories/RUSTSEC-2021-0120",
+        "severity": "medium"
+      },
+      "versions": {
+        "patched": ["0.25.0"],
+        "unaffected": ["0.24.0"]
+      }
+    }
+  },
+  "meta": {
+    "advisory_db": "https://github.com/rustsec/advisory-db",
+    "timestamp": "2021-10-20T12:00:00Z"
+  }
+}

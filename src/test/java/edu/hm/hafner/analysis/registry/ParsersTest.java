@@ -122,6 +122,12 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(2, "cargo", "CargoCheck.json");
     }
 
+    /** Runs the Cargo Audit parser on an output file that contains 3 issues. */
+    @Test
+    void shouldFindAllCargoAuditIssues() {
+        findIssuesOfTool(3, "cargo-audit", "cargo-audit.json");
+    }
+
     /** Runs the Pmd parser on an output file that contains 262 issues. */
     @Test
     void shouldFindAllIssuesForPmdAlias() {
