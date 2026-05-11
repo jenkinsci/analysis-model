@@ -132,4 +132,43 @@ class ReviveParserTest extends AbstractParserTest {
 
         assertThat(report).isEmpty();
     }
+
+    @Test
+    void shouldSkipNonObjectEntries() throws ParsingException {
+        var report = parseStringContent("""
+                {
+                  "main.go": [null, {"line":1, "column":2, "rule":"r", "message":"m", "severity":"error"}]
+                }
+                """);
+
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0))
+                .hasFileName("main.go")
+                .hasLineStart(1)
+                .hasColumnStart(2)
+                .hasType("r")
+                .hasMessage("m")
+                .hasSeverity(Severity.ERROR);
+    }
+
+    @Test
+    void shouldHandleNullJsonIssueViaReflection() throws Exception {
+        var parser = new ReviveParser();
+
+        var method = ReviveParser.class.getDeclaredMethod("convertToIssue", String.class, org.json.JSONObject.class,
+                edu.hm.hafner.analysis.IssueBuilder.class);
+        method.setAccessible(true);
+
+        try (var builder = new edu.hm.hafner.analysis.IssueBuilder()) {
+            var issue = (edu.hm.hafner.analysis.Issue) method.invoke(parser, "foo.go", null, builder);
+
+            assertThat(issue)
+                    .hasFileName("-")
+                    .hasLineStart(0)
+                    .hasColumnStart(0)
+                    .hasType("-")
+                    .hasMessage("")
+                    .hasSeverity(Severity.WARNING_NORMAL);
+        }
+    }
 }
