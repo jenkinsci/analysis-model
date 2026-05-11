@@ -1,7 +1,7 @@
 package edu.hm.hafner.analysis.registry;
 
 import edu.hm.hafner.analysis.IssueParser;
-import edu.hm.hafner.analysis.parser.AnchoreCTLParser;
+import edu.hm.hafner.analysis.parser.AnchoreCtlParser;
 
 import static j2html.TagCreator.*;
 
@@ -18,7 +18,7 @@ class AnchoreCtlDescriptor extends ParserDescriptor {
 
     @Override
     public IssueParser create(final Option... options) {
-        return new AnchoreCTLParser();
+        return new AnchoreCtlParser();
     }
 
     @Override
