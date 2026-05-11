@@ -16,7 +16,7 @@ import java.io.Serial;
  */
 public class ReviveParser extends JsonIssueParser {
     @Serial
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 6839204587125048264L;
 
     @Override
     protected void parseJsonObject(final Report report, final JSONObject jsonReport, final IssueBuilder issueBuilder) {
