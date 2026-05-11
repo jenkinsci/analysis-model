@@ -164,6 +164,7 @@ public class ParserRegistry {
             new QtTranslationDescriptor(),
             new ResharperDescriptor(),
             new RevApiDescriptor(),
+            new ReviveDescriptor(),
             new RfLintDescriptor(),
             new RoboCopyDescriptor(),
             new RuboCopDescriptor(),

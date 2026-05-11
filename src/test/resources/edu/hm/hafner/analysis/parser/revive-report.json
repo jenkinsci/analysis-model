@@ -1,0 +1,50 @@
+{
+  "main.go": [
+    {
+      "line": 10,
+      "column": 6,
+      "rule": "add-constant",
+      "message": "string literal \"app-name\" has more than 3 occurrences, make it a named constant",
+      "severity": "warning"
+    },
+    {
+      "line": 25,
+      "column": 2,
+      "rule": "var-naming",
+      "message": "variable name 'MyVar' should not contain underscores",
+      "severity": "warning"
+    },
+    {
+      "line": 35,
+      "column": 1,
+      "rule": "blank-imports",
+      "message": "imported for side-effects only",
+      "severity": "error"
+    }
+  ],
+  "handlers.go": [
+    {
+      "line": 42,
+      "column": 18,
+      "rule": "unused-parameter",
+      "message": "parameter 'ctx' seems to be unused",
+      "severity": "warning"
+    },
+    {
+      "line": 55,
+      "column": 5,
+      "rule": "receiver-naming",
+      "message": "receiver name 'this' should be abbreviated",
+      "severity": "warning"
+    }
+  ],
+  "utils.go": [
+    {
+      "line": 12,
+      "column": 1,
+      "rule": "exported",
+      "message": "exported function RunServer should have comment or be unexported",
+      "severity": "notice"
+    }
+  ]
+}

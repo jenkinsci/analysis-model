@@ -515,6 +515,12 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(3, "gosec", "gosec-report.json");
     }
 
+    /** Runs the Revive parser on an output file that contains 6 issues. */
+    @Test
+    void shouldFindAllReviveIssues() {
+        findIssuesOfTool(6, "revive", "revive-report.json");
+    }
+
     /** Runs the SunC parser on an output file that contains 8 issues. */
     @Test
     void shouldFindAllSunCIssues() {
