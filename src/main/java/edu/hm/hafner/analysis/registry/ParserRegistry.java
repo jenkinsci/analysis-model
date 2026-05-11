@@ -37,6 +37,7 @@ public class ParserRegistry {
     private static final ParserDescriptor[] ALL_DESCRIPTORS = {
             new AcuCobolDescriptor(),
             new AjcDescriptor(),
+            new AnchoreCtlDescriptor(),
             new AndroidLintDescriptor(),
             new AnsibleLintDescriptor(),
             new AnsibleLaterDescriptor(),
@@ -49,6 +50,7 @@ public class ParserRegistry {
             new CadenceIncisiveDescriptor(),
             new CargoDescriptor(),
             new CargoClippyDescriptor(),
+            new CargoAuditDescriptor(),
             new CcmDescriptor(),
             new CfnLintDescriptor(),
             new CfnNagDescriptor(),

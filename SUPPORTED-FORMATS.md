@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2026-05-08T17:18:04.766429806 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2026-05-11T09:39:13.021474990 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -54,6 +54,27 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
             </td>
             <td>
                 -
+            </td>
+        </tr>
+        <tr>
+            <td>
+                anchore-ctl
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                <a href="https://docs.anchore.com/current/docs/using/cli_usage/images/">
+                    AnchoreCTL
+                </a>
+            </td>
+            <td>
+                **/*vulnerabilities*.json
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Use commandline <code>anchorectl image one-time-scan -o json IMAGE &gt; anchorectl-scan.json</code>, see <a href="https://docs.anchore.com/current/docs/using/cli_usage/images/">anchorectl documentation</a> for usage details.
             </td>
         </tr>
         <tr>
@@ -387,6 +408,27 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
             </td>
             <td>
                 -
+            </td>
+        </tr>
+        <tr>
+            <td>
+                cargo-audit
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                <a href="https://github.com/rustsec/cargo-audit">
+                    Cargo Audit
+                </a>
+            </td>
+            <td>
+                **/cargo-audit.json
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Use commandline <code>cargo audit --json -o cargo-audit.json</code> to generate JSON output.<br/>See <a href='https://github.com/rustsec/cargo-audit'>cargo-audit on GitHub</a> for usage details.
             </td>
         </tr>
         <tr>
