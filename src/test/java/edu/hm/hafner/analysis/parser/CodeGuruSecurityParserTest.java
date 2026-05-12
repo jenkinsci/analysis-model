@@ -1,12 +1,8 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.util.List;
 import java.nio.file.FileSystems;
-import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import edu.hm.hafner.analysis.FileReaderFactory;
 import edu.hm.hafner.analysis.IssueParser;
@@ -235,6 +231,101 @@ class CodeGuruSecurityParserTest extends AbstractParserTest {
     }
 
     @Test
+    void shouldHandleMissingVulnerabilityObject() {
+        var report = parseStringContent("""
+                {
+                    "findings": [
+                        {
+                            "title": "Missing vulnerability object",
+                            "description": "Fallback description",
+                            "severity": "Info",
+                            "suggestedFixes": []
+                        }
+                    ]
+                }
+                """);
+
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0))
+                .hasFileName("-")
+                .hasType("-")
+                .hasMessage("Missing vulnerability object")
+                .hasSeverity(Severity.WARNING_LOW)
+                .hasLineStart(0)
+                .hasLineEnd(0);
+
+        assertThat(report.get(0).getDescription()).contains("Fallback description");
+    }
+
+    @Test
+    void shouldFormatSuggestedFixesWithSingleFields() {
+        var report = parseStringContent("""
+                {
+                    "findings": [
+                        {
+                            "title": "Suggested fixes formatting",
+                            "severity": "Medium",
+                            "vulnerability": {
+                                "filePath": {
+                                    "path": "src/main/kotlin/Fixes.kt",
+                                    "startLine": 21,
+                                    "endLine": 21
+                                }
+                            },
+                            "suggestedFixes": [
+                                {
+                                    "title": "",
+                                    "description": "Description-only fix"
+                                },
+                                {
+                                    "title": "Title-only fix",
+                                    "description": ""
+                                }
+                            ]
+                        }
+                    ]
+                }
+                """);
+
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0).getDescription())
+                .contains("Suggested fixes: Description-only fix | Title-only fix");
+    }
+
+    @Test
+    void shouldFormatCodeSnippetsWithoutLineNumbers() {
+        var report = parseStringContent("""
+                {
+                    "findings": [
+                        {
+                            "title": "Code snippet without line numbers",
+                            "severity": "Low",
+                            "vulnerability": {
+                                "filePath": {
+                                    "path": "src/main/kotlin/Snippet.kt",
+                                    "startLine": 3,
+                                    "endLine": 3
+                                },
+                                "codeSnippet": [
+                                    {
+                                        "number": 0,
+                                        "content": "println(userInput)"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+                """);
+
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0).getDescription())
+                .contains("Code snippet:")
+                .contains("println(userInput)")
+                .doesNotContain("0: println(userInput)");
+    }
+
+    @Test
     void shouldHandleBlankReferenceUrls() {
         var report = parseStringContent("""
                 {
@@ -272,23 +363,25 @@ class CodeGuruSecurityParserTest extends AbstractParserTest {
     }
 
     @Test
-    void shouldHandleEmptyNestedCollections() {
+    void shouldIgnoreAllBlankReferenceUrlsAndEmptyCodeSnippets() {
         var report = parseStringContent("""
                 {
                     "findings": [
                         {
-                            "title": "Empty nested collections",
+                            "title": "Blank nested collections",
                             "severity": "Low",
                             "vulnerability": {
                                 "filePath": {
-                                    "path": "src/main/kotlin/EmptyNested.kt",
-                                    "startLine": 11,
-                                    "endLine": 13
+                                    "path": "src/main/kotlin/BlankNested.kt",
+                                    "startLine": 4,
+                                    "endLine": 6
                                 },
-                                "referenceUrls": [],
+                                "referenceUrls": [
+                                    "   ",
+                                    "\t"
+                                ],
                                 "codeSnippet": []
-                            },
-                            "suggestedFixes": []
+                            }
                         }
                     ]
                 }
@@ -296,12 +389,12 @@ class CodeGuruSecurityParserTest extends AbstractParserTest {
 
         assertThat(report).hasSize(1);
         assertThat(report.get(0))
-                .hasFileName("src/main/kotlin/EmptyNested.kt")
+                .hasFileName("src/main/kotlin/BlankNested.kt")
                 .hasType("-")
-                .hasMessage("Empty nested collections")
+                .hasMessage("Blank nested collections")
                 .hasSeverity(Severity.WARNING_LOW)
-                .hasLineStart(11)
-                .hasLineEnd(13);
+                .hasLineStart(4)
+                .hasLineEnd(6);
 
         assertThat(report.get(0).getDescription()).isEmpty();
     }

@@ -65,15 +65,14 @@ public class CodeGuruSecurityParser extends JsonIssueParser {
 
     private Issue convertToIssue(final JSONObject finding, final IssueBuilder issueBuilder) {
         var vulnerability = finding.optJSONObject(VULNERABILITY);
-        var vulnerabilityData = vulnerability == null ? new JSONObject() : vulnerability;
-        var filePath = vulnerability == null ? null : vulnerabilityData.optJSONObject(FILE_PATH);
+        var filePath = vulnerability == null ? null : vulnerability.optJSONObject(FILE_PATH);
 
         issueBuilder
                 .setFileName(firstNonBlank(filePath, PATH, NAME))
                 .setType(firstNonBlank(finding, RULE_ID, DETECTOR_ID, DETECTOR_NAME, TYPE))
                 .setMessage(finding.optString(TITLE, ""))
                 .guessSeverity(finding.optString(SEVERITY, "Info"))
-                .setDescription(buildDescription(finding, vulnerabilityData));
+                .setDescription(buildDescription(finding, vulnerability));
 
         if (filePath != null) {
             issueBuilder.setLineStart(filePath.optInt(START_LINE, 0))
@@ -83,7 +82,7 @@ public class CodeGuruSecurityParser extends JsonIssueParser {
         return issueBuilder.buildAndClean();
     }
 
-    private String buildDescription(final JSONObject finding, final JSONObject vulnerability) {
+    private String buildDescription(final JSONObject finding, @CheckForNull final JSONObject vulnerability) {
         var sections = new ArrayList<String>();
 
         appendIfNotBlank(sections, finding.optString(DESCRIPTION, ""));
@@ -96,13 +95,12 @@ public class CodeGuruSecurityParser extends JsonIssueParser {
 
         appendReferenceUrls(sections, vulnerability);
         appendSuggestedFixes(sections, finding.optJSONArray(SUGGESTED_FIXES));
-        var codeSnippets = vulnerability.optJSONArray(CODE_SNIPPET);
-        appendCodeSnippets(sections, codeSnippets == null ? new JSONArray() : codeSnippets);
+        appendCodeSnippets(sections, vulnerability == null ? null : vulnerability.optJSONArray(CODE_SNIPPET));
 
         return String.join("\n\n", sections);
     }
 
-    private void appendReferenceUrls(final List<String> sections, final JSONObject vulnerability) {
+    private void appendReferenceUrls(final List<String> sections, @CheckForNull final JSONObject vulnerability) {
         if (vulnerability == null) {
             return;
         }
@@ -161,7 +159,7 @@ public class CodeGuruSecurityParser extends JsonIssueParser {
         return title + ": " + description;
     }
 
-    private void appendCodeSnippets(final List<String> sections, final JSONArray codeSnippet) {
+    private void appendCodeSnippets(final List<String> sections, @CheckForNull final JSONArray codeSnippet) {
         if (codeSnippet == null || codeSnippet.isEmpty()) {
             return;
         }
