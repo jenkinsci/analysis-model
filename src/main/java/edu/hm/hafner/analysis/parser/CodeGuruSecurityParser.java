@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 import java.io.Serial;
 import java.util.ArrayList;
@@ -64,14 +65,15 @@ public class CodeGuruSecurityParser extends JsonIssueParser {
 
     private Issue convertToIssue(final JSONObject finding, final IssueBuilder issueBuilder) {
         var vulnerability = finding.optJSONObject(VULNERABILITY);
-        var filePath = vulnerability == null ? null : vulnerability.optJSONObject(FILE_PATH);
+        var vulnerabilityData = vulnerability == null ? new JSONObject() : vulnerability;
+        var filePath = vulnerability == null ? null : vulnerabilityData.optJSONObject(FILE_PATH);
 
         issueBuilder
                 .setFileName(firstNonBlank(filePath, PATH, NAME))
                 .setType(firstNonBlank(finding, RULE_ID, DETECTOR_ID, DETECTOR_NAME, TYPE))
                 .setMessage(finding.optString(TITLE, ""))
                 .guessSeverity(finding.optString(SEVERITY, "Info"))
-                .setDescription(buildDescription(finding, vulnerability));
+                .setDescription(buildDescription(finding, vulnerabilityData));
 
         if (filePath != null) {
             issueBuilder.setLineStart(filePath.optInt(START_LINE, 0))
@@ -94,7 +96,8 @@ public class CodeGuruSecurityParser extends JsonIssueParser {
 
         appendReferenceUrls(sections, vulnerability);
         appendSuggestedFixes(sections, finding.optJSONArray(SUGGESTED_FIXES));
-        appendCodeSnippets(sections, vulnerability == null ? null : vulnerability.optJSONArray(CODE_SNIPPET));
+        var codeSnippets = vulnerability.optJSONArray(CODE_SNIPPET);
+        appendCodeSnippets(sections, codeSnippets == null ? new JSONArray() : codeSnippets);
 
         return String.join("\n\n", sections);
     }
@@ -129,32 +132,33 @@ public class CodeGuruSecurityParser extends JsonIssueParser {
 
         var fixes = new ArrayList<String>();
         for (int i = 0; i < suggestedFixes.length(); i++) {
-            var suggestedFix = suggestedFixes.optJSONObject(i);
-            if (suggestedFix == null) {
-                continue;
-            }
-
-            var title = suggestedFix.optString(FIX_TITLE, "").trim();
-            var description = suggestedFix.optString(FIX_DESCRIPTION, "").trim();
-            var fix = new StringBuilder();
-            if (!title.isBlank()) {
-                fix.append(title);
-            }
-            if (!description.isBlank()) {
-                if (fix.length() > 0) {
-                    fix.append(": ");
-                }
-                fix.append(description);
-            }
-
-            if (fix.length() > 0) {
-                fixes.add(fix.toString());
+            var fix = formatSuggestedFix(suggestedFixes.optJSONObject(i));
+            if (fix != null) {
+                fixes.add(fix);
             }
         }
 
         if (!fixes.isEmpty()) {
             sections.add("Suggested fixes: " + String.join(" | ", fixes));
         }
+    }
+
+    @CheckForNull
+    private String formatSuggestedFix(final JSONObject suggestedFix) {
+        if (suggestedFix == null) {
+            return null;
+        }
+
+        var title = suggestedFix.optString(FIX_TITLE, "").trim();
+        var description = suggestedFix.optString(FIX_DESCRIPTION, "").trim();
+        if (title.isBlank()) {
+            return description.isBlank() ? null : description;
+        }
+        if (description.isBlank()) {
+            return title;
+        }
+
+        return title + ": " + description;
     }
 
     private void appendCodeSnippets(final List<String> sections, final JSONArray codeSnippet) {

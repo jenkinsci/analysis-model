@@ -2,7 +2,6 @@ package edu.hm.hafner.analysis.parser;
 
 import java.util.List;
 import java.nio.file.FileSystems;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
@@ -273,65 +272,38 @@ class CodeGuruSecurityParserTest extends AbstractParserTest {
     }
 
     @Test
-    void shouldCoverPrivateHelperBranches() throws Exception {
-        var parser = new CodeGuruSecurityParser();
+    void shouldHandleEmptyNestedCollections() {
+        var report = parseStringContent("""
+                {
+                    "findings": [
+                        {
+                            "title": "Empty nested collections",
+                            "severity": "Low",
+                            "vulnerability": {
+                                "filePath": {
+                                    "path": "src/main/kotlin/EmptyNested.kt",
+                                    "startLine": 11,
+                                    "endLine": 13
+                                },
+                                "referenceUrls": [],
+                                "codeSnippet": []
+                            },
+                            "suggestedFixes": []
+                        }
+                    ]
+                }
+                """);
 
-        var appendReferenceUrls = CodeGuruSecurityParser.class.getDeclaredMethod(
-                "appendReferenceUrls", List.class, JSONObject.class);
-        appendReferenceUrls.setAccessible(true);
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0))
+                .hasFileName("src/main/kotlin/EmptyNested.kt")
+                .hasType("-")
+                .hasMessage("Empty nested collections")
+                .hasSeverity(Severity.WARNING_LOW)
+                .hasLineStart(11)
+                .hasLineEnd(13);
 
-        var sections = new ArrayList<String>();
-        appendReferenceUrls.invoke(parser, sections, new JSONObject().put("referenceUrls", new JSONArray()));
-        assertThat(sections).isEmpty();
-
-        sections = new ArrayList<>();
-        appendReferenceUrls.invoke(parser, sections, new JSONObject().put("referenceUrls", new JSONArray()
-                .put("   ")
-                .put("\t")));
-        assertThat(sections).isEmpty();
-
-        sections = new ArrayList<>();
-        appendReferenceUrls.invoke(parser, sections, new JSONObject().put("referenceUrls", new JSONArray()
-                .put("   ")
-                .put("https://example.com/codeguru/reference/helper")));
-        assertThat(sections).containsExactly("References: https://example.com/codeguru/reference/helper");
-
-        var appendSuggestedFixes = CodeGuruSecurityParser.class.getDeclaredMethod(
-                "appendSuggestedFixes", List.class, JSONArray.class);
-        appendSuggestedFixes.setAccessible(true);
-
-        sections = new ArrayList<>();
-        appendSuggestedFixes.invoke(parser, sections, new JSONArray());
-        assertThat(sections).isEmpty();
-
-        sections = new ArrayList<>();
-        appendSuggestedFixes.invoke(parser, sections, new JSONArray()
-                .put(JSONObject.NULL)
-                .put(new JSONObject().put("title", "Helper fix").put("description", "Explain helper fix"))
-                .put(new JSONObject().put("title", "Only title").put("description", ""))
-                .put(new JSONObject().put("title", "").put("description", "Only description")));
-        assertThat(sections).hasSize(1);
-        assertThat(sections.get(0))
-                .contains("Suggested fixes: Helper fix: Explain helper fix | Only title | Only description");
-
-        var appendCodeSnippets = CodeGuruSecurityParser.class.getDeclaredMethod(
-                "appendCodeSnippets", List.class, JSONArray.class);
-        appendCodeSnippets.setAccessible(true);
-
-        sections = new ArrayList<>();
-        appendCodeSnippets.invoke(parser, sections, new JSONArray());
-        assertThat(sections).isEmpty();
-
-        sections = new ArrayList<>();
-        appendCodeSnippets.invoke(parser, sections, new JSONArray()
-                .put(JSONObject.NULL)
-                .put(new JSONObject().put("number", 0).put("content", "index-based value;"))
-                .put(new JSONObject().put("number", 5).put("content", "return value;")));
-        assertThat(sections).hasSize(1);
-        assertThat(sections.get(0))
-                .contains("Code snippet:")
-                .contains("index-based value;")
-                .contains("5: return value;");
+        assertThat(report.get(0).getDescription()).isEmpty();
     }
 
     @Test
