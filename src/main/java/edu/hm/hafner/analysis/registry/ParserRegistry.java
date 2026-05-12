@@ -63,6 +63,7 @@ public class ParserRegistry {
             new CmakeDescriptor(),
             new CodeAnalysisDescriptor(),
             new CodeCheckerDescriptor(),
+            new CodeGuruSecurityDescriptor(),
             new CodeClimateDescriptor(),
             new CodeGeneratorDescriptor(),
             new CodeNarcDescriptor(),
