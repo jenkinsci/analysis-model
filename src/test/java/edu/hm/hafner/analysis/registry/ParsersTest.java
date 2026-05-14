@@ -701,6 +701,12 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(11, "phpstan", "phpstan.xml");
     }
 
+    /** Runs the PHP Mess Detector parser on an output file that contains 4 issues. */
+    @Test
+    void shouldFindAllPhpMdIssues() {
+        findIssuesOfTool(4, "php-md", "phpmd-report.json");
+    }
+
     /** Runs the Microsoft PreFast parser on an output file that contains 11 issues. */
     @Test
     void shouldFindAllPREfastIssues() {
