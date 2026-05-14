@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2026-05-11T15:35:10.282240772 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2026-05-14T22:20:58.833699813 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -28,6 +28,27 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
         </tr>
     </thead>
     <tbody>
+        <tr>
+            <td>
+                codeguru-security
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                <a href="https://docs.aws.amazon.com/cli/latest/reference/codeguru-security/get-findings.html">
+                    AWS CodeGuru Security
+                </a>
+            </td>
+            <td>
+                **/codeguru-security-report.json
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Use commandline <code>aws codeguru-security get-findings --scan-name &lt;scan-name&gt; --output json > codeguru-security-report.json</code> to generate JSON output.<br/>See <a href='https://docs.aws.amazon.com/cli/latest/reference/codeguru-security/get-findings.html'>AWS CodeGuru Security get-findings</a> for usage details.
+            </td>
+        </tr>
         <tr>
             <td>
                 acu-cobol
