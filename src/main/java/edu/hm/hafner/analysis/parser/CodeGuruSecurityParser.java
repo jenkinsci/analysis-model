@@ -65,18 +65,24 @@ public class CodeGuruSecurityParser extends JsonIssueParser {
 
     private Issue convertToIssue(final JSONObject finding, final IssueBuilder issueBuilder) {
         var vulnerability = finding.optJSONObject(VULNERABILITY);
-        var filePath = vulnerability == null ? null : vulnerability.optJSONObject(FILE_PATH);
 
         issueBuilder
-                .setFileName(firstNonBlank(filePath, PATH, NAME))
                 .setType(firstNonBlank(finding, RULE_ID, DETECTOR_ID, DETECTOR_NAME, TYPE))
                 .setMessage(finding.optString(TITLE, ""))
                 .guessSeverity(finding.optString(SEVERITY, "Info"))
                 .setDescription(buildDescription(finding, vulnerability));
 
-        if (filePath != null) {
-            issueBuilder.setLineStart(filePath.optInt(START_LINE, 0))
-                    .setLineEnd(filePath.optInt(END_LINE, 0));
+        if (vulnerability != null) {
+            var filePath = vulnerability.optJSONObject(FILE_PATH);
+            var fileName = firstNonBlank(filePath, PATH, NAME);
+            issueBuilder.setFileName(fileName);
+            if (!fileName.isEmpty()) {
+                issueBuilder.setLineStart(filePath.optInt(START_LINE, 0))
+                        .setLineEnd(filePath.optInt(END_LINE, 0));
+            }
+        } 
+        else {
+            issueBuilder.setFileName("");
         }
 
         return issueBuilder.buildAndClean();
@@ -123,7 +129,7 @@ public class CodeGuruSecurityParser extends JsonIssueParser {
         }
     }
 
-    private void appendSuggestedFixes(final List<String> sections, final JSONArray suggestedFixes) {
+    private void appendSuggestedFixes(final List<String> sections, @CheckForNull final JSONArray suggestedFixes) {
         if (suggestedFixes == null || suggestedFixes.isEmpty()) {
             return;
         }
@@ -142,7 +148,7 @@ public class CodeGuruSecurityParser extends JsonIssueParser {
     }
 
     @CheckForNull
-    private String formatSuggestedFix(final JSONObject suggestedFix) {
+    private String formatSuggestedFix(@CheckForNull final JSONObject suggestedFix) {
         if (suggestedFix == null) {
             return null;
         }
