@@ -80,9 +80,6 @@ public class CodeGuruSecurityParser extends JsonIssueParser {
                 issueBuilder.setLineStart(filePath.optInt(START_LINE, 0))
                         .setLineEnd(filePath.optInt(END_LINE, 0));
             }
-        } 
-        else {
-            issueBuilder.setFileName("");
         }
 
         return issueBuilder.buildAndClean();
