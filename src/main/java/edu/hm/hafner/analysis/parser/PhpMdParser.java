@@ -14,6 +14,7 @@ import java.io.Serial;
  * A parser for PHP Mess Detector (PHPMD) JSON reports.
  *
  * @author Akash Manna
+ * @see <a href="https://github.com/phpmd/phpmd">PHP Mess Detector on GitHub</a>
  * @see <a href="https://phpmd.org/">PHP Mess Detector</a>
  */
 public class PhpMdParser extends JsonIssueParser {
