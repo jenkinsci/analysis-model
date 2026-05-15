@@ -1,0 +1,85 @@
+{
+  "findings": [
+    {
+      "title": "SQL injection",
+      "description": "User input is used directly in a SQL query.",
+      "severity": "Critical",
+      "ruleId": "CGS-001",
+      "resource": {
+        "id": "arn:aws:codeguru-security:us-east-1:123456789012:scan/example"
+      },
+      "vulnerability": {
+        "referenceUrls": [
+          "https://cwe.mitre.org/data/definitions/89.html"
+        ],
+        "filePath": {
+          "path": "src/main/java/com/example/UserDao.java",
+          "startLine": 42,
+          "endLine": 44
+        },
+        "codeSnippet": [
+          {
+            "number": 42,
+            "content": "String query = buildQuery(userInput);"
+          },
+          {
+            "number": 43,
+            "content": "statement.executeQuery(query);"
+          }
+        ]
+      },
+      "recommendation": {
+        "text": "Use prepared statements to parameterize the query.",
+        "url": "https://docs.aws.amazon.com/codeguru/latest/security-ug/sql-injection.html"
+      },
+      "suggestedFixes": [
+        {
+          "title": "Prepared statements",
+          "description": "Use a parameterized query instead of string concatenation."
+        }
+      ]
+    },
+    {
+      "title": "Arbitrary class loading",
+      "description": "Reflective class loading can instantiate unexpected types.",
+      "severity": "High",
+      "detectorId": "CGS-002",
+      "resource": {
+        "id": "arn:aws:codeguru-security:us-east-1:123456789012:scan/example"
+      },
+      "vulnerability": {
+        "referenceUrls": [
+          "https://docs.aws.amazon.com/codeguru/latest/security-ug/"
+        ],
+        "filePath": {
+          "name": "ReflectionUtil.java",
+          "path": "src/main/java/com/example/ReflectionUtil.java",
+          "startLine": 18,
+          "endLine": 18
+        }
+      },
+      "recommendation": {
+        "text": "Avoid reflective class loading when a fixed allow-list is possible."
+      },
+      "suggestedFixes": [
+        {
+          "title": "Allow-list classes",
+          "description": "Validate the class name before calling Class.forName."
+        }
+      ]
+    },
+    {
+      "title": "Information disclosure",
+      "description": "Sensitive data should not be logged.",
+      "severity": "Info",
+      "vulnerability": {
+        "filePath": {
+          "name": "Application.kt"
+        },
+        "referenceUrls": [
+          "https://example.com/codeguru/reference/info-disclosure"
+        ]
+      }
+    }
+  ]
+}

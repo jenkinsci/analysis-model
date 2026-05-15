@@ -128,6 +128,12 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(3, "cargo-audit", "cargo-audit.json");
     }
 
+    /** Runs the AWS CodeGuru Security parser on an output file that contains 3 issues. */
+    @Test
+    void shouldFindAllCodeGuruSecurityIssues() {
+        findIssuesOfTool(3, "codeguru-security", "codeguru-security-report.json");
+    }
+
     /** Runs the Pmd parser on an output file that contains 262 issues. */
     @Test
     void shouldFindAllIssuesForPmdAlias() {
