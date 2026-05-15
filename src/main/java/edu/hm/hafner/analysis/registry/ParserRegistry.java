@@ -150,6 +150,7 @@ public class ParserRegistry {
             new PhpDescriptor(),
             new PhanDescriptor(),
             new PhpStanDescriptor(),
+            new PhpMdDescriptor(),
             new PitDescriptor(),
             new PmdDescriptor(),
             new PnpmAuditDescriptor(),

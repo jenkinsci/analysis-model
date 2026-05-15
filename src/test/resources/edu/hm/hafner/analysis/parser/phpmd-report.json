@@ -1,0 +1,47 @@
+{
+  "version": "2.10.0",
+  "files": [
+    {
+      "name": "src/Calculator.php",
+      "violations": [
+        {
+          "beginline": 5,
+          "endline": 25,
+          "rule": "CyclomaticComplexity",
+          "ruleset": "Design Rules",
+          "priority": 1,
+          "message": "The class Calculator has an overall complexity is too high"
+        },
+        {
+          "beginline": 8,
+          "endline": 8,
+          "rule": "ShortVariable",
+          "ruleset": "Naming Rules",
+          "priority": 2,
+          "message": "Avoid variables with short names like $x. Configured minimum length is 3."
+        }
+      ]
+    },
+    {
+      "name": "src/Helper.php",
+      "violations": [
+        {
+          "beginline": 15,
+          "endline": 15,
+          "rule": "UnusedLocalVariable",
+          "ruleset": "Design Rules",
+          "priority": 3,
+          "message": "Avoid unused local variables such as '$unused'."
+        },
+        {
+          "beginline": 1,
+          "endline": 50,
+          "rule": "TooManyMethods",
+          "ruleset": "Code Size Rules",
+          "priority": 5,
+          "message": "The class Helper has 15 methods. Consider refactoring."
+        }
+      ]
+    }
+  ]
+}

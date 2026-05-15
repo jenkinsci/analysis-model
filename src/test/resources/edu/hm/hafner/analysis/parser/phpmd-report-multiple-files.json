@@ -1,0 +1,60 @@
+{
+  "version": "2.10.0",
+  "files": [
+    {
+      "name": "src/Model/User.php",
+      "violations": [
+        {
+          "beginline": 30,
+          "endline": 35,
+          "rule": "LongParameterList",
+          "ruleset": "Design Rules",
+          "priority": 1,
+          "message": "The method User::create() has 8 parameters. Consider reducing the number of parameters to less than 5."
+        },
+        {
+          "beginline": 42,
+          "endline": 42,
+          "rule": "LongVariable",
+          "ruleset": "Naming Rules",
+          "priority": 2,
+          "message": "Avoid excessively long variable names like $veryLongVariableName. Keep variable name length under 20 characters."
+        }
+      ]
+    },
+    {
+      "name": "src/Service/UserService.php",
+      "violations": [
+        {
+          "beginline": 10,
+          "endline": 160,
+          "rule": "ExcessiveMethodLength",
+          "ruleset": "Design Rules",
+          "priority": 3,
+          "message": "The method UserService::processUser() has 150 lines of code. Current threshold is 100. Reduce complexity by breaking into smaller methods."
+        },
+        {
+          "beginline": 1,
+          "endline": 200,
+          "rule": "TooManyPublicMethods",
+          "ruleset": "Design Rules",
+          "priority": 3,
+          "message": "The class UserService has 12 public methods. Consider refactoring to reduce public interface."
+        }
+      ]
+    },
+    {
+      "name": "src/Util/Helper.php",
+      "violations": [
+        {
+          "beginline": 5,
+          "endline": 150,
+          "rule": "ExcessiveClassComplexity",
+          "ruleset": "Code Size Rules",
+          "priority": 5,
+          "message": "The class Helper has 25 methods making it too complex. Consider breaking it into smaller classes."
+        }
+      ]
+    }
+  ]
+}
