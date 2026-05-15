@@ -162,7 +162,7 @@ class PhpMdParserTest extends AbstractParserTest {
 
         assertThat(descriptor.getType()).isEqualTo(IssueType.WARNING);
         assertThat(descriptor.getUrl()).isEqualTo("https://phpmd.org/");
-        assertThat(descriptor.getIconUrl()).isEqualTo("https://phpmd.org/static/images/phpmd-logo.png");
+        assertThat(descriptor.getIconUrl()).isEqualTo("https://phpmd.org/images/logo.png");
         assertThat(descriptor.getPattern()).isEqualTo("**/phpmd-report.json");
 
         IssueParser parser = descriptor.createParser();

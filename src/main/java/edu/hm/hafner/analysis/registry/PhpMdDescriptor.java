@@ -29,7 +29,7 @@ class PhpMdDescriptor extends ParserDescriptor {
 
     @Override
     public String getIconUrl() {
-        return "https://phpmd.org/static/images/phpmd-logo.png";
+        return "https://phpmd.org/images/logo.png";
     }
 
     @Override
