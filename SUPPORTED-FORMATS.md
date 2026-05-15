@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2026-05-14T22:20:58.833699813 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2026-05-15T21:42:36.825295187 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -1846,6 +1846,22 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
             </td>
             <td>
                 -
+            </td>
+        </tr>
+        <tr>
+            <td>
+                php-md
+            </td>
+            <td>
+                <img src="https://phpmd.org/images/logo.png" alt="PHP Mess Detector" height="64" width="64">
+            </td>
+            <td>
+                <a href="https://phpmd.org/">
+                    PHP Mess Detector
+                </a>
+            </td>
+            <td>
+                **/phpmd-report.json
             </td>
         </tr>
         <tr>
