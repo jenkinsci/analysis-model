@@ -19,7 +19,7 @@ import java.io.Serial;
  */
 public class PhpMdParser extends JsonIssueParser {
     @Serial
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -7832905107421987643L;
 
     private static final String FILES_TAG = "files";
     private static final String VIOLATIONS_TAG = "violations";
