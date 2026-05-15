@@ -1,0 +1,25 @@
+{
+  "files": [
+    {
+      "name": "src/EdgeCase.php",
+      "violations": [
+        {
+          "beginline": 1,
+          "endline": 2,
+          "rule": "BoundaryPriority",
+          "ruleset": "Design Rules",
+          "priority": 4,
+          "message": "Priority 4 should be treated as a normal warning."
+        },
+        {
+          "beginline": 3,
+          "endline": 4,
+          "rule": "FallbackPriority",
+          "ruleset": "Design Rules",
+          "priority": 0,
+          "message": "Unexpected priorities should fall back to a normal warning."
+        }
+      ]
+    }
+  ]
+}

@@ -8,6 +8,9 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
+import edu.hm.hafner.analysis.Report.IssueType;
+import edu.hm.hafner.analysis.registry.ParserDescriptor;
+import edu.hm.hafner.analysis.registry.ParserRegistry;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
@@ -119,6 +122,51 @@ class PhpMdParserTest extends AbstractParserTest {
         var report = parse("phpmd-report-empty.json");
 
         assertThat(report).hasSize(0).hasDuplicatesSize(0);
+    }
+
+    @Test
+    void shouldHandlePriorityBoundaryValues() {
+        var report = parse("phpmd-report-edge-cases.json");
+
+        assertThat(report).hasSize(2).hasDuplicatesSize(0);
+
+        assertThat(report.get(0))
+                .hasFileName("src/EdgeCase.php")
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasCategory("Design Rules")
+                .hasType("BoundaryPriority")
+                .hasMessage("Priority 4 should be treated as a normal warning.")
+                .hasLineStart(1)
+                .hasLineEnd(2);
+
+        assertThat(report.get(1))
+                .hasFileName("src/EdgeCase.php")
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasCategory("Design Rules")
+                .hasType("FallbackPriority")
+                .hasMessage("Unexpected priorities should fall back to a normal warning.")
+                .hasLineStart(3)
+                .hasLineEnd(4);
+    }
+
+    @Test
+    void shouldIgnoreMissingStructures() {
+        assertThat(parse("phpmd-report-no-files.json")).hasSize(0).hasDuplicatesSize(0);
+        assertThat(parse("phpmd-report-file-without-violations.json")).hasSize(0).hasDuplicatesSize(0);
+    }
+
+    @Test
+    void shouldExposeDescriptorMetadata() {
+        var registry = new ParserRegistry();
+        ParserDescriptor descriptor = registry.get("php-md");
+
+        assertThat(descriptor.getType()).isEqualTo(IssueType.WARNING);
+        assertThat(descriptor.getUrl()).isEqualTo("https://phpmd.org/");
+        assertThat(descriptor.getIconUrl()).isEqualTo("https://phpmd.org/static/images/phpmd-logo.png");
+        assertThat(descriptor.getPattern()).isEqualTo("**/phpmd-report.json");
+
+        IssueParser parser = descriptor.createParser();
+        assertThat(parser).isInstanceOf(PhpMdParser.class);
     }
 
     @Override
