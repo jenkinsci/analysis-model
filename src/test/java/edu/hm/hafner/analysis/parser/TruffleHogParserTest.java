@@ -91,6 +91,7 @@ class TruffleHogParserTest extends AbstractParserTest {
         assertThat(descriptor.getPattern()).isEqualTo("**/truffleHog.json");
         assertThat(descriptor.getHelp()).contains("truffleHog filesystem");
         assertThat(descriptor.getUrl()).isEqualTo("https://github.com/trufflesecurity/trufflehog");
+        assertThat(descriptor.getIconUrl()).isEqualTo("https://storage.googleapis.com/trufflehog-static-sources/pixel_pig.png");
         assertThat(descriptor.hasHelp()).isTrue();
         assertThat(descriptor.hasUrl()).isTrue();
     }
