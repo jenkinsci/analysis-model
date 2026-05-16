@@ -29,7 +29,7 @@ class TruffleHogDescriptor extends ParserDescriptor {
 
     @Override
     public String getIconUrl() {
-        return "https://raw.githubusercontent.com/trufflesecurity/trufflehog/main/imgs/trufflehog_logo.png";
+        return "https://storage.googleapis.com/trufflehog-static-sources/pixel_pig.png";
     }
 
     @Override
