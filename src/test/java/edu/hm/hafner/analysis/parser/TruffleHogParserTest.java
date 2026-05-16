@@ -185,4 +185,148 @@ class TruffleHogParserTest extends AbstractParserTest {
 
         assertThat(report.get(2)).hasSeverity(Severity.ERROR);
     }
+
+    @Test
+    void shouldHandleOnlyTypeField() {
+        var report = parseStringContent("""
+                {
+                  "results": [
+                    {
+                      "findings": [
+                        {
+                          "type": "Secret Token",
+                          "file_path": "app.py",
+                          "line_number": 15,
+                          "is_verified": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+                """);
+
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0))
+                .hasType("Secret Token")
+                .hasMessage("Secret Token");
+    }
+
+    @Test
+    void shouldHandleOnlyFoundByField() {
+        var report = parseStringContent("""
+                {
+                  "results": [
+                    {
+                      "findings": [
+                        {
+                          "found_by": "Custom Detector",
+                          "file_path": "secrets.conf",
+                          "line_number": 8,
+                          "is_verified": false
+                        }
+                      ]
+                    }
+                  ]
+                }
+                """);
+
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0))
+                .hasType("Custom Detector")
+                .hasMessage("Secret detected by: Custom Detector");
+    }
+
+    @Test
+    void shouldHandleJsonWithoutResults() {
+        var report = parseStringContent("""
+                {
+                  "metadata": {
+                    "version": "1.0"
+                  }
+                }
+                """);
+
+        assertThat(report).isEmpty();
+    }
+
+    @Test
+    void shouldHandleResultWithoutFindings() {
+        var report = parseStringContent("""
+                {
+                  "results": [
+                    {
+                      "sourceType": "git"
+                    },
+                    {
+                      "findings": [
+                        {
+                          "type": "API Key",
+                          "found_by": "API Detector",
+                          "file_path": "config.py",
+                          "line_number": 20,
+                          "is_verified": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+                """);
+
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0))
+                .hasType("API Key")
+                .hasFileName("config.py");
+    }
+
+    @Test
+    void shouldHandleJsonArray() {
+        var report = parseStringContent("""
+                [
+                  {
+                    "findings": [
+                      {
+                        "type": "Database Password",
+                        "found_by": "DB Detector",
+                        "file_path": "db_config.yaml",
+                        "line_number": 5,
+                        "is_verified": false
+                      }
+                    ]
+                  }
+                ]
+                """);
+
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0))
+                .hasType("Database Password")
+                .hasFileName("db_config.yaml")
+                .hasSeverity(Severity.WARNING_NORMAL);
+    }
+
+    @Test
+    void shouldHandleNullResultInArray() {
+        var report = parseStringContent("""
+                {
+                  "results": [
+                    null,
+                    {
+                      "findings": [
+                        {
+                          "type": "SSH Key",
+                          "found_by": "SSH Detector",
+                          "file_path": "id_rsa",
+                          "line_number": 1,
+                          "is_verified": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+                """);
+
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0))
+                .hasType("SSH Key")
+                .hasFileName("id_rsa");
+    }
 }
