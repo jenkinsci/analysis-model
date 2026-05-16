@@ -60,17 +60,16 @@ public class TruffleHogParser extends JsonIssueParser {
         var fileName = firstNonBlank(finding, FILE_PATH);
         var lineNumber = finding.optInt(LINE_NUMBER, 0);
         var message = buildMessage(finding);
-
-        issueBuilder.setType(StringUtils.defaultIfBlank(type, "-"));
-        issueBuilder.setMessage(message);
-        issueBuilder.setFileName(fileName);
-        issueBuilder.setLineStart(lineNumber);
-
         var isVerified = finding.optBoolean(IS_VERIFIED, false);
         var severity = isVerified ? Severity.ERROR : Severity.WARNING_NORMAL;
-        issueBuilder.setSeverity(severity);
 
-        return issueBuilder.buildAndClean();
+        return issueBuilder
+                .setType(StringUtils.defaultIfBlank(type, "-"))
+                .setMessage(message)
+                .setFileName(fileName)
+                .setLineStart(lineNumber)
+                .setSeverity(severity)
+                .buildAndClean();
     }
 
     private String buildMessage(final JSONObject finding) {
