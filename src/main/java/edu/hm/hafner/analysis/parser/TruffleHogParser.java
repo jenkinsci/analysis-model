@@ -16,6 +16,7 @@ import java.io.Serial;
  *
  * @author Akash Manna
  * @see <a href="https://github.com/trufflesecurity/trufflehog">TruffleHog on GitHub</a>
+ * @see <a href="https://trufflesecurity.com/trufflehog-enterprise">TruffleHog Enterprise</a>
  */
 public class TruffleHogParser extends JsonIssueParser {
     @Serial
