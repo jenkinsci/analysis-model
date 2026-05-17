@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis.registry;
 
 import edu.hm.hafner.analysis.IssueParser;
+import edu.hm.hafner.analysis.Report.IssueType;
 import edu.hm.hafner.analysis.parser.KubeHunterParser;
 
 /**
@@ -36,5 +37,15 @@ class KubeHunterDescriptor extends ParserDescriptor {
     @Override
     public String getUrl() {
         return "https://github.com/aquasecurity/kube-hunter";
+    }
+
+    @Override
+    public String getIconUrl() {
+        return "https://github.com/aquasecurity/kube-hunter/blob/main/kube-hunter.png?raw=true";
+    }
+
+    @Override
+    public IssueType getType() {
+        return IssueType.WARNING;
     }
 }

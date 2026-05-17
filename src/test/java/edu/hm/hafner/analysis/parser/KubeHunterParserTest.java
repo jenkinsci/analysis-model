@@ -8,6 +8,7 @@ import edu.hm.hafner.analysis.FileReaderFactory;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Report;
+import edu.hm.hafner.analysis.Report.IssueType;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
@@ -195,6 +196,8 @@ class KubeHunterParserTest extends AbstractParserTest {
         assertThat(descriptor.getPattern()).isEqualTo("**/kube-hunter.json");
         assertThat(descriptor.getHelp()).contains("kube-hunter --report json --dispatch stdout");
         assertThat(descriptor.getUrl()).isEqualTo("https://github.com/aquasecurity/kube-hunter");
+        assertThat(descriptor.getIconUrl()).isEqualTo("https://github.com/aquasecurity/kube-hunter/blob/main/kube-hunter.png?raw=true");
+        assertThat(descriptor.getType()).isEqualTo(IssueType.WARNING);
         assertThat(descriptor.hasHelp()).isTrue();
         assertThat(descriptor.hasUrl()).isTrue();
     }
