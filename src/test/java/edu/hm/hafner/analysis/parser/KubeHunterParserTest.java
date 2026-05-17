@@ -98,6 +98,83 @@ class KubeHunterParserTest extends AbstractParserTest {
     }
 
     @Test
+    void shouldParseRootArrayReports() {
+        var report = parseStringContent("""
+                [
+                    {
+                        "location": "10.0.0.20:8080",
+                        "vid": "KHV999",
+                        "category": "Discovery",
+                        "severity": "critical",
+                        "vulnerability": "Root array entry",
+                        "description": "Parsed through the array code path"
+                    }
+                ]
+                """);
+
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0))
+                .hasFileName("10.0.0.20:8080")
+                .hasCategory("Discovery")
+                .hasType("KHV999")
+                .hasMessage("Root array entry")
+                .hasDescription("Parsed through the array code path")
+                .hasSeverity(Severity.ERROR);
+    }
+
+    @Test
+    void shouldHandleBlankFieldsAndUnknownSeverity() {
+        var report = parseStringContent("""
+                {
+                    "vulnerabilities": [
+                        {
+                            "location": "",
+                            "category": "",
+                            "vid": "",
+                            "severity": "unknown",
+                            "vulnerability": "",
+                            "description": ""
+                        }
+                    ]
+                }
+                """);
+
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0))
+                .hasFileName("-")
+                .hasCategory("-")
+                .hasType("-")
+                .hasMessage("-")
+                .hasDescription("")
+                .hasSeverity(Severity.WARNING_NORMAL);
+    }
+
+    @Test
+    void shouldMapCriticalSeverity() {
+        var report = parseStringContent("""
+                {
+                    "vulnerabilities": [
+                        {
+                            "location": "10.0.0.30:10255",
+                            "vid": "KHV111",
+                            "category": "Impact",
+                            "severity": "critical",
+                            "vulnerability": "Critical exposure"
+                        }
+                    ]
+                }
+                """);
+
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0))
+                .hasFileName("10.0.0.30:10255")
+                .hasCategory("Impact")
+                .hasType("KHV111")
+                .hasMessage("Critical exposure")
+                .hasSeverity(Severity.ERROR);
+    }
+
+    @Test
     void shouldSkipNonObjectEntriesInVulnerabilityArray() {
         var report = parseStringContent("""
                 {
