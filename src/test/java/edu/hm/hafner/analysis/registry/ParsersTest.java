@@ -895,6 +895,12 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(3, "kube-linter", "kubelinter.json");
     }
 
+    /** Runs the Kube Hunter parser on an output file that contains 3 issues. */
+    @Test
+    void shouldFindAllKubeHunterIssues() {
+        findIssuesOfTool(3, "kube-hunter", "kube-hunter.json");
+    }
+
     /** Runs the kube-score parser on an output file that contains 3 issues. */
     @Test
     void shouldFindAllKubeScoreIssues() {
