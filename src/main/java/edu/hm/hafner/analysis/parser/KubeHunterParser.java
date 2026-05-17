@@ -15,6 +15,7 @@ import java.io.Serial;
  *
  * @author Akash Manna
  * @see <a href="https://github.com/aquasecurity/kube-hunter">Kube Hunter on GitHub</a>
+ * @see <a href="https://aquasecurity.github.io/kube-hunter/">Kube Hunter Documentation</a>
  */
 public class KubeHunterParser extends JsonIssueParser {
     @Serial
