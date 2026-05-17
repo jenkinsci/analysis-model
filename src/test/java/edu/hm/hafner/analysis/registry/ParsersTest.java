@@ -110,6 +110,12 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(2, "sarif", "sarif.json");
     }
 
+    /** Runs the Roslyn Analyzers parser on an output file that contains 3 issues. */
+    @Test
+    void shouldFindAllRoslynAnalyzersIssues() {
+        findIssuesOfTool(3, "roslyn-analyzers", "roslyn-analyzers-report.sarif");
+    }
+
     /** Runs the Cmake parser on an output file that contains 8 issues. */
     @Test
     void shouldFindAllCmakeIssues() {
