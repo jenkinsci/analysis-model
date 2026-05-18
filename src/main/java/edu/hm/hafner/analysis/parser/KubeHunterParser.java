@@ -7,6 +7,7 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serial;
 import java.util.Locale;
@@ -80,7 +81,7 @@ public class KubeHunterParser extends JsonIssueParser {
     }
 
     private Severity mapSeverity(final String severity) {
-        return switch (severity.toLowerCase(Locale.ROOT)) {
+        return switch (StringUtils.lowerCase(severity, Locale.ROOT)) {
             case "critical" -> Severity.ERROR;
             case "high" -> Severity.WARNING_HIGH;
             case "low" -> Severity.WARNING_LOW;
