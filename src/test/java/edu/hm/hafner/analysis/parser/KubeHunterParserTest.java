@@ -44,7 +44,7 @@ class KubeHunterParserTest extends AbstractParserTest {
                 .hasType("KHV005")
                 .hasMessage("Access to API server with weak RBAC")
                 .hasDescription("Anonymous users can list cluster roles")
-            .hasSeverity(Severity.WARNING_HIGH);
+                .hasSeverity(Severity.WARNING_HIGH);
 
         softly.assertThat(report.get(2))
                 .hasFileName("10.0.0.15:8001")
