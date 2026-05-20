@@ -30,6 +30,15 @@ jobs:
         run: |
           echo "HEAD_SHA=$HEAD_SHA"
           echo "REPO=$REPO"
+      - name: Download reference reports from main branch
+        uses: dawidd6/action-download-artifact@v21
+        with:
+          workflow: quality-monitor-build.yml
+          branch: main
+          name: quality-reports
+          path: reference-reports
+          check_artifacts: true
+          if_no_artifact_found: ignore
       - name: Fetch reports from dependency check and quality monitor workflows
         env:
           REPO: ${{ github.repository }}

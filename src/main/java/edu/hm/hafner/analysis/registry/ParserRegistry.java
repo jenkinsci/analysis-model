@@ -196,6 +196,7 @@ public class ParserRegistry {
             new TiCcsDescriptor(),
             new TnsdlDescriptor(),
             new TrivyDescriptor(),
+            new TruffleHogDescriptor(),
             new TsLintDescriptor(),
             new ValeDescriptor(),
             new ValgrindDescriptor(),

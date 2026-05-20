@@ -979,6 +979,12 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(4, "trivy", "trivy_result.json");
     }
 
+    /** Runs the TruffleHog parser on an output file that contains 3 issues. */
+    @Test
+    void shouldFindAllTruffleHogIssues() {
+        findIssuesOfTool(3, "truffleHog", "truffleHog.json");
+    }
+
     /** Runs the qt translation parser on an output file that contains 5 issues. */
     @Test
     void shouldFindAllQtTranslationIssues() {

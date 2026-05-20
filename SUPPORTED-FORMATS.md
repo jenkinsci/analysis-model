@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2026-05-15T21:42:36.825295187 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2026-05-20T11:54:50.460798967 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -2696,6 +2696,27 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
             </td>
             <td>
                 -
+            </td>
+        </tr>
+        <tr>
+            <td>
+                truffleHog
+            </td>
+            <td>
+                <img src="https://storage.googleapis.com/trufflehog-static-sources/pixel_pig.png" alt="TruffleHog" height="64" width="64">
+            </td>
+            <td>
+                <a href="https://github.com/trufflesecurity/trufflehog">
+                    TruffleHog
+                </a>
+            </td>
+            <td>
+                **/truffleHog.json
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Use commandline <code>truffleHog filesystem /path --json --only-verified</code> to generate JSON output.<br/>See <a href='https://github.com/trufflesecurity/trufflehog'>TruffleHog on GitHub</a> for usage details.
             </td>
         </tr>
         <tr>
