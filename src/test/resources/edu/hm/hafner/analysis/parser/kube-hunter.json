@@ -1,0 +1,40 @@
+{
+  "nodes": [
+    {
+      "type": "node",
+      "location": "10.0.0.12"
+    }
+  ],
+  "services": [
+    {
+      "service": "kubelet",
+      "location": "10.0.0.12:10250"
+    }
+  ],
+  "vulnerabilities": [
+    {
+      "location": "10.0.0.12:10250",
+      "vid": "KHV002",
+      "category": "Discovery",
+      "severity": "medium",
+      "vulnerability": "Kubelet Exposed",
+      "description": "The kubelet API is accessible without authentication"
+    },
+    {
+      "location": "10.0.0.12:6443",
+      "vid": "KHV005",
+      "category": "Privilege Escalation",
+      "severity": "high",
+      "vulnerability": "Access to API server with weak RBAC",
+      "description": "Anonymous users can list cluster roles"
+    },
+    {
+      "location": "10.0.0.15:8001",
+      "vid": "KHV053",
+      "category": "Information Disclosure",
+      "severity": "low",
+      "vulnerability": "AWS Metadata Exposure",
+      "description": "Access to cloud metadata endpoint from cluster node"
+    }
+  ]
+}
