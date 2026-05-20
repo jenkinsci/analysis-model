@@ -161,4 +161,355 @@ class KicsParserTest extends AbstractParserTest {
                 .hasLineStart(0)
                 .hasLineEnd(0);
     }
+
+    @Test
+    void shouldHandleEmptyFilesArray() {
+        var report = parseStringContent("""
+                {
+                  "queries": [
+                    {
+                      "query_name": "Query with empty files",
+                      "files": []
+                    }
+                  ]
+                }
+                """);
+
+        assertThat(report).isEmpty();
+    }
+
+    @Test
+    void shouldHandleNullFilesArray() {
+        var report = parseStringContent("""
+                {
+                  "queries": [
+                    {
+                      "query_name": "Query with null files"
+                    }
+                  ]
+                }
+                """);
+
+        assertThat(report).isEmpty();
+    }
+
+    @Test
+    void shouldIncludeSearchLineWhenProvided() {
+        var report = parseStringContent("""
+                {
+                  "queries": [
+                    {
+                      "query_name": "Query with search line",
+                      "query_id": "test-001",
+                      "files": [
+                        {
+                          "file_name": "test.yaml",
+                          "line": 10,
+                          "search_line": 15
+                        }
+                      ]
+                    }
+                  ]
+                }
+                """);
+
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0).getDescription())
+                .contains("Search line: 15");
+    }
+
+    @Test
+    void shouldOmitSearchLineWhenNegative() {
+        var report = parseStringContent("""
+                {
+                  "queries": [
+                    {
+                      "query_name": "Query without search line",
+                      "query_id": "test-001",
+                      "files": [
+                        {
+                          "file_name": "test.yaml",
+                          "line": 10,
+                          "search_line": -1
+                        }
+                      ]
+                    }
+                  ]
+                }
+                """);
+
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0).getDescription())
+                .doesNotContain("Search line");
+    }
+
+    @Test
+    void shouldUseLegacyFieldNames() {
+        var report = parseStringContent("""
+                {
+                  "queries": [
+                    {
+                      "queryName": "Legacy query",
+                      "queryId": "legacy-001",
+                      "queryUrl": "https://example.com/query",
+                      "Platform": "Terraform",
+                      "Category": "Security",
+                      "CWE": "79",
+                      "riskScore": "7.5",
+                      "cloudProvider": "AWS",
+                      "description": "This is a test",
+                      "files": [
+                        {
+                          "fileName": "legacy.tf",
+                          "line": 5,
+                          "resourceType": "aws_resource",
+                          "resourceName": "my_resource",
+                          "issueType": "MissingAttribute",
+                          "searchKey": "prop",
+                          "searchValue": "value",
+                          "expectedValue": "secure",
+                          "actualValue": "insecure",
+                          "searchLine": 7
+                        }
+                      ]
+                    }
+                  ]
+                }
+                """);
+
+        assertThat(report).hasSize(1);
+        var issue = report.get(0);
+        assertThat(issue)
+                .hasFileName("legacy.tf")
+                .hasType("legacy-001")
+                .hasMessage("Legacy query")
+                .hasLineStart(5)
+                .hasLineEnd(5);
+        assertThat(issue.getDescription())
+                .contains("Description: This is a test")
+                .contains("Query URL: https://example.com/query")
+                .contains("Platform: Terraform")
+                .contains("Cloud provider: AWS")
+                .contains("Category: Security")
+                .contains("CWE: 79")
+                .contains("Risk score: 7.5")
+                .contains("Resource type: aws_resource")
+                .contains("Resource name: my_resource")
+                .contains("Issue type: MissingAttribute")
+                .contains("Search key: prop")
+                .contains("Search value: value")
+                .contains("Expected value: secure")
+                .contains("Actual value: insecure")
+                .contains("Search line: 7");
+    }
+
+    @Test
+    void shouldHandleNullDescriptionValue() {
+        var report = parseStringContent("""
+                {
+                  "queries": [
+                    {
+                      "query_name": "Query with null description",
+                      "query_id": "test-002",
+                      "files": [
+                        {
+                          "file_name": "test.yaml",
+                          "line": 20
+                        }
+                      ]
+                    }
+                  ]
+                }
+                """);
+
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0).getDescription())
+                .doesNotContain("Description: null");
+    }
+
+    @Test
+    void shouldHandleBlankStringValues() {
+        var report = parseStringContent("""
+                {
+                  "queries": [
+                    {
+                      "query_name": "Query with blank values",
+                      "query_id": "test-003",
+                      "platform": "   ",
+                      "files": [
+                        {
+                          "file_name": "test.yaml",
+                          "line": 30,
+                          "resource_name": "  "
+                        }
+                      ]
+                    }
+                  ]
+                }
+                """);
+
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0).getDescription())
+                .doesNotContain("Platform:")
+                .doesNotContain("Resource name:");
+    }
+
+    @Test
+    void shouldUseStartLineAndEndLineFields() {
+        var report = parseStringContent("""
+                {
+                  "queries": [
+                    {
+                      "query_name": "Multi-line issue",
+                      "query_id": "test-004",
+                      "files": [
+                        {
+                          "file_name": "block.tf",
+                          "start_line": 10,
+                          "end_line": 25
+                        }
+                      ]
+                    }
+                  ]
+                }
+                """);
+
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0))
+                .hasLineStart(10)
+                .hasLineEnd(25);
+    }
+
+    @Test
+    void shouldPreferLineOverStartLine() {
+        var report = parseStringContent("""
+                {
+                  "queries": [
+                    {
+                      "query_name": "Line preference test",
+                      "query_id": "test-005",
+                      "files": [
+                        {
+                          "file_name": "test.yaml",
+                          "line": 42,
+                          "start_line": 10
+                        }
+                      ]
+                    }
+                  ]
+                }
+                """);
+
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0))
+                .hasLineStart(42)
+                .hasLineEnd(42);
+    }
+
+    @Test
+    void shouldHandleAllSeverities() {
+        var report = parseStringContent("""
+                {
+                  "queries": [
+                    {
+                      "query_name": "Critical issue",
+                      "query_id": "crit-001",
+                      "severity": "CRITICAL",
+                      "files": [
+                        {
+                          "file_name": "critical.yaml",
+                          "line": 1
+                        }
+                      ]
+                    },
+                    {
+                      "query_name": "High issue",
+                      "query_id": "high-001",
+                      "severity": "HIGH",
+                      "files": [
+                        {
+                          "file_name": "high.yaml",
+                          "line": 2
+                        }
+                      ]
+                    },
+                    {
+                      "query_name": "Medium issue",
+                      "query_id": "med-001",
+                      "severity": "MEDIUM",
+                      "files": [
+                        {
+                          "file_name": "medium.yaml",
+                          "line": 3
+                        }
+                      ]
+                    },
+                    {
+                      "query_name": "Low issue",
+                      "query_id": "low-001",
+                      "severity": "LOW",
+                      "files": [
+                        {
+                          "file_name": "low.yaml",
+                          "line": 4
+                        }
+                      ]
+                    }
+                  ]
+                }
+                """);
+
+        assertThat(report).hasSize(4);
+        assertThat(report.get(0).getSeverity()).isEqualTo(Severity.ERROR);
+        assertThat(report.get(1).getSeverity()).isEqualTo(Severity.WARNING_HIGH);
+        assertThat(report.get(2).getSeverity()).isEqualTo(Severity.WARNING_NORMAL);
+        assertThat(report.get(3).getSeverity()).isEqualTo(Severity.WARNING_LOW);
+    }
+
+    @Test
+    void shouldSetCategoryWhenNotBlank() {
+        var report = parseStringContent("""
+                {
+                  "queries": [
+                    {
+                      "query_name": "Categorized issue",
+                      "query_id": "cat-001",
+                      "platform": "Kubernetes",
+                      "files": [
+                        {
+                          "file_name": "k8s.yaml",
+                          "line": 1
+                        }
+                      ]
+                    }
+                  ]
+                }
+                """);
+
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0).getCategory()).isEqualTo("Kubernetes");
+    }
+
+    @Test
+    void shouldNotSetCategoryWhenBlank() {
+        var report = parseStringContent("""
+                {
+                  "queries": [
+                    {
+                      "query_name": "No category issue",
+                      "query_id": "nocat-001",
+                      "files": [
+                        {
+                          "file_name": "test.yaml",
+                          "line": 1
+                        }
+                      ]
+                    }
+                  ]
+                }
+                """);
+
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0).getCategory()).isEmpty();
+    }
 }
