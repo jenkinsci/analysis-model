@@ -88,7 +88,7 @@ class KubeHunterParserTest extends AbstractParserTest {
                 .hasType("-")
                 .hasMessage("-")
                 .hasDescription("")
-                .hasSeverity(Severity.WARNING_NORMAL);
+                .hasSeverity(Severity.WARNING_LOW);
     }
 
     @Test
@@ -147,7 +147,7 @@ class KubeHunterParserTest extends AbstractParserTest {
                 .hasType("-")
                 .hasMessage("-")
                 .hasDescription("")
-                .hasSeverity(Severity.WARNING_NORMAL);
+                .hasSeverity(Severity.WARNING_LOW);
     }
 
     @Test

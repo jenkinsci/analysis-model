@@ -6,11 +6,10 @@ import org.json.JSONObject;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.Severity;
 import org.apache.commons.lang3.StringUtils;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 import java.io.Serial;
-import java.util.Locale;
 
 /**
  * A parser for Kube Hunter JSON output.
@@ -43,7 +42,7 @@ public class KubeHunterParser extends JsonIssueParser {
         parseVulnerabilities(report, jsonReport, issueBuilder);
     }
 
-    private void parseVulnerabilities(final Report report, final JSONArray vulnerabilities,
+    private void parseVulnerabilities(final Report report, @CheckForNull final JSONArray vulnerabilities,
             final IssueBuilder issueBuilder) {
         if (vulnerabilities == null) {
             return;
@@ -57,11 +56,10 @@ public class KubeHunterParser extends JsonIssueParser {
     }
 
     private Issue convertToIssue(final JSONObject vulnerability, final IssueBuilder issueBuilder) {
-        var fileName = fallback(firstNonBlank(vulnerability, LOCATION), NOT_AVAILABLE);
-        var category = fallback(firstNonBlank(vulnerability, CATEGORY), NOT_AVAILABLE);
-        var type = fallback(firstNonBlank(vulnerability, VID), NOT_AVAILABLE);
-        var message = fallback(firstNonBlank(vulnerability, VULNERABILITY, DESCRIPTION), NOT_AVAILABLE);
-        var severity = mapSeverity(firstNonBlank(vulnerability, SEVERITY));
+        var fileName = StringUtils.defaultIfBlank(firstNonBlank(vulnerability, LOCATION), NOT_AVAILABLE);
+        var category = StringUtils.defaultIfBlank(firstNonBlank(vulnerability, CATEGORY), NOT_AVAILABLE);
+        var type = StringUtils.defaultIfBlank(firstNonBlank(vulnerability, VID), NOT_AVAILABLE);
+        var message = StringUtils.defaultIfBlank(firstNonBlank(vulnerability, VULNERABILITY, DESCRIPTION), NOT_AVAILABLE);
 
         return issueBuilder
                 .setFileName(fileName)
@@ -69,24 +67,7 @@ public class KubeHunterParser extends JsonIssueParser {
                 .setType(type)
                 .setMessage(message)
                 .setDescription(firstNonBlank(vulnerability, DESCRIPTION))
-                .setSeverity(severity)
+                .guessSeverity(firstNonBlank(vulnerability, SEVERITY))
                 .buildAndClean();
-    }
-
-    private String fallback(final String value, final String defaultValue) {
-        if (value.isBlank()) {
-            return defaultValue;
-        }
-        return value;
-    }
-
-    private Severity mapSeverity(final String severity) {
-        return switch (StringUtils.lowerCase(severity, Locale.ROOT)) {
-            case "critical" -> Severity.ERROR;
-            case "high" -> Severity.WARNING_HIGH;
-            case "low" -> Severity.WARNING_LOW;
-            case "medium" -> Severity.WARNING_NORMAL;
-            default -> Severity.WARNING_NORMAL;
-        };
     }
 }
