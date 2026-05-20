@@ -46,6 +46,6 @@ class KubeHunterDescriptor extends ParserDescriptor {
 
     @Override
     public IssueType getType() {
-        return IssueType.WARNING;
+        return IssueType.VULNERABILITY;
     }
 }

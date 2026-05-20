@@ -197,7 +197,7 @@ class KubeHunterParserTest extends AbstractParserTest {
         assertThat(descriptor.getHelp()).contains("kube-hunter --report json --dispatch stdout");
         assertThat(descriptor.getUrl()).isEqualTo("https://github.com/aquasecurity/kube-hunter");
         assertThat(descriptor.getIconUrl()).isEqualTo("https://github.com/aquasecurity/kube-hunter/blob/main/kube-hunter.png?raw=true");
-        assertThat(descriptor.getType()).isEqualTo(IssueType.WARNING);
+        assertThat(descriptor.getType()).isEqualTo(IssueType.VULNERABILITY);
         assertThat(descriptor.hasHelp()).isTrue();
         assertThat(descriptor.hasUrl()).isTrue();
     }
