@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2026-05-20T11:54:50.460798967 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2026-05-20T16:09:24.717870717 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -1505,6 +1505,27 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
         <tr>
             <td colspan="4">
                 :bulb: Use option --reporter=checkstyle.
+            </td>
+        </tr>
+        <tr>
+            <td>
+                kube-hunter
+            </td>
+            <td>
+                <img src="https://github.com/aquasecurity/kube-hunter/blob/main/kube-hunter.png?raw=true" alt="Kube Hunter" height="64" width="64">
+            </td>
+            <td>
+                <a href="https://github.com/aquasecurity/kube-hunter">
+                    Kube Hunter
+                </a>
+            </td>
+            <td>
+                **/kube-hunter.json
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Use commandline <code>kube-hunter --report json --dispatch stdout &gt; kube-hunter.json</code> output.<br/>See <a href='https://github.com/aquasecurity/kube-hunter'>Kube Hunter on GitHub</a> for usage details.
             </td>
         </tr>
         <tr>
