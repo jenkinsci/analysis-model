@@ -73,12 +73,12 @@ public class KicsParser extends JsonIssueParser {
         for (int i = 0; i < queries.length(); i++) {
             var query = queries.optJSONObject(i);
             if (query != null) {
-                parseQuery(report, query, issueBuilder);
+                parseQuery(report, query);
             }
         }
     }
 
-    private void parseQuery(final Report report, final JSONObject query, final IssueBuilder issueBuilder) {
+    private void parseQuery(final Report report, final JSONObject query) {
         var files = query.optJSONArray(FILES);
         if (files == null || files.isEmpty()) {
             return;
@@ -87,30 +87,33 @@ public class KicsParser extends JsonIssueParser {
         for (int i = 0; i < files.length(); i++) {
             var file = files.optJSONObject(i);
             if (file != null) {
-                report.add(createIssue(query, file, issueBuilder));
+                report.add(createIssue(query, file));
             }
         }
     }
 
-    private Issue createIssue(final JSONObject query, final JSONObject file, final IssueBuilder issueBuilder) {
+    private Issue createIssue(final JSONObject query, final JSONObject file) {
         var lineStart = file.optInt(LINE, file.optInt(START_LINE, 0));
         var lineEnd = file.optInt(END_LINE, lineStart);
         var fileName = firstNonBlank(file, FILE_NAME, FILE_NAME_LEGACY, "-");
         var category = firstNonBlank(query, PLATFORM, PLATFORM_LEGACY, CLOUD_PROVIDER, CLOUD_PROVIDER_LEGACY,
                 CATEGORY, CATEGORY_LEGACY);
 
-        var builder = issueBuilder
-                .setFileName(fileName)
-                .setType(firstNonBlank(query, QUERY_ID, QUERY_ID_LEGACY, "-"))
-                .setMessage(firstNonBlank(query, QUERY_NAME, QUERY_NAME_LEGACY))
-                .guessSeverity(query.optString(SEVERITY, "medium"))
-                .setDescription(buildDescription(query, file));
+        try (var builder = new IssueBuilder()) {
+            builder.setFileName(fileName)
+                    .setType(firstNonBlank(query, QUERY_ID, QUERY_ID_LEGACY, "-"))
+                    .setMessage(firstNonBlank(query, QUERY_NAME, QUERY_NAME_LEGACY))
+                    .guessSeverity(query.optString(SEVERITY, "medium"))
+                    .setDescription(buildDescription(query, file));
 
-        if (!category.isBlank()) {
-            builder = builder.setCategory(category);
+            if (!category.isBlank()) {
+                builder.setCategory(category);
+            }
+
+            builder.setLineStart(lineStart).setLineEnd(lineEnd);
+
+            return builder.buildAndClean();
         }
-
-        return builder.setLineStart(lineStart).setLineEnd(lineEnd).buildAndClean();
     }
 
     private String buildDescription(final JSONObject query, final JSONObject file) {
