@@ -107,12 +107,10 @@ public class KicsParser extends JsonIssueParser {
                 .setDescription(buildDescription(query, file));
 
         if (!category.isBlank()) {
-            builder.setCategory(category);
+            builder = builder.setCategory(category);
         }
 
-        builder.setLineStart(lineStart).setLineEnd(lineEnd);
-
-        return builder.buildAndClean();
+        return builder.setLineStart(lineStart).setLineEnd(lineEnd).buildAndClean();
     }
 
     private String buildDescription(final JSONObject query, final JSONObject file) {
