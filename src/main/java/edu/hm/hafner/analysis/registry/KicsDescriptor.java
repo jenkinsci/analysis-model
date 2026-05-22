@@ -42,6 +42,11 @@ class KicsDescriptor extends ParserDescriptor {
                 a("KICS").withHref("https://docs.kics.io/latest/"),
                 text("for usage details.")).render();
     }
+    
+    @Override
+    public String getIconUrl() {
+        return "https://github.com/Checkmarx/kics/blob/master/docs/img/icon.svg?raw=true";
+    }
 
     @Override
     public String getUrl() {
