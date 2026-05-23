@@ -78,6 +78,9 @@ public class CargoCheckParser extends IssueParser {
                     .flatMap(Optional::stream)
                     .forEach(report::add);
         }
+        catch (RuntimeException e) {
+            throw new ParsingException(e, readerFactory);
+        }
 
         return report;
     }

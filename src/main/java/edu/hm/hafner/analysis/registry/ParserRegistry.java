@@ -172,6 +172,7 @@ public class ParserRegistry {
             new RoboCopyDescriptor(),
             new RuboCopDescriptor(),
             new RuffDescriptor(),
+            new RustAnalyzerDescriptor(),
             new SarifDescriptor(),
             new ScalaDescriptor(),
             new SemgrepDescriptor(),
