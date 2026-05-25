@@ -77,12 +77,13 @@ public class CargoCheckParser extends IssueParser {
             lines.map(line -> {
                 Object value = new JSONTokener(line).nextValue();
 
-                if (!(value instanceof JSONObject jsonObject)) {
-                    throw new JSONException("Expected JSONObject");
+                if (value instanceof JSONObject jsonObject) {
+                    return Optional.of(jsonObject);
                 }
 
-                return jsonObject;
+                return Optional.<JSONObject>empty();
             })
+                    .flatMap(Optional::stream)
                     .map(object -> extractIssue(object, issueBuilder))
                     .flatMap(Optional::stream)
                     .forEach(report::add);
