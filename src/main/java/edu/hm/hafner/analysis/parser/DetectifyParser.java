@@ -152,24 +152,31 @@ public class DetectifyParser extends JsonIssueParser {
 
         var items = new ArrayList<DomContent>();
         for (int i = 0; i < references.length(); i++) {
-            var reference = references.get(i);
-            if (reference instanceof String url) {
-                items.add(createLinkOrText(url, url));
-            }
-            else if (reference instanceof JSONObject object) {
-                var url = firstNonBlank(object, "url", "href", "link");
-                var label = firstNonBlank(object, "title", "name", "text");
-                if (!url.isBlank()) {
-                    items.add(createLinkOrText(url, label.isBlank() ? url : label));
-                }
-                else if (!label.isBlank()) {
-                    items.add(text(label));
-                }
-            }
+            processReference(references.get(i), items);
         }
 
         if (!items.isEmpty()) {
             sections.add(p(strong("References:"), NBSP, joinWithSeparator(items, COMMA)));
+        }
+    }
+
+    private void processReference(final Object reference, final List<DomContent> items) {
+        if (reference instanceof String url) {
+            items.add(createLinkOrText(url, url));
+        } 
+        else if (reference instanceof JSONObject object) {
+            processReferenceObject(object, items);
+        }
+    }
+
+    private void processReferenceObject(final JSONObject object, final List<DomContent> items) {
+        var url = firstNonBlank(object, "url", "href", "link");
+        var label = firstNonBlank(object, "title", "name", "text");
+        if (!url.isBlank()) {
+            items.add(createLinkOrText(url, label.isBlank() ? url : label));
+        } 
+        else if (!label.isBlank()) {
+            items.add(text(label));
         }
     }
 
