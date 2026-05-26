@@ -77,6 +77,7 @@ public class ParserRegistry {
             new DartAnalyzeDescriptor(),
             new DetektDescriptor(),
             new DiabCDescriptor(),
+            new DetectifyDescriptor(),
             new DocFxDescriptor(),
             new DockerLintDescriptor(),
             new DoxygenDescriptor(),

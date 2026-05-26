@@ -1,0 +1,79 @@
+{
+  "current_marker": "0ea80070-5066-441c-ae58-10fd0076d4cb",
+  "has_more": false,
+  "next_marker": "fc6159c1-b877-4462-96f5-c01a4261135d",
+  "total_vulnerabilities": 3,
+  "vulnerabilities": [
+    {
+      "uuid": "11111111-1111-1111-1111-111111111111",
+      "title": "SQL Injection",
+      "severity": "critical",
+      "host": "app.example.com",
+      "location": "https://app.example.com/login",
+      "scan_source": "application-scanning",
+      "status": "active",
+      "definition": {
+        "identifier": "DEF-001"
+      },
+      "details": {
+        "description": "Unsanitized input reaches a SQL query.",
+        "remediation": "Use parameterized queries.",
+        "proof_of_concept": "POST /login with ' OR 1=1 --",
+        "references": [
+          "https://owasp.org/www-community/attacks/SQL_Injection",
+          {
+            "title": "CWE-89",
+            "url": "https://cwe.mitre.org/data/definitions/89.html"
+          }
+        ]
+      },
+      "references": [
+        {
+          "title": "Detectify result",
+          "url": "https://app.detectify.com/results/1"
+        }
+      ],
+      "owasp": [
+        "A03:2021 Injection"
+      ],
+      "cwe": 89
+    },
+    {
+      "uuid": "22222222-2222-2222-2222-222222222222",
+      "title": "Cross-Site Scripting",
+      "severity": "medium",
+      "host": "admin.example.com",
+      "location": "https://admin.example.com/profile",
+      "scan_source": "surface-monitoring",
+      "status": "new",
+      "definition": {
+        "identifier": "DEF-002"
+      },
+      "details": {
+        "description": "Reflected payload is rendered in the response.",
+        "remediation": "HTML-encode user-controlled output.",
+        "references": [
+          "https://owasp.org/www-community/attacks/xss/"
+        ]
+      },
+      "cwe": 79
+    },
+    {
+      "uuid": "33333333-3333-3333-3333-333333333333",
+      "title": "Open Redirect",
+      "severity": "information",
+      "host": "portal.example.com",
+      "location": "https://portal.example.com/redirect",
+      "scan_source": "api-scanning",
+      "status": "regression",
+      "definition": {
+        "identifier": "DEF-003"
+      },
+      "details": {
+        "description": "Redirect parameter accepts external URLs.",
+        "remediation": "Allowlist destination targets."
+      },
+      "cwe": 601
+    }
+  ]
+}

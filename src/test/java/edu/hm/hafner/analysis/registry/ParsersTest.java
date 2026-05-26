@@ -931,6 +931,12 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(112, "clair", "clair.json");
     }
 
+    /** Runs the Detectify parser on an output file that contains 3 issues. */
+    @Test
+    void shouldFindAllDetectifyIssues() {
+        findIssuesOfTool(3, "detectify", "detectify-report.json");
+    }
+
     /** Runs the CFN-Lint parser on an output file that contains 3 issues. */
     @Test
     void shouldFindAllCfnLintIssues() {
