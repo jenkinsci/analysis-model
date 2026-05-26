@@ -137,7 +137,11 @@ public class DetectifyParser extends JsonIssueParser {
             return;
         }
 
-        sections.add(p(strong("OWASP:"), NBSP, joinWithSeparator(arrayAsContents(owasp), COMMA)));
+        var items = arrayAsContents(owasp);
+        if (items.isEmpty()) {
+            return;
+        }
+        sections.add(p(strong("OWASP:"), NBSP, joinWithSeparator(items, COMMA)));
     }
 
     private void appendReferencesSection(final List<DomContent> sections, final JSONObject vulnerability) {

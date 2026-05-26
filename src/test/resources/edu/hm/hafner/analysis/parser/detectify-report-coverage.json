@@ -1,0 +1,155 @@
+{
+  "vulnerabilities": [
+    {
+      "uuid": "44444444-4444-4444-4444-444444444444",
+      "title": "Edge Case",
+      "severity": "low",
+      "host": "edge.com",
+      "location": "https://edge.com/p",
+      "scan_source": "test",
+      "status": "active",
+      "definition": { "identifier": "DEF" },
+      "references": ["https://r.com", { "title": "Label" }],
+      "owasp": ["", "A01:2021"],
+      "cwe": 0,
+      "links": { "doc": "ex.com", "empty": "" }
+    },
+    {
+      "uuid": "55555555-5555-5555-5555-555555555555",
+      "title": "Full",
+      "severity": "high",
+      "host": "full.com",
+      "location": "https://full.com/i",
+      "scan_source": "test",
+      "status": "active",
+      "definition": { "identifier": "D" },
+      "details": { "description": "Desc", "remediation": "Fix" },
+      "references": [{ "url": "https://l.com/r", "title": "Linked" }],
+      "owasp": ["A02:2021"],
+      "cwe": 89,
+      "links": { "secure": "https://sec.com" }
+    },
+    {
+      "uuid": "66666666-6666-6666-6666-666666666666",
+      "title": "Minimal",
+      "severity": "medium",
+      "host": "min.com",
+      "location": "https://min.com/p",
+      "scan_source": "test",
+      "status": "active"
+    },
+    {
+      "uuid": "77777777-7777-7777-7777-777777777777",
+      "title": "HTTP Ref",
+      "severity": "low",
+      "host": "ref.com",
+      "location": "https://ref.com/t",
+      "scan_source": "test",
+      "status": "active",
+      "references": [{ "url": "http://p.com/p" }]
+    },
+    {
+      "uuid": "88888888-8888-8888-8888-888888888888",
+      "title": "Def Slug",
+      "severity": "low",
+      "host": "slug.com",
+      "location": "https://slug.com/i",
+      "scan_source": "test",
+      "status": "active",
+      "definition": { "slug": "slug-id" }
+    },
+    {
+      "uuid": "99999999-9999-9999-9999-999999999999",
+      "title": "Empty OWASP",
+      "severity": "low",
+      "host": "ow.com",
+      "location": "https://ow.com/p",
+      "scan_source": "test",
+      "status": "active",
+      "owasp": []
+    },
+    {
+      "uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+      "title": "Ref Blank",
+      "severity": "low",
+      "host": "rb.com",
+      "location": "https://rb.com/p",
+      "scan_source": "test",
+      "status": "active",
+      "references": [{ "url": "", "title": "Label" }]
+    },
+    {
+      "uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb",
+      "title": "Def Type",
+      "severity": "low",
+      "host": "dt.com",
+      "location": "https://dt.com/p",
+      "scan_source": "test",
+      "status": "active",
+      "definition": { "type": "type-id" }
+    },
+    {
+      "uuid": "cccccccc-cccc-cccc-cccc-cccccccccccc",
+      "title": "Def ID",
+      "severity": "low",
+      "host": "di.com",
+      "location": "https://di.com/p",
+      "scan_source": "test",
+      "status": "active",
+      "definition": { "id": "id-id" }
+    },
+    {
+      "uuid": "dddddddd-dddd-dddd-dddd-dddddddddddd",
+      "title": "Single",
+      "severity": "low",
+      "host": "s.com",
+      "location": "https://s.com/p",
+      "scan_source": "test",
+      "status": "active"
+    },
+    {
+      "uuid": "eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee",
+      "title": "Multi",
+      "severity": "low",
+      "host": "m.com",
+      "location": "https://m.com/p",
+      "scan_source": "test",
+      "status": "active",
+      "references": [
+        { "href": "https://h.com", "name": "H" },
+        { "link": "https://l.com", "text": "L" }
+      ],
+      "links": { "1": "https://l1.com", "2": "http://l2.com" }
+    },
+    {
+      "uuid": "ffffffff-ffff-ffff-ffff-ffffffffffff",
+      "title": "OWASP",
+      "severity": "low",
+      "host": "ow1.com",
+      "location": "https://ow1.com/p",
+      "scan_source": "test",
+      "status": "active",
+      "owasp": ["A01:2021"]
+    },
+    {
+      "uuid": "10101010-1010-1010-1010-101010101010",
+      "title": "BlankRef",
+      "severity": "low",
+      "host": "br.com",
+      "location": "https://br.com/p",
+      "scan_source": "test",
+      "status": "active",
+      "references": [{ "url": "", "title": "" }]
+    },
+    {
+      "uuid": "11111111-1111-1111-1111-111111111111",
+      "title": "BlankLink",
+      "severity": "low",
+      "host": "bl.com",
+      "location": "https://bl.com/p",
+      "scan_source": "test",
+      "status": "active",
+      "links": { "a": "", "b": "https://b.com" }
+    }
+  ]
+}

@@ -123,6 +123,52 @@ class DetectifyParserTest extends AbstractParserTest {
     }
 
     @Test
+    void shouldParseEdgeCasesAndBasicFields() {
+        var report = parse("detectify-report-coverage.json");
+        assertThat(report).hasSize(14);
+
+        var edge = report.get(0);
+        assertThat(edge).hasFileName("https://edge.com/p");
+        var edgeDesc = edge.getDescription();
+        assertThat(edgeDesc).contains("References:", "A01:2021").doesNotContain("CWE-");
+
+        var full = report.get(1);
+        assertThat(full).hasFileName("https://full.com/i");
+        assertThat(full.getDescription()).contains("CWE-89");
+
+        var minimal = report.get(2);
+        assertThat(minimal).hasFileName("https://min.com/p").hasMessage("Minimal");
+        assertThat(minimal.getDescription()).isEmpty();
+    }
+
+    @Test
+    void shouldHandleDefinitionFields() {
+        var report = parse("detectify-report-coverage.json");
+        assertThat(report.get(4)).hasType("slug-id");
+        assertThat(report.get(7)).hasType("type-id");
+        assertThat(report.get(8)).hasType("id-id");
+    }
+
+    @Test
+    void shouldHandleReferencesAndLinks() {
+        var report = parse("detectify-report-coverage.json");
+        assertThat(report.get(5).getDescription()).doesNotContain("OWASP:");
+        assertThat(report.get(6).getDescription()).contains("References:", "Label");
+        assertThat(report.get(10).getDescription()).contains("References:", "Links:");
+        assertThat(report.get(11).getDescription()).contains("OWASP:", "A01:2021");
+        assertThat(report.get(12).getDescription()).doesNotContain("References:");
+        assertThat(report.get(13).getDescription()).contains("Links:", "https://b.com");
+    }
+
+    @Test
+    void shouldCoverMissingBranches() {
+        var report = parse("detectify-report-coverage.json");
+        assertThat(report).hasSize(14);
+        assertThat(report.get(0).getDescription()).contains("References:", "A01:2021");
+        assertThat(report.get(3).getDescription()).contains("http://p.com/p");
+    }
+
+    @Test
     void accepts() {
         assertThat(new DetectifyParser().accepts(
                 new FileReaderFactory(FileSystems.getDefault().getPath("detectify-report.json")))).isTrue();
