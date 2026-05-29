@@ -1,0 +1,29 @@
+{
+  "test_results": [
+    {
+      "result": "fail",
+      "severity": "high",
+      "evidence": "Test without rule object",
+      "file": "config/test.conf"
+    },
+    {
+      "result": "fail",
+      "severity": "critical",
+      "rule": {
+        "id": "test-rule-1",
+        "title": "Test Rule With Description",
+        "description": "Detailed description of the issue"
+      },
+      "file": "config/test2.conf"
+    },
+    {
+      "result": "error",
+      "severity": "low",
+      "rule": {
+        "id": "test-rule-2",
+        "title": "Test Rule Without Description"
+      },
+      "file": "config/test3.conf"
+    }
+  ]
+}

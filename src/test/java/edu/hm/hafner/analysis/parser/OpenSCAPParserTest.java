@@ -101,4 +101,93 @@ class OpenSCAPParserTest extends AbstractParserTest {
                     .isNotEqualTo("notapplicable");
         }
     }
+
+    @Test
+    void shouldHandleNullRuleObject() {
+        var report = parse("openscap-report-null-handling.json");
+
+        assertThat(report).hasSize(3).hasDuplicatesSize(0);
+
+        assertThat(report.get(0))
+                .hasFileName("config/test.conf")
+                .hasSeverity(Severity.WARNING_HIGH)
+                .hasType("-")
+                .hasMessage("Unknown - Test without rule object")
+                .hasCategory("fail");
+
+        assertThat(report.get(1))
+                .hasFileName("config/test2.conf")
+                .hasSeverity(Severity.ERROR)
+                .hasType("test-rule-1")
+                .hasMessage("Test Rule With Description")
+                .hasCategory("fail");
+
+        assertThat(report.get(1).getDescription())
+                .contains("Detailed description of the issue");
+
+        assertThat(report.get(2))
+                .hasFileName("config/test3.conf")
+                .hasSeverity(Severity.WARNING_LOW)
+                .hasType("test-rule-2")
+                .hasMessage("Test Rule Without Description")
+                .hasCategory("error");
+    }
+
+    @Test
+    void shouldCombineEvidenceAndDescription() {
+        var report = parse("openscap-report-null-handling.json");
+
+        var issue1 = report.get(1);
+        assertThat(issue1.getDescription())
+                .isEqualTo("Detailed description of the issue");
+
+        var issue0 = report.get(0);
+        assertThat(issue0.getDescription())
+                .isEqualTo("Test without rule object");
+    }
+
+    @Test
+    void shouldMapSeverityCorrectly() {
+        var report = parse("openscap-report-null-handling.json");
+
+        assertThat(report.get(0)).hasSeverity(Severity.WARNING_HIGH);
+        assertThat(report.get(1)).hasSeverity(Severity.ERROR);
+        assertThat(report.get(2)).hasSeverity(Severity.WARNING_LOW);
+    }
+
+    @Test
+    void shouldFilterFailAndErrorResults() {
+        var report = parse("openscap-report-null-handling.json");
+
+        for (Issue issue : report) {
+            String category = issue.getCategory();
+            assertThat(category).isIn("fail", "error");
+        }
+    }
+
+    @Test
+    void shouldUseDefaultFileNameWhenMissing() {
+        var report = parse("openscap-report-null-handling.json");
+
+        for (Issue issue : report) {
+            assertThat(issue.getFileName())
+                    .isNotNull()
+                    .isNotEmpty();
+        }
+    }
+
+    @Test
+    void shouldParseMultipleFormats() {
+        var report1 = parse("openscap-report.json");
+        assertThat(report1).hasSize(3);
+
+        var report2 = parse("openscap-report-edge-cases.json");
+        assertThat(report2).hasSize(2);
+
+        for (Report r : new Report[]{report1, report2}) {
+            for (Issue issue : r) {
+                assertThat(issue.getCategory()).isIn("fail", "error");
+            }
+        }
+    }
 }

@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis.registry;
 
 import edu.hm.hafner.analysis.IssueParser;
+import edu.hm.hafner.analysis.Report.IssueType;
 import edu.hm.hafner.analysis.parser.OpenSCAPParser;
 
 /**
@@ -14,6 +15,16 @@ class OpenSCAPDescriptor extends ParserDescriptor {
 
     OpenSCAPDescriptor() {
         super(ID, NAME);
+    }
+
+    @Override
+    public IssueType getType() {
+        return IssueType.WARNING;
+    }
+
+    @Override
+    public String getIconUrl() {
+        return "https://raw.githubusercontent.com/OpenSCAP/openscap/master/openscap.png";
     }
 
     @Override

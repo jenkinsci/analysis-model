@@ -743,6 +743,12 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(8 + 6, eclipse, "eclipse-withinfo.xml", "eclipse.txt");
     }
 
+    /** Runs the OpenSCAP parser on an output file that contains 3 issues. */
+    @Test
+    void shouldFindAllOpenSCAPIssues() {
+        findIssuesOfTool(3, "openscap", "openscap-report.json");
+    }
+
     /** Runs the PyLint parser on output files that contains 6 + 19 issues. */
     @Test
     void shouldFindAllPyLintParserIssues() {
