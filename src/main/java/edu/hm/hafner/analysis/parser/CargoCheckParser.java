@@ -4,6 +4,7 @@ import java.io.Serial;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
@@ -73,10 +74,22 @@ public class CargoCheckParser extends IssueParser {
         var report = new Report();
 
         try (Stream<String> lines = readerFactory.readStream(); var issueBuilder = new IssueBuilder()) {
-            lines.map(line -> (JSONObject) new JSONTokener(line).nextValue())
+            lines.map(line -> {
+                Object value = new JSONTokener(line).nextValue();
+
+                if (value instanceof JSONObject jsonObject) {
+                    return Optional.of(jsonObject);
+                }
+
+                return Optional.<JSONObject>empty();
+            })
+                    .flatMap(Optional::stream)
                     .map(object -> extractIssue(object, issueBuilder))
                     .flatMap(Optional::stream)
                     .forEach(report::add);
+        }
+        catch (JSONException e) {
+            throw new ParsingException(e, readerFactory);
         }
 
         return report;

@@ -122,6 +122,12 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(2, "cargo", "CargoCheck.json");
     }
 
+    /** Runs the rust-analyzer parser on an output file that contains 2 issues. */
+    @Test
+    void shouldFindAllRustAnalyzerIssues() {
+        findIssuesOfTool(2, "rust-analyzer", "rust-analyzer.json");
+    }
+
     /** Runs the Cargo Audit parser on an output file that contains 3 issues. */
     @Test
     void shouldFindAllCargoAuditIssues() {
