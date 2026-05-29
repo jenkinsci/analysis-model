@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2026-05-29T11:21:20.094125929 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2026-05-29T17:23:47.748775862 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -765,6 +765,27 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
             </td>
             <td>
                 -
+            </td>
+        </tr>
+        <tr>
+            <td>
+                detectify
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                <a href="https://developer.detectify.com/v2">
+                    Detectify
+                </a>
+            </td>
+            <td>
+                **/detectify-report.json
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Use the Detectify API to export vulnerabilities in JSON format from <code>GET /vulnerabilities/</code>. See the Detectify API documentation for details. <ul><li><a href="https://developer.detectify.com/v2">Detectify API</a></li><li><a href="https://docs.detectify.com/web-application-security-testing/results">Results</a></li></ul>
             </td>
         </tr>
         <tr>
@@ -2999,6 +3020,27 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
         <tr>
             <td colspan="4">
                 :bulb: Use commandline <code>pnpm audit --json &gt; pnpm-audit.json</code>, see <a href="https://pnpm.io/cli/audit">pnpm audit</a> for usage details.
+            </td>
+        </tr>
+        <tr>
+            <td>
+                rust-analyzer
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                <a href="https://github.com/rust-lang/rust-analyzer">
+                    rust-analyzer
+                </a>
+            </td>
+            <td>
+                **/rust-analyzer.json
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Use commandline <code>rust-analyzer diagnostics &lt;path&gt;</code> to generate JSON output.<br/>See <a href='https://github.com/rust-lang/rust-analyzer'>rust-analyzer on GitHub</a> for usage details.
             </td>
         </tr>
         <tr>
