@@ -14,7 +14,7 @@ import edu.hm.hafner.analysis.Report;
  *
  * @author Akash Manna
  * @see <a href="https://github.com/OpenSCAP/openscap">OpenSCAP on GitHub</a>
- * @see <a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/security_guide/chap-compliance_and_vulnerability_scanning">OpenSCAP Documentation</a>
+ * @see <a href="https://www.open-scap.org/resources/documentation/">OpenSCAP Documentation</a>
  */
 public class OpenSCAPParser extends JsonIssueParser {
     @Serial
