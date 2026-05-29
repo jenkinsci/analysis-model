@@ -67,7 +67,7 @@ public class OpenSCAPParser extends JsonIssueParser {
     }
 
     private boolean shouldReportResult(final String resultStatus) {
-        return resultStatus.equalsIgnoreCase("fail") || resultStatus.equalsIgnoreCase("error");
+        return "fail".equalsIgnoreCase(resultStatus) || "error".equalsIgnoreCase(resultStatus);
     }
 
     private Issue createIssueFromTestResult(final JSONObject testResult, final IssueBuilder issueBuilder) {
