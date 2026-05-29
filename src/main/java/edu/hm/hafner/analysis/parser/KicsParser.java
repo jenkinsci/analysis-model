@@ -141,7 +141,7 @@ public class KicsParser extends JsonIssueParser {
     }
 
     private void appendIfNotBlank(final List<String> sections, final String label, @CheckForNull final String value) {
-        if (value == null || value.isBlank()) {
+        if (StringUtils.isBlank(value)) {
             return;
         }
 
