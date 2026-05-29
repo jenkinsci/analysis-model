@@ -1,0 +1,59 @@
+{
+  "test_results": [
+    {
+      "result": "fail",
+      "severity": "high",
+      "rule": {
+        "id": "xccdf_org.ssgproject.content_rule_accounts_umask_etc_login_defs",
+        "title": "Set Default umask for Users",
+        "description": "The umask controls the default permissions of newly created files. To ensure that files are created with restrictive default permissions, the umask should be set to 0077 or more restrictive."
+      },
+      "evidence": "umask setting is not restrictive enough",
+      "file": "config/login.defs"
+    },
+    {
+      "result": "fail",
+      "severity": "medium",
+      "rule": {
+        "id": "xccdf_org.ssgproject.content_rule_selinux_policy",
+        "title": "Ensure SELinux Policy is Configured",
+        "description": "SELinux provides mandatory access control policies that protect the system from unauthorized access."
+      },
+      "evidence": "SELinux is not enabled",
+      "file": "config/selinux"
+    },
+    {
+      "result": "fail",
+      "severity": "critical",
+      "rule": {
+        "id": "xccdf_org.ssgproject.content_rule_ssh_password_authentication",
+        "title": "Disable SSH Password Authentication",
+        "description": "SSH password authentication should be disabled in favor of key-based authentication to prevent brute force attacks."
+      },
+      "evidence": "PasswordAuthentication is enabled in SSH configuration",
+      "file": "config/sshd_config"
+    },
+    {
+      "result": "pass",
+      "severity": "low",
+      "rule": {
+        "id": "xccdf_org.ssgproject.content_rule_file_permissions",
+        "title": "Ensure Appropriate File Permissions",
+        "description": "File permissions should be restrictive to prevent unauthorized access."
+      },
+      "evidence": "File permissions are appropriate",
+      "file": "config/permissions"
+    },
+    {
+      "result": "notapplicable",
+      "severity": "info",
+      "rule": {
+        "id": "xccdf_org.ssgproject.content_rule_windows_feature",
+        "title": "Windows Feature Configuration",
+        "description": "This rule is only applicable to Windows systems."
+      },
+      "evidence": "Not applicable to Linux system",
+      "file": "-"
+    }
+  ]
+}
