@@ -140,6 +140,12 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(3, "codeguru-security", "codeguru-security-report.json");
     }
 
+    /** Runs the KICS parser on an output file that contains 3 issues. */
+    @Test
+    void shouldFindAllKicsIssues() {
+        findIssuesOfTool(3, "kics", "kics-report.json");
+    }
+
     /** Runs the Pmd parser on an output file that contains 262 issues. */
     @Test
     void shouldFindAllIssuesForPmdAlias() {
