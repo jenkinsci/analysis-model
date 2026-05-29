@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 
 import edu.hm.hafner.analysis.Issue;
@@ -95,22 +96,19 @@ public class KicsParser extends JsonIssueParser {
     private Issue createIssue(final JSONObject query, final JSONObject file) {
         var lineStart = file.optInt(LINE, file.optInt(START_LINE, 0));
         var lineEnd = file.optInt(END_LINE, lineStart);
-        var fileName = firstNonBlank(file, FILE_NAME, FILE_NAME_LEGACY, "-");
+        var fileName = StringUtils.defaultIfBlank(firstNonBlank(file, FILE_NAME, FILE_NAME_LEGACY), "-");
         var category = firstNonBlank(query, PLATFORM, PLATFORM_LEGACY, CLOUD_PROVIDER, CLOUD_PROVIDER_LEGACY,
                 CATEGORY, CATEGORY_LEGACY);
 
         try (var builder = new IssueBuilder()) {
             builder.setFileName(fileName)
-                    .setType(firstNonBlank(query, QUERY_ID, QUERY_ID_LEGACY, "-"))
+                    .setType(StringUtils.defaultIfBlank(firstNonBlank(query, QUERY_ID, QUERY_ID_LEGACY), "-"))
                     .setMessage(firstNonBlank(query, QUERY_NAME, QUERY_NAME_LEGACY))
                     .guessSeverity(query.optString(SEVERITY, "medium"))
-                    .setDescription(buildDescription(query, file));
-
-            if (!category.isBlank()) {
-                builder.setCategory(category);
-            }
-
-            builder.setLineStart(lineStart).setLineEnd(lineEnd);
+                    .setDescription(buildDescription(query, file))
+                    .setCategory(category)
+                    .setLineStart(lineStart)
+                    .setLineEnd(lineEnd);
 
             return builder.buildAndClean();
         }
