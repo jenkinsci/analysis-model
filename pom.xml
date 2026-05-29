@@ -55,7 +55,7 @@
     <scmTag>HEAD</scmTag>
     <revision>14.10.0</revision>
     <changelist>-SNAPSHOT</changelist>
-    <previousVersion>14.9.0</previousVersion>
+    <previousVersion>14.8.0</previousVersion>
 
     <module.name>edu.hm.hafner.analysis.model</module.name>
 
