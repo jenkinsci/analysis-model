@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
 import java.io.Serial;
+import java.util.Locale;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -67,7 +68,12 @@ public class OpenSCAPParser extends JsonIssueParser {
     }
 
     private boolean shouldReportResult(final String resultStatus) {
-        return "fail".equalsIgnoreCase(resultStatus) || "error".equalsIgnoreCase(resultStatus);
+        if (resultStatus == null) {
+            return false;
+        }
+
+        String normalized = resultStatus.toLowerCase(Locale.ENGLISH);
+        return "fail".equals(normalized) || "error".equals(normalized);
     }
 
     private Issue createIssueFromTestResult(final JSONObject testResult, final IssueBuilder issueBuilder) {
