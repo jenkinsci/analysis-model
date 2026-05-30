@@ -18,7 +18,7 @@ import edu.hm.hafner.analysis.Report;
  * @see <a href="https://github.com/OpenSCAP/openscap">OpenSCAP on GitHub</a>
  * @see <a href="https://www.open-scap.org/resources/documentation/">OpenSCAP Documentation</a>
  */
-public class OpenSCAPParser extends JsonIssueParser {
+public class OpenScapParser extends JsonIssueParser {
     @Serial
     private static final long serialVersionUID = -1234567890123456789L;
 

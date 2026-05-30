@@ -2,18 +2,18 @@ package edu.hm.hafner.analysis.registry;
 
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.Report.IssueType;
-import edu.hm.hafner.analysis.parser.OpenSCAPParser;
+import edu.hm.hafner.analysis.parser.OpenScapParser;
 
 /**
  * A descriptor for OpenSCAP compliance and vulnerability scanner.
  *
  * @author Akash Manna
  */
-class OpenSCAPDescriptor extends ParserDescriptor {
+class OpenScapDescriptor extends ParserDescriptor {
     private static final String ID = "openscap";
     private static final String NAME = "OpenSCAP";
 
-    OpenSCAPDescriptor() {
+    OpenScapDescriptor() {
         super(ID, NAME);
     }
 
@@ -29,7 +29,7 @@ class OpenSCAPDescriptor extends ParserDescriptor {
 
     @Override
     public IssueParser create(final Option... options) {
-        return new OpenSCAPParser();
+        return new OpenScapParser();
     }
 
     @Override

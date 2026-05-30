@@ -14,18 +14,18 @@ import edu.hm.hafner.analysis.Report.IssueType;
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
- * Tests the class {@link OpenSCAPParser}.
+ * Tests the class {@link OpenScapParser}.
  *
  * @author Akash Manna
  */
-class OpenSCAPParserTest extends AbstractParserTest {
-    OpenSCAPParserTest() {
+class OpenScapParserTest extends AbstractParserTest {
+    OpenScapParserTest() {
         super("openscap-report.json");
     }
 
     @Override
     protected IssueParser createParser() {
-        return new OpenSCAPParser();
+        return new OpenScapParser();
     }
 
     @Override
