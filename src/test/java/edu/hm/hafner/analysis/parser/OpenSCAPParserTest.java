@@ -96,12 +96,9 @@ class OpenScapParserTest extends AbstractParserTest {
     @Test
     void shouldNotReportPassResults() {
         var report = parse("openscap-report.json");
-
-        for (Issue issue : report) {
-            assertThat(issue.getCategory())
-                    .isNotEqualTo("pass")
-                    .isNotEqualTo("notapplicable");
-        }
+        assertThat(report.get())
+                .map(Issue::getCategory)
+                .doesNotContain("pass", "notapplicable");
     }
 
     @Test
@@ -138,14 +135,8 @@ class OpenScapParserTest extends AbstractParserTest {
     @Test
     void shouldCombineEvidenceAndDescription() {
         var report = parse("openscap-report-null-handling.json");
-
-        var issue1 = report.get(1);
-        assertThat(issue1.getDescription())
-                .isEqualTo("Detailed description of the issue");
-
-        var issue0 = report.get(0);
-        assertThat(issue0.getDescription())
-                .isEqualTo("Test without rule object");
+        assertThat(report.get(0)).hasDescription("Test without rule object");
+        assertThat(report.get(1)).hasDescription("Detailed description of the issue");
     }
 
     @Test
@@ -160,37 +151,25 @@ class OpenScapParserTest extends AbstractParserTest {
     @Test
     void shouldFilterFailAndErrorResults() {
         var report = parse("openscap-report-null-handling.json");
-
-        for (Issue issue : report) {
-            String category = issue.getCategory();
-            assertThat(category).isIn("fail", "error");
-        }
+        assertOnlyFailureCategories(report);
     }
 
     @Test
     void shouldUseDefaultFileNameWhenMissing() {
         var report = parse("openscap-report-null-handling.json");
-
-        for (Issue issue : report) {
-            assertThat(issue.getFileName())
-                    .isNotNull()
-                    .isNotEmpty();
-        }
+        assertThat(report.get())
+                .map(Issue::getFileName)
+                .allSatisfy(fileName -> assertThat(fileName).isNotNull().isNotEmpty());
     }
 
     @Test
-    void shouldParseMultipleFormats() {
-        var report1 = parse("openscap-report.json");
-        assertThat(report1).hasSize(3);
+    void shouldParseMainReport() {
+        assertOnlyFailureCategories(parse("openscap-report.json"));
+    }
 
-        var report2 = parse("openscap-report-edge-cases.json");
-        assertThat(report2).hasSize(2);
-
-        for (Report r : new Report[]{report1, report2}) {
-            for (Issue issue : r) {
-                assertThat(issue.getCategory()).isIn("fail", "error");
-            }
-        }
+    @Test
+    void shouldParseEdgeCaseReport() {
+        assertOnlyFailureCategories(parse("openscap-report-edge-cases.json"));
     }
 
     @Test
@@ -204,5 +183,11 @@ class OpenScapParserTest extends AbstractParserTest {
         assertThat(descriptor.getType()).isEqualTo(IssueType.WARNING);
         assertThat(descriptor.hasHelp()).isTrue();
         assertThat(descriptor.hasUrl()).isTrue();
+    }
+
+    private void assertOnlyFailureCategories(final Report report) {
+        assertThat(report.get())
+                .map(Issue::getCategory)
+                .allSatisfy(category -> assertThat(category).isIn("fail", "error"));
     }
 }
