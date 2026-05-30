@@ -2,10 +2,12 @@ package edu.hm.hafner.analysis.parser;
 
 import java.io.Serial;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.List;
 
 import org.json.JSONObject;
 
+import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
@@ -26,6 +28,32 @@ import static j2html.TagCreator.*;
 public class FossaParser extends JsonIssueParser {
     @Serial
     private static final long serialVersionUID = -6351187128713072623L;
+
+    private static final Map<String, String> CATEGORY_BY_TYPE = Map.ofEntries(
+        Map.entry("policy_conflict", "Compliance"),
+        Map.entry("policy_flag", "Compliance"),
+        Map.entry("unlicensed_dependency", "Compliance"),
+        Map.entry("unlicensed_and_public", "Compliance"),
+        Map.entry("vulnerability", "Security"),
+        Map.entry("risk_abandonware", "Security"),
+        Map.entry("risk_empty_package", "Security"),
+        Map.entry("risk_native_code", "Security"),
+        Map.entry("blacklisted_dependency", "Security"),
+        Map.entry("outdated_dependency", "Security")
+    );
+
+    private static final Map<String, String> MESSAGE_BY_TYPE = Map.ofEntries(
+        Map.entry("policy_conflict", "Denied by Policy"),
+        Map.entry("policy_flag", "Flagged by Policy"),
+        Map.entry("vulnerability", "Vulnerability"),
+        Map.entry("unlicensed_dependency", "Unlicensed Dependency"),
+        Map.entry("unlicensed_and_public", "Unlicensed and Public Dependency"),
+        Map.entry("outdated_dependency", "Outdated Dependency"),
+        Map.entry("risk_abandonware", "Abandoned Dependencies"),
+        Map.entry("risk_empty_package", "Empty Package"),
+        Map.entry("risk_native_code", "Native Code Dependency"),
+        Map.entry("blacklisted_dependency", "Denylisted Dependency")
+    );
 
     private static final String ISSUES_TAG = "issues";
     private static final String PRIORITY_STRING_TAG = "priorityString";
@@ -55,7 +83,7 @@ public class FossaParser extends JsonIssueParser {
         }
     }
 
-    private edu.hm.hafner.analysis.Issue createIssue(final JSONObject issue, final IssueBuilder issueBuilder) {
+    private Issue createIssue(final JSONObject issue, final IssueBuilder issueBuilder) {
         var issueType = issue.optString(TYPE_TAG, "-");
         var priority = issue.optString(PRIORITY_STRING_TAG, "");
         var revisionId = issue.optString(REVISION_ID_TAG, "-");
@@ -112,27 +140,14 @@ public class FossaParser extends JsonIssueParser {
     }
 
     private String mapCategory(final String issueType) {
-        return switch (issueType) {
-            case "policy_conflict", "policy_flag", "unlicensed_dependency", "unlicensed_and_public" -> "Compliance";
-            case "vulnerability", "risk_abandonware", "risk_empty_package", "risk_native_code",
-                    "blacklisted_dependency", "outdated_dependency" -> "Security";
-            default -> "Other";
-        };
+        return getMappedValue(CATEGORY_BY_TYPE, issueType, "Other");
     }
 
     private String mapMessage(final String issueType) {
-        return switch (issueType) {
-            case "policy_conflict" -> "Denied by Policy";
-            case "policy_flag" -> "Flagged by Policy";
-            case "vulnerability" -> "Vulnerability";
-            case "unlicensed_dependency" -> "Unlicensed Dependency";
-            case "unlicensed_and_public" -> "Unlicensed and Public Dependency";
-            case "outdated_dependency" -> "Outdated Dependency";
-            case "risk_abandonware" -> "Abandoned Dependencies";
-            case "risk_empty_package" -> "Empty Package";
-            case "risk_native_code" -> "Native Code Dependency";
-            case "blacklisted_dependency" -> "Denylisted Dependency";
-            default -> issueType;
-        };
+        return getMappedValue(MESSAGE_BY_TYPE, issueType, issueType);
+    }
+
+    private String getMappedValue(final Map<String, String> mappings, final String key, final String defaultValue) {
+        return mappings.getOrDefault(key, defaultValue);
     }
 }
