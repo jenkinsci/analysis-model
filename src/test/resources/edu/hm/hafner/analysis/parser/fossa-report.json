@@ -1,0 +1,47 @@
+{
+  "count": 3,
+  "issues": [
+    {
+      "id": 1001,
+      "priorityString": "critical",
+      "resolved": false,
+      "revisionId": "npm+lodash$4.17.15",
+      "type": "vulnerability",
+      "rule": {
+        "ruleId": 101
+      },
+      "issueDashURL": "https://app.fossa.com/issues/1001",
+      "cve": "CVE-2021-23337",
+      "fixedIn": "4.17.21"
+    },
+    {
+      "id": 1002,
+      "priorityString": "medium",
+      "resolved": false,
+      "revisionId": "mvn+org.apache.struts:struts-core$2.3.20",
+      "type": "unlicensed_dependency",
+      "rule": {
+        "ruleId": 102
+      },
+      "issueDashURL": "https://app.fossa.com/issues/1002",
+      "fixedIn": "2.3.36"
+    },
+    {
+      "id": 1003,
+      "priorityString": "low",
+      "resolved": true,
+      "revisionId": "npm+left-pad$1.3.0",
+      "type": "risk_empty_package",
+      "issueDashURL": "https://app.fossa.com/issues/1003"
+    }
+  ],
+  "status": "SCANNED",
+  "summary": {
+    "revision": {
+      "projectTitle": "analysis-model",
+      "projectRevision": "main",
+      "isPublic": true
+    },
+    "targets": []
+  }
+}
