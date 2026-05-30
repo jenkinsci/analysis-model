@@ -128,6 +128,12 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(2, "cargo", "CargoCheck.json");
     }
 
+    /** Runs the rust-analyzer parser on an output file that contains 2 issues. */
+    @Test
+    void shouldFindAllRustAnalyzerIssues() {
+        findIssuesOfTool(2, "rust-analyzer", "rust-analyzer.json");
+    }
+
     /** Runs the Cargo Audit parser on an output file that contains 3 issues. */
     @Test
     void shouldFindAllCargoAuditIssues() {
@@ -138,6 +144,12 @@ class ParsersTest extends ResourceTest {
     @Test
     void shouldFindAllCodeGuruSecurityIssues() {
         findIssuesOfTool(3, "codeguru-security", "codeguru-security-report.json");
+    }
+
+    /** Runs the KICS parser on an output file that contains 3 issues. */
+    @Test
+    void shouldFindAllKicsIssues() {
+        findIssuesOfTool(3, "kics", "kics-report.json");
     }
 
     /** Runs the Pmd parser on an output file that contains 262 issues. */
@@ -743,6 +755,12 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(8 + 6, eclipse, "eclipse-withinfo.xml", "eclipse.txt");
     }
 
+    /** Runs the OpenSCAP parser on an output file that contains 3 issues. */
+    @Test
+    void shouldFindAllOpenSCAPIssues() {
+        findIssuesOfTool(3, "openscap", "openscap-report.json");
+    }
+
     /** Runs the PyLint parser on output files that contains 6 + 19 issues. */
     @Test
     void shouldFindAllPyLintParserIssues() {
@@ -901,6 +919,12 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(3, "kube-linter", "kubelinter.json");
     }
 
+    /** Runs the Kube Hunter parser on an output file that contains 3 issues. */
+    @Test
+    void shouldFindAllKubeHunterIssues() {
+        findIssuesOfTool(3, "kube-hunter", "kube-hunter.json");
+    }
+
     /** Runs the kube-score parser on an output file that contains 3 issues. */
     @Test
     void shouldFindAllKubeScoreIssues() {
@@ -929,6 +953,12 @@ class ParsersTest extends ResourceTest {
     @Test
     void shouldFindAllClairIssues() {
         findIssuesOfTool(112, "clair", "clair.json");
+    }
+
+    /** Runs the Detectify parser on an output file that contains 3 issues. */
+    @Test
+    void shouldFindAllDetectifyIssues() {
+        findIssuesOfTool(3, "detectify", "detectify-report.json");
     }
 
     /** Runs the CFN-Lint parser on an output file that contains 3 issues. */
@@ -977,6 +1007,12 @@ class ParsersTest extends ResourceTest {
     @Test
     void shouldFindAllTrivyIssues() {
         findIssuesOfTool(4, "trivy", "trivy_result.json");
+    }
+
+    /** Runs the TruffleHog parser on an output file that contains 3 issues. */
+    @Test
+    void shouldFindAllTruffleHogIssues() {
+        findIssuesOfTool(3, "truffleHog", "truffleHog.json");
     }
 
     /** Runs the qt translation parser on an output file that contains 5 issues. */

@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2026-05-15T21:42:36.825295187 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2026-05-30T12:10:44.974337055 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -769,6 +769,27 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
         </tr>
         <tr>
             <td>
+                detectify
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                <a href="https://developer.detectify.com/v2">
+                    Detectify
+                </a>
+            </td>
+            <td>
+                **/detectify-report.json
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Use the Detectify API to export vulnerabilities in JSON format from <code>GET /vulnerabilities/</code>. See the Detectify API documentation for details. <ul><li><a href="https://developer.detectify.com/v2">Detectify API</a></li><li><a href="https://docs.detectify.com/web-application-security-testing/results">Results</a></li></ul>
+            </td>
+        </tr>
+        <tr>
+            <td>
                 detekt
             </td>
             <td>
@@ -1460,6 +1481,27 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
         </tr>
         <tr>
             <td>
+                kics
+            </td>
+            <td>
+                <img src="https://github.com/Checkmarx/kics/blob/master/docs/img/icon.svg?raw=true" alt="KICS" height="64" width="64">
+            </td>
+            <td>
+                <a href="https://docs.kics.io/latest/">
+                    KICS
+                </a>
+            </td>
+            <td>
+                **/results.json
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Use commandline <code>kics scan -p &lt;path&gt; -o./ --report-formats json</code> to generate results.json, see <a href="https://docs.kics.io/latest/">KICS</a> for usage details.
+            </td>
+        </tr>
+        <tr>
+            <td>
                 klocwork
             </td>
             <td>
@@ -1505,6 +1547,27 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
         <tr>
             <td colspan="4">
                 :bulb: Use option --reporter=checkstyle.
+            </td>
+        </tr>
+        <tr>
+            <td>
+                kube-hunter
+            </td>
+            <td>
+                <img src="https://github.com/aquasecurity/kube-hunter/blob/main/kube-hunter.png?raw=true" alt="Kube Hunter" height="64" width="64">
+            </td>
+            <td>
+                <a href="https://github.com/aquasecurity/kube-hunter">
+                    Kube Hunter
+                </a>
+            </td>
+            <td>
+                **/kube-hunter.json
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Use commandline <code>kube-hunter --report json --dispatch stdout &gt; kube-hunter.json</code> output.<br/>See <a href='https://github.com/aquasecurity/kube-hunter'>Kube Hunter on GitHub</a> for usage details.
             </td>
         </tr>
         <tr>
@@ -2700,6 +2763,27 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
         </tr>
         <tr>
             <td>
+                truffleHog
+            </td>
+            <td>
+                <img src="https://storage.googleapis.com/trufflehog-static-sources/pixel_pig.png" alt="TruffleHog" height="64" width="64">
+            </td>
+            <td>
+                <a href="https://github.com/trufflesecurity/trufflehog">
+                    TruffleHog
+                </a>
+            </td>
+            <td>
+                **/truffleHog.json
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Use commandline <code>truffleHog filesystem /path --json --only-verified</code> to generate JSON output.<br/>See <a href='https://github.com/trufflesecurity/trufflehog'>TruffleHog on GitHub</a> for usage details.
+            </td>
+        </tr>
+        <tr>
+            <td>
                 vale
             </td>
             <td>
@@ -2957,6 +3041,27 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
         <tr>
             <td colspan="4">
                 :bulb: Use commandline <code>pnpm audit --json &gt; pnpm-audit.json</code>, see <a href="https://pnpm.io/cli/audit">pnpm audit</a> for usage details.
+            </td>
+        </tr>
+        <tr>
+            <td>
+                rust-analyzer
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                <a href="https://github.com/rust-lang/rust-analyzer">
+                    rust-analyzer
+                </a>
+            </td>
+            <td>
+                **/rust-analyzer.json
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Use commandline <code>rust-analyzer diagnostics &lt;path&gt;</code> to generate JSON output.<br/>See <a href='https://github.com/rust-lang/rust-analyzer'>rust-analyzer on GitHub</a> for usage details.
             </td>
         </tr>
         <tr>

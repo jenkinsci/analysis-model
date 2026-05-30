@@ -22,9 +22,9 @@ import static edu.hm.hafner.analysis.assertions.Assertions.*;
 class ParserRegistryTest extends ResourceTest {
     // Note for parser developers: if you add a new parser,
     // please check if you are using the correct type and increment the corresponding count
-        private static final long WARNING_PARSERS_COUNT = 152L;
+    private static final long WARNING_PARSERS_COUNT = 153L;
     private static final long BUG_PARSERS_COUNT = 3L;
-    private static final long VULNERABILITY_PARSERS_COUNT = 13L;
+    private static final long VULNERABILITY_PARSERS_COUNT = 17L;
     private static final long DUPLICATION_PARSERS_COUNT = 3L;
 
     private static final String SPOTBUGS = "spotbugs";
@@ -63,6 +63,10 @@ class ParserRegistryTest extends ResourceTest {
                 .hasId(SPOTBUGS)
                 .hasName("SpotBugs")
                 .hasType(IssueType.BUG);
+        assertThat(parserRegistry.get("detectify"))
+                .hasId("detectify")
+                .hasName("Detectify")
+                .hasType(IssueType.VULNERABILITY);
         assertThat(parserRegistry.get("owasp-dependency-check"))
                 .hasName("OWASP Dependency Check")
                 .hasType(IssueType.VULNERABILITY);

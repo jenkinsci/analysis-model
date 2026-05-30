@@ -1,0 +1,58 @@
+{
+  "results": [
+    {
+      "sourceType": "git",
+      "sourceMetadata": {
+        "data": {
+          "repository_owner": "example",
+          "repository_name": "my-repo",
+          "branch": "main",
+          "commit_hash": "abc123def456",
+          "commit_timestamp": "2024-01-15T10:30:00Z",
+          "file_path": "src/config.py"
+        }
+      },
+      "findings": [
+        {
+          "found_by": "Basic Auth Credentials",
+          "type": "Basic Auth Credentials",
+          "hashed_secret": "5d41402abc4b2a76b9719d911017c592",
+          "secret": "user:password123",
+          "file_path": "src/config.py",
+          "line_number": 42,
+          "is_secret": true,
+          "is_verified": true,
+          "verified_result": {
+            "verification_state": "verified_true"
+          }
+        },
+        {
+          "found_by": "AWS Key",
+          "type": "AWS Access Key",
+          "hashed_secret": "6512bd43d9caa6e02c990b0a82652dca",
+          "secret": "AKIAIOSFODNN7EXAMPLE",
+          "file_path": "src/aws/credentials.json",
+          "line_number": 5,
+          "is_secret": true,
+          "is_verified": false,
+          "verified_result": {
+            "verification_state": "unverified"
+          }
+        },
+        {
+          "found_by": "Private Key",
+          "type": "RSA Private Key",
+          "hashed_secret": "c20ad4d76fe97759aa27a0c99bff6710",
+          "secret": "-----BEGIN RSA PRIVATE KEY-----",
+          "file_path": "config/keys/id_rsa",
+          "line_number": 1,
+          "is_secret": true,
+          "is_verified": true,
+          "verified_result": {
+            "verification_state": "verified_true"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "vulnerabilities": [
+    {
+      "evidence": "missing all optional parser fields"
+    }
+  ]
+}
