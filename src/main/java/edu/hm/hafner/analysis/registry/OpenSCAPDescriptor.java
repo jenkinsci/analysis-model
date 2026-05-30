@@ -24,7 +24,7 @@ class OpenSCAPDescriptor extends ParserDescriptor {
 
     @Override
     public String getIconUrl() {
-        return "https://raw.githubusercontent.com/OpenSCAP/openscap/master/openscap.png";
+        return "https://github.com/OpenSCAP/openscap/blob/main/docs/manual/images/vertical-logo.png";
     }
 
     @Override
