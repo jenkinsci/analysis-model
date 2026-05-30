@@ -1,0 +1,28 @@
+{
+  "rules": [
+    {
+      "id": "xccdf_org.ssgproject.content_rule_firewall_enabled",
+      "title": "Firewall Service Enabled",
+      "description": "The firewall service should be enabled to protect the system from unauthorized access.",
+      "result": "fail",
+      "severity": "high",
+      "file": "config/firewall"
+    },
+    {
+      "id": "xccdf_org.ssgproject.content_rule_audit_enabled",
+      "title": "Audit Daemon Enabled",
+      "description": "The audit daemon should be enabled to log system activities.",
+      "result": "error",
+      "severity": "medium",
+      "file": "config/audit"
+    },
+    {
+      "id": "xccdf_org.ssgproject.content_rule_no_missing_patch",
+      "title": "No Missing Patches",
+      "description": "All available security patches should be installed.",
+      "result": "pass",
+      "severity": "low",
+      "file": "-"
+    }
+  ]
+}
