@@ -196,6 +196,7 @@ class FossaParserTest extends AbstractParserTest {
         assertThat(descriptor.getPattern()).isEqualTo("**/fossa-report.json");
         assertThat(descriptor.getHelp()).contains("fossa test --format json");
         assertThat(descriptor.getUrl()).isEqualTo("https://docs.fossa.com/");
+        assertThat(descriptor.getIconUrl()).isEqualTo("https://logo.svgcdn.com/logos/fossa.png");
         assertThat(descriptor.hasHelp()).isTrue();
         assertThat(descriptor.hasUrl()).isTrue();
     }
