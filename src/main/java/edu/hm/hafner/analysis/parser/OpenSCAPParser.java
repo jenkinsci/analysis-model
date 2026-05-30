@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
+import java.text.Normalizer;
 
 /**
  * Parser for OpenSCAP vulnerability/compliance reports in JSON format.
@@ -68,12 +69,9 @@ public class OpenSCAPParser extends JsonIssueParser {
     }
 
     private boolean shouldReportResult(final String resultStatus) {
-        if (resultStatus == null) {
-            return false;
-        }
+        String normalized = Normalizer.normalize(resultStatus, Normalizer.Form.NFKC);
 
-        String normalized = resultStatus.toLowerCase(Locale.ENGLISH);
-        return "fail".equals(normalized) || "error".equals(normalized);
+        return "fail".equalsIgnoreCase(normalized) || "error".equalsIgnoreCase(normalized);
     }
 
     private Issue createIssueFromTestResult(final JSONObject testResult, final IssueBuilder issueBuilder) {
