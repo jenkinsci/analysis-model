@@ -1,0 +1,90 @@
+{
+  "kics_version": "development",
+  "files_scanned": 2,
+  "lines_scanned": 59,
+  "files_parsed": 2,
+  "lines_parsed": 59,
+  "lines_ignored": 0,
+  "files_failed_to_scan": 0,
+  "queries_total": 3,
+  "queries_failed_to_execute": 0,
+  "queries_failed_to_compute_similarity_id": 0,
+  "scan_id": "console",
+  "severity_counters": {
+    "CRITICAL": 0,
+    "HIGH": 2,
+    "INFO": 0,
+    "LOW": 1,
+    "MEDIUM": 0,
+    "TRACE": 0
+  },
+  "total_counter": 3,
+  "total_bom_resources": 0,
+  "start": "2024-02-14T10:27:20.947552Z",
+  "end": "2024-02-14T10:28:03.7510399Z",
+  "paths": [
+    ".\\assets\\queries\\ansible\\aws\\alb_listening_on_http\\"
+  ],
+  "queries": [
+    {
+      "query_name": "ALB Listening on HTTP",
+      "query_id": "f81d63d2-c5d7-43a4-a5b5-66717a41c895",
+      "query_url": "https://docs.ansible.com/ansible/latest/collections/community/aws/elb_application_lb_module.html",
+      "severity": "HIGH",
+      "platform": "Ansible",
+      "cwe": "22",
+      "risk_score": "6.8",
+      "cloud_provider": "AWS",
+      "category": "Networking and Firewall",
+      "description": "AWS Application Load Balancer (alb) should not listen on HTTP",
+      "files": [
+        {
+          "file_name": "assets\\queries\\ansible\\aws\\alb_listening_on_http\\test\\positive.yaml",
+          "line": 11,
+          "resource_type": "community.aws.elb_application_lb",
+          "resource_name": "my_elb_application",
+          "issue_type": "IncorrectValue",
+          "search_key": "name={{my_elb_application}}.{{community.aws.elb_application_lb}}.listeners.Protocol=HTTP",
+          "search_value": "",
+          "expected_value": "'aws_elb_application_lb' Protocol should be 'HTTP'",
+          "actual_value": "'aws_elb_application_lb' Protocol it's not 'HTTP'"
+        },
+        {
+          "file_name": "assets\\queries\\ansible\\aws\\alb_listening_on_http\\test\\positive.yaml",
+          "line": 29,
+          "resource_type": "community.aws.elb_application_lb",
+          "resource_name": "my_elb_application2",
+          "issue_type": "MissingAttribute",
+          "search_key": "name={{my_elb_application2}}.{{community.aws.elb_application_lb}}.listeners",
+          "search_value": "",
+          "expected_value": "'aws_elb_application_lb' Protocol should be 'HTTP'",
+          "actual_value": "'aws_elb_application_lb' Protocol is missing"
+        }
+      ]
+    },
+    {
+      "query_name": "Public S3 bucket",
+      "query_id": "kics-public-bucket",
+      "severity": "MEDIUM",
+      "platform": "Terraform",
+      "cwe": "200",
+      "risk_score": "4.0",
+      "cloud_provider": "AWS",
+      "category": "Insecure Defaults",
+      "description": "S3 buckets should not be publicly accessible",
+      "files": [
+        {
+          "file_name": "terraform/main.tf",
+          "line": 8,
+          "resource_type": "aws_s3_bucket",
+          "resource_name": "logs_bucket",
+          "issue_type": "PublicAcl",
+          "search_key": "acl=public-read",
+          "search_value": "public-read",
+          "expected_value": "private",
+          "actual_value": "public-read"
+        }
+      ]
+    }
+  ]
+}

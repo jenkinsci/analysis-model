@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2026-05-29T17:23:47.748775862 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2026-05-29T22:59:01.376894314 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -1477,6 +1477,27 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
             </td>
             <td>
                 -
+            </td>
+        </tr>
+        <tr>
+            <td>
+                kics
+            </td>
+            <td>
+                <img src="https://github.com/Checkmarx/kics/blob/master/docs/img/icon.svg?raw=true" alt="KICS" height="64" width="64">
+            </td>
+            <td>
+                <a href="https://docs.kics.io/latest/">
+                    KICS
+                </a>
+            </td>
+            <td>
+                **/results.json
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Use commandline <code>kics scan -p &lt;path&gt; -o./ --report-formats json</code> to generate results.json, see <a href="https://docs.kics.io/latest/">KICS</a> for usage details.
             </td>
         </tr>
         <tr>

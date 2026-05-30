@@ -126,6 +126,7 @@ public class ParserRegistry {
             new KlocWorkDescriptor(),
             new KotlinDescriptor(),
             new KtLintDescriptor(),
+            new KicsDescriptor(),
             new KubeHunterDescriptor(),
             new KubesecDescriptor(),
             new KubeLinterDescriptor(),
