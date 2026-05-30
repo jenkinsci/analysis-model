@@ -5,11 +5,11 @@ import java.util.Locale;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
-import java.text.Normalizer;
 
 /**
  * Parser for OpenSCAP vulnerability/compliance reports in JSON format.
@@ -69,9 +69,8 @@ public class OpenSCAPParser extends JsonIssueParser {
     }
 
     private boolean shouldReportResult(final String resultStatus) {
-        String normalized = Normalizer.normalize(resultStatus, Normalizer.Form.NFKC);
-
-        return "fail".equalsIgnoreCase(normalized) || "error".equalsIgnoreCase(normalized);
+        String normalized = StringUtils.lowerCase(resultStatus, Locale.ENGLISH);
+        return "fail".equals(normalized) || "error".equals(normalized);
     }
 
     private Issue createIssueFromTestResult(final JSONObject testResult, final IssueBuilder issueBuilder) {
