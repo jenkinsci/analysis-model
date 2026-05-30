@@ -30,29 +30,29 @@ public class FossaParser extends JsonIssueParser {
     private static final long serialVersionUID = -6351187128713072623L;
 
     private static final Map<String, String> CATEGORY_BY_TYPE = Map.ofEntries(
-        Map.entry("policy_conflict", "Compliance"),
-        Map.entry("policy_flag", "Compliance"),
-        Map.entry("unlicensed_dependency", "Compliance"),
-        Map.entry("unlicensed_and_public", "Compliance"),
-        Map.entry("vulnerability", "Security"),
-        Map.entry("risk_abandonware", "Security"),
-        Map.entry("risk_empty_package", "Security"),
-        Map.entry("risk_native_code", "Security"),
-        Map.entry("blacklisted_dependency", "Security"),
-        Map.entry("outdated_dependency", "Security")
+            Map.entry("policy_conflict", "Compliance"),
+            Map.entry("policy_flag", "Compliance"),
+            Map.entry("unlicensed_dependency", "Compliance"),
+            Map.entry("unlicensed_and_public", "Compliance"),
+            Map.entry("vulnerability", "Security"),
+            Map.entry("risk_abandonware", "Security"),
+            Map.entry("risk_empty_package", "Security"),
+            Map.entry("risk_native_code", "Security"),
+            Map.entry("blacklisted_dependency", "Security"),
+            Map.entry("outdated_dependency", "Security")
     );
 
     private static final Map<String, String> MESSAGE_BY_TYPE = Map.ofEntries(
-        Map.entry("policy_conflict", "Denied by Policy"),
-        Map.entry("policy_flag", "Flagged by Policy"),
-        Map.entry("vulnerability", "Vulnerability"),
-        Map.entry("unlicensed_dependency", "Unlicensed Dependency"),
-        Map.entry("unlicensed_and_public", "Unlicensed and Public Dependency"),
-        Map.entry("outdated_dependency", "Outdated Dependency"),
-        Map.entry("risk_abandonware", "Abandoned Dependencies"),
-        Map.entry("risk_empty_package", "Empty Package"),
-        Map.entry("risk_native_code", "Native Code Dependency"),
-        Map.entry("blacklisted_dependency", "Denylisted Dependency")
+            Map.entry("policy_conflict", "Denied by Policy"),
+            Map.entry("policy_flag", "Flagged by Policy"),
+            Map.entry("vulnerability", "Vulnerability"),
+            Map.entry("unlicensed_dependency", "Unlicensed Dependency"),
+            Map.entry("unlicensed_and_public", "Unlicensed and Public Dependency"),
+            Map.entry("outdated_dependency", "Outdated Dependency"),
+            Map.entry("risk_abandonware", "Abandoned Dependencies"),
+            Map.entry("risk_empty_package", "Empty Package"),
+            Map.entry("risk_native_code", "Native Code Dependency"),
+            Map.entry("blacklisted_dependency", "Denylisted Dependency")
     );
 
     private static final String ISSUES_TAG = "issues";
