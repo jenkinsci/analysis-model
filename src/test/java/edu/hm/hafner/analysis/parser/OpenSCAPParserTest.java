@@ -8,6 +8,8 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
+import edu.hm.hafner.analysis.registry.ParserRegistry;
+import edu.hm.hafner.analysis.Report.IssueType;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
@@ -94,7 +96,7 @@ class OpenSCAPParserTest extends AbstractParserTest {
     @Test
     void shouldNotReportPassResults() {
         var report = parse("openscap-report.json");
-        
+
         for (Issue issue : report) {
             assertThat(issue.getCategory())
                     .isNotEqualTo("pass")
@@ -189,5 +191,18 @@ class OpenSCAPParserTest extends AbstractParserTest {
                 assertThat(issue.getCategory()).isIn("fail", "error");
             }
         }
+    }
+
+    @Test
+    void shouldProvideDescriptorMetadata() {
+        var descriptor = new ParserRegistry().get("openscap");
+
+        assertThat(descriptor.getPattern()).isEqualTo("**/openscap-report.json");
+        assertThat(descriptor.getHelp()).contains("oscap scan --results-arf results.xml --report report.html");
+        assertThat(descriptor.getUrl()).isEqualTo("https://github.com/OpenSCAP/openscap");
+        assertThat(descriptor.getIconUrl()).isEqualTo("https://github.com/OpenSCAP/openscap/blob/main/docs/manual/images/vertical-logo.png");
+        assertThat(descriptor.getType()).isEqualTo(IssueType.WARNING);
+        assertThat(descriptor.hasHelp()).isTrue();
+        assertThat(descriptor.hasUrl()).isTrue();
     }
 }
