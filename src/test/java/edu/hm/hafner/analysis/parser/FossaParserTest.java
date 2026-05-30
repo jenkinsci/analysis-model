@@ -99,6 +99,51 @@ class FossaParserTest extends AbstractParserTest {
     }
 
     @Test
+    void shouldHandleMissingIssuesArray() {
+        var report = parseStringContent("""
+                {
+                  "count": 0,
+                  "status": "SCANNED"
+                }
+                """);
+
+        assertThat(report).isEmpty();
+    }
+
+    @Test
+    void shouldSkipNullIssuesAndRenderNonCveText() {
+        var report = parseStringContent("""
+                {
+                  "count": 2,
+                  "issues": [
+                    null,
+                    {
+                      "priorityString": "low",
+                      "resolved": false,
+                      "revisionId": "custom+project$1.0.0",
+                      "type": "policy_flag",
+                      "cve": "NOT-A-CVE"
+                    }
+                  ],
+                  "status": "SCANNED"
+                }
+                """);
+
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0))
+                .hasPackageName("custom+project$1.0.0")
+                .hasSeverity(Severity.WARNING_LOW)
+                .hasCategory("Compliance")
+                .hasType("policy_flag")
+                .hasMessage("Flagged by Policy");
+
+        assertThat(report.get(0).getDescription())
+                .contains("<strong>CVE:</strong>")
+                .contains("NOT-A-CVE")
+                .doesNotContain("nvd.nist.gov/vuln/detail");
+    }
+
+    @Test
     void shouldHandleMissingPriorityAndUnknownType() {
         var report = parseStringContent("""
                 {

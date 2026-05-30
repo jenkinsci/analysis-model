@@ -122,7 +122,7 @@ public class FossaParser extends JsonIssueParser {
             sections.add(p(strong("Issue URL:"), NBSP, a().withHref(issueUrl).withText(issueUrl)));
         }
 
-        return sections.isEmpty() ? "" : join((Object[]) sections.toArray(new DomContent[0])).render();
+        return join((Object[]) sections.toArray(new DomContent[0])).render();
     }
 
     private void appendTextSection(final List<DomContent> sections, final String label, final String value) {
