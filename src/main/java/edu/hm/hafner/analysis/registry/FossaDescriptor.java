@@ -29,7 +29,7 @@ class FossaDescriptor extends ParserDescriptor {
 
     @Override
     public String getIconUrl() {
-        return "https://logo.svgcdn.com/logos/fossa.png";
+        return "https://github.com/fossas/fossa-cli/blob/master/docs/assets/header.png?raw=true";
     }
 
     @Override
