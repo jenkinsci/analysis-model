@@ -462,4 +462,93 @@ class IntelephenseParserTest extends AbstractParserTest {
                 .hasSeverity(Severity.WARNING_HIGH)
                 .hasCategory("intelephense");
     }
+
+    @Test
+    void shouldDetectRangeOnlyAsDiagnostic() {
+        var report = parseStringContent("""
+                {
+                  "file": "src/OnlyRange.php",
+                  "range": {
+                    "start": { "line": 1, "character": 1 },
+                    "end": { "line": 1, "character": 2 }
+                  }
+                }
+                """);
+
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0))
+                .hasFileName("src/OnlyRange.php")
+                .hasLineStart(2)
+                .hasLineEnd(2)
+                .hasColumnStart(2)
+                .hasColumnEnd(2)
+                .hasType("-")
+                .hasMessage("-")
+                .hasSeverity(Severity.WARNING_NORMAL);
+    }
+
+    @Test
+    void shouldDetectCodeOnlyAsDiagnostic() {
+        var report = parseStringContent("""
+                {
+                  "file": "src/OnlyCode.php",
+                  "code": "P1111"
+                }
+                """);
+
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0))
+                .hasFileName("src/OnlyCode.php")
+                .hasType("P1111")
+                .hasMessage("-")
+                .hasSeverity(Severity.WARNING_NORMAL);
+    }
+
+    @Test
+    void shouldDetectSeverityOnlyAsDiagnostic() {
+        var report = parseStringContent("""
+                {
+                  "file": "src/OnlySeverity.php",
+                  "severity": 1
+                }
+                """);
+
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0))
+                .hasFileName("src/OnlySeverity.php")
+                .hasSeverity(Severity.ERROR)
+                .hasMessage("-");
+    }
+
+    @Test
+    void shouldCoverEndCharacterOnly() {
+        var report = parseStringContent("""
+                {
+                  "file": "src/EndOnly.php",
+                  "diagnostics": [
+                    {
+                      "message": "End char only",
+                      "severity": 3,
+                      "code": "P8001",
+                      "source": "intelephense",
+                      "range": {
+                        "end": { "character": 4 }
+                      }
+                    }
+                  ]
+                }
+                """);
+
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0))
+                .hasFileName("src/EndOnly.php")
+                .hasLineStart(0)
+                .hasLineEnd(0)
+                .hasColumnStart(4)
+                .hasColumnEnd(4)
+                .hasType("P8001")
+                .hasMessage("End char only")
+                .hasSeverity(Severity.WARNING_NORMAL)
+                .hasCategory("intelephense");
+    }
 }
