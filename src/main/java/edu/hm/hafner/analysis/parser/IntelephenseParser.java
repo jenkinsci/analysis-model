@@ -39,6 +39,7 @@ public class IntelephenseParser extends JsonIssueParser {
     private static final String LINE = "line";
     private static final String CHARACTER = "character";
     private static final Pattern FILE_URI_PREFIX = Pattern.compile("^file://(?<path>.*)$");
+    private static final Pattern WINDOWS_FILE_URI_PATH = Pattern.compile("^/[A-Za-z]:/.*");
 
     @Override
     protected void parseJsonObject(final Report report, final JSONObject jsonReport, final IssueBuilder issueBuilder) {
@@ -132,7 +133,7 @@ public class IntelephenseParser extends JsonIssueParser {
         }
 
         var fileUri = matcher.group("path");
-        if (fileUri.matches("^/[A-Za-z]:/.*")) {
+        if (WINDOWS_FILE_URI_PATH.matcher(fileUri).matches()) {
             return fileUri.substring(1);
         }
 
