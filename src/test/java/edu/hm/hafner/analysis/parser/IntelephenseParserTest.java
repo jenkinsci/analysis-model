@@ -102,7 +102,7 @@ class IntelephenseParserTest extends AbstractParserTest {
                     ]
                   }
                 ]
-                """.formatted(filePath.toUri()));
+                """.replace("%s", filePath.toUri().toString()));
 
         assertThat(report).hasSize(1);
         assertThat(report.get(0))
