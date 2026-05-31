@@ -1,0 +1,60 @@
+[
+  {
+    "file_name": "src/Controller/HomeController.php",
+    "diagnostics": [
+      {
+        "message": "Undefined variable: $user",
+        "severity": 1,
+        "code": "P1002",
+        "source": "intelephense",
+        "range": {
+          "start": {
+            "line": 8,
+            "character": 14
+          },
+          "end": {
+            "line": 8,
+            "character": 19
+          }
+        }
+      },
+      {
+        "message": "Unused variable $temp",
+        "severity": 4,
+        "code": "P1003",
+        "source": "intelephense",
+        "range": {
+          "start": {
+            "line": 21,
+            "character": 8
+          },
+          "end": {
+            "line": 21,
+            "character": 13
+          }
+        }
+      }
+    ]
+  },
+  {
+    "file_name": "src/Service/AuthService.php",
+    "diagnostics": [
+      {
+        "message": "Possible null reference",
+        "severity": "warning",
+        "code": "P1004",
+        "source": "intelephense",
+        "range": {
+          "start": {
+            "line": 4,
+            "character": 11
+          },
+          "end": {
+            "line": 4,
+            "character": 19
+          }
+        }
+      }
+    ]
+  }
+]
