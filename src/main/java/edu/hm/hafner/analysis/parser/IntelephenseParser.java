@@ -9,6 +9,7 @@ import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
+import edu.hm.hafner.analysis.util.IntegerParser;
 
 import java.io.Serial;
 import java.util.regex.Pattern;
@@ -188,7 +189,7 @@ public class IntelephenseParser extends JsonIssueParser {
         }
         if (severityValue instanceof String string) {
             if (StringUtils.isNumeric(string)) {
-                return parseSeverity(Integer.valueOf(string));
+                return parseSeverity(IntegerParser.parseInt(string));
             }
             else {
                 return Severity.guessFromString(string);
