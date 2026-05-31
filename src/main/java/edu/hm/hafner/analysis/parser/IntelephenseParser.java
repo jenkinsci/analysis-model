@@ -11,8 +11,7 @@ import edu.hm.hafner.analysis.Severity;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 import java.io.Serial;
-import java.net.URI;
-import java.nio.file.Paths;
+import java.util.regex.Pattern;
 
 /**
  * A parser for Intelephense diagnostics in JSON format.
@@ -39,6 +38,7 @@ public class IntelephenseParser extends JsonIssueParser {
     private static final String END = "end";
     private static final String LINE = "line";
     private static final String CHARACTER = "character";
+    private static final Pattern FILE_URI_PREFIX = Pattern.compile("^file://(?<path>.*)$");
 
     @Override
     protected void parseJsonObject(final Report report, final JSONObject jsonReport, final IssueBuilder issueBuilder) {
@@ -126,12 +126,17 @@ public class IntelephenseParser extends JsonIssueParser {
             return uri;
         }
 
-        try {
-            return Paths.get(URI.create(uri)).toString();
-        }
-        catch (RuntimeException exception) {
+        var matcher = FILE_URI_PREFIX.matcher(uri);
+        if (!matcher.matches()) {
             return uri;
         }
+
+        var fileUri = matcher.group("path");
+        if (fileUri.matches("^/[A-Za-z]:/.*")) {
+            return fileUri.substring(1);
+        }
+
+        return fileUri;
     }
 
     private void applyRange(@CheckForNull final JSONObject range, final IssueBuilder issueBuilder) {
@@ -181,10 +186,10 @@ public class IntelephenseParser extends JsonIssueParser {
             };
         }
         if (severityValue instanceof String string) {
-            try {
+            if (StringUtils.isNumeric(string)) {
                 return parseSeverity(Integer.valueOf(string));
             }
-            catch (NumberFormatException exception) {
+            else {
                 return Severity.guessFromString(string);
             }
         }
