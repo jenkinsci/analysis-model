@@ -134,6 +134,12 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(2, "rust-analyzer", "rust-analyzer.json");
     }
 
+    /** Runs the Intelephense parser on an output file that contains 3 issues. */
+    @Test
+    void shouldFindAllIntelephenseIssues() {
+        findIssuesOfTool(3, "intelephense", "intelephense-report.json");
+    }
+
     /** Runs the Cargo Audit parser on an output file that contains 3 issues. */
     @Test
     void shouldFindAllCargoAuditIssues() {
@@ -959,6 +965,12 @@ class ParsersTest extends ResourceTest {
     @Test
     void shouldFindAllDetectifyIssues() {
         findIssuesOfTool(3, "detectify", "detectify-report.json");
+    }
+
+    /** Runs the FOSSA parser on an output file that contains 3 issues. */
+    @Test
+    void shouldFindAllFossaIssues() {
+        findIssuesOfTool(3, "fossa", "fossa-report.json");
     }
 
     /** Runs the CFN-Lint parser on an output file that contains 3 issues. */

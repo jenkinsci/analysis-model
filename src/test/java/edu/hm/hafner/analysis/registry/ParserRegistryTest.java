@@ -24,7 +24,7 @@ class ParserRegistryTest extends ResourceTest {
     // please check if you are using the correct type and increment the corresponding count
     private static final long WARNING_PARSERS_COUNT = 154L;
     private static final long BUG_PARSERS_COUNT = 3L;
-    private static final long VULNERABILITY_PARSERS_COUNT = 17L;
+    private static final long VULNERABILITY_PARSERS_COUNT = 18L;
     private static final long DUPLICATION_PARSERS_COUNT = 3L;
 
     private static final String SPOTBUGS = "spotbugs";
@@ -63,6 +63,10 @@ class ParserRegistryTest extends ResourceTest {
                 .hasId(SPOTBUGS)
                 .hasName("SpotBugs")
                 .hasType(IssueType.BUG);
+        assertThat(parserRegistry.get("fossa"))
+                .hasId("fossa")
+                .hasName("FOSSA")
+                .hasType(IssueType.VULNERABILITY);
         assertThat(parserRegistry.get("detectify"))
                 .hasId("detectify")
                 .hasName("Detectify")
