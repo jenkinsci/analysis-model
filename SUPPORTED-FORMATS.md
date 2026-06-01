@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2026-06-01T14:55:56.897062980 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2026-06-01T19:19:24.745022929 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -1396,6 +1396,27 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
             </td>
             <td>
                 -
+            </td>
+        </tr>
+        <tr>
+            <td>
+                intelephense
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                <a href="https://intelephense.com/">
+                    Intelephense
+                </a>
+            </td>
+            <td>
+                **/intelephense-report.json
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Export Intelephense diagnostics as JSON with the publishDiagnostics payload.
             </td>
         </tr>
         <tr>
