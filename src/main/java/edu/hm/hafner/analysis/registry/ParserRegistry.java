@@ -117,6 +117,7 @@ public class ParserRegistry {
             new IdeaInspectionDescriptor(),
             new InferDescriptor(),
             new IntelDescriptor(),
+            new IntelephenseDescriptor(),
             new InvalidsDescriptor(),
             new JavaDescriptor(),
             new JavaDocDescriptor(),
