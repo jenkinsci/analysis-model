@@ -118,6 +118,6 @@ public abstract class JsonIssueParser extends IssueParser {
         }
 
         var value = jsonObject.optString(key, "");
-        return StringUtils.isBlank(value) ? defaultValue : value;
+        return StringUtils.defaultIfBlank(value, defaultValue);
     }
 }
