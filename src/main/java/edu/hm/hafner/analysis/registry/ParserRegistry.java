@@ -95,6 +95,7 @@ public class ParserRegistry {
             new FlexSdkDescriptor(),
             new FlowDescriptor(),
             new FoodCriticDescriptor(),
+            new FossaDescriptor(),
             new FxcopDescriptor(),
             new Gcc4Descriptor(),
             new GccDescriptor(),
