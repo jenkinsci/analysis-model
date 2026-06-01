@@ -1,5 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -108,5 +109,15 @@ public abstract class JsonIssueParser extends IssueParser {
             }
         }
         return "";
+    }
+
+    protected static String getStringOrDefaultIfBlank(@CheckForNull final JSONObject jsonObject, final String key,
+            final String defaultValue) {
+        if (jsonObject == null) {
+            return defaultValue;
+        }
+
+        var value = jsonObject.optString(key, "");
+        return StringUtils.isBlank(value) ? defaultValue : value;
     }
 }

@@ -44,16 +44,16 @@ public class IntelephenseParser extends JsonIssueParser {
 
     @Override
     protected void parseJsonObject(final Report report, final JSONObject jsonReport, final IssueBuilder issueBuilder) {
+        var defaultFileName = resolveFileName(jsonReport, "-");
+        var defaultSource = getStringOrDefaultIfBlank(jsonReport, SOURCE, "");
         var diagnostics = jsonReport.optJSONArray(DIAGNOSTICS);
         if (diagnostics != null) {
-            parseDiagnostics(report, diagnostics, issueBuilder, resolveFileName(jsonReport, "-"),
-                    jsonReport.optString(SOURCE, ""));
+            parseDiagnostics(report, diagnostics, issueBuilder, defaultFileName, defaultSource);
             return;
         }
 
         if (isDiagnostic(jsonReport)) {
-            report.add(convertToIssue(jsonReport, issueBuilder, resolveFileName(jsonReport, "-"),
-                    jsonReport.optString(SOURCE, "")));
+            report.add(convertToIssue(jsonReport, issueBuilder, defaultFileName, defaultSource));
         }
     }
 
@@ -62,14 +62,14 @@ public class IntelephenseParser extends JsonIssueParser {
         for (int i = 0; i < jsonReport.length(); i++) {
             var item = jsonReport.opt(i);
             if (item instanceof JSONObject jsonObject) {
+                var defaultFileName = resolveFileName(jsonObject, "-");
+                var defaultSource = getStringOrDefaultIfBlank(jsonObject, SOURCE, "");
                 var diagnostics = jsonObject.optJSONArray(DIAGNOSTICS);
                 if (diagnostics != null) {
-                    parseDiagnostics(report, diagnostics, issueBuilder, resolveFileName(jsonObject, "-"),
-                            jsonObject.optString(SOURCE, ""));
+                    parseDiagnostics(report, diagnostics, issueBuilder, defaultFileName, defaultSource);
                 }
                 else if (isDiagnostic(jsonObject)) {
-                    report.add(convertToIssue(jsonObject, issueBuilder, resolveFileName(jsonObject, "-"),
-                            jsonObject.optString(SOURCE, "")));
+                    report.add(convertToIssue(jsonObject, issueBuilder, defaultFileName, defaultSource));
                 }
             }
         }
@@ -91,15 +91,20 @@ public class IntelephenseParser extends JsonIssueParser {
 
     private Issue convertToIssue(final JSONObject diagnostic, final IssueBuilder issueBuilder,
             final String defaultFileName, final String defaultSource) {
-        issueBuilder.setFileName(resolveFileName(diagnostic, defaultFileName))
-                .setType(firstNonBlank(diagnostic, CODE, "ruleId"))
-                .setMessage(diagnostic.optString(MESSAGE, "-"))
-                .setSeverity(parseSeverity(diagnostic.opt(SEVERITY)));
-
+        var fileName = resolveFileName(diagnostic, defaultFileName);
+        var type = firstNonBlank(diagnostic, CODE, "ruleId");
+        var message = getStringOrDefaultIfBlank(diagnostic, MESSAGE, "-");
+        var severity = parseSeverity(diagnostic.opt(SEVERITY));
         var source = firstNonBlank(diagnostic, SOURCE);
         if (StringUtils.isBlank(source)) {
             source = defaultSource;
         }
+
+        issueBuilder.setFileName(fileName)
+                .setType(type)
+                .setMessage(message)
+                .setSeverity(severity);
+
         if (StringUtils.isNotBlank(source)) {
             issueBuilder.setCategory(source);
         }
@@ -179,13 +184,7 @@ public class IntelephenseParser extends JsonIssueParser {
 
     private Severity parseSeverity(final Object severityValue) {
         if (severityValue instanceof Number number) {
-            return switch (number.intValue()) {
-                case 1 -> Severity.ERROR;
-                case 2 -> Severity.WARNING_HIGH;
-                case 3 -> Severity.WARNING_NORMAL;
-                case 4 -> Severity.WARNING_LOW;
-                default -> Severity.WARNING_NORMAL;
-            };
+            return parseSeverity(number.intValue());
         }
         if (severityValue instanceof String string) {
             if (StringUtils.isNumeric(string)) {
@@ -197,5 +196,15 @@ public class IntelephenseParser extends JsonIssueParser {
         }
 
         return Severity.WARNING_NORMAL;
+    }
+
+    private Severity parseSeverity(final int severityValue) {
+        return switch (severityValue) {
+            case 1 -> Severity.ERROR;
+            case 2 -> Severity.WARNING_HIGH;
+            case 3 -> Severity.WARNING_NORMAL;
+            case 4 -> Severity.WARNING_LOW;
+            default -> Severity.WARNING_NORMAL;
+        };
     }
 }
