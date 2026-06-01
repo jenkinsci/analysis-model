@@ -49,10 +49,8 @@ public class IntelephenseParser extends JsonIssueParser {
         var diagnostics = jsonReport.optJSONArray(DIAGNOSTICS);
         if (diagnostics != null) {
             parseDiagnostics(report, diagnostics, issueBuilder, defaultFileName, defaultSource);
-            return;
         }
-
-        if (isDiagnostic(jsonReport)) {
+        else if (isDiagnostic(jsonReport)) {
             report.add(convertToIssue(jsonReport, issueBuilder, defaultFileName, defaultSource));
         }
     }
