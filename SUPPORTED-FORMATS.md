@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2026-05-30T12:10:44.974337055 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2026-05-30T17:12:10.498465647 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -1858,6 +1858,27 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
             </td>
             <td>
                 **/dependency-check-report.json
+            </td>
+        </tr>
+        <tr>
+            <td>
+                openscap
+            </td>
+            <td>
+                <img src="https://github.com/OpenSCAP/openscap/blob/main/docs/manual/images/vertical-logo.png" alt="OpenSCAP" height="64" width="64">
+            </td>
+            <td>
+                <a href="https://github.com/OpenSCAP/openscap">
+                    OpenSCAP
+                </a>
+            </td>
+            <td>
+                **/openscap-report.json
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Use commandline <code>oscap scan --results-arf results.xml --report report.html</code> to generate reports. Convert ARF to JSON for automated parsing.<br/>See <a href='https://github.com/OpenSCAP/openscap'>OpenSCAP on GitHub</a> for usage details.
             </td>
         </tr>
         <tr>

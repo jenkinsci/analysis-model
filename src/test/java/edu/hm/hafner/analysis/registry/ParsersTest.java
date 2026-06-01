@@ -961,6 +961,12 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(3, "detectify", "detectify-report.json");
     }
 
+    /** Runs the FOSSA parser on an output file that contains 3 issues. */
+    @Test
+    void shouldFindAllFossaIssues() {
+        findIssuesOfTool(3, "fossa", "fossa-report.json");
+    }
+
     /** Runs the CFN-Lint parser on an output file that contains 3 issues. */
     @Test
     void shouldFindAllCfnLintIssues() {

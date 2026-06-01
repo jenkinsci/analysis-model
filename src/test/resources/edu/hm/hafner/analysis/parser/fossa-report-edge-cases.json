@@ -1,0 +1,17 @@
+{
+  "count": 2,
+  "issues": [
+    {
+      "resolved": false,
+      "type": "policy_conflict"
+    },
+    {
+      "priorityString": "high",
+      "resolved": true,
+      "revisionId": "custom+project$1.0.0",
+      "type": "custom_fossa_type",
+      "issueDashURL": "https://app.fossa.com/issues/999"
+    }
+  ],
+  "status": "SCANNED"
+}
