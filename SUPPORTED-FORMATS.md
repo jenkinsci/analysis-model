@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2026-05-30T17:12:10.498465647 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2026-06-01T14:55:56.897062980 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -963,6 +963,27 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
             </td>
             <td>
                 -
+            </td>
+        </tr>
+        <tr>
+            <td>
+                fossa
+            </td>
+            <td>
+                <img src="https://github.com/fossas/fossa-cli/blob/master/docs/assets/header.png?raw=true" alt="FOSSA" height="64" width="64">
+            </td>
+            <td>
+                <a href="https://docs.fossa.com/">
+                    FOSSA
+                </a>
+            </td>
+            <td>
+                **/fossa-report.json
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Use commandline <code>fossa test --format json &gt; fossa-report.json</code> to generate JSON output.<br/>See <a href='https://docs.fossa.com/'>FOSSA documentation</a> for usage details.
             </td>
         </tr>
         <tr>
