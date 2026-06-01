@@ -184,11 +184,11 @@ public class IntelephenseParser extends JsonIssueParser {
 
     private Severity parseSeverity(final Object severityValue) {
         if (severityValue instanceof Number number) {
-            return parseSeverity(number.intValue());
+            return severityFromCode(number.intValue());
         }
         if (severityValue instanceof String string) {
             if (StringUtils.isNumeric(string)) {
-                return parseSeverity(IntegerParser.parseInt(string));
+                return severityFromCode(IntegerParser.parseInt(string));
             }
             else {
                 return Severity.guessFromString(string);
@@ -198,7 +198,7 @@ public class IntelephenseParser extends JsonIssueParser {
         return Severity.WARNING_NORMAL;
     }
 
-    private Severity parseSeverity(final int severityValue) {
+    private Severity severityFromCode(final int severityValue) {
         return switch (severityValue) {
             case 1 -> Severity.ERROR;
             case 2 -> Severity.WARNING_HIGH;
