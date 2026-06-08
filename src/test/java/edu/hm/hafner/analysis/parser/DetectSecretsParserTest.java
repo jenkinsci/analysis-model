@@ -29,12 +29,10 @@ class DetectSecretsParserTest extends AbstractParserTest {
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
         assertThat(report).hasSize(4);
 
-        // Verify all issues are present by checking types (order is not guaranteed since results is a map)
         var types = report.stream().map(issue -> issue.getType()).toList();
         assertThat(types).containsExactlyInAnyOrder(
                 "AWS Access Key", "Basic Auth Credentials", "Secret Keyword", "Private Key");
 
-        // Find and assert each issue individually
         var awsIssue = report.stream()
                 .filter(i -> "AWS Access Key".equals(i.getType()))
                 .findFirst()

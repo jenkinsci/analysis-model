@@ -14,13 +14,6 @@ import java.io.Serial;
 /**
  * Parser for detect-secrets JSON baseline reports.
  *
- * <p>detect-secrets produces a {@code .secrets.baseline} JSON file where
- * the {@code results} field is an object whose keys are file paths and whose
- * values are arrays of detected secret entries.</p>
- *
- * <p>Example invocation to produce the baseline file:</p>
- * <pre>detect-secrets scan &gt; .secrets.baseline</pre>
- *
  * @author Akash Manna
  * @see <a href="https://github.com/Yelp/detect-secrets">detect-secrets on GitHub</a>
  */
