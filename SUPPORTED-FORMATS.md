@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2026-06-01T19:19:24.745022929 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2026-06-08T21:04:46.416373100 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -3004,6 +3004,27 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
             </td>
             <td>
                 -
+            </td>
+        </tr>
+        <tr>
+            <td>
+                detect-secrets
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                <a href="https://github.com/Yelp/detect-secrets">
+                    detect-secrets
+                </a>
+            </td>
+            <td>
+                **/.secrets.baseline
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Use commandline <code>detect-secrets scan &gt;.secrets.baseline</code> to generate the baseline JSON report.<br/>See <a href='https://github.com/Yelp/detect-secrets'>detect-secrets on GitHub</a> for usage details.
             </td>
         </tr>
         <tr>
