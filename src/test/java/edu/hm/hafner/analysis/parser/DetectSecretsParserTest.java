@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.FileReaderFactory;
 import edu.hm.hafner.analysis.IssueParser;
+import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
@@ -29,7 +30,7 @@ class DetectSecretsParserTest extends AbstractParserTest {
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
         assertThat(report).hasSize(4);
 
-        var types = report.stream().map(issue -> issue.getType()).toList();
+        var types = report.stream().map(Issue::getType).toList();
         assertThat(types).containsExactlyInAnyOrder(
                 "AWS Access Key", "Basic Auth Credentials", "Secret Keyword", "Private Key");
 
@@ -215,7 +216,7 @@ class DetectSecretsParserTest extends AbstractParserTest {
                 """);
 
         assertThat(report).hasSize(3);
-        assertThat(report.stream().map(i -> i.getFileName()).toList())
+        assertThat(report.stream().map(Issue::getFileName).toList())
                 .containsExactlyInAnyOrder("file1.py", "file1.py", "file2.env");
     }
 
