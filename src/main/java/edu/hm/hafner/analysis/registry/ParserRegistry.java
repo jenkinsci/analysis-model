@@ -75,6 +75,7 @@ public class ParserRegistry {
             new CrossCoreEmbeddedStudioDescriptor(),
             new CssLintDescriptor(),
             new DartAnalyzeDescriptor(),
+            new DetectSecretsDescriptor(),
             new DetektDescriptor(),
             new DiabCDescriptor(),
             new DetectifyDescriptor(),
