@@ -24,7 +24,7 @@ class ParserRegistryTest extends ResourceTest {
     // please check if you are using the correct type and increment the corresponding count
     private static final long WARNING_PARSERS_COUNT = 154L;
     private static final long BUG_PARSERS_COUNT = 3L;
-    private static final long VULNERABILITY_PARSERS_COUNT = 19L;
+    private static final long VULNERABILITY_PARSERS_COUNT = 20L;
     private static final long DUPLICATION_PARSERS_COUNT = 3L;
 
     private static final String SPOTBUGS = "spotbugs";

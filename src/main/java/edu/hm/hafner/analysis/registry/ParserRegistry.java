@@ -197,6 +197,7 @@ public class ParserRegistry {
             new SunCDescriptor(),
             new SwiftLintDescriptor(),
             new TaglistDescriptor(),
+            new TalismanDescriptor(),
             new TaskingVxCompilerDescriptor(),
             new TerraformLintDescriptor(),
             new TfsecDescriptor(),
