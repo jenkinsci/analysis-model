@@ -6,6 +6,8 @@ import org.json.JSONObject;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
+import java.util.Locale;
+import org.apache.commons.lang3.StringUtils;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 import java.io.Serial;
@@ -67,7 +69,7 @@ public class TalismanParser extends JsonIssueParser {
         if (isWarning) {
             return Severity.WARNING_LOW;
         }
-        return switch (severity.toLowerCase()) {
+        return switch (StringUtils.lowerCase(severity, Locale.ENGLISH)) {
             case "high" -> Severity.ERROR;
             case "medium" -> Severity.WARNING_HIGH;
             case "low" -> Severity.WARNING_LOW;
