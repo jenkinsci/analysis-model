@@ -13,16 +13,6 @@ import java.io.Serial;
 /**
  * A parser for Talisman security scanner JSON reports.
  *
- * <p>
- * Talisman is a tool to validate code changes that are to be pushed out of a workstation. It acts as a pre-commit/
- * pre-push hook and detects potential secrets, credentials, and sensitive information in your git repository.
- * </p>
- *
- * <p>
- * The JSON report is generated using {@code talisman --scanWithHtml} or by using Talisman as a pre-push hook with
- * JSON output enabled.
- * </p>
- *
  * @author Akash Manna
  * @see <a href="https://github.com/thoughtworks/talisman">Talisman on GitHub</a>
  */

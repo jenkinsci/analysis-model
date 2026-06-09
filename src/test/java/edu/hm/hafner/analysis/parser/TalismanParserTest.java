@@ -27,8 +27,6 @@ class TalismanParserTest extends AbstractParserTest {
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-        // 2 failures + 1 failure from filename file + 1 failure from filesize file = 4 failures
-        // + 1 warning from test_helper.rb = 5 total
         assertThat(report).hasSize(5);
 
         softly.assertThat(report.get(0))
