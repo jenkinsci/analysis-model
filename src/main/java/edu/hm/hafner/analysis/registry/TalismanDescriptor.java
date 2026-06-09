@@ -46,6 +46,6 @@ class TalismanDescriptor extends ParserDescriptor {
 
     @Override
     public String getIconUrl() {
-        return "https://avatars.githubusercontent.com/u/206?v=4";
+        return "https://raw.githubusercontent.com/jaydeepc/talisman-html-report/master/img/talisman.png";
     }
 }

@@ -8,6 +8,7 @@ import edu.hm.hafner.analysis.FileReaderFactory;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Report;
+import edu.hm.hafner.analysis.Report.IssueType;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
@@ -324,7 +325,9 @@ class TalismanParserTest extends AbstractParserTest {
         assertThat(descriptor.getPattern()).isEqualTo("**/talisman-report.json");
         assertThat(descriptor.getHelp()).contains("talisman --scanWithHtml");
         assertThat(descriptor.getUrl()).isEqualTo("https://github.com/thoughtworks/talisman");
+        assertThat(descriptor.getIconUrl()).isEqualTo("https://raw.githubusercontent.com/jaydeepc/talisman-html-report/master/img/talisman.png");
         assertThat(descriptor.hasHelp()).isTrue();
         assertThat(descriptor.hasUrl()).isTrue();
+        assertThat(descriptor.getType()).isEqualTo(IssueType.VULNERABILITY);
     }
 }
