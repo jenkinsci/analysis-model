@@ -33,19 +33,19 @@ class TalismanParserTest extends AbstractParserTest {
                 .hasFileName("src/main/resources/application.properties")
                 .hasType("filecontent")
                 .hasMessage("Potential secret pattern 'password' detected in file")
-                .hasSeverity(Severity.ERROR);
+                .hasSeverity(Severity.WARNING_HIGH);
 
         softly.assertThat(report.get(1))
                 .hasFileName("src/main/resources/application.properties")
                 .hasType("filecontent")
                 .hasMessage("Potential AWS secret key detected")
-                .hasSeverity(Severity.WARNING_HIGH);
+                .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(report.get(2))
                 .hasFileName("config/secrets.pem")
                 .hasType("filename")
                 .hasMessage("Filename matches pattern 'pem' which is usually considered sensitive")
-                .hasSeverity(Severity.ERROR);
+                .hasSeverity(Severity.WARNING_HIGH);
 
         softly.assertThat(report.get(3))
                 .hasFileName("data/large-file.bin")
@@ -160,7 +160,7 @@ class TalismanParserTest extends AbstractParserTest {
                 .hasFileName("secrets.txt")
                 .hasType("filecontent")
                 .hasMessage("Unknown severity test")
-                .hasSeverity(Severity.WARNING_NORMAL);
+                .hasSeverity(Severity.ERROR);
     }
 
     @Test
@@ -189,7 +189,7 @@ class TalismanParserTest extends AbstractParserTest {
                 .hasFileName("secrets.txt")
                 .hasType("filecontent")
                 .hasMessage("No severity field")
-                .hasSeverity(Severity.WARNING_NORMAL);
+                .hasSeverity(Severity.WARNING_LOW);
     }
 
     @Test
@@ -272,8 +272,8 @@ class TalismanParserTest extends AbstractParserTest {
                 """);
 
         assertThat(report).hasSize(3);
-        assertThat(report.get(0)).hasSeverity(Severity.ERROR);
-        assertThat(report.get(1)).hasSeverity(Severity.WARNING_HIGH);
+        assertThat(report.get(0)).hasSeverity(Severity.WARNING_HIGH);
+        assertThat(report.get(1)).hasSeverity(Severity.WARNING_NORMAL);
         assertThat(report.get(2)).hasSeverity(Severity.WARNING_LOW);
     }
 
@@ -313,8 +313,8 @@ class TalismanParserTest extends AbstractParserTest {
                 """);
 
         assertThat(report).hasSize(2);
-        assertThat(report.get(0)).hasFileName("first.properties").hasSeverity(Severity.ERROR);
-        assertThat(report.get(1)).hasFileName("second.pem").hasSeverity(Severity.ERROR);
+        assertThat(report.get(0)).hasFileName("first.properties").hasSeverity(Severity.WARNING_HIGH);
+        assertThat(report.get(1)).hasFileName("second.pem").hasSeverity(Severity.WARNING_HIGH);
     }
 
     @Test

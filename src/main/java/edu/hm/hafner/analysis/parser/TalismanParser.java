@@ -6,8 +6,6 @@ import org.json.JSONObject;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import java.util.Locale;
-import org.apache.commons.lang3.StringUtils;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 import java.io.Serial;
@@ -56,24 +54,17 @@ public class TalismanParser extends JsonIssueParser {
 
         for (int i = 0; i < detailList.length(); i++) {
             var detail = detailList.getJSONObject(i);
+            if (isWarning) {
+                issueBuilder.setSeverity(Severity.WARNING_LOW);
+            }
+            else {
+                issueBuilder.guessSeverity(detail.optString(SEVERITY_KEY, ""));
+            }
             report.add(issueBuilder
                     .setFileName(filename)
                     .setType(detail.optString(TYPE_KEY, "-"))
                     .setMessage(detail.optString(MESSAGE_KEY, ""))
-                    .setSeverity(mapSeverity(detail.optString(SEVERITY_KEY, ""), isWarning))
                     .buildAndClean());
         }
-    }
-
-    private Severity mapSeverity(final String severity, final boolean isWarning) {
-        if (isWarning) {
-            return Severity.WARNING_LOW;
-        }
-        return switch (StringUtils.lowerCase(severity, Locale.ENGLISH)) {
-            case "high" -> Severity.ERROR;
-            case "medium" -> Severity.WARNING_HIGH;
-            case "low" -> Severity.WARNING_LOW;
-            default -> Severity.WARNING_NORMAL;
-        };
     }
 }
