@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2026-06-08T21:04:46.416373100 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2026-06-10T09:11:50.813621067 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -2787,6 +2787,27 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
         <tr>
             <td colspan="4">
                 :bulb: Use option --format checkstyle.
+            </td>
+        </tr>
+        <tr>
+            <td>
+                talisman
+            </td>
+            <td>
+                <img src="https://raw.githubusercontent.com/jaydeepc/talisman-html-report/master/img/talisman.png" alt="Talisman" height="64" width="64">
+            </td>
+            <td>
+                <a href="https://github.com/thoughtworks/talisman">
+                    Talisman
+                </a>
+            </td>
+            <td>
+                **/talisman-report.json
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Use commandline <code>talisman --scanWithHtml</code> to generate a report that includes a JSON file.<br/>See <a href='https://github.com/thoughtworks/talisman'>Talisman on GitHub</a> for usage details.
             </td>
         </tr>
         <tr>
