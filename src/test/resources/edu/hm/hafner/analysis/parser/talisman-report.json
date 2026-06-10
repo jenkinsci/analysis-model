@@ -1,0 +1,79 @@
+{
+  "summary": {
+    "types": {
+      "filecontent": 3,
+      "filesize": 1,
+      "filename": 1,
+      "warnings": 1,
+      "ignores": 0
+    }
+  },
+  "results": [
+    {
+      "filename": "src/main/resources/application.properties",
+      "failure_list": [
+        {
+          "type": "filecontent",
+          "message": "Potential secret pattern 'password' detected in file",
+          "commits": [
+            "6c90dca4fe904c5d17b1431eb7ab78f5acd1c907"
+          ],
+          "severity": "high"
+        },
+        {
+          "type": "filecontent",
+          "message": "Potential AWS secret key detected",
+          "commits": [
+            "abc123def456"
+          ],
+          "severity": "medium"
+        }
+      ],
+      "warning_list": [],
+      "ignore_list": []
+    },
+    {
+      "filename": "config/secrets.pem",
+      "failure_list": [
+        {
+          "type": "filename",
+          "message": "Filename matches pattern 'pem' which is usually considered sensitive",
+          "commits": [
+            "def789abc012"
+          ],
+          "severity": "high"
+        }
+      ],
+      "warning_list": [],
+      "ignore_list": []
+    },
+    {
+      "filename": "data/large-file.bin",
+      "failure_list": [
+        {
+          "type": "filesize",
+          "message": "File size (12 MB) exceeds configured threshold (1 MB)",
+          "commits": [
+            "xyz456uvw789"
+          ],
+          "severity": "low"
+        }
+      ],
+      "warning_list": [],
+      "ignore_list": []
+    },
+    {
+      "filename": "tests/test_helper.rb",
+      "failure_list": [],
+      "warning_list": [
+        {
+          "type": "filecontent",
+          "message": "Potential credential pattern found, please review",
+          "commits": [],
+          "severity": "medium"
+        }
+      ],
+      "ignore_list": []
+    }
+  ]
+}
