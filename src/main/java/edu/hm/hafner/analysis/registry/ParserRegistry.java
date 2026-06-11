@@ -97,6 +97,7 @@ public class ParserRegistry {
             new FlowDescriptor(),
             new FoodCriticDescriptor(),
             new FossaDescriptor(),
+            new FortifySscDescriptor(),
             new FxcopDescriptor(),
             new Gcc4Descriptor(),
             new GccDescriptor(),

@@ -1,0 +1,35 @@
+{
+  "data": [
+    {
+      "id": 12345,
+      "issueName": "SQL Injection",
+      "friority": "High",
+      "primaryLocation": {
+        "fullFileName": "/src/main/java/com/example/LoginController.java",
+        "line": 42
+      },
+      "status": "Open",
+      "engineType": "SCA"
+    },
+    {
+      "id": 12346,
+      "issueName": "Cross-Site Scripting",
+      "friority": "Low",
+      "primaryLocation": {
+        "fullFileName": "/src/main/java/com/example/LoginController.java",
+        "line": 84
+      },
+      "status": "Open"
+    },
+    {
+      "id": 12347,
+      "issueName": "Unreleased Resource",
+      "friority": "Critical",
+      "primaryLocation": {
+        "fullFileName": "src/main/java/com/example/Resource.java",
+        "line": 100
+      }
+    }
+  ],
+  "count": 3
+}

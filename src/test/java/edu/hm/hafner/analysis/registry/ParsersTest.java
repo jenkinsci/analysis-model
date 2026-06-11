@@ -967,6 +967,12 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(3, "fossa", "fossa-report.json");
     }
 
+    /** Runs the Fortify SSC parser on an output file that contains 3 issues. */
+    @Test
+    void shouldFindAllFortifySscIssues() {
+        findIssuesOfTool(3, "fortifyssc", "fortifyssc.json");
+    }
+
     /** Runs the CFN-Lint parser on an output file that contains 3 issues. */
     @Test
     void shouldFindAllCfnLintIssues() {
