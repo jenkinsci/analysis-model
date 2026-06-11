@@ -61,6 +61,7 @@ class FortifySscParserTest extends AbstractParserTest {
     void accepts() {
         assertThat(new FortifySscParser().accepts(
                 new FileReaderFactory(FileSystems.getDefault().getPath("fortifyssc.json")))).isTrue();
+
         assertThat(new FortifySscParser().accepts(
                 new FileReaderFactory(FileSystems.getDefault().getPath("foo.txt")))).isFalse();
     }
@@ -78,6 +79,7 @@ class FortifySscParserTest extends AbstractParserTest {
                     "count": 0
                 }
                 """);
+
         assertThat(report).isEmpty();
     }
 
@@ -96,9 +98,38 @@ class FortifySscParserTest extends AbstractParserTest {
                 """);
 
         assertThat(report).hasSize(1);
+
         assertThat(report.get(0))
                 .hasFileName("-")
                 .hasLineStart(0)
+                .hasType("SQL Injection")
+                .hasMessage("SQL Injection")
+                .hasSeverity(Severity.WARNING_HIGH);
+    }
+
+    @Test
+    void shouldIgnoreNonObjectEntries() {
+        var report = parseStringContent("""
+                {
+                  "data": [
+                    "invalid-entry",
+                    {
+                      "issueName": "SQL Injection",
+                      "friority": "High",
+                      "primaryLocation": {
+                        "fullFileName": "Test.java",
+                        "line": 42
+                      }
+                    }
+                  ]
+                }
+                """);
+
+        assertThat(report).hasSize(1);
+
+        assertThat(report.get(0))
+                .hasFileName("Test.java")
+                .hasLineStart(42)
                 .hasType("SQL Injection")
                 .hasMessage("SQL Injection")
                 .hasSeverity(Severity.WARNING_HIGH);
@@ -109,7 +140,8 @@ class FortifySscParserTest extends AbstractParserTest {
         var descriptor = new ParserRegistry().get("fortifyssc");
 
         assertThat(descriptor.getPattern()).isEqualTo("**/fortifyssc.json");
-        assertThat(descriptor.getUrl()).isEqualTo("https://www.microfocus.com/en-us/cyberres/application-security/software-security-center");
+        assertThat(descriptor.getUrl())
+                .isEqualTo("https://www.microfocus.com/en-us/cyberres/application-security/software-security-center");
         assertThat(descriptor.getType()).isEqualTo(IssueType.VULNERABILITY);
     }
 }
