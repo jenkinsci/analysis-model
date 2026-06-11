@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2026-06-10T09:11:50.813621067 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2026-06-11T21:01:57.686321431 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -1086,6 +1086,22 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
             </td>
             <td>
                 -
+            </td>
+        </tr>
+        <tr>
+            <td>
+                fortifyssc
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                <a href="https://www.microfocus.com/en-us/cyberres/application-security/software-security-center">
+                    Fortify SSC
+                </a>
+            </td>
+            <td>
+                **/fortifyssc.json
             </td>
         </tr>
         <tr>
