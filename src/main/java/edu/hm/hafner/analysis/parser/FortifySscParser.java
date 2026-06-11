@@ -1,12 +1,12 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.io.Serial;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
-
-import java.io.Serial;
 
 /**
  * A parser for Fortify Software Security Center (SSC) JSON reports.
@@ -26,24 +26,28 @@ public class FortifySscParser extends JsonIssueParser {
 
     @Override
     protected void parseJsonObject(final Report report, final JSONObject jsonReport, final IssueBuilder issueBuilder) {
-        if (jsonReport.has(DATA_KEY)) {
-            JSONArray data = jsonReport.getJSONArray(DATA_KEY);
-            for (int i = 0; i < data.length(); i++) {
-                JSONObject issue = data.getJSONObject(i);
+        var data = jsonReport.optJSONArray(DATA_KEY);
+        if (data == null) {
+            return;
+        }
+
+        for (int i = 0; i < data.length(); i++) {
+            var issue = data.optJSONObject(i);
+            if (issue != null) {
                 parseIssue(report, issue, issueBuilder);
             }
         }
     }
 
     private void parseIssue(final Report report, final JSONObject issue, final IssueBuilder issueBuilder) {
-        String issueName = issue.optString(ISSUE_NAME_KEY, "-");
-        String friority = issue.optString(FRIORITY_KEY, "");
+        var issueName = issue.optString(ISSUE_NAME_KEY, "-");
+        var friority = issue.optString(FRIORITY_KEY, "");
 
-        String fileName = "-";
-        int line = 0;
+        var fileName = "-";
+        var line = 0;
 
-        if (issue.has(PRIMARY_LOCATION_KEY)) {
-            JSONObject location = issue.getJSONObject(PRIMARY_LOCATION_KEY);
+        var location = issue.optJSONObject(PRIMARY_LOCATION_KEY);
+        if (location != null) {
             fileName = location.optString(FULL_FILE_NAME_KEY, "-");
             line = location.optInt(LINE_KEY, 0);
         }

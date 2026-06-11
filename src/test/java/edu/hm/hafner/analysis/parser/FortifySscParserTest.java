@@ -1,8 +1,11 @@
 package edu.hm.hafner.analysis.parser;
 
+import java.nio.file.FileSystems;
+
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.FileReaderFactory;
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Report.IssueType;
@@ -11,12 +14,12 @@ import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
 import edu.hm.hafner.analysis.registry.ParserRegistry;
 
-import java.nio.file.FileSystems;
-
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
  * Tests the class {@link FortifySscParser}.
+ *
+ * @author Akash Manna
  */
 class FortifySscParserTest extends AbstractParserTest {
     FortifySscParserTest() {
@@ -24,7 +27,7 @@ class FortifySscParserTest extends AbstractParserTest {
     }
 
     @Override
-    protected FortifySscParser createParser() {
+    protected IssueParser createParser() {
         return new FortifySscParser();
     }
 
@@ -97,6 +100,7 @@ class FortifySscParserTest extends AbstractParserTest {
                 .hasFileName("-")
                 .hasLineStart(0)
                 .hasType("SQL Injection")
+                .hasMessage("SQL Injection")
                 .hasSeverity(Severity.WARNING_HIGH);
     }
 

@@ -5,9 +5,9 @@ import edu.hm.hafner.analysis.Report.IssueType;
 import edu.hm.hafner.analysis.parser.FortifySscParser;
 
 /**
- * A descriptor for Fortify Software Security Center (SSC) parser.
+ * A descriptor for Fortify Software Security Center (SSC) JSON reports.
  *
- * @author Your Name
+ * @author Akash Manna
  */
 class FortifySscDescriptor extends ParserDescriptor {
     private static final String ID = "fortifyssc";
