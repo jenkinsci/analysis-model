@@ -15,7 +15,7 @@ import edu.hm.hafner.analysis.Report;
  */
 public class FortifySscParser extends JsonIssueParser {
     @Serial
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2676345875913046357L;
 
     private static final String DATA_KEY = "data";
     private static final String ISSUE_NAME_KEY = "issueName";
