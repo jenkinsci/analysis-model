@@ -7,6 +7,7 @@ import edu.hm.hafner.analysis.parser.FortifySscParser;
 /**
  * A descriptor for Fortify Software Security Center (SSC) JSON reports.
  *
+ * @see <a href="https://www.microfocus.com/documentation/fortify-software-security-center/">Fortify Software Security Center Documentation</a>
  * @author Akash Manna
  */
 class FortifySscDescriptor extends ParserDescriptor {
