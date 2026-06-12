@@ -238,6 +238,26 @@ class SwaggerLintParserTest extends AbstractParserTest {
     }
 
     @Test
+    void shouldRenderNullElementsInsideLocationArrayAsString() {
+        var report = parseStringContent("""
+                [
+                    {
+                        "name": "mixed-null-location",
+                        "msg": "Location with a null element",
+                        "location": ["definitions", null, "properties"]
+                    }
+                ]
+                """);
+
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0).getDescription())
+                .contains("definitions")
+                .contains("null")
+                .contains("properties")
+                .contains("Location");
+    }
+
+    @Test
     void shouldHandleMultipleIssuesWithSameRuleName() {
         var report = parseStringContent("""
                 [

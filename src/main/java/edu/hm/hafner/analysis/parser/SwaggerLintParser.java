@@ -35,11 +35,7 @@ public class SwaggerLintParser extends JsonIssueParser {
         }
     }
 
-    private Issue convertToIssue(@CheckForNull final JSONObject jsonIssue, final IssueBuilder issueBuilder) {
-        if (jsonIssue == null) {
-            return issueBuilder.buildAndClean();
-        }
-
+    private Issue convertToIssue(final JSONObject jsonIssue, final IssueBuilder issueBuilder) {
         issueBuilder.setType(jsonIssue.optString(NAME, "-"))
                 .setMessage(jsonIssue.optString(MSG, ""))
                 .setDescription(buildLocationDescription(jsonIssue.optJSONArray(LOCATION)));
@@ -54,12 +50,8 @@ public class SwaggerLintParser extends JsonIssueParser {
 
         var joiner = new StringJoiner(" &rsaquo; ");
         for (int i = 0; i < location.length(); i++) {
-            var segment = location.opt(i);
-            if (segment != null) {
-                joiner.add(String.valueOf(segment));
-            }
+            joiner.add(String.valueOf(location.opt(i)));
         }
-        var path = joiner.toString();
-        return path.isEmpty() ? "" : "<p><strong>Location:</strong> " + path + "</p>";
+        return "<p><strong>Location:</strong> " + joiner + "</p>";
     }
 }
