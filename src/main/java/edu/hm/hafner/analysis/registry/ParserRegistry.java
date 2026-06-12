@@ -193,6 +193,7 @@ public class ParserRegistry {
             new SpectralDescriptor(),
             new SphinxBuildDescriptor(),
             new SpotBugsDescriptor(),
+            new SwaggerLintDescriptor(),
             new StyleCopDescriptor(),
             new StyleLintDescriptor(),
             new SunCDescriptor(),
