@@ -50,8 +50,12 @@ public class SwaggerLintParser extends JsonIssueParser {
 
         var joiner = new StringJoiner(" &rsaquo; ");
         for (int i = 0; i < location.length(); i++) {
-            joiner.add(String.valueOf(location.opt(i)));
+            var segment = location.opt(i);
+            if (segment != null && segment != JSONObject.NULL) {
+                joiner.add(String.valueOf(segment));
+            }
         }
-        return "<p><strong>Location:</strong> " + joiner + "</p>";
+        var path = joiner.toString();
+        return path.isEmpty() ? "" : "<p><strong>Location:</strong> " + path + "</p>";
     }
 }

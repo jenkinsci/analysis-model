@@ -89,6 +89,7 @@ class SwaggerLintParserTest extends AbstractParserTest {
     void accepts() {
         assertThat(new SwaggerLintParser().accepts(
                 new FileReaderFactory(FileSystems.getDefault().getPath("swagger-lint-report.json")))).isTrue();
+
         assertThat(new SwaggerLintParser().accepts(
                 new FileReaderFactory(FileSystems.getDefault().getPath("foo.txt")))).isFalse();
     }
@@ -118,6 +119,7 @@ class SwaggerLintParserTest extends AbstractParserTest {
                 """);
 
         assertThat(report).hasSize(1);
+
         assertThat(report.get(0))
                 .hasType("no-path-with-empty-body")
                 .hasMessage("Path has no request body defined")
@@ -127,6 +129,7 @@ class SwaggerLintParserTest extends AbstractParserTest {
                 .hasLineEnd(0)
                 .hasColumnStart(0)
                 .hasColumnEnd(0);
+
         assertThat(report.get(0).getDescription()).isEmpty();
     }
 
@@ -139,6 +142,7 @@ class SwaggerLintParserTest extends AbstractParserTest {
                 """);
 
         assertThat(report).hasSize(1);
+
         assertThat(report.get(0))
                 .hasType("-")
                 .hasMessage("")
@@ -160,6 +164,7 @@ class SwaggerLintParserTest extends AbstractParserTest {
                 """);
 
         assertThat(report).hasSize(1);
+
         assertThat(report.get(0))
                 .hasType("valid-rule")
                 .hasMessage("Valid issue");
@@ -178,6 +183,7 @@ class SwaggerLintParserTest extends AbstractParserTest {
                 """);
 
         assertThat(report).hasSize(1);
+
         assertThat(report.get(0).getDescription())
                 .contains("definitions")
                 .contains("Location");
@@ -190,12 +196,14 @@ class SwaggerLintParserTest extends AbstractParserTest {
                     {
                         "name": "deep-rule",
                         "msg": "Deep path issue",
-                        "location": ["paths", "/api/v1/users", "post", "parameters", "0", "schema", "properties"]
+                        "location": ["paths", "/api/v1/users", "post", "parameters",
+                                     "0", "schema", "properties"]
                     }
                 ]
                 """);
 
         assertThat(report).hasSize(1);
+
         assertThat(report.get(0).getDescription())
                 .contains("paths")
                 .contains("/api/v1/users")
@@ -238,23 +246,48 @@ class SwaggerLintParserTest extends AbstractParserTest {
     }
 
     @Test
-    void shouldRenderNullElementsInsideLocationArrayAsString() {
+    void shouldHandleLocationContainingOnlyNullValues() {
         var report = parseStringContent("""
                 [
                     {
-                        "name": "mixed-null-location",
-                        "msg": "Location with a null element",
-                        "location": ["definitions", null, "properties"]
+                        "name": "null-segment-rule",
+                        "msg": "Location contains only null",
+                        "location": [null]
                     }
                 ]
                 """);
 
         assertThat(report).hasSize(1);
+
+        assertThat(report.get(0))
+                .hasType("null-segment-rule")
+                .hasMessage("Location contains only null");
+
+        assertThat(report.get(0).getDescription()).isEmpty();
+    }
+
+    @Test
+    void shouldIgnoreNullSegmentsInLocationPath() {
+        var report = parseStringContent("""
+                [
+                    {
+                        "name": "mixed-location-rule",
+                        "msg": "Location contains null entries",
+                        "location": ["definitions", null, "User"]
+                    }
+                ]
+                """);
+
+        assertThat(report).hasSize(1);
+
+        assertThat(report.get(0))
+                .hasType("mixed-location-rule")
+                .hasMessage("Location contains null entries");
+
         assertThat(report.get(0).getDescription())
                 .contains("definitions")
-                .contains("null")
-                .contains("properties")
-                .contains("Location");
+                .contains("User")
+                .doesNotContain("null");
     }
 
     @Test
@@ -275,14 +308,17 @@ class SwaggerLintParserTest extends AbstractParserTest {
                 """);
 
         assertThat(report).hasSize(2);
+
         assertThat(report.get(0))
                 .hasType("object-prop-casing")
                 .hasMessage("Property 'FirstName' does not match the required casing 'camel'");
+
         assertThat(report.get(0).getDescription()).contains("FirstName");
 
         assertThat(report.get(1))
                 .hasType("object-prop-casing")
                 .hasMessage("Property 'LastName' does not match the required casing 'camel'");
+
         assertThat(report.get(1).getDescription()).contains("LastName");
     }
 
