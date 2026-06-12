@@ -177,6 +177,7 @@ public class ParserRegistry {
             new ReviveDescriptor(),
             new RfLintDescriptor(),
             new RoboCopyDescriptor(),
+            new RoslynAnalyzersDescriptor(),
             new RuboCopDescriptor(),
             new RuffDescriptor(),
             new RustAnalyzerDescriptor(),

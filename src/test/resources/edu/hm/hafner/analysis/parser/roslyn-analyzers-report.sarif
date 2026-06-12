@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "Microsoft.NetCore.Analyzers"
+        }
+      },
+      "results": [
+        {
+          "ruleId": "CA1822",
+          "level": "warning",
+          "message": {
+            "text": "Mark members as static"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/Program.cs"
+                },
+                "region": {
+                  "startLine": 12,
+                  "endLine": 12,
+                  "startColumn": 9,
+                  "endColumn": 18
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CA2000",
+          "level": "error",
+          "message": {
+            "text": "Dispose objects before losing scope"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/work/analysis-model/src/Helpers.cs"
+                },
+                "region": {
+                  "startLine": 7,
+                  "endLine": 7,
+                  "startColumn": 13,
+                  "endColumn": 20
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CA1303",
+          "level": "warning",
+          "message": {
+            "text": "Do not pass literals as localized parameters"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/Localization.cs"
+                },
+                "region": {
+                  "startLine": 18,
+                  "endLine": 18,
+                  "startColumn": 17,
+                  "endColumn": 29
+                }
+              }
+            }
+          ],
+          "suppressions": [
+            {
+              "state": "accepted",
+              "justification": "Covered by legacy suppression"
+            }
+          ]
+        },
+        {
+          "ruleId": "IDE0051",
+          "level": "note",
+          "message": {
+            "text": "Remove unused private members"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/Utilities/Formatting.cs"
+                },
+                "region": {
+                  "startLine": 25,
+                  "endLine": 25,
+                  "startColumn": 5,
+                  "endColumn": 15
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
