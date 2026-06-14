@@ -27,8 +27,12 @@ public class GradleLintParser extends JsonIssueParser {
     private static final String MESSAGE = "message";
     private static final String SOURCE_LINE = "sourceLine";
 
+    private static final int CRITICAL_PRIORITY = 1;
+    private static final int WARNING_PRIORITY = 2;
+
     @Override
-    protected void parseJsonObject(final Report report, final JSONObject jsonReport, final IssueBuilder issueBuilder) {
+    protected void parseJsonObject(final Report report, final JSONObject jsonReport,
+            final IssueBuilder issueBuilder) {
         var violations = jsonReport.optJSONArray(VIOLATIONS);
         if (violations == null) {
             return;
@@ -45,7 +49,7 @@ public class GradleLintParser extends JsonIssueParser {
     private Issue convertToIssue(final JSONObject violation, final IssueBuilder issueBuilder) {
         var fileName = violation.optString(BUILD_FILE, "-");
         var ruleName = violation.optString(RULE_NAME, "-");
-        var priority = violation.optInt(PRIORITY, 2);
+        var priority = violation.optInt(PRIORITY, WARNING_PRIORITY);
         var lineNumber = violation.optInt(LINE_NUMBER, 0);
         var message = violation.optString(MESSAGE, "");
         var sourceLine = violation.optString(SOURCE_LINE, "");
@@ -65,19 +69,19 @@ public class GradleLintParser extends JsonIssueParser {
     }
 
     /**
-     * Converts a Gradle Lint numeric priority to a severity name string that {@link IssueBuilder#guessSeverity}
-     * can interpret.
+     * Converts a Gradle Lint numeric priority to a severity name string that
+     * {@link IssueBuilder#guessSeverity(String)} can interpret.
      *
      * @param priority
      *         the numeric priority from the JSON report
      *
-     * @return a severity name string understood by {@link Severity#guessFromString}
+     * @return a severity name string understood by {@link Severity#guessFromString(String)}
      */
     private String priorityToSeverityName(final int priority) {
-        if (priority <= 1) {
+        if (priority <= CRITICAL_PRIORITY) {
             return "critical";
         }
-        if (priority == 2) {
+        if (priority == WARNING_PRIORITY) {
             return "warning";
         }
         return "low";
