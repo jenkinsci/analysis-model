@@ -1,0 +1,16 @@
+[
+  {
+    "file": "build.gradle",
+    "line": 42,
+    "severity": "WARNING",
+    "category": "dependency",
+    "message": "A newer version of this dependency is available."
+  },
+  {
+    "file": "app/src/build.gradle",
+    "line": 15,
+    "severity": "ERROR",
+    "category": "deprecated",
+    "message": "This API is deprecated and will be removed."
+  }
+]

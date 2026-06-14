@@ -111,6 +111,7 @@ public class ParserRegistry {
             new GosecDescriptor(),
             new GoLintDescriptor(),
             new GoVetDescriptor(),
+            new GradleLintDescriptor(),
             new GrypeDescriptor(),
             new HadoLintDescriptor(),
             new IarCstatDescriptor(),
