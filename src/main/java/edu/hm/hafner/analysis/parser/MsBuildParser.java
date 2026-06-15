@@ -8,6 +8,7 @@ import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 import java.io.Serial;
 import java.util.Optional;
@@ -81,10 +82,7 @@ public class MsBuildParser extends LookaheadParser {
             + PROJECT_DIR_PATTERN
             + "))$";
 
-    /**
-     * Pattern to identify bare tool names that should be ignored (without path separators).
-     * Only matches tool names when they appear alone, not as part of a path.
-     */
+    /** Tool-like tokens: bare task names, .exe files, and pseudo-file placeholders. */
     private static final Pattern TOOL_NAME_PATTERN = Pattern.compile(
             "^(?:EXEC|NMAKE|LINK|MSBUILD|CSC|MSBuild|link|nmake|msbuild|cl|rs)$|"
             + "^[^/\\\\]*\\.exe$|"
@@ -102,11 +100,15 @@ public class MsBuildParser extends LookaheadParser {
     private static final Pattern LINKER_CAUSE = Pattern.compile(".*imported by '([A-Za-z0-9\\-_.]+)'.*");
     private static final String EXPECTED_CATEGORY = "Expected";
     private static final String MSBUILD = "MSBUILD";
+    private static final String NO_SOURCE_FILE = "-";
     private static final Pattern HEADER_COMPILE_MESSAGE = Pattern.compile("\\(compiling source file .*\\)");
 
     // Pattern to extract Delphi file path from message (e.g., "C:\Path\File.pas(123) Warning: ...")
     private static final Pattern DELPHI_FILE_PATTERN = Pattern.compile(
             "^\\s*([^:]+\\.(?:pas|dpr|dpk|dproj))\\((\\d+)\\)\\s+(?:[Ww]arning|[Hh]int)\\s*:\\s*([A-Za-z0-9]+)\\s+(.*)$");
+
+    private static final Pattern SYSTEM_TOOL = Pattern.compile(".*\\.exe$|^<[^>]+>$", Pattern.CASE_INSENSITIVE);
+    private static final Pattern INVALID_PATH_CHARS = Pattern.compile("[<>|\"?]");
 
     /**
      * Creates a new instance of {@link MsBuildParser}.
@@ -135,11 +137,14 @@ public class MsBuildParser extends LookaheadParser {
         var fileName = determineFileName(matcher);
 
         if (isLinkerParameter(fileName)) {
-            fileName = "-";
+            fileName = NO_SOURCE_FILE;
         }
-        // Skip if this is a tool name (executable or tool without proper source extension)
-        else if (isToolName(fileName)) {
-            return Optional.empty();
+        else {
+            var checkResult = checkToolName(fileName);
+            if (checkResult.isEmpty()) {
+                return Optional.empty();
+            }
+            fileName = checkResult.get();
         }
 
         // Check if this is a Delphi warning/hint where the actual file is in the message
@@ -175,19 +180,15 @@ public class MsBuildParser extends LookaheadParser {
     }
 
     private Optional<Issue> createDelphiSimpleIssue(final Matcher matcher, final IssueBuilder builder) {
-        var delphiMessage = matcher.group(8);
-        if (delphiMessage == null) {
-            delphiMessage = "";
-        }
         return builder.setFileName(matcher.group(4))
                 .setLineStart(matcher.group(5))
                 .setCategory(matcher.group(7))
-                .setMessage(delphiMessage)
+                .setMessage(StringUtils.defaultString(matcher.group(8)))
                 .setSeverity(Severity.guessFromString(matcher.group(6)))
                 .buildOptional();
     }
 
-    private Optional<Issue> createDelphiEmbeddedIssue(final Matcher matcher, final String message,
+    private Optional<Issue> createDelphiEmbeddedIssue(final Matcher matcher, @CheckForNull final String message,
             final IssueBuilder builder) {
         if (message != null) {
             var delphiMatcher = DELPHI_FILE_PATTERN.matcher(message);
@@ -224,14 +225,13 @@ public class MsBuildParser extends LookaheadParser {
         }
     }
 
-    private Optional<Issue> createStandardIssue(final Matcher matcher, final String message,
+    private Optional<Issue> createStandardIssue(final Matcher matcher, @CheckForNull final String message,
             final IssueBuilder builder) {
         var category = matcher.group(20);
         if (EXPECTED_CATEGORY.equals(category)) {
             return Optional.empty();
         }
-        var messageText = message == null ? "" : message;
-        var cleanedMessage = HEADER_COMPILE_MESSAGE.matcher(messageText).replaceAll(StringUtils.EMPTY);
+        var cleanedMessage = HEADER_COMPILE_MESSAGE.matcher(StringUtils.defaultString(message)).replaceAll(StringUtils.EMPTY);
         return builder.setCategory(category)
                 .setMessage(cleanedMessage)
                 .setSeverity(Severity.guessFromString(matcher.group(19)))
@@ -247,33 +247,29 @@ public class MsBuildParser extends LookaheadParser {
      * @return true if this is a linker parameter, false otherwise
      */
     private boolean isLinkerParameter(final String fileName) {
-        if (StringUtils.isBlank(fileName)) {
-            return false;
-        }
-        String trimmedFileName = fileName.trim();
-        return LINKER_PARAMETER_PATTERN.matcher(trimmedFileName).matches();
+        return LINKER_PARAMETER_PATTERN.matcher(fileName.trim()).matches();
     }
 
     /**
-     * Checks if the given fileName is a known tool name that should be ignored.
-     * Tool names include executables (e.g., ConsoleTranslator.exe) and bare tool names (e.g., NMAKE, rs).
-     * This method is conservative and only filters known tool names to avoid false positives.
+     * Checks if the given fileName is a known tool name.
      *
      * @param fileName
      *         the filename to check
-     *
-     * @return true if this is a tool name that should be ignored, false otherwise
+     * @return the resolved filename if it should be kept, or empty if it should be dropped
      */
-    private boolean isToolName(final String fileName) {
-        if (StringUtils.isBlank(fileName) || "-".equals(fileName) || "unknown.file".equals(fileName)) {
-            return true;
+    private Optional<String> checkToolName(@CheckForNull final String fileName) {
+        if (StringUtils.isBlank(fileName) || NO_SOURCE_FILE.equals(fileName) || "unknown.file".equals(fileName)) {
+            return Optional.empty();
         }
 
-        var baseFileName = FilenameUtils.getName(fileName).trim();
+        var baseFileName = FilenameUtils.getName(fileName);
+        var cleanFileName = baseFileName.trim().replaceAll("^\\d{1,2}:\\d{2}:\\d{2}\\s+", "");
 
-        baseFileName = baseFileName.replaceAll("^\\d{1,2}:\\d{2}:\\d{2}\\s+", "");
+        if (TOOL_NAME_PATTERN.matcher(cleanFileName).matches()) {
+            return SYSTEM_TOOL.matcher(cleanFileName).matches() ? Optional.empty() : Optional.of(NO_SOURCE_FILE);
+        }
 
-        return TOOL_NAME_PATTERN.matcher(baseFileName).matches();
+        return Optional.of(fileName);
     }
 
     /**
@@ -291,62 +287,37 @@ public class MsBuildParser extends LookaheadParser {
     }
 
     private String extractFileNameFromGroups(final Matcher matcher) {
-        // Group 3 is from COMMAND_LINE_WARNING_PATTERN
-        if (StringUtils.isNotBlank(matcher.group(3))) {
-            return matcher.group(3);
-        }
-        // Group 18 is simple filename from FILE_NAME_PATTERN
-        if (StringUtils.isNotBlank(matcher.group(18))) {
-            return matcher.group(18);
-        }
-        // Group 9 is filename with line/column from FILE_NAME_PATTERN
-        return matcher.group(9);
+        return StringUtils.firstNonBlank(matcher.group(3), matcher.group(18), matcher.group(9));
     }
 
-    private String resolveFileName(final String fileName, final Matcher matcher) {
+    private String resolveFileName(@CheckForNull final String fileName, final Matcher matcher) {
         if (StringUtils.isNotBlank(fileName)) {
             return fileName;
         }
-
-        // Group 22 is message
-        var linker = LINKER_CAUSE.matcher(matcher.group(22));
-        if (linker.matches()) {
-            return linker.group(1);
-        }
-
-        String extractedFileName = StringUtils.substringBetween(matcher.group(22), "'");
-        return StringUtils.isNotBlank(extractedFileName) ? extractedFileName : "unknown.file";
+        var message = StringUtils.defaultString(matcher.group(22));
+        var linker = LINKER_CAUSE.matcher(message);
+        return linker.matches() ? linker.group(1)
+                : StringUtils.defaultIfBlank(StringUtils.substringBetween(message, "'"), "unknown.file");
     }
 
-    private String normalizeFileName(final String fileName, final String projectDir) {
-        var normalizedFileName = fileName;
-
-        if (canResolveRelativeFileName(normalizedFileName, projectDir)) {
-            normalizedFileName = FilenameUtils.concat(projectDir, normalizedFileName);
-        }
-        if (MSBUILD.equals(normalizedFileName.trim())) {
-            return "-";
-        }
-        if (containsInvalidPathCharacters(normalizedFileName)) {
-            return "-";
-        }
-        return normalizedFileName;
+    private String normalizeFileName(final String fileName, @CheckForNull final String projectDir) {
+        var concatenated = FilenameUtils.concat(projectDir, fileName);
+        var normalized = canResolveRelativeFileName(fileName, projectDir)
+                ? StringUtils.defaultString(concatenated, fileName) : fileName;
+        return (MSBUILD.equals(normalized.trim()) || containsInvalidPathCharacters(normalized))
+                ? NO_SOURCE_FILE : normalized;
     }
 
     private boolean containsInvalidPathCharacters(final String fileName) {
-        if (fileName.contains("<") || fileName.contains(">") || fileName.contains("|")) {
-            return true;
-        }
-
-        if (fileName.contains("\"") || fileName.contains("?")) {
-            return true;
-        }
-
-        return fileName.contains("*") && !fileName.contains("/") && !fileName.contains("\\");
+        return INVALID_PATH_CHARS.matcher(fileName).find()
+                || (fileName.contains("*") && !fileName.contains("/") && !fileName.contains("\\"));
     }
 
-    private boolean canResolveRelativeFileName(final String fileName, final String projectDir) {
-        return StringUtils.isNotBlank(projectDir) && FilenameUtils.getPrefixLength(fileName) == 0
+    private boolean canResolveRelativeFileName(final String fileName, @CheckForNull final String projectDir) {
+        if (StringUtils.isBlank(projectDir)) {
+            return false;
+        }
+        return FilenameUtils.getPrefixLength(fileName) == 0
                 && !MSBUILD.equals(fileName.trim());
     }
 }
