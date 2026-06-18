@@ -57,7 +57,7 @@ public class GradleLintParser extends JsonIssueParser {
         issueBuilder
                 .setFileName(fileName.isBlank() ? "-" : fileName)
                 .setType(ruleName.isBlank() ? "-" : ruleName)
-                .guessSeverity(priorityToSeverityName(priority))
+                .setSeverity(mapPriorityToSeverity(priority))
                 .setLineStart(lineNumber)
                 .setMessage(message);
 
@@ -69,21 +69,20 @@ public class GradleLintParser extends JsonIssueParser {
     }
 
     /**
-     * Converts a Gradle Lint numeric priority to a severity name string that
-     * {@link IssueBuilder#guessSeverity(String)} can interpret.
+     * Maps a Gradle Lint numeric priority to a {@link Severity}.
      *
      * @param priority
      *         the numeric priority from the JSON report
      *
-     * @return a severity name string understood by {@link Severity#guessFromString(String)}
+     * @return the corresponding {@link Severity}
      */
-    private String priorityToSeverityName(final int priority) {
+    private Severity mapPriorityToSeverity(final int priority) {
         if (priority <= CRITICAL_PRIORITY) {
-            return "critical";
+            return Severity.ERROR;
         }
         if (priority == WARNING_PRIORITY) {
-            return "warning";
+            return Severity.WARNING_NORMAL;
         }
-        return "low";
+        return Severity.WARNING_LOW;
     }
 }
