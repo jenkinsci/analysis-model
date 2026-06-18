@@ -74,6 +74,10 @@ class ParserRegistryTest extends ResourceTest {
         assertThat(parserRegistry.get("owasp-dependency-check"))
                 .hasName("OWASP Dependency Check")
                 .hasType(IssueType.VULNERABILITY);
+        assertThat(parserRegistry.get("swagger-lint"))
+                .hasId("swagger-lint")
+                .hasName("Swagger Lint")
+                .hasType(IssueType.WARNING);
         assertThat(parserRegistry.contains(SPOTBUGS)).isTrue();
         assertThat(parserRegistry.contains("nothing")).isFalse();
         List<ParserDescriptor> descriptors = parserRegistry.getAllDescriptors();

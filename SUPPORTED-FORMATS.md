@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2026-06-11T21:01:57.686321431 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2026-06-18T10:19:13.184431900 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -2733,6 +2733,27 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
         <tr>
             <td colspan="4">
                 :bulb: <p>Use <code>--formatter json</code></p><p>For checkstyle format install <a href='https://www.npmjs.com/package/stylelint-checkstyle-reporter'>stylelint-checkstyle-reporter</a>.<br/>Use <code>--custom-formatter node_modules/stylelint-checkstyle-reporter/index.js -o stylelint-warnings.xml</code><br/>The checkstyle formatter is deprecated. Use the json formatter instead.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                swagger-lint
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                <a href="https://github.com/antonk52/swaggerlint">
+                    Swagger Lint
+                </a>
+            </td>
+            <td>
+                **/swagger-lint-report.json
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Use commandline <code>swaggerlint /path/to/swagger.json 2>&amp;1 | tee swagger-lint-report.json</code> or programmatically via Node.js and <code>JSON.stringify</code> to generate JSON output.<br/>See <a href='https://github.com/antonk52/swaggerlint'>swaggerlint on GitHub</a> for usage details.
             </td>
         </tr>
         <tr>

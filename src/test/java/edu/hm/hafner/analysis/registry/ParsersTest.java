@@ -1093,6 +1093,12 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(4, "spectral", "spectral-report.json");
     }
 
+    /** Runs the Swagger Lint parser on an output file that contains 4 issues. */
+    @Test
+    void shouldFindAllSwaggerLintIssues() {
+        findIssuesOfTool(4, "swagger-lint", "swagger-lint-report.json");
+    }
+
     /** Runs the Talisman parser on an output file that contains 5 issues. */
     @Test
     void shouldFindAllTalismanIssues() {
