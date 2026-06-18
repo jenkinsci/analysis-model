@@ -1105,6 +1105,12 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(5, "talisman", "talisman-report.json");
     }
 
+    /** Runs the Gradle Lint parser on an output file that contains 4 issues. */
+    @Test
+    void shouldFindAllGradleLintIssues() {
+        findIssuesOfTool(4, "gradle-lint", "gradle-lint-report.json");
+    }
+
     private Report findIssuesOfTool(final int expectedSizeOfIssues, final String tool, final String... fileNames) {
         var registry = new ParserRegistry();
         var descriptor = registry.get(tool);
