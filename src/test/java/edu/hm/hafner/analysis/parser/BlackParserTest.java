@@ -167,6 +167,7 @@ class BlackParserTest extends AbstractParserTest {
         assertThat(descriptor.getPattern()).isEqualTo("**/black-report.txt");
         assertThat(descriptor.getHelp()).contains("black --check");
         assertThat(descriptor.getUrl()).isEqualTo("https://github.com/psf/black");
+        assertThat(descriptor.getIconUrl()).isEqualTo("https://raw.githubusercontent.com/psf/black/main/docs/_static/logo2-readme.png");
         assertThat(descriptor.hasHelp()).isTrue();
         assertThat(descriptor.hasUrl()).isTrue();
     }
