@@ -42,9 +42,4 @@ class OpenApiValidatorDescriptor extends ParserDescriptor {
     public String getUrl() {
         return "https://github.com/IBM/openapi-validator";
     }
-
-    @Override
-    public String getIconUrl() {
-        return "https://avatars.githubusercontent.com/u/4792070";
-    }
 }
