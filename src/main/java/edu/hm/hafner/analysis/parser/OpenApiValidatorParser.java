@@ -57,7 +57,7 @@ public class OpenApiValidatorParser extends JsonIssueParser {
         var joiner = new StringJoiner(" &rsaquo; ");
         for (int i = 0; i < path.length(); i++) {
             var segment = path.opt(i);
-            if (segment != null && segment != JSONObject.NULL) {
+            if (segment != JSONObject.NULL) {
                 joiner.add(String.valueOf(segment));
             }
         }

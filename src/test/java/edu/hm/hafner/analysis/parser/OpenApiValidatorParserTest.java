@@ -203,6 +203,49 @@ class OpenApiValidatorParserTest extends AbstractParserTest {
     }
 
     @Test
+    void shouldSkipNonObjectArrayEntries() {
+        var report = parseStringContent("""
+                [
+                    "this is not an object",
+                    {
+                        "message": "Valid issue after invalid entry",
+                        "rule": "valid-rule",
+                        "line": 12,
+                        "severity": "error",
+                        "file": "openapi.yaml"
+                    }
+                ]
+                """);
+
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0))
+                .hasType("valid-rule")
+                .hasMessage("Valid issue after invalid entry")
+                .hasSeverity(Severity.ERROR)
+                .hasFileName("openapi.yaml")
+                .hasLineStart(12);
+    }
+
+    @Test
+    void shouldHandleNullPathSegment() {
+        var report = parseStringContent("""
+                [
+                    {
+                        "message": "Rule with a null path segment",
+                        "rule": "ibm-null-path-rule",
+                        "path": [null],
+                        "line": 20,
+                        "severity": "error",
+                        "file": "openapi.yaml"
+                    }
+                ]
+                """);
+
+        assertThat(report).hasSize(1);
+        assertThat(report.get(0).getDescription()).isEmpty();
+    }
+
+    @Test
     void shouldProvideDescriptorMetadata() {
         var descriptor = new ParserRegistry().get("openapi-validator");
 
