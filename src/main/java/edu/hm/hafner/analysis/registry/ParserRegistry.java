@@ -149,6 +149,7 @@ public class ParserRegistry {
             new NixDescriptor(),
             new NpmAuditDescriptor(),
             new OeLintAdvDescriptor(),
+            new OpenApiValidatorDescriptor(),
             new OpenScapDescriptor(),
             new OtDockerLintDescriptor(),
             new OwaspDependencyCheckDescriptor(),

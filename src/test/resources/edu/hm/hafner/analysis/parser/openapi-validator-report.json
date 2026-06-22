@@ -1,0 +1,42 @@
+[
+  {
+    "message": "Path contains two or more consecutive path parameter references",
+    "rule": "ibm-no-consecutive-path-parameter-segments",
+    "path": ["paths", "/v1/clouds/{cloud_id}/{region_id}"],
+    "line": 332,
+    "severity": "error",
+    "file": "src/main/openapi/my-service.yaml"
+  },
+  {
+    "message": "Operation summaries should not have a trailing period",
+    "rule": "ibm-summary-sentence-style",
+    "path": ["paths", "/v1/clouds", "post", "summary"],
+    "line": 46,
+    "severity": "warning",
+    "file": "src/main/openapi/my-service.yaml"
+  },
+  {
+    "message": "Each operation should have a non-empty 'operationId'",
+    "rule": "ibm-operation-id",
+    "path": ["paths", "/v1/items", "get"],
+    "line": 78,
+    "severity": "error",
+    "file": "src/main/openapi/my-service.yaml"
+  },
+  {
+    "message": "The 'info' object should contain a 'contact' field",
+    "rule": "info-contact",
+    "path": ["info"],
+    "line": 5,
+    "severity": "info",
+    "file": "src/main/openapi/my-service.yaml"
+  },
+  {
+    "message": "Enum values should follow snake_case convention",
+    "rule": "ibm-enum-casing-convention",
+    "path": ["components", "schemas", "Status", "enum"],
+    "line": 150,
+    "severity": "warning",
+    "file": "src/main/openapi/models.yaml"
+  }
+]

@@ -1,0 +1,18 @@
+[
+  {
+    "message": "Missing description for schema property",
+    "rule": "ibm-schema-description",
+    "path": ["components", "schemas", "User", "properties", "email"],
+    "line": 210,
+    "severity": "warn",
+    "file": "openapi.yaml"
+  },
+  {
+    "message": "Response should define a 400 status code",
+    "rule": "ibm-response-status-codes",
+    "path": ["paths", "/v1/users", "post", "responses"],
+    "line": 99,
+    "severity": "hint",
+    "file": "openapi.yaml"
+  }
+]

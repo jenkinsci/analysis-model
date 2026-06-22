@@ -15,6 +15,7 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 import java.io.IOException;
 import java.io.Serial;
+import java.util.StringJoiner;
 
 /**
  * Base class for parsers that operate on a `*.json` file that contains issues in a JSON data structure.
@@ -119,5 +120,33 @@ public abstract class JsonIssueParser extends IssueParser {
 
         var value = jsonObject.optString(key, "");
         return StringUtils.defaultIfBlank(value, defaultValue);
+    }
+
+    /**
+     * Builds an HTML description from a JSON array of path segments, joined with right angle quotation mark separators
+     * and wrapped in a {@code <p>} tag with the given label. Returns an empty string if the array is {@code null},
+     * empty, or contains only {@code null} values.
+     *
+     * @param array
+     *         the JSON array of path segments (may be {@code null})
+     * @param label
+     *         the bold label to prefix the path, e.g. {@code "Location"} or {@code "Path"}
+     *
+     * @return the HTML description string, or an empty string if no meaningful content
+     */
+    protected static String buildJsonArrayDescription(@CheckForNull final JSONArray array, final String label) {
+        if (array == null || array.isEmpty()) {
+            return "";
+        }
+
+        var joiner = new StringJoiner(" &rsaquo; ");
+        for (int i = 0; i < array.length(); i++) {
+            var segment = array.opt(i);
+            if (segment != null && segment != JSONObject.NULL) {
+                joiner.add(String.valueOf(segment));
+            }
+        }
+        var path = joiner.toString();
+        return path.isEmpty() ? "" : "<p><strong>" + label + ":</strong> " + path + "</p>";
     }
 }
