@@ -34,8 +34,7 @@ public class BlackParser extends LookaheadParser {
 
     @Override
     protected boolean isLineInteresting(final String line) {
-        return line.startsWith("error: cannot format") || line.startsWith("would reformat")
-                || line.startsWith("reformatted");
+        return line.contains("format");
     }
 
     @Override
