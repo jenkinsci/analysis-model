@@ -6,13 +6,14 @@ import org.json.JSONObject;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
-import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 import java.io.Serial;
-import java.util.StringJoiner;
 
 /**
  * A parser for IBM OpenAPI Validator JSON output.
+ *
+ * <p>The IBM OpenAPI Validator ({@code lint-openapi}) can produce a stable JSON output using the
+ * {@code --json} flag. This parser handles that output format.</p>
  *
  * @author Akash Manna
  * @see <a href="https://github.com/IBM/openapi-validator">IBM OpenAPI Validator on GitHub</a>
@@ -44,24 +45,8 @@ public class OpenApiValidatorParser extends JsonIssueParser {
                 .setFileName(jsonIssue.optString(FILE, "-"))
                 .setLineStart(jsonIssue.optInt(LINE, 0))
                 .guessSeverity(jsonIssue.optString(SEVERITY, "warning"))
-                .setDescription(buildPathDescription(jsonIssue.optJSONArray(PATH)));
+                .setDescription(buildJsonArrayDescription(jsonIssue.optJSONArray(PATH), "Path"));
 
         return issueBuilder.buildAndClean();
-    }
-
-    private String buildPathDescription(@CheckForNull final JSONArray path) {
-        if (path == null || path.isEmpty()) {
-            return "";
-        }
-
-        var joiner = new StringJoiner(" &rsaquo; ");
-        for (int i = 0; i < path.length(); i++) {
-            var segment = path.opt(i);
-            if (segment != JSONObject.NULL) {
-                joiner.add(String.valueOf(segment));
-            }
-        }
-        var pathString = joiner.toString();
-        return pathString.isEmpty() ? "" : "<p><strong>Path:</strong> " + pathString + "</p>";
     }
 }

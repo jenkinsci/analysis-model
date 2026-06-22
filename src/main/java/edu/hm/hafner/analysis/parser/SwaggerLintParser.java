@@ -6,10 +6,8 @@ import org.json.JSONObject;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
-import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 import java.io.Serial;
-import java.util.StringJoiner;
 
 /**
  * A parser for Swagger Lint (swaggerlint) JSON output.
@@ -38,24 +36,8 @@ public class SwaggerLintParser extends JsonIssueParser {
     private Issue convertToIssue(final JSONObject jsonIssue, final IssueBuilder issueBuilder) {
         issueBuilder.setType(jsonIssue.optString(NAME, "-"))
                 .setMessage(jsonIssue.optString(MSG, ""))
-                .setDescription(buildLocationDescription(jsonIssue.optJSONArray(LOCATION)));
+                .setDescription(buildJsonArrayDescription(jsonIssue.optJSONArray(LOCATION), "Location"));
 
         return issueBuilder.buildAndClean();
-    }
-
-    private String buildLocationDescription(@CheckForNull final JSONArray location) {
-        if (location == null || location.isEmpty()) {
-            return "";
-        }
-
-        var joiner = new StringJoiner(" &rsaquo; ");
-        for (int i = 0; i < location.length(); i++) {
-            var segment = location.opt(i);
-            if (segment != null && segment != JSONObject.NULL) {
-                joiner.add(String.valueOf(segment));
-            }
-        }
-        var path = joiner.toString();
-        return path.isEmpty() ? "" : "<p><strong>Location:</strong> " + path + "</p>";
     }
 }
