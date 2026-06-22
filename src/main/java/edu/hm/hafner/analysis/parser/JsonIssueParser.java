@@ -123,9 +123,9 @@ public abstract class JsonIssueParser extends IssueParser {
     }
 
     /**
-     * Builds an HTML description from a JSON array of path segments, joined with {@code &rsaquo;} separators and
-     * wrapped in a {@code <p>} tag with the given label. Returns an empty string if the array is {@code null}, empty,
-     * or contains only {@code null} values.
+     * Builds an HTML description from a JSON array of path segments, joined with right angle quotation mark separators
+     * and wrapped in a {@code <p>} tag with the given label. Returns an empty string if the array is {@code null},
+     * empty, or contains only {@code null} values.
      *
      * @param array
      *         the JSON array of path segments (may be {@code null})
