@@ -913,6 +913,12 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(6, "ruff", "ruff.json");
     }
 
+    /** Runs the Black parser on an output file that contains 5 issues. */
+    @Test
+    void shouldFindAllBlackIssues() {
+        findIssuesOfTool(5, "black", "black-report.txt");
+    }
+
     /** Runs the MarkdownLint parser on an output file that contains 4 issues. */
     @Test
     void shouldFindAllMarkdownLintIssues() {

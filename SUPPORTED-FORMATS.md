@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2026-06-18T10:19:13.184431900 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2026-06-22T15:05:48.208443219 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -243,6 +243,27 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
             </td>
             <td>
                 -
+            </td>
+        </tr>
+        <tr>
+            <td>
+                black
+            </td>
+            <td>
+                <img src="https://raw.githubusercontent.com/psf/black/main/docs/_static/logo2-readme.png" alt="Black" height="64" width="64">
+            </td>
+            <td>
+                <a href="https://github.com/psf/black">
+                    Black
+                </a>
+            </td>
+            <td>
+                **/black-report.txt
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Use commandline <code>black --check. 2&gt;&amp;1 | tee black-report.txt</code> to capture output.<br/>See <a href='https://black.readthedocs.io/'>Black documentation</a> for usage details.
             </td>
         </tr>
         <tr>
@@ -1266,6 +1287,27 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
             </td>
             <td>
                 -
+            </td>
+        </tr>
+        <tr>
+            <td>
+                gradle-lint
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                <a href="https://github.com/nebula-plugins/gradle-lint-plugin">
+                    Gradle Lint
+                </a>
+            </td>
+            <td>
+                **/gradle-lint-report.json
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Configure <code>gradleLint { reportFormat = 'json' }</code> in your <code>build.gradle</code> and run <code>./gradlew generateGradleLintReport</code> to generate a JSON report.<br/>See <a href='https://github.com/nebula-plugins/gradle-lint-plugin'>Gradle Lint Plugin</a> for usage details.
             </td>
         </tr>
         <tr>

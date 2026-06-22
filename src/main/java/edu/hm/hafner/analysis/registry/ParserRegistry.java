@@ -44,6 +44,7 @@ public class ParserRegistry {
             new AquaScannerDescriptor(),
             new ArmccCompilerDescriptor(),
             new BanditDescriptor(),
+            new BlackDescriptor(),
             new BluePearlDescriptor(),
             new BrakemanDescriptor(),
             new BuckminsterDescriptor(),

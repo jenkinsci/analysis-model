@@ -78,6 +78,10 @@ class ParserRegistryTest extends ResourceTest {
                 .hasId("swagger-lint")
                 .hasName("Swagger Lint")
                 .hasType(IssueType.WARNING);
+        assertThat(parserRegistry.get("black"))
+                .hasId("black")
+                .hasName("Black")
+                .hasType(IssueType.WARNING);
         assertThat(parserRegistry.contains(SPOTBUGS)).isTrue();
         assertThat(parserRegistry.contains("nothing")).isFalse();
         List<ParserDescriptor> descriptors = parserRegistry.getAllDescriptors();

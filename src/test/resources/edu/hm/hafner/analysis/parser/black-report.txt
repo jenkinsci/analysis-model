@@ -1,0 +1,8 @@
+error: cannot format src/main.py: Cannot parse: 5:1: invalid syntax
+error: cannot format tests/test_utils.py: Cannot parse: 12:5: expected an indented block after function definition on line 11
+would reformat src/utils.py
+would reformat src/models.py
+reformatted src/config.py
+Oh no!
+💥 💔 💥
+2 files would be reformatted, 1 file would be left unchanged, 2 files would fail to reformat.
