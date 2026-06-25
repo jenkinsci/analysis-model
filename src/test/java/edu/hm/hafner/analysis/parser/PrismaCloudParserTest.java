@@ -21,6 +21,11 @@ import static edu.hm.hafner.analysis.assertions.Assertions.*;
  * @author Akash Manna
  */
 class PrismaCloudParserTest extends AbstractParserTest {
+    private static final String MYAPP_LATEST = "myapp:latest";
+    private static final String CATEGORY_VULNERABILITY = "Vulnerability";
+    private static final String CATEGORY_COMPLIANCE = "Compliance";
+    private static final String VALUE_NOT_SET = "-";
+
     PrismaCloudParserTest() {
         super("prisma-cloud-report.json");
     }
@@ -31,13 +36,13 @@ class PrismaCloudParserTest extends AbstractParserTest {
 
         // First vulnerability: Log4Shell (critical)
         softly.assertThat(report.get(0))
-                .hasFileName("myapp:latest")
+                .hasFileName(MYAPP_LATEST)
                 .hasType("CVE-2021-44228")
                 .hasMessage("Apache Log4j2 2.0-beta9 through 2.14.1 JNDI features do not protect against attacker"
                         + " controlled LDAP and other JNDI related endpoints.")
                 .hasSeverity(Severity.ERROR)
                 .hasPackageName("log4j-core@2.14.1")
-                .hasCategory("Vulnerability");
+                .hasCategory(CATEGORY_VULNERABILITY);
 
         softly.assertThat(report.get(0).getDescription())
                 .contains("CVE-2021-44228")
@@ -48,13 +53,13 @@ class PrismaCloudParserTest extends AbstractParserTest {
 
         // Second vulnerability: Commons Text (high)
         softly.assertThat(report.get(1))
-                .hasFileName("myapp:latest")
+                .hasFileName(MYAPP_LATEST)
                 .hasType("CVE-2022-42889")
                 .hasMessage("Apache Commons Text performs variable interpolation, allowing properties to be dynamically"
                         + " evaluated and expanded.")
                 .hasSeverity(Severity.WARNING_HIGH)
                 .hasPackageName("commons-text@1.9")
-                .hasCategory("Vulnerability");
+                .hasCategory(CATEGORY_VULNERABILITY);
 
         softly.assertThat(report.get(1).getDescription())
                 .contains("CVE-2022-42889")
@@ -64,22 +69,22 @@ class PrismaCloudParserTest extends AbstractParserTest {
 
         // Third vulnerability: Spring (medium)
         softly.assertThat(report.get(2))
-                .hasFileName("myapp:latest")
+                .hasFileName(MYAPP_LATEST)
                 .hasType("CVE-2023-20860")
                 .hasMessage("Spring Framework running version 6.0.0 - 6.0.6 or 5.3.0 - 5.3.25 using \"**\""
                         + " as a pattern in Spring Security configuration with the mvcRequestMatcher creates a mismatch"
                         + " in pattern matching.")
                 .hasSeverity(Severity.WARNING_NORMAL)
                 .hasPackageName("spring-core@5.3.24")
-                .hasCategory("Vulnerability");
+                .hasCategory(CATEGORY_VULNERABILITY);
 
         // First compliance: high severity
         softly.assertThat(report.get(3))
-                .hasFileName("myapp:latest")
+                .hasFileName(MYAPP_LATEST)
                 .hasType("41")
                 .hasMessage("Do not use update instructions alone in the Dockerfile")
                 .hasSeverity(Severity.WARNING_HIGH)
-                .hasCategory("Compliance");
+                .hasCategory(CATEGORY_COMPLIANCE);
 
         softly.assertThat(report.get(3).getDescription())
                 .contains("Adding the update instructions in a single line on the Dockerfile will cache the update layer.")
@@ -87,11 +92,11 @@ class PrismaCloudParserTest extends AbstractParserTest {
 
         // Second compliance: medium severity
         softly.assertThat(report.get(4))
-                .hasFileName("myapp:latest")
+                .hasFileName(MYAPP_LATEST)
                 .hasType("422")
                 .hasMessage("Ensure that HEALTHCHECK instructions have been added to container images")
                 .hasSeverity(Severity.WARNING_NORMAL)
-                .hasCategory("Compliance");
+                .hasCategory(CATEGORY_COMPLIANCE);
     }
 
     @Override
@@ -133,7 +138,7 @@ class PrismaCloudParserTest extends AbstractParserTest {
                 .hasType("CVE-2023-38545")
                 .hasSeverity(Severity.ERROR)
                 .hasPackageName("curl@7.74.0-1.3+deb11u7")
-                .hasCategory("Vulnerability");
+                .hasCategory(CATEGORY_VULNERABILITY);
     }
 
     @Test
@@ -207,11 +212,11 @@ class PrismaCloudParserTest extends AbstractParserTest {
 
         assertThat(report).hasSize(1);
         assertThat(report.get(0))
-                .hasType("-")
-                .hasMessage("-")
+                .hasType(VALUE_NOT_SET)
+                .hasMessage(VALUE_NOT_SET)
                 .hasSeverity(Severity.WARNING_HIGH)
-                .hasFileName("-")
-                .hasCategory("Vulnerability");
+                .hasFileName(VALUE_NOT_SET)
+                .hasCategory(CATEGORY_VULNERABILITY);
     }
 
     @Test
@@ -235,10 +240,10 @@ class PrismaCloudParserTest extends AbstractParserTest {
         assertThat(report).hasSize(1);
         assertThat(report.get(0))
                 .hasType("0")
-                .hasMessage("-")
+                .hasMessage(VALUE_NOT_SET)
                 .hasSeverity(Severity.WARNING_LOW)
-                .hasFileName("-")
-                .hasCategory("Compliance");
+                .hasFileName(VALUE_NOT_SET)
+                .hasCategory(CATEGORY_COMPLIANCE);
     }
 
     @Test
@@ -476,7 +481,7 @@ class PrismaCloudParserTest extends AbstractParserTest {
                 .hasType("599")
                 .hasMessage("Ensure no root user exists")
                 .hasSeverity(Severity.WARNING_HIGH)
-                .hasCategory("Compliance");
+                .hasCategory(CATEGORY_COMPLIANCE);
 
         assertThat(report.get(0).getDescription())
                 .contains("Processes should not run as root.")
