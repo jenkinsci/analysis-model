@@ -11,7 +11,6 @@ import java.io.Serial;
 import java.util.ArrayList;
 
 import j2html.tags.DomContent;
-import j2html.tags.Text;
 import j2html.tags.UnescapedText;
 
 import static j2html.TagCreator.*;
