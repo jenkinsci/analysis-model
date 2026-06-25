@@ -1,0 +1,103 @@
+[
+  {
+    "entityInfo": {
+      "type": "image",
+      "id": "sha256:abc123",
+      "name": "myapp:latest",
+      "distro": "Ubuntu 20.04.6 LTS"
+    },
+    "results": [
+      {
+        "vulnerabilities": [
+          {
+            "id": "CVE-2021-44228",
+            "status": "affected",
+            "cvss": 10.0,
+            "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H",
+            "description": "Apache Log4j2 2.0-beta9 through 2.14.1 JNDI features do not protect against attacker controlled LDAP and other JNDI related endpoints.",
+            "severity": "critical",
+            "packageName": "log4j-core",
+            "packageVersion": "2.14.1",
+            "link": "https://nvd.nist.gov/vuln/detail/CVE-2021-44228",
+            "riskFactors": [
+              "Attack complexity: low",
+              "Attack vector: network",
+              "Critical severity",
+              "Has fix",
+              "Remote execution"
+            ],
+            "impactedVersions": [
+              ">=2.0-beta9 <=2.14.1"
+            ],
+            "publishedDate": "2021-12-10T10:15:00Z",
+            "fixDate": "2021-12-10T10:15:00Z",
+            "gracePeriodExpired": false
+          },
+          {
+            "id": "CVE-2022-42889",
+            "status": "affected",
+            "cvss": 9.8,
+            "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+            "description": "Apache Commons Text performs variable interpolation, allowing properties to be dynamically evaluated and expanded.",
+            "severity": "high",
+            "packageName": "commons-text",
+            "packageVersion": "1.9",
+            "link": "https://nvd.nist.gov/vuln/detail/CVE-2022-42889",
+            "riskFactors": [
+              "Attack complexity: low",
+              "Attack vector: network",
+              "Has fix",
+              "High severity",
+              "Remote execution"
+            ],
+            "impactedVersions": [
+              ">=1.5 <1.10.0"
+            ],
+            "publishedDate": "2022-10-13T13:15:00Z",
+            "fixDate": "2022-10-13T13:15:00Z",
+            "gracePeriodExpired": false
+          },
+          {
+            "id": "CVE-2023-20860",
+            "status": "affected",
+            "cvss": 7.5,
+            "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+            "description": "Spring Framework running version 6.0.0 - 6.0.6 or 5.3.0 - 5.3.25 using \"**\" as a pattern in Spring Security configuration with the mvcRequestMatcher creates a mismatch in pattern matching.",
+            "severity": "medium",
+            "packageName": "spring-core",
+            "packageVersion": "5.3.24",
+            "link": "https://nvd.nist.gov/vuln/detail/CVE-2023-20860",
+            "riskFactors": [
+              "Attack complexity: low",
+              "Attack vector: network",
+              "Has fix",
+              "Medium severity"
+            ],
+            "impactedVersions": [
+              ">=5.3.0 <=5.3.25"
+            ],
+            "publishedDate": "2023-03-23T10:15:00Z",
+            "fixDate": "2023-03-23T10:15:00Z",
+            "gracePeriodExpired": false
+          }
+        ],
+        "compliances": [
+          {
+            "id": 41,
+            "title": "Do not use update instructions alone in the Dockerfile",
+            "severity": "high",
+            "description": "Adding the update instructions in a single line on the Dockerfile will cache the update layer.",
+            "cause": "Image contains: (13) files with vulnerable setuid/setgid permissions"
+          },
+          {
+            "id": 422,
+            "title": "Ensure that HEALTHCHECK instructions have been added to container images",
+            "severity": "medium",
+            "description": "Add HEALTHCHECK instruction in your Docker container images to perform health checks.",
+            "cause": ""
+          }
+        ]
+      }
+    ]
+  }
+]
