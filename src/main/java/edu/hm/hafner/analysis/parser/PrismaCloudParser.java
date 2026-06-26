@@ -64,12 +64,12 @@ public class PrismaCloudParser extends JsonIssueParser {
     }
 
     private void parseScanResult(final Report report, final JSONObject scanResult, final IssueBuilder issueBuilder) {
-        var imageName = extractImageName(scanResult);
         var results = scanResult.optJSONArray(RESULTS_KEY);
         if (results == null) {
             return;
         }
 
+        var imageName = extractImageName(scanResult);
         for (int i = 0; i < results.length(); i++) {
             var result = results.optJSONObject(i);
             if (result != null) {
