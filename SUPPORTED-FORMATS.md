@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2026-06-22T15:05:48.208443219 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2026-06-26T20:22:15.509887904 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -1962,6 +1962,27 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
         </tr>
         <tr>
             <td>
+                openapi-validator
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                <a href="https://github.com/IBM/openapi-validator">
+                    OpenAPI Validator
+                </a>
+            </td>
+            <td>
+                **/openapi-validator-report.json
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Use commandline <code>lint-openapi --json your-api.yaml &gt; openapi-validator-report.json</code> to generate JSON output.<br/>See <a href='https://github.com/IBM/openapi-validator'>IBM OpenAPI Validator on GitHub</a> for usage details.
+            </td>
+        </tr>
+        <tr>
+            <td>
                 openscap
             </td>
             <td>
@@ -2234,6 +2255,27 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
         <tr>
             <td colspan="4">
                 :bulb: Reads reports of Polyspace Static Analysis Tool by MathWorks. Used for <a href='https://www.mathworks.com/help/bugfinder/ref/polyspaceresultsexport.html?s_tid=srchtitle_polyspace-results-export_1'>BugFinder</a> and  <a href='https://www.mathworks.com/help/codeprover/ref/polyspaceresultsexport.html?s_tid=srchtitle_polyspace-results-export_2'>CodeProver</a> result files.<br/>Report can be generated with command: polyspace-results-export -format csv -results-dir <RESULTS> -output-name <CSVFILE> -key <KEY>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                prisma-cloud
+            </td>
+            <td>
+                <img src="https://github.com/PaloAltoNetworks/prisma-cloud-docs/blob/master/docs/api/cdn/prisma-cloud-logo.png?raw=true" alt="Prisma Cloud" height="64" width="64">
+            </td>
+            <td>
+                <a href="https://www.paloaltonetworks.com/prisma/cloud">
+                    Prisma Cloud
+                </a>
+            </td>
+            <td>
+                **/prisma-cloud-report.json
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Use commandline <code>twistcli images scan --output-file prisma-cloud-report.json &lt;IMAGE&gt;</code> to generate JSON output.<br/>See <a href='https://docs.prismacloud.io/en/enterprise-edition/content-collections/runtime-security/tools/twistcli-scan-images'>twistcli documentation</a> for usage details.
             </td>
         </tr>
         <tr>
