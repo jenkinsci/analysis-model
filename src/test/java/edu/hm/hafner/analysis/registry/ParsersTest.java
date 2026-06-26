@@ -1057,6 +1057,12 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(3, "snyk", "snyk-report.json");
     }
 
+    /** Runs the Prisma Cloud parser on an output file that contains 5 issues (3 vulnerabilities + 2 compliances). */
+    @Test
+    void shouldFindAllPrismaCloudIssues() {
+        findIssuesOfTool(5, "prisma-cloud", "prisma-cloud-report.json");
+    }
+
     /** Runs the SQLFluff parser on an output file that contains 4 issues. */
     @Test
     void shouldFindAllSqlFluffIssues() {

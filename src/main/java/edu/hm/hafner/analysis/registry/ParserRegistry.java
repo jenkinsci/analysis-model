@@ -166,6 +166,7 @@ public class ParserRegistry {
             new PmdDescriptor(),
             new PnpmAuditDescriptor(),
             new PolyspaceDescriptor(),
+            new PrismaCloudDescriptor(),
             new PreFastDescriptor(),
             new ProtoLintDescriptor(),
             new PuppetLintDescriptor(),

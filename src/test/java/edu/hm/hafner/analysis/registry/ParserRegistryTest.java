@@ -24,7 +24,7 @@ class ParserRegistryTest extends ResourceTest {
     // please check if you are using the correct type and increment the corresponding count
     private static final long WARNING_PARSERS_COUNT = 158L;
     private static final long BUG_PARSERS_COUNT = 3L;
-    private static final long VULNERABILITY_PARSERS_COUNT = 21L;
+    private static final long VULNERABILITY_PARSERS_COUNT = 22L;
     private static final long DUPLICATION_PARSERS_COUNT = 3L;
 
     private static final String SPOTBUGS = "spotbugs";
@@ -73,6 +73,10 @@ class ParserRegistryTest extends ResourceTest {
                 .hasType(IssueType.VULNERABILITY);
         assertThat(parserRegistry.get("owasp-dependency-check"))
                 .hasName("OWASP Dependency Check")
+                .hasType(IssueType.VULNERABILITY);
+        assertThat(parserRegistry.get("prisma-cloud"))
+                .hasId("prisma-cloud")
+                .hasName("Prisma Cloud")
                 .hasType(IssueType.VULNERABILITY);
         assertThat(parserRegistry.get("swagger-lint"))
                 .hasId("swagger-lint")
