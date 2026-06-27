@@ -42,9 +42,4 @@ class CookstyleDescriptor extends ParserDescriptor {
     public String getUrl() {
         return "https://github.com/chef/cookstyle";
     }
-
-    @Override
-    public String getIconUrl() {
-        return "https://raw.githubusercontent.com/chef/chef-oss-practices/main/members/images/chef-logo.png";
-    }
 }
