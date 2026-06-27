@@ -2,12 +2,15 @@ package edu.hm.hafner.analysis.parser;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.apache.commons.lang3.StringUtils;
 
+import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 
 import java.io.Serial;
+import java.util.Locale;
 
 /**
  * A parser for Cookstyle (Chef's RuboCop-based linter) JSON reports.
@@ -57,7 +60,7 @@ public class CookstyleParser extends JsonIssueParser {
         }
     }
 
-    private edu.hm.hafner.analysis.Issue convertToIssue(final JSONObject offense, final String filePath,
+    private Issue convertToIssue(final JSONObject offense, final String filePath,
             final IssueBuilder issueBuilder) {
         issueBuilder.setFileName(filePath)
                 .setMessage(offense.optString(MESSAGE_TAG, "-"))
@@ -93,7 +96,7 @@ public class CookstyleParser extends JsonIssueParser {
      * @return the mapped {@link Severity}
      */
     static Severity mapSeverity(final String severity) {
-        return switch (severity.toLowerCase()) {
+        return switch (StringUtils.lowerCase(severity, Locale.ENGLISH)) {
             case "fatal", "error" -> Severity.ERROR;
             case "warning" -> Severity.WARNING_HIGH;
             case "convention", "refactor" -> Severity.WARNING_NORMAL;
