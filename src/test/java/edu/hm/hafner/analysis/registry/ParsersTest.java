@@ -1057,6 +1057,12 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(3, "snyk", "snyk-report.json");
     }
 
+    /** Runs the Salt Lint parser on an output file that contains 5 issues. */
+    @Test
+    void shouldFindAllSaltLintIssues() {
+        findIssuesOfTool(5, "salt-lint", "salt-lint-report.json");
+    }
+
     /** Runs the Prisma Cloud parser on an output file that contains 5 issues (3 vulnerabilities + 2 compliances). */
     @Test
     void shouldFindAllPrismaCloudIssues() {

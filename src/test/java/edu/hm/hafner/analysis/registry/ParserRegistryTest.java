@@ -22,7 +22,7 @@ import static edu.hm.hafner.analysis.assertions.Assertions.*;
 class ParserRegistryTest extends ResourceTest {
     // Note for parser developers: if you add a new parser,
     // please check if you are using the correct type and increment the corresponding count
-    private static final long WARNING_PARSERS_COUNT = 158L;
+    private static final long WARNING_PARSERS_COUNT = 159L;
     private static final long BUG_PARSERS_COUNT = 3L;
     private static final long VULNERABILITY_PARSERS_COUNT = 22L;
     private static final long DUPLICATION_PARSERS_COUNT = 3L;
@@ -85,6 +85,10 @@ class ParserRegistryTest extends ResourceTest {
         assertThat(parserRegistry.get("black"))
                 .hasId("black")
                 .hasName("Black")
+                .hasType(IssueType.WARNING);
+        assertThat(parserRegistry.get("salt-lint"))
+                .hasId("salt-lint")
+                .hasName("Salt Lint")
                 .hasType(IssueType.WARNING);
         assertThat(parserRegistry.contains(SPOTBUGS)).isTrue();
         assertThat(parserRegistry.contains("nothing")).isFalse();
