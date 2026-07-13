@@ -152,6 +152,89 @@ class IssueDifferenceTest extends ResourceTest {
         assertThat(issueDifference.getOutstandingIssues()).hasSize(1);
     }
 
+    @Test
+    @org.junitpioneer.jupiter.Issue("JENKINS-61383")
+    void shouldMatchClosestLineWhenMultipleIssuesShareSameFingerprint() {
+        var sharedFingerprint = "SAME-FP";
+
+        var referenceIssues = new Report().addAll(
+                createIssueAtLine("WARNING", sharedFingerprint, 10),
+                createIssueAtLine("WARNING", sharedFingerprint, 11),
+                createIssueAtLine("WARNING", sharedFingerprint, 12),
+                createIssueAtLine("WARNING", sharedFingerprint, 13),
+                createIssueAtLine("WARNING", sharedFingerprint, 14));
+
+        var currentIssues = new Report().addAll(
+                createIssueAtLine("WARNING", sharedFingerprint, 11),
+                createIssueAtLine("WARNING", sharedFingerprint, 12),
+                createIssueAtLine("WARNING", sharedFingerprint, 13),
+                createIssueAtLine("WARNING", sharedFingerprint, 14),
+                createIssueAtLine("WARNING", sharedFingerprint, 15));
+
+        var issueDifference = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues);
+
+        assertThat(issueDifference.getNewIssues())
+                .as("No issue should be marked new after a simple line shift")
+                .isEmpty();
+        assertThat(issueDifference.getOutstandingIssues())
+                .as("All issues should remain outstanding after a line shift")
+                .hasSize(5);
+        assertThat(issueDifference.getFixedIssues())
+                .as("No issue should be marked fixed after a simple line shift")
+                .isEmpty();
+    }
+
+    @Test
+    @org.junitpioneer.jupiter.Issue("JENKINS-61383")
+    void shouldStillDetectTrulyNewIssueAmongIdenticalAdjacentWarnings() {
+        var sharedFingerprint = "SAME-FP";
+
+        var referenceIssues = new Report().addAll(
+                createIssueAtLine("WARNING", sharedFingerprint, 10),
+                createIssueAtLine("WARNING", sharedFingerprint, 11),
+                createIssueAtLine("WARNING", sharedFingerprint, 12));
+
+        var currentIssues = new Report().addAll(
+                createIssueAtLine("WARNING", sharedFingerprint, 11),
+                createIssueAtLine("WARNING", sharedFingerprint, 12),
+                createIssueAtLine("WARNING", sharedFingerprint, 13),
+                createIssueAtLine("NEW WARNING", "DIFFERENT-FP", 100));
+
+        var issueDifference = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues);
+
+        assertThat(issueDifference.getOutstandingIssues())
+                .as("The 3 shifted issues should all be outstanding")
+                .hasSize(3);
+        assertThat(issueDifference.getNewIssues())
+                .as("Only the genuinely new issue should be marked new")
+                .hasSize(1);
+        assertThat(issueDifference.getNewIssues().get(0))
+                .hasMessage("NEW WARNING")
+                .hasReference(CURRENT_BUILD);
+        assertThat(issueDifference.getFixedIssues()).isEmpty();
+    }
+
+    private Issue createIssueAtLine(final String message, final String fingerprint, final int line) {
+        try (var builder = new IssueBuilder()) {
+            builder.setFileName("file-name")
+                    .setLineStart(line)
+                    .setLineEnd(line)
+                    .setColumnStart(1)
+                    .setColumnEnd(1)
+                    .setCategory("category")
+                    .setType("type")
+                    .setPackageName("package-name")
+                    .setModuleName("module-name")
+                    .setSeverity(Severity.WARNING_HIGH)
+                    .setMessage(message)
+                    .setDescription("description")
+                    .setOrigin("origin")
+                    .setFingerprint(fingerprint)
+                    .setReference(REFERENCE_BUILD);
+            return builder.build();
+        }
+    }
+
     private Issue createIssue(final String message, final String fingerprint) {
         return createIssue(message, fingerprint, "file-name");
     }
