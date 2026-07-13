@@ -20,6 +20,7 @@ import java.util.regex.Pattern;
  *
  * @author Ullrich Hafner
  */
+@SuppressWarnings("PMD.GodClass")
 public class MsBuildParser extends LookaheadParser {
     @Serial
     private static final long serialVersionUID = -2141974437420906595L;
