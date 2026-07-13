@@ -82,12 +82,21 @@ public class MsBuildParser extends LookaheadParser {
             + "))$";
 
     /**
-     * Pattern to identify bare tool names that should be ignored (without path separators).
-     * Only matches tool names when they appear alone, not as part of a path.
+     * Pattern to identify bare MSBuild task names (e.g. EXEC, NMAKE, CSC) that appear as the
+     * "filename" in a diagnostic line. Warnings from these sources should be reported, but with
+     * the file name set to {@code "-"} because no source file is involved.
      */
-    private static final Pattern TOOL_NAME_PATTERN = Pattern.compile(
-            "^(?:EXEC|NMAKE|LINK|MSBUILD|CSC|MSBuild|link|nmake|msbuild|cl|rs)$|"
-            + "^[^/\\\\]*\\.exe$|"
+    private static final Pattern BARE_TASK_NAME_PATTERN = Pattern.compile(
+            "^(?:EXEC|NMAKE|LINK|MSBUILD|CSC|MSBuild|link|nmake|msbuild|cl|rs)$",
+            Pattern.CASE_INSENSITIVE);
+
+    /**
+     * Pattern to identify names that should cause the entire diagnostic to be dropped:
+     * actual executable file names (e.g. {@code ConsoleTranslator.exe}) and angle-bracket
+     * pseudo-filenames emitted by PC-Lint (e.g. {@code <command line option>}).
+     */
+    private static final Pattern EXECUTABLE_NAME_PATTERN = Pattern.compile(
+            "^[^/\\\\]*\\.exe$|"
             + "^<[^>]+>$",
             Pattern.CASE_INSENSITIVE);
 
@@ -132,14 +141,22 @@ public class MsBuildParser extends LookaheadParser {
             return createDelphiSimpleIssue(matcher, builder);
         }
 
+        var rawFileName = extractFileNameFromGroups(matcher);
+
+        // Ignore executable and pseudo-filenames before path normalization when an explicit filename is present.
+        if (StringUtils.isNotBlank(rawFileName) && isExecutableName(rawFileName)) {
+            return Optional.empty();
+        }
+
         var fileName = determineFileName(matcher);
 
         if (isLinkerParameter(fileName)) {
             fileName = "-";
         }
-        // Skip if this is a tool name (executable or tool without proper source extension)
-        else if (isToolName(fileName)) {
-            return Optional.empty();
+
+        // Normalize bare MSBuild task names (e.g. EXEC, NMAKE, CSC) to "-".
+        else if (isBareTaskName(fileName)) {
+            fileName = "-";
         }
 
         // Check if this is a Delphi warning/hint where the actual file is in the message
@@ -255,25 +272,45 @@ public class MsBuildParser extends LookaheadParser {
     }
 
     /**
-     * Checks if the given fileName is a known tool name that should be ignored.
-     * Tool names include executables (e.g., ConsoleTranslator.exe) and bare tool names (e.g., NMAKE, rs).
-     * This method is conservative and only filters known tool names to avoid false positives.
+     * Checks if the given fileName is an executable or a pseudo-filename (e.g., {@code .exe}
+     * files or {@code <command line option>}) that should cause the diagnostic to be dropped
+     * entirely.
      *
      * @param fileName
      *         the filename to check
      *
-     * @return true if this is a tool name that should be ignored, false otherwise
+     * @return {@code true} if the diagnostic should be silently dropped
      */
-    private boolean isToolName(final String fileName) {
-        if (StringUtils.isBlank(fileName) || "-".equals(fileName) || "unknown.file".equals(fileName)) {
+    private boolean isExecutableName(final String fileName) {
+        if (StringUtils.isBlank(fileName) || "unknown.file".equals(fileName)) {
             return true;
         }
 
         var baseFileName = FilenameUtils.getName(fileName).trim();
-
         baseFileName = baseFileName.replaceAll("^\\d{1,2}:\\d{2}:\\d{2}\\s+", "");
 
-        return TOOL_NAME_PATTERN.matcher(baseFileName).matches();
+        return EXECUTABLE_NAME_PATTERN.matcher(baseFileName).matches();
+    }
+
+    /**
+     * Checks if the given fileName is a bare MSBuild task name (e.g., {@code EXEC}, {@code NMAKE},
+     * {@code CSC}). Warnings from these sources are valid diagnostics, but have no associated source
+     * file; the file name should be set to {@code "-"}.
+     *
+     * @param fileName
+     *         the filename to check
+     *
+     * @return {@code true} if the file name should be replaced with {@code "-"}
+     */
+    private boolean isBareTaskName(final String fileName) {
+        if (StringUtils.isBlank(fileName) || "-".equals(fileName)) {
+            return false;
+        }
+
+        var baseFileName = FilenameUtils.getName(fileName).trim();
+        baseFileName = baseFileName.replaceAll("^\\d{1,2}:\\d{2}:\\d{2}\\s+", "");
+
+        return BARE_TASK_NAME_PATTERN.matcher(baseFileName).matches();
     }
 
     /**
