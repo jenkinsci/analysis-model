@@ -1015,6 +1015,12 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(4, "tflint", "tflint.json");
     }
 
+    /** Runs the Cookstyle parser on an output file that contains 4 issues. */
+    @Test
+    void shouldFindAllCookstyleIssues() {
+        findIssuesOfTool(4, "cookstyle", "cookstyle-report.json");
+    }
+
     /** Runs the tfsec parser on an output file that contains 3 issues. */
     @Test
     void shouldFindAllTfsecIssues() {

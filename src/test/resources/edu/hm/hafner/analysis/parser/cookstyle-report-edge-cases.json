@@ -1,0 +1,37 @@
+{
+  "metadata": {
+    "rubocop_version": "1.50.2",
+    "ruby_engine": "ruby",
+    "ruby_version": "3.1.4",
+    "ruby_patchlevel": "223",
+    "ruby_platform": "x86_64-linux"
+  },
+  "files": [
+    {
+      "path": "recipes/configure.rb",
+      "offenses": [
+        {
+          "severity": "info",
+          "message": "Use ChefSpec::SoloRunner instead of ChefSpec::ServerRunner.",
+          "cop_name": "Chef/Effortless/ChefVaultUsed",
+          "corrected": true,
+          "correctable": true,
+          "location": {
+            "start_line": 10,
+            "start_column": 5,
+            "last_line": 10,
+            "last_column": 50,
+            "length": 46,
+            "line": 10,
+            "column": 5
+          }
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "offense_count": 1,
+    "target_file_count": 1,
+    "inspected_file_count": 1
+  }
+}
