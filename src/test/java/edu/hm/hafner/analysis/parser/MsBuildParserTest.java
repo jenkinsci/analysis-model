@@ -50,24 +50,33 @@ class MsBuildParserTest extends AbstractParserTest {
     }
 
     /**
-     * Parse a file with false positive message.
+     * Parses a file with false positive message.
      *
      * @see <a href="https://issues.jenkins.io/browse/JENKINS-56613">Issue 56613</a>
      */
     @Test
     void issue56613() {
-        assertThat(parse("issue56613.txt")).isEmpty();
+        var warnings = parse("issue56613.txt");
+        assertThat(warnings).isNotEmpty();
+        for (var issue : warnings) {
+            assertThat(issue).hasFileName("-");
+        }
     }
 
     /**
-     * Extended test for issue 56613 - ensures tool names are properly ignored.
-     * Tests that executables (.exe) and tool names without extensions (NMAKE, rs, cl) are skipped.
+     * Extended test for issue 56613 - ensures tool names are properly handled.
+     * Executables (.exe) are still dropped; bare task names (NMAKE, rs, cl, CSC, MSBuild)
+     * now produce issues with fileName="-".
      *
      * @see <a href="https://issues.jenkins.io/browse/JENKINS-56613">Issue 56613</a>
      */
     @Test
     void issue56613Extended() {
-        assertThat(parse("issue56613-extended.txt")).isEmpty();
+        var warnings = parse("issue56613-extended.txt");
+        assertThat(warnings).isNotEmpty();
+        for (var issue : warnings) {
+            assertThat(issue).hasFileName("-");
+        }
     }
 
     /**
@@ -349,6 +358,7 @@ class MsBuildParserTest extends AbstractParserTest {
 
     /**
      * Parses a file with  warnings of a Visual Studio analysis.
+     * MSBUILD task-level warnings (e.g. CA2210) are now kept with fileName="-".
      *
      * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-20154">Issue 20154</a>
      */
@@ -356,11 +366,24 @@ class MsBuildParserTest extends AbstractParserTest {
     void issue20154() {
         var warnings = parse("issue20154.txt");
 
-        assertThat(warnings).hasSize(2).hasDuplicatesSize(2);
-        assertThatReportHasSeverities(warnings, 0, 0, 2, 0);
+        assertThat(warnings).hasSize(3).hasDuplicatesSize(5);
+        assertThatReportHasSeverities(warnings, 0, 0, 3, 0);
 
         try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
+                    .hasFileName("-")
+                    .hasCategory("CA2210")
+                    .hasType("Microsoft.Design")
+                    .hasSeverity(Severity.WARNING_NORMAL)
+                    .hasMessage("Sign 'SampleCodeAnalysis.exe' with a strong name key.")
+                    .hasDescription("")
+                    .hasPackageName("-")
+                    .hasLineStart(0)
+                    .hasLineEnd(0)
+                    .hasColumnStart(0)
+                    .hasColumnEnd(0);
+
+            softly.assertThat(warnings.get(1))
                     .hasFileName("I:/devel/projects/SampleCodeAnalysis/SampleCodeAnalysis/Program.cs")
                     .hasCategory("CA1801")
                     .hasType("Microsoft.Usage")
@@ -374,7 +397,7 @@ class MsBuildParserTest extends AbstractParserTest {
                     .hasColumnStart(0)
                     .hasColumnEnd(0);
 
-            softly.assertThat(warnings.get(1))
+            softly.assertThat(warnings.get(2))
                     .hasFileName("I:/devel/projects/SampleCodeAnalysis/SampleCodeAnalysis/Program.cs")
                     .hasCategory("CA1801")
                     .hasType("Microsoft.Usage")
@@ -1207,6 +1230,52 @@ class MsBuildParserTest extends AbstractParserTest {
                 .hasMessage("Example warning text")
                 .hasLineStart(26)
                 .hasColumnStart(57);
+    }
+
+    /**
+     * MSBuildParser should not drop warnings from bare MSBuild task names like EXEC, NMAKE, CSC.
+     * These warnings (e.g. NuGet vulnerability warnings) should be reported with fileName="-".
+     *
+     * @see <a href="https://github.com/jenkinsci/analysis-model/issues/1512">Issue 1512</a>
+     */
+    @Test
+    void issue1512() {
+        var warnings = parse("issue1512.txt");
+
+        assertThat(warnings).hasSize(3);
+        assertThatReportHasSeverities(warnings, 0, 0, 3, 0);
+
+        try (var softly = new SoftAssertions()) {
+            softly.assertThat(warnings.get(0))
+                    .hasFileName("-")
+                    .hasCategory("NU1902")
+                    .hasSeverity(Severity.WARNING_NORMAL)
+                    .hasMessage("Package 'Microsoft.IdentityModel.JsonWebTokens' 6.11.1 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-59j7-ghrg-fj52")
+                    .hasLineStart(0)
+                    .hasLineEnd(0)
+                    .hasColumnStart(0)
+                    .hasColumnEnd(0);
+
+            softly.assertThat(warnings.get(1))
+                    .hasFileName("-")
+                    .hasCategory("NU1903")
+                    .hasSeverity(Severity.WARNING_NORMAL)
+                    .hasMessage("Package 'Microsoft.Owin' 4.2.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-3rq8-h3gj-r5c6")
+                    .hasLineStart(0)
+                    .hasLineEnd(0)
+                    .hasColumnStart(0)
+                    .hasColumnEnd(0);
+
+            softly.assertThat(warnings.get(2))
+                    .hasFileName("-")
+                    .hasCategory("NU1902")
+                    .hasSeverity(Severity.WARNING_NORMAL)
+                    .hasMessage("Package 'System.IdentityModel.Tokens.Jwt' 6.11.1 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-59j7-ghrg-fj52")
+                    .hasLineStart(0)
+                    .hasLineEnd(0)
+                    .hasColumnStart(0)
+                    .hasColumnEnd(0);
+        }
     }
 
     @Override
