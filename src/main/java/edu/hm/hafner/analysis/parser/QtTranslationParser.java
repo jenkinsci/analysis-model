@@ -44,7 +44,7 @@ public class QtTranslationParser extends IssueParser {
                     + "so that \"lupdate\" can find it.";
 
     @Override
-    public Report parseReport(final ReaderFactory readerFactory) throws ParsingException {
+    protected Report parseReport(final ReaderFactory readerFactory) throws ParsingException {
         var report = new Report();
         readerFactory.parse(new QtTranslationSaxParser(report, readerFactory.getFileName()));
         return report;

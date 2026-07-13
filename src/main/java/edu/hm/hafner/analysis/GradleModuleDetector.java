@@ -1,5 +1,10 @@
 package edu.hm.hafner.analysis;
 
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
+
+import edu.hm.hafner.analysis.ModuleDetectorRunner.FileSystemFacade;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.InvalidPathException;
@@ -7,11 +12,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.Pattern;
-
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.StringUtils;
-
-import edu.hm.hafner.analysis.ModuleDetectorRunner.FileSystemFacade;
 
 /**
  * Detects module names by parsing gradle source files.
@@ -39,7 +39,7 @@ class GradleModuleDetector extends AbstractModuleDetector {
     }
 
     @Override
-    public void collectProjects(final Map<String, String> mapping, final List<String> projects) {
+    void collectProjects(final Map<String, String> mapping, final List<String> projects) {
         for (String fileName : projects) {
             if (fileName.endsWith(BUILD_GRADLE) || fileName.endsWith(BUILD_GRADLE_KTS)) {
                 addMapping(mapping, fileName, BUILD_GRADLE, parseGradle(fileName));

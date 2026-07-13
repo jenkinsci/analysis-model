@@ -1,7 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-
 import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -14,6 +12,8 @@ import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 
+import java.io.Serial;
+
 /**
  * Parser for Lint.
  *
@@ -25,7 +25,7 @@ public class LintParser extends IssueParser {
     private static final String FILE = "file";
 
     @Override
-    public Report parseReport(final ReaderFactory readerFactory) throws ParsingException {
+    protected Report parseReport(final ReaderFactory readerFactory) throws ParsingException {
         var report = new Report();
         readerFactory.parse(new JsLintXmlSaxParser(report));
         return report;

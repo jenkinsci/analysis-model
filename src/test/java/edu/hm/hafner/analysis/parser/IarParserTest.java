@@ -1,8 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.util.Objects;
-import java.util.stream.Collectors;
-
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.FileReaderFactory;
@@ -10,6 +7,9 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
+
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
@@ -87,7 +87,7 @@ class IarParserTest extends AbstractParserTest {
      */
     @Test
     void issue58159Utf8() {
-        var warnings = createParser().parseReport(
+        var warnings = createParser().parse(
                 new FileReaderFactory(getResourceAsFile("issue58159-2.txt")));
 
         var collect = warnings.stream().map(Objects::toString).collect(Collectors.joining("\n"));

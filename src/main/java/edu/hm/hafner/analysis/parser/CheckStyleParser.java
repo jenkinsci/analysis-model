@@ -48,7 +48,7 @@ public class CheckStyleParser extends IssueParser {
     }
 
     @Override
-    public Report parseReport(final ReaderFactory readerFactory) throws ParsingException {
+    protected Report parseReport(final ReaderFactory readerFactory) throws ParsingException {
         var digester = new SecureDigester(CheckStyleParser.class);
 
         var rootXPath = "checkstyle";

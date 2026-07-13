@@ -1,13 +1,12 @@
 package edu.hm.hafner.analysis.parser.violations;
 
-import java.io.Serial;
-import java.util.stream.Stream;
-
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 
+import java.io.Serial;
+import java.util.stream.Stream;
 import se.bjurr.violations.lib.parsers.JUnitParser;
 
 /**
@@ -34,7 +33,7 @@ public class JUnitAdapter extends AbstractViolationAdapter {
     }
 
     @Override
-    public Report parseReport(final ReaderFactory readerFactory) throws ParsingCanceledException, ParsingException {
+    protected Report parseReport(final ReaderFactory readerFactory) throws ParsingCanceledException, ParsingException {
         var report = super.parseReport(readerFactory);
         int total = count(readerFactory, "<testcase");
         report.setCounter(TOTAL_TESTS, total);

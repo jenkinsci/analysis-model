@@ -35,7 +35,7 @@ public class PmdParser extends IssueParser {
     private static final int PMD_PRIORITY_MAPPED_TO_LOW_PRIORITY = 4;
 
     @Override
-    public Report parseReport(final ReaderFactory readerFactory) throws ParsingException {
+    protected Report parseReport(final ReaderFactory readerFactory) throws ParsingException {
         var issues = parseIssues(readerFactory);
         parseErrors(readerFactory).stream().forEach(issues::add);
         return issues;
