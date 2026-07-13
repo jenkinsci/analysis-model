@@ -1,9 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.util.Optional;
-import java.util.stream.Stream;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -11,6 +7,10 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
+
+import java.io.Serial;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * Parser for logs in JSON format.
@@ -28,7 +28,7 @@ public class JsonLogParser extends JsonBaseParser {
     }
 
     @Override
-    public Report parseReport(final ReaderFactory readerFactory) throws ParsingException {
+    protected Report parseReport(final ReaderFactory readerFactory) throws ParsingException {
         try (Stream<String> lines = readerFactory.readStream()) {
             var report = new Report();
             lines.map(String::trim)

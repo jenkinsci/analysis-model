@@ -6,7 +6,7 @@
   <parent>
     <groupId>edu.hm.hafner</groupId>
     <artifactId>codingstyle-pom</artifactId>
-    <version>6.11.0</version>
+    <version>6.13.0</version>
     <relativePath />
   </parent>
 
@@ -427,6 +427,18 @@
                   <code>java.field.serialVersionUIDUnchanged</code>
                   <classSimpleName>DuplicationGroup</classSimpleName>
                   <justification>We are using the interface which still serialzes correctly.</justification>
+                </item>
+                <item>
+                  <ignore>true</ignore>
+                  <code>java.method.visibilityReduced</code>
+                  <methodName>parseReport</methodName>
+                  <justification>Classes are hidden anyway</justification>
+                </item>
+                <item>
+                  <ignore>true</ignore>
+                  <code>java.class.removed</code>
+                  <classSimpleName>ValeDescriptor</classSimpleName>
+                  <justification>Classes must not be used</justification>
                 </item>
               </differences>
             </revapi.differences>

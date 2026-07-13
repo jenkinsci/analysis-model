@@ -17,7 +17,7 @@ class SimianDescriptor extends DryDescriptor {
     }
 
     @Override
-    public IssueParser create(final Option... options) {
+    protected IssueParser create(final Option... options) {
         return new SimianParser(getHighThreshold(options), getNormalThreshold(options));
     }
 }
