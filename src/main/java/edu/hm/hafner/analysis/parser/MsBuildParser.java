@@ -8,6 +8,7 @@ import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 import java.io.Serial;
 import java.util.Optional;
@@ -84,7 +85,7 @@ public class MsBuildParser extends LookaheadParser {
     /**
      * Pattern to identify bare MSBuild task names (e.g. EXEC, NMAKE, CSC) that appear as the
      * "filename" in a diagnostic line. Warnings from these sources should be reported, but with
-     * the file name set to {@code "-"} because no source file is involved.
+     * the file name set to {@code NO_SOURCE_FILE} because no source file is involved.
      */
     private static final Pattern BARE_TASK_NAME_PATTERN = Pattern.compile(
             "^(?:EXEC|NMAKE|LINK|MSBUILD|CSC|MSBuild|link|nmake|msbuild|cl|rs)$",
@@ -111,6 +112,7 @@ public class MsBuildParser extends LookaheadParser {
     private static final Pattern LINKER_CAUSE = Pattern.compile(".*imported by '([A-Za-z0-9\\-_.]+)'.*");
     private static final String EXPECTED_CATEGORY = "Expected";
     private static final String MSBUILD = "MSBUILD";
+    private static final String NO_SOURCE_FILE = "-";
     private static final Pattern HEADER_COMPILE_MESSAGE = Pattern.compile("\\(compiling source file .*\\)");
 
     // Pattern to extract Delphi file path from message (e.g., "C:\Path\File.pas(123) Warning: ...")
@@ -151,12 +153,12 @@ public class MsBuildParser extends LookaheadParser {
         var fileName = determineFileName(matcher);
 
         if (isLinkerParameter(fileName)) {
-            fileName = "-";
+            fileName = NO_SOURCE_FILE;
         }
 
-        // Normalize bare MSBuild task names (e.g. EXEC, NMAKE, CSC) to "-".
+        // Normalize bare MSBuild task names (e.g. EXEC, NMAKE, CSC) to NO_SOURCE_FILE.
         else if (isBareTaskName(fileName)) {
-            fileName = "-";
+            fileName = NO_SOURCE_FILE;
         }
 
         // Check if this is a Delphi warning/hint where the actual file is in the message
@@ -204,7 +206,7 @@ public class MsBuildParser extends LookaheadParser {
                 .buildOptional();
     }
 
-    private Optional<Issue> createDelphiEmbeddedIssue(final Matcher matcher, final String message,
+    private Optional<Issue> createDelphiEmbeddedIssue(final Matcher matcher, @CheckForNull final String message,
             final IssueBuilder builder) {
         if (message != null) {
             var delphiMatcher = DELPHI_FILE_PATTERN.matcher(message);
@@ -295,15 +297,15 @@ public class MsBuildParser extends LookaheadParser {
     /**
      * Checks if the given fileName is a bare MSBuild task name (e.g., {@code EXEC}, {@code NMAKE},
      * {@code CSC}). Warnings from these sources are valid diagnostics, but have no associated source
-     * file; the file name should be set to {@code "-"}.
+     * file; the file name should be replaced with {@code NO_SOURCE_FILE}.
      *
      * @param fileName
      *         the filename to check
      *
-     * @return {@code true} if the file name should be replaced with {@code "-"}
+     * @return {@code true} if the file name should be replaced with {@code NO_SOURCE_FILE}
      */
     private boolean isBareTaskName(final String fileName) {
-        if (StringUtils.isBlank(fileName) || "-".equals(fileName)) {
+        if (StringUtils.isBlank(fileName) || NO_SOURCE_FILE.equals(fileName)) {
             return false;
         }
 
@@ -340,7 +342,7 @@ public class MsBuildParser extends LookaheadParser {
         return matcher.group(9);
     }
 
-    private String resolveFileName(final String fileName, final Matcher matcher) {
+    private String resolveFileName(@CheckForNull final String fileName, final Matcher matcher) {
         if (StringUtils.isNotBlank(fileName)) {
             return fileName;
         }
@@ -355,17 +357,17 @@ public class MsBuildParser extends LookaheadParser {
         return StringUtils.isNotBlank(extractedFileName) ? extractedFileName : "unknown.file";
     }
 
-    private String normalizeFileName(final String fileName, final String projectDir) {
+    private String normalizeFileName(final String fileName, @CheckForNull final String projectDir) {
         var normalizedFileName = fileName;
 
         if (canResolveRelativeFileName(normalizedFileName, projectDir)) {
             normalizedFileName = FilenameUtils.concat(projectDir, normalizedFileName);
         }
         if (MSBUILD.equals(normalizedFileName.trim())) {
-            return "-";
+            return NO_SOURCE_FILE;
         }
         if (containsInvalidPathCharacters(normalizedFileName)) {
-            return "-";
+            return NO_SOURCE_FILE;
         }
         return normalizedFileName;
     }
@@ -382,7 +384,7 @@ public class MsBuildParser extends LookaheadParser {
         return fileName.contains("*") && !fileName.contains("/") && !fileName.contains("\\");
     }
 
-    private boolean canResolveRelativeFileName(final String fileName, final String projectDir) {
+    private boolean canResolveRelativeFileName(final String fileName, @CheckForNull final String projectDir) {
         return StringUtils.isNotBlank(projectDir) && FilenameUtils.getPrefixLength(fileName) == 0
                 && !MSBUILD.equals(fileName.trim());
     }
