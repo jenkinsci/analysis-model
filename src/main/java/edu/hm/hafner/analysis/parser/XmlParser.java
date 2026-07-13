@@ -73,7 +73,7 @@ public class XmlParser extends IssueParser {
     }
 
     @Override
-    public Report parseReport(final ReaderFactory readerFactory) {
+    protected Report parseReport(final ReaderFactory readerFactory) {
         try (var issueBuilder = new IssueBuilder()) {
             var doc = readerFactory.readDocument();
             var xPathFactory = XPathFactory.newInstance();

@@ -6,7 +6,7 @@
   <parent>
     <groupId>edu.hm.hafner</groupId>
     <artifactId>codingstyle-pom</artifactId>
-    <version>6.11.0</version>
+    <version>6.13.0</version>
     <relativePath />
   </parent>
 
@@ -71,8 +71,8 @@
     <jsoup.version>1.22.2</jsoup.version>
     <json.version>20251224</json.version>
     <json-smart.version>2.6.0</json-smart.version>
-    <pmd.api.version>7.24.0</pmd.api.version>
-    <spotbugs.api.version>4.9.8</spotbugs.api.version>
+    <pmd.api.version>7.26.0</pmd.api.version>
+    <spotbugs.api.version>4.10.3</spotbugs.api.version>
 
     <incrementals-plugin.version>1.13</incrementals-plugin.version>
     <maven-shade-plugin.version>3.6.0</maven-shade-plugin.version>
@@ -84,7 +84,7 @@
       <dependency>
         <groupId>net.sf.saxon</groupId>
         <artifactId>Saxon-HE</artifactId>
-        <version>12.9</version>
+        <version>13.0</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -427,6 +427,18 @@
                   <code>java.field.serialVersionUIDUnchanged</code>
                   <classSimpleName>DuplicationGroup</classSimpleName>
                   <justification>We are using the interface which still serialzes correctly.</justification>
+                </item>
+                <item>
+                  <ignore>true</ignore>
+                  <code>java.method.visibilityReduced</code>
+                  <methodName>parseReport</methodName>
+                  <justification>Classes are hidden anyway</justification>
+                </item>
+                <item>
+                  <ignore>true</ignore>
+                  <code>java.class.removed</code>
+                  <classSimpleName>ValeDescriptor</classSimpleName>
+                  <justification>Classes must not be used</justification>
                 </item>
               </differences>
             </revapi.differences>

@@ -1,4 +1,4 @@
-package edu.hm.hafner.archunit; //NOPMD - suppressed TooManyStaticImports
+package edu.hm.hafner.archunit;
 
 import javax.xml.parsers.SAXParser;
 

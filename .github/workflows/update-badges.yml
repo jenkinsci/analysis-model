@@ -12,7 +12,7 @@ jobs:
     name: Update quality badges
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Set up JDK
         uses: actions/setup-java@v5
         with:
@@ -34,7 +34,7 @@ jobs:
             fi
           fi
       - name: Cache the NVD database
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: ~/.m2/repository/org/owasp/dependency-check-data
           key: dependency-check

@@ -1,8 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.nio.charset.Charset;
-import java.time.Duration;
-
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.Categories;
@@ -11,6 +8,9 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
+
+import java.nio.charset.Charset;
+import java.time.Duration;
 
 import static edu.hm.hafner.analysis.assertions.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -209,7 +209,7 @@ class AntJavacParserTest extends AbstractParserTest {
     @Test
     void parseJapaneseWarnings() {
         // force to use windows-31j - the default encoding on Windows Japanese.
-        var warnings = createParser().parseReport(
+        var warnings = createParser().parse(
                 new FileReaderFactory(getResourceAsFile("ant-javac-japanese.txt"),
                         Charset.forName("windows-31j")));
 

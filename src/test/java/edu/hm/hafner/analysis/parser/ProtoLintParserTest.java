@@ -19,7 +19,7 @@ class ProtoLintParserTest extends AbstractParserTest {
     }
 
     @Override
-    public void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
+    protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
         assertThat(report).hasSize(2591);
 
         softly.assertThat(report.get(0))
@@ -45,7 +45,7 @@ class ProtoLintParserTest extends AbstractParserTest {
     }
 
     @Override
-    public IssueParser createParser() {
+    protected IssueParser createParser() {
         return new ProtoLintParser();
     }
 }

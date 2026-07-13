@@ -111,6 +111,7 @@ public abstract class ReaderFactory {
     }
 
     @SuppressFBWarnings(value = "RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE", justification = "test stub")
+    @SuppressWarnings("ReferenceEquality")
     private boolean hasLineMapper() {
         return lineMapper != null && lineMapper != IDENTITY;
     }

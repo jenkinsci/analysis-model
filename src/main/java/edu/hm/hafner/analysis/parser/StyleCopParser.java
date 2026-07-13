@@ -1,8 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.util.List;
-
 import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Element;
 
@@ -15,6 +12,9 @@ import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.util.IntegerParser;
 import edu.hm.hafner.analysis.util.XmlElementUtil;
 
+import java.io.Serial;
+import java.util.List;
+
 /**
  * Parses a StyleCop XML report files.
  *
@@ -25,7 +25,7 @@ public class StyleCopParser extends IssueParser {
     private static final long serialVersionUID = 7846052338159003458L;
 
     @Override
-    public Report parseReport(final ReaderFactory readerFactory) throws ParsingException {
+    protected Report parseReport(final ReaderFactory readerFactory) throws ParsingException {
         var document = readerFactory.readDocument();
 
         // Pre v4.3 uses SourceAnalysisViolations as the parent node name
