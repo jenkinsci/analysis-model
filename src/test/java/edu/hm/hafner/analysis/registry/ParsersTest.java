@@ -767,6 +767,12 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(5, "openapi-validator", "openapi-validator-report.json");
     }
 
+    /** Runs the OSV-Scanner parser on an output file that contains 3 issues. */
+    @Test
+    void shouldFindAllOsvScannerIssues() {
+        findIssuesOfTool(3, "osv-scanner", "osv-scanner-report.json");
+    }
+
     /** Runs the PyLint parser on output files that contains 6 + 19 issues. */
     @Test
     void shouldFindAllPyLintParserIssues() {

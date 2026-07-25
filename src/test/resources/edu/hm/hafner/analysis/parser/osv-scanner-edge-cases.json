@@ -1,0 +1,66 @@
+{
+  "results": [
+    {
+      "source": {
+        "path": "requirements.txt",
+        "type": "lockfile"
+      },
+      "packages": [
+        {
+          "package": {
+            "name": "PyYAML",
+            "version": "5.3.1",
+            "ecosystem": "PyPI"
+          },
+          "vulnerabilities": [
+            {
+              "schema_version": "1.3.0",
+              "id": "GHSA-8q59-q68h-6hv4",
+              "modified": "2021-12-10T17:57:24Z",
+              "published": "2021-07-27T17:37:27Z",
+              "summary": "Arbitrary code execution in PyYAML",
+              "details": "A flaw was found in python-yaml.",
+              "database_specific": {}
+            }
+          ],
+          "groups": [
+            {
+              "ids": ["GHSA-8q59-q68h-6hv4"]
+            }
+          ]
+        },
+        {
+          "package": {
+            "name": "safe-package",
+            "version": "1.0.0",
+            "ecosystem": "PyPI"
+          },
+          "vulnerabilities": []
+        },
+        {
+          "package": {
+            "name": "no-severity-package",
+            "version": "2.0.0",
+            "ecosystem": "PyPI"
+          },
+          "vulnerabilities": [
+            {
+              "schema_version": "1.3.0",
+              "id": "GHSA-0000-0000-0000",
+              "modified": "2023-01-01T00:00:00Z",
+              "published": "2022-01-01T00:00:00Z",
+              "summary": "Vulnerability without severity field",
+              "details": "A vulnerability with no severity information.",
+              "database_specific": {}
+            }
+          ],
+          "groups": [
+            {
+              "ids": ["GHSA-0000-0000-0000"]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
