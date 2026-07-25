@@ -46,6 +46,6 @@ class OsvScannerDescriptor extends ParserDescriptor {
 
     @Override
     public String getIconUrl() {
-        return "https://google.github.io/osv-scanner/assets/icon.png";
+        return "https://github.com/google/osv-scanner/blob/main/docs/images/osv-scanner-full-logo-darkmode.png";
     }
 }

@@ -594,6 +594,7 @@ class OsvScannerParserTest extends AbstractParserTest {
         assertThat(descriptor.getPattern()).isEqualTo("**/osv-scanner-report.json");
         assertThat(descriptor.getHelp()).contains("osv-scanner scan --format json");
         assertThat(descriptor.getUrl()).isEqualTo("https://google.github.io/osv-scanner/");
+        assertThat(descriptor.getIconUrl()).isEqualTo("https://github.com/google/osv-scanner/blob/main/docs/images/osv-scanner-full-logo-darkmode.png");
         assertThat(descriptor.hasHelp()).isTrue();
         assertThat(descriptor.hasUrl()).isTrue();
     }
