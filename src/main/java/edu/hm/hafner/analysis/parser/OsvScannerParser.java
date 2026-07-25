@@ -7,6 +7,7 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 import j2html.tags.DomContent;
 import java.io.Serial;
@@ -79,7 +80,7 @@ public class OsvScannerParser extends JsonIssueParser {
         }
         var packageInfo = packageEntry.optJSONObject(PACKAGE_TAG);
         var packageName = formatPackageName(packageInfo);
-        var ecosystem = packageInfo != null ? packageInfo.optString(ECOSYSTEM_TAG, "Unknown") : "Unknown";
+        var ecosystem = getEcosystem(packageInfo);
 
         for (int i = 0; i < vulnerabilities.length(); i++) {
             var vulnerability = vulnerabilities.getJSONObject(i);
@@ -106,13 +107,20 @@ public class OsvScannerParser extends JsonIssueParser {
                 .buildAndClean();
     }
 
-    private String formatPackageName(final JSONObject packageInfo) {
+    private String formatPackageName(@CheckForNull final JSONObject packageInfo) {
         if (packageInfo == null) {
             return "Unknown";
         }
         var name = packageInfo.optString(NAME_TAG, "Unknown");
         var version = packageInfo.optString(VERSION_TAG, "");
         return version.isEmpty() ? name : name + "@" + version;
+    }
+
+    private String getEcosystem(@CheckForNull final JSONObject packageInfo) {
+        if (packageInfo == null) {
+            return "Unknown";
+        }
+        return packageInfo.optString(ECOSYSTEM_TAG, "Unknown");
     }
 
     /**
