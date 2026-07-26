@@ -6,7 +6,7 @@ import edu.hm.hafner.analysis.parser.ValeParser;
 /**
  * Descriptor for the vale prose linter.
  */
-public class ValeDescriptor extends ParserDescriptor {
+class ValeDescriptor extends ParserDescriptor {
     private static final String ID = "vale";
     private static final String NAME = "Vale";
 
@@ -15,7 +15,7 @@ public class ValeDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public IssueParser create(final Option... options) {
+    protected IssueParser create(final Option... options) {
         return new ValeParser();
     }
 

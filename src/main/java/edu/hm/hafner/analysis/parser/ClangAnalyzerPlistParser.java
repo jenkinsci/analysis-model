@@ -40,7 +40,7 @@ public class ClangAnalyzerPlistParser extends IssueParser {
     }
 
     @Override
-    public Report parseReport(final ReaderFactory readerFactory) throws ParsingException {
+    protected Report parseReport(final ReaderFactory readerFactory) throws ParsingException {
         try (var issueBuilder = new IssueBuilder()) {
             var doc = readerFactory.readDocument();
 
