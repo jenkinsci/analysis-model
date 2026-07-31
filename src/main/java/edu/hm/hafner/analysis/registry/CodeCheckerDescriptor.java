@@ -16,7 +16,7 @@ class CodeCheckerDescriptor extends ParserDescriptor {
     }
 
     @Override
-    public IssueParser create(final Option... options) {
+    protected IssueParser create(final Option... options) {
         return new CodeCheckerParser();
     }
 }

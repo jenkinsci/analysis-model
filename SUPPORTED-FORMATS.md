@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2026-06-10T09:11:50.813621067 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2026-07-13T16:49:06.584491995 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -243,6 +243,27 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
             </td>
             <td>
                 -
+            </td>
+        </tr>
+        <tr>
+            <td>
+                black
+            </td>
+            <td>
+                <img src="https://raw.githubusercontent.com/psf/black/main/docs/_static/logo2-readme.png" alt="Black" height="64" width="64">
+            </td>
+            <td>
+                <a href="https://github.com/psf/black">
+                    Black
+                </a>
+            </td>
+            <td>
+                **/black-report.txt
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Use commandline <code>black --check. 2&gt;&amp;1 | tee black-report.txt</code> to capture output.<br/>See <a href='https://black.readthedocs.io/'>Black documentation</a> for usage details.
             </td>
         </tr>
         <tr>
@@ -1090,6 +1111,22 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
         </tr>
         <tr>
             <td>
+                fortifyssc
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                <a href="https://www.microfocus.com/en-us/cyberres/application-security/software-security-center">
+                    Fortify SSC
+                </a>
+            </td>
+            <td>
+                **/fortifyssc.json
+            </td>
+        </tr>
+        <tr>
+            <td>
                 fxcop
             </td>
             <td>
@@ -1250,6 +1287,27 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
             </td>
             <td>
                 -
+            </td>
+        </tr>
+        <tr>
+            <td>
+                gradle-lint
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                <a href="https://github.com/nebula-plugins/gradle-lint-plugin">
+                    Gradle Lint
+                </a>
+            </td>
+            <td>
+                **/gradle-lint-report.json
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Configure <code>gradleLint { reportFormat = 'json' }</code> in your <code>build.gradle</code> and run <code>./gradlew generateGradleLintReport</code> to generate a JSON report.<br/>See <a href='https://github.com/nebula-plugins/gradle-lint-plugin'>Gradle Lint Plugin</a> for usage details.
             </td>
         </tr>
         <tr>
@@ -1904,6 +1962,27 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
         </tr>
         <tr>
             <td>
+                openapi-validator
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                <a href="https://github.com/IBM/openapi-validator">
+                    OpenAPI Validator
+                </a>
+            </td>
+            <td>
+                **/openapi-validator-report.json
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Use commandline <code>lint-openapi --json your-api.yaml &gt; openapi-validator-report.json</code> to generate JSON output.<br/>See <a href='https://github.com/IBM/openapi-validator'>IBM OpenAPI Validator on GitHub</a> for usage details.
+            </td>
+        </tr>
+        <tr>
+            <td>
                 openscap
             </td>
             <td>
@@ -2176,6 +2255,27 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
         <tr>
             <td colspan="4">
                 :bulb: Reads reports of Polyspace Static Analysis Tool by MathWorks. Used for <a href='https://www.mathworks.com/help/bugfinder/ref/polyspaceresultsexport.html?s_tid=srchtitle_polyspace-results-export_1'>BugFinder</a> and  <a href='https://www.mathworks.com/help/codeprover/ref/polyspaceresultsexport.html?s_tid=srchtitle_polyspace-results-export_2'>CodeProver</a> result files.<br/>Report can be generated with command: polyspace-results-export -format csv -results-dir <RESULTS> -output-name <CSVFILE> -key <KEY>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                prisma-cloud
+            </td>
+            <td>
+                <img src="https://github.com/PaloAltoNetworks/prisma-cloud-docs/blob/master/docs/api/cdn/prisma-cloud-logo.png?raw=true" alt="Prisma Cloud" height="64" width="64">
+            </td>
+            <td>
+                <a href="https://www.paloaltonetworks.com/prisma/cloud">
+                    Prisma Cloud
+                </a>
+            </td>
+            <td>
+                **/prisma-cloud-report.json
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Use commandline <code>twistcli images scan --output-file prisma-cloud-report.json &lt;IMAGE&gt;</code> to generate JSON output.<br/>See <a href='https://docs.prismacloud.io/en/enterprise-edition/content-collections/runtime-security/tools/twistcli-scan-images'>twistcli documentation</a> for usage details.
             </td>
         </tr>
         <tr>
@@ -2717,6 +2817,27 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
         <tr>
             <td colspan="4">
                 :bulb: <p>Use <code>--formatter json</code></p><p>For checkstyle format install <a href='https://www.npmjs.com/package/stylelint-checkstyle-reporter'>stylelint-checkstyle-reporter</a>.<br/>Use <code>--custom-formatter node_modules/stylelint-checkstyle-reporter/index.js -o stylelint-warnings.xml</code><br/>The checkstyle formatter is deprecated. Use the json formatter instead.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                swagger-lint
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                <a href="https://github.com/antonk52/swaggerlint">
+                    Swagger Lint
+                </a>
+            </td>
+            <td>
+                **/swagger-lint-report.json
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Use commandline <code>swaggerlint /path/to/swagger.json 2>&amp;1 | tee swagger-lint-report.json</code> or programmatically via Node.js and <code>JSON.stringify</code> to generate JSON output.<br/>See <a href='https://github.com/antonk52/swaggerlint'>swaggerlint on GitHub</a> for usage details.
             </td>
         </tr>
         <tr>

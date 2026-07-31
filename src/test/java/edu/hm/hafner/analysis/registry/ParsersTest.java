@@ -761,6 +761,12 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(3, "openscap", "openscap-report.json");
     }
 
+    /** Runs the OpenAPI Validator parser on an output file that contains 5 issues. */
+    @Test
+    void shouldFindAllOpenApiValidatorIssues() {
+        findIssuesOfTool(5, "openapi-validator", "openapi-validator-report.json");
+    }
+
     /** Runs the PyLint parser on output files that contains 6 + 19 issues. */
     @Test
     void shouldFindAllPyLintParserIssues() {
@@ -907,6 +913,12 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(6, "ruff", "ruff.json");
     }
 
+    /** Runs the Black parser on an output file that contains 5 issues. */
+    @Test
+    void shouldFindAllBlackIssues() {
+        findIssuesOfTool(5, "black", "black-report.txt");
+    }
+
     /** Runs the MarkdownLint parser on an output file that contains 4 issues. */
     @Test
     void shouldFindAllMarkdownLintIssues() {
@@ -965,6 +977,12 @@ class ParsersTest extends ResourceTest {
     @Test
     void shouldFindAllFossaIssues() {
         findIssuesOfTool(3, "fossa", "fossa-report.json");
+    }
+
+    /** Runs the Fortify SSC parser on an output file that contains 3 issues. */
+    @Test
+    void shouldFindAllFortifySscIssues() {
+        findIssuesOfTool(3, "fortifyssc", "fortifyssc.json");
     }
 
     /** Runs the CFN-Lint parser on an output file that contains 3 issues. */
@@ -1039,6 +1057,12 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(3, "snyk", "snyk-report.json");
     }
 
+    /** Runs the Prisma Cloud parser on an output file that contains 5 issues (3 vulnerabilities + 2 compliances). */
+    @Test
+    void shouldFindAllPrismaCloudIssues() {
+        findIssuesOfTool(5, "prisma-cloud", "prisma-cloud-report.json");
+    }
+
     /** Runs the SQLFluff parser on an output file that contains 4 issues. */
     @Test
     void shouldFindAllSqlFluffIssues() {
@@ -1087,10 +1111,22 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(4, "spectral", "spectral-report.json");
     }
 
+    /** Runs the Swagger Lint parser on an output file that contains 4 issues. */
+    @Test
+    void shouldFindAllSwaggerLintIssues() {
+        findIssuesOfTool(4, "swagger-lint", "swagger-lint-report.json");
+    }
+
     /** Runs the Talisman parser on an output file that contains 5 issues. */
     @Test
     void shouldFindAllTalismanIssues() {
         findIssuesOfTool(5, "talisman", "talisman-report.json");
+    }
+
+    /** Runs the Gradle Lint parser on an output file that contains 4 issues. */
+    @Test
+    void shouldFindAllGradleLintIssues() {
+        findIssuesOfTool(4, "gradle-lint", "gradle-lint-report.json");
     }
 
     private Report findIssuesOfTool(final int expectedSizeOfIssues, final String tool, final String... fileNames) {

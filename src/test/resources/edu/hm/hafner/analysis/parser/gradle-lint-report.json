@@ -1,0 +1,36 @@
+{
+  "violations": [
+    {
+      "buildFile": "build.gradle",
+      "ruleName": "dependency-parentheses",
+      "priority": 2,
+      "lineNumber": 14,
+      "message": "In Gradle, dependency declarations do not need to be surrounded by parentheses",
+      "sourceLine": "    compile('com.google.guava:guava:28.0-jre')"
+    },
+    {
+      "buildFile": "build.gradle",
+      "ruleName": "unused-dependency",
+      "priority": 1,
+      "lineNumber": 18,
+      "message": "this dependency is unused and can be removed",
+      "sourceLine": "    testImplementation('junit:junit:4.12')"
+    },
+    {
+      "buildFile": "subproject/build.gradle",
+      "ruleName": "minimum-dependency-version",
+      "priority": 3,
+      "lineNumber": 9,
+      "message": "junit:junit is below the minimum version of 5.0.0",
+      "sourceLine": "    testImplementation 'junit:junit:4.12'"
+    },
+    {
+      "buildFile": "build.gradle",
+      "ruleName": "dependency-tuple",
+      "priority": 2,
+      "lineNumber": 22,
+      "message": "Replace the String dependency notation with the map notation",
+      "sourceLine": "    implementation 'org.apache.commons:commons-lang3:3.11'"
+    }
+  ]
+}

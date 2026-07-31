@@ -1,0 +1,22 @@
+[
+  {
+    "name": "object-prop-casing",
+    "msg": "Property 'UserName' does not match the required casing 'camel'",
+    "location": ["definitions", "UserProfile", "properties", "UserName"]
+  },
+  {
+    "name": "latin-definitions-only",
+    "msg": "Definition name 'utilisateur' contains non-latin characters",
+    "location": ["definitions", "utilisateur"]
+  },
+  {
+    "name": "properties-for-object-type",
+    "msg": "Object type should have properties defined",
+    "location": ["paths", "/users", "get", "responses", "200", "schema"]
+  },
+  {
+    "name": "no-empty-object-type",
+    "msg": "Empty object schema found without any properties",
+    "location": ["definitions", "EmptyModel"]
+  }
+]
