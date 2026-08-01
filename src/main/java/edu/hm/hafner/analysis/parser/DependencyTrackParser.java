@@ -3,8 +3,10 @@ package edu.hm.hafner.analysis.parser;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
+import edu.hm.hafner.analysis.Severity;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 import java.io.Serial;
@@ -16,6 +18,7 @@ import java.io.Serial;
  * @see <a href="https://dependencytrack.org/">OWASP Dependency-Track</a>
  * @see <a href="https://docs.dependencytrack.org/integrations/file-formats/">Finding Packaging Format</a>
  */
+@SuppressWarnings("PMD.GodClass")
 public class DependencyTrackParser extends JsonIssueParser {
     @Serial
     private static final long serialVersionUID = -1440102275016217642L;
@@ -59,13 +62,10 @@ public class DependencyTrackParser extends JsonIssueParser {
 
     private boolean isSuppressed(final JSONObject finding) {
         var analysis = finding.optJSONObject(ANALYSIS_KEY);
-        if (analysis == null) {
-            return false;
-        }
-        return analysis.optBoolean(ANALYSIS_IS_SUPPRESSED, false);
+        return analysis != null && analysis.optBoolean(ANALYSIS_IS_SUPPRESSED, false);
     }
 
-    private edu.hm.hafner.analysis.Issue convertToIssue(final JSONObject finding, final IssueBuilder issueBuilder) {
+    private Issue convertToIssue(final JSONObject finding, final IssueBuilder issueBuilder) {
         var component = finding.optJSONObject(COMPONENT_KEY);
         var vulnerability = finding.optJSONObject(VULNERABILITY_KEY);
 
@@ -137,7 +137,7 @@ public class DependencyTrackParser extends JsonIssueParser {
 
     private void applySeverity(@CheckForNull final JSONObject vulnerability, final IssueBuilder issueBuilder) {
         if (vulnerability == null) {
-            issueBuilder.setSeverity(edu.hm.hafner.analysis.Severity.WARNING_NORMAL);
+            issueBuilder.setSeverity(Severity.WARNING_NORMAL);
             return;
         }
         issueBuilder.guessSeverity(vulnerability.optString(VULN_SEVERITY, "MEDIUM"));
@@ -173,23 +173,28 @@ public class DependencyTrackParser extends JsonIssueParser {
         }
         var cweList = new StringBuilder();
         for (int i = 0; i < cwes.length(); i++) {
-            var cweObj = cwes.optJSONObject(i);
-            if (cweObj != null) {
-                var cweId = cweObj.optInt(VULN_CWE_ID, -1);
-                var cweName = cweObj.optString(VULN_CWE_NAME, "").trim();
-                if (cweId > 0) {
-                    if (!cweList.isEmpty()) {
-                        cweList.append(", ");
-                    }
-                    cweList.append("CWE-").append(cweId);
-                    if (!cweName.isBlank()) {
-                        cweList.append(" (").append(cweName).append(")");
-                    }
-                }
-            }
+            appendCwe(cweList, cwes.optJSONObject(i));
         }
         if (!cweList.isEmpty()) {
             appendIfNotBlank(sb, "CWE(s)", cweList.toString());
+        }
+    }
+
+    private void appendCwe(final StringBuilder cweList, @CheckForNull final JSONObject cweObj) {
+        if (cweObj == null) {
+            return;
+        }
+        var cweId = cweObj.optInt(VULN_CWE_ID, -1);
+        if (cweId <= 0) {
+            return;
+        }
+        var cweName = cweObj.optString(VULN_CWE_NAME, "").trim();
+        if (!cweList.isEmpty()) {
+            cweList.append(", ");
+        }
+        cweList.append("CWE-").append(cweId);
+        if (!cweName.isBlank()) {
+            cweList.append(" (").append(cweName).append(")");
         }
     }
 
@@ -199,20 +204,25 @@ public class DependencyTrackParser extends JsonIssueParser {
         }
         var cveList = new StringBuilder();
         for (int i = 0; i < aliases.length(); i++) {
-            var alias = aliases.optJSONObject(i);
-            if (alias != null) {
-                var cveId = alias.optString(ALIAS_CVE_ID, "").trim();
-                if (!cveId.isBlank()) {
-                    if (!cveList.isEmpty()) {
-                        cveList.append(", ");
-                    }
-                    cveList.append(cveId);
-                }
-            }
+            appendAlias(cveList, aliases.optJSONObject(i));
         }
         if (!cveList.isEmpty()) {
             appendIfNotBlank(sb, "CVE Alias(es)", cveList.toString());
         }
+    }
+
+    private void appendAlias(final StringBuilder cveList, @CheckForNull final JSONObject alias) {
+        if (alias == null) {
+            return;
+        }
+        var cveId = alias.optString(ALIAS_CVE_ID, "").trim();
+        if (cveId.isBlank()) {
+            return;
+        }
+        if (!cveList.isEmpty()) {
+            cveList.append(", ");
+        }
+        cveList.append(cveId);
     }
 
     private void appendIfNotBlank(final StringBuilder sb, final String label, final String value) {
