@@ -5,6 +5,7 @@ import java.nio.file.FileSystems;
 import org.junit.jupiter.api.Test;
 
 import edu.hm.hafner.analysis.FileReaderFactory;
+import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Report;
@@ -107,7 +108,7 @@ class DependencyTrackParserTest extends AbstractParserTest {
 
         assertThat(report).hasSize(4);
         assertThat(report.stream())
-                .map(i -> i.getMessage())
+                .map(Issue::getMessage)
                 .doesNotContain("Log4Shell - Remote Code Execution in Log4j");
     }
 
@@ -648,7 +649,8 @@ class DependencyTrackParserTest extends AbstractParserTest {
         assertThat(descriptor.getHelp()).contains("/api/v1/finding/project/{uuid}/export");
         assertThat(descriptor.hasUrl()).isTrue();
         assertThat(descriptor.hasHelp()).isTrue();
-        assertThat(descriptor.getType()).isEqualTo(edu.hm.hafner.analysis.Report.IssueType.VULNERABILITY);
+
+        assertThat(descriptor.getType()).isEqualTo(Report.IssueType.VULNERABILITY);
     }
 
     @Test
