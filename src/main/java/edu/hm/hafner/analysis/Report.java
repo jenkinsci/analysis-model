@@ -1,4 +1,4 @@
-package edu.hm.hafner.analysis; // NOPMD
+package edu.hm.hafner.analysis;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -54,7 +54,7 @@ import java.util.stream.Stream;
  *
  * @author Ullrich Hafner
  */
-@SuppressWarnings({"PMD.ExcessivePublicCount", "PMD.GodClass", "PMD.CyclomaticComplexity", "checkstyle:ClassFanOutComplexity"})
+@SuppressWarnings({"PMD.ExcessivePublicCount", "PMD.GodClass", "PMD.CyclomaticComplexity", "PMD.CouplingBetweenObjects", "checkstyle:ClassFanOutComplexity"})
 public class Report implements Iterable<Issue>, Serializable {
     @Serial
     private static final long serialVersionUID = 14L; // release 14.0.0

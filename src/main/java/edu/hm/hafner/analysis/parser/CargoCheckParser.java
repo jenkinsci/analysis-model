@@ -1,9 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.util.Optional;
-import java.util.stream.Stream;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -16,6 +12,10 @@ import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
+
+import java.io.Serial;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * A parser for {@code rustc} compiler messages in the JSON format emitted by {@code cargo check --message-format
@@ -70,7 +70,7 @@ public class CargoCheckParser extends IssueParser {
     private static final String MESSAGE_SPAN_COLUMN_END = "column_end";
 
     @Override
-    public Report parseReport(final ReaderFactory readerFactory) throws ParsingException, ParsingCanceledException {
+    protected Report parseReport(final ReaderFactory readerFactory) throws ParsingException, ParsingCanceledException {
         var report = new Report();
 
         try (Stream<String> lines = readerFactory.readStream(); var issueBuilder = new IssueBuilder()) {

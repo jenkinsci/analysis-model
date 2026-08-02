@@ -1,5 +1,12 @@
 package edu.hm.hafner.analysis.parser;
 
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
+
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+
 import edu.hm.hafner.analysis.Categories;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
@@ -7,13 +14,9 @@ import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.util.XmlElementUtil;
+
 import java.io.Serial;
 import java.util.Optional;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
 /**
  * Parser for Eclipse Compiler output in XML format.
@@ -48,7 +51,7 @@ public class EclipseXmlParser extends IssueParser {
     }
 
     @Override
-    public Report parseReport(final ReaderFactory readerFactory) throws ParsingException {
+    protected Report parseReport(final ReaderFactory readerFactory) throws ParsingException {
         try (var issueBuilder = new IssueBuilder()) {
             var doc = readerFactory.readDocument();
 

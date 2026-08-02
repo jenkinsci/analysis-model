@@ -17,7 +17,7 @@ class CpdDescriptor extends DryDescriptor {
     }
 
     @Override
-    public IssueParser create(final Option... options) {
+    protected IssueParser create(final Option... options) {
         return new CpdParser(getHighThreshold(options), getNormalThreshold(options));
     }
 

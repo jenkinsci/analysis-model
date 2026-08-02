@@ -86,9 +86,9 @@ class ParserRegistryTest extends ResourceTest {
                 .hasId("black")
                 .hasName("Black")
                 .hasType(IssueType.WARNING);
-        assertThat(parserRegistry.get("salt-lint"))
-                .hasId("salt-lint")
-                .hasName("Salt Lint")
+        assertThat(parserRegistry.get("cookstyle"))
+                .hasId("cookstyle")
+                .hasName("Cookstyle")
                 .hasType(IssueType.WARNING);
         assertThat(parserRegistry.contains(SPOTBUGS)).isTrue();
         assertThat(parserRegistry.contains("nothing")).isFalse();

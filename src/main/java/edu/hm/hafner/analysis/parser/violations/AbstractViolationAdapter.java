@@ -34,7 +34,7 @@ public abstract class AbstractViolationAdapter extends IssueParser {
 
     @SuppressWarnings({"illegalcatch", "OverlyBroadCatchBlock"})
     @Override
-    public Report parseReport(final ReaderFactory readerFactory)
+    protected Report parseReport(final ReaderFactory readerFactory)
             throws ParsingCanceledException, ParsingException {
         try {
             var parser = createParser();
