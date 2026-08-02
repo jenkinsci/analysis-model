@@ -275,18 +275,28 @@ public class MsBuildParser extends LookaheadParser {
      * @return the resolved filename if it should be kept, or empty if it should be dropped
      */
     private Optional<String> checkToolName(@CheckForNull final String fileName) {
-        if (StringUtils.isBlank(fileName) || NO_SOURCE_FILE.equals(fileName) || "unknown.file".equals(fileName)) {
+        if (StringUtils.isBlank(fileName)) {
+            return Optional.empty();
+        }
+        
+        var cleanFileName = fileName.trim();
+        if (NO_SOURCE_FILE.equals(cleanFileName) || "unknown.file".equals(cleanFileName)) {
             return Optional.empty();
         }
 
-        var baseFileName = FilenameUtils.getName(fileName);
-        var cleanFileName = baseFileName.trim().replaceAll("^\\d{1,2}:\\d{2}:\\d{2}\\s+", "");
+        var baseFileName = FilenameUtils.getName(cleanFileName);
+        var strippedFileName = baseFileName.replaceAll("^\\d{1,2}:\\d{2}:\\d{2}\\s+", "");
 
-        if (TOOL_NAME_PATTERN.matcher(cleanFileName).matches()) {
-            return SYSTEM_TOOL.matcher(cleanFileName).matches() ? Optional.empty() : Optional.of(NO_SOURCE_FILE);
+        if (TOOL_NAME_PATTERN.matcher(strippedFileName).matches()) {
+            if (SYSTEM_TOOL.matcher(strippedFileName).matches()) {
+                return Optional.empty();
+            }
+            if (cleanFileName.equals(baseFileName)) {
+                return Optional.of(NO_SOURCE_FILE);
+            }
         }
 
-        return Optional.of(fileName);
+        return Optional.of(cleanFileName);
     }
 
     /**
