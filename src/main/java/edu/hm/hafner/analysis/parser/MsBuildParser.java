@@ -291,9 +291,7 @@ public class MsBuildParser extends LookaheadParser {
             if (SYSTEM_TOOL.matcher(strippedFileName).matches()) {
                 return Optional.empty();
             }
-            if (cleanFileName.equals(baseFileName)) {
-                return Optional.of(NO_SOURCE_FILE);
-            }
+            return Optional.of(NO_SOURCE_FILE);
         }
 
         return Optional.of(cleanFileName);
