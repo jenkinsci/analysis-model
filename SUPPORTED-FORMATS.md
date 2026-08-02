@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2026-08-02T18:25:20.347030802 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2026-08-02T20:12:16.203082086 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -2610,6 +2610,27 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
             </td>
             <td>
                 -
+            </td>
+        </tr>
+        <tr>
+            <td>
+                salt-lint
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                <a href="https://github.com/warpnet/salt-lint">
+                    Salt Lint
+                </a>
+            </td>
+            <td>
+                **/salt-lint-report.json
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Use commandline <code>salt-lint --json</code> to generate JSON output.<br/>Add <code>--severity</code> to include severity levels in the report.<br/>See <a href='https://github.com/warpnet/salt-lint'>salt-lint on GitHub</a> for usage details.
             </td>
         </tr>
         <tr>
