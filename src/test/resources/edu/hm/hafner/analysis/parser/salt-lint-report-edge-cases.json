@@ -1,0 +1,33 @@
+[
+  {
+    "id": "204",
+    "file": "states/test.sls",
+    "line": 1,
+    "column": 1,
+    "message": "Line too long (190 > 160 characters)",
+    "rule": {
+      "id": "204",
+      "tags": ["formatting"],
+      "shortdesc": "Line too long"
+    }
+  },
+  {
+    "file": "states/test.sls",
+    "line": 5,
+    "column": 1,
+    "message": "Rule with no id field"
+  },
+  {
+    "id": "213",
+    "file": "",
+    "line": 0,
+    "column": 0,
+    "severity": "medium",
+    "message": "Use cmd.run with onchanges instead of cmd.wait",
+    "rule": {
+      "id": "213",
+      "tags": ["deprecation"],
+      "shortdesc": "Use cmd.run with onchanges"
+    }
+  }
+]

@@ -185,6 +185,7 @@ public class ParserRegistry {
             new RuboCopDescriptor(),
             new RuffDescriptor(),
             new RustAnalyzerDescriptor(),
+            new SaltLintDescriptor(),
             new SarifDescriptor(),
             new ScalaDescriptor(),
             new SemgrepDescriptor(),

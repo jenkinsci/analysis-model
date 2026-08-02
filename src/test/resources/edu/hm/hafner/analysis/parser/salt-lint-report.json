@@ -1,0 +1,67 @@
+[
+  {
+    "id": "201",
+    "file": "states/apache.sls",
+    "line": 4,
+    "column": 1,
+    "severity": "low",
+    "message": "Trailing whitespace",
+    "rule": {
+      "id": "201",
+      "tags": ["formatting"],
+      "shortdesc": "Trailing whitespace"
+    }
+  },
+  {
+    "id": "202",
+    "file": "states/apache.sls",
+    "line": 10,
+    "column": 5,
+    "severity": "low",
+    "message": "Jinja statement should have spaces before and after: {% %}",
+    "rule": {
+      "id": "202",
+      "tags": ["formatting"],
+      "shortdesc": "Jinja statement spacing"
+    }
+  },
+  {
+    "id": "207",
+    "file": "states/mysql.sls",
+    "line": 3,
+    "column": 1,
+    "severity": "high",
+    "message": "File modes should be quoted",
+    "rule": {
+      "id": "207",
+      "tags": ["formatting"],
+      "shortdesc": "File modes should be quoted"
+    }
+  },
+  {
+    "id": "208",
+    "file": "states/mysql.sls",
+    "line": 7,
+    "column": 1,
+    "severity": "high",
+    "message": "File modes should have a leading zero",
+    "rule": {
+      "id": "208",
+      "tags": ["formatting"],
+      "shortdesc": "File modes should have a leading zero"
+    }
+  },
+  {
+    "id": "801",
+    "file": "states/nginx.sls",
+    "line": 15,
+    "column": 3,
+    "severity": "high",
+    "message": "Deprecated quiet argument for cmd.run",
+    "rule": {
+      "id": "801",
+      "tags": ["deprecation"],
+      "shortdesc": "Deprecated quiet argument for cmd.run"
+    }
+  }
+]
