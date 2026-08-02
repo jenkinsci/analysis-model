@@ -68,6 +68,7 @@ public class ParserRegistry {
             new CodeClimateDescriptor(),
             new CodeGeneratorDescriptor(),
             new CodeNarcDescriptor(),
+            new CookstyleDescriptor(),
             new CoolfluxChessccDescriptor(),
             new CoverityDescriptor(),
             new CpdDescriptor(),
