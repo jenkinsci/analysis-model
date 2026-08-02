@@ -90,6 +90,10 @@ class ParserRegistryTest extends ResourceTest {
                 .hasId("cookstyle")
                 .hasName("Cookstyle")
                 .hasType(IssueType.WARNING);
+        assertThat(parserRegistry.get("salt-lint"))
+                .hasId("salt-lint")
+                .hasName("Salt Lint")
+                .hasType(IssueType.WARNING);
         assertThat(parserRegistry.contains(SPOTBUGS)).isTrue();
         assertThat(parserRegistry.contains("nothing")).isFalse();
         List<ParserDescriptor> descriptors = parserRegistry.getAllDescriptors();
