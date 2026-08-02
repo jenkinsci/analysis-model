@@ -14,6 +14,8 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+
 /**
  * A parser for the MSBuild/PcLint compiler warnings.
  *
