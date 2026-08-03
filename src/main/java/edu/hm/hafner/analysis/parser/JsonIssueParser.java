@@ -15,7 +15,14 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 import java.io.IOException;
 import java.io.Serial;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.StringJoiner;
+
+import j2html.tags.DomContent;
+import j2html.tags.Text;
+
+import static j2html.TagCreator.*;
 
 /**
  * Base class for parsers that operate on a `*.json` file that contains issues in a JSON data structure.
@@ -120,6 +127,29 @@ public abstract class JsonIssueParser extends IssueParser {
 
         var value = jsonObject.optString(key, "");
         return StringUtils.defaultIfBlank(value, defaultValue);
+    }
+
+    /**
+     * Joins a list of {@link DomContent} elements, inserting the specified {@code separator} between each adjacent
+     * pair. Returns the result as a single {@link DomContent} suitable for embedding in an HTML description.
+     *
+     * @param contents
+     *         the list of content elements to join
+     * @param separator
+     *         the separator to insert between adjacent elements
+     *
+     * @return the joined {@link DomContent}
+     */
+    protected static DomContent joinWithSeparator(final List<DomContent> contents, final Text separator) {
+        var joined = new ArrayList<DomContent>();
+        var it = contents.iterator();
+        while (it.hasNext()) {
+            joined.add(it.next());
+            if (it.hasNext()) {
+                joined.add(separator);
+            }
+        }
+        return join(joined.toArray());
     }
 
     /**

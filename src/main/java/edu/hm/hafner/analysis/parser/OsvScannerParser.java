@@ -13,6 +13,7 @@ import j2html.tags.DomContent;
 import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static j2html.TagCreator.*;
 
@@ -154,19 +155,19 @@ public class OsvScannerParser extends JsonIssueParser {
         return join((Object[]) tags.toArray(new DomContent[0])).render();
     }
 
-    private java.util.Optional<DomContent> appendAliases(final JSONObject vulnerability) {
+    private Optional<DomContent> appendAliases(final JSONObject vulnerability) {
         if (!vulnerability.has(ALIASES_TAG)) {
-            return java.util.Optional.empty();
+            return Optional.empty();
         }
         var aliases = vulnerability.getJSONArray(ALIASES_TAG);
         if (aliases.isEmpty()) {
-            return java.util.Optional.empty();
+            return Optional.empty();
         }
         var links = buildAliasLinks(aliases);
         if (links.isEmpty()) {
-            return java.util.Optional.empty();
+            return Optional.empty();
         }
-        return java.util.Optional.of(p(strong("Aliases:"), joinWithSeparator(links)));
+        return Optional.of(p(strong("Aliases:"), joinWithSeparator(links, text(", "))));
     }
 
     private List<DomContent> buildAliasLinks(final JSONArray aliases) {
@@ -186,26 +187,14 @@ public class OsvScannerParser extends JsonIssueParser {
         return links;
     }
 
-    private java.util.Optional<DomContent> appendOsvLink(final JSONObject vulnerability) {
+    private Optional<DomContent> appendOsvLink(final JSONObject vulnerability) {
         var id = vulnerability.optString(ID_TAG, "");
         if (id.isEmpty() || "-".equals(id)) {
-            return java.util.Optional.empty();
+            return Optional.empty();
         }
         var osvUrl = "https://osv.dev/vulnerability/" + id;
-        return java.util.Optional.of(p(strong("OSV Entry:"),
+        return Optional.of(p(strong("OSV Entry:"),
                 text(" "),
                 a(id).withHref(osvUrl)));
-    }
-
-    private DomContent joinWithSeparator(final List<DomContent> items) {
-        var joined = new ArrayList<DomContent>();
-        var it = items.iterator();
-        while (it.hasNext()) {
-            joined.add(it.next());
-            if (it.hasNext()) {
-                joined.add(text(", "));
-            }
-        }
-        return join(joined.toArray());
     }
 }
