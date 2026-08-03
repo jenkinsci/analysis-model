@@ -140,7 +140,7 @@ public abstract class JsonIssueParser extends IssueParser {
      *
      * @return the joined {@link DomContent}
      */
-    protected static DomContent joinWithSeparator(final List<DomContent> contents, final Text separator) {
+    static DomContent joinWithSeparator(final List<DomContent> contents, final Text separator) {
         var joined = new ArrayList<DomContent>();
         var it = contents.iterator();
         while (it.hasNext()) {
