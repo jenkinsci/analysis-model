@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2026-08-03T10:46:58.661732144 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2026-08-03T12:06:06.048496060 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -807,6 +807,27 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
             </td>
             <td>
                 -
+            </td>
+        </tr>
+        <tr>
+            <td>
+                dependency-track
+            </td>
+            <td>
+                <img src="https://raw.githubusercontent.com/DependencyTrack/branding/main/dt-icon.svg" alt="Dependency-Track" height="64" width="64">
+            </td>
+            <td>
+                <a href="https://dependencytrack.org/">
+                    Dependency-Track
+                </a>
+            </td>
+            <td>
+                **/dependency-track-findings.json
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Export findings from the Dependency-Track REST API using: <br> <code>GET /api/v1/finding/project/{uuid}/export</code>, then save the response to a file. See <a href="https://docs.dependencytrack.org/integrations/file-formats/">Dependency-Track File Formats</a> for details.
             </td>
         </tr>
         <tr>
