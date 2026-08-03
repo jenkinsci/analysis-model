@@ -4,6 +4,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -145,7 +146,13 @@ public class IssueDifference {
     }
 
     private Optional<Issue> findReferenceByFingerprint(final Issue current) {
-        return referencesByFingerprint.getOrDefault(current.getFingerprint(), EMPTY).stream().findAny();
+        List<Issue> candidates = referencesByFingerprint.getOrDefault(current.getFingerprint(), EMPTY);
+        if (candidates.isEmpty()) {
+            return Optional.empty();
+        }
+        return candidates.stream()
+                .min(Comparator.comparingInt(
+                        issue -> Math.abs(issue.getLineStart() - current.getLineStart())));
     }
 
     private List<Issue> findReferenceByEquals(final Issue current) {
