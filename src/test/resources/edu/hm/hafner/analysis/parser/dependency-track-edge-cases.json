@@ -1,0 +1,81 @@
+{
+  "version": "1.1",
+  "meta": {
+    "application": "Dependency-Track",
+    "version": "4.5.0",
+    "timestamp": "2023-01-01T00:00:00Z",
+    "baseUrl": "http://dtrack.local"
+  },
+  "project": {
+    "uuid": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+    "name": "Edge Case Project",
+    "version": "0.0.1"
+  },
+  "findings": [
+    {
+      "component": {
+        "uuid": "11111111-2222-3333-4444-555555555555",
+        "name": "timespan",
+        "version": "2.3.0"
+      },
+      "vulnerability": {
+        "uuid": "66666666-7777-8888-9999-000000000000",
+        "source": "NPM",
+        "vulnId": "533",
+        "title": "Regular Expression Denial of Service",
+        "severity": "LOW",
+        "severityRank": 3,
+        "cweId": 400,
+        "cweName": "Uncontrolled Resource Consumption",
+        "description": "Affected versions of timespan are vulnerable to ReDoS.",
+        "recommendation": "No patch available."
+      },
+      "analysis": {
+        "state": "NOT_SET",
+        "isSuppressed": false
+      },
+      "matrix": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee:11111111-2222-3333-4444-555555555555:66666666-7777-8888-9999-000000000000"
+    },
+    {
+      "component": {
+        "uuid": "aaaaaaaa-1111-2222-3333-444444444444",
+        "name": "minimatch",
+        "version": "3.0.4",
+        "purl": "pkg:npm/minimatch@3.0.4"
+      },
+      "vulnerability": {
+        "uuid": "bbbbbbbb-5555-6666-7777-888888888888",
+        "source": "GITHUB",
+        "vulnId": "GHSA-f8q6-p94x-37v3",
+        "title": "ReDoS in minimatch",
+        "severity": "HIGH",
+        "severityRank": 1,
+        "cwes": [],
+        "aliases": [],
+        "description": "minimatch is vulnerable to regular expression denial of service."
+      },
+      "analysis": {
+        "isSuppressed": false
+      },
+      "matrix": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee:aaaaaaaa-1111-2222-3333-444444444444:bbbbbbbb-5555-6666-7777-888888888888"
+    },
+    {
+      "component": {
+        "uuid": "cccccccc-1111-2222-3333-444444444444",
+        "name": "no-version-component"
+      },
+      "vulnerability": {
+        "uuid": "dddddddd-5555-6666-7777-888888888888",
+        "source": "OSSINDEX",
+        "vulnId": "CVE-2019-0001",
+        "title": "Some Vulnerability Without Version",
+        "severity": "MEDIUM"
+      },
+      "analysis": {
+        "state": "NOT_SET",
+        "isSuppressed": false
+      },
+      "matrix": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee:cccccccc-1111-2222-3333-444444444444:dddddddd-5555-6666-7777-888888888888"
+    }
+  ]
+}
