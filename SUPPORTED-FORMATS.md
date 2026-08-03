@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2026-08-03T12:36:58.489404424 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2026-08-03T16:49:08.937192309 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -1963,6 +1963,27 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
             </td>
             <td>
                 -
+            </td>
+        </tr>
+        <tr>
+            <td>
+                osv-scanner
+            </td>
+            <td>
+                <img src="https://github.com/google/osv-scanner/blob/main/docs/images/osv-scanner-full-logo-darkmode.png" alt="OSV-Scanner" height="64" width="64">
+            </td>
+            <td>
+                <a href="https://google.github.io/osv-scanner/">
+                    OSV-Scanner
+                </a>
+            </td>
+            <td>
+                **/osv-scanner-report.json
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Use commandline <code>osv-scanner scan --format json /path/to/project &gt; osv-scanner-report.json</code> to generate a JSON report.<br/>See <a href='https://google.github.io/osv-scanner/'>OSV-Scanner documentation</a> for usage details.
             </td>
         </tr>
         <tr>
