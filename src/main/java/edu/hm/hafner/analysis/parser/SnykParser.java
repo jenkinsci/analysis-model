@@ -152,29 +152,6 @@ public class SnykParser extends JsonIssueParser {
         }
     }
 
-    /**
-     * Joins the specified {@link DomContent} elements with the given separator. The separator is inserted only between
-     * elements (never as trailing content).
-     *
-     * @param contents
-     *         the contents to join
-     * @param separator
-     *         the separator to insert between contents
-     *
-     * @return the joined {@link DomContent}
-     */
-    private DomContent joinWithSeparator(final List<DomContent> contents, final Text separator) {
-        var joined = new ArrayList<DomContent>();
-        var it = contents.iterator();
-        while (it.hasNext()) {
-            joined.add(it.next());
-            if (it.hasNext()) {
-                joined.add(separator);
-            }
-        }
-        return join(joined.toArray());
-    }
-
     private Optional<DomContent> appendUpgradeSection(final JSONObject vulnerability) {
         if (!vulnerability.has(UPGRADE_PATH_TAG)
                 || !vulnerability.optBoolean(IS_UPGRADABLE_TAG, false)) {

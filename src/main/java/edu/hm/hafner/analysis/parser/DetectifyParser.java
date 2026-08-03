@@ -206,18 +206,6 @@ public class DetectifyParser extends JsonIssueParser {
         return text(label);
     }
 
-    private DomContent joinWithSeparator(final List<DomContent> contents, final Text separator) {
-        var joined = new ArrayList<DomContent>();
-        var iterator = contents.iterator();
-        while (iterator.hasNext()) {
-            joined.add(iterator.next());
-            if (iterator.hasNext()) {
-                joined.add(separator);
-            }
-        }
-        return join((Object[]) joined.toArray(new DomContent[0]));
-    }
-
     private List<DomContent> arrayAsContents(final JSONArray array) {
         var content = new ArrayList<DomContent>();
         for (int i = 0; i < array.length(); i++) {
