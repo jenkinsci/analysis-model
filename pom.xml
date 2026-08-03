@@ -6,7 +6,7 @@
   <parent>
     <groupId>edu.hm.hafner</groupId>
     <artifactId>codingstyle-pom</artifactId>
-    <version>6.13.0</version>
+    <version>6.14.0</version>
     <relativePath />
   </parent>
 
@@ -456,7 +456,7 @@
           <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>flatten-maven-plugin</artifactId>
-            <version>1.7.3</version>
+            <version>1.8.0</version>
             <configuration>
               <updatePomFile>true</updatePomFile>
             </configuration>

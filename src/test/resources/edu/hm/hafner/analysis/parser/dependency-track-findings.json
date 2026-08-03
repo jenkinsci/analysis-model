@@ -1,0 +1,189 @@
+{
+  "version": "1.3",
+  "meta": {
+    "application": "Dependency-Track",
+    "version": "4.9.0",
+    "timestamp": "2024-03-15T10:30:00Z",
+    "baseUrl": "http://dtrack.example.org"
+  },
+  "project": {
+    "uuid": "ca4f2da9-0fad-4a13-92d7-f627f3168a56",
+    "name": "Acme WebApp",
+    "version": "2.1.0",
+    "description": "The main customer-facing web application"
+  },
+  "findings": [
+    {
+      "component": {
+        "uuid": "b815b581-fec1-4374-a871-68862a8f8d52",
+        "name": "lodash",
+        "version": "4.17.15",
+        "purl": "pkg:npm/lodash@4.17.15",
+        "latestVersion": "4.17.21"
+      },
+      "vulnerability": {
+        "uuid": "115b80bb-46c4-41d1-9f10-8a175d4abb46",
+        "source": "NPM",
+        "vulnId": "1673",
+        "title": "Prototype Pollution",
+        "subtitle": "lodash",
+        "severity": "CRITICAL",
+        "severityRank": 0,
+        "cvssV3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+        "cweId": 1321,
+        "cweName": "Improperly Controlled Modification of Object Prototype Attributes",
+        "cwes": [
+          {
+            "cweId": 1321,
+            "name": "Improperly Controlled Modification of Object Prototype Attributes"
+          }
+        ],
+        "aliases": [
+          {
+            "cveId": "CVE-2021-23337",
+            "ghsaId": "GHSA-35jh-r3h4-6jhm"
+          }
+        ],
+        "description": "All versions of lodash before 4.17.21 are vulnerable to Command Injection via the template function.",
+        "recommendation": "Upgrade lodash to version 4.17.21 or later."
+      },
+      "analysis": {
+        "state": "NOT_SET",
+        "isSuppressed": false
+      },
+      "matrix": "ca4f2da9-0fad-4a13-92d7-f627f3168a56:b815b581-fec1-4374-a871-68862a8f8d52:115b80bb-46c4-41d1-9f10-8a175d4abb46"
+    },
+    {
+      "component": {
+        "uuid": "979f87f5-eaf5-4095-9d38-cde17bf9228e",
+        "name": "commons-text",
+        "version": "1.9",
+        "purl": "pkg:maven/org.apache.commons/commons-text@1.9"
+      },
+      "vulnerability": {
+        "uuid": "701a3953-666b-4b7a-96ca-e1e6a3e1def3",
+        "source": "NVD",
+        "vulnId": "CVE-2022-42889",
+        "title": "Apache Commons Text RCE via StringLookup",
+        "subtitle": "commons-text",
+        "severity": "HIGH",
+        "severityRank": 1,
+        "cvssV3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+        "cweId": 94,
+        "cweName": "Improper Control of Generation of Code ('Code Injection')",
+        "cwes": [
+          {
+            "cweId": 94,
+            "name": "Improper Control of Generation of Code ('Code Injection')"
+          }
+        ],
+        "description": "Apache Commons Text performs variable interpolation, allowing properties to be dynamically evaluated and expanded. The standard format for interpolation is \"${prefix:name}\", where \"prefix\" is used to locate an instance of org.apache.commons.text.lookup.StringLookup that performs the interpolation. Starting with version 1.5 and continuing through 1.9, the set of default Lookup instances included interpolators that could result in arbitrary code execution or contact with remote servers.",
+        "recommendation": "Update to Apache Commons Text 1.10.0 which disables the problematic interpolators by default."
+      },
+      "analysis": {
+        "state": "NOT_AFFECTED",
+        "isSuppressed": false
+      },
+      "matrix": "ca4f2da9-0fad-4a13-92d7-f627f3168a56:979f87f5-eaf5-4095-9d38-cde17bf9228e:701a3953-666b-4b7a-96ca-e1e6a3e1def3"
+    },
+    {
+      "component": {
+        "uuid": "d1e2f3a4-b5c6-7890-abcd-ef1234567890",
+        "name": "jackson-databind",
+        "version": "2.13.0",
+        "purl": "pkg:maven/com.fasterxml.jackson.core/jackson-databind@2.13.0"
+      },
+      "vulnerability": {
+        "uuid": "a1b2c3d4-e5f6-7890-abcd-123456789abc",
+        "source": "NVD",
+        "vulnId": "CVE-2022-42003",
+        "title": "Uncontrolled Resource Consumption in Jackson Databind",
+        "subtitle": "jackson-databind",
+        "severity": "MEDIUM",
+        "severityRank": 2,
+        "cwes": [
+          {
+            "cweId": 400,
+            "name": "Uncontrolled Resource Consumption"
+          },
+          {
+            "cweId": 502,
+            "name": "Deserialization of Untrusted Data"
+          }
+        ],
+        "description": "In FasterXML jackson-databind before 2.14.0-rc1, resource exhaustion can occur because of a lack of a check in primitive value deserializers to avoid deep wrapper array nesting.",
+        "recommendation": "Upgrade to jackson-databind 2.14.0 or later."
+      },
+      "analysis": {
+        "isSuppressed": false
+      },
+      "matrix": "ca4f2da9-0fad-4a13-92d7-f627f3168a56:d1e2f3a4-b5c6-7890-abcd-ef1234567890:a1b2c3d4-e5f6-7890-abcd-123456789abc"
+    },
+    {
+      "component": {
+        "uuid": "f0e1d2c3-b4a5-9678-efab-cd0123456789",
+        "name": "moment",
+        "version": "2.29.1",
+        "purl": "pkg:npm/moment@2.29.1"
+      },
+      "vulnerability": {
+        "uuid": "12345678-90ab-cdef-1234-567890abcdef",
+        "source": "GITHUB",
+        "vulnId": "GHSA-wc69-rhjr-hc9v",
+        "title": "Path Traversal in moment.js",
+        "subtitle": "moment",
+        "severity": "LOW",
+        "severityRank": 3,
+        "cwes": [
+          {
+            "cweId": 22,
+            "name": "Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
+          }
+        ],
+        "aliases": [
+          {
+            "cveId": "CVE-2022-24785"
+          }
+        ],
+        "description": "Moment.js is a JavaScript date library for parsing, validating, manipulating, and formatting dates. A path traversal vulnerability impacts npm (server-side) users of Moment.js between versions 1.0.1 and 2.29.1, especially if a user-provided locale string is directly used to switch moment locale.",
+        "recommendation": "Upgrade to moment 2.29.2 or later."
+      },
+      "analysis": {
+        "state": "NOT_SET",
+        "isSuppressed": false
+      },
+      "matrix": "ca4f2da9-0fad-4a13-92d7-f627f3168a56:f0e1d2c3-b4a5-9678-efab-cd0123456789:12345678-90ab-cdef-1234-567890abcdef"
+    },
+    {
+      "component": {
+        "uuid": "a9b8c7d6-e5f4-3210-fedc-ba9876543210",
+        "name": "log4j-core",
+        "version": "2.14.1",
+        "purl": "pkg:maven/org.apache.logging.log4j/log4j-core@2.14.1"
+      },
+      "vulnerability": {
+        "uuid": "deadbeef-cafe-babe-dead-beefcafebabe",
+        "source": "NVD",
+        "vulnId": "CVE-2021-44228",
+        "title": "Log4Shell - Remote Code Execution in Log4j",
+        "subtitle": "log4j-core",
+        "severity": "CRITICAL",
+        "severityRank": 0,
+        "cvssV3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H",
+        "cwes": [
+          {
+            "cweId": 917,
+            "name": "Improper Neutralization of Special Elements used in an Expression Language Statement"
+          }
+        ],
+        "description": "Apache Log4j2 2.0-beta9 through 2.15.0 (excluding security releases 2.12.2, 2.12.3, and 2.3.1) JNDI features used in configuration, log messages, and parameters do not protect against attacker controlled LDAP and other JNDI related endpoints.",
+        "recommendation": "Upgrade to Log4j 2.17.1 (Java 8), 2.12.4 (Java 7), or 2.3.2 (Java 6)."
+      },
+      "analysis": {
+        "state": "NOT_SET",
+        "isSuppressed": true
+      },
+      "matrix": "ca4f2da9-0fad-4a13-92d7-f627f3168a56:a9b8c7d6-e5f4-3210-fedc-ba9876543210:deadbeef-cafe-babe-dead-beefcafebabe"
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2026-07-13T16:49:06.584491995 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2026-08-03T12:36:58.489404424 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -693,6 +693,27 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
         </tr>
         <tr>
             <td>
+                cookstyle
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                <a href="https://github.com/chef/cookstyle">
+                    Cookstyle
+                </a>
+            </td>
+            <td>
+                **/cookstyle-report.json
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Use commandline <code>cookstyle --format json</code> to generate JSON output.<br/>See <a href='https://github.com/chef/cookstyle'>Cookstyle on GitHub</a> for usage details.
+            </td>
+        </tr>
+        <tr>
+            <td>
                 coolflux
             </td>
             <td>
@@ -786,6 +807,27 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
             </td>
             <td>
                 -
+            </td>
+        </tr>
+        <tr>
+            <td>
+                dependency-track
+            </td>
+            <td>
+                <img src="https://raw.githubusercontent.com/DependencyTrack/branding/main/dt-icon.svg" alt="Dependency-Track" height="64" width="64">
+            </td>
+            <td>
+                <a href="https://dependencytrack.org/">
+                    Dependency-Track
+                </a>
+            </td>
+            <td>
+                **/dependency-track-findings.json
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Export findings from the Dependency-Track REST API using: <br> <code>GET /api/v1/finding/project/{uuid}/export</code>, then save the response to a file. See <a href="https://docs.dependencytrack.org/integrations/file-formats/">Dependency-Track File Formats</a> for details.
             </td>
         </tr>
         <tr>
@@ -2589,6 +2631,27 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
             </td>
             <td>
                 -
+            </td>
+        </tr>
+        <tr>
+            <td>
+                salt-lint
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                <a href="https://github.com/warpnet/salt-lint">
+                    Salt Lint
+                </a>
+            </td>
+            <td>
+                **/salt-lint-report.json
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Use commandline <code>salt-lint --json</code> to generate JSON output.<br/>Add <code>--severity</code> to include severity levels in the report.<br/>See <a href='https://github.com/warpnet/salt-lint'>salt-lint on GitHub</a> for usage details.
             </td>
         </tr>
         <tr>
