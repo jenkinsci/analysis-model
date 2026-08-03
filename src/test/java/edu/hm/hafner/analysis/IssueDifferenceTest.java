@@ -152,66 +152,86 @@ class IssueDifferenceTest extends ResourceTest {
         assertThat(issueDifference.getOutstandingIssues()).hasSize(1);
     }
 
+    /**
+     * Reference and current lines are chosen so that none of them coincide, which means every current issue must be
+     * matched purely through {@code findReferenceByFingerprint} rather than through the preceding exact-equals pass.
+     * With several reference issues sharing the fingerprint still available as candidates, this verifies the
+     * closest-line selection: an implementation that instead returns an arbitrary candidate (e.g. the old
+     * {@code stream().findAny()}) would consume the wrong reference issues, which is visible in the resulting
+     * {@link IssueDifference#getFixedIssues()}.
+     */
     @Test
     @org.junitpioneer.jupiter.Issue("JENKINS-61383")
-    void shouldMatchClosestLineWhenMultipleIssuesShareSameFingerprint() {
+    void shouldPickClosestReferenceLineAmongMultipleFingerprintCandidates() {
         var sharedFingerprint = "SAME-FP";
 
         var referenceIssues = new Report().addAll(
-                createIssueAtLine("WARNING", sharedFingerprint, 10),
-                createIssueAtLine("WARNING", sharedFingerprint, 11),
-                createIssueAtLine("WARNING", sharedFingerprint, 12),
-                createIssueAtLine("WARNING", sharedFingerprint, 13),
-                createIssueAtLine("WARNING", sharedFingerprint, 14));
+                createIssueAtLine("OLD", sharedFingerprint, 10),
+                createIssueAtLine("OLD", sharedFingerprint, 20),
+                createIssueAtLine("OLD", sharedFingerprint, 30),
+                createIssueAtLine("OLD", sharedFingerprint, 40),
+                createIssueAtLine("OLD", sharedFingerprint, 50));
 
         var currentIssues = new Report().addAll(
-                createIssueAtLine("WARNING", sharedFingerprint, 11),
-                createIssueAtLine("WARNING", sharedFingerprint, 12),
-                createIssueAtLine("WARNING", sharedFingerprint, 13),
-                createIssueAtLine("WARNING", sharedFingerprint, 14),
-                createIssueAtLine("WARNING", sharedFingerprint, 15));
+                createIssueAtLine("NEW", sharedFingerprint, 21),
+                createIssueAtLine("NEW", sharedFingerprint, 31));
 
         var issueDifference = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues);
 
-        assertThat(issueDifference.getNewIssues())
-                .as("No issue should be marked new after a simple line shift")
-                .isEmpty();
+        assertThat(issueDifference.getNewIssues()).isEmpty();
         assertThat(issueDifference.getOutstandingIssues())
-                .as("All issues should remain outstanding after a line shift")
-                .hasSize(5);
-        assertThat(issueDifference.getFixedIssues())
-                .as("No issue should be marked fixed after a simple line shift")
-                .isEmpty();
+                .as("Both current issues should be matched to a reference issue")
+                .hasSize(2);
+
+        var fixed = issueDifference.getFixedIssues();
+        assertThat(fixed)
+                .as("Only the two closest reference lines (20 and 30) should be consumed")
+                .hasSize(3);
+        assertThat(fixed.get(0)).hasLineStart(10);
+        assertThat(fixed.get(1)).hasLineStart(40);
+        assertThat(fixed.get(2)).hasLineStart(50);
     }
 
+    /**
+     * Combines the closest-line fingerprint matching with a genuinely new issue that does not share any fingerprint
+     * with the reference report, mirroring the "many similar adjacent warnings" scenario from JENKINS-61383. As in
+     * {@link #shouldPickClosestReferenceLineAmongMultipleFingerprintCandidates()}, reference and current lines are
+     * deliberately non-overlapping so the match can only happen through the fingerprint distance comparison.
+     */
     @Test
     @org.junitpioneer.jupiter.Issue("JENKINS-61383")
-    void shouldStillDetectTrulyNewIssueAmongIdenticalAdjacentWarnings() {
+    void shouldDistinguishTrulyNewIssueFromClosestFingerprintMatch() {
         var sharedFingerprint = "SAME-FP";
 
         var referenceIssues = new Report().addAll(
                 createIssueAtLine("WARNING", sharedFingerprint, 10),
-                createIssueAtLine("WARNING", sharedFingerprint, 11),
-                createIssueAtLine("WARNING", sharedFingerprint, 12));
+                createIssueAtLine("WARNING", sharedFingerprint, 20),
+                createIssueAtLine("WARNING", sharedFingerprint, 30));
 
         var currentIssues = new Report().addAll(
-                createIssueAtLine("WARNING", sharedFingerprint, 11),
-                createIssueAtLine("WARNING", sharedFingerprint, 12),
-                createIssueAtLine("WARNING", sharedFingerprint, 13),
+                createIssueAtLine("WARNING MOVED", sharedFingerprint, 22),
                 createIssueAtLine("NEW WARNING", "DIFFERENT-FP", 100));
 
         var issueDifference = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues);
 
-        assertThat(issueDifference.getOutstandingIssues())
-                .as("The 3 shifted issues should all be outstanding")
-                .hasSize(3);
-        assertThat(issueDifference.getNewIssues())
-                .as("Only the genuinely new issue should be marked new")
+        var outstandingIssues = issueDifference.getOutstandingIssues();
+        assertThat(outstandingIssues)
+                .as("The shifted warning should be matched to the closest reference line (20)")
                 .hasSize(1);
-        assertThat(issueDifference.getNewIssues().get(0))
-                .hasMessage("NEW WARNING")
-                .hasReference(CURRENT_BUILD);
-        assertThat(issueDifference.getFixedIssues()).isEmpty();
+        assertThat(outstandingIssues.get(0)).hasMessage("WARNING MOVED").hasReference(REFERENCE_BUILD);
+
+        var newIssues = issueDifference.getNewIssues();
+        assertThat(newIssues)
+                .as("The differently fingerprinted issue has no candidate and must be marked new")
+                .hasSize(1);
+        assertThat(newIssues.get(0)).hasMessage("NEW WARNING").hasReference(CURRENT_BUILD);
+
+        var fixed = issueDifference.getFixedIssues();
+        assertThat(fixed)
+                .as("Reference lines 10 and 30 remain, since 20 is the closest match and got consumed")
+                .hasSize(2);
+        assertThat(fixed.get(0)).hasLineStart(10);
+        assertThat(fixed.get(1)).hasLineStart(30);
     }
 
     private Issue createIssueAtLine(final String message, final String fingerprint, final int line) {
