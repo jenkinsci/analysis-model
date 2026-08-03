@@ -35,7 +35,7 @@ class OsgiModuleDetector extends AbstractModuleDetector {
     }
 
     @Override
-    public void collectProjects(final Map<String, String> mapping, final List<String> projects) {
+    void collectProjects(final Map<String, String> mapping, final List<String> projects) {
         for (String fileName : projects) {
             if (fileName.endsWith(OSGI_BUNDLE)) {
                 addMapping(mapping, fileName, OSGI_BUNDLE, parseManifest(fileName));

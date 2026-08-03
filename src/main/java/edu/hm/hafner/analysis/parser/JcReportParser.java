@@ -27,7 +27,7 @@ public class JcReportParser extends IssueParser {
     private static final long serialVersionUID = -1302787609831475403L;
 
     @Override
-    public Report parseReport(final ReaderFactory reader) {
+    protected Report parseReport(final ReaderFactory reader) {
         try (var issueBuilder = new IssueBuilder()) {
             var report = createReport(reader);
             var warnings = new Report();
