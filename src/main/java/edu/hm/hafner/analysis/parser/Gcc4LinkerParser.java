@@ -37,6 +37,7 @@ public class Gcc4LinkerParser extends LookaheadParser {
     }
 
     @Override
+    @SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
     protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
             final IssueBuilder builder) {
         if (StringUtils.isNotBlank(matcher.group(7))) {
