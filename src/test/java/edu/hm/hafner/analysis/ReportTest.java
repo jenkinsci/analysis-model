@@ -1116,7 +1116,6 @@ class ReportTest extends SerializableTest<Report> {
          * @throws IOException
          *         if the file could not be written
          */
-        @SuppressWarnings("PMD.PublicMemberInNonPublicType")
         public static void main(final String... args) throws IOException {
             new ReportTest().createSerializationFile();
         }

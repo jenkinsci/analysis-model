@@ -88,13 +88,18 @@ public class SimulinkCheckParser extends IssueParser {
                 issueBuilder.setDescription(textMatcher.group(3));
             }
             else {
-                var parent = element.parent();
-                if (parent != null) {
-                    parseParent(issueBuilder, headingSplit, issueTxt, parent);
-                }
+                fillFromParent(issueBuilder, element, headingSplit, issueTxt);
             }
             issueBuilder.setFileName(system);
             report.add(issueBuilder.build());
+        }
+    }
+
+    private static void fillFromParent(final IssueBuilder issueBuilder, final Element element, final String[] headingSplit,
+            final String issueTxt) {
+        var parent = element.parent();
+        if (parent != null) {
+            parseParent(issueBuilder, headingSplit, issueTxt, parent);
         }
     }
 
