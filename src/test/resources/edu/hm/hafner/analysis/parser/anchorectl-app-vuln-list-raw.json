@@ -1,0 +1,24 @@
+[
+  {
+    "vulnerability_id": "CVE-2025-60876",
+    "severity": "medium",
+    "package_name": "ssl_client",
+    "package_version": "1.36.1-r31",
+    "package_type": "apk",
+    "purl": "pkg:apk/alpine/ssl_client@1.36.1-r31?arch=x86_64&distro=alpine-3.20.10&upstream=busybox",
+    "fix_state": "unknown",
+    "fix_versions": [],
+    "kev": false
+  },
+  {
+    "vulnerability_id": "CVE-2026-8376",
+    "severity": "critical",
+    "package_name": "perl-base",
+    "package_version": "5.40.1-6",
+    "package_type": "deb",
+    "purl": "pkg:deb/debian/perl-base@5.40.1-6",
+    "fix_state": "wont_fix",
+    "fix_versions": [],
+    "kev": false
+  }
+]
