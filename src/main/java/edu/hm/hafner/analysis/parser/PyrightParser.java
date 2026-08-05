@@ -31,7 +31,6 @@ public class PyrightParser extends JsonIssueParser {
     private static final String END = "end";
     private static final String LINE = "line";
     private static final String CHARACTER = "character";
-    private static final String INFORMATION = "information";
 
     @Override
     protected void parseJsonObject(final Report report, final JSONObject jsonReport, final IssueBuilder issueBuilder) {
@@ -44,25 +43,15 @@ public class PyrightParser extends JsonIssueParser {
     }
 
     private Issue convertToIssue(final JSONObject diagnostic, final IssueBuilder issueBuilder) {
-        var severityString = diagnostic.optString(SEVERITY, "warning");
-        var severity = mapSeverity(severityString);
-
         issueBuilder
                 .setFileName(diagnostic.optString(FILE, "-"))
                 .setMessage(diagnostic.optString(MESSAGE, "-"))
                 .setType(diagnostic.optString(RULE, "-"))
-                .setSeverity(severity);
+                .setSeverity(Severity.guessFromString(diagnostic.optString(SEVERITY, "warning")));
 
         applyRange(diagnostic.optJSONObject(RANGE), issueBuilder);
 
         return issueBuilder.buildAndClean();
-    }
-
-    private Severity mapSeverity(final String severityString) {
-        if (INFORMATION.equalsIgnoreCase(severityString)) {
-            return Severity.WARNING_LOW;
-        }
-        return Severity.guessFromString(severityString);
     }
 
     private void applyRange(@CheckForNull final JSONObject range, final IssueBuilder issueBuilder) {
