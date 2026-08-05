@@ -1069,6 +1069,12 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(3, "snyk", "snyk-report.json");
     }
 
+    /** Runs the Pyright parser on an output file that contains 4 issues. */
+    @Test
+    void shouldFindAllPyrightIssues() {
+        findIssuesOfTool(4, "pyright", "pyright-report.json");
+    }
+
     /** Runs the Salt Lint parser on an output file that contains 5 issues. */
     @Test
     void shouldFindAllSaltLintIssues() {

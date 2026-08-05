@@ -1,0 +1,75 @@
+{
+  "version": "1.1.394",
+  "time": "2024-01-15T10:30:00.000Z",
+  "generalDiagnostics": [
+    {
+      "file": "src/main.py",
+      "severity": "error",
+      "message": "Argument of type 'str' cannot be assigned to parameter 'count' of type 'int'",
+      "rule": "reportArgumentType",
+      "range": {
+        "start": {
+          "line": 9,
+          "character": 14
+        },
+        "end": {
+          "line": 9,
+          "character": 21
+        }
+      }
+    },
+    {
+      "file": "src/utils.py",
+      "severity": "warning",
+      "message": "Return type 'None' is not compatible with declared return type 'str'",
+      "rule": "reportReturnType",
+      "range": {
+        "start": {
+          "line": 24,
+          "character": 4
+        },
+        "end": {
+          "line": 24,
+          "character": 10
+        }
+      }
+    },
+    {
+      "file": "src/models/user.py",
+      "severity": "information",
+      "message": "Type of 'data' is 'dict[str, Any]'",
+      "range": {
+        "start": {
+          "line": 41,
+          "character": 8
+        },
+        "end": {
+          "line": 41,
+          "character": 12
+        }
+      }
+    },
+    {
+      "file": "tests/test_service.py",
+      "severity": "error",
+      "message": "Cannot access member 'send' for type 'None'",
+      "rule": "reportOptionalMemberAccess",
+      "range": {
+        "start": {
+          "line": 67,
+          "character": 8
+        },
+        "end": {
+          "line": 67,
+          "character": 20
+        }
+      }
+    }
+  ],
+  "summary": {
+    "filesAnalyzed": 12,
+    "errorCount": 2,
+    "warningCount": 1,
+    "informationCount": 1
+  }
+}
