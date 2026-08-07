@@ -1,4 +1,4 @@
-<!--- DO NOT EDIT -- Generated at 2026-08-07T16:29:18.279558319 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2026-08-07T16:43:48.380349225 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -2433,6 +2433,27 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
         <tr>
             <td colspan="4">
                 :bulb: <p>Start Pylint using this custom message template (can also be configured via a pylintrc configuration file):<p><code>pylint --msg-template='{path}:{line}: [{msg_id}, {obj}] {msg} ({symbol})' modules_or_packages > pylint.log</code></p></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                pyright
+            </td>
+            <td>
+                <img src="https://github.com/microsoft/pyright/blob/main/docs/img/PyrightLarge.png" alt="Pyright" height="64" width="64">
+            </td>
+            <td>
+                <a href="https://github.com/microsoft/pyright">
+                    Pyright
+                </a>
+            </td>
+            <td>
+                **/pyright-report.json
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Use commandline <code>pyright --outputjson &gt; pyright-report.json</code> to generate JSON output.<br/>See <a href='https://github.com/microsoft/pyright'>Pyright on GitHub</a> for usage details.
             </td>
         </tr>
         <tr>
