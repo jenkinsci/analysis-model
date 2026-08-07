@@ -12,16 +12,22 @@ import java.util.Optional;
 import static j2html.TagCreator.*;
 
 /**
- * JSON report parser for anchorectl image one-time-scan output.
+ * JSON report parser for anchorectl vulnerability output.
  *
- * <p>Supports three output layouts produced by anchorectl:
+ * <p>Supports the output layouts produced by anchorectl:
  * <ul>
- *   <li>Unified output ({@code -o json IMAGE}): top-level {@code vulnerabilities} is a JSON object
- *       envelope containing an inner {@code vulnerabilities} array.</li>
- *   <li>Standalone file ({@code -o json --output-directory DIR}): top-level {@code vulnerabilities}
- *       is already the array.</li>
- *   <li>Raw snake_case output ({@code -o json-raw --output-directory DIR}): same shape as the
- *       standalone file but field names use snake_case instead of camelCase.</li>
+ *   <li>Unified output ({@code image one-time-scan -o json IMAGE}): top-level {@code vulnerabilities}
+ *       is a JSON object envelope containing an inner {@code vulnerabilities} array.</li>
+ *   <li>Standalone file ({@code image one-time-scan -o json --output-directory DIR}): top-level
+ *       {@code vulnerabilities} is already the array.</li>
+ *   <li>Raw snake_case output ({@code image one-time-scan -o json-raw --output-directory DIR}): same
+ *       shape as the standalone file but field names use snake_case instead of camelCase.</li>
+ *   <li>Bare array ({@code image vuln -o json}): the top-level JSON value is itself the array of
+ *       vulnerability objects, camelCase or snake_case.</li>
+ *   <li>App/BYOS-SBOM feature ({@code app version vuln list -o json[-raw]}): a bare array with a
+ *       distinct field vocabulary ({@code vulnerabilityId}/{@code vulnerability_id} instead of
+ *       {@code vuln}, {@code fixState}/{@code fix_state} plus {@code fixVersions}/{@code fix_versions}
+ *       instead of {@code fix}, a top-level {@code kev} boolean instead of {@code nvdData[].isKev}).</li>
  * </ul>
  *
  * @see <a href="https://github.com/anchore/anchorectl">anchorectl</a>
@@ -59,7 +65,9 @@ public class AnchoreCtlParser extends JsonIssueParser {
     }
 
     private void parseVulnerability(final Report report, final JSONObject vulnerability, final IssueBuilder builder) {
-        var vulnerabilityId = vulnerability.optString("vuln", "").trim();
+        // "vuln" on the image-scan endpoints; "vulnerabilityId"/"vulnerability_id" on the
+        // App/BYOS-SBOM endpoint (anchorectl app version vuln list).
+        var vulnerabilityId = firstNonBlank(vulnerability, "vuln", "vulnerabilityId", "vulnerability_id").trim();
         if (vulnerabilityId.isBlank()) {
             return;
         }
@@ -68,9 +76,16 @@ public class AnchoreCtlParser extends JsonIssueParser {
         var purl = vulnerability.optString("purl", "");
 
         var fix = cleanNone(vulnerability.optString("fix", ""));
+        if (fix.isBlank()) {
+            fix = firstFixVersion(vulnerability);
+        }
         var url = vulnerability.optString("url", "");
-        var willNotFix = vulnerability.optBoolean("willNotFix") || vulnerability.optBoolean("will_not_fix");
-        var isKev = isKevFromNvdData(vulnerability);
+        var fixState = firstNonBlank(vulnerability, "fixState", "fix_state");
+        var willNotFix = vulnerability.optBoolean("willNotFix") || vulnerability.optBoolean("will_not_fix")
+                || equalsIgnoreCase(fixState, "wont_fix");
+        // Image-scan endpoints: isKev lives inside nvdData[].isKev / nvd_data[].is_kev.
+        // App/BYOS-SBOM endpoint: top-level "kev" boolean.
+        var isKev = vulnerability.optBoolean("kev") || isKevFromNvdData(vulnerability);
 
         var packageVersion = firstNonBlank(vulnerability, "packageVersion", "package_version");
         builder.setMessage(vulnerabilityId)
@@ -82,6 +97,17 @@ public class AnchoreCtlParser extends JsonIssueParser {
                 .setFingerprint(vulnerabilityId + ":" + firstNonBlank(vulnerability, "packageName", "package_name") + ":" + packageVersion + ":" + packagePath);
 
         report.add(builder.build());
+    }
+
+    private String firstFixVersion(final JSONObject vulnerability) {
+        var fixVersions = vulnerability.optJSONArray("fixVersions");
+        if (fixVersions == null) {
+            fixVersions = vulnerability.optJSONArray("fix_versions");
+        }
+        if (fixVersions == null || fixVersions.isEmpty()) {
+            return "";
+        }
+        return cleanNone(fixVersions.optString(0, ""));
     }
 
     private String extractFileName(final String packagePath, final String purl) {

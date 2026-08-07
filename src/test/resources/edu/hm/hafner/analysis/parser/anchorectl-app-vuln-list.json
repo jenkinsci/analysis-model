@@ -1,0 +1,24 @@
+[
+  {
+    "vulnerabilityId": "CVE-2026-8927",
+    "severity": "critical",
+    "packageName": "libcurl4t64",
+    "packageVersion": "8.14.1-2+deb13u4",
+    "packageType": "deb",
+    "purl": "pkg:deb/debian/libcurl4t64@8.14.1-2%2Bdeb13u4?arch=amd64&distro=debian-13&upstream=curl",
+    "fixState": "wont_fix",
+    "fixVersions": [],
+    "kev": false
+  },
+  {
+    "vulnerabilityId": "CVE-2026-42533",
+    "severity": "high",
+    "packageName": "nginx",
+    "packageVersion": "1.31.3-1~trixie",
+    "packageType": "deb",
+    "purl": "pkg:deb/debian/nginx@1.31.3-1~trixie",
+    "fixState": "not_fixed",
+    "fixVersions": ["1.31.4-1~trixie"],
+    "kev": true
+  }
+]

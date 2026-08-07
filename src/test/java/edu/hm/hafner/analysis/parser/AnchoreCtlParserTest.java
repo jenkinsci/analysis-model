@@ -203,6 +203,62 @@ class AnchoreCtlParserTest extends AbstractParserTest {
     }
 
     @Test
+    void shouldParseAppVulnListCamelCase() {
+        var report = parse("anchorectl-app-vuln-list.json");
+
+        try (var softly = new SoftAssertions()) {
+            softly.assertThat(report).hasSize(2);
+            softly.assertThat(report.get(0))
+                    .hasMessage("CVE-2026-8927")
+                    .hasSeverity(Severity.ERROR)
+                    .hasPackageName("libcurl4t64")
+                    .hasCategory("deb")
+                    .hasFileName("pkg:deb/debian/libcurl4t64@8.14.1-2%2Bdeb13u4?arch=amd64&distro=debian-13&upstream=curl")
+                    .hasDescription(join(
+                            p(text("No fix available")),
+                            p(join(text("Affected version: "), text("8.14.1-2+deb13u4"))),
+                            p(text("Vendor will not fix"))
+                    ).render());
+            softly.assertThat(report.get(1))
+                    .hasMessage("CVE-2026-42533")
+                    .hasSeverity(Severity.WARNING_HIGH)
+                    .hasPackageName("nginx")
+                    .hasDescription(join(
+                            p(join(b("Fix:"), text(" 1.31.4-1~trixie"))),
+                            p(join(text("Affected version: "), text("1.31.3-1~trixie"))),
+                            p(b("CISA Known Exploited Vulnerability (KEV)"))
+                    ).render());
+        }
+    }
+
+    @Test
+    void shouldParseAppVulnListSnakeCase() {
+        var report = parse("anchorectl-app-vuln-list-raw.json");
+
+        try (var softly = new SoftAssertions()) {
+            softly.assertThat(report).hasSize(2);
+            softly.assertThat(report.get(0))
+                    .hasMessage("CVE-2025-60876")
+                    .hasSeverity(Severity.WARNING_NORMAL)
+                    .hasPackageName("ssl_client")
+                    .hasCategory("apk")
+                    .hasDescription(join(
+                            p(text("No fix available")),
+                            p(join(text("Affected version: "), text("1.36.1-r31")))
+                    ).render());
+            softly.assertThat(report.get(1))
+                    .hasMessage("CVE-2026-8376")
+                    .hasSeverity(Severity.ERROR)
+                    .hasPackageName("perl-base")
+                    .hasDescription(join(
+                            p(text("No fix available")),
+                            p(join(text("Affected version: "), text("5.40.1-6"))),
+                            p(text("Vendor will not fix"))
+                    ).render());
+        }
+    }
+
+    @Test
     void shouldHaveValidDescriptor() {
         var descriptor = new ParserRegistry().get("anchore-ctl");
         try (var softly = new SoftAssertions()) {
