@@ -175,6 +175,7 @@ public class ParserRegistry {
             new PuppetLintDescriptor(),
             new PsalmDescriptor(),
             new PvsStudioDescriptor(),
+            new PyrightDescriptor(),
             new PyDocStyleDescriptor(),
             new PyLintDescriptor(),
             new QacSourceCodeAnalyserDescriptor(),
