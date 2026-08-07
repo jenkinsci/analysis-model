@@ -105,6 +105,8 @@ public class MsBuildParser extends LookaheadParser {
     private static final String EXPECTED_CATEGORY = "Expected";
     private static final String MSBUILD = "MSBUILD";
     private static final String NO_SOURCE_FILE = "-";
+    private static final String UNKNOWN_FILE = "unknown.file";
+    private static final Pattern TIMESTAMP_PATTERN = Pattern.compile("^\\d{1,2}:\\d{2}:\\d{2}\\s+");
     private static final Pattern HEADER_COMPILE_MESSAGE = Pattern.compile("\\(compiling source file .*\\)");
 
     // Pattern to extract Delphi file path from message (e.g., "C:\Path\File.pas(123) Warning: ...")
@@ -280,12 +282,12 @@ public class MsBuildParser extends LookaheadParser {
         }
         
         var cleanFileName = fileName.trim();
-        if (NO_SOURCE_FILE.equals(cleanFileName) || "unknown.file".equals(cleanFileName)) {
+        if (NO_SOURCE_FILE.equals(cleanFileName) || UNKNOWN_FILE.equals(cleanFileName)) {
             return Optional.empty();
         }
 
         var baseFileName = FilenameUtils.getName(cleanFileName);
-        var strippedFileName = baseFileName.replaceAll("^\\d{1,2}:\\d{2}:\\d{2}\\s+", "");
+        var strippedFileName = TIMESTAMP_PATTERN.matcher(baseFileName).replaceAll("");
 
         if (TOOL_NAME_PATTERN.matcher(strippedFileName).matches()) {
             if (SYSTEM_TOOL.matcher(strippedFileName).matches()) {
@@ -322,11 +324,11 @@ public class MsBuildParser extends LookaheadParser {
         }
 
         var messageText = matcher.group(22);
-        var message = messageText == null ? "" : messageText;
+        var message = StringUtils.defaultString(messageText);
         // Group 22 is message
         var linker = LINKER_CAUSE.matcher(message);
         return linker.matches() ? linker.group(1)
-                : StringUtils.defaultIfBlank(StringUtils.substringBetween(message, "'"), "unknown.file");
+                : StringUtils.defaultIfBlank(StringUtils.substringBetween(message, "'"), UNKNOWN_FILE);
     }
 
     private String normalizeFileName(final String fileName, @CheckForNull final String projectDir) {
