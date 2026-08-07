@@ -56,18 +56,82 @@ class MsBuildParserTest extends AbstractParserTest {
      */
     @Test
     void issue56613() {
-        assertThat(parse("issue56613.txt")).isEmpty();
+        var warnings = parse("issue56613.txt");
+        // ConsoleTranslator.exe is an executable name and is still dropped.
+        // EXEC, NMAKE and rs are bare MSBuild task names: their warnings are now surfaced
+        // with fileName "-" rather than silently discarded (see issue #1512).
+        assertThat(warnings).hasSize(4);
+        assertThatReportHasSeverities(warnings, 3, 0, 1, 0);
     }
 
     /**
-     * Extended test for issue 56613 - ensures tool names are properly ignored.
-     * Tests that executables (.exe) and tool names without extensions (NMAKE, rs, cl) are skipped.
+     * Extended test for issue 56613 - ensures tool names are properly handled.
+     * Executable names (.exe) and pseudo-file placeholders are still dropped.
+     * Bare task names (EXEC, NMAKE, CSC, MSBuild, rs) now produce issues with fileName "-".
      *
      * @see <a href="https://issues.jenkins.io/browse/JENKINS-56613">Issue 56613</a>
      */
     @Test
     void issue56613Extended() {
-        assertThat(parse("issue56613-extended.txt")).isEmpty();
+        var warnings = parse("issue56613-extended.txt");
+        assertThat(warnings).hasSize(6);
+        assertThatReportHasSeverities(warnings, 3, 0, 3, 0);
+    }
+
+    /**
+     * Warnings prefixed by a bare task name like EXEC should not be dropped.
+     *
+     * @see <a href="https://github.com/jenkinsci/analysis-model/issues/1512">Issue #1512</a>
+     */
+    @Test
+    void issue1512() {
+        var warnings = parse("issue1512.txt");
+        assertThat(warnings).hasSize(3);
+        assertThatReportHasSeverities(warnings, 0, 0, 3, 0);
+        try (var softly = new SoftAssertions()) {
+            softly.assertThat(warnings.get(0))
+                    .hasFileName("-")
+                    .hasCategory("NU1902")
+                    .hasSeverity(Severity.WARNING_NORMAL)
+                    .hasMessage("Package 'Microsoft.IdentityModel.JsonWebTokens' 6.11.1 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-59j7-ghrg-fj52");
+            softly.assertThat(warnings.get(1))
+                    .hasFileName("-")
+                    .hasCategory("NU1903")
+                    .hasSeverity(Severity.WARNING_NORMAL)
+                    .hasMessage("Package 'Microsoft.Owin' 4.2.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-3rq8-h3gj-r5c6");
+            softly.assertThat(warnings.get(2))
+                    .hasFileName("-")
+                    .hasCategory("NU1902")
+                    .hasSeverity(Severity.WARNING_NORMAL)
+                    .hasMessage("Package 'System.IdentityModel.Tokens.Jwt' 6.11.1 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-59j7-ghrg-fj52");
+        }
+    }
+
+    /** Tests the border cases of tool name checking. */
+    @Test
+    void shouldCoverCheckToolNameBranches() {
+        // Triggers NO_SOURCE_FILE ("-") path directly in checkToolName
+        var report0 = parseStringContent("- : warning : Cat: Some message");
+        assertThat(report0).isEmpty();
+
+        // Triggers "unknown.file" path in checkToolName (no filename, no quotes)
+        var report1 = parseStringContent("warning : Cat: Some message");
+        assertThat(report1).isEmpty();
+
+        // Triggers "-" path in checkToolName (invalid filename characters normalizes to "-")
+        var report2 = parseStringContent("foo*bar : warning : Cat: Some message");
+        assertThat(report2).isEmpty();
+
+        // Triggers the contains("*") && contains("/") branch in containsInvalidPathCharacters
+        var report3 = parseStringContent("foo*bar/baz : warning : Cat: Some message");
+        assertThat(report3).hasSize(1);
+        assertThat(report3.get(0)).hasFileName("foo*bar/baz");
+
+        // Triggers the contains("*") && contains("\\") branch in containsInvalidPathCharacters
+        var report4 = parseStringContent("foo*bar\\baz : warning : Cat: Some message");
+        assertThat(report4).hasSize(1);
+        // IssueBuilder normalizes backslashes to forward slashes
+        assertThat(report4.get(0)).hasFileName("foo*bar/baz");
     }
 
     /**
