@@ -69,7 +69,7 @@
     <slf4j.version>2.0.18</slf4j.version>
     <violations-lib.version>1.160.5</violations-lib.version>
     <jsoup.version>1.23.1</jsoup.version>
-    <json.version>20251224</json.version>
+    <json.version>20260814</json.version>
     <json-smart.version>2.6.0</json-smart.version>
     <pmd.api.version>7.26.0</pmd.api.version>
     <spotbugs.api.version>4.10.3</spotbugs.api.version>
