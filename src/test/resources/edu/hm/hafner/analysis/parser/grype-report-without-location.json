@@ -1,0 +1,19 @@
+{
+  "matches": [
+    {
+      "vulnerability": {
+        "id": "CVE-2026-0001",
+        "dataSource": "https://nvd.nist.gov/vuln/detail/CVE-2026-0001",
+        "severity": "High",
+        "description": "Example vulnerability"
+      },
+      "artifact": {
+        "id": "1234567890abcdef",
+        "name": "example-package",
+        "version": "1.0.0",
+        "type": "deb",
+        "locations": null
+      }
+    }
+  ]
+}

@@ -49,7 +49,11 @@ public class GrypeParser extends JsonIssueParser {
     private Issue getIssue(final IssueBuilder issueBuilder, final JSONObject match) {
         var vulnerability = match.getJSONObject(VULNERABILIY_TAG);
         var artifact = match.getJSONObject(ARTIFACT_TAG);
-        var fileName = artifact.getJSONArray(LOCATIONS_TAG).getJSONObject(0).getString(PATH_TAG);
+        var fileName = "";
+        var locations = artifact.optJSONArray(LOCATIONS_TAG);
+        if (locations != null && !locations.isEmpty()) {
+            fileName = locations.getJSONObject(0).getString(PATH_TAG);
+        }
         var packageName = artifact.optString(NAME_TAG, "Unknown");
         var version = artifact.optString(VERSION_TAG, "");
         if (!version.isEmpty()) {
