@@ -49,10 +49,9 @@ public class GrypeParser extends JsonIssueParser {
     private Issue getIssue(final IssueBuilder issueBuilder, final JSONObject match) {
         var vulnerability = match.getJSONObject(VULNERABILIY_TAG);
         var artifact = match.getJSONObject(ARTIFACT_TAG);
-        var fileName = "";
         var locations = artifact.optJSONArray(LOCATIONS_TAG);
         if (locations != null && !locations.isEmpty()) {
-            fileName = locations.getJSONObject(0).getString(PATH_TAG);
+            issueBuilder.setFileName(locations.getJSONObject(0).getString(PATH_TAG));
         }
         var packageName = artifact.optString(NAME_TAG, "Unknown");
         var version = artifact.optString(VERSION_TAG, "");
@@ -60,13 +59,11 @@ public class GrypeParser extends JsonIssueParser {
             packageName = packageName + " " + version;
         }
 
-        return issueBuilder.setFileName(fileName)
-                .setPackageName(packageName)
+        return issueBuilder.setPackageName(packageName)
                 .setCategory(artifact.optString(TYPE_TAG, "Unknown"))
                 .setSeverity(Severity.guessFromString(vulnerability.getString(SEVERITY_TAG)))
                 .setType(vulnerability.getString(ID_TAG))
                 .setMessage(vulnerability.optString(DESCRIPTION_TAG, "Unknown"))
-                .setPathName(fileName)
                 .setDescription(p().with(a()
                         .withHref(vulnerability.getString(DATA_SOURCE_TAG))
                         .withText(vulnerability.getString(DATA_SOURCE_TAG))).render())

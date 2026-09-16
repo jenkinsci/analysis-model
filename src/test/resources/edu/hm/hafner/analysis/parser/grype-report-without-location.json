@@ -5,7 +5,7 @@
         "id": "CVE-2026-0001",
         "dataSource": "https://nvd.nist.gov/vuln/detail/CVE-2026-0001",
         "severity": "High",
-        "description": "Example vulnerability"
+        "description": "Example vulnerability without locations"
       },
       "artifact": {
         "id": "1234567890abcdef",
@@ -13,6 +13,21 @@
         "version": "1.0.0",
         "type": "deb",
         "locations": null
+      }
+    },
+    {
+      "vulnerability": {
+        "id": "CVE-2026-0002",
+        "dataSource": "https://nvd.nist.gov/vuln/detail/CVE-2026-0002",
+        "severity": "High",
+        "description": "Example vulnerability with empty locations"
+      },
+      "artifact": {
+        "id": "abcdef1234567890",
+        "name": "another-package",
+        "version": "2.0.0",
+        "type": "deb",
+        "locations": []
       }
     }
   ]
