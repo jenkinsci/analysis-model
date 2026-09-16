@@ -12,7 +12,7 @@ jobs:
     name: Update quality badges
 
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
       - name: Set up JDK
         uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6
         with:
@@ -21,7 +21,7 @@ jobs:
           check-latest: true
           cache: 'maven'
       - name: Set up Maven
-        uses: stCarolas/setup-maven@v5
+        uses: stCarolas/setup-maven@d6af6abeda15e98926a57b5aa970a96bb37f97d1 # v5
         with:
           maven-version: 3.9.16
       - name: Check if quality monitor reports mutation coverage
@@ -34,7 +34,7 @@ jobs:
             fi
           fi
       - name: Cache the NVD database
-        uses: actions/cache@v6
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: ~/.m2/repository/org/owasp/dependency-check-data
           key: dependency-check
@@ -53,7 +53,7 @@ jobs:
         id: quality-monitor
         run: echo "json=$(jq -c . .github/quality-monitor.json)" >> "$GITHUB_OUTPUT"
       - name: Run Quality Monitor
-        uses: uhafner/quality-monitor@v4
+        uses: uhafner/quality-monitor@0100da6973a1498aad89af676852a8c788d397f8 # v4
         with:
           config: ${{ steps.quality-monitor.outputs.json }}
           comments-strategy: ADD
@@ -64,28 +64,28 @@ jobs:
           cat metrics.env >> "${GITHUB_OUTPUT}"
           mkdir -p badges
       - name: Generate the badge SVG image for the line coverage
-        uses: emibcn/badge-action@v2.0.4
+        uses: emibcn/badge-action@f9150fde070fcca0c4e832437611b44838fcd325 # v2.0.4
         with:
           label: 'Lines'
           status: ${{ steps.metrics.outputs.line }}%
           color: 'green'
           path: badges/line-coverage.svg
       - name: Generate the badge SVG image for the branch coverage
-        uses: emibcn/badge-action@v2.0.4
+        uses: emibcn/badge-action@f9150fde070fcca0c4e832437611b44838fcd325 # v2.0.4
         with:
           label: 'Branches'
           status: ${{ steps.metrics.outputs.branch }}%
           color: 'green'
           path: badges/branch-coverage.svg
       - name: Generate the badge SVG image for the style warnings
-        uses: emibcn/badge-action@v2.0.4
+        uses: emibcn/badge-action@f9150fde070fcca0c4e832437611b44838fcd325 # v2.0.4
         with:
           label: 'Warnings'
           status: ${{ steps.metrics.outputs.style }}
           color: 'orange'
           path: badges/style.svg
       - name: Generate the badge SVG image for the bugs
-        uses: emibcn/badge-action@v2.0.4
+        uses: emibcn/badge-action@f9150fde070fcca0c4e832437611b44838fcd325 # v2.0.4
         with:
           label: 'Bugs'
           status: ${{ steps.metrics.outputs.bugs }}
@@ -105,7 +105,7 @@ jobs:
           git add SUPPORTED-FORMATS.md
           git commit -m "Generate list of supported formats" || true
       - name: Push updated badges to GitHub repository
-        uses: ad-m/github-push-action@master
+        uses: ad-m/github-push-action@881a6320fdb16eb5318c5054f31c218aec2b324c # master
         if: ${{ success() }}
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
