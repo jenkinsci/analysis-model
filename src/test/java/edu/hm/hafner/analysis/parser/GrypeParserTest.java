@@ -86,6 +86,29 @@ class GrypeParserTest extends AbstractParserTest {
         }
     }
 
+    @Test
+    void assertThatVulnerabilityWithoutLocationCanBeParsed() {
+        var report = parse("grype-report-without-location.json");
+
+        try (var softly = new SoftAssertions()) {
+            softly.assertThat(report).hasSize(2).hasDuplicatesSize(0);
+            softly.assertThat(report.get(0))
+                    .hasFileName("-")
+                    .hasPackageName("example-package 1.0.0")
+                    .hasSeverity(Severity.WARNING_HIGH)
+                    .hasCategory("deb")
+                    .hasType("CVE-2026-0001")
+                    .hasMessage("Example vulnerability without locations");
+            softly.assertThat(report.get(1))
+                    .hasFileName("-")
+                    .hasPackageName("another-package 2.0.0")
+                    .hasSeverity(Severity.WARNING_HIGH)
+                    .hasCategory("deb")
+                    .hasType("CVE-2026-0002")
+                    .hasMessage("Example vulnerability with empty locations");
+        }
+    }
+
     @Override
     protected IssueParser createParser() {
         return new GrypeParser();
