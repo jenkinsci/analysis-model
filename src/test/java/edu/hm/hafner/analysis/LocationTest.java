@@ -32,7 +32,9 @@ class LocationTest {
                 .hasLineStart(LINE_START)
                 .hasLineEnd(LINE_END)
                 .hasColumnStart(COLUMN_START)
-                .hasColumnEnd(COLUMN_END);
+                .hasColumnEnd(COLUMN_END)
+                .isNotSingleLine()
+                .isNotForWholeLine();
     }
 
     @Test
