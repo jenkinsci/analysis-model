@@ -56,9 +56,24 @@ class IssueTest extends SerializableTest<Issue> {
     private static final String WINDOWS_PATH = "C:/Windows";
 
     @Test
-    void shouldSplitFileNameElements() {
-        var issue = createIssue(PATH_NAME, FILE_NAME_TS, 2, 1, 2, 1,
+    void shouldVerifyLocations() {
+        assertThat(createIssueWithLocation(0, 0, 0, 0))
+                .isForWholeFile().isInSingleLine().isForWholeLine();
+        assertThat(createIssueWithLocation(1, 1, 0, 0))
+                .isNotForWholeFile().isInSingleLine().isForWholeLine();
+        assertThat(createIssueWithLocation(1, 1, 1, 1))
+                .isNotForWholeFile().isInSingleLine().isNotForWholeLine();
+    }
+
+    private Issue createIssueWithLocation(final int lineStart, final int lineEnd, final int columnStart,
+            final int columnEnd) {
+        return createIssue(PATH_NAME, FILE_NAME_TS, lineStart, lineEnd, columnStart, columnEnd,
                 UUID.randomUUID());
+    }
+
+    @Test
+    void shouldSplitFileNameElements() {
+        var issue = createIssueWithLocation(2, 1, 2, 1);
 
         try (var softly = new SoftAssertions()) {
             softly.assertThat(issue)
@@ -124,10 +139,10 @@ class IssueTest extends SerializableTest<Issue> {
 
     @Test
     void shouldEnsureThatEndIsGreaterOrEqualStart() {
-        var issue = createIssue(PATH_NAME, FILE_NAME_TS, 3, 2, 2, 1,
-                UUID.randomUUID());
+        var issue = createIssueWithLocation(3, 2, 2, 1);
         assertThat(issue).hasLineStart(2).hasLineEnd(3);
         assertThat(issue).hasColumnStart(1).hasColumnEnd(2);
+        assertThat(issue).isNotInSingleLine().isNotForWholeLine().isNotForWholeFile();
 
         assertThat(issue.affectsLine(0)).isTrue();
         assertThat(issue.affectsLine(1)).isFalse();
@@ -263,8 +278,7 @@ class IssueTest extends SerializableTest<Issue> {
 
     @Test
     void testZeroLineColumnEndsDefaultToLineColumnStarts() {
-        var issue = createIssue(PATH_NAME, FILE_NAME_TS, LINE_START, 0, COLUMN_START, 0,
-                UUID.randomUUID());
+        var issue = createIssueWithLocation(LINE_START, 0, COLUMN_START, 0);
 
         try (var softly = new SoftAssertions()) {
             softly.assertThat(issue)
@@ -289,8 +303,7 @@ class IssueTest extends SerializableTest<Issue> {
      * @return a correctly filled issue
      */
     protected Issue createFilledIssue() {
-        return createIssue(PATH_NAME, FILE_NAME_TS, LINE_START, LINE_END, COLUMN_START, COLUMN_END,
-                UUID.randomUUID());
+        return createIssueWithLocation(LINE_START, LINE_END, COLUMN_START, COLUMN_END);
     }
 
     @SuppressWarnings("checkstyle:ParameterNumber")

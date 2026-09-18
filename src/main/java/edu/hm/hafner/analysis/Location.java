@@ -168,6 +168,24 @@ public class Location implements Serializable {
     }
 
     /**
+     * Returns whether this range is just a single line.
+     *
+     * @return {@code true} if this range is just a single line, {@code false} otherwise
+     */
+    public boolean isSingleLine() {
+        return lineStart == lineEnd;
+    }
+
+    /**
+     * Returns whether this range marks the whole file.
+     *
+     * @return {@code true} if this range marks the whole file, {@code false} otherwise
+     */
+    public boolean isForWholeFile() {
+        return lineStart == 0;
+    }
+
+    /**
      * Returns the first column of this location (columns start at 1, 0 indicates the whole line).
      *
      * @return the first column
@@ -185,13 +203,8 @@ public class Location implements Serializable {
         return columnEnd;
     }
 
-    /**
-     * Returns whether this range is just a single line.
-     *
-     * @return {@code true} if this range is just a single line, {@code false} otherwise
-     */
-    public boolean isSingleLine() {
-        return lineStart == lineEnd;
+    public boolean isForWholeLine() {
+        return columnStart == 0;
     }
 
     /**

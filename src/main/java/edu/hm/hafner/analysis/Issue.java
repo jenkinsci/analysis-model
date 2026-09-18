@@ -529,6 +529,15 @@ public class Issue implements Serializable {
     }
 
     /**
+     * Returns {@code true} if this issue is for a single line, or {@code false} if it is for a range of lines.
+     *
+     * @return {@code true} if this issue is for a single line
+     */
+    public boolean isInSingleLine() {
+        return getPrimaryLocation().isSingleLine();
+    }
+
+    /**
      * Returns additional line ranges for this issue. Not that the primary range given by {@code lineStart} and {@code
      * lineEnd} is not included.
      *
@@ -622,6 +631,24 @@ public class Issue implements Serializable {
      */
     public int getColumnEnd() {
         return getPrimaryLocation().getColumnEnd();
+    }
+
+    /**
+     * Returns {@code true} if this issue is for the whole line, or {@code false} if it is for a specific column range.
+     *
+     * @return {@code true} if this issue is for the whole line
+     */
+    public boolean isForWholeLine() {
+        return getPrimaryLocation().isForWholeLine();
+    }
+
+    /**
+     * Returns {@code true} if this issue is for the whole file, or {@code false} if it is for a specific line range.
+     *
+     * @return {@code true} if this issue is for the whole file
+     */
+    public boolean isForWholeFile() {
+        return getPrimaryLocation().isForWholeFile();
     }
 
     /**
