@@ -67,7 +67,7 @@
     <commons.text.version>1.15.0</commons.text.version>
     <j2html.version>1.4.0</j2html.version>
     <slf4j.version>2.0.19</slf4j.version>
-    <violations-lib.version>1.160.5</violations-lib.version>
+    <violations-lib.version>3.0.0</violations-lib.version>
     <jsoup.version>1.23.2</jsoup.version>
     <json.version>20260814</json.version>
     <json-smart.version>2.6.0</json-smart.version>
@@ -407,6 +407,24 @@
                 <vetted>ok</vetted>
               </attachments>
               <differences combine.children="append">
+                <item>
+                  <ignore>true</ignore>
+                  <code>java.field.serialVersionUIDUnchanged</code>
+                  <classQualifiedName>se.bjurr.violations.lib.model.Violation</classQualifiedName>
+                  <justification>We do not use serialization of violations.</justification>
+                </item>
+                <item>
+                  <ignore>true</ignore>
+                  <code>java.field.enumConstantOrderChanged</code>
+                  <classQualifiedName>se.bjurr.violations.lib.reports.Parser</classQualifiedName>
+                  <justification>We never use the ordinal() method of the enum.</justification>
+                </item>
+                <item>
+                  <ignore>true</ignore>
+                  <code>java.field.removed</code>
+                  <classQualifiedName>se.bjurr.violations.lib.reports.Parser</classQualifiedName>
+                  <justification>The removed parser has not been used.</justification>
+                </item>
                 <item>
                   <ignore>true</ignore>
                   <regex>true</regex>
