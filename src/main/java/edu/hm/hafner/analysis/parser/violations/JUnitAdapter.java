@@ -4,10 +4,15 @@ import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
+import edu.hm.hafner.analysis.Severity;
 
 import java.io.Serial;
 import java.util.stream.Stream;
+import se.bjurr.violations.lib.model.SEVERITY;
+import se.bjurr.violations.lib.model.Violation;
 import se.bjurr.violations.lib.parsers.JUnitParser;
+
+import static se.bjurr.violations.lib.model.SEVERITY.*;
 
 /**
  * Parses JUnit files.
@@ -35,13 +40,31 @@ public class JUnitAdapter extends AbstractViolationAdapter {
     @Override
     protected Report parseReport(final ReaderFactory readerFactory) throws ParsingCanceledException, ParsingException {
         var report = super.parseReport(readerFactory);
+
+        countFailedAndSkippedTests(readerFactory, report);
+
+        return report;
+    }
+
+    @Override
+    Severity convertSeverity(final SEVERITY severity, final Violation violation) {
+        if (severity == ERROR) {
+            return Severity.ERROR;
+        }
+        return Severity.WARNING_NORMAL;
+    }
+
+    private void countFailedAndSkippedTests(final ReaderFactory readerFactory, final Report report) {
         int total = count(readerFactory, "<testcase");
         report.setCounter(TOTAL_TESTS, total);
+
         int skipped = count(readerFactory, "<skipped");
         report.setCounter(SKIPPED_TESTS, skipped);
-        report.setCounter(FAILED_TESTS, report.size());
-        report.setCounter(PASSED_TESTS, total - skipped - report.size());
-        return report;
+
+        var failed = report.size() - skipped;
+        report.setCounter(FAILED_TESTS, failed);
+
+        report.setCounter(PASSED_TESTS, total - skipped - failed);
     }
 
     private int count(final ReaderFactory readerFactory, final String text) {
