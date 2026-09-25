@@ -15,7 +15,8 @@ rectangle "commons-logging\n\n1.4.0" as commons_logging_commons_logging_jar
 rectangle "commons-beanutils\n\n1.11.0" as commons_beanutils_commons_beanutils_jar
 rectangle "commons-collections\n\n3.2.2" as commons_collections_commons_collections_jar
 rectangle "commons-text\n\n1.15.0" as org_apache_commons_commons_text_jar
-rectangle "violations-lib\n\n1.160.5" as se_bjurr_violations_violations_lib_jar
+rectangle "violations-lib\n\n3.0.0" as se_bjurr_violations_violations_lib_jar
+rectangle "violations-lib-sarif\n\n3.0.0" as se_bjurr_violations_violations_lib_sarif_jar
 rectangle "j2html\n\n1.4.0" as com_j2html_j2html_jar
 rectangle "xercesImpl\n\n2.12.2" as xerces_xercesImpl_jar
 rectangle "xml-apis\n\n1.4.01" as xml_apis_xml_apis_jar
@@ -57,6 +58,7 @@ commons_beanutils_commons_beanutils_jar .[#ABABAB].> commons_logging_commons_log
 commons_beanutils_commons_beanutils_jar -[#000000]-> commons_collections_commons_collections_jar
 edu_hm_hafner_analysis_model_jar -[#000000]-> commons_beanutils_commons_beanutils_jar
 edu_hm_hafner_analysis_model_jar -[#000000]-> org_apache_commons_commons_text_jar
+se_bjurr_violations_violations_lib_jar -[#000000]-> se_bjurr_violations_violations_lib_sarif_jar
 edu_hm_hafner_analysis_model_jar -[#000000]-> se_bjurr_violations_violations_lib_jar
 edu_hm_hafner_analysis_model_jar -[#000000]-> com_j2html_j2html_jar
 xerces_xercesImpl_jar -[#000000]-> xml_apis_xml_apis_jar
