@@ -1,10 +1,9 @@
 package edu.hm.hafner.analysis.registry;
 
-import java.util.Collection;
-
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.AntJavacParser;
 import edu.hm.hafner.analysis.parser.JavacParser;
+import java.util.Collection;
 
 /**
  * A descriptor for the javac compiler.

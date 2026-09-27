@@ -1,15 +1,13 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.apache.commons.lang3.StringUtils;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-
 import java.io.Serial;
+import org.apache.commons.lang3.StringUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * Parser for detect-secrets JSON baseline reports.
@@ -39,8 +37,8 @@ public class DetectSecretsParser extends JsonIssueParser {
         }
     }
 
-    private void parseSecretsForFile(final Report report, final String filePath,
-            final JSONArray secrets, final IssueBuilder issueBuilder) {
+    private void parseSecretsForFile(
+            final Report report, final String filePath, final JSONArray secrets, final IssueBuilder issueBuilder) {
         for (int i = 0; i < secrets.length(); i++) {
             var secret = secrets.optJSONObject(i);
             if (secret != null) {
@@ -49,8 +47,7 @@ public class DetectSecretsParser extends JsonIssueParser {
         }
     }
 
-    private Issue convertToIssue(final String filePath, final JSONObject secret,
-            final IssueBuilder issueBuilder) {
+    private Issue convertToIssue(final String filePath, final JSONObject secret, final IssueBuilder issueBuilder) {
         var type = secret.optString(TYPE, "");
         var lineNumber = secret.optInt(LINE_NUMBER, 0);
         var isVerified = secret.optBoolean(IS_VERIFIED, false);

@@ -1,8 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.nio.file.FileSystems;
-
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 import edu.hm.hafner.analysis.FileReaderFactory;
 import edu.hm.hafner.analysis.IssueParser;
@@ -11,8 +9,8 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import java.nio.file.FileSystems;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the class {@link KicsParser}.
@@ -39,7 +37,8 @@ class KicsParserTest extends AbstractParserTest {
 
         softly.assertThat(report.get(0).getDescription())
                 .contains("Description: AWS Application Load Balancer (alb) should not listen on HTTP")
-                .contains("Query URL: https://docs.ansible.com/ansible/latest/collections/community/aws/elb_application_lb_module.html")
+                .contains(
+                        "Query URL: https://docs.ansible.com/ansible/latest/collections/community/aws/elb_application_lb_module.html")
                 .contains("Cloud provider: AWS")
                 .contains("Category: Networking and Firewall")
                 .contains("CWE: 22")
@@ -47,7 +46,8 @@ class KicsParserTest extends AbstractParserTest {
                 .contains("Resource type: community.aws.elb_application_lb")
                 .contains("Resource name: my_elb_application")
                 .contains("Issue type: IncorrectValue")
-                .contains("Search key: name={{my_elb_application}}.{{community.aws.elb_application_lb}}.listeners.Protocol=HTTP")
+                .contains(
+                        "Search key: name={{my_elb_application}}.{{community.aws.elb_application_lb}}.listeners.Protocol=HTTP")
                 .contains("Expected value: 'aws_elb_application_lb' Protocol should be 'HTTP'")
                 .contains("Actual value: 'aws_elb_application_lb' Protocol it's not 'HTTP'");
 
@@ -95,16 +95,17 @@ class KicsParserTest extends AbstractParserTest {
 
     @Test
     void accepts() {
-        assertThat(new KicsParser().accepts(
-                new FileReaderFactory(FileSystems.getDefault().getPath("kics-report.json")))).isTrue();
-        assertThat(new KicsParser().accepts(
-                new FileReaderFactory(FileSystems.getDefault().getPath("foo.txt")))).isFalse();
+        assertThat(new KicsParser()
+                        .accepts(new FileReaderFactory(FileSystems.getDefault().getPath("kics-report.json"))))
+                .isTrue();
+        assertThat(new KicsParser()
+                        .accepts(new FileReaderFactory(FileSystems.getDefault().getPath("foo.txt"))))
+                .isFalse();
     }
 
     @Test
     void brokenInput() {
-        assertThatThrownBy(() -> parse("eclipse.txt"))
-                .isInstanceOf(ParsingException.class);
+        assertThatThrownBy(() -> parse("eclipse.txt")).isInstanceOf(ParsingException.class);
     }
 
     @Test
@@ -214,8 +215,7 @@ class KicsParserTest extends AbstractParserTest {
                 """);
 
         assertThat(report).hasSize(1);
-        assertThat(report.get(0).getDescription())
-                .contains("Search line: 15");
+        assertThat(report.get(0).getDescription()).contains("Search line: 15");
     }
 
     @Test
@@ -239,8 +239,7 @@ class KicsParserTest extends AbstractParserTest {
                 """);
 
         assertThat(report).hasSize(1);
-        assertThat(report.get(0).getDescription())
-                .doesNotContain("Search line");
+        assertThat(report.get(0).getDescription()).doesNotContain("Search line");
     }
 
     @Test
@@ -323,8 +322,7 @@ class KicsParserTest extends AbstractParserTest {
                 """);
 
         assertThat(report).hasSize(1);
-        assertThat(report.get(0).getDescription())
-                .doesNotContain("Description: null");
+        assertThat(report.get(0).getDescription()).doesNotContain("Description: null");
     }
 
     @Test
@@ -349,9 +347,7 @@ class KicsParserTest extends AbstractParserTest {
                 """);
 
         assertThat(report).hasSize(1);
-        assertThat(report.get(0).getDescription())
-                .doesNotContain("Platform:")
-                .doesNotContain("Resource name:");
+        assertThat(report.get(0).getDescription()).doesNotContain("Platform:").doesNotContain("Resource name:");
     }
 
     @Test
@@ -375,9 +371,7 @@ class KicsParserTest extends AbstractParserTest {
                 """);
 
         assertThat(report).hasSize(1);
-        assertThat(report.get(0))
-                .hasLineStart(10)
-                .hasLineEnd(25);
+        assertThat(report.get(0)).hasLineStart(10).hasLineEnd(25);
     }
 
     @Test
@@ -401,9 +395,7 @@ class KicsParserTest extends AbstractParserTest {
                 """);
 
         assertThat(report).hasSize(1);
-        assertThat(report.get(0))
-                .hasLineStart(42)
-                .hasLineEnd(42);
+        assertThat(report.get(0)).hasLineStart(42).hasLineEnd(42);
     }
 
     @Test

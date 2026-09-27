@@ -1,16 +1,14 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.apache.commons.lang3.StringUtils;
-import org.json.JSONObject;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
-
 import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
+import org.json.JSONObject;
 
 /**
  * A parser for KICS JSON output.
@@ -97,8 +95,8 @@ public class KicsParser extends JsonIssueParser {
         var lineStart = file.optInt(LINE, file.optInt(START_LINE, 0));
         var lineEnd = file.optInt(END_LINE, lineStart);
         var fileName = StringUtils.defaultIfBlank(firstNonBlank(file, FILE_NAME, FILE_NAME_LEGACY), "-");
-        var category = firstNonBlank(query, PLATFORM, PLATFORM_LEGACY, CLOUD_PROVIDER, CLOUD_PROVIDER_LEGACY,
-                CATEGORY, CATEGORY_LEGACY);
+        var category = firstNonBlank(
+                query, PLATFORM, PLATFORM_LEGACY, CLOUD_PROVIDER, CLOUD_PROVIDER_LEGACY, CATEGORY, CATEGORY_LEGACY);
 
         try (var builder = new IssueBuilder()) {
             builder.setFileName(fileName)

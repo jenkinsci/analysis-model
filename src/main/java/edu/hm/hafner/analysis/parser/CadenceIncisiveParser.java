@@ -1,18 +1,16 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.util.Optional;
-import java.util.regex.Matcher;
-
-import org.apache.commons.lang3.StringUtils;
+import static edu.hm.hafner.analysis.util.IntegerParser.*;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
-
-import static edu.hm.hafner.analysis.util.IntegerParser.*;
+import java.io.Serial;
+import java.util.Optional;
+import java.util.regex.Matcher;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * A parser for Cadence Incisive Enterprise Simulator.
@@ -24,22 +22,22 @@ public class CadenceIncisiveParser extends LookaheadParser {
     private static final long serialVersionUID = -3251791089328958452L;
 
     private static final String CADENCE_MESSAGE_PATTERN = "(" + "(^[a-zA-Z]+): \\*([a-zA-Z]),([a-zA-Z]+): (.*) "
-            + "\\[File:(.*), Line:(.*)\\]." //ncelab vhdl warning
-            + ")|(" + "(^[a-zA-Z]+): \\*([a-zA-Z]),([a-zA-Z]+) \\((.*),([0-9]+)\\|([0-9]+)\\): (.*)$" //Warning/error with filename
+            + "\\[File:(.*), Line:(.*)\\]." // ncelab vhdl warning
+            + ")|("
+            + "(^[a-zA-Z]+): \\*([a-zA-Z]),([a-zA-Z]+) \\((.*),([0-9]+)\\|([0-9]+)\\): (.*)$" // Warning/error with
+            // filename
             + ")|(" + "(^g?make\\[.*\\]: Entering directory)\\s*(['`]((.*))\\')" // make: entering directory
-            + ")|(" + "(^[a-zA-Z]+): \\*([a-zA-Z]),([a-zA-Z]+): (.*)$" //Single generic warning
+            + ")|(" + "(^[a-zA-Z]+): \\*([a-zA-Z]),([a-zA-Z]+): (.*)$" // Single generic warning
             + ")";
 
-    /**
-     * Creates a new instance of {@link CadenceIncisiveParser}.
-     */
+    /** Creates a new instance of {@link CadenceIncisiveParser}. */
     public CadenceIncisiveParser() {
         super(CADENCE_MESSAGE_PATTERN);
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
-            final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(
+            final Matcher matcher, final LookaheadStream lookahead, final IssueBuilder builder) {
         String tool;
         String type;
         String category;
@@ -57,11 +55,9 @@ public class CadenceIncisiveParser extends LookaheadParser {
             lineNumber = parseInt(matcher.group(7));
             message = matcher.group(5);
             priority = Severity.WARNING_NORMAL;
-        }
-        else if (matcher.group(16) != null) {
+        } else if (matcher.group(16) != null) {
             return Optional.empty();
-        }
-        else if (matcher.group(8) != null) {
+        } else if (matcher.group(8) != null) {
             tool = matcher.group(9);
             type = matcher.group(10);
             category = matcher.group(11);
@@ -69,24 +65,21 @@ public class CadenceIncisiveParser extends LookaheadParser {
             lineNumber = parseInt(matcher.group(13));
             message = matcher.group(15);
             priority = Severity.WARNING_NORMAL;
-        }
-        else if (matcher.group(21) != null) {
+        } else if (matcher.group(21) != null) {
             tool = matcher.group(22);
             type = matcher.group(23);
             category = matcher.group(24);
             fileName = StringUtils.EMPTY;
             message = matcher.group(25);
             priority = Severity.WARNING_LOW;
-        }
-        else {
+        } else {
             return Optional.empty(); /* Should never happen! */
         }
 
         if (equalsIgnoreCase(type, "E")) {
             priority = Severity.WARNING_HIGH;
             category = "Error (" + tool + "): " + category;
-        }
-        else {
+        } else {
             category = "Warning (" + tool + "): " + category;
         }
 
@@ -94,7 +87,11 @@ public class CadenceIncisiveParser extends LookaheadParser {
         if (fileName == null) {
             return Optional.empty();
         }
-        return builder.setFileName(fileName).setLineStart(lineNumber).setCategory(category)
-                .setMessage(message).setSeverity(priority).buildOptional();
+        return builder.setFileName(fileName)
+                .setLineStart(lineNumber)
+                .setCategory(category)
+                .setMessage(message)
+                .setSeverity(priority)
+                .buildOptional();
     }
 }

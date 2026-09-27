@@ -1,23 +1,18 @@
 package edu.hm.hafner.analysis.registry;
 
-import java.util.Collection;
-
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.Gcc4Cc1Parser;
 import edu.hm.hafner.analysis.parser.Gcc4CompilerParser;
 import edu.hm.hafner.analysis.parser.Gcc4LinkerParser;
+import java.util.Collection;
 
 /**
  * A descriptor for the GNU C Compiler (gcc).
  *
- * <p>
- * Supports GCC version 4 and newer, including modern versions up to GCC 15+.
- * This parser handles the standard GCC output format introduced in GCC 4.
- * </p>
+ * <p>Supports GCC version 4 and newer, including modern versions up to GCC 15+. This parser handles the standard GCC
+ * output format introduced in GCC 4.
  *
- * <p>
- * For legacy GCC versions (pre-GCC 4), use the "gcc3" parser instead.
- * </p>
+ * <p>For legacy GCC versions (pre-GCC 4), use the "gcc3" parser instead.
  *
  * @author Lorenz Munsch
  */

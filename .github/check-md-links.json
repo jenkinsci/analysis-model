@@ -1,11 +1,9 @@
 {
-  "httpHeaders": [
-    {
-      "urls": ["https://github.com/", "https://guides.github.com/", "https://help.github.com/", "https://docs.github.com/", "https://classroom.github.com"],
-      "headers": {
-        "Accept-Encoding": "zstd, br, gzip, deflate"
-      }
+  "httpHeaders": [ {
+    "urls": [ "https://github.com/", "https://guides.github.com/", "https://help.github.com/", "https://docs.github.com/", "https://classroom.github.com" ],
+    "headers": {
+      "Accept-Encoding": "zstd, br, gzip, deflate"
     }
-  ],
-  "aliveStatusCodes": [200, 500, 501, 502, 503, 429]
+  } ],
+  "aliveStatusCodes": [ 200, 500, 501, 502, 503, 429 ]
 }

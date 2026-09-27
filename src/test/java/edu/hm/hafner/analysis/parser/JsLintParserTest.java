@@ -1,14 +1,13 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.parser.LintParser.JsLintXmlSaxParser;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the class {@link LintParser}.
@@ -45,9 +44,7 @@ class JsLintParserTest extends AbstractParserTest {
         }
     }
 
-    /**
-     * Tests the JS-Lint parsing for warnings in a single file.
-     */
+    /** Tests the JS-Lint parsing for warnings in a single file. */
     @Test
     void testParseWithSingleFile() {
         var results = parse("jslint/single.xml");
@@ -55,9 +52,7 @@ class JsLintParserTest extends AbstractParserTest {
         assertThat(results).hasSize(51);
     }
 
-    /**
-     * Tests parsing of CSS-Lint files.
-     */
+    /** Tests parsing of CSS-Lint files. */
     @Test
     void testCssLint() {
         var results = parse("jslint/csslint.xml");
@@ -70,8 +65,9 @@ class JsLintParserTest extends AbstractParserTest {
         assertThat(report).hasSize(102);
 
         assertThat(report.getFiles()).hasSize(2);
-        assertThat(report.getFiles()).containsExactlyInAnyOrder(EXPECTED_FILE_NAME,
-                "duckworth/hudson-jslint-freestyle/src/scriptaculous.js");
+        assertThat(report.getFiles())
+                .containsExactlyInAnyOrder(
+                        EXPECTED_FILE_NAME, "duckworth/hudson-jslint-freestyle/src/scriptaculous.js");
 
         softly.assertThat(report.get(0))
                 .hasSeverity(Severity.WARNING_HIGH)

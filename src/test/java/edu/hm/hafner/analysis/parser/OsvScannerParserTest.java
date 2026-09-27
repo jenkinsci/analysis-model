@@ -1,8 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.nio.file.FileSystems;
-
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 import edu.hm.hafner.analysis.FileReaderFactory;
 import edu.hm.hafner.analysis.IssueParser;
@@ -12,8 +10,8 @@ import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
 import edu.hm.hafner.analysis.registry.ParserRegistry;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import java.nio.file.FileSystems;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the class {@link OsvScannerParser}.
@@ -66,16 +64,17 @@ class OsvScannerParserTest extends AbstractParserTest {
 
     @Test
     void accepts() {
-        assertThat(new OsvScannerParser().accepts(
-                new FileReaderFactory(FileSystems.getDefault().getPath("osv-scanner-report.json")))).isTrue();
-        assertThat(new OsvScannerParser().accepts(
-                new FileReaderFactory(FileSystems.getDefault().getPath("foo.txt")))).isFalse();
+        assertThat(new OsvScannerParser()
+                        .accepts(new FileReaderFactory(FileSystems.getDefault().getPath("osv-scanner-report.json"))))
+                .isTrue();
+        assertThat(new OsvScannerParser()
+                        .accepts(new FileReaderFactory(FileSystems.getDefault().getPath("foo.txt"))))
+                .isFalse();
     }
 
     @Test
     void brokenInput() {
-        assertThatThrownBy(() -> parse("eclipse.txt"))
-                .isInstanceOf(ParsingException.class);
+        assertThatThrownBy(() -> parse("eclipse.txt")).isInstanceOf(ParsingException.class);
     }
 
     /** Covers: {@code !jsonReport.has("results")} → immediate return. */
@@ -245,9 +244,7 @@ class OsvScannerParserTest extends AbstractParserTest {
                 }
                 """);
         assertThat(report).hasSize(1);
-        assertThat(report.get(0))
-                .hasPackageName("mylib")
-                .hasSeverity(Severity.ERROR);
+        assertThat(report.get(0)).hasPackageName("mylib").hasSeverity(Severity.ERROR);
     }
 
     /** Covers: {@code database_specific} present but has no {@code severity} key → WARNING_NORMAL. */
@@ -306,9 +303,8 @@ class OsvScannerParserTest extends AbstractParserTest {
     }
 
     /**
-     * Covers: {@code summary.isEmpty()} → no title paragraph;
-     * {@code details.isEmpty()} → no details paragraph.
-     * Both branches hit together when neither field is present.
+     * Covers: {@code summary.isEmpty()} → no title paragraph; {@code details.isEmpty()} → no details paragraph. Both
+     * branches hit together when neither field is present.
      */
     @Test
     void shouldBuildDescriptionWithNoSummaryAndNoDetails() {
@@ -362,9 +358,7 @@ class OsvScannerParserTest extends AbstractParserTest {
                 }
                 """);
         assertThat(report).hasSize(1);
-        assertThat(report.get(0).getDescription())
-                .contains("A summary only")
-                .contains("GHSA-sum-only");
+        assertThat(report.get(0).getDescription()).contains("A summary only").contains("GHSA-sum-only");
     }
 
     /** Covers: vuln has no {@code aliases} key → Optional.empty(). */
@@ -392,9 +386,7 @@ class OsvScannerParserTest extends AbstractParserTest {
                 }
                 """);
         assertThat(report).hasSize(1);
-        assertThat(report.get(0).getDescription())
-                .doesNotContain("Aliases:")
-                .contains("GHSA-no-alias");
+        assertThat(report.get(0).getDescription()).doesNotContain("Aliases:").contains("GHSA-no-alias");
     }
 
     /** Covers: {@code aliases} present but is an empty array → Optional.empty(). */
@@ -427,8 +419,8 @@ class OsvScannerParserTest extends AbstractParserTest {
     }
 
     /**
-     * Covers: alias entries are blank strings → {@code alias.isEmpty()} continue;
-     * resulting {@code links} list is empty → {@code links.isEmpty()} → Optional.empty().
+     * Covers: alias entries are blank strings → {@code alias.isEmpty()} continue; resulting {@code links} list is empty
+     * → {@code links.isEmpty()} → Optional.empty().
      */
     @Test
     void shouldSkipBlankAliasEntriesAndReturnNoAliasSection() {
@@ -459,8 +451,8 @@ class OsvScannerParserTest extends AbstractParserTest {
     }
 
     /**
-     * Covers: non-CVE alias → rendered as plain {@code text()} node, not an anchor;
-     * single alias → joinWithSeparator with one item (no separator added).
+     * Covers: non-CVE alias → rendered as plain {@code text()} node, not an anchor; single alias → joinWithSeparator
+     * with one item (no separator added).
      */
     @Test
     void shouldRenderNonCveAliasAsPlainText() {
@@ -495,8 +487,8 @@ class OsvScannerParserTest extends AbstractParserTest {
     }
 
     /**
-     * Covers: CVE alias → rendered as NVD hyperlink;
-     * multiple aliases → the {@code it.hasNext()} true branch in joinWithSeparator adds ", ".
+     * Covers: CVE alias → rendered as NVD hyperlink; multiple aliases → the {@code it.hasNext()} true branch in
+     * joinWithSeparator adds ", ".
      */
     @Test
     void shouldRenderMultipleAliasesWithSeparatorAndCveLinkToNvd() {
@@ -594,7 +586,9 @@ class OsvScannerParserTest extends AbstractParserTest {
         assertThat(descriptor.getPattern()).isEqualTo("**/osv-scanner-report.json");
         assertThat(descriptor.getHelp()).contains("osv-scanner scan --format json");
         assertThat(descriptor.getUrl()).isEqualTo("https://google.github.io/osv-scanner/");
-        assertThat(descriptor.getIconUrl()).isEqualTo("https://github.com/google/osv-scanner/blob/main/docs/images/osv-scanner-full-logo-darkmode.png");
+        assertThat(descriptor.getIconUrl())
+                .isEqualTo(
+                        "https://github.com/google/osv-scanner/blob/main/docs/images/osv-scanner-full-logo-darkmode.png");
         assertThat(descriptor.hasHelp()).isTrue();
         assertThat(descriptor.hasUrl()).isTrue();
     }

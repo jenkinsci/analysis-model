@@ -1,9 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONTokener;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
@@ -12,14 +8,15 @@ import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-
 import java.io.Serial;
 import java.util.Optional;
 import java.util.stream.Stream;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 
 /**
- * A parser for {@code rustc} compiler messages in the JSON format emitted by {@code cargo check --message-format
- * json}.
+ * A parser for {@code rustc} compiler messages in the JSON format emitted by {@code cargo check --message-format json}.
  *
  * @author Gary Tierney
  */
@@ -73,22 +70,22 @@ public class CargoCheckParser extends IssueParser {
     protected Report parseReport(final ReaderFactory readerFactory) throws ParsingException, ParsingCanceledException {
         var report = new Report();
 
-        try (Stream<String> lines = readerFactory.readStream(); var issueBuilder = new IssueBuilder()) {
+        try (Stream<String> lines = readerFactory.readStream();
+                var issueBuilder = new IssueBuilder()) {
             lines.map(line -> {
-                Object value = new JSONTokener(line).nextValue();
+                        Object value = new JSONTokener(line).nextValue();
 
-                if (value instanceof JSONObject jsonObject) {
-                    return Optional.of(jsonObject);
-                }
+                        if (value instanceof JSONObject jsonObject) {
+                            return Optional.of(jsonObject);
+                        }
 
-                return Optional.<JSONObject>empty();
-            })
+                        return Optional.<JSONObject>empty();
+                    })
                     .flatMap(Optional::stream)
                     .map(object -> extractIssue(object, issueBuilder))
                     .flatMap(Optional::stream)
                     .forEach(report::add);
-        }
-        catch (JSONException e) {
+        } catch (JSONException e) {
             throw new ParsingException(e, readerFactory);
         }
 
@@ -98,11 +95,8 @@ public class CargoCheckParser extends IssueParser {
     /**
      * Extract the compiler message from a cargo event if any is present.
      *
-     * @param object
-     *         A cargo event that may contain a compiler message.
-     * @param issueBuilder
-     *         the issue builder to use
-     *
+     * @param object A cargo event that may contain a compiler message.
+     * @param issueBuilder the issue builder to use
      * @return a built {@link Issue} object if any was present.
      */
     private Optional<Issue> extractIssue(final JSONObject object, final IssueBuilder issueBuilder) {
@@ -123,17 +117,16 @@ public class CargoCheckParser extends IssueParser {
         var renderedMessage = message.getString(MESSAGE_RENDERED);
         var severity = Severity.guessFromString(message.getString(MESSAGE_LEVEL));
 
-        return parseDetails(message)
-                .map(details -> issueBuilder
-                        .setFileName(details.fileName)
-                        .setLineStart(details.lineStart)
-                        .setLineEnd(details.lineEnd)
-                        .setColumnStart(details.columnStart)
-                        .setColumnEnd(details.columnEnd)
-                        .setCategory(category)
-                        .setMessage(renderedMessage)
-                        .setSeverity(severity)
-                        .buildAndClean());
+        return parseDetails(message).map(details -> issueBuilder
+                .setFileName(details.fileName)
+                .setLineStart(details.lineStart)
+                .setLineEnd(details.lineEnd)
+                .setColumnStart(details.columnStart)
+                .setColumnEnd(details.columnEnd)
+                .setCategory(category)
+                .setMessage(renderedMessage)
+                .setSeverity(severity)
+                .buildAndClean());
     }
 
     private Optional<CompilerMessageDetails> parseDetails(final JSONObject message) {
@@ -156,9 +149,7 @@ public class CargoCheckParser extends IssueParser {
         return Optional.empty();
     }
 
-    /**
-     * A simplified representation of a primary {@code span} object in the {@code message.spans} an array.
-     */
+    /** A simplified representation of a primary {@code span} object in the {@code message.spans} an array. */
     private static final class CompilerMessageDetails {
         private final String fileName;
         private final int lineStart;
@@ -166,7 +157,11 @@ public class CargoCheckParser extends IssueParser {
         private final int columnStart;
         private final int columnEnd;
 
-        CompilerMessageDetails(final String fileName, final int lineStart, final int lineEnd, final int columnStart,
+        CompilerMessageDetails(
+                final String fileName,
+                final int lineStart,
+                final int lineEnd,
+                final int columnStart,
                 final int columnEnd) {
             this.fileName = fileName;
             this.lineStart = lineStart;

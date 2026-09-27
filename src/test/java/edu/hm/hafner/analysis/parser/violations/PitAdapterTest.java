@@ -1,14 +1,13 @@
 package edu.hm.hafner.analysis.parser.violations;
 
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import static edu.hm.hafner.analysis.parser.violations.PitAdapter.*;
 
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
-import static edu.hm.hafner.analysis.parser.violations.PitAdapter.*;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the class {@link PitAdapter}.
@@ -24,14 +23,16 @@ class PitAdapterTest extends AbstractParserTest {
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
         softly.assertThat(report).hasSize(2);
         softly.assertThat(report.get(0))
-                .hasMessage("SURVIVED, org.pitest.mutationtest.engine.gregor.mutators.MathMutator, (Ledu/hm/hafner/analysis/Issues;Ledu/hm/hafner/analysis/Issues;)V")
+                .hasMessage(
+                        "SURVIVED, org.pitest.mutationtest.engine.gregor.mutators.MathMutator, (Ledu/hm/hafner/analysis/Issues;Ledu/hm/hafner/analysis/Issues;)V")
                 .hasCategory("SURVIVED")
                 .hasType("MathMutator")
                 .hasFileName("edu/hm/hafner/analysis/Issues.java")
                 .hasLineStart(503)
                 .hasSeverity(Severity.WARNING_NORMAL);
         softly.assertThat(report.get(1))
-                .hasMessage("NO_COVERAGE, org.pitest.mutationtest.engine.gregor.mutators.VoidMethodCallMutator, (Ljava/util/stream/Stream;)V")
+                .hasMessage(
+                        "NO_COVERAGE, org.pitest.mutationtest.engine.gregor.mutators.VoidMethodCallMutator, (Ljava/util/stream/Stream;)V")
                 .hasFileName("edu/hm/hafner/analysis/Issues.java")
                 .hasCategory("NO_COVERAGE")
                 .hasType("VoidMethodCallMutator")
@@ -46,7 +47,7 @@ class PitAdapterTest extends AbstractParserTest {
     /**
      * Verifies that no false duplicates are reported by the violations lib.
      *
-     * <a href="https://github.com/tomasbjerre/violations-lib/issues/98" >Issue 98</a>
+     * <p><a href="https://github.com/tomasbjerre/violations-lib/issues/98" >Issue 98</a>
      */
     @Test
     void shouldNotSkipDuplicates() {

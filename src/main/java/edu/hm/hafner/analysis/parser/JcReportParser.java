@@ -1,7 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.xml.sax.SAXException;
-
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingException;
@@ -10,12 +8,12 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.SecureDigester;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 import java.io.IOException;
 import java.io.Serial;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import org.xml.sax.SAXException;
 
 /**
  * JcReportParser-Class. This class parses from the jcReport.xml and creates warnings from its content.
@@ -36,7 +34,8 @@ public class JcReportParser extends IssueParser {
 
                 for (int j = 0; j < file.getItems().size(); j++) {
                     var item = file.getItems().get(j);
-                    issueBuilder.setFileName(file.getName())
+                    issueBuilder
+                            .setFileName(file.getName())
                             .setLineStart(item.getLine())
                             .setColumnStart(item.getColumn())
                             .setColumnEnd(item.getEndcolumn())
@@ -55,15 +54,11 @@ public class JcReportParser extends IssueParser {
     /**
      * Creates a Report-Object out of the content within the JcReport.xml.
      *
-     * @param readerFactory
-     *         the Reader-object that is the source to build the Report-Object.
-     *
+     * @param readerFactory the Reader-object that is the source to build the Report-Object.
      * @return the finished Report-Object that creates the Warnings.
-     * @throws ParsingException
-     *         due to digester.parse(new InputSource(source))
+     * @throws ParsingException due to digester.parse(new InputSource(source))
      */
-    JcReport createReport(final ReaderFactory readerFactory)
-            throws ParsingException {
+    JcReport createReport(final ReaderFactory readerFactory) throws ParsingException {
         var digester = new SecureDigester(JcReportParser.class);
 
         var report = "report";
@@ -87,8 +82,7 @@ public class JcReportParser extends IssueParser {
 
         try (var reader = readerFactory.create()) {
             return digester.parse(reader);
-        }
-        catch (IOException | SAXException e) {
+        } catch (IOException | SAXException e) {
             throw new ParsingException(e, readerFactory);
         }
     }
@@ -103,20 +97,25 @@ public class JcReportParser extends IssueParser {
     public static class File {
         @CheckForNull
         private String name;
+
         @CheckForNull
         private String packageName;
+
         @CheckForNull
         private String srcdir;
+
         private final List<Item> items = new ArrayList<>();
 
         /**
-         * These properties are not used to create Warnings. It was decided to keep them available when Jenkins is modified
-         * and needs access to these fields;
+         * These properties are not used to create Warnings. It was decided to keep them available when Jenkins is
+         * modified and needs access to these fields;
          */
         @CheckForNull
         private String level;
+
         @CheckForNull
         private String loc;
+
         @CheckForNull
         private String classname;
 
@@ -137,7 +136,6 @@ public class JcReportParser extends IssueParser {
         public void addItem(final Item item) {
             items.add(item);
         }
-
 
         /**
          * Getter for className-Field.
@@ -177,7 +175,6 @@ public class JcReportParser extends IssueParser {
             this.level = level;
         }
 
-
         /**
          * Getter for loc-Field.
          *
@@ -197,7 +194,6 @@ public class JcReportParser extends IssueParser {
             this.loc = loc;
         }
 
-
         /**
          * Getter for name-Field.
          *
@@ -216,7 +212,6 @@ public class JcReportParser extends IssueParser {
         public void setName(@CheckForNull final String name) {
             this.name = name;
         }
-
 
         /**
          * Getter for packageName-Field.
@@ -258,8 +253,8 @@ public class JcReportParser extends IssueParser {
     }
 
     /**
-     * This the Item-Class The Java-Bean-Conformity was chosen due to the digesters style of assigning. It represents the
-     * Item-Tags within the report.xml. Items have properties, that are mandatory to create a warning.
+     * This the Item-Class The Java-Bean-Conformity was chosen due to the digesters style of assigning. It represents
+     * the Item-Tags within the report.xml. Items have properties, that are mandatory to create a warning.
      *
      * @author Johann Vierthaler, johann.vierthaler@web.de
      */
@@ -267,22 +262,28 @@ public class JcReportParser extends IssueParser {
     public static class Item {
         @CheckForNull
         private String column;
+
         @CheckForNull
         private String findingtype;
+
         @CheckForNull
         private String line;
+
         @CheckForNull
         private String message;
+
         @CheckForNull
         private String origin;
+
         @CheckForNull
         private String severity;
+
         @CheckForNull
         private String endcolumn;
 
         /**
-         * Although this property is not used. It was decided to keep it available when Jenkins is modified and needs access
-         * to this field;
+         * Although this property is not used. It was decided to keep it available when Jenkins is modified and needs
+         * access to this field;
          */
         @CheckForNull
         private String endline;
@@ -400,7 +401,6 @@ public class JcReportParser extends IssueParser {
         public void setSeverity(@CheckForNull final String severity) {
             this.severity = severity;
         }
-
 
         /**
          * Getter for endline-Field.

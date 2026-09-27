@@ -1,22 +1,17 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.assertThat;
 
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
+import org.junit.jupiter.api.Test;
 
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
-
-/**
- * Tests the class {@link Armcc5CompilerParser}.
- */
+/** Tests the class {@link Armcc5CompilerParser}. */
 class Armcc52CompilerParserTest extends AbstractParserTest {
-    /**
-     * Creates a new instance of {@link Armcc52CompilerParserTest}.
-     */
+    /** Creates a new instance of {@link Armcc52CompilerParserTest}. */
     protected Armcc52CompilerParserTest() {
         super("issue70065.txt");
     }

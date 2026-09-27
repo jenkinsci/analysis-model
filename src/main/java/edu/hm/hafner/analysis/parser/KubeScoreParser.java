@@ -1,15 +1,13 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
-
 import java.io.Serial;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * A parser for kube-score JSON output.
@@ -63,7 +61,8 @@ public class KubeScoreParser extends JsonIssueParser {
         for (int i = 0; i < jsonReport.length(); i++) {
             var scoredObject = jsonReport.optJSONObject(i);
             if (scoredObject != null) {
-                parseScoredObject(report, scoredObject, scoredObject.optString(OBJECT_NAME, NOT_AVAILABLE), issueBuilder);
+                parseScoredObject(
+                        report, scoredObject, scoredObject.optString(OBJECT_NAME, NOT_AVAILABLE), issueBuilder);
             }
         }
     }
@@ -78,7 +77,10 @@ public class KubeScoreParser extends JsonIssueParser {
         }
     }
 
-    private void parseScoredObject(final Report report, final JSONObject scoredObject, final String fallbackObjectName,
+    private void parseScoredObject(
+            final Report report,
+            final JSONObject scoredObject,
+            final String fallbackObjectName,
             final IssueBuilder issueBuilder) {
         var checks = optJSONArray(scoredObject, CHECKS, CHECKS_LEGACY);
         if (checks == null) {
@@ -97,8 +99,13 @@ public class KubeScoreParser extends JsonIssueParser {
         }
     }
 
-    private void parseCheck(final Report report, final JSONObject checkResult, final String objectName,
-            final String fileName, final int fileRow, final IssueBuilder issueBuilder) {
+    private void parseCheck(
+            final Report report,
+            final JSONObject checkResult,
+            final String objectName,
+            final String fileName,
+            final int fileRow,
+            final IssueBuilder issueBuilder) {
         var grade = checkResult.optInt(GRADE, checkResult.optInt(GRADE_LEGACY, -1));
         if (shouldSkipCheck(checkResult, grade)) {
             return;
@@ -130,8 +137,12 @@ public class KubeScoreParser extends JsonIssueParser {
         return checkResult.optJSONObject(CHECK_LEGACY);
     }
 
-    private void addIssuesForCheck(final Report report, final JSONObject checkResult, final JSONObject check,
-            final IssueDetails details, final IssueBuilder issueBuilder) {
+    private void addIssuesForCheck(
+            final Report report,
+            final JSONObject checkResult,
+            final JSONObject check,
+            final IssueDetails details,
+            final IssueBuilder issueBuilder) {
         var comments = optJSONArray(checkResult, COMMENTS, COMMENTS_LEGACY);
         if (comments == null || comments.isEmpty()) {
             report.add(createIssue(check, null, details, issueBuilder));
@@ -157,15 +168,23 @@ public class KubeScoreParser extends JsonIssueParser {
     }
 
     @SuppressWarnings("PMD.CloseResource")
-    private Issue createIssue(final JSONObject check, @CheckForNull final JSONObject comment,
-            final IssueDetails details, final IssueBuilder issueBuilder) {
+    private Issue createIssue(
+            final JSONObject check,
+            @CheckForNull final JSONObject comment,
+            final IssueDetails details,
+            final IssueBuilder issueBuilder) {
         var builder = issueBuilder
                 .setFileName(details.fileName())
                 .setCategory(details.objectName())
                 .setType(stringValue(check, NOT_AVAILABLE, ID, ID_LEGACY, NAME, NAME_LEGACY))
-                .setMessage(comment == null ? stringValue(check, NOT_AVAILABLE, NAME, NAME_LEGACY)
-                        : stringValue(comment, stringValue(check, NOT_AVAILABLE, NAME, NAME_LEGACY), SUMMARY,
-                                SUMMARY_LEGACY))
+                .setMessage(
+                        comment == null
+                                ? stringValue(check, NOT_AVAILABLE, NAME, NAME_LEGACY)
+                                : stringValue(
+                                        comment,
+                                        stringValue(check, NOT_AVAILABLE, NAME, NAME_LEGACY),
+                                        SUMMARY,
+                                        SUMMARY_LEGACY))
                 .setSeverity(details.severity())
                 .setDescription(buildDescription(check, comment));
 
@@ -245,6 +264,5 @@ public class KubeScoreParser extends JsonIssueParser {
         return defaultValue;
     }
 
-    private record IssueDetails(String objectName, String fileName, int fileRow, Severity severity) {
-    }
+    private record IssueDetails(String objectName, String fileName, int fileRow, Severity severity) {}
 }

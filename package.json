@@ -10,14 +10,12 @@
     "remark-lint": "^10.0.0",
     "remark-preset-lint-recommended": "^7.0.0"
   },
-  "devDependencies": {},
+  "devDependencies": { },
   "scripts": {
     "lint-md": "remark ."
   },
   "remarkConfig": {
-    "plugins": [
-      "remark-preset-lint-recommended"
-    ]
+    "plugins": [ "remark-preset-lint-recommended" ]
   },
   "repository": {
     "type": "git",

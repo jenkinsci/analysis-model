@@ -1,14 +1,12 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
-
 import java.io.Serial;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * A parser for CFN-Nag JSON output.
@@ -65,7 +63,8 @@ public class CfnNagParser extends JsonIssueParser {
     }
 
     private Issue convertToIssue(final JSONObject violation, final String fileName, final IssueBuilder issueBuilder) {
-        issueBuilder.setFileName(fileName)
+        issueBuilder
+                .setFileName(fileName)
                 .setType(violation.optString(ID, "-"))
                 .setMessage(violation.optString(MESSAGE))
                 .guessSeverity(violation.optString(TYPE));
@@ -87,8 +86,8 @@ public class CfnNagParser extends JsonIssueParser {
         issueBuilder.setLineStart(lineStart).setLineEnd(lineEnd);
     }
 
-    private void applyLogicalResourceIds(@CheckForNull final JSONArray logicalResourceIds,
-            final IssueBuilder issueBuilder) {
+    private void applyLogicalResourceIds(
+            @CheckForNull final JSONArray logicalResourceIds, final IssueBuilder issueBuilder) {
         if (logicalResourceIds == null || logicalResourceIds.isEmpty()) {
             return;
         }

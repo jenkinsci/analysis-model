@@ -5,9 +5,7 @@ import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
 
-/**
- * Tests the class {@link TnsdlParser}.
- */
+/** Tests the class {@link TnsdlParser}. */
 class TnsdlParserTest extends AbstractParserTest {
     TnsdlParserTest() {
         super("tnsdl.txt");

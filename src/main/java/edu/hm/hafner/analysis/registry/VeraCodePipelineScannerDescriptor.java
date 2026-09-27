@@ -1,9 +1,9 @@
 package edu.hm.hafner.analysis.registry;
 
+import static j2html.TagCreator.*;
+
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.VeraCodePipelineScannerParser;
-
-import static j2html.TagCreator.*;
 
 /**
  * A descriptor for Veracode Pipeline Scanner.
@@ -25,11 +25,13 @@ class VeraCodePipelineScannerDescriptor extends ParserDescriptor {
 
     @Override
     public String getHelp() {
-        return join(text("Use commandline"),
-                code("java -jar pipeline-scan.jar --json_output=true --json_output_file=results.json"),
-                text(", see"),
-                a("Veracode Pipeline Scanner").withHref("https://docs.veracode.com/r/c_about_pipeline_scan"),
-                text("for usage details.")).render();
+        return join(
+                        text("Use commandline"),
+                        code("java -jar pipeline-scan.jar --json_output=true --json_output_file=results.json"),
+                        text(", see"),
+                        a("Veracode Pipeline Scanner").withHref("https://docs.veracode.com/r/c_about_pipeline_scan"),
+                        text("for usage details."))
+                .render();
     }
 
     @Override

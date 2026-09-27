@@ -1,6 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 import edu.hm.hafner.analysis.Categories;
 import edu.hm.hafner.analysis.Issue;
@@ -8,12 +8,9 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
+import org.junit.jupiter.api.Test;
 
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
-
-/**
- * Tests the class {@link EclipseParser}.
- */
+/** Tests the class {@link EclipseParser}. */
 class EclipseParserTest extends AbstractParserTest {
     EclipseParserTest() {
         super("eclipse.txt");
@@ -108,7 +105,8 @@ class EclipseParserTest extends AbstractParserTest {
         assertThat(warnings).hasSize(2);
 
         try (var softly = new SoftAssertions()) {
-            softly.assertThat(warnings.get(0)).hasSeverity(Severity.WARNING_NORMAL)
+            softly.assertThat(warnings.get(0))
+                    .hasSeverity(Severity.WARNING_NORMAL)
                     .hasLineStart(90)
                     .hasLineEnd(90)
                     .hasMessage(
@@ -116,7 +114,8 @@ class EclipseParserTest extends AbstractParserTest {
                     .hasFileName(
                             "/ige/hudson/work/jobs/esvclient__development/workspace/target/rcp-build/plugins/ch.ipi.esv.client.customer/src/main/java/ch/ipi/esv/client/customer/search/CustomerQuickSearch.java")
                     .hasCategory(Categories.OTHER);
-            softly.assertThat(warnings.get(1)).hasSeverity(Severity.WARNING_NORMAL)
+            softly.assertThat(warnings.get(1))
+                    .hasSeverity(Severity.WARNING_NORMAL)
                     .hasLineStart(90)
                     .hasLineEnd(90)
                     .hasMessage(
@@ -141,7 +140,9 @@ class EclipseParserTest extends AbstractParserTest {
         int number = 0;
         for (Issue fileAnnotation : sorted) {
             boolean containsHat = fileAnnotation.getMessage().contains("^");
-            assertThat(containsHat).withFailMessage("Message " + number + " contains ^").isFalse();
+            assertThat(containsHat)
+                    .withFailMessage("Message " + number + " contains ^")
+                    .isFalse();
             number++;
         }
     }
@@ -163,9 +164,7 @@ class EclipseParserTest extends AbstractParserTest {
         }
     }
 
-    /**
-     * Test for the info log level for the eclipse compiler.
-     */
+    /** Test for the info log level for the eclipse compiler. */
     @Test
     void infoLogLevel() {
         var report = parse("eclipse-withinfo.txt");
@@ -224,9 +223,7 @@ class EclipseParserTest extends AbstractParserTest {
         }
     }
 
-    /**
-     * Tests that warnings are categorized as {@code Code} or {@code JavaDoc}.
-     */
+    /** Tests that warnings are categorized as {@code Code} or {@code JavaDoc}. */
     @Test
     void javadocCategory() {
         var warnings = parse("eclipse-withjavadoc.log");

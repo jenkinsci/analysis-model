@@ -1,14 +1,13 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.util.Optional;
-import java.util.regex.Matcher;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
+import java.io.Serial;
+import java.util.Optional;
+import java.util.regex.Matcher;
 
 /**
  * A parser for the Coolflux DSP Compiler warnings.
@@ -21,9 +20,7 @@ public class CoolfluxChessccParser extends LookaheadParser {
 
     private static final String CHESSCC_PATTERN = "^.*?Warning in \"([^\"]+)\", line (\\d+),.*?:\\s*(.*)$";
 
-    /**
-     * Creates a new instance of {@link CoolfluxChessccParser}.
-     */
+    /** Creates a new instance of {@link CoolfluxChessccParser}. */
     public CoolfluxChessccParser() {
         super(CHESSCC_PATTERN);
     }
@@ -34,8 +31,8 @@ public class CoolfluxChessccParser extends LookaheadParser {
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
-            final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(
+            final Matcher matcher, final LookaheadStream lookahead, final IssueBuilder builder) {
         return builder.setFileName(matcher.group(1))
                 .setLineStart(matcher.group(2))
                 .setMessage(matcher.group(3))

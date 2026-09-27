@@ -1,9 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.xml.sax.Attributes;
-import org.xml.sax.Locator;
-import org.xml.sax.helpers.DefaultHandler;
-
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingException;
@@ -11,12 +7,14 @@ import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 import java.io.Serial;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.Map;
+import org.xml.sax.Attributes;
+import org.xml.sax.Locator;
+import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * Parser for translation files of Qt.
@@ -34,14 +32,12 @@ public class QtTranslationParser extends IssueParser {
 
     static final String TRANSLATION_TYPE_OBSOLETE_MESSAGE =
             "This translation can be removed because the source no longer exists.";
-    static final String TRANSLATION_TYPE_UNFINISHED_MESSAGE =
-            "This source string is missing a translation.";
+    static final String TRANSLATION_TYPE_UNFINISHED_MESSAGE = "This source string is missing a translation.";
     static final String TRANSLATION_TYPE_UNFINISHED_NOT_EMPTY_MESSAGE =
             "This source string contains a translation, but is still marked as unfinished.";
-    static final String TRANSLATION_TYPE_VANISHED_MESSAGE =
-            "The source string cannot be found within the sources. "
-                    + "Remove this translation if it is no longer used, or improve your call to \"tr()\" "
-                    + "so that \"lupdate\" can find it.";
+    static final String TRANSLATION_TYPE_VANISHED_MESSAGE = "The source string cannot be found within the sources. "
+            + "Remove this translation if it is no longer used, or improve your call to \"tr()\" "
+            + "so that \"lupdate\" can find it.";
 
     @Override
     protected Report parseReport(final ReaderFactory readerFactory) throws ParsingException {
@@ -50,9 +46,7 @@ public class QtTranslationParser extends IssueParser {
         return report;
     }
 
-    /**
-     * Handles the parsing of a translation file from Qt.
-     */
+    /** Handles the parsing of a translation file from Qt. */
     static class QtTranslationSaxParser extends DefaultHandler {
         private static final String CONTEXT = "context";
         private static final String CONTEXT_NAME = "name";
@@ -85,10 +79,8 @@ public class QtTranslationParser extends IssueParser {
         /**
          * Creates a new instance of {@link QtTranslationSaxParser}.
          *
-         * @param report
-         *         the issues
-         * @param fileName
-         *         path to the translation file
+         * @param report the issues
+         * @param fileName path to the translation file
          */
         QtTranslationSaxParser(final Report report, final String fileName) {
             super();
@@ -111,8 +103,8 @@ public class QtTranslationParser extends IssueParser {
         }
 
         @Override
-        public void startElement(final String namespaceURI,
-                final String localName, final String key, final Attributes atts) {
+        public void startElement(
+                final String namespaceURI, final String localName, final String key, final Attributes atts) {
             verifyElementTypeRelation(key);
 
             elementTypeStack.push(key);
@@ -217,9 +209,9 @@ public class QtTranslationParser extends IssueParser {
             var parent = expectedElementTypeParents.getOrDefault(element, "");
             if (parent == null) {
                 if (!elementTypeStack.isEmpty()) {
-                    throw new ParsingException("Element type \"%s\" does not expect to be a root element (line %d).",
-                            element,
-                            documentLocator.getLineNumber());
+                    throw new ParsingException(
+                            "Element type \"%s\" does not expect to be a root element (line %d).",
+                            element, documentLocator.getLineNumber());
                 }
                 return;
             }
@@ -227,21 +219,17 @@ public class QtTranslationParser extends IssueParser {
             if (!parent.isEmpty() && !elementTypeStack.getFirst().equals(parent)) {
                 throw new ParsingException(
                         "Element type \"%s\" expects to be a child element of element type \"%s\" (line %d).",
-                        element,
-                        parent,
-                        documentLocator.getLineNumber());
+                        element, parent, documentLocator.getLineNumber());
             }
         }
 
         @SuppressWarnings("NullAway")
-        private void throwParsingExceptionBecauseOfDuplicatedOccurrence(final boolean shouldThrow,
-                final String element) {
+        private void throwParsingExceptionBecauseOfDuplicatedOccurrence(
+                final boolean shouldThrow, final String element) {
             if (shouldThrow) {
                 throw new ParsingException(
                         "Element type \"%s\" can be used only once within element type \"%s\" (line %d).",
-                        element,
-                        expectedElementTypeParents.get(element),
-                        documentLocator.getLineNumber());
+                        element, expectedElementTypeParents.get(element), documentLocator.getLineNumber());
             }
         }
 
@@ -250,9 +238,7 @@ public class QtTranslationParser extends IssueParser {
             if (shouldThrow) {
                 throw new ParsingException(
                         "Missing or empty element type \"%s\" within element type \"%s\" (line %d).",
-                        element,
-                        expectedElementTypeParents.get(element),
-                        documentLocator.getLineNumber());
+                        element, expectedElementTypeParents.get(element), documentLocator.getLineNumber());
             }
         }
 
@@ -270,8 +256,10 @@ public class QtTranslationParser extends IssueParser {
                     builder.setSeverity(Severity.WARNING_NORMAL);
                     builder.setMessage(TRANSLATION_TYPE_VANISHED_MESSAGE);
                 }
-                default -> throw new ParsingException("Unknown translation state \"%s\" (line %d).",
-                        translationType, documentLocator.getLineNumber());
+                default ->
+                    throw new ParsingException(
+                            "Unknown translation state \"%s\" (line %d).",
+                            translationType, documentLocator.getLineNumber());
             }
             builder.setCategory(translationType);
         }

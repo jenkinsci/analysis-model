@@ -1,22 +1,19 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.List;
-
-import org.json.JSONObject;
+import static j2html.TagCreator.*;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-
 import j2html.tags.DomContent;
 import j2html.tags.Text;
 import j2html.tags.UnescapedText;
-
-import static j2html.TagCreator.*;
+import java.io.Serial;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import org.json.JSONObject;
 
 /**
  * Parser for FOSSA issue reports in JSON format.
@@ -39,8 +36,7 @@ public class FossaParser extends JsonIssueParser {
             Map.entry("risk_empty_package", "Security"),
             Map.entry("risk_native_code", "Security"),
             Map.entry("blacklisted_dependency", "Security"),
-            Map.entry("outdated_dependency", "Security")
-    );
+            Map.entry("outdated_dependency", "Security"));
 
     private static final Map<String, String> MESSAGE_BY_TYPE = Map.ofEntries(
             Map.entry("policy_conflict", "Denied by Policy"),
@@ -52,8 +48,7 @@ public class FossaParser extends JsonIssueParser {
             Map.entry("risk_abandonware", "Abandoned Dependencies"),
             Map.entry("risk_empty_package", "Empty Package"),
             Map.entry("risk_native_code", "Native Code Dependency"),
-            Map.entry("blacklisted_dependency", "Denylisted Dependency")
-    );
+            Map.entry("blacklisted_dependency", "Denylisted Dependency"));
 
     private static final String ISSUES_TAG = "issues";
     private static final String PRIORITY_STRING_TAG = "priorityString";
@@ -88,7 +83,8 @@ public class FossaParser extends JsonIssueParser {
         var priority = issue.optString(PRIORITY_STRING_TAG, "");
         var revisionId = issue.optString(REVISION_ID_TAG, "-");
 
-        issueBuilder.setPackageName(revisionId)
+        issueBuilder
+                .setPackageName(revisionId)
                 .setType(issueType)
                 .setCategory(mapCategory(issueType))
                 .setMessage(mapMessage(issueType))

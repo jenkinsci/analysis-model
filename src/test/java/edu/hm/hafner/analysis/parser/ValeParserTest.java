@@ -25,7 +25,8 @@ class ValeParserTest extends AbstractParserTest {
         softly.assertThat(report.get(1))
                 .hasFileName("file2.adoc")
                 .hasDescription("RedHat.TermsWarnings")
-                .hasMessage("Consider using 'might' or 'can' rather than 'may' unless updating existing content that uses the term.")
+                .hasMessage(
+                        "Consider using 'might' or 'can' rather than 'may' unless updating existing content that uses the term.")
                 .hasLineStart(39)
                 .hasColumnStart(143)
                 .hasColumnEnd(145)
@@ -33,7 +34,8 @@ class ValeParserTest extends AbstractParserTest {
         softly.assertThat(report.get(2))
                 .hasFileName("file2.adoc")
                 .hasDescription("RedHat.Using")
-                .hasMessage("Use 'by using' instead of 'using' when it follows a noun for clarity and grammatical correctness.")
+                .hasMessage(
+                        "Use 'by using' instead of 'using' when it follows a noun for clarity and grammatical correctness.")
                 .hasLineStart(51)
                 .hasColumnStart(44)
                 .hasColumnEnd(64)

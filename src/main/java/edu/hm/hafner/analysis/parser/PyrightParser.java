@@ -1,15 +1,13 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
-
 import java.io.Serial;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * A parser for Pyright JSON output reports.
@@ -64,12 +62,10 @@ public class PyrightParser extends JsonIssueParser {
 
         // Pyright uses 0-based line numbers; convert to 1-based
         if (start != null) {
-            issueBuilder.setLineStart(start.optInt(LINE) + 1)
-                    .setColumnStart(start.optInt(CHARACTER));
+            issueBuilder.setLineStart(start.optInt(LINE) + 1).setColumnStart(start.optInt(CHARACTER));
         }
         if (end != null) {
-            issueBuilder.setLineEnd(end.optInt(LINE) + 1)
-                    .setColumnEnd(end.optInt(CHARACTER));
+            issueBuilder.setLineEnd(end.optInt(LINE) + 1).setColumnEnd(end.optInt(CHARACTER));
         }
     }
 }

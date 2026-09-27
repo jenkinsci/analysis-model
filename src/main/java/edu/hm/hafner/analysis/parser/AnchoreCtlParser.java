@@ -1,33 +1,32 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
+import static j2html.TagCreator.*;
 
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
-
 import java.io.Serial;
 import java.util.Optional;
-
-import static j2html.TagCreator.*;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * JSON report parser for anchorectl vulnerability output.
  *
  * <p>Supports the output layouts produced by anchorectl:
+ *
  * <ul>
- *   <li>Unified output ({@code image one-time-scan -o json IMAGE}): top-level {@code vulnerabilities}
- *       is a JSON object envelope containing an inner {@code vulnerabilities} array.</li>
- *   <li>Standalone file ({@code image one-time-scan -o json --output-directory DIR}): top-level
- *       {@code vulnerabilities} is already the array.</li>
- *   <li>Raw snake_case output ({@code image one-time-scan -o json-raw --output-directory DIR}): same
- *       shape as the standalone file but field names use snake_case instead of camelCase.</li>
- *   <li>Bare array ({@code image vuln -o json}): the top-level JSON value is itself the array of
- *       vulnerability objects, camelCase or snake_case.</li>
- *   <li>App/BYOS-SBOM feature ({@code app version vuln list -o json[-raw]}): a bare array with a
- *       distinct field vocabulary ({@code vulnerabilityId}/{@code vulnerability_id} instead of
- *       {@code vuln}, {@code fixState}/{@code fix_state} plus {@code fixVersions}/{@code fix_versions}
- *       instead of {@code fix}, a top-level {@code kev} boolean instead of {@code nvdData[].isKev}).</li>
+ *   <li>Unified output ({@code image one-time-scan -o json IMAGE}): top-level {@code vulnerabilities} is a JSON object
+ *       envelope containing an inner {@code vulnerabilities} array.
+ *   <li>Standalone file ({@code image one-time-scan -o json --output-directory DIR}): top-level {@code vulnerabilities}
+ *       is already the array.
+ *   <li>Raw snake_case output ({@code image one-time-scan -o json-raw --output-directory DIR}): same shape as the
+ *       standalone file but field names use snake_case instead of camelCase.
+ *   <li>Bare array ({@code image vuln -o json}): the top-level JSON value is itself the array of vulnerability objects,
+ *       camelCase or snake_case.
+ *   <li>App/BYOS-SBOM feature ({@code app version vuln list -o json[-raw]}): a bare array with a distinct field
+ *       vocabulary ({@code vulnerabilityId}/{@code vulnerability_id} instead of {@code vuln},
+ *       {@code fixState}/{@code fix_state} plus {@code fixVersions}/{@code fix_versions} instead of {@code fix}, a
+ *       top-level {@code kev} boolean instead of {@code nvdData[].isKev}).
  * </ul>
  *
  * @see <a href="https://github.com/anchore/anchorectl">anchorectl</a>
@@ -37,14 +36,13 @@ public class AnchoreCtlParser extends JsonIssueParser {
     private static final long serialVersionUID = 3847261938475610293L;
 
     @Override
-    protected void parseJsonObject(final Report report, final JSONObject jsonReport,
-            final IssueBuilder issueBuilder) {
-        extractVulnerabilities(jsonReport).ifPresent(vulnerabilities -> parseJsonArray(report, vulnerabilities, issueBuilder));
+    protected void parseJsonObject(final Report report, final JSONObject jsonReport, final IssueBuilder issueBuilder) {
+        extractVulnerabilities(jsonReport)
+                .ifPresent(vulnerabilities -> parseJsonArray(report, vulnerabilities, issueBuilder));
     }
 
     @Override
-    protected void parseJsonArray(final Report report, final JSONArray jsonReport,
-            final IssueBuilder issueBuilder) {
+    protected void parseJsonArray(final Report report, final JSONArray jsonReport, final IssueBuilder issueBuilder) {
         for (int i = 0; i < jsonReport.length(); i++) {
             parseVulnerability(report, jsonReport.getJSONObject(i), issueBuilder);
         }
@@ -67,7 +65,8 @@ public class AnchoreCtlParser extends JsonIssueParser {
     private void parseVulnerability(final Report report, final JSONObject vulnerability, final IssueBuilder builder) {
         // "vuln" on the image-scan endpoints; "vulnerabilityId"/"vulnerability_id" on the
         // App/BYOS-SBOM endpoint (anchorectl app version vuln list).
-        var vulnerabilityId = firstNonBlank(vulnerability, "vuln", "vulnerabilityId", "vulnerability_id").trim();
+        var vulnerabilityId = firstNonBlank(vulnerability, "vuln", "vulnerabilityId", "vulnerability_id")
+                .trim();
         if (vulnerabilityId.isBlank()) {
             return;
         }
@@ -81,7 +80,8 @@ public class AnchoreCtlParser extends JsonIssueParser {
         }
         var url = vulnerability.optString("url", "");
         var fixState = firstNonBlank(vulnerability, "fixState", "fix_state");
-        var willNotFix = vulnerability.optBoolean("willNotFix") || vulnerability.optBoolean("will_not_fix")
+        var willNotFix = vulnerability.optBoolean("willNotFix")
+                || vulnerability.optBoolean("will_not_fix")
                 || equalsIgnoreCase(fixState, "wont_fix");
         // Image-scan endpoints: isKev lives inside nvdData[].isKev / nvd_data[].is_kev.
         // App/BYOS-SBOM endpoint: top-level "kev" boolean.
@@ -94,7 +94,8 @@ public class AnchoreCtlParser extends JsonIssueParser {
                 .setCategory(firstNonBlank(vulnerability, "packageType", "package_type"))
                 .setFileName(extractFileName(packagePath, purl))
                 .setDescription(buildDescription(fix, packageVersion, isKev, willNotFix, url, vulnerabilityId))
-                .setFingerprint(vulnerabilityId + ":" + firstNonBlank(vulnerability, "packageName", "package_name") + ":" + packageVersion + ":" + packagePath);
+                .setFingerprint(vulnerabilityId + ":" + firstNonBlank(vulnerability, "packageName", "package_name")
+                        + ":" + packageVersion + ":" + packagePath);
 
         report.add(builder.build());
     }
@@ -113,11 +114,9 @@ public class AnchoreCtlParser extends JsonIssueParser {
     private String extractFileName(final String packagePath, final String purl) {
         if (!packagePath.isBlank()) {
             return packagePath;
-        }
-        else if (!purl.isBlank()) {
+        } else if (!purl.isBlank()) {
             return purl;
-        }
-        else {
+        } else {
             return "-";
         }
     }
@@ -139,15 +138,20 @@ public class AnchoreCtlParser extends JsonIssueParser {
         return false;
     }
 
-    private String buildDescription(final String fix, final String packageVersion,
-            final boolean isKev, final boolean willNotFix, final String url, final String vulnId) {
+    private String buildDescription(
+            final String fix,
+            final String packageVersion,
+            final boolean isKev,
+            final boolean willNotFix,
+            final String url,
+            final String vulnId) {
         return join(
-                fix.isBlank() ? p(text("No fix available")) : p(join(b("Fix:"), text(" " + fix))),
-                iff(!packageVersion.isBlank(), p(join(text("Affected version: "), text(packageVersion)))),
-                iff(isKev, p(b("CISA Known Exploited Vulnerability (KEV)"))),
-                iff(willNotFix, p(text("Vendor will not fix"))),
-                iff(!url.isBlank(), p(a(vulnId).withHref(url)))
-        ).render();
+                        fix.isBlank() ? p(text("No fix available")) : p(join(b("Fix:"), text(" " + fix))),
+                        iff(!packageVersion.isBlank(), p(join(text("Affected version: "), text(packageVersion)))),
+                        iff(isKev, p(b("CISA Known Exploited Vulnerability (KEV)"))),
+                        iff(willNotFix, p(text("Vendor will not fix"))),
+                        iff(!url.isBlank(), p(a(vulnId).withHref(url))))
+                .render();
     }
 
     private static String cleanNone(final String value) {

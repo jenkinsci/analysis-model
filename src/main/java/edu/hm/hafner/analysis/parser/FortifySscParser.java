@@ -1,16 +1,15 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-
-import org.json.JSONObject;
-
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
+import java.io.Serial;
+import org.json.JSONObject;
 
 /**
  * A parser for Fortify Software Security Center (SSC) JSON reports.
  *
- * @see <a href="https://www.microfocus.com/documentation/fortify-software-security-center/">Fortify Software Security Center Documentation</a>
+ * @see <a href="https://www.microfocus.com/documentation/fortify-software-security-center/">Fortify Software Security
+ *     Center Documentation</a>
  * @author Akash Manna
  */
 public class FortifySscParser extends JsonIssueParser {

@@ -1,21 +1,17 @@
 package edu.hm.hafner.analysis.parser.violations;
 
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
+
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
 
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
-
-/**
- * Tests the class {@link ResharperInspectCodeAdapter}.
- */
+/** Tests the class {@link ResharperInspectCodeAdapter}. */
 class ResharperInspectCodeAdapterTest extends AbstractParserTest {
     private static final String ISSUES_FILE = "ResharperInspectCode.xml";
 
-    /**
-     * Creates a new instance of {@link ResharperInspectCodeAdapterTest}.
-     */
+    /** Creates a new instance of {@link ResharperInspectCodeAdapterTest}. */
     ResharperInspectCodeAdapterTest() {
         super(ISSUES_FILE);
     }

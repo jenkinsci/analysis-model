@@ -1,12 +1,10 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.Strings;
-
 import edu.hm.hafner.analysis.LookaheadParser;
-
 import java.io.Serial;
 import java.util.regex.Pattern;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 /**
  * A base class for parsers that will work on subsections of Maven build logs. These logs can be divided into sections
@@ -19,11 +17,10 @@ public abstract class AbstractMavenLogParser extends LookaheadParser {
     private static final long serialVersionUID = -3768790896172545192L;
 
     /** Regular expression to parse the start of maven plugin in console. */
-    private static final Pattern MAVEN_PLUGIN_START = Pattern.compile(
-            "\\[INFO\\] --- (?<id>\\S+):(?<version>\\S+):(?<goal>\\S+)\\s.*");
-    private static final Pattern MAVEN_MODULE_START = Pattern.compile(
-            "-+< (?<id>\\S+) >-+"
-    );
+    private static final Pattern MAVEN_PLUGIN_START =
+            Pattern.compile("\\[INFO\\] --- (?<id>\\S+):(?<version>\\S+):(?<goal>\\S+)\\s.*");
+
+    private static final Pattern MAVEN_MODULE_START = Pattern.compile("-+< (?<id>\\S+) >-+");
     private static final String MAVEN_PLUGIN_PREFIX = "maven-";
     private static final String MAVEN_PLUGIN_SUFFIX = "-plugin";
     static final String MAVEN_COMPILER_PLUGIN = MAVEN_PLUGIN_PREFIX + "compiler" + MAVEN_PLUGIN_SUFFIX;
@@ -38,8 +35,7 @@ public abstract class AbstractMavenLogParser extends LookaheadParser {
     /**
      * Creates a new instance of {@link AbstractMavenLogParser}.
      *
-     * @param pattern
-     *         pattern of compiler warnings.
+     * @param pattern pattern of compiler warnings.
      */
     protected AbstractMavenLogParser(final String pattern) {
         super(pattern);
@@ -51,8 +47,7 @@ public abstract class AbstractMavenLogParser extends LookaheadParser {
 
         if (goalMatcher.find()) {
             goal = "%s:%s".formatted(goalMatcher.group("id"), goalMatcher.group("goal"));
-        }
-        else if (line.contains("[INFO] BUILD ")) {
+        } else if (line.contains("[INFO] BUILD ")) {
             goal = StringUtils.EMPTY; // reset goal after build
         }
 

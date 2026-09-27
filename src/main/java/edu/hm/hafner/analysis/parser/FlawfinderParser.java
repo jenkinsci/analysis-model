@@ -1,15 +1,14 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.util.Optional;
-import java.util.regex.Matcher;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.util.IntegerParser;
 import edu.hm.hafner.util.LookaheadStream;
+import java.io.Serial;
+import java.util.Optional;
+import java.util.regex.Matcher;
 
 /**
  * A parser for the flawfinder warnings.
@@ -26,16 +25,14 @@ public class FlawfinderParser extends LookaheadParser {
     private static final int FLAWFINDER_HIGH_THRESHOLD = 4;
     private static final int FLAWFINDER_NORMAL_THRESHOLD = 2;
 
-    /**
-     * Creates a new instance of {@link FlawfinderParser}.
-     */
+    /** Creates a new instance of {@link FlawfinderParser}. */
     public FlawfinderParser() {
         super(FLAWFINDER_WARNING_PATTERN);
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
-            final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(
+            final Matcher matcher, final LookaheadStream lookahead, final IssueBuilder builder) {
         var message = matcher.group("message");
         var category = matcher.group("category");
 
@@ -52,8 +49,7 @@ public class FlawfinderParser extends LookaheadParser {
     private Severity extractPriority(final int severity) {
         if (severity >= FLAWFINDER_HIGH_THRESHOLD) {
             return Severity.WARNING_HIGH;
-        }
-        else if (severity >= FLAWFINDER_NORMAL_THRESHOLD) {
+        } else if (severity >= FLAWFINDER_NORMAL_THRESHOLD) {
             return Severity.WARNING_NORMAL;
         }
         return Severity.WARNING_LOW;

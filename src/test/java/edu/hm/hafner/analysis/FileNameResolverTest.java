@@ -1,12 +1,9 @@
 package edu.hm.hafner.analysis;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
+import static edu.hm.hafner.analysis.IssueTest.*;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 import edu.hm.hafner.util.PathUtil;
-
 import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -14,9 +11,10 @@ import java.nio.file.Path;
 import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-
-import static edu.hm.hafner.analysis.IssueTest.*;
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 /**
  * Tests the class {@link FileNameResolver}.
@@ -35,8 +33,7 @@ class FileNameResolverTest {
     /**
      * Ensures that illegal file names are processed without problems. Afterwards, the path name should be unchanged.
      *
-     * @param fileName
-     *         the file name to check
+     * @param fileName the file name to check
      */
     @ParameterizedTest(name = "[{index}] Illegal filename = {0}")
     @ValueSource(strings = {"/does/not/exist", "!<>$&/&(", "\0 Null-Byte", "C:/!<>$&/&( \0", "/!<>$&/&( \0"})
@@ -54,8 +51,8 @@ class FileNameResolverTest {
         resolvePaths(report, resourceFolderPath, f -> false);
     }
 
-    private void resolvePaths(final Report report, final Path resourceFolderPath,
-            final Predicate<String> skipFileNamePredicate) {
+    private void resolvePaths(
+            final Report report, final Path resourceFolderPath, final Predicate<String> skipFileNamePredicate) {
         new FileNameResolver().run(report, resourceFolderPath.toString(), skipFileNamePredicate);
     }
 
@@ -85,8 +82,8 @@ class FileNameResolverTest {
         assertThat(report.get(0)).hasFileName(RELATIVE_FILE).hasPath(RESOURCE_FOLDER_STRING);
 
         assertThat(report.getInfoMessages()).hasSize(1);
-        assertThat(report.getInfoMessages().getFirst()).as("Files: "
-                + report.stream().map(Issue::getFileName).collect(Collectors.joining(", ")))
+        assertThat(report.getInfoMessages().getFirst())
+                .as("Files: " + report.stream().map(Issue::getFileName).collect(Collectors.joining(", ")))
                 .contains("1 found", "0 not found");
         assertThat(report.getErrorMessages()).isEmpty();
     }
@@ -106,8 +103,8 @@ class FileNameResolverTest {
         assertThat(report.get(0)).hasFileName("not here").hasPath(UNDEFINED);
 
         assertThat(report.getInfoMessages()).hasSize(1);
-        assertThat(report.getInfoMessages().getFirst()).as("Files: "
-                + report.stream().map(Issue::getFileName).collect(Collectors.joining(", ")))
+        assertThat(report.getInfoMessages().getFirst())
+                .as("Files: " + report.stream().map(Issue::getFileName).collect(Collectors.joining(", ")))
                 .contains("0 found", "1 not found");
         assertThat(report.getErrorMessages()).isEmpty();
     }
@@ -122,7 +119,8 @@ class FileNameResolverTest {
             report.add(builder.setFileName("skip").build());
             report.add(builder.setFileName(RELATIVE_FILE).build());
             report.add(builder.setDirectory(RESOURCE_FOLDER_STRING)
-                    .setFileName("relative.txt").build());
+                    .setFileName("relative.txt")
+                    .build());
             report.add(builder.setDirectory(RESOURCE_FOLDER_STRING)
                     .setFileName(normalize("../../hafner/analysis/normalized.txt"))
                     .build());
@@ -137,26 +135,27 @@ class FileNameResolverTest {
         resolvePaths(report, RESOURCE_FOLDER_PATH, "skip"::equals);
 
         assertThat(report).hasSize(7);
-        assertThat(report.get(0)).as("Issue with no file name")
-                .hasFileName("-");
-        assertThat(report.get(1)).as("Issue with path name resolution skipped")
-                .hasFileName("skip");
+        assertThat(report.get(0)).as("Issue with no file name").hasFileName("-");
+        assertThat(report.get(1)).as("Issue with path name resolution skipped").hasFileName("skip");
 
-        assertThat(report.get(2)).as("Issue with relative file name")
-                .hasFileName(RELATIVE_FILE);
+        assertThat(report.get(2)).as("Issue with relative file name").hasFileName(RELATIVE_FILE);
 
-        assertThat(report.get(3)).as("Issue with absolute file name (normalized)")
+        assertThat(report.get(3))
+                .as("Issue with absolute file name (normalized)")
                 .hasFileName(RELATIVE_FILE);
-        assertThat(report.get(4)).as("Issue with absolute file name (not normalized)")
+        assertThat(report.get(4))
+                .as("Issue with absolute file name (not normalized)")
                 .hasFileName("normalized.txt");
-        assertThat(report.get(5)).as("Issue with absolute file name (not existing)")
+        assertThat(report.get(5))
+                .as("Issue with absolute file name (not existing)")
                 .hasFileName(RESOURCE_FOLDER_STRING + "/not-existing.txt");
-        assertThat(report.get(6)).as("Issue with absolute file name (not existing parent path)")
+        assertThat(report.get(6))
+                .as("Issue with absolute file name (not existing parent path)")
                 .hasFileName("/not-existing-parent.txt");
 
         assertThat(report.getInfoMessages()).hasSize(1);
-        assertThat(report.getInfoMessages().getFirst()).as("Files: "
-                + report.stream().map(Issue::getFileName).collect(Collectors.joining(", ")))
+        assertThat(report.getInfoMessages().getFirst())
+                .as("Files: " + report.stream().map(Issue::getFileName).collect(Collectors.joining(", ")))
                 .contains("3 found", "2 not found");
         assertThat(report.getErrorMessages()).isEmpty();
     }
@@ -335,8 +334,7 @@ class FileNameResolverTest {
             var resource = FileNameResolverTest.class.getResource(RELATIVE_FILE);
             var fileName = Objects.requireNonNull(resource).toExternalForm();
             return new URI(fileName.replace(RELATIVE_FILE, ""));
-        }
-        catch (URISyntaxException e) {
+        } catch (URISyntaxException e) {
             throw new AssertionError(e);
         }
     }

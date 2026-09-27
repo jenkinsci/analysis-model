@@ -1,8 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.nio.file.FileSystems;
-
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 import edu.hm.hafner.analysis.FileReaderFactory;
 import edu.hm.hafner.analysis.IssueParser;
@@ -12,8 +10,8 @@ import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
 import edu.hm.hafner.analysis.registry.ParserRegistry;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import java.nio.file.FileSystems;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the class {@link TruffleHogParser}.
@@ -58,16 +56,17 @@ class TruffleHogParserTest extends AbstractParserTest {
 
     @Test
     void accepts() {
-        assertThat(new TruffleHogParser().accepts(
-                new FileReaderFactory(FileSystems.getDefault().getPath("truffleHog.json")))).isTrue();
-        assertThat(new TruffleHogParser().accepts(
-                new FileReaderFactory(FileSystems.getDefault().getPath("foo.txt")))).isFalse();
+        assertThat(new TruffleHogParser()
+                        .accepts(new FileReaderFactory(FileSystems.getDefault().getPath("truffleHog.json"))))
+                .isTrue();
+        assertThat(new TruffleHogParser()
+                        .accepts(new FileReaderFactory(FileSystems.getDefault().getPath("foo.txt"))))
+                .isFalse();
     }
 
     @Test
     void brokenInput() {
-        assertThatThrownBy(() -> parse("eclipse.txt"))
-                .isInstanceOf(ParsingException.class);
+        assertThatThrownBy(() -> parse("eclipse.txt")).isInstanceOf(ParsingException.class);
     }
 
     @Test
@@ -91,7 +90,8 @@ class TruffleHogParserTest extends AbstractParserTest {
         assertThat(descriptor.getPattern()).isEqualTo("**/truffleHog.json");
         assertThat(descriptor.getHelp()).contains("truffleHog filesystem");
         assertThat(descriptor.getUrl()).isEqualTo("https://github.com/trufflesecurity/trufflehog");
-        assertThat(descriptor.getIconUrl()).isEqualTo("https://storage.googleapis.com/trufflehog-static-sources/pixel_pig.png");
+        assertThat(descriptor.getIconUrl())
+                .isEqualTo("https://storage.googleapis.com/trufflehog-static-sources/pixel_pig.png");
         assertThat(descriptor.hasHelp()).isTrue();
         assertThat(descriptor.hasUrl()).isTrue();
     }
@@ -207,9 +207,7 @@ class TruffleHogParserTest extends AbstractParserTest {
                 """);
 
         assertThat(report).hasSize(1);
-        assertThat(report.get(0))
-                .hasType("Secret Token")
-                .hasMessage("Secret Token");
+        assertThat(report.get(0)).hasType("Secret Token").hasMessage("Secret Token");
     }
 
     @Test
@@ -232,9 +230,7 @@ class TruffleHogParserTest extends AbstractParserTest {
                 """);
 
         assertThat(report).hasSize(1);
-        assertThat(report.get(0))
-                .hasType("Custom Detector")
-                .hasMessage("Secret detected by: Custom Detector");
+        assertThat(report.get(0)).hasType("Custom Detector").hasMessage("Secret detected by: Custom Detector");
     }
 
     @Test
@@ -274,9 +270,7 @@ class TruffleHogParserTest extends AbstractParserTest {
                 """);
 
         assertThat(report).hasSize(1);
-        assertThat(report.get(0))
-                .hasType("API Key")
-                .hasFileName("config.py");
+        assertThat(report.get(0)).hasType("API Key").hasFileName("config.py");
     }
 
     @Test
@@ -326,8 +320,6 @@ class TruffleHogParserTest extends AbstractParserTest {
                 """);
 
         assertThat(report).hasSize(1);
-        assertThat(report.get(0))
-                .hasType("SSH Key")
-                .hasFileName("id_rsa");
+        assertThat(report.get(0)).hasType("SSH Key").hasFileName("id_rsa");
     }
 }

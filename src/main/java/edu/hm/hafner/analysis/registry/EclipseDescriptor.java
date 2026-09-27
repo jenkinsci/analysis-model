@@ -1,11 +1,10 @@
 package edu.hm.hafner.analysis.registry;
 
-import java.util.Collection;
-
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.EclipseMavenParser;
 import edu.hm.hafner.analysis.parser.EclipseParser;
 import edu.hm.hafner.analysis.parser.EclipseXmlParser;
+import java.util.Collection;
 
 /**
  * A descriptor for the Eclipse compiler (text format).

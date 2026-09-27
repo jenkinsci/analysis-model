@@ -38,8 +38,7 @@ class MentorParserTest extends AbstractParserTest {
                         "<br>#          Process time 2.89 seconds<br>#          $stop    : /net/test_tb.sv(313)")
                 .hasSeverity(Severity.WARNING_LOW);
 
-        softly.assertThat(report.get(issue++))
-                .hasCategory("vsim-3015");
+        softly.assertThat(report.get(issue++)).hasCategory("vsim-3015");
 
         softly.assertThat(report.get(issue++))
                 .hasLineStart(26)
@@ -49,8 +48,7 @@ class MentorParserTest extends AbstractParserTest {
                 .hasModuleName("/tb_g/uut/esa_ping_pong_control")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
-        softly.assertThat(report.get(issue++))
-                .hasCategory("vsim-8234");
+        softly.assertThat(report.get(issue++)).hasCategory("vsim-8234");
 
         softly.assertThat(report.get(issue++))
                 .hasLineStart(0)

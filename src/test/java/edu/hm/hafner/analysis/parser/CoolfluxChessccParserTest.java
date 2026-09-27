@@ -5,9 +5,7 @@ import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
 
-/**
- * Tests the class {@link CoolfluxChessccParserTest}.
- */
+/** Tests the class {@link CoolfluxChessccParserTest}. */
 class CoolfluxChessccParserTest extends AbstractParserTest {
     CoolfluxChessccParserTest() {
         super("coolfluxchesscc.txt");
@@ -20,8 +18,7 @@ class CoolfluxChessccParserTest extends AbstractParserTest {
         softly.assertThat(report.get(0))
                 .hasLineStart(150)
                 .hasLineEnd(150)
-                .hasMessage(
-                        "function `unsigned configureRealCh(unsigned)' was declared static, but was not defined")
+                .hasMessage("function `unsigned configureRealCh(unsigned)' was declared static, but was not defined")
                 .hasFileName("/nfs/autofs/nett/nessie6/dailies/Monday/src/n6/heidrun/dsp/Modules/LocalChAdmin.c")
                 .hasCategory(DEFAULT_CATEGORY)
                 .hasSeverity(Severity.WARNING_HIGH);

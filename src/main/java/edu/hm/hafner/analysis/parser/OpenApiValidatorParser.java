@@ -1,19 +1,17 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
-
 import java.io.Serial;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * A parser for IBM OpenAPI Validator JSON output.
  *
- * <p>The IBM OpenAPI Validator ({@code lint-openapi}) can produce a stable JSON output using the
- * {@code --json} flag. This parser handles that output format.</p>
+ * <p>The IBM OpenAPI Validator ({@code lint-openapi}) can produce a stable JSON output using the {@code --json} flag.
+ * This parser handles that output format.
  *
  * @author Akash Manna
  * @see <a href="https://github.com/IBM/openapi-validator">IBM OpenAPI Validator on GitHub</a>
@@ -40,7 +38,8 @@ public class OpenApiValidatorParser extends JsonIssueParser {
     }
 
     private Issue convertToIssue(final JSONObject jsonIssue, final IssueBuilder issueBuilder) {
-        issueBuilder.setMessage(jsonIssue.optString(MESSAGE, ""))
+        issueBuilder
+                .setMessage(jsonIssue.optString(MESSAGE, ""))
                 .setType(jsonIssue.optString(RULE, "-"))
                 .setFileName(jsonIssue.optString(FILE, "-"))
                 .setLineStart(jsonIssue.optInt(LINE, 0))

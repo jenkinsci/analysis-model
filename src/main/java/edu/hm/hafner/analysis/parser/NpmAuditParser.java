@@ -1,11 +1,10 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.json.JSONObject;
+import static j2html.TagCreator.*;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
-
 import j2html.TagCreator;
 import j2html.tags.ContainerTag;
 import j2html.tags.DomContent;
@@ -14,8 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
-
-import static j2html.TagCreator.*;
+import org.json.JSONObject;
 
 /**
  * Parser for npm audit.
@@ -39,7 +37,8 @@ public class NpmAuditParser extends JsonIssueParser {
         }
     }
 
-    private void parseVulnerability(final Report report, final JSONObject vulnerability, final IssueBuilder issueBuilder) {
+    private void parseVulnerability(
+            final Report report, final JSONObject vulnerability, final IssueBuilder issueBuilder) {
         var via = vulnerability.optJSONArray("via");
         if (via != null) {
             var tags = collectTags(vulnerability);
@@ -55,8 +54,7 @@ public class NpmAuditParser extends JsonIssueParser {
         var fixAvailable = vulnerability.opt("fixAvailable");
         if (fixAvailable instanceof Boolean fixAvailableValue) {
             return fixAvailableValue;
-        }
-        else {
+        } else {
             return fixAvailable != null;
         }
     }
@@ -65,21 +63,21 @@ public class NpmAuditParser extends JsonIssueParser {
         var tags = new ArrayList<String>();
         if (vulnerability.optBoolean("isDirect", false)) {
             tags.add("Direct");
-        }
-        else {
+        } else {
             tags.add("Indirect");
         }
         if (hasFixAvailable(vulnerability)) {
             tags.add("Fix Available");
-        }
-        else {
+        } else {
             tags.add("No Fix");
         }
         return tags;
     }
 
-    private String formatDescription(final JSONObject vulnerability, final List<String> tags, final SortedSet<String> weaknessCategories) {
-        DomContent desc = p(b(vulnerability.optString("name", VALUE_NOT_SET)), text(" "), code(vulnerability.optString("range")));
+    private String formatDescription(
+            final JSONObject vulnerability, final List<String> tags, final SortedSet<String> weaknessCategories) {
+        DomContent desc =
+                p(b(vulnerability.optString("name", VALUE_NOT_SET)), text(" "), code(vulnerability.optString("range")));
         if (!tags.isEmpty()) {
             desc = join(desc, p(String.join(", ", tags)));
         }
@@ -90,12 +88,16 @@ public class NpmAuditParser extends JsonIssueParser {
             details.with(br(), b("Reference:"), text(" "), a(url).withHref(url));
         }
         if (!weaknessCategories.isEmpty()) {
-            details.with(br(), b("Weakness:"), weaknessCategories.stream().map(TagCreator::li).reduce(ul(), ContainerTag::with));
+            details.with(
+                    br(),
+                    b("Weakness:"),
+                    weaknessCategories.stream().map(TagCreator::li).reduce(ul(), ContainerTag::with));
         }
         return join(desc, details).render();
     }
 
-    private Issue convertToIssue(final JSONObject vulnerability, final IssueBuilder issueBuilder, final List<String> tags) {
+    private Issue convertToIssue(
+            final JSONObject vulnerability, final IssueBuilder issueBuilder, final List<String> tags) {
         SortedSet<String> weaknessCategories = collectWeaknessCategories(vulnerability);
         return issueBuilder
                 .setPackageName(vulnerability.optString("name", VALUE_NOT_SET))

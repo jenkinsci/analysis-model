@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis;
 
 import edu.hm.hafner.util.PathUtil;
-
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -18,15 +17,13 @@ public class IssuesInModifiedCodeMarker {
     /**
      * Finds and marks all issues that are part the changes in a source control diff.
      *
-     * @param report
-     *         the report with the issues to scan
-     * @param modifiedLinesInFilesMapping
-     *         a mapping modified lines within files
+     * @param report the report with the issues to scan
+     * @param modifiedLinesInFilesMapping a mapping modified lines within files
      */
-    public void markIssuesInModifiedCode(final Report report, final Map<String, Set<Integer>> modifiedLinesInFilesMapping) {
+    public void markIssuesInModifiedCode(
+            final Report report, final Map<String, Set<Integer>> modifiedLinesInFilesMapping) {
         for (Entry<String, Set<Integer>> include : modifiedLinesInFilesMapping.entrySet()) {
-            report.filter(issue -> affectsChangedLineInFile(issue, include.getKey(), include.getValue()))
-                    .stream()
+            report.filter(issue -> affectsChangedLineInFile(issue, include.getKey(), include.getValue())).stream()
                     .forEach(Issue::markAsPartOfModifiedCode);
         }
     }
@@ -34,15 +31,12 @@ public class IssuesInModifiedCodeMarker {
     /**
      * Finds and marks all issues that are in modified files, regardless of whether they affect specific lines.
      *
-     * @param report
-     *         the report with the issues to scan
-     * @param modifiedFiles
-     *         a set of modified file names
+     * @param report the report with the issues to scan
+     * @param modifiedFiles a set of modified file names
      */
     public void markIssuesInModifiedFiles(final Report report, final Set<String> modifiedFiles) {
         for (String fileName : modifiedFiles) {
-            report.filter(issue -> affectsModifiedFile(issue, fileName))
-                    .stream()
+            report.filter(issue -> affectsModifiedFile(issue, fileName)).stream()
                     .forEach(Issue::markAsPartOfModifiedCode);
         }
     }

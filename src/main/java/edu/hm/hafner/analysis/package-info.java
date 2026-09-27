@@ -1,6 +1,4 @@
-/**
- * Provides base classes and utilities to parse files for warnings, issues, and so on.
- */
+/** Provides base classes and utilities to parse files for warnings, issues, and so on. */
 @DefaultAnnotation(NonNull.class)
 package edu.hm.hafner.analysis;
 

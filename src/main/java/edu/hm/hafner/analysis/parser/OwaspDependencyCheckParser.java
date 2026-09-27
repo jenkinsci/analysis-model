@@ -1,18 +1,14 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-
-import org.json.JSONObject;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
+import java.io.Serial;
+import org.json.JSONObject;
 
-/**
- * OWASP dependency check JSON report parser.
- */
+/** OWASP dependency check JSON report parser. */
 public class OwaspDependencyCheckParser extends JsonIssueParser {
     @Serial
     private static final long serialVersionUID = -1369431674771459756L;

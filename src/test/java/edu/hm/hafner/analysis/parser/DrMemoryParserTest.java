@@ -1,18 +1,15 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.util.Iterator;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
+import java.util.Iterator;
 
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
-
-/**
- * Tests the class {@link DrMemoryParser}.
- */
+/** Tests the class {@link DrMemoryParser}. */
 class DrMemoryParserTest extends AbstractParserTest {
     DrMemoryParserTest() {
         super("drmemory.txt");
@@ -26,10 +23,11 @@ class DrMemoryParserTest extends AbstractParserTest {
 
         assertThat(iterator.next())
                 .hasLineStart(7)
-                .hasMessage("LEAK 150 direct bytes 0x005a2540-0x005a25d6 + 0 indirect bytes<br>"
-                        + "# 0 replace_malloc                                     [/drmemory_package/common/alloc_replace.c:2576]<br>"
-                        + "# 1 test_open_address_hashmap_initialize               [/open_address_hash/test_open_address_hash.c:84]<br>"
-                        + "# 2 main                                               [/open_address_hash/run_open_address_hash.c:7]")
+                .hasMessage(
+                        "LEAK 150 direct bytes 0x005a2540-0x005a25d6 + 0 indirect bytes<br>"
+                                + "# 0 replace_malloc                                     [/drmemory_package/common/alloc_replace.c:2576]<br>"
+                                + "# 1 test_open_address_hashmap_initialize               [/open_address_hash/test_open_address_hash.c:84]<br>"
+                                + "# 2 main                                               [/open_address_hash/run_open_address_hash.c:7]")
                 .hasFileName("/open_address_hash/run_open_address_hash.c")
                 .hasCategory("Leak")
                 .hasSeverity(Severity.WARNING_HIGH);
@@ -37,10 +35,11 @@ class DrMemoryParserTest extends AbstractParserTest {
         assertThat(iterator.next())
                 .hasLineEnd(7)
                 .hasLineStart(7)
-                .hasMessage("POSSIBLE LEAK 150 direct bytes 0x005a25f8-0x005a268e + 0 indirect bytes<br>"
-                        + "# 0 replace_malloc                                              [/drmemory_package/common/alloc_replace.c:2576]<br>"
-                        + "# 1 test_open_address_hashmap_compute_simple_hash               [/open_address_hash/test_open_address_hash.c:107]<br>"
-                        + "# 2 main                                                        [/open_address_hash/run_open_address_hash.c:7]")
+                .hasMessage(
+                        "POSSIBLE LEAK 150 direct bytes 0x005a25f8-0x005a268e + 0 indirect bytes<br>"
+                                + "# 0 replace_malloc                                              [/drmemory_package/common/alloc_replace.c:2576]<br>"
+                                + "# 1 test_open_address_hashmap_compute_simple_hash               [/open_address_hash/test_open_address_hash.c:107]<br>"
+                                + "# 2 main                                                        [/open_address_hash/run_open_address_hash.c:7]")
                 .hasFileName("/open_address_hash/run_open_address_hash.c")
                 .hasCategory("Possible Leak")
                 .hasSeverity(Severity.WARNING_NORMAL);

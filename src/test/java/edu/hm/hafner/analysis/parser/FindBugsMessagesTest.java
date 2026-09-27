@@ -1,19 +1,15 @@
 package edu.hm.hafner.analysis.parser;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import edu.hm.hafner.analysis.parser.FindBugsMessages.Pattern;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
-
 import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
 
-import edu.hm.hafner.analysis.parser.FindBugsMessages.Pattern;
-
-import static org.assertj.core.api.Assertions.*;
-
-/**
- * Tests the class {@link FindBugsMessages}.
- */
+/** Tests the class {@link FindBugsMessages}. */
 class FindBugsMessagesTest {
     /** Bug ID for test. */
     private static final String NP_STORE_INTO_NONNULL_FIELD = "NP_STORE_INTO_NONNULL_FIELD";
@@ -23,12 +19,13 @@ class FindBugsMessagesTest {
     private static final int EXPECTED_CONTRIB_PATTERNS = 307;
     /** Expected number of patterns in find-sec-bugs. */
     private static final int EXPECTED_SECURITY_PATTERNS = 135;
+
     private static final String PATH_TRAVERSAL_IN = "PATH_TRAVERSAL_IN";
 
     @Test
     void shouldReadAllMessageFiles() {
-        assertThat(new FindBugsMessages().size()).isEqualTo(
-                EXPECTED_PATTERNS + EXPECTED_CONTRIB_PATTERNS + EXPECTED_SECURITY_PATTERNS);
+        assertThat(new FindBugsMessages().size())
+                .isEqualTo(EXPECTED_PATTERNS + EXPECTED_CONTRIB_PATTERNS + EXPECTED_SECURITY_PATTERNS);
     }
 
     @Test
@@ -50,8 +47,7 @@ class FindBugsMessagesTest {
     void shouldMapMessagesToTypes() {
         var messages = new FindBugsMessages();
         var expectedMessage = "A value that could be null is stored into a field that has been annotated as @Nonnull.";
-        assertThat(messages.getMessage(NP_STORE_INTO_NONNULL_FIELD))
-                .contains(expectedMessage);
+        assertThat(messages.getMessage(NP_STORE_INTO_NONNULL_FIELD)).contains(expectedMessage);
 
         assertThat(messages.getShortMessage(NP_STORE_INTO_NONNULL_FIELD))
                 .isEqualTo("Store of null value into field annotated @Nonnull");
@@ -65,8 +61,7 @@ class FindBugsMessagesTest {
     @Test
     void issue55707() {
         var messages = new FindBugsMessages();
-        assertThat(messages.getShortMessage(PATH_TRAVERSAL_IN))
-                .isEqualTo("Potential Path Traversal (file read)");
+        assertThat(messages.getShortMessage(PATH_TRAVERSAL_IN)).isEqualTo("Potential Path Traversal (file read)");
         assertThat(messages.getMessage(PATH_TRAVERSAL_IN))
                 .contains("A file is opened to read its content. The filename comes from an <b>input</b> parameter.");
     }
@@ -74,8 +69,7 @@ class FindBugsMessagesTest {
     private List<Pattern> readMessages(final String fileName) {
         try (var file = read("findbugs/" + fileName)) {
             return new FindBugsMessages().parse(file);
-        }
-        catch (IOException | SAXException e) {
+        } catch (IOException | SAXException e) {
             throw new AssertionError(e);
         }
     }

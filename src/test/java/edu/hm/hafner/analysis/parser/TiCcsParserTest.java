@@ -5,9 +5,7 @@ import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
 
-/**
- * Tests the class {@link TiCcsParser}.
- */
+/** Tests the class {@link TiCcsParser}. */
 class TiCcsParserTest extends AbstractParserTest {
     private static final String UNKNOWN_FILE = "-";
 

@@ -1,14 +1,13 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-
 import edu.hm.hafner.analysis.ReaderFactory;
+import java.io.Serial;
 
 /**
  * A parser for rust-analyzer flycheck diagnostics in JSON format.
  *
- * <p>rust-analyzer emits rustc JSON diagnostics for flycheck and check-on-save, so this parser reuses the cargo
- * check JSON parser implementation.</p>
+ * <p>rust-analyzer emits rustc JSON diagnostics for flycheck and check-on-save, so this parser reuses the cargo check
+ * JSON parser implementation.
  *
  * @author Akash Manna
  * @see <a href="https://github.com/rust-lang/rust-analyzer">rust-analyzer on GitHub</a>

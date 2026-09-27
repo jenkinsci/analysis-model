@@ -1,6 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.apache.commons.lang3.Strings;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
@@ -9,12 +9,10 @@ import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.util.IntegerParser;
-
 import java.io.Serial;
 import java.util.Iterator;
 import java.util.stream.Stream;
-
-import static org.apache.commons.lang3.StringUtils.*;
+import org.apache.commons.lang3.Strings;
 
 /**
  * A parser for Polyspace Bug Finder and Code Prover results. Used for .csv files generated from Bugfinder and
@@ -30,9 +28,7 @@ public class PolyspaceParser extends IssueParser {
     static final int COLOR_INDEX = 3;
     static final int FAMILY_INDEX = 1;
 
-    /**
-     * Creates a new instance of {@link PolyspaceParser}.
-     */
+    /** Creates a new instance of {@link PolyspaceParser}. */
     @Override
     protected Report parseReport(final ReaderFactory reader) throws ParsingException {
         try (Stream<String> lines = reader.readStream()) {
@@ -52,7 +48,8 @@ public class PolyspaceParser extends IssueParser {
 
                 var limit = 15 + offset;
                 var attributes = line.split("\\t", limit);
-                if (attributes.length >= limit && Strings.CI.containsAny(attributes[9], "Unreviewed", "To investigate", "To fix", "Other")) {
+                if (attributes.length >= limit
+                        && Strings.CI.containsAny(attributes[9], "Unreviewed", "To investigate", "To fix", "Other")) {
                     builder.setFileName(attributes[8]);
                     builder.setCategory(attributes[2]);
                     builder.setDescription(attributes[1]);
@@ -74,16 +71,13 @@ public class PolyspaceParser extends IssueParser {
      * Checks whether the "CWE" field is found in the header, which defines the difference between BugFinder file and a
      * CodeProver reports.
      *
-     * @param lineIterator
-     *         the iterator to read the lines
-     *
+     * @param lineIterator the iterator to read the lines
      * @return the offset to the line and column index (1 for BugFinder, 0 for CodeProver)
      */
     private int detectLineOffset(final Iterator<String> lineIterator) {
         if (readHeader(lineIterator).contains("CWE ID")) {
             return 1; // BugFinder result file has 16 columns
-        }
-        else {
+        } else {
             return 0; // CodeProver file has 15 columns
         }
     }
@@ -101,21 +95,16 @@ public class PolyspaceParser extends IssueParser {
             if (Strings.CI.equals(attributes[FAMILY_INDEX], "Defect")
                     || Strings.CI.equals(attributes[COLOR_INDEX], "Red")) {
                 return Severity.WARNING_HIGH;
-            }
-            else if (Strings.CI.containsAny(attributes[COLOR_INDEX], "Orange", "Not Applicable")) {
+            } else if (Strings.CI.containsAny(attributes[COLOR_INDEX], "Orange", "Not Applicable")) {
                 return Severity.WARNING_NORMAL;
-            }
-            else if (Strings.CI.containsAny(attributes[COLOR_INDEX], "Gray", "Green")) {
+            } else if (Strings.CI.containsAny(attributes[COLOR_INDEX], "Gray", "Green")) {
                 return Severity.WARNING_LOW;
             }
-        }
-        else if (Strings.CI.equals(attributes[SEVERITY_INDEX], "High")) {
+        } else if (Strings.CI.equals(attributes[SEVERITY_INDEX], "High")) {
             return Severity.WARNING_HIGH;
-        }
-        else if (equalsIgnoreCase(attributes[SEVERITY_INDEX], "Medium")) {
+        } else if (equalsIgnoreCase(attributes[SEVERITY_INDEX], "Medium")) {
             return Severity.WARNING_NORMAL;
-        }
-        else if (equalsIgnoreCase(attributes[SEVERITY_INDEX], "Low")) {
+        } else if (equalsIgnoreCase(attributes[SEVERITY_INDEX], "Low")) {
             return Severity.WARNING_LOW;
         }
         return Severity.WARNING_NORMAL;

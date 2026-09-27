@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
 import java.io.Serial;
-
 import org.json.JSONObject;
 
 /**

@@ -9,7 +9,7 @@ import edu.hm.hafner.analysis.registry.AbstractParserTest;
 /**
  * Tests the class {@link StyleLintParser}.
  *
- *  @author Ulrich Grave
+ * @author Ulrich Grave
  */
 class StyleLintParserTest extends AbstractParserTest {
     StyleLintParserTest() {
@@ -32,7 +32,8 @@ class StyleLintParserTest extends AbstractParserTest {
                 .hasColumnStart(1)
                 .hasLineEnd(29)
                 .hasColumnEnd(10)
-                .hasMessage("Expected \".my-class\" to match pattern \"^(allowed)-([a-z][a-z0-9]*)((-|__)[a-z0-9]+)*$\" (selector-class-pattern)")
+                .hasMessage(
+                        "Expected \".my-class\" to match pattern \"^(allowed)-([a-z][a-z0-9]*)((-|__)[a-z0-9]+)*$\" (selector-class-pattern)")
                 .hasDescription("")
                 .hasSeverity(Severity.WARNING_NORMAL);
 

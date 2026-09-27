@@ -1,14 +1,13 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.util.Optional;
-import java.util.regex.Matcher;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
+import java.io.Serial;
+import java.util.Optional;
+import java.util.regex.Matcher;
 
 /**
  * A parser for PHP runtime errors and warnings.
@@ -22,9 +21,7 @@ public class PhpParser extends LookaheadParser {
     private static final String PHP_WARNING_PATTERN = "^.*(PHP Warning|PHP Notice|PHP Fatal error|PHP Parse error)"
             + ":\\s+(?:(.+ in (.+) on line (\\d+))|(SOAP-ERROR:\\s+.*))$";
 
-    /**
-     * Creates a new instance of {@link PhpParser}.
-     */
+    /** Creates a new instance of {@link PhpParser}. */
     public PhpParser() {
         super(PHP_WARNING_PATTERN);
     }
@@ -35,8 +32,8 @@ public class PhpParser extends LookaheadParser {
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
-            final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(
+            final Matcher matcher, final LookaheadStream lookahead, final IssueBuilder builder) {
         var category = matcher.group(1);
         builder.setCategory(category).setSeverity(mapPriority(category));
 
@@ -45,8 +42,7 @@ public class PhpParser extends LookaheadParser {
                     .setLineStart(matcher.group(4))
                     .setMessage(matcher.group(2))
                     .buildOptional();
-        }
-        else {
+        } else {
             return builder.setFileName("-")
                     .setLineStart(0)
                     .setMessage(matcher.group(5))

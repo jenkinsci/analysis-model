@@ -1,23 +1,21 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
-
 import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * A parser for AWS CodeGuru Security JSON output.
  *
  * @author Akash Manna
  * @see <a href="https://docs.aws.amazon.com/cli/latest/reference/codeguru-security/get-findings.html">AWS CodeGuru
- * Security get-findings</a>
+ *     Security get-findings</a>
  */
 public class CodeGuruSecurityParser extends JsonIssueParser {
     @Serial
@@ -77,8 +75,7 @@ public class CodeGuruSecurityParser extends JsonIssueParser {
             var fileName = firstNonBlank(filePath, PATH, NAME);
             issueBuilder.setFileName(fileName);
             if (!fileName.isEmpty()) {
-                issueBuilder.setLineStart(filePath.optInt(START_LINE, 0))
-                        .setLineEnd(filePath.optInt(END_LINE, 0));
+                issueBuilder.setLineStart(filePath.optInt(START_LINE, 0)).setLineEnd(filePath.optInt(END_LINE, 0));
             }
         }
 

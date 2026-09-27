@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -31,33 +30,28 @@ public class IssueDifference {
     /**
      * Creates a new instance of {@link IssueDifference}.
      *
-     * @param currentIssues
-     *         the issues of the current report
-     * @param referenceId
-     *         ID identifying the reference report
-     * @param referenceIssues
-     *         the issues of a previous report (reference)
+     * @param currentIssues the issues of the current report
+     * @param referenceId ID identifying the reference report
+     * @param referenceIssues the issues of a previous report (reference)
      */
-    public IssueDifference(final Report currentIssues, final String referenceId,
-            final Report referenceIssues) {
+    public IssueDifference(final Report currentIssues, final String referenceId, final Report referenceIssues) {
         this(currentIssues, referenceId, referenceIssues, Map.of());
     }
 
     /**
      * Creates a new instance of {@link IssueDifference}.
      *
-     * @param currentIssues
-     *         the issues of the current report
-     * @param referenceId
-     *         ID identifying the reference report
-     * @param referenceIssues
-     *         the issues of a previous report (reference)
-     * @param includes
-     *         A mapping of files to changed lines. Using this mapping, we can identify which new issues are part
-     *         of the changes and which issues are indirectly caused by the changes.
+     * @param currentIssues the issues of the current report
+     * @param referenceId ID identifying the reference report
+     * @param referenceIssues the issues of a previous report (reference)
+     * @param includes A mapping of files to changed lines. Using this mapping, we can identify which new issues are
+     *     part of the changes and which issues are indirectly caused by the changes.
      */
-    public IssueDifference(final Report currentIssues, final String referenceId,
-            final Report referenceIssues, final Map<String, Integer> includes) {
+    public IssueDifference(
+            final Report currentIssues,
+            final String referenceId,
+            final Report referenceIssues,
+            final Map<String, Integer> includes) {
         newIssues = currentIssues.copy();
         fixedIssues = referenceIssues.copy();
         outstandingIssues = referenceIssues.copyEmptyInstance();
@@ -84,8 +78,7 @@ public class IssueDifference {
 
     private void findIssuesInChangedCode(final Map<String, Integer> includes) {
         for (Entry<String, Integer> include : includes.entrySet()) {
-            newIssues.filter(issue -> isInFileAtPosition(issue, include.getKey(), include.getValue()))
-                    .stream()
+            newIssues.filter(issue -> isInFileAtPosition(issue, include.getKey(), include.getValue())).stream()
                     .map(Issue::getId)
                     .map(newIssues::remove)
                     .forEach(newIssuesInChangedCode::add);
@@ -151,8 +144,7 @@ public class IssueDifference {
             return Optional.empty();
         }
         return candidates.stream()
-                .min(Comparator.comparingInt(
-                        issue -> Math.abs(issue.getLineStart() - current.getLineStart())));
+                .min(Comparator.comparingInt(issue -> Math.abs(issue.getLineStart() - current.getLineStart())));
     }
 
     private List<Issue> findReferenceByEquals(final Issue current) {

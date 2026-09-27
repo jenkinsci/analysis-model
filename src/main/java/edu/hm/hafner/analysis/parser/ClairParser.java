@@ -1,15 +1,13 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
+import java.io.Serial;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * A parser for clair scanner json output.
@@ -32,15 +30,16 @@ public class ClairParser extends JsonIssueParser {
         }
     }
 
-    private Issue convertToIssue(final JSONObject jsonIssue, @CheckForNull final String image,
-            final IssueBuilder issueBuilder) {
+    private Issue convertToIssue(
+            final JSONObject jsonIssue, @CheckForNull final String image, final IssueBuilder issueBuilder) {
         var message = new StringBuilder();
         appendIfNotEmpty(jsonIssue, message, "featurename", "");
         appendIfNotEmpty(jsonIssue, message, "featureversion", ":");
         appendIfNotEmpty(jsonIssue, message, "description", "");
         appendIfNotEmpty(jsonIssue, message, "fixedby", "Fixed by ");
         appendIfNotEmpty(jsonIssue, message, "link", "see ");
-        return issueBuilder.setMessage(message.toString())
+        return issueBuilder
+                .setMessage(message.toString())
                 .setCategory(optStringIgnoreCase(jsonIssue, "vulnerability"))
                 .setSeverity(toSeverity(optStringIgnoreCase(jsonIssue, "severity")))
                 .setType(optStringIgnoreCase(jsonIssue, "namespace"))
@@ -48,8 +47,8 @@ public class ClairParser extends JsonIssueParser {
                 .buildAndClean();
     }
 
-    private void appendIfNotEmpty(final JSONObject issue, final StringBuilder message, final String key,
-            final String head) {
+    private void appendIfNotEmpty(
+            final JSONObject issue, final StringBuilder message, final String key, final String head) {
         final var text = optStringIgnoreCase(issue, key);
         if (text != null && !text.isEmpty()) {
             if (message.length() > 0 && !":".equals(head)) {
@@ -62,11 +61,9 @@ public class ClairParser extends JsonIssueParser {
     private Severity toSeverity(@CheckForNull final String level) {
         if (equalsIgnoreCase(level, "defcon1")) {
             return Severity.ERROR;
-        }
-        else if (equalsIgnoreCase(level, "critical")) {
+        } else if (equalsIgnoreCase(level, "critical")) {
             return Severity.WARNING_HIGH;
-        }
-        else if (equalsIgnoreCase(level, "high")) {
+        } else if (equalsIgnoreCase(level, "high")) {
             return Severity.WARNING_NORMAL;
         }
         return Severity.WARNING_LOW;

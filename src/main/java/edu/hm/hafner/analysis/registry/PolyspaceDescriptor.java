@@ -8,7 +8,6 @@ import edu.hm.hafner.analysis.parser.PolyspaceParser;
  *
  * @author Eva Habeeb
  */
-
 class PolyspaceDescriptor extends ParserDescriptor {
     private static final String ID = "polyspace-parser";
     private static final String NAME = "Polyspace Tool";

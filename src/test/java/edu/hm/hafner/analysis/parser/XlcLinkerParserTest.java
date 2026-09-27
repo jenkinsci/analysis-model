@@ -1,18 +1,15 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
+import org.junit.jupiter.api.Test;
 
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
-
-/**
- * Tests the class {@link XlcLinkerParser}.
- */
+/** Tests the class {@link XlcLinkerParser}. */
 class XlcLinkerParserTest extends AbstractParserTest {
     private static final String FILE_NAME = "-";
 
@@ -36,9 +33,7 @@ class XlcLinkerParserTest extends AbstractParserTest {
                 .hasFileName(FILE_NAME);
     }
 
-    /**
-     * Parses a string with xlC linker error.
-     */
+    /** Parses a string with xlC linker error. */
     @Test
     void shouldParseAnotherLinkerError() {
         var report = parseString("ld: 0711-317 ERROR: Undefined symbol: nofun()");
@@ -54,9 +49,7 @@ class XlcLinkerParserTest extends AbstractParserTest {
         }
     }
 
-    /**
-     * Parses a string with xlC linker error.
-     */
+    /** Parses a string with xlC linker error. */
     @Test
     void shouldParseSevereError() {
         var report = parseString("ld: 0711-634 SEVERE ERROR: EXEC binder commands nested too deeply.");
@@ -72,9 +65,7 @@ class XlcLinkerParserTest extends AbstractParserTest {
         }
     }
 
-    /**
-     * Parses a string with xlC linker warning.
-     */
+    /** Parses a string with xlC linker warning. */
     @Test
     void shouldParseWarning() {
         var report = parseString("ld: 0706-012 The -9 flag is not recognized.");
@@ -90,9 +81,7 @@ class XlcLinkerParserTest extends AbstractParserTest {
         }
     }
 
-    /**
-     * Parses a string with xlC linker warning.
-     */
+    /** Parses a string with xlC linker warning. */
     @Test
     void shouldPareAnotherWarning() {
         var report = parseString("ld: 0711-224 WARNING: Duplicate symbol: dupe");
@@ -108,9 +97,7 @@ class XlcLinkerParserTest extends AbstractParserTest {
         }
     }
 
-    /**
-     * Parses a string with xlC linker informational message.
-     */
+    /** Parses a string with xlC linker informational message. */
     @Test
     void shouldParseInformation() {
         var report = parseString("ld: 0711-345 Use the -bloadmap or -bnoquiet option to obtain more information.");

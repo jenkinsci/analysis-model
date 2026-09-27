@@ -1,15 +1,13 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.apache.commons.lang3.StringUtils;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-
 import java.io.Serial;
+import org.apache.commons.lang3.StringUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * Parser for SQLFluff JSON reports.
@@ -54,7 +52,8 @@ public class SqlFluffParser extends JsonIssueParser {
     }
 
     private Issue convertToIssue(final JSONObject violation, final IssueBuilder issueBuilder) {
-        issueBuilder.setType(violation.optString(RULE_CODE, "-"))
+        issueBuilder
+                .setType(violation.optString(RULE_CODE, "-"))
                 .setMessage(StringUtils.firstNonBlank(
                         violation.optString(DESCRIPTION, ""),
                         violation.optString(RULE_NAME, ""),
@@ -78,7 +77,8 @@ public class SqlFluffParser extends JsonIssueParser {
         }
 
         var ruleName = violation.optString(RULE_NAME, "");
-        return issueBuilder.setCategory(ruleName)
+        return issueBuilder
+                .setCategory(ruleName)
                 .setSeverity(Severity.WARNING_NORMAL)
                 .buildAndClean();
     }

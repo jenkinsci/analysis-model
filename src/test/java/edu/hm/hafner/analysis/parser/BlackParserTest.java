@@ -1,6 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.Report;
@@ -8,8 +8,7 @@ import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
 import edu.hm.hafner.analysis.registry.ParserRegistry;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the class {@link BlackParser}.
@@ -90,8 +89,7 @@ class BlackParserTest extends AbstractParserTest {
     /** Verifies parsing of a single syntax error from inline content. */
     @Test
     void shouldParseSingleSyntaxError() {
-        var report = parseStringContent(
-                "error: cannot format app.py: Cannot parse: 10:3: invalid syntax\n");
+        var report = parseStringContent("error: cannot format app.py: Cannot parse: 10:3: invalid syntax\n");
 
         assertThat(report).hasSize(1);
         assertThat(report.get(0))
@@ -132,8 +130,7 @@ class BlackParserTest extends AbstractParserTest {
     /** Verifies that summary and emoji lines are ignored (not parsed). */
     @Test
     void shouldIgnoreSummaryLines() {
-        var report = parseStringContent(
-                """
+        var report = parseStringContent("""
                 Oh no!
                 💥 💔 💥
                 2 files would be reformatted, 1 file would be left unchanged.
@@ -167,7 +164,8 @@ class BlackParserTest extends AbstractParserTest {
         assertThat(descriptor.getPattern()).isEqualTo("**/black-report.txt");
         assertThat(descriptor.getHelp()).contains("black --check");
         assertThat(descriptor.getUrl()).isEqualTo("https://github.com/psf/black");
-        assertThat(descriptor.getIconUrl()).isEqualTo("https://raw.githubusercontent.com/psf/black/main/docs/_static/logo2-readme.png");
+        assertThat(descriptor.getIconUrl())
+                .isEqualTo("https://raw.githubusercontent.com/psf/black/main/docs/_static/logo2-readme.png");
         assertThat(descriptor.hasHelp()).isTrue();
         assertThat(descriptor.hasUrl()).isTrue();
     }

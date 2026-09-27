@@ -1,10 +1,10 @@
 package edu.hm.hafner.analysis.registry;
 
+import static j2html.TagCreator.*;
+
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.Report.IssueType;
 import edu.hm.hafner.analysis.parser.DetectifyParser;
-
-import static j2html.TagCreator.*;
 
 /**
  * A descriptor for Detectify vulnerability reports.
@@ -27,12 +27,15 @@ class DetectifyDescriptor extends ParserDescriptor {
     @Override
     public String getHelp() {
         return join(
-                text("Use the Detectify API to export vulnerabilities in JSON format from "),
-                code("GET /vulnerabilities/"),
-                text(". See the Detectify API documentation for details."),
-                ul().with(
-                        li(a("Detectify API").withHref("https://developer.detectify.com/v2")),
-                        li(a("Results").withHref("https://docs.detectify.com/web-application-security-testing/results"))))
+                        text("Use the Detectify API to export vulnerabilities in JSON format from "),
+                        code("GET /vulnerabilities/"),
+                        text(". See the Detectify API documentation for details."),
+                        ul().with(
+                                        li(a("Detectify API").withHref("https://developer.detectify.com/v2")),
+                                        li(
+                                                a("Results")
+                                                        .withHref(
+                                                                "https://docs.detectify.com/web-application-security-testing/results"))))
                 .render();
     }
 

@@ -1,6 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 import edu.hm.hafner.analysis.FileReaderFactory;
 import edu.hm.hafner.analysis.IssueParser;
@@ -10,10 +10,8 @@ import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
 import edu.hm.hafner.analysis.registry.ParserRegistry;
-
 import java.nio.file.FileSystems;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the class {@link CfnNagParser}.
@@ -65,16 +63,15 @@ class CfnNagParserTest extends AbstractParserTest {
     @Test
     void accepts() {
         var parser = new CfnNagParser();
-        assertThat(parser.accepts(new FileReaderFactory(
-                FileSystems.getDefault().getPath("cfn-nag-report.json")))).isTrue();
-        assertThat(parser.accepts(new FileReaderFactory(
-                FileSystems.getDefault().getPath("foo.txt")))).isFalse();
+        assertThat(parser.accepts(new FileReaderFactory(FileSystems.getDefault().getPath("cfn-nag-report.json"))))
+                .isTrue();
+        assertThat(parser.accepts(new FileReaderFactory(FileSystems.getDefault().getPath("foo.txt"))))
+                .isFalse();
     }
 
     @Test
     void brokenInput() {
-        assertThatThrownBy(() -> parse("eclipse.txt"))
-                .isInstanceOf(ParsingException.class);
+        assertThatThrownBy(() -> parse("eclipse.txt")).isInstanceOf(ParsingException.class);
     }
 
     @Test

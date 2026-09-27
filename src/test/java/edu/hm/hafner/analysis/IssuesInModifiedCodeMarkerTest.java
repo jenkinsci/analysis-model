@@ -1,14 +1,13 @@
 package edu.hm.hafner.analysis;
 
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import org.assertj.core.api.AbstractListAssert;
 import org.assertj.core.api.ObjectAssert;
 import org.junit.jupiter.api.Test;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 class IssuesInModifiedCodeMarkerTest {
     private static final String TO_STRING_UNMODIFIED = "code.txt(12,0): -: : ";
@@ -64,9 +63,11 @@ class IssuesInModifiedCodeMarkerTest {
         var report = createReportWithTwoIssues();
 
         var marker = new IssuesInModifiedCodeMarker();
-        marker.markIssuesInModifiedCode(report, Map.of(
-                "/part/of/modified/code.txt", Set.of(12),
-                "/part/of/additional/modified/code.txt", Set.of(20)));
+        marker.markIssuesInModifiedCode(
+                report,
+                Map.of(
+                        "/part/of/modified/code.txt", Set.of(12),
+                        "/part/of/additional/modified/code.txt", Set.of(20)));
 
         assertThatModifiedCodeMarkers(report).containsExactly(true, true);
         assertThatIssuesToString(report).containsExactly(TO_STRING_MODIFIED, TO_STRING_MODIFIED);
@@ -133,9 +134,8 @@ class IssuesInModifiedCodeMarkerTest {
         var report = createReportWithTwoIssues();
 
         var marker = new IssuesInModifiedCodeMarker();
-        marker.markIssuesInModifiedFiles(report, Set.of(
-                "/part/of/modified/code.txt",
-                "/part/of/additional/modified/code.txt"));
+        marker.markIssuesInModifiedFiles(
+                report, Set.of("/part/of/modified/code.txt", "/part/of/additional/modified/code.txt"));
 
         assertThatModifiedCodeMarkers(report).containsExactly(true, true);
         assertThatIssuesToString(report).containsExactly(TO_STRING_MODIFIED, TO_STRING_MODIFIED);
@@ -186,8 +186,8 @@ class IssuesInModifiedCodeMarkerTest {
         return assertThat(report.get()).extracting(Issue::toString);
     }
 
-    private AbstractListAssert<?, List<? extends Boolean>, Boolean, ObjectAssert<Boolean>> assertThatModifiedCodeMarkers(
-            final Report report) {
+    private AbstractListAssert<?, List<? extends Boolean>, Boolean, ObjectAssert<Boolean>>
+            assertThatModifiedCodeMarkers(final Report report) {
         return assertThat(report.get()).extracting(Issue::isPartOfModifiedCode);
     }
 
@@ -196,7 +196,8 @@ class IssuesInModifiedCodeMarkerTest {
         try (var builder = new IssueBuilder()) {
             builder.setLineStart(12).setLineEnd(20);
             report.add(builder.setFileName("/part/of/modified/code.txt").build());
-            report.add(builder.setFileName("/part/of/additional/modified/code.txt").build());
+            report.add(
+                    builder.setFileName("/part/of/additional/modified/code.txt").build());
         }
         return report;
     }

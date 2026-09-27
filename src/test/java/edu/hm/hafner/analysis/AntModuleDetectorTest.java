@@ -1,15 +1,13 @@
 package edu.hm.hafner.analysis;
 
-import java.util.List;
-
-import org.apache.commons.lang3.StringUtils;
-import org.junit.jupiter.api.Test;
-
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import java.util.List;
+import org.apache.commons.lang3.StringUtils;
+import org.junit.jupiter.api.Test;
 
 class AntModuleDetectorTest extends AbstractModuleDetectorTest {
     private static final String PATH_PREFIX_ANT = "path/to/ant/";
@@ -20,7 +18,8 @@ class AntModuleDetectorTest extends AbstractModuleDetectorTest {
         return PATH_PREFIX_ANT;
     }
 
-    @Override @SuppressFBWarnings("NM")
+    @Override
+    @SuppressFBWarnings("NM")
     String getFileName() {
         return getPathPrefix() + "something.txt";
     }
@@ -42,7 +41,6 @@ class AntModuleDetectorTest extends AbstractModuleDetectorTest {
                 .isEqualTo(EXPECTED_ANT_MODULE);
         assertThat(detector.guessModuleName(PREFIX + PATH_PREFIX_ANT + "in/between/something.txt"))
                 .isEqualTo(EXPECTED_ANT_MODULE);
-        assertThat(detector.guessModuleName(PREFIX + "path/to/something.txt"))
-                .isEqualTo(StringUtils.EMPTY);
+        assertThat(detector.guessModuleName(PREFIX + "path/to/something.txt")).isEqualTo(StringUtils.EMPTY);
     }
 }

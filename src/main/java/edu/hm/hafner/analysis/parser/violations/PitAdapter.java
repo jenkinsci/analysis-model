@@ -1,15 +1,13 @@
 package edu.hm.hafner.analysis.parser.violations;
 
-import org.apache.commons.lang3.Strings;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-
 import java.io.Serial;
 import java.util.Map;
 import java.util.Set;
+import org.apache.commons.lang3.Strings;
 import se.bjurr.violations.lib.model.SEVERITY;
 import se.bjurr.violations.lib.model.Violation;
 import se.bjurr.violations.lib.parsers.PiTestParser;

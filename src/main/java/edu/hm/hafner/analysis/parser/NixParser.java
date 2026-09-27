@@ -13,9 +13,8 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * A parser for Nix build and flake check output.
  *
- * <p>Parses error and warning messages from {@code nix build} and {@code nix flake check} commands.
- * The parser handles Nix's multi-line error format that includes file locations, line numbers, and contextual
- * information.</p>
+ * <p>Parses error and warning messages from {@code nix build} and {@code nix flake check} commands. The parser handles
+ * Nix's multi-line error format that includes file locations, line numbers, and contextual information.
  *
  * @author Akash Manna
  */
@@ -24,14 +23,12 @@ public class NixParser extends LookaheadParser {
     private static final long serialVersionUID = 938583822798990695L;
 
     private static final String NIX_ERROR_PATTERN = "^(?<severity>error|warning):\\s*(?<message>.*)$";
-    private static final Pattern LOCATION_PATTERN = Pattern.compile(
-            "^\\s+at\\s+(?<file>.+?):(?<line>\\d+):(?<column>\\d+)?:?\\s*$");
+    private static final Pattern LOCATION_PATTERN =
+            Pattern.compile("^\\s+at\\s+(?<file>.+?):(?<line>\\d+):(?<column>\\d+)?:?\\s*$");
     private static final Pattern LINE_NUMBER_PREFIX = Pattern.compile("^\\s+\\d+\\|.*$");
     private static final Pattern LINE_PREFIX = Pattern.compile("^\\s+\\|.*$");
 
-    /**
-     * Creates a new instance of {@link NixParser}.
-     */
+    /** Creates a new instance of {@link NixParser}. */
     public NixParser() {
         super(NIX_ERROR_PATTERN);
     }
@@ -42,8 +39,8 @@ public class NixParser extends LookaheadParser {
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
-            final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(
+            final Matcher matcher, final LookaheadStream lookahead, final IssueBuilder builder) {
         var severityStr = matcher.group("severity");
         var message = extractMessage(lookahead, matcher.group("message"));
         builder.guessSeverity(severityStr).setMessage(message.isEmpty() ? "Nix build " + severityStr : message);
@@ -76,9 +73,7 @@ public class NixParser extends LookaheadParser {
     /**
      * Checks if a line contains the error message.
      *
-     * @param line
-     *         the line to check
-     *
+     * @param line the line to check
      * @return true if the line is a message line
      */
     private boolean isMessageLine(final String line) {
@@ -90,9 +85,7 @@ public class NixParser extends LookaheadParser {
     /**
      * Finds location information (file, line, column) from the lookahead stream.
      *
-     * @param lookahead
-     *         the lookahead stream
-     *
+     * @param lookahead the lookahead stream
      * @return the location info, or null if not found
      */
     private Optional<LocationInfo> findLocationInfo(final LookaheadStream lookahead) {
@@ -105,8 +98,7 @@ public class NixParser extends LookaheadParser {
                 var location = new LocationInfo(
                         locationMatcher.group("file").trim(),
                         locationMatcher.group("line"),
-                        locationMatcher.group("column")
-                );
+                        locationMatcher.group("column"));
                 consumeSourceContext(lookahead);
                 return Optional.of(location);
             }
@@ -125,8 +117,7 @@ public class NixParser extends LookaheadParser {
      * Consumes source context lines that show the code and error location. These lines typically have line numbers
      * followed by | character.
      *
-     * @param lookahead
-     *         the lookahead stream
+     * @param lookahead the lookahead stream
      */
     private void consumeSourceContext(final LookaheadStream lookahead) {
         while (lookahead.hasNext()) {
@@ -141,9 +132,7 @@ public class NixParser extends LookaheadParser {
         }
     }
 
-    /**
-     * Helper class to store location information.
-     */
+    /** Helper class to store location information. */
     private static final class LocationInfo {
         private final String fileName;
         private final String lineNumber;

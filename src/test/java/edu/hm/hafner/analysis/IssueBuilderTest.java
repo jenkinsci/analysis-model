@@ -1,24 +1,21 @@
 package edu.hm.hafner.analysis;
 
+import static edu.hm.hafner.analysis.IssueTest.*;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
+
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import edu.hm.hafner.util.LineRange;
+import edu.hm.hafner.util.LineRangeList;
+import edu.hm.hafner.util.TreeString;
+import edu.hm.hafner.util.TreeStringBuilder;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
-
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
-import edu.hm.hafner.util.LineRange;
-import edu.hm.hafner.util.LineRangeList;
-import edu.hm.hafner.util.TreeString;
-import edu.hm.hafner.util.TreeStringBuilder;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
-import static edu.hm.hafner.analysis.IssueTest.*;
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
  * Unit test for {@link IssueBuilder}.
@@ -34,16 +31,41 @@ class IssueBuilderTest {
     private static final Issue FILLED_ISSUE = createFilledIssue();
 
     private static Issue createDefaultIssue() {
-        return new Issue(StringUtils.EMPTY, List.of(new Location(UNDEFINED_TS)), StringUtils.EMPTY,
-                Issue.UNDEFINED, UNDEFINED_TS, UNDEFINED, Severity.WARNING_NORMAL,
-                TREE_STRING_BUILDER.intern(StringUtils.EMPTY), EMPTY, EMPTY,
-                StringUtils.EMPTY, StringUtils.EMPTY, StringUtils.EMPTY, null, UUID.randomUUID());
+        return new Issue(
+                StringUtils.EMPTY,
+                List.of(new Location(UNDEFINED_TS)),
+                StringUtils.EMPTY,
+                Issue.UNDEFINED,
+                UNDEFINED_TS,
+                UNDEFINED,
+                Severity.WARNING_NORMAL,
+                TREE_STRING_BUILDER.intern(StringUtils.EMPTY),
+                EMPTY,
+                EMPTY,
+                StringUtils.EMPTY,
+                StringUtils.EMPTY,
+                StringUtils.EMPTY,
+                null,
+                UUID.randomUUID());
     }
 
     private static Issue createFilledIssue() {
-        return new Issue(PATH_NAME, createLocations(), CATEGORY, TYPE, TreeString.valueOf(PACKAGE_NAME), MODULE_NAME, SEVERITY,
-                TreeString.valueOf(MESSAGE), DESCRIPTION, ORIGIN, ORIGIN_NAME, REFERENCE,
-                FINGERPRINT, ADDITIONAL_PROPERTIES, UUID.randomUUID());
+        return new Issue(
+                PATH_NAME,
+                createLocations(),
+                CATEGORY,
+                TYPE,
+                TreeString.valueOf(PACKAGE_NAME),
+                MODULE_NAME,
+                SEVERITY,
+                TreeString.valueOf(MESSAGE),
+                DESCRIPTION,
+                ORIGIN,
+                ORIGIN_NAME,
+                REFERENCE,
+                FINGERPRINT,
+                ADDITIONAL_PROPERTIES,
+                UUID.randomUUID());
     }
 
     private static List<Location> createLocations() {
@@ -98,13 +120,9 @@ class IssueBuilderTest {
     }
 
     @ParameterizedTest(name = "{index} => Full Path: {0} - Expected Base Name: file.txt")
-    @ValueSource(strings = {
-            "/path/to/file.txt",
-            "./file.txt",
-            "file.txt",
-            "C:\\Programme\\Folder\\file.txt",
-            "C:\\file.txt"
-    })
+    @ValueSource(
+            strings = {"/path/to/file.txt", "./file.txt", "file.txt", "C:\\Programme\\Folder\\file.txt", "C:\\file.txt"
+            })
     void shouldGetBaseName(final String fullPath) {
         try (var issueBuilder = new IssueBuilder()) {
             assertThat(issueBuilder.setFileName(fullPath).build()).hasBaseName("file.txt");
@@ -122,19 +140,19 @@ class IssueBuilderTest {
 
     @ParameterizedTest(name = "{index} => Input: [{0} - {1}] - Expected Output: [{2} - {3}]")
     @CsvSource({
-            "1, 1, 1, 1",
-            "1, 2, 1, 2",
-            "2, 1, 1, 2",
-            "0, 1, 1, 1",
-            "0, 0, 0, 0",
-            "0, -1, 0, 0",
-            "1, -1, 1, 1",
-            "1, 0, 1, 1",
-            "-1, 0, 0, 0",
-            "-1, 1, 1, 1",
-            "-1, -1, 0, 0"})
-    void shouldHaveValidLineRange(
-            final int start, final int end, final int expectedStart, final int expectedEnd) {
+        "1, 1, 1, 1",
+        "1, 2, 1, 2",
+        "2, 1, 1, 2",
+        "0, 1, 1, 1",
+        "0, 0, 0, 0",
+        "0, -1, 0, 0",
+        "1, -1, 1, 1",
+        "1, 0, 1, 1",
+        "-1, 0, 0, 0",
+        "-1, 1, 1, 1",
+        "-1, -1, 0, 0"
+    })
+    void shouldHaveValidLineRange(final int start, final int end, final int expectedStart, final int expectedEnd) {
         try (var builder = new IssueBuilder()) {
             builder.setLineStart(start).setLineEnd(end);
             assertThat(builder.build()).hasLineStart(expectedStart).hasLineEnd(expectedEnd);
@@ -143,19 +161,19 @@ class IssueBuilderTest {
 
     @ParameterizedTest(name = "{index} => Input: [{0} - {1}] - Expected Output: [{2} - {3}]")
     @CsvSource({
-            "1, 1, 1, 1",
-            "1, 2, 1, 2",
-            "2, 1, 1, 2",
-            "0, 1, 1, 1",
-            "0, 0, 0, 0",
-            "0, -1, 0, 0",
-            "1, -1, 1, 1",
-            "1, 0, 1, 1",
-            "-1, 0, 0, 0",
-            "-1, 1, 1, 1",
-            "-1, -1, 0, 0"})
-    void shouldHaveValidColumnRange(
-            final int start, final int end, final int expectedStart, final int expectedEnd) {
+        "1, 1, 1, 1",
+        "1, 2, 1, 2",
+        "2, 1, 1, 2",
+        "0, 1, 1, 1",
+        "0, 0, 0, 0",
+        "0, -1, 0, 0",
+        "1, -1, 1, 1",
+        "1, 0, 1, 1",
+        "-1, 0, 0, 0",
+        "-1, 1, 1, 1",
+        "-1, -1, 0, 0"
+    })
+    void shouldHaveValidColumnRange(final int start, final int end, final int expectedStart, final int expectedEnd) {
         try (var builder = new IssueBuilder()) {
             builder.setColumnStart(start).setColumnEnd(end);
             assertThat(builder.build()).hasColumnStart(expectedStart).hasColumnEnd(expectedEnd);
@@ -193,8 +211,7 @@ class IssueBuilderTest {
     @Test
     void shouldCreateIssueWithAllPropertiesInitialized() {
         try (var builder = new IssueBuilder()) {
-            var issue = builder
-                    .setCategory(CATEGORY)
+            var issue = builder.setCategory(CATEGORY)
                     .setType(TYPE)
                     .setPackageName(PACKAGE_NAME)
                     .setModuleName(MODULE_NAME)
@@ -371,8 +388,11 @@ class IssueBuilderTest {
     @Test
     void testMessageDescriptionStripped() {
         try (var builder = new IssueBuilder()) {
-            var issue = builder.setMessage("    message  ").setDescription("    description  ").build();
-            var anotherIssue = builder.setMessage("message").setDescription("description").build();
+            var issue = builder.setMessage("    message  ")
+                    .setDescription("    description  ")
+                    .build();
+            var anotherIssue =
+                    builder.setMessage("message").setDescription("description").build();
 
             assertThat(issue.getInternalMessage()).isSameAs(anotherIssue.getInternalMessage());
             assertThat(issue.getDescription()).isSameAs(anotherIssue.getDescription());
@@ -407,8 +427,7 @@ class IssueBuilderTest {
         try (var builder = new IssueBuilder()) {
             var locations = List.of(
                     new Location(TREE_STRING_BUILDER.intern("header.h"), 10, 20),
-                    new Location(TREE_STRING_BUILDER.intern("impl.cpp"), 50)
-            );
+                    new Location(TREE_STRING_BUILDER.intern("impl.cpp"), 50));
 
             builder.setLocations(locations);
 
@@ -442,7 +461,7 @@ class IssueBuilderTest {
 
             // No additional locations when none are set
             assertThat(issue).hasNoSecondaryLocations();
-            assertThat(issue.getLocations()).hasSize(1);  // Primary location always exists
+            assertThat(issue.getLocations()).hasSize(1); // Primary location always exists
         }
     }
 }

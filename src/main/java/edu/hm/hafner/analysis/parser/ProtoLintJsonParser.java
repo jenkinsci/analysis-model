@@ -1,14 +1,12 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
+import java.io.Serial;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * Parser for ProtoLint JSON reports.
@@ -33,7 +31,8 @@ public class ProtoLintJsonParser extends JsonIssueParser {
         parseResults(report, basedir, results, issueBuilder);
     }
 
-    private void parseResults(final Report report, final String basedir, final JSONArray jsonReport, final IssueBuilder issueBuilder) {
+    private void parseResults(
+            final Report report, final String basedir, final JSONArray jsonReport, final IssueBuilder issueBuilder) {
         for (int i = 0; i < jsonReport.length(); i++) {
             var finding = (JSONObject) jsonReport.get(i);
             report.add(convertToIssue(basedir, finding, issueBuilder));
@@ -42,12 +41,14 @@ public class ProtoLintJsonParser extends JsonIssueParser {
 
     private Issue convertToIssue(final String basedir, final JSONObject finding, final IssueBuilder issueBuilder) {
         // The filename is always relative to the working dir the protoLint process was started with.
-        // In order to get the absolute filename we need to prepend the basedir which is available with protoLint >= 0.50.2
+        // In order to get the absolute filename we need to prepend the basedir which is available with protoLint >=
+        // 0.50.2
         var filename = finding.getString("filename");
         if (!basedir.isEmpty()) {
             filename = basedir + "/" + filename;
         }
-        return issueBuilder.setFileName(filename)
+        return issueBuilder
+                .setFileName(filename)
                 .setLineStart(finding.getInt("line"))
                 .setColumnStart(finding.getInt("column"))
                 .setMessage(finding.getString("message"))

@@ -1,19 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-
-import org.apache.commons.beanutils.MethodUtils;
-import org.apache.commons.digester3.NodeCreateRule;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.Strings;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.xml.sax.SAXException;
-
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingException;
@@ -23,7 +9,6 @@ import edu.hm.hafner.analysis.SecureDigester;
 import edu.hm.hafner.util.SecureXmlParserFactory;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 import java.io.IOException;
 import java.io.Serial;
 import java.io.StringWriter;
@@ -32,6 +17,18 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import org.apache.commons.beanutils.MethodUtils;
+import org.apache.commons.digester3.NodeCreateRule;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.xml.sax.SAXException;
 
 /**
  * A parser for Checkstyle XML files.
@@ -72,8 +69,7 @@ public class CheckStyleParser extends IssueParser {
             }
 
             return convert(checkStyle);
-        }
-        catch (IOException | SAXException exception) {
+        } catch (IOException | SAXException exception) {
             throw new ParsingException(exception, readerFactory);
         }
     }
@@ -81,9 +77,7 @@ public class CheckStyleParser extends IssueParser {
     /**
      * Converts the internal structure to the annotations API.
      *
-     * @param collection
-     *         the internal maven module
-     *
+     * @param collection the internal maven module
      * @return a maven module of the annotations API
      */
     private Report convert(final CheckStyle collection) {
@@ -126,9 +120,7 @@ public class CheckStyleParser extends IssueParser {
      * Returns {@code true} if this warning is valid or {@code false} if the warning can't be processed by the
      * checkstyle plug-in.
      *
-     * @param file
-     *         the file to check
-     *
+     * @param file the file to check
      * @return {@code true} if this warning is valid
      */
     private boolean isValidWarning(final File file) {
@@ -150,16 +142,14 @@ public class CheckStyleParser extends IssueParser {
         /**
          * Adds a new violation to this file.
          *
-         * @param violation
-         *            the new violation
+         * @param violation the new violation
          */
         public void addError(final Error violation) {
             errors.add(violation);
         }
 
         /**
-         * Returns all violations of this file. The returned collection is
-         * read-only.
+         * Returns all violations of this file. The returned collection is read-only.
          *
          * @return all violations in this file
          */
@@ -196,10 +186,13 @@ public class CheckStyleParser extends IssueParser {
     public static class Error {
         @CheckForNull
         private String source;
+
         @CheckForNull
         private String severity;
+
         @CheckForNull
         private String message;
+
         private int line;
         private int column;
 
@@ -266,8 +259,7 @@ public class CheckStyleParser extends IssueParser {
         }
 
         /**
-         * Returns all files of this violations collection. The returned collection is
-         * read-only.
+         * Returns all files of this violations collection. The returned collection is read-only.
          *
          * @return all files of this bug collection
          */
@@ -290,12 +282,11 @@ public class CheckStyleParser extends IssueParser {
 
         @CheckForNull
         private String name;
+
         @CheckForNull
         private String description;
 
-        /**
-         * Instantiates a new rule.
-         */
+        /** Instantiates a new rule. */
         public Rule() {
             // nothing to do
         }
@@ -303,8 +294,7 @@ public class CheckStyleParser extends IssueParser {
         /**
          * Instantiates a new rule.
          *
-         * @param name
-         *         the name of the rule
+         * @param name the name of the rule
          */
         public Rule(@CheckForNull final String name) {
             this.name = name;
@@ -323,8 +313,7 @@ public class CheckStyleParser extends IssueParser {
         /**
          * Sets the name of this rule.
          *
-         * @param name
-         *         the name
+         * @param name the name
          */
         public void setName(@CheckForNull final String name) {
             this.name = name;
@@ -342,8 +331,7 @@ public class CheckStyleParser extends IssueParser {
         /**
          * Sets the description of this rule. The description is only set if the topic is a description.
          *
-         * @param topic
-         *         the topic that might contain the description
+         * @param topic the topic that might contain the description
          */
         @SuppressFBWarnings("IMPROPER_UNICODE")
         public void setDescription(final Topic topic) {
@@ -362,6 +350,7 @@ public class CheckStyleParser extends IssueParser {
     public static class Topic {
         @CheckForNull
         private String name;
+
         @CheckForNull
         private String value;
 
@@ -377,8 +366,7 @@ public class CheckStyleParser extends IssueParser {
         /**
          * Sets the name of this topic.
          *
-         * @param name
-         *         the name
+         * @param name the name
          */
         public void setName(@CheckForNull final String name) {
             this.name = name;
@@ -396,8 +384,7 @@ public class CheckStyleParser extends IssueParser {
         /**
          * Sets the value of this topic.
          *
-         * @param value
-         *         the value
+         * @param value the value
          */
         public void setValue(@CheckForNull final String value) {
             this.value = value;
@@ -414,8 +401,7 @@ public class CheckStyleParser extends IssueParser {
         /**
          * Instantiates a new topic rule.
          *
-         * @throws ParserConfigurationException
-         *         the parser configuration exception
+         * @throws ParserConfigurationException the parser configuration exception
          */
         TopicRule() throws ParserConfigurationException {
             super(Node.ELEMENT_NODE);
@@ -433,12 +419,9 @@ public class CheckStyleParser extends IssueParser {
         /**
          * Extracts the node content. Basically returns every character in the subsection element.
          *
-         * @param subsection
-         *         the subsection of a rule
-         *
+         * @param subsection the subsection of a rule
          * @return the node content
-         * @throws TransformerException
-         *         in case of an error
+         * @throws TransformerException in case of an error
          */
         private String extractNodeContent(final Element subsection) throws TransformerException {
             var content = new StringWriter();

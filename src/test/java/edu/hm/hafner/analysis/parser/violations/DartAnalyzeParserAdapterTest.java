@@ -20,7 +20,8 @@ class DartAnalyzeParserAdapterTest extends AbstractParserTest {
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
         softly.assertThat(report).hasSize(6);
         softly.assertThat(report.get(0))
-                .hasMessage("The import of 'package:flutter/cupertino.dart' is unnecessary because all of the used elements are also provided by the import of 'package:flutter/material.dart'.")
+                .hasMessage(
+                        "The import of 'package:flutter/cupertino.dart' is unnecessary because all of the used elements are also provided by the import of 'package:flutter/material.dart'.")
                 .hasFileName("C:/Users/david/StudioProjects/bat/lib/step_test.dart")
                 .hasType("UNNECESSARY_IMPORT")
                 .hasCategory("HINT")

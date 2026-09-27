@@ -1,12 +1,11 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.*;
 
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
-
-import static org.assertj.core.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the class {@link SonarQubeDiffParser}.
@@ -30,9 +29,7 @@ class SonarQubeDiffParserTest extends AbstractParserTest {
                 .hasLineStart(266);
     }
 
-    /**
-     * Parses a differential scan report. The project contains multiple sub-projects.
-     */
+    /** Parses a differential scan report. The project contains multiple sub-projects. */
     @Test
     void reportDifferentialMultiModuleTest() {
         var warnings = parse(FILENAME_DIFF_MULTIMODULE);
@@ -50,7 +47,8 @@ class SonarQubeDiffParserTest extends AbstractParserTest {
     void shouldAcceptDifferentialFile() {
         var parser = createParser();
 
-        assertThat(parser.accepts(createReaderFactory("sonarqube-differential.json"))).isTrue();
+        assertThat(parser.accepts(createReaderFactory("sonarqube-differential.json")))
+                .isTrue();
         assertThat(parser.accepts(createReaderFactory("sonarqube-api.json"))).isFalse();
     }
 

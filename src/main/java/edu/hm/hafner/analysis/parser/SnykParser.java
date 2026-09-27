@@ -1,12 +1,14 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
+import static j2html.TagCreator.a;
+import static j2html.TagCreator.join;
+import static j2html.TagCreator.p;
+import static j2html.TagCreator.strong;
+import static j2html.TagCreator.text;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
-
 import j2html.tags.ContainerTag;
 import j2html.tags.DomContent;
 import j2html.tags.Text;
@@ -16,8 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
-
-import static j2html.TagCreator.*;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * Parser for Snyk security vulnerability reports in JSON format.
@@ -145,16 +147,15 @@ public class SnykParser extends JsonIssueParser {
     private DomContent appendCveLink(final String cve) {
         var trimmedCve = cve.trim();
         if (trimmedCve.matches("CVE-\\d{4}-\\d+")) {
-            return a().withHref("https://nvd.nist.gov/vuln/detail/" + trimmedCve).withText(trimmedCve);
-        }
-        else {
+            return a().withHref("https://nvd.nist.gov/vuln/detail/" + trimmedCve)
+                    .withText(trimmedCve);
+        } else {
             return text(trimmedCve);
         }
     }
 
     private Optional<DomContent> appendUpgradeSection(final JSONObject vulnerability) {
-        if (!vulnerability.has(UPGRADE_PATH_TAG)
-                || !vulnerability.optBoolean(IS_UPGRADABLE_TAG, false)) {
+        if (!vulnerability.has(UPGRADE_PATH_TAG) || !vulnerability.optBoolean(IS_UPGRADABLE_TAG, false)) {
             return Optional.empty();
         }
         var upgradePath = vulnerability.getJSONArray(UPGRADE_PATH_TAG);

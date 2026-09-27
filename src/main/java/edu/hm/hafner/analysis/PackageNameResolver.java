@@ -1,15 +1,14 @@
 package edu.hm.hafner.analysis;
 
+import edu.hm.hafner.util.PackageDetectorFactory;
+import edu.hm.hafner.util.PackageDetectorRunner;
+import edu.hm.hafner.util.VisibleForTesting;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import edu.hm.hafner.util.PackageDetectorFactory;
-import edu.hm.hafner.util.PackageDetectorRunner;
-import edu.hm.hafner.util.VisibleForTesting;
 
 /**
  * Resolves packages or namespace names for a set of issues.
@@ -19,9 +18,7 @@ import edu.hm.hafner.util.VisibleForTesting;
 public class PackageNameResolver {
     private final PackageDetectorRunner runner;
 
-    /**
-     * Creates a new {@link PackageNameResolver}.
-     */
+    /** Creates a new {@link PackageNameResolver}. */
     public PackageNameResolver() {
         this(PackageDetectorFactory.createPackageDetectors());
     }
@@ -34,10 +31,8 @@ public class PackageNameResolver {
     /**
      * Resolves packages or namespace names for the specified set of issues.
      *
-     * @param report
-     *         the issues to analyze
-     * @param charset
-     *         the character set to use when reading the source files
+     * @param report the issues to analyze
+     * @param charset the character set to use when reading the source files
      */
     public void run(final Report report, final Charset charset) {
         Set<String> filesWithoutPackageName = report.stream()

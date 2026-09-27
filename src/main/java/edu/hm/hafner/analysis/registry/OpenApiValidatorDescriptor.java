@@ -21,7 +21,7 @@ class OpenApiValidatorDescriptor extends ParserDescriptor {
     public IssueType getType() {
         return IssueType.WARNING;
     }
-  
+
     @Override
     protected IssueParser create(final Option... options) {
         return new OpenApiValidatorParser();

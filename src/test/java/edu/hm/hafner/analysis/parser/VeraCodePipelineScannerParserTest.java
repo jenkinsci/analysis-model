@@ -1,17 +1,14 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
+import org.junit.jupiter.api.Test;
 
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
-
-/**
- * Tests the class {@link VeraCodePipelineScannerParserTest}.
- */
+/** Tests the class {@link VeraCodePipelineScannerParserTest}. */
 class VeraCodePipelineScannerParserTest extends StructuredFileParserTest {
     VeraCodePipelineScannerParserTest() {
         super("veracode_pipeline_scanner_result.json");
@@ -67,7 +64,8 @@ class VeraCodePipelineScannerParserTest extends StructuredFileParserTest {
                 .hasCategory("taint")
                 .hasFileName("lib/optimizer/Optimizer.js")
                 .hasPackageName("-")
-                .hasMessage("Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')")
+                .hasMessage(
+                        "Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')")
                 .hasLineStart(24);
         softly.assertThat(report.get(6))
                 .hasSeverity(Severity.WARNING_HIGH)

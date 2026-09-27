@@ -1,17 +1,16 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.Report;
+import edu.hm.hafner.analysis.Report.IssueType;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
-import edu.hm.hafner.analysis.Report.IssueType;
 import edu.hm.hafner.analysis.registry.ParserDescriptor;
 import edu.hm.hafner.analysis.registry.ParserRegistry;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the class {@link PhpMdParser}.
@@ -75,7 +74,8 @@ class PhpMdParserTest extends AbstractParserTest {
                 .hasSeverity(Severity.ERROR)
                 .hasCategory("Design Rules")
                 .hasType("LongParameterList")
-                .hasMessage("The method User::create() has 8 parameters. Consider reducing the number of parameters to less than 5.")
+                .hasMessage(
+                        "The method User::create() has 8 parameters. Consider reducing the number of parameters to less than 5.")
                 .hasLineStart(30)
                 .hasLineEnd(35);
 
@@ -84,7 +84,8 @@ class PhpMdParserTest extends AbstractParserTest {
                 .hasSeverity(Severity.WARNING_HIGH)
                 .hasCategory("Naming Rules")
                 .hasType("LongVariable")
-                .hasMessage("Avoid excessively long variable names like $veryLongVariableName. Keep variable name length under 20 characters.")
+                .hasMessage(
+                        "Avoid excessively long variable names like $veryLongVariableName. Keep variable name length under 20 characters.")
                 .hasLineStart(42)
                 .hasLineEnd(42);
 
@@ -93,7 +94,8 @@ class PhpMdParserTest extends AbstractParserTest {
                 .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory("Design Rules")
                 .hasType("ExcessiveMethodLength")
-                .hasMessage("The method UserService::processUser() has 150 lines of code. Current threshold is 100. Reduce complexity by breaking into smaller methods.")
+                .hasMessage(
+                        "The method UserService::processUser() has 150 lines of code. Current threshold is 100. Reduce complexity by breaking into smaller methods.")
                 .hasLineStart(10)
                 .hasLineEnd(160);
 
@@ -102,7 +104,8 @@ class PhpMdParserTest extends AbstractParserTest {
                 .hasSeverity(Severity.WARNING_NORMAL)
                 .hasCategory("Design Rules")
                 .hasType("TooManyPublicMethods")
-                .hasMessage("The class UserService has 12 public methods. Consider refactoring to reduce public interface.")
+                .hasMessage(
+                        "The class UserService has 12 public methods. Consider refactoring to reduce public interface.")
                 .hasLineStart(1)
                 .hasLineEnd(200);
 
@@ -111,7 +114,8 @@ class PhpMdParserTest extends AbstractParserTest {
                 .hasSeverity(Severity.WARNING_LOW)
                 .hasCategory("Code Size Rules")
                 .hasType("ExcessiveClassComplexity")
-                .hasMessage("The class Helper has 25 methods making it too complex. Consider breaking it into smaller classes.")
+                .hasMessage(
+                        "The class Helper has 25 methods making it too complex. Consider breaking it into smaller classes.")
                 .hasLineStart(5)
                 .hasLineEnd(150);
     }
@@ -151,7 +155,9 @@ class PhpMdParserTest extends AbstractParserTest {
     @Test
     void shouldIgnoreMissingStructures() {
         assertThat(parse("phpmd-report-no-files.json")).hasSize(0).hasDuplicatesSize(0);
-        assertThat(parse("phpmd-report-file-without-violations.json")).hasSize(0).hasDuplicatesSize(0);
+        assertThat(parse("phpmd-report-file-without-violations.json"))
+                .hasSize(0)
+                .hasDuplicatesSize(0);
     }
 
     @Test

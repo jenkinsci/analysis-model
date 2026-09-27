@@ -5,17 +5,13 @@ import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
 
-/**
- * Tests the class {@link MetrowerksCwCompilerParser}.
- */
+/** Tests the class {@link MetrowerksCwCompilerParser}. */
 class MetrowerksCwCompilerParserTest extends AbstractParserTest {
     private static final String INFO_CATEGORY = "Info";
     private static final String WARNING_CATEGORY = "Warning";
     private static final String ERROR_CATEGORY = "ERROR";
 
-    /**
-     * Creates a new instance of {@link MetrowerksCwCompilerParserTest}.
-     */
+    /** Creates a new instance of {@link MetrowerksCwCompilerParserTest}. */
     protected MetrowerksCwCompilerParserTest() {
         super("MetrowerksCWCompiler.txt");
     }

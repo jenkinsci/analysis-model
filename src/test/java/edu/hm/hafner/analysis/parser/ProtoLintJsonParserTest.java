@@ -1,15 +1,14 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.assertThat;
 
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test class for {@link ProtoLintJsonParser}.
@@ -30,7 +29,8 @@ class ProtoLintJsonParserTest extends AbstractParserTest {
                 .hasLineStart(3)
                 .hasColumnStart(5)
                 .hasMessage("Found an incorrect indentation style \"    \". \"  \" is correct.")
-                .hasFileName("/home/jwiesner/Development/github/profhenry/protolint/_example/proto/issue_111/multipleFixersApplicable.proto")
+                .hasFileName(
+                        "/home/jwiesner/Development/github/profhenry/protolint/_example/proto/issue_111/multipleFixersApplicable.proto")
                 .hasType("INDENT");
 
         softly.assertThat(report.get(12))
@@ -38,7 +38,8 @@ class ProtoLintJsonParserTest extends AbstractParserTest {
                 .hasLineStart(3)
                 .hasColumnStart(5)
                 .hasMessage("EnumField name \"UNKNOWN\" should have the prefix \"ENUM_ALLOWING_ALIAS\"")
-                .hasFileName("/home/jwiesner/Development/github/profhenry/protolint/_example/proto/issue_111/multipleFixersApplicable.proto")
+                .hasFileName(
+                        "/home/jwiesner/Development/github/profhenry/protolint/_example/proto/issue_111/multipleFixersApplicable.proto")
                 .hasType("ENUM_FIELD_NAMES_PREFIX");
 
         softly.assertThat(report.get(224))
@@ -46,7 +47,8 @@ class ProtoLintJsonParserTest extends AbstractParserTest {
                 .hasLineStart(207)
                 .hasColumnStart(3)
                 .hasMessage("Field \"amount\" should have a comment")
-                .hasFileName("/home/jwiesner/Development/github/profhenry/protolint/_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto")
+                .hasFileName(
+                        "/home/jwiesner/Development/github/profhenry/protolint/_example/proto/issue_128/grpc-gateway_a_bit_of_everything.proto")
                 .hasType("FIELDS_HAVE_COMMENT");
     }
 

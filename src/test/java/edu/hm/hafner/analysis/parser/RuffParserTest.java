@@ -1,8 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.nio.file.FileSystems;
-
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 import edu.hm.hafner.analysis.FileReaderFactory;
 import edu.hm.hafner.analysis.IssueParser;
@@ -11,8 +9,8 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import java.nio.file.FileSystems;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the class {@link RuffParser}.
@@ -27,7 +25,7 @@ class RuffParserTest extends AbstractParserTest {
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
         assertThat(report).hasSize(6);
-        
+
         // Test first issue - unused import (should be fixable)
         softly.assertThat(report.get(0))
                 .hasLineStart(1)
@@ -39,7 +37,7 @@ class RuffParserTest extends AbstractParserTest {
                 .hasMessage("`os` imported but unused [fixable]")
                 .hasFileName("example.py")
                 .hasSeverity(Severity.WARNING_HIGH);
-        
+
         // Test second issue - line too long
         softly.assertThat(report.get(1))
                 .hasLineStart(15)
@@ -51,7 +49,7 @@ class RuffParserTest extends AbstractParserTest {
                 .hasMessage("Line too long (122 > 88 characters)")
                 .hasFileName("example.py")
                 .hasSeverity(Severity.ERROR);
-        
+
         // Test third issue - missing docstring
         softly.assertThat(report.get(2))
                 .hasLineStart(10)
@@ -61,7 +59,7 @@ class RuffParserTest extends AbstractParserTest {
                 .hasMessage("Missing docstring in public function")
                 .hasFileName("src/module.py")
                 .hasSeverity(Severity.WARNING_LOW);
-        
+
         // Test fourth issue - trailing whitespace (fixable)
         softly.assertThat(report.get(3))
                 .hasLineStart(25)
@@ -71,7 +69,7 @@ class RuffParserTest extends AbstractParserTest {
                 .hasMessage("Trailing whitespace [fixable]")
                 .hasFileName("test.py")
                 .hasSeverity(Severity.WARNING_NORMAL);
-        
+
         // Test fifth issue - bugbear warning
         softly.assertThat(report.get(4))
                 .hasLineStart(42)
@@ -81,7 +79,7 @@ class RuffParserTest extends AbstractParserTest {
                 .hasMessage("Do not perform function call `dict` in argument defaults; instead, use None")
                 .hasFileName("utils.py")
                 .hasSeverity(Severity.WARNING_HIGH);
-        
+
         // Test sixth issue - import sorting (fixable)
         softly.assertThat(report.get(5))
                 .hasLineStart(3)
@@ -102,15 +100,16 @@ class RuffParserTest extends AbstractParserTest {
 
     @Test
     void accepts() {
-        assertThat(new RuffParser().accepts(
-                new FileReaderFactory(FileSystems.getDefault().getPath("ruff.json")))).isTrue();
-        assertThat(new RuffParser().accepts(
-                new FileReaderFactory(FileSystems.getDefault().getPath("foo.txt")))).isFalse();
+        assertThat(new RuffParser()
+                        .accepts(new FileReaderFactory(FileSystems.getDefault().getPath("ruff.json"))))
+                .isTrue();
+        assertThat(new RuffParser()
+                        .accepts(new FileReaderFactory(FileSystems.getDefault().getPath("foo.txt"))))
+                .isFalse();
     }
 
     @Test
     void brokenInput() {
-        assertThatThrownBy(() -> parse("eclipse.txt"))
-                .isInstanceOf(ParsingException.class);
+        assertThatThrownBy(() -> parse("eclipse.txt")).isInstanceOf(ParsingException.class);
     }
 }

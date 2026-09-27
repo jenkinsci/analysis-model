@@ -1,26 +1,21 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.util.Iterator;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
+import java.util.Iterator;
 
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
-
-/**
- * Tests the class {@link QacSourceCodeAnalyserParser}.
- */
+/** Tests the class {@link QacSourceCodeAnalyserParser}. */
 class QacSourceCodeAnalyserParserTest extends AbstractParserTest {
     private static final String WARNING_CATEGORY = "Warning";
     private static final String ERROR_CATEGORY = "ERROR";
     private static final String ISSUES_FILE = "QACSourceCodeAnalyser.txt";
 
-    /**
-     * Creates a new instance of {@link QacSourceCodeAnalyserParserTest}.
-     */
+    /** Creates a new instance of {@link QacSourceCodeAnalyserParserTest}. */
     QacSourceCodeAnalyserParserTest() {
         super(ISSUES_FILE);
     }

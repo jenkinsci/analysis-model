@@ -5,41 +5,37 @@ import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
-
 import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * A parser for the YUI Compressor warnings.
- */
+/** A parser for the YUI Compressor warnings. */
 public class YuiCompressorParser extends LookaheadParser {
     @Serial
     private static final long serialVersionUID = -4807932429496693096L;
+
     private static final String YUI_COMPRESSOR_WARNING_PATTERN = "\\[WARNING\\] (.*)";
 
-    private static final Pattern UNUSED_SYMBOL_PATTERN = Pattern
-            .compile("The symbol [^ ]+ is declared but is apparently never used.*");
-    private static final Pattern UNUSED_VARIABLE_PATTERN = Pattern
-            .compile("The variable [^ ]+ has already been declared in the same scope.*");
-    private static final Pattern UNUSED_FUNCTION_PATTERN = Pattern
-            .compile("The function [^ ]+ has already been declared in the same scope.*");
+    private static final Pattern UNUSED_SYMBOL_PATTERN =
+            Pattern.compile("The symbol [^ ]+ is declared but is apparently never used.*");
+    private static final Pattern UNUSED_VARIABLE_PATTERN =
+            Pattern.compile("The variable [^ ]+ has already been declared in the same scope.*");
+    private static final Pattern UNUSED_FUNCTION_PATTERN =
+            Pattern.compile("The function [^ ]+ has already been declared in the same scope.*");
     private static final Pattern INVALID_HINT_PATTERN = Pattern.compile("Invalid hint syntax: [^ ]+");
     private static final Pattern UNSUPPORTED_HINT_PATTERN = Pattern.compile("Unsupported hint value: [^ ]+");
     private static final Pattern UNKNOWN_HINT_PATTERN = Pattern.compile("Hint refers to an unknown identifier: [^ ]+");
     private static final Pattern PRINT_SYMBOL_PATTERN = Pattern.compile("This symbol cannot be printed: [^ ]+");
 
-    /**
-     * Creates a new instance of {@code YuiCompressorParser}.
-     */
+    /** Creates a new instance of {@code YuiCompressorParser}. */
     public YuiCompressorParser() {
         super(YUI_COMPRESSOR_WARNING_PATTERN);
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
-            final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(
+            final Matcher matcher, final LookaheadStream lookahead, final IssueBuilder builder) {
         var messageHeader = matcher.group(1);
         String messageDetails = lookahead.hasNext() ? lookahead.next() : "";
 
@@ -47,8 +43,12 @@ public class YuiCompressorParser extends LookaheadParser {
 
         var message = messageHeader + " [" + messageDetails + "]";
 
-        return builder.setFileName("unknown.file").setLineStart(0).setCategory(categoryAndPriority.getCategory())
-                .setMessage(message).setSeverity(categoryAndPriority.getPriority()).buildOptional();
+        return builder.setFileName("unknown.file")
+                .setLineStart(0)
+                .setCategory(categoryAndPriority.getCategory())
+                .setMessage(message)
+                .setSeverity(categoryAndPriority.getPriority())
+                .buildOptional();
     }
 
     @SuppressWarnings("npathcomplexity")
@@ -92,9 +92,7 @@ public class YuiCompressorParser extends LookaheadParser {
         return CategoryAndPriority.UNKNOWN;
     }
 
-    /**
-     * Handles category and priority of the warning.
-     */
+    /** Handles category and priority of the warning. */
     private enum CategoryAndPriority {
         UNDECLARED_SYMBOL("Undeclared symbol"),
         USE_SINGLE_VAR("Use single 'var' per scope", Severity.WARNING_LOW),

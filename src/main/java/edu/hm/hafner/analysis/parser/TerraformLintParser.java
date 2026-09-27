@@ -1,14 +1,12 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.json.JSONObject;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
-
 import java.io.Serial;
+import org.json.JSONObject;
 
 /**
  * A parser for Terraform Lint (tflint) JSON output.
@@ -19,6 +17,7 @@ import java.io.Serial;
 public class TerraformLintParser extends JsonIssueParser {
     @Serial
     private static final long serialVersionUID = 6629181893482024873L;
+
     private static final String START = "start";
     private static final String END = "end";
     private static final String LINE = "line";
@@ -55,8 +54,7 @@ public class TerraformLintParser extends JsonIssueParser {
             return;
         }
 
-        issueBuilder.setType(rule.optString("name"))
-                .guessSeverity(rule.optString("severity", "warning"));
+        issueBuilder.setType(rule.optString("name")).guessSeverity(rule.optString("severity", "warning"));
     }
 
     private void applyRange(@CheckForNull final JSONObject range, final IssueBuilder issueBuilder) {

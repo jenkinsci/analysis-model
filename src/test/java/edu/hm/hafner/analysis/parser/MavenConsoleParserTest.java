@@ -1,14 +1,13 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import static j2html.TagCreator.*;
 
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
-import static j2html.TagCreator.*;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the class {@link MavenConsoleParser}.
@@ -18,9 +17,7 @@ import static j2html.TagCreator.*;
 class MavenConsoleParserTest extends AbstractParserTest {
     private static final String XREF_LINK_DISABLED = "Unable to locate Source XRef to link to - DISABLED";
 
-    /**
-     * Creates a new instance of {@link MavenConsoleParserTest}.
-     */
+    /** Creates a new instance of {@link MavenConsoleParserTest}. */
     protected MavenConsoleParserTest() {
         super("maven-console.txt");
     }
@@ -47,20 +44,26 @@ class MavenConsoleParserTest extends AbstractParserTest {
 
         assertThat(warnings).hasSize(3);
 
-        assertThat(warnings.get(0)).hasSeverity(Severity.WARNING_LOW)
-                .hasLineStart(44).hasLineEnd(47)
+        assertThat(warnings.get(0))
+                .hasSeverity(Severity.WARNING_LOW)
+                .hasLineStart(44)
+                .hasLineEnd(47)
                 .hasType("maven-pmd-plugin:pmd");
-        assertThatDescriptionIs(warnings, 0,
-                XREF_LINK_DISABLED, XREF_LINK_DISABLED, XREF_LINK_DISABLED, XREF_LINK_DISABLED);
+        assertThatDescriptionIs(
+                warnings, 0, XREF_LINK_DISABLED, XREF_LINK_DISABLED, XREF_LINK_DISABLED, XREF_LINK_DISABLED);
 
-        assertThat(warnings.get(1)).hasSeverity(Severity.WARNING_LOW)
-                .hasLineStart(50).hasLineEnd(53)
+        assertThat(warnings.get(1))
+                .hasSeverity(Severity.WARNING_LOW)
+                .hasLineStart(50)
+                .hasLineEnd(53)
                 .hasType("maven-pmd-plugin:cpd");
-        assertThatDescriptionIs(warnings, 1,
-                XREF_LINK_DISABLED, XREF_LINK_DISABLED, XREF_LINK_DISABLED, XREF_LINK_DISABLED);
+        assertThatDescriptionIs(
+                warnings, 1, XREF_LINK_DISABLED, XREF_LINK_DISABLED, XREF_LINK_DISABLED, XREF_LINK_DISABLED);
 
-        assertThat(warnings.get(2)).hasSeverity(Severity.WARNING_LOW)
-                .hasLineStart(56).hasLineEnd(56)
+        assertThat(warnings.get(2))
+                .hasSeverity(Severity.WARNING_LOW)
+                .hasLineStart(56)
+                .hasLineEnd(56)
                 .hasType("maven-checkstyle-plugin:checkstyle");
         assertThatDescriptionIs(warnings, 2, XREF_LINK_DISABLED);
     }
@@ -77,8 +80,9 @@ class MavenConsoleParserTest extends AbstractParserTest {
     }
 
     private void assertThatDescriptionIs(final Report warnings, final int index, final String... messages) {
-        assertThat(warnings.get(index).getDescription()).isEqualTo(
-                pre().with(code().withText(String.join("\n", messages))).render());
+        assertThat(warnings.get(index).getDescription())
+                .isEqualTo(
+                        pre().with(code().withText(String.join("\n", messages))).render());
     }
 
     @Test
@@ -86,9 +90,10 @@ class MavenConsoleParserTest extends AbstractParserTest {
         var warnings = parse("maven-line-number.log");
 
         assertThat(warnings).hasSize(1);
-        assertThat(warnings.get(0)).hasSeverity(Severity.WARNING_NORMAL)
-                .hasLineStart(45);
-        assertThatDescriptionIs(warnings, 0,
+        assertThat(warnings.get(0)).hasSeverity(Severity.WARNING_NORMAL).hasLineStart(45);
+        assertThatDescriptionIs(
+                warnings,
+                0,
                 "The project edu.hm.hafner:analysis-model:jar:1.0.0-SNAPSHOT uses prerequisites "
                         + "which is only intended for maven-plugin projects but not for non maven-plugin projects. "
                         + "For such purposes you should use the maven-enforcer-plugin. "
@@ -112,9 +117,7 @@ class MavenConsoleParserTest extends AbstractParserTest {
         var warnings = parse("maven-enforcer.log");
 
         assertThat(warnings).hasSize(1);
-        assertThat(warnings.get(0))
-                .hasDescription(
-                        """
+        assertThat(warnings.get(0)).hasDescription("""
                         <pre><code>Rule 4: org.apache.maven.plugins.enforcer.RequireUpperBoundDeps failed with message:
                         Failed while enforcing RequireUpperBoundDeps. The error(s) are [
                         Require upper bound dependencies error for org.jenkins-ci:annotation-indexer:1.11 paths to dependency are:
@@ -158,8 +161,7 @@ class MavenConsoleParserTest extends AbstractParserTest {
         var warnings = parse("maven-enforcer2.log");
 
         assertThat(warnings).hasSize(2);
-        assertThat(warnings.get(0))
-                .hasDescription("""
+        assertThat(warnings.get(0)).hasDescription("""
                         <pre><code>
                         Dependency convergence error for com.google.http-client:google-http-client-jackson2:1.22.0 paths to dependency are:
                         +-com.&lt;org&gt;:web:165.0-SNAPSHOT
@@ -180,8 +182,7 @@ class MavenConsoleParserTest extends AbstractParserTest {
                           +-com.google.api-client:google-api-client:1.22.0
                             +-com.google.http-client:google-http-client-jackson2:1.22.0
                         </code></pre>""");
-        assertThat(warnings.get(1))
-                .hasDescription("""
+        assertThat(warnings.get(1)).hasDescription("""
                         <pre><code>
                         Dependency convergence error for com.google.code.gson:gson:2.2.1 paths to dependency are:
                         +-com.&lt;org&gt;:web:165.0-SNAPSHOT

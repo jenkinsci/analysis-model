@@ -6,7 +6,6 @@ import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
-
 import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -23,9 +22,7 @@ public class DoxygenParser extends LookaheadParser {
     private static final String DOXYGEN_WARNING_PATTERN =
             ANT_TASK + "(?:(?:(.+?):(\\d+):|(.+?)\\((\\d+)\\):)?(?:(\\d+):)?)? ?([wW]arning|[Ee]rror): (.*)$";
 
-    /**
-     * Creates a new instance of {@link DoxygenParser}.
-     */
+    /** Creates a new instance of {@link DoxygenParser}. */
     public DoxygenParser() {
         super(DOXYGEN_WARNING_PATTERN);
     }
@@ -36,8 +33,8 @@ public class DoxygenParser extends LookaheadParser {
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
-                                          final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(
+            final Matcher matcher, final LookaheadStream lookahead, final IssueBuilder builder) {
         var message = new StringBuilder(matcher.group(7));
 
         String fileName;
@@ -45,8 +42,7 @@ public class DoxygenParser extends LookaheadParser {
             fileName = cleanupFileName(matcher.group(1));
             builder.setFileName(fileName);
             builder.setLineStart(matcher.group(2));
-        }
-        else {
+        } else {
             fileName = cleanupFileName(matcher.group(3));
             builder.setFileName(fileName);
             builder.setLineStart(matcher.group(4));
@@ -57,16 +53,15 @@ public class DoxygenParser extends LookaheadParser {
             message.append(lookahead.next());
         }
 
-        return builder
-                .setColumnStart(matcher.group(5))
+        return builder.setColumnStart(matcher.group(5))
                 .setMessage(message.toString())
                 .setSeverity(Severity.guessFromString(matcher.group(6)))
                 .buildOptional();
     }
 
     /**
-     * Cleans up the filename by removing Doxygen progress messages that may have been captured.
-     * For example, "Generating caller graph for function vCanOpenDevD:/path/file.c" becomes "D:/path/file.c".
+     * Cleans up the filename by removing Doxygen progress messages that may have been captured. For example,
+     * "Generating caller graph for function vCanOpenDevD:/path/file.c" becomes "D:/path/file.c".
      *
      * @param fileName the raw filename from the regex match
      * @return the cleaned filename

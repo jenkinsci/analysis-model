@@ -4,9 +4,7 @@ import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.Report.IssueType;
 import edu.hm.hafner.analysis.parser.OwaspDependencyCheckParser;
 
-/**
- * Descriptor for OWASP dependency check report parser.
- */
+/** Descriptor for OWASP dependency check report parser. */
 class OwaspDependencyCheckDescriptor extends ParserDescriptor {
     private static final String ID = "owasp-dependency-check";
     private static final String NAME = "OWASP Dependency Check";

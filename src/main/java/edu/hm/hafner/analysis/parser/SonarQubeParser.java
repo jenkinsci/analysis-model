@@ -1,18 +1,16 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
-import java.io.Serial;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.json.JSONTokener;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
+import java.io.IOException;
+import java.io.Serial;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 
 /**
  * Base class for SonarQube parsers.
@@ -23,13 +21,13 @@ public abstract class SonarQubeParser extends JsonIssueParser {
     @Serial
     private static final long serialVersionUID = 1958805067002376816L;
 
-    //Arrays
+    // Arrays
     /** The components array. */
     private static final String COMPONENTS = "components";
     /** The issues array. */
     private static final String ISSUES = "issues";
 
-    //Issues attributes
+    // Issues attributes
     /** issue.component attribute. */
     private static final String ISSUE_COMPONENT = "component";
     /** issue.message attribute. */
@@ -39,7 +37,7 @@ public abstract class SonarQubeParser extends JsonIssueParser {
     /** issue.type attribute. */
     private static final String ISSUE_TYPE = "type";
 
-    //Component attributes
+    // Component attributes
     /** component.key attribute. */
     private static final String COMPONENT_KEY = "key";
     /** component.path attribute. */
@@ -66,8 +64,7 @@ public abstract class SonarQubeParser extends JsonIssueParser {
     public boolean accepts(final ReaderFactory readerFactory) {
         try (var reader = readerFactory.create()) {
             return accepts((JSONObject) new JSONTokener(reader).nextValue());
-        }
-        catch (IOException ignored) {
+        } catch (IOException ignored) {
             return false;
         }
     }
@@ -75,9 +72,7 @@ public abstract class SonarQubeParser extends JsonIssueParser {
     /**
      * Returns whether this parser accepts the specified JSON object as valid input.
      *
-     * @param object
-     *         the JSON object to analyse
-     *
+     * @param object the JSON object to analyse
      * @return {@code true} if this parser accepts this object as valid input, {@code false} otherwise
      */
     abstract boolean accepts(JSONObject object);
@@ -103,8 +98,7 @@ public abstract class SonarQubeParser extends JsonIssueParser {
      * Get the "components" part to get the file paths on each issue (the component objects contain the most concise
      * path).
      *
-     * @param jsonReport
-     *         the report to get the components from
+     * @param jsonReport the report to get the components from
      */
     private void extractComponents(final JSONObject jsonReport) {
         if (jsonReport.has(COMPONENTS)) {
@@ -115,9 +109,7 @@ public abstract class SonarQubeParser extends JsonIssueParser {
     /**
      * Decides whether or not to parse and add an issue.
      *
-     * @param issue
-     *         the issue to filter.
-     *
+     * @param issue the issue to filter.
      * @return {@code true} if the issue is to be parsed and added, otherwise {@code false}
      */
     boolean filterIssue(final JSONObject issue) {
@@ -139,9 +131,7 @@ public abstract class SonarQubeParser extends JsonIssueParser {
     /**
      * Parse function for filename.
      *
-     * @param issue
-     *         the object to parse.
-     *
+     * @param issue the object to parse.
      * @return the filename.
      */
     private String parseFilename(final JSONObject issue) {
@@ -152,8 +142,7 @@ public abstract class SonarQubeParser extends JsonIssueParser {
         if (component == null) {
             var issueComponentKey = issue.optString(ISSUE_COMPONENT);
             return issueComponentKey.substring(issueComponentKey.lastIndexOf(':'));
-        }
-        else {
+        } else {
             // Get file path inside module
             var filePath = component.optString(COMPONENT_PATH);
 
@@ -166,11 +155,8 @@ public abstract class SonarQubeParser extends JsonIssueParser {
     /**
      * Extracts the module path from the specified JSON objects.
      *
-     * @param component
-     *         the component
-     * @param issue
-     *         the issue
-     *
+     * @param component the component
+     * @param issue the issue
      * @return the module path
      */
     abstract String getModulePath(JSONObject component, JSONObject issue);
@@ -178,9 +164,7 @@ public abstract class SonarQubeParser extends JsonIssueParser {
     /**
      * Default parse for start.
      *
-     * @param issue
-     *         the object to parse.
-     *
+     * @param issue the object to parse.
      * @return the start.
      */
     abstract int parseStart(JSONObject issue);
@@ -188,9 +172,7 @@ public abstract class SonarQubeParser extends JsonIssueParser {
     /**
      * Default parse for end.
      *
-     * @param issue
-     *         the object to parse.
-     *
+     * @param issue the object to parse.
      * @return the end.
      */
     abstract int parseEnd(JSONObject issue);
@@ -198,9 +180,7 @@ public abstract class SonarQubeParser extends JsonIssueParser {
     /**
      * Default parse for type.
      *
-     * @param issue
-     *         the object to parse.
-     *
+     * @param issue the object to parse.
      * @return the type.
      */
     private String parseType(final JSONObject issue) {
@@ -210,9 +190,7 @@ public abstract class SonarQubeParser extends JsonIssueParser {
     /**
      * Default parse for message.
      *
-     * @param issue
-     *         the object to parse.
-     *
+     * @param issue the object to parse.
      * @return the message.
      */
     private String parseMessage(final JSONObject issue) {
@@ -222,25 +200,20 @@ public abstract class SonarQubeParser extends JsonIssueParser {
     /**
      * Default parse for priority.
      *
-     * @param issue
-     *         the object to parse.
-     *
+     * @param issue the object to parse.
      * @return the priority.
      */
     private Severity parsePriority(final JSONObject issue) {
         return severityToPriority(issue.optString(ISSUE_SEVERITY, SEVERITY_MINOR));
     }
 
-    //UTILITIES
+    // UTILITIES
 
     /**
      * Find the module path inside the corresponding component.
      *
-     * @param moduleKeyObject
-     *         the object which contains the component key.
-     * @param componentKey
-     *         the component key.
-     *
+     * @param moduleKeyObject the object which contains the component key.
+     * @param componentKey the component key.
      * @return the module path.
      */
     String parseModulePath(final JSONObject moduleKeyObject, final String componentKey) {
@@ -258,9 +231,7 @@ public abstract class SonarQubeParser extends JsonIssueParser {
     /**
      * Find the component in the components-array which contains this key.
      *
-     * @param key
-     *         the key of the desired component.
-     *
+     * @param key the key of the desired component.
      * @return the desired JSONObject component, or null if it hasn't been found.
      */
     @CheckForNull
@@ -278,26 +249,19 @@ public abstract class SonarQubeParser extends JsonIssueParser {
     }
 
     /**
-     * Maps issue severity to warning priority.
-     *
-     * <br>
-     * <strong>HIGH:</strong> BLOCKER, CRITICAL
-     * <br>
-     * <strong>NORMAL:</strong> MAJOR
-     * <br>
+     * Maps issue severity to warning priority. <br>
+     * <strong>HIGH:</strong> BLOCKER, CRITICAL <br>
+     * <strong>NORMAL:</strong> MAJOR <br>
      * <strong>LOW:</strong> MINOR, INFO
      *
-     * @param severity
-     *         a String containing the SonarQube issue severity
-     *
+     * @param severity a String containing the SonarQube issue severity
      * @return a priority object corresponding to the passed severity.
      */
     private Severity severityToPriority(final String severity) {
         // Severity MAJOR is omitted as it corresponds with default Severity: NORMAL
         if (SEVERITY_BLOCKER.equals(severity) || SEVERITY_CRITICAL.equals(severity)) {
             return Severity.WARNING_HIGH;
-        }
-        else if (SEVERITY_MINOR.equals(severity) || SEVERITY_INFO.equals(severity)) {
+        } else if (SEVERITY_MINOR.equals(severity) || SEVERITY_INFO.equals(severity)) {
             return Severity.WARNING_LOW;
         }
         return Severity.WARNING_NORMAL;

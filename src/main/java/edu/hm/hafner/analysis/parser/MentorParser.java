@@ -5,7 +5,6 @@ import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.util.LookaheadStream;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -20,53 +19,41 @@ public class MentorParser extends LookaheadParser {
     @Serial
     private static final long serialVersionUID = -3730787747172209082L;
 
-    /**
-     * Matches the beginning of a Modelsim/Questa message "** [priority] : [The remainder of the message]".
-     */
+    /** Matches the beginning of a Modelsim/Questa message "** [priority] : [The remainder of the message]". */
     private static final String MSG_REGEX = "\\*\\*\\s+(?<priority>[\\w \\(\\)]+):\\s+(?<message>.*)";
 
     /**
-     * The first capture group captures the message type such as "vlog-###" or "vsim-###".
-     * The second group matches an optional filename in the form of filename.sv(line-number).
-     * The third group matches the rest of the message.
+     * The first capture group captures the message type such as "vlog-###" or "vsim-###". The second group matches an
+     * optional filename in the form of filename.sv(line-number). The third group matches the rest of the message.
      */
-    private static final Pattern VSIM_PATTERN = Pattern.compile(
-            "\\((?<category>v\\w+-\\d+)\\)(?: (?<filename>\\S*)\\((?<line>\\d+)\\):)? (?<message>.*)");
+    private static final Pattern VSIM_PATTERN =
+            Pattern.compile("\\((?<category>v\\w+-\\d+)\\)(?: (?<filename>\\S*)\\((?<line>\\d+)\\):)? (?<message>.*)");
+
+    /** The first capture group matches the filename The second group matches the line number. */
+    private static final Pattern VLOG_FILE_PATTERN = Pattern.compile("(?<filename>\\S*)\\((?<line>\\d+)\\):");
 
     /**
-     * The first capture group matches the filename
-     * The second group matches the line number.
+     * The first capture group matches the warning type such as "vlog-###" or "vsim-###". The second group matches the
+     * rest of the message.
      */
-    private static final Pattern VLOG_FILE_PATTERN = Pattern.compile(
-            "(?<filename>\\S*)\\((?<line>\\d+)\\):");
+    private static final Pattern VLOG_TYPE_PATTERN = Pattern.compile("\\((?<category>v\\w+-\\d+)\\) (?<message>.*)");
 
     /**
-     * The first capture group matches the warning type such as "vlog-###" or "vsim-###".
-     * The second group matches the rest of the message.
-     */
-    private static final Pattern VLOG_TYPE_PATTERN = Pattern.compile(
-            "\\((?<category>v\\w+-\\d+)\\) (?<message>.*)");
-
-    /**
-     * The first capture group matches the timestamp for the message on the previous line.
-     * The iteration is ignored.
-     * \w* matches a word such as "module" or "protected".
-     * The next capture group captures the path of the module.
-     * The next capture groups capture the File name and Line number.
+     * The first capture group matches the timestamp for the message on the previous line. The iteration is ignored. \w*
+     * matches a word such as "module" or "protected". The next capture group captures the path of the module. The next
+     * capture groups capture the File name and Line number.
      */
     private static final Pattern TIME_FILE_PATTERN = Pattern.compile(
             "# {4}Time: (?<simtime>\\d* \\ws)(?: {2}Iteration: \\d+)? {2}\\w*: (?<module>.\\S*)(?: File: (?<filename>\\S+))?(?: Line: (?<line>\\d+))?.*");
 
-    /**
-     * Creates a parser for MentorGraphics Modelsim/Questa logs.
-     */
+    /** Creates a parser for MentorGraphics Modelsim/Questa logs. */
     public MentorParser() {
         super(MSG_REGEX);
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
-                                          final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(
+            final Matcher matcher, final LookaheadStream lookahead, final IssueBuilder builder) {
         clearBuilder(builder);
 
         builder.guessSeverity(matcher.group("priority"));
@@ -74,11 +61,9 @@ public class MentorParser extends LookaheadParser {
         var message = matcher.group("message");
         if (message.contains("while parsing file")) {
             parseLongVlogMessage(lookahead, builder);
-        }
-        else if (message.contains("vlog-") || message.contains("vopt-")) {
+        } else if (message.contains("vlog-") || message.contains("vopt-")) {
             parseVlogMessage(builder, message);
-        }
-        else {
+        } else {
             parseVsimMessage(lookahead, builder, message);
         }
 

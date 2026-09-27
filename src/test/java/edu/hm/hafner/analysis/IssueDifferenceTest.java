@@ -1,13 +1,11 @@
 package edu.hm.hafner.analysis;
 
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 import edu.hm.hafner.analysis.registry.ParserRegistry;
 import edu.hm.hafner.util.ResourceTest;
-
 import java.nio.charset.StandardCharsets;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit Tests of the class {@link IssueDifference}.
@@ -20,18 +18,20 @@ class IssueDifferenceTest extends ResourceTest {
 
     @Test
     void shouldCreateIssueDifferenceBasedOnPropertiesAndThenOnFingerprint() {
-        var referenceIssues = new Report().addAll(
-                createIssue("OUTSTANDING 1", "OUT 1"),
-                createIssue("OUTSTANDING 2", "OUT 2"),
-                createIssue("OUTSTANDING 3", "OUT 3"),
-                createIssue("TO FIX 1", "FIX 1"),
-                createIssue("TO FIX 2", "FIX 2"));
+        var referenceIssues = new Report()
+                .addAll(
+                        createIssue("OUTSTANDING 1", "OUT 1"),
+                        createIssue("OUTSTANDING 2", "OUT 2"),
+                        createIssue("OUTSTANDING 3", "OUT 3"),
+                        createIssue("TO FIX 1", "FIX 1"),
+                        createIssue("TO FIX 2", "FIX 2"));
 
-        var currentIssues = new Report().addAll(
-                createIssue("UPD OUTSTANDING 1", "OUT 1"),
-                createIssue("OUTSTANDING 2", "UPD OUT 2"),
-                createIssue("OUTSTANDING 3", "OUT 3"),
-                createIssue("NEW 1", "NEW 1"));
+        var currentIssues = new Report()
+                .addAll(
+                        createIssue("UPD OUTSTANDING 1", "OUT 1"),
+                        createIssue("OUTSTANDING 2", "UPD OUT 2"),
+                        createIssue("OUTSTANDING 3", "OUT 3"),
+                        createIssue("NEW 1", "NEW 1"));
 
         var issueDifference = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues);
 
@@ -81,8 +81,7 @@ class IssueDifferenceTest extends ResourceTest {
 
     @Test
     void shouldCreateIssueDifferenceWithEmptyCurrent() {
-        var referenceIssues = new Report().addAll(createIssue("OLD 1", "FA"),
-                createIssue("OLD 2", "FB"));
+        var referenceIssues = new Report().addAll(createIssue("OLD 1", "FA"), createIssue("OLD 2", "FB"));
         var currentIssues = new Report();
 
         var issueDifference = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues);
@@ -100,8 +99,7 @@ class IssueDifferenceTest extends ResourceTest {
     @Test
     void shouldCreateIssueDifferenceWithEmptyReference() {
         var referenceIssues = new Report();
-        var currentIssues = new Report().addAll(createIssue("NEW 1", "FA"),
-                createIssue("NEW 2", "FB"));
+        var currentIssues = new Report().addAll(createIssue("NEW 1", "FA"), createIssue("NEW 2", "FB"));
 
         var issueDifference = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues);
 
@@ -117,11 +115,8 @@ class IssueDifferenceTest extends ResourceTest {
     @Test
     @org.junitpioneer.jupiter.Issue("JENKINS-56324")
     void shouldAlsoUseFingerprintIfIssuesAreEqual() {
-        var referenceIssues = new Report().addAll(
-                createIssue("OLD 1", "FP"));
-        var currentIssues = new Report().addAll(
-                createIssue("NEW 1", "FP"),
-                createIssue("OLD 1", "FP"));
+        var referenceIssues = new Report().addAll(createIssue("OLD 1", "FP"));
+        var currentIssues = new Report().addAll(createIssue("NEW 1", "FP"), createIssue("OLD 1", "FP"));
 
         var issueDifference = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues);
 
@@ -138,12 +133,8 @@ class IssueDifferenceTest extends ResourceTest {
 
     @Test
     void shouldRemoveForSecondPass() {
-        var referenceIssues = new Report().addAll(
-                createIssue("NEW 1", "FP1"),
-                createIssue("NEW 2", "FP1"));
-        var currentIssues = new Report().addAll(
-                createIssue("NEW 1", "FP1"),
-                createIssue("NEW 3", "FP2"));
+        var referenceIssues = new Report().addAll(createIssue("NEW 1", "FP1"), createIssue("NEW 2", "FP1"));
+        var currentIssues = new Report().addAll(createIssue("NEW 1", "FP1"), createIssue("NEW 3", "FP2"));
 
         var issueDifference = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues);
 
@@ -165,16 +156,18 @@ class IssueDifferenceTest extends ResourceTest {
     void shouldPickClosestReferenceLineAmongMultipleFingerprintCandidates() {
         var sharedFingerprint = "SAME-FP";
 
-        var referenceIssues = new Report().addAll(
-                createIssueAtLine("OLD", sharedFingerprint, 10),
-                createIssueAtLine("OLD", sharedFingerprint, 20),
-                createIssueAtLine("OLD", sharedFingerprint, 30),
-                createIssueAtLine("OLD", sharedFingerprint, 40),
-                createIssueAtLine("OLD", sharedFingerprint, 50));
+        var referenceIssues = new Report()
+                .addAll(
+                        createIssueAtLine("OLD", sharedFingerprint, 10),
+                        createIssueAtLine("OLD", sharedFingerprint, 20),
+                        createIssueAtLine("OLD", sharedFingerprint, 30),
+                        createIssueAtLine("OLD", sharedFingerprint, 40),
+                        createIssueAtLine("OLD", sharedFingerprint, 50));
 
-        var currentIssues = new Report().addAll(
-                createIssueAtLine("NEW", sharedFingerprint, 21),
-                createIssueAtLine("NEW", sharedFingerprint, 31));
+        var currentIssues = new Report()
+                .addAll(
+                        createIssueAtLine("NEW", sharedFingerprint, 21),
+                        createIssueAtLine("NEW", sharedFingerprint, 31));
 
         var issueDifference = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues);
 
@@ -203,14 +196,16 @@ class IssueDifferenceTest extends ResourceTest {
     void shouldDistinguishTrulyNewIssueFromClosestFingerprintMatch() {
         var sharedFingerprint = "SAME-FP";
 
-        var referenceIssues = new Report().addAll(
-                createIssueAtLine("WARNING", sharedFingerprint, 10),
-                createIssueAtLine("WARNING", sharedFingerprint, 20),
-                createIssueAtLine("WARNING", sharedFingerprint, 30));
+        var referenceIssues = new Report()
+                .addAll(
+                        createIssueAtLine("WARNING", sharedFingerprint, 10),
+                        createIssueAtLine("WARNING", sharedFingerprint, 20),
+                        createIssueAtLine("WARNING", sharedFingerprint, 30));
 
-        var currentIssues = new Report().addAll(
-                createIssueAtLine("WARNING MOVED", sharedFingerprint, 22),
-                createIssueAtLine("NEW WARNING", "DIFFERENT-FP", 100));
+        var currentIssues = new Report()
+                .addAll(
+                        createIssueAtLine("WARNING MOVED", sharedFingerprint, 22),
+                        createIssueAtLine("NEW WARNING", "DIFFERENT-FP", 100));
 
         var issueDifference = new IssueDifference(currentIssues, CURRENT_BUILD, referenceIssues);
 
@@ -302,8 +297,8 @@ class IssueDifferenceTest extends ResourceTest {
     }
 
     private Report readSpotBugsWarnings() {
-        var reportFile = new FileReaderFactory(getResourceAsFile("parser/findbugs/spotbugsXml.xml"),
-                StandardCharsets.UTF_8);
+        var reportFile =
+                new FileReaderFactory(getResourceAsFile("parser/findbugs/spotbugsXml.xml"), StandardCharsets.UTF_8);
         return new ParserRegistry().get("spotbugs").createParser().parseReport(reportFile);
     }
 }

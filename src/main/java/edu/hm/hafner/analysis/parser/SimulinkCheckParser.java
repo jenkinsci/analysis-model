@@ -1,21 +1,19 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.apache.commons.io.input.ReaderInputStream;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-
 import java.io.IOException;
 import java.io.Serial;
 import java.util.regex.Pattern;
+import org.apache.commons.io.input.ReaderInputStream;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 /**
  * A parser for Simulink Check tool by Mathworks results. Used for HTML report files.
@@ -25,6 +23,7 @@ import java.util.regex.Pattern;
 public class SimulinkCheckParser extends IssueParser {
     @Serial
     private static final long serialVersionUID = -8099258658775128275L;
+
     private static final String WARNING = "div.WarningCheck";
     private static final String FAILED = "div.FailedCheck";
     private static final String NOT_RUN = "div.NotRunCheck";
@@ -39,7 +38,10 @@ public class SimulinkCheckParser extends IssueParser {
     protected Report parseReport(final ReaderFactory readerFactory) throws ParsingException {
         try (var issueBuilder = new IssueBuilder();
                 var reader = readerFactory.create();
-                var targetStream = ReaderInputStream.builder().setReader(reader).setCharset(readerFactory.getCharset()).get()) {
+                var targetStream = ReaderInputStream.builder()
+                        .setReader(reader)
+                        .setCharset(readerFactory.getCharset())
+                        .get()) {
             var document = Jsoup.parse(targetStream, readerFactory.getCharset().name(), EMPTY_BASE_URI);
 
             var systemElements = document.select(REPORT_CONTENT);
@@ -57,14 +59,17 @@ public class SimulinkCheckParser extends IssueParser {
             parseIssues(report, document, issueBuilder, system, INCOMPLETE);
 
             return report;
-        }
-        catch (IOException exception) {
+        } catch (IOException exception) {
             throw new ParsingException(exception, readerFactory);
         }
     }
 
-    private void parseIssues(final Report report, final Document document, final IssueBuilder issueBuilder,
-            final String system, final String check) {
+    private void parseIssues(
+            final Report report,
+            final Document document,
+            final IssueBuilder issueBuilder,
+            final String system,
+            final String check) {
         setSeverity(check, issueBuilder);
 
         for (Element element : document.select(check)) {
@@ -76,8 +81,13 @@ public class SimulinkCheckParser extends IssueParser {
         }
     }
 
-    private static void parseHeading(final Report report, final IssueBuilder issueBuilder, final String system,
-            final Element element, final Elements headings, final String headingElement) {
+    private static void parseHeading(
+            final Report report,
+            final IssueBuilder issueBuilder,
+            final String system,
+            final Element element,
+            final Elements headings,
+            final String headingElement) {
         var headingSplit = headingElement.split("\\.");
         if (headingSplit.length > 0) {
             var issueTxt = headings.text();
@@ -86,8 +96,7 @@ public class SimulinkCheckParser extends IssueParser {
             if (textMatcher.matches()) {
                 issueBuilder.setModuleName(textMatcher.group(1) + "." + headingSplit[headingSplit.length - 1]);
                 issueBuilder.setDescription(textMatcher.group(3));
-            }
-            else {
+            } else {
                 fillFromParent(issueBuilder, element, headingSplit, issueTxt);
             }
             issueBuilder.setFileName(system);
@@ -95,7 +104,10 @@ public class SimulinkCheckParser extends IssueParser {
         }
     }
 
-    private static void fillFromParent(final IssueBuilder issueBuilder, final Element element, final String[] headingSplit,
+    private static void fillFromParent(
+            final IssueBuilder issueBuilder,
+            final Element element,
+            final String[] headingSplit,
             final String issueTxt) {
         var parent = element.parent();
         if (parent != null) {
@@ -103,14 +115,13 @@ public class SimulinkCheckParser extends IssueParser {
         }
     }
 
-    private static void parseParent(final IssueBuilder issueBuilder, final String[] headingSplit, final String issueTxt,
-            final Element parent) {
+    private static void parseParent(
+            final IssueBuilder issueBuilder, final String[] headingSplit, final String issueTxt, final Element parent) {
         var parentId = parent.id();
         int prefix = parentId.indexOf(SW_PREFIX);
         if (prefix >= 0) {
             issueBuilder.setModuleName(parentId.substring(prefix) + "." + headingSplit[headingSplit.length - 1]);
-        }
-        else {
+        } else {
             issueBuilder.setModuleName(
                     headingSplit[headingSplit.length - 1] + "." + headingSplit[headingSplit.length - 2]);
         }
@@ -120,14 +131,11 @@ public class SimulinkCheckParser extends IssueParser {
     private void setSeverity(final String check, final IssueBuilder issueBuilder) {
         if (FAILED.equals(check)) {
             issueBuilder.setSeverity(Severity.ERROR).setCategory("Failed");
-        }
-        else if (NOT_RUN.equals(check)) {
+        } else if (NOT_RUN.equals(check)) {
             issueBuilder.setSeverity(Severity.WARNING_HIGH).setCategory("Not Run");
-        }
-        else if (INCOMPLETE.equals(check)) {
+        } else if (INCOMPLETE.equals(check)) {
             issueBuilder.setSeverity(Severity.WARNING_LOW).setCategory("Incomplete");
-        }
-        else {
+        } else {
             issueBuilder.setSeverity(Severity.WARNING_NORMAL).setCategory("Warning");
         }
     }

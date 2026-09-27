@@ -1,20 +1,16 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.util.UUID;
-
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
 import edu.hm.hafner.util.LineRange;
+import java.util.UUID;
+import org.junit.jupiter.api.Test;
 
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
-
-/**
- * Tests the class {@link JsonLogParser}.
- */
+/** Tests the class {@link JsonLogParser}. */
 class JsonLogParserTest extends AbstractParserTest {
     JsonLogParserTest() {
         super("json-issues.log");
@@ -75,7 +71,8 @@ class JsonLogParserTest extends AbstractParserTest {
 
     @Test
     void shouldNotAcceptXmlAndJsonFiles() {
-        assertThat(createParser().accepts(createReaderFactory("xmlParserDefault.xml"))).isFalse();
+        assertThat(createParser().accepts(createReaderFactory("xmlParserDefault.xml")))
+                .isFalse();
         assertThat(createParser().accepts(createReaderFactory("issues.json"))).isFalse();
     }
 
@@ -83,16 +80,16 @@ class JsonLogParserTest extends AbstractParserTest {
     void shouldReportDuplicateKey() {
         var report = parse("json-issues-duplicate.log");
         assertThat(report).hasSize(0);
-        assertThat(report.getErrorMessages()).contains(
-                "Could not parse line: «{\"fileName\":\"invalid1.xml\",\"fileName\":\"invalid2.xml\"}»");
+        assertThat(report.getErrorMessages())
+                .contains("Could not parse line: «{\"fileName\":\"invalid1.xml\",\"fileName\":\"invalid2.xml\"}»");
     }
 
     @Test
     void shouldReportLineBreak() {
         var report = parse("json-issues-lineBreak.log");
         assertThat(report).hasSize(0);
-        assertThat(report.getErrorMessages()).contains(
-                "Could not parse line: «\"description\":\"an \\\"important\\\" description\"}»");
+        assertThat(report.getErrorMessages())
+                .contains("Could not parse line: «\"description\":\"an \\\"important\\\" description\"}»");
     }
 
     @Test

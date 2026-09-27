@@ -1,12 +1,10 @@
 package edu.hm.hafner.analysis;
 
-import org.apache.commons.lang3.StringUtils;
-
 import edu.hm.hafner.analysis.Report.IssueType;
-
 import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Utility class to format reports for display in the user interface.
@@ -19,9 +17,7 @@ public class ReportFormatter {
      * a message indicating that no elements are present is returned. Otherwise, the number of elements is returned,
      * followed by the pluralized name of the element type.
      *
-     * @param report
-     *         the report to format
-     *
+     * @param report the report to format
      * @return a formatted string representing the size of the report
      */
     public String formatSizeOfElements(final Report report) {
@@ -38,14 +34,11 @@ public class ReportFormatter {
      * contains no elements, then an empty string is returned. Otherwise, a comma-separated list of the severities and
      * their respective counts is returned.
      *
-     * @param report
-     *         the report to format
-     *
+     * @param report the report to format
      * @return a formatted string representing the distribution of severities in the report
      */
     public String formatSeverities(final Report report) {
-        return Severity.getPredefinedValues()
-                .stream()
+        return Severity.getPredefinedValues().stream()
                 .map(s -> reportSeverity(report, s))
                 .flatMap(Optional::stream)
                 .collect(Collectors.joining(", "));

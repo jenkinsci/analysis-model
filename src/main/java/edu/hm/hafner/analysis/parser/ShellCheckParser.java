@@ -1,13 +1,11 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
-
 import java.io.Serial;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * A parser for ShellCheck JSON output.
@@ -38,7 +36,8 @@ public class ShellCheckParser extends JsonIssueParser {
         int code = jsonIssue.optInt("code", 0);
         String message = jsonIssue.optString("message", "");
 
-        issueBuilder.setFileName(file)
+        issueBuilder
+                .setFileName(file)
                 .setLineStart(line)
                 .setColumnStart(column)
                 .setLineEnd(endLine)
@@ -57,12 +56,12 @@ public class ShellCheckParser extends JsonIssueParser {
         if (!jsonIssue.has("fix")) {
             return;
         }
-        
+
         JSONObject fix = jsonIssue.getJSONObject("fix");
         if (!fix.has("replacements") || fix.isNull("replacements")) {
             return;
         }
-        
+
         JSONArray replacements = fix.getJSONArray("replacements");
         if (replacements.length() > 0) {
             issueBuilder.setMessage(message + " [fixable]");

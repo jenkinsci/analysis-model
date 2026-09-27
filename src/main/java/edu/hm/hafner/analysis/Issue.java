@@ -1,9 +1,5 @@
 package edu.hm.hafner.analysis;
 
-import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.StringUtils;
-
 import edu.hm.hafner.util.Ensure;
 import edu.hm.hafner.util.LineRange;
 import edu.hm.hafner.util.LineRangeList;
@@ -11,7 +7,6 @@ import edu.hm.hafner.util.PathUtil;
 import edu.hm.hafner.util.TreeString;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 import java.io.Serial;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
@@ -23,13 +18,22 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * An issue reported by a static analysis tool. Use the provided {@link IssueBuilder builder} to create new instances.
  *
  * @author Ullrich Hafner
  */
-@SuppressWarnings({"PMD.GodClass", "PMD.CyclomaticComplexity", "PMD.ExcessivePublicCount", "PMD.TooManyFields", "NoFunctionalReturnType"})
+@SuppressWarnings({
+    "PMD.GodClass",
+    "PMD.CyclomaticComplexity",
+    "PMD.ExcessivePublicCount",
+    "PMD.TooManyFields",
+    "NoFunctionalReturnType"
+})
 public class Issue implements Serializable {
     @Serial
     private static final long serialVersionUID = 14L; // release 14.0.0
@@ -41,18 +45,14 @@ public class Issue implements Serializable {
     /**
      * Returns the value of the property with the specified name for a given issue instance.
      *
-     * @param issue
-     *         the issue to get the property for
-     * @param propertyName
-     *         the name of the property
-     *
+     * @param issue the issue to get the property for
+     * @param propertyName the name of the property
      * @return the function that obtains the value
      */
     public static String getPropertyValueAsString(final Issue issue, final String propertyName) {
         try {
             return PropertyUtils.getProperty(issue, propertyName).toString();
-        }
-        catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException ignored) {
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException ignored) {
             return propertyName;
         }
     }
@@ -61,9 +61,7 @@ public class Issue implements Serializable {
      * Returns a function that can dynamically obtain the value of the property with the specified name of an issue
      * instance.
      *
-     * @param propertyName
-     *         the name of the property
-     *
+     * @param propertyName the name of the property
      * @return the function that obtains the value
      */
     public static Function<Issue, String> getPropertyValueGetter(final String propertyName) {
@@ -73,9 +71,7 @@ public class Issue implements Serializable {
     /**
      * Returns a predicate that checks if the package name of an issue is equal to the specified package name.
      *
-     * @param packageName
-     *         the package name to match
-     *
+     * @param packageName the package name to match
      * @return the predicate
      */
     public static Predicate<Issue> byPackageName(final String packageName) {
@@ -85,9 +81,7 @@ public class Issue implements Serializable {
     /**
      * Returns a predicate that checks if the module name of an issue is equal to the specified module name.
      *
-     * @param moduleName
-     *         the module name to match
-     *
+     * @param moduleName the module name to match
      * @return the predicate
      */
     public static Predicate<Issue> byModuleName(final String moduleName) {
@@ -97,9 +91,7 @@ public class Issue implements Serializable {
     /**
      * Returns a predicate that checks if the file name of an issue is equal to the specified file name.
      *
-     * @param fileName
-     *         the file name to match
-     *
+     * @param fileName the file name to match
      * @return the predicate
      */
     public static Predicate<Issue> byFileName(final String fileName) {
@@ -109,9 +101,7 @@ public class Issue implements Serializable {
     /**
      * Returns a predicate that checks if the folder of an issue is equal to the specified folder.
      *
-     * @param folder
-     *         the folder to match
-     *
+     * @param folder the folder to match
      * @return the predicate
      */
     public static Predicate<Issue> byFolder(final String folder) {
@@ -121,9 +111,7 @@ public class Issue implements Serializable {
     /**
      * Returns a predicate that checks if the severity of an issue is equal to the specified severity.
      *
-     * @param severity
-     *         the severity to match
-     *
+     * @param severity the severity to match
      * @return the predicate
      */
     public static Predicate<Issue> bySeverity(final Severity severity) {
@@ -133,9 +121,7 @@ public class Issue implements Serializable {
     /**
      * Returns a predicate that checks if the category of an issue is equal to the specified category.
      *
-     * @param category
-     *         the category to match
-     *
+     * @param category the category to match
      * @return the predicate
      */
     public static Predicate<Issue> byCategory(final String category) {
@@ -145,9 +131,7 @@ public class Issue implements Serializable {
     /**
      * Returns a predicate that checks if the origin of an issue is equal to the specified origin.
      *
-     * @param origin
-     *         the origin to match
-     *
+     * @param origin the origin to match
      * @return the predicate
      */
     public static Predicate<Issue> byOrigin(final String origin) {
@@ -157,9 +141,7 @@ public class Issue implements Serializable {
     /**
      * Returns a predicate that checks if the type of issue is equal to the specified type.
      *
-     * @param type
-     *         the type to match
-     *
+     * @param type the type to match
      * @return the predicate
      */
     public static Predicate<Issue> byType(final String type) {
@@ -167,90 +149,93 @@ public class Issue implements Serializable {
     }
 
     private String category; // almost final
-    private String type;     // almost final
+    private String type; // almost final
 
     private final Severity severity;
 
-    @Deprecated @SuppressWarnings("DeprecatedIsStillUsed") // used in readResolve()
-    private int lineStart = -1;               // replaced by locations since 14.0.0
-    @Deprecated @SuppressWarnings("DeprecatedIsStillUsed") // used in readResolve()
-    private int lineEnd = -1;                 // replaced by locations since 14.0.0
-    @Deprecated @SuppressWarnings("DeprecatedIsStillUsed") // used in readResolve()
-    private int columnStart = -1;             // replaced by locations since 14.0.0
-    @Deprecated @SuppressWarnings("DeprecatedIsStillUsed") // used in readResolve()
-    private int columnEnd = -1;               // replaced by locations since 14.0.0
+    @Deprecated
+    @SuppressWarnings("DeprecatedIsStillUsed") // used in readResolve()
+    private int lineStart = -1; // replaced by locations since 14.0.0
 
-    @Deprecated @CheckForNull @SuppressWarnings("DeprecatedIsStillUsed") // used in readResolve()
-    private TreeString fileName = null;       // replaced by locations since 14.0.0
-    @Deprecated @CheckForNull @SuppressWarnings("DeprecatedIsStillUsed") // used in readResolve()
-    private LineRangeList lineRanges = null;  // replaced by locations since 14.0.0
+    @Deprecated
+    @SuppressWarnings("DeprecatedIsStillUsed") // used in readResolve()
+    private int lineEnd = -1; // replaced by locations since 14.0.0
+
+    @Deprecated
+    @SuppressWarnings("DeprecatedIsStillUsed") // used in readResolve()
+    private int columnStart = -1; // replaced by locations since 14.0.0
+
+    @Deprecated
+    @SuppressWarnings("DeprecatedIsStillUsed") // used in readResolve()
+    private int columnEnd = -1; // replaced by locations since 14.0.0
+
+    @Deprecated
+    @CheckForNull
+    @SuppressWarnings("DeprecatedIsStillUsed") // used in readResolve()
+    private TreeString fileName = null; // replaced by locations since 14.0.0
+
+    @Deprecated
+    @CheckForNull
+    @SuppressWarnings("DeprecatedIsStillUsed") // used in readResolve()
+    private LineRangeList lineRanges = null; // replaced by locations since 14.0.0
 
     @SuppressWarnings("serial")
     private List<Location> locations; // fixed
 
-    private final UUID id;            // fixed
+    private final UUID id; // fixed
 
     @CheckForNull
-    private final Serializable additionalProperties;  // fixed
+    private final Serializable additionalProperties; // fixed
 
-    private String reference;       // mutable, not part of equals
-    private String origin;          // mutable
-    private String originName;      // mutable
+    private String reference; // mutable, not part of equals
+    private String origin; // mutable
+    private String originName; // mutable
 
-    private String moduleName;      // mutable
+    private String moduleName; // mutable
     private TreeString packageName; // mutable
-    private String pathName;        // mutable, not part of equals, @since 8.0.0
+    private String pathName; // mutable, not part of equals, @since 8.0.0
 
     private final TreeString message; // fixed
-    private String description;       // fixed
+    private String description; // fixed
 
-    private String fingerprint;         // mutable, not part of equals
+    private String fingerprint; // mutable, not part of equals
     private boolean partOfModifiedCode; // mutable, not part of equals
 
     /**
      * Creates a new instance of {@link Issue} using the specified properties.
      *
-     * @param pathName
-     *         the path that contains the affected file
-     * @param locations
-     *         the locations related to this issue, the first location is the primary location
-     *         that contains file name, line, and column information
-     * @param category
-     *         the category of this issue (depends on the available categories of the static analysis tool)
-     * @param type
-     *         the type of this issue (depends on the available types of the static analysis tool)
-     * @param packageName
-     *         the name of the package (or name space) that contains this issue
-     * @param moduleName
-     *         the name of the moduleName (or project) that contains this issue
-     * @param severity
-     *         the severity of this issue
-     * @param message
-     *         the detail message of this issue
-     * @param description
-     *         the description for this issue
-     * @param origin
-     *         the ID of the tool that did report this issue
-     * @param originName
-     *         the name of the tool that did report this issue
-     * @param reference
-     *         an arbitrary reference to the execution of the static analysis tool (build ID, timestamp, etc.)
-     * @param fingerprint
-     *         the fingerprint for this issue
-     * @param additionalProperties
-     *         additional properties from the statical analysis tool
-     * @param id
-     *         the ID of this issue
+     * @param pathName the path that contains the affected file
+     * @param locations the locations related to this issue, the first location is the primary location that contains
+     *     file name, line, and column information
+     * @param category the category of this issue (depends on the available categories of the static analysis tool)
+     * @param type the type of this issue (depends on the available types of the static analysis tool)
+     * @param packageName the name of the package (or name space) that contains this issue
+     * @param moduleName the name of the moduleName (or project) that contains this issue
+     * @param severity the severity of this issue
+     * @param message the detail message of this issue
+     * @param description the description for this issue
+     * @param origin the ID of the tool that did report this issue
+     * @param originName the name of the tool that did report this issue
+     * @param reference an arbitrary reference to the execution of the static analysis tool (build ID, timestamp, etc.)
+     * @param fingerprint the fingerprint for this issue
+     * @param additionalProperties additional properties from the statical analysis tool
+     * @param id the ID of this issue
      */
     @SuppressWarnings("ParameterNumber")
-    Issue(@CheckForNull final String pathName,
+    Issue(
+            @CheckForNull final String pathName,
             final List<Location> locations,
             final String category,
-            final String type, final TreeString packageName,
-            final String moduleName, final Severity severity,
-            final TreeString message, final String description,
-            final String origin, final String originName,
-            final String reference, final String fingerprint,
+            final String type,
+            final TreeString packageName,
+            final String moduleName,
+            final Severity severity,
+            final TreeString message,
+            final String description,
+            final String origin,
+            final String originName,
+            final String reference,
+            final String fingerprint,
             @CheckForNull final Serializable additionalProperties,
             final UUID id) {
         this.pathName = normalizeFileName(pathName);
@@ -277,7 +262,9 @@ public class Issue implements Serializable {
      * @return this
      */
     @Serial
-    @SuppressFBWarnings(value = "RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE", justification = "Deserialization of instances that do not have all fields yet")
+    @SuppressFBWarnings(
+            value = "RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE",
+            justification = "Deserialization of instances that do not have all fields yet")
     @SuppressWarnings("PMD.NullAssignment") // we need to assign null to deprecated fields to clear them
     protected Object readResolve() {
         category = category.intern();
@@ -288,20 +275,17 @@ public class Issue implements Serializable {
 
         if (pathName == null) { // new in version 8.0.0
             pathName = UNDEFINED;
-        }
-        else {
+        } else {
             pathName = pathName.intern();
         }
         if (description == null) { // String in version 8.0.0
             description = UNDEFINED;
-        }
-        else {
+        } else {
             description = description.intern();
         }
         if (originName == null) { // new in version 10.0.0
             originName = StringUtils.EMPTY;
-        }
-        else {
+        } else {
             originName = originName.intern();
         }
         if (locations == null) { // new in version 14.0.0
@@ -375,8 +359,7 @@ public class Issue implements Serializable {
                 return UNDEFINED;
             }
             return PATH_UTIL.getRelativePath(folder);
-        }
-        catch (IllegalArgumentException ignore) {
+        } catch (IllegalArgumentException ignore) {
             return UNDEFINED; // fallback
         }
     }
@@ -389,8 +372,7 @@ public class Issue implements Serializable {
     public String getBaseName() {
         try {
             return FilenameUtils.getName(getFileName());
-        }
-        catch (IllegalArgumentException ignore) {
+        } catch (IllegalArgumentException ignore) {
             return getFileName(); // fallback
         }
     }
@@ -403,8 +385,7 @@ public class Issue implements Serializable {
     public String getAbsolutePath() {
         if (UNDEFINED.equals(pathName)) {
             return getFileName();
-        }
-        else {
+        } else {
             return PATH_UTIL.createAbsolutePath(pathName, getFileName());
         }
     }
@@ -423,10 +404,8 @@ public class Issue implements Serializable {
     /**
      * Sets the name of the file that contains this issue.
      *
-     * @param pathName
-     *         the path that contains the affected file
-     * @param fileName
-     *         the file name to set
+     * @param pathName the path that contains the affected file
+     * @param fileName the file name to set
      */
     @SuppressWarnings("checkstyle:HiddenField")
     void setFileName(final String pathName, final TreeString fileName) {
@@ -438,12 +417,15 @@ public class Issue implements Serializable {
         locations = new ArrayList<>(changedLocations);
     }
 
-    private Location createLocation(final Location existing,
-            final TreeString oldFileName, final TreeString newFileName) {
+    private Location createLocation(
+            final Location existing, final TreeString oldFileName, final TreeString newFileName) {
         if (existing.getFileNameTreeString().equals(oldFileName)) {
-            return new Location(newFileName,
-                    existing.getLineStart(), existing.getLineEnd(),
-                    existing.getColumnStart(), existing.getColumnEnd());
+            return new Location(
+                    newFileName,
+                    existing.getLineStart(),
+                    existing.getLineEnd(),
+                    existing.getColumnStart(),
+                    existing.getColumnEnd());
         }
         return existing;
     }
@@ -538,8 +520,8 @@ public class Issue implements Serializable {
     }
 
     /**
-     * Returns additional line ranges for this issue. Not that the primary range given by {@code lineStart} and {@code
-     * lineEnd} is not included.
+     * Returns additional line ranges for this issue. Not that the primary range given by {@code lineStart} and
+     * {@code lineEnd} is not included.
      *
      * @return the last line
      * @deprecated use {@link #getLocations()} instead
@@ -554,9 +536,9 @@ public class Issue implements Serializable {
     }
 
     /**
-     * Returns all locations of this issue. The first location is the primary location.
-     * Some warnings span multiple files, such as GNU CC's reorder warning for C++ where
-     * the warning shows up in the initializer list but references the header file.
+     * Returns all locations of this issue. The first location is the primary location. Some warnings span multiple
+     * files, such as GNU CC's reorder warning for C++ where the warning shows up in the initializer list but references
+     * the header file.
      *
      * @return the locations
      */
@@ -595,12 +577,10 @@ public class Issue implements Serializable {
     }
 
     /**
-     * Returns whether the locations of this issue contain the specified line.
-     * If this issue has no lines defined, then this method will return {@code true}.
+     * Returns whether the locations of this issue contain the specified line. If this issue has no lines defined, then
+     * this method will return {@code true}.
      *
-     * @param line
-     *         the line to check
-     *
+     * @param line the line to check
      * @return {@code true} if the specified line is within the line ranges of this issue, {@code false} otherwise
      */
     @SuppressWarnings("PMD.SimplifyBooleanReturns")
@@ -611,8 +591,7 @@ public class Issue implements Serializable {
         if (getLineStart() <= line && line <= getLineEnd()) {
             return true; // the line is within the primary range of this issue
         }
-        return getLocations().stream()
-                .anyMatch(location -> location.contains(line));
+        return getLocations().stream().anyMatch(location -> location.contains(line));
     }
 
     /**
@@ -673,8 +652,7 @@ public class Issue implements Serializable {
     /**
      * Sets the name of the package or name space (or similar concept) that contains this issue.
      *
-     * @param packageName
-     *         the name of the package
+     * @param packageName the name of the package
      */
     void setPackageName(final TreeString packageName) {
         this.packageName = packageName;
@@ -702,8 +680,7 @@ public class Issue implements Serializable {
     /**
      * Sets the name of the module or project (or similar concept) that contains this issue.
      *
-     * @param moduleName
-     *         the module name to set
+     * @param moduleName the module name to set
      */
     void setModuleName(@CheckForNull final String moduleName) {
         this.moduleName = stripToEmpty(moduleName);
@@ -744,8 +721,7 @@ public class Issue implements Serializable {
     /**
      * Sets the ID of the tool that did report this issue.
      *
-     * @param origin
-     *         the origin
+     * @param origin the origin
      */
     void setOrigin(final String origin) {
         Ensure.that(origin).isNotBlank("Issue origin ID '%s' must be not blank (%s)", id, toString());
@@ -756,10 +732,8 @@ public class Issue implements Serializable {
     /**
      * Sets the ID and the name of the tool that did report this issue.
      *
-     * @param originId
-     *         the ID of the origin
-     * @param name
-     *         the name of the origin
+     * @param originId the ID of the origin
+     * @param name the name of the origin
      */
     void setOrigin(final String originId, final String name) {
         setOrigin(originId);
@@ -783,8 +757,7 @@ public class Issue implements Serializable {
      * not be set by parsers as it is overwritten by the {@link IssueDifference differencing engine} while computing new
      * and fixed issues.
      *
-     * @param reference
-     *         the reference
+     * @param reference the reference
      */
     void setReference(@CheckForNull final String reference) {
         this.reference = stripToEmpty(reference);
@@ -792,13 +765,11 @@ public class Issue implements Serializable {
 
     /**
      * Returns the fingerprint for this issue. Used to decide if two issues are equal even if the equals method returns
-     * {@code false} since some properties differ due to code refactorings. The fingerprint is created by
-     * analyzing the content of the affected file.
+     * {@code false} since some properties differ due to code refactorings. The fingerprint is created by analyzing the
+     * content of the affected file.
      *
-     * <p>
-     * Note: the fingerprint is not part of the equals method since the fingerprint might change due to an unrelated
+     * <p>Note: the fingerprint is not part of the equals method since the fingerprint might change due to an unrelated
      * refactoring of the source code.
-     * </p>
      *
      * @return the fingerprint of this issue
      */
@@ -809,9 +780,7 @@ public class Issue implements Serializable {
     /**
      * Sets the fingerprint for this issue to the given value.
      *
-     * @param fingerprint
-     *         the fingerprint to set
-     *
+     * @param fingerprint the fingerprint to set
      * @see #getFingerprint()
      */
     void setFingerprint(@CheckForNull final String fingerprint) {
@@ -837,9 +806,7 @@ public class Issue implements Serializable {
         return partOfModifiedCode;
     }
 
-    /**
-     * Marks the issue as part of a source control diff.
-     */
+    /** Marks the issue as part of a source control diff. */
     void markAsPartOfModifiedCode() {
         partOfModifiedCode = true;
     }
@@ -858,9 +825,7 @@ public class Issue implements Serializable {
     /**
      * Strips whitespace from the start and end of a String returning an empty String if {@code null} input.
      *
-     * @param string
-     *         the string to check
-     *
+     * @param string the string to check
      * @return the stripped string or the empty string if the specified string is {@code null}
      */
     private String stripToEmpty(@CheckForNull final String string) {
@@ -894,7 +859,8 @@ public class Issue implements Serializable {
         if (!description.equals(issue.description)) {
             return false;
         }
-        if (additionalProperties != null ? !additionalProperties.equals(issue.additionalProperties)
+        if (additionalProperties != null
+                ? !additionalProperties.equals(issue.additionalProperties)
                 : issue.additionalProperties != null) {
             return false;
         }
@@ -931,8 +897,15 @@ public class Issue implements Serializable {
 
     @Override
     public String toString() {
-        return String.format(Locale.ENGLISH, "%s%s(%d,%d): %s: %s: %s",
-                isPartOfModifiedCode() ? "*" : StringUtils.EMPTY, getBaseName(),
-                getLineStart(), getColumnStart(), type, category, message);
+        return String.format(
+                Locale.ENGLISH,
+                "%s%s(%d,%d): %s: %s: %s",
+                isPartOfModifiedCode() ? "*" : StringUtils.EMPTY,
+                getBaseName(),
+                getLineStart(),
+                getColumnStart(),
+                type,
+                category,
+                message);
     }
 }

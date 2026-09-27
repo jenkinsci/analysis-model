@@ -1,17 +1,15 @@
 package edu.hm.hafner.analysis.registry;
 
-import java.io.Serializable;
-
-import org.apache.commons.lang3.StringUtils;
+import static j2html.TagCreator.code;
+import static j2html.TagCreator.pre;
 
 import edu.hm.hafner.analysis.DuplicationGroup;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report.IssueType;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
-
 import j2html.tags.UnescapedText;
-
-import static j2html.TagCreator.*;
+import java.io.Serializable;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * A descriptor for duplicate code parsers.
@@ -41,8 +39,7 @@ public abstract class DryDescriptor extends ParserDescriptor {
             if (key.equals(option.getKey())) {
                 try {
                     return Integer.parseInt(option.getValue());
-                }
-                catch (NumberFormatException exception) {
+                } catch (NumberFormatException exception) {
                     throw new IllegalArgumentException("Parser cannot handle option " + option, exception);
                 }
             }
@@ -52,10 +49,8 @@ public abstract class DryDescriptor extends ParserDescriptor {
 
     private String getDuplicateCode(@CheckForNull final Serializable properties) {
         if (properties instanceof DuplicationGroup group) {
-            return pre().with(new UnescapedText(getCodeFragment(group)))
-                    .renderFormatted();
-        }
-        else {
+            return pre().with(new UnescapedText(getCodeFragment(group))).renderFormatted();
+        } else {
             return StringUtils.EMPTY;
         }
     }

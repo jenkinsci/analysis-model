@@ -1,18 +1,16 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.Strings;
-import org.apache.commons.text.StringEscapeUtils;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
-
 import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
+import org.apache.commons.text.StringEscapeUtils;
 
 /**
  * A parser for the gcc compiler warnings.
@@ -29,16 +27,14 @@ public class GccParser extends LookaheadParser {
             + "(?:\\d*:)*\\s*(?:(warning|error|note)\\s*:|\\s*(.*))|\\s*(undefined reference to.*))(.*)|.*ld:\\s*(.*-l("
             + ".*)))$";
 
-    /**
-     * Creates a new instance of {@link GccParser}.
-     */
+    /** Creates a new instance of {@link GccParser}. */
     public GccParser() {
         super(GCC_WARNING_PATTERN);
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
-            final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(
+            final Matcher matcher, final LookaheadStream lookahead, final IssueBuilder builder) {
         if (StringUtils.isNotBlank(matcher.group(7))) {
             return builder.setFileName(matcher.group(8))
                     .setLineStart(0)
@@ -56,14 +52,11 @@ public class GccParser extends LookaheadParser {
         Severity priority;
         if (equalsIgnoreCase(matcher.group(3), "warning")) {
             priority = Severity.WARNING_NORMAL;
-        }
-        else if (equalsIgnoreCase(matcher.group(3), "error")) {
+        } else if (equalsIgnoreCase(matcher.group(3), "error")) {
             priority = Severity.WARNING_HIGH;
-        }
-        else if (equalsIgnoreCase(matcher.group(3), "note")) {
+        } else if (equalsIgnoreCase(matcher.group(3), "note")) {
             priority = Severity.WARNING_LOW;
-        }
-        else if (StringUtils.isNotBlank(matcher.group(4))) {
+        } else if (StringUtils.isNotBlank(matcher.group(4))) {
             if (matcher.group(4).contains("instantiated from here")) {
                 return Optional.empty();
             }
@@ -73,8 +66,7 @@ public class GccParser extends LookaheadParser {
                     .setMessage(StringEscapeUtils.escapeXml10(matcher.group(4)))
                     .setSeverity(Severity.WARNING_HIGH)
                     .buildOptional();
-        }
-        else {
+        } else {
             return builder.setFileName(fileName)
                     .setLineStart(0)
                     .setCategory(GCC_ERROR)

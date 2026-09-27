@@ -1,10 +1,14 @@
 package edu.hm.hafner.analysis.registry;
 
+import static j2html.TagCreator.a;
+import static j2html.TagCreator.br;
+import static j2html.TagCreator.code;
+import static j2html.TagCreator.join;
+import static j2html.TagCreator.text;
+
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.Report.IssueType;
 import edu.hm.hafner.analysis.parser.DependencyTrackParser;
-
-import static j2html.TagCreator.*;
 
 /**
  * A descriptor for the OWASP Dependency-Track vulnerability findings parser.
@@ -38,14 +42,15 @@ class DependencyTrackDescriptor extends ParserDescriptor {
     @Override
     public String getHelp() {
         return join(
-                text("Export findings from the Dependency-Track REST API using:"),
-                br(),
-                code("GET /api/v1/finding/project/{uuid}/export"),
-                text(", then save the response to a file."),
-                text("See"),
-                a("Dependency-Track File Formats")
-                        .withHref("https://docs.dependencytrack.org/integrations/file-formats/"),
-                text("for details.")).render();
+                        text("Export findings from the Dependency-Track REST API using:"),
+                        br(),
+                        code("GET /api/v1/finding/project/{uuid}/export"),
+                        text(", then save the response to a file."),
+                        text("See"),
+                        a("Dependency-Track File Formats")
+                                .withHref("https://docs.dependencytrack.org/integrations/file-formats/"),
+                        text("for details."))
+                .render();
     }
 
     @Override

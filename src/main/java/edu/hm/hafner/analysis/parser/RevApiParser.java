@@ -1,15 +1,12 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.apache.commons.lang3.StringUtils;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import static j2html.TagCreator.*;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.RevApiInfoExtension;
 import edu.hm.hafner.analysis.Severity;
-
 import j2html.tags.DomContent;
 import java.io.Serial;
 import java.util.ArrayList;
@@ -17,15 +14,15 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import org.apache.commons.lang3.StringUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
-import static j2html.TagCreator.*;
-
-/**
- * Parser for Revapi reports.
- */
+/** Parser for Revapi reports. */
 public class RevApiParser extends JsonIssueParser {
     @Serial
     private static final long serialVersionUID = -2452699725595063377L;
+
     private static final String UNDEFINED = "-";
 
     private static final String FQN = "classQualifiedName";
@@ -42,8 +39,7 @@ public class RevApiParser extends JsonIssueParser {
         for (Object issue : jsonReport) {
             if (issue instanceof JSONObject object) {
                 report.add(convertToIssue(object, issueBuilder));
-            }
-            else {
+            } else {
                 report.logError("RevApi element is not a valid JSON object: %s", issue);
             }
         }
@@ -67,7 +63,8 @@ public class RevApiParser extends JsonIssueParser {
 
     @SuppressWarnings("NullAway")
     private String getFileName(final Map<String, String> attachments) {
-        return attachments.get(PACKAGE).replace(DOT, SLASH) + SLASH
+        return attachments.get(PACKAGE).replace(DOT, SLASH)
+                + SLASH
                 + attachments.get(CLASS_SIMPLE_NAME)
                 + JAVA_EXTENSION;
     }
@@ -164,8 +161,7 @@ public class RevApiParser extends JsonIssueParser {
         var elements = new ArrayList<DomContent>();
         for (Object severity : jsonIssue.getJSONArray("classification")) {
             if (severity instanceof JSONObject object) {
-                elements.add(join(dt(object.getString("compatibility")),
-                        dd(object.getString("severity"))));
+                elements.add(join(dt(object.getString("compatibility")), dd(object.getString("severity"))));
             }
         }
         if (elements.isEmpty()) {

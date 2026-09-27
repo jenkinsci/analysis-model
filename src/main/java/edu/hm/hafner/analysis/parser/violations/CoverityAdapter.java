@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis.parser.violations;
 
 import java.io.Serial;
-
 import se.bjurr.violations.lib.parsers.CoverityParser;
 
 /**

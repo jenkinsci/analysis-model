@@ -1,19 +1,17 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.apache.commons.lang3.Strings;
-import org.dom4j.util.StringUtils;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.util.IntegerParser;
 import edu.hm.hafner.util.LookaheadStream;
-
 import java.io.Serial;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.apache.commons.lang3.Strings;
+import org.dom4j.util.StringUtils;
 
 /**
  * A parser for gcc 4.x compiler warnings.
@@ -32,9 +30,7 @@ public class Gcc4CompilerParser extends LookaheadParser {
     private static final Pattern CLANG_TIDY_PATTERN = Pattern.compile("\\[[^\\s\\]]+\\]$");
     private static final Pattern NOTE_PATTERN = Pattern.compile("^" + LOCATION + " ?[Nn]ote: (?<message>.*)$");
 
-    /**
-     * Creates a new instance of {@link Gcc4CompilerParser}.
-     */
+    /** Creates a new instance of {@link Gcc4CompilerParser}. */
     public Gcc4CompilerParser() {
         super(GCC_WARNING_PATTERN);
     }
@@ -42,8 +38,7 @@ public class Gcc4CompilerParser extends LookaheadParser {
     /**
      * Creates a new instance of {@link Gcc4CompilerParser} with the specified pattern.
      *
-     * @param pattern
-     *         a regex pattern to be used instead of the default one
+     * @param pattern a regex pattern to be used instead of the default one
      */
     Gcc4CompilerParser(final String pattern) {
         super(pattern);
@@ -55,8 +50,8 @@ public class Gcc4CompilerParser extends LookaheadParser {
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
-            final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(
+            final Matcher matcher, final LookaheadStream lookahead, final IssueBuilder builder) {
         var originalMessage = matcher.group("message");
         if (isClangTidyWarning(originalMessage)) {
             return Optional.empty();
@@ -104,9 +99,7 @@ public class Gcc4CompilerParser extends LookaheadParser {
      * [-Wwarning-name] or [-fcompiler-option]. Since a separate parser handles clang-tidy warnings, we can skip them
      * here.
      *
-     * @param message
-     *         the original message to check
-     *
+     * @param message the original message to check
      * @return {@code true} if the message is a clang-tidy warning, {@code false} otherwise
      */
     private boolean isClangTidyWarning(final String message) {
@@ -119,17 +112,14 @@ public class Gcc4CompilerParser extends LookaheadParser {
      * Sets the category based on the original message content. Checks for GCC warning categories (e.g.,
      * [-Wunused-variable]) or compiler options (e.g., [-fpermissive]).
      *
-     * @param builder
-     *         the issue builder
-     * @param originalMessage
-     *         the original message to extract the category from
+     * @param builder the issue builder
+     * @param originalMessage the original message to extract the category from
      */
     private void setCategory(final IssueBuilder builder, final String originalMessage) {
         var classMatcher = CLASS_PATTERN.matcher(originalMessage);
         if (classMatcher.find() && classMatcher.group(1) != null) {
             builder.setCategory(classMatcher.group(1));
-        }
-        else {
+        } else {
             var optionMatcher = GCC_OPTION_PATTERN.matcher(originalMessage);
             if (optionMatcher.find() && optionMatcher.group(1) != null) {
                 builder.setCategory(optionMatcher.group(1));
@@ -140,11 +130,8 @@ public class Gcc4CompilerParser extends LookaheadParser {
     /**
      * Collects any further note lines from the lookahead stream and adds them as additional locations.
      *
-     * @param lookahead
-     *         the lookahead stream
-     * @param builder
-     *         the issue builder to add locations to
-     *
+     * @param lookahead the lookahead stream
+     * @param builder the issue builder to add locations to
      * @return a string containing all collected note lines, or an empty string if no notes were found
      */
     private String collectNotes(final LookaheadStream lookahead, final IssueBuilder builder) {
@@ -154,8 +141,7 @@ public class Gcc4CompilerParser extends LookaheadParser {
             if (noteMatcher.matches()) {
                 notes.add(lookahead.next());
                 addLocation(noteMatcher, builder);
-            }
-            else {
+            } else {
                 break;
             }
         }

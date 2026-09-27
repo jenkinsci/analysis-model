@@ -3,7 +3,6 @@ package edu.hm.hafner.analysis.registry;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
-
 import java.io.Serial;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,15 +15,12 @@ import java.util.List;
  *
  * @author Ullrich Hafner
  */
-
 abstract class CompositeParserDescriptor extends ParserDescriptor {
     /**
      * Creates a new {@link ParserDescriptor} instance.
      *
-     * @param id
-     *         the technical ID
-     * @param name
-     *         the name of the parser
+     * @param id the technical ID
+     * @param name the name of the parser
      */
     CompositeParserDescriptor(final String id, final String name) {
         super(id, name);
@@ -45,9 +41,7 @@ abstract class CompositeParserDescriptor extends ParserDescriptor {
     /**
      * Wraps all parsers into a collection.
      *
-     * @param parser
-     *         the parser to wrap
-     *
+     * @param parser the parser to wrap
      * @return a singleton collection
      */
     protected Collection<? extends IssueParser> asList(final IssueParser... parser) {
@@ -70,8 +64,7 @@ abstract class CompositeParserDescriptor extends ParserDescriptor {
         /**
          * Creates a new instance of {@link CompositeParser}.
          *
-         * @param parsers
-         *         the parsers to use to scan the input files
+         * @param parsers the parsers to use to scan the input files
          */
         CompositeParser(final Collection<? extends IssueParser> parsers) {
             super();

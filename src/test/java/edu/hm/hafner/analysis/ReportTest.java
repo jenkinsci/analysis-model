@@ -1,8 +1,7 @@
 package edu.hm.hafner.analysis;
 
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.slf4j.bridge.SLF4JBridgeHandler;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import static java.util.Arrays.*;
 
 import edu.hm.hafner.analysis.Report.IssueFilterBuilder;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
@@ -11,7 +10,6 @@ import edu.hm.hafner.util.LineRange;
 import edu.hm.hafner.util.LineRangeList;
 import edu.hm.hafner.util.SerializableTest;
 import edu.hm.hafner.util.TreeString;
-
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
@@ -24,9 +22,9 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import nl.jqno.equalsverifier.EqualsVerifier;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
-import static java.util.Arrays.*;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.slf4j.bridge.SLF4JBridgeHandler;
 
 /**
  * Unit tests for {@link Report}.
@@ -37,28 +35,18 @@ import static java.util.Arrays.*;
 class ReportTest extends SerializableTest<Report> {
     private static final String SERIALIZATION_NAME = "report.ser";
 
-    private static final Issue HIGH = build(b ->
-            b.setMessage("issue-1").setFileName("file-1").setSeverity(Severity.WARNING_HIGH));
-    private static final Issue NORMAL_1 = build(b ->
-            b.setMessage("issue-2")
-            .setFileName("file-1")
-            .setSeverity(Severity.WARNING_NORMAL));
-    private static final Issue NORMAL_2 = build(b ->
-            b.setMessage("issue-3")
-            .setFileName("file-1")
-            .setSeverity(Severity.WARNING_NORMAL));
-    private static final Issue LOW_2_A = build(b ->
-            b.setMessage("issue-4")
-            .setFileName("file-2")
-            .setSeverity(Severity.WARNING_LOW));
-    private static final Issue LOW_2_B = build(b ->
-            b.setMessage("issue-5")
-            .setFileName("file-2")
-            .setSeverity(Severity.WARNING_LOW));
-    private static final Issue LOW_FILE_3 = build(b ->
-            b.setMessage("issue-6")
-            .setFileName("file-3")
-            .setSeverity(Severity.WARNING_LOW));
+    private static final Issue HIGH =
+            build(b -> b.setMessage("issue-1").setFileName("file-1").setSeverity(Severity.WARNING_HIGH));
+    private static final Issue NORMAL_1 =
+            build(b -> b.setMessage("issue-2").setFileName("file-1").setSeverity(Severity.WARNING_NORMAL));
+    private static final Issue NORMAL_2 =
+            build(b -> b.setMessage("issue-3").setFileName("file-1").setSeverity(Severity.WARNING_NORMAL));
+    private static final Issue LOW_2_A =
+            build(b -> b.setMessage("issue-4").setFileName("file-2").setSeverity(Severity.WARNING_LOW));
+    private static final Issue LOW_2_B =
+            build(b -> b.setMessage("issue-5").setFileName("file-2").setSeverity(Severity.WARNING_LOW));
+    private static final Issue LOW_FILE_3 =
+            build(b -> b.setMessage("issue-6").setFileName("file-3").setSeverity(Severity.WARNING_LOW));
     private static final int VALUE = 1234;
     private static final String KEY = "key";
 
@@ -297,8 +285,9 @@ class ReportTest extends SerializableTest<Report> {
                 .containsExactlyInAnyOrder(Severity.WARNING_HIGH, Severity.WARNING_NORMAL, Severity.WARNING_LOW);
 
         report.add(new IssueBuilder().setSeverity(Severity.ERROR).build());
-        assertThat(report.getSeverities()).containsExactlyInAnyOrder(
-                Severity.WARNING_HIGH, Severity.WARNING_NORMAL, Severity.WARNING_LOW, Severity.ERROR);
+        assertThat(report.getSeverities())
+                .containsExactlyInAnyOrder(
+                        Severity.WARNING_HIGH, Severity.WARNING_NORMAL, Severity.WARNING_LOW, Severity.ERROR);
 
         assertThat(report.getSizeOf(Severity.ERROR)).isEqualTo(1);
         assertThat(report.getSizeOf(Severity.WARNING_HIGH)).isEqualTo(1);
@@ -446,8 +435,12 @@ class ReportTest extends SerializableTest<Report> {
         assertThatReportHasSeverities(report, 0, 0, 0, 0);
     }
 
-    private void assertThatReportHasSeverities(final Report report, final int expectedSizeError,
-            final int expectedSizeHigh, final int expectedSizeNormal, final int expectedSizeLow) {
+    private void assertThatReportHasSeverities(
+            final Report report,
+            final int expectedSizeError,
+            final int expectedSizeHigh,
+            final int expectedSizeNormal,
+            final int expectedSizeLow) {
         assertThat(report.getSizeOf(Severity.ERROR)).isEqualTo(expectedSizeError);
         assertThat(report.getSizeOf(Severity.WARNING_HIGH)).isEqualTo(expectedSizeHigh);
         assertThat(report.getSizeOf(Severity.WARNING_NORMAL)).isEqualTo(expectedSizeNormal);
@@ -503,8 +496,7 @@ class ReportTest extends SerializableTest<Report> {
         fromEmpty.addAll(report.get());
         assertThatAllIssuesHaveBeenAdded(fromEmpty);
         fromEmpty.addAll(report.get());
-        assertThat(fromEmpty).hasSize(6)
-                .hasDuplicatesSize(6);
+        assertThat(fromEmpty).hasSize(6).hasDuplicatesSize(6);
         assertThatReportHasSeverities(report, 0, 1, 2, 3);
 
         var left = new Report().addAll(HIGH, NORMAL_1, NORMAL_2);
@@ -528,17 +520,12 @@ class ReportTest extends SerializableTest<Report> {
 
     private void assertThatAllIssuesHaveBeenAdded(final Report report) {
         try (var softly = new SoftAssertions()) {
-            softly.assertThat(report)
-                    .hasSize(6)
-                    .hasDuplicatesSize(0);
+            softly.assertThat(report).hasSize(6).hasDuplicatesSize(0);
             assertThatReportHasSeverities(report, 0, 1, 2, 3);
 
-            softly.assertThat(report.getFiles())
-                    .containsExactly("file-1", "file-2", "file-3");
-            softly.assertThat(report.getFiles())
-                    .containsExactly("file-1", "file-2", "file-3");
-            softly.assertThat(report.getAbsolutePaths())
-                    .containsExactly("file-1", "file-2", "file-3");
+            softly.assertThat(report.getFiles()).containsExactly("file-1", "file-2", "file-3");
+            softly.assertThat(report.getFiles()).containsExactly("file-1", "file-2", "file-3");
+            softly.assertThat(report.getAbsolutePaths()).containsExactly("file-1", "file-2", "file-3");
             softly.assertThat((Iterable<Issue>) report)
                     .containsExactly(HIGH, NORMAL_1, NORMAL_2, LOW_2_A, LOW_2_B, LOW_FILE_3);
             softly.assertThat(report.isNotEmpty()).isTrue();
@@ -737,15 +724,20 @@ class ReportTest extends SerializableTest<Report> {
         assertFilterFor(IssueBuilder::setFileName, Report::getFiles, "fileName", Issue::byFileName);
     }
 
-    private void assertFilterFor(final BiFunction<IssueBuilder, String, IssueBuilder> builderSetter,
-            final Function<Report, Set<String>> propertyGetter, final String propertyName,
+    private void assertFilterFor(
+            final BiFunction<IssueBuilder, String, IssueBuilder> builderSetter,
+            final Function<Report, Set<String>> propertyGetter,
+            final String propertyName,
             final Function<String, Predicate<Issue>> predicate) {
         try (var builder = new IssueBuilder()) {
             var report = new Report();
 
             for (int i = 1; i < 4; i++) {
                 for (int j = i; j < 4; j++) {
-                    var build = builderSetter.apply(builder, "name " + i).setMessage(i + " " + j).build();
+                    var build = builderSetter
+                            .apply(builder, "name " + i)
+                            .setMessage(i + " " + j)
+                            .build();
                     report.add(build);
                 }
             }
@@ -753,7 +745,8 @@ class ReportTest extends SerializableTest<Report> {
 
             Set<String> properties = propertyGetter.apply(report);
 
-            assertThat(properties).as("Wrong values for property " + propertyName)
+            assertThat(properties)
+                    .as("Wrong values for property " + propertyName)
                     .containsExactlyInAnyOrder("name 1", "name 2", "name 3");
 
             assertThat(report.filter(predicate.apply("name 1"))).hasSize(3);
@@ -858,15 +851,18 @@ class ReportTest extends SerializableTest<Report> {
 
     @Test
     void shouldCreateReportWithOptions() {
-        assertThat(new Report()).hasId(UNDEFINED)
+        assertThat(new Report())
+                .hasId(UNDEFINED)
                 .hasName(UNDEFINED)
                 .hasOriginReportFile(UNDEFINED)
                 .hasNoOriginReportFiles();
-        assertThat(new Report(ID, NAME)).hasId(ID)
+        assertThat(new Report(ID, NAME))
+                .hasId(ID)
                 .hasName(NAME)
                 .hasOriginReportFile(UNDEFINED)
                 .hasNoOriginReportFiles();
-        assertThat(new Report(ID, NAME, SOURCE_FILE)).hasId(ID)
+        assertThat(new Report(ID, NAME, SOURCE_FILE))
+                .hasId(ID)
                 .hasName(NAME)
                 .hasOriginReportFile(SOURCE_FILE)
                 .hasOnlyOriginReportFiles(SOURCE_FILE);
@@ -947,18 +943,20 @@ class ReportTest extends SerializableTest<Report> {
     }
 
     private void verifyAggregation(final Report aggregated) {
-        assertThat(aggregated.getInfoMessages()).containsOnlyOnce(
-                "Info message from CheckStyle",
-                "Info message from SpotBugs",
-                "Info (Wrapped) message from CheckStyle",
-                "Info (Wrapped) message from SpotBugs",
-                "Info (Aggregated) message");
-        assertThat(aggregated.getErrorMessages()).containsOnlyOnce(
-                "Error message from CheckStyle",
-                "Error message from SpotBugs",
-                "Error (Wrapped) message from CheckStyle",
-                "Error (Wrapped) message from SpotBugs",
-                "Error (Aggregated) message");
+        assertThat(aggregated.getInfoMessages())
+                .containsOnlyOnce(
+                        "Info message from CheckStyle",
+                        "Info message from SpotBugs",
+                        "Info (Wrapped) message from CheckStyle",
+                        "Info (Wrapped) message from SpotBugs",
+                        "Info (Aggregated) message");
+        assertThat(aggregated.getErrorMessages())
+                .containsOnlyOnce(
+                        "Error message from CheckStyle",
+                        "Error message from SpotBugs",
+                        "Error (Wrapped) message from CheckStyle",
+                        "Error (Wrapped) message from SpotBugs",
+                        "Error (Aggregated) message");
         assertThat(aggregated).hasOriginReportFiles("checkstyle.xml", "spotbugs.xml");
     }
 
@@ -988,11 +986,15 @@ class ReportTest extends SerializableTest<Report> {
                     .setLineStart(1)
                     .buildAndClean();
             checkStyle.add(checkstyleWarning);
-            checkStyle.add(builder.setFileName("A.java").setCategory("Style").setLineStart(1).buildAndClean());
+            checkStyle.add(builder.setFileName("A.java")
+                    .setCategory("Style")
+                    .setLineStart(1)
+                    .buildAndClean());
             checkStyle.logInfo("Info message from %s", CHECKSTYLE_NAME);
             checkStyle.logError("Error message from %s", CHECKSTYLE_NAME);
 
-            assertThat(checkStyle).hasSize(1)
+            assertThat(checkStyle)
+                    .hasSize(1)
                     .hasDuplicatesSize(1)
                     .hasId(CHECKSTYLE_ID)
                     .hasEffectiveId(CHECKSTYLE_ID)
@@ -1004,11 +1006,18 @@ class ReportTest extends SerializableTest<Report> {
             assertThat(checkStyle.findById(checkstyleWarning.getId())).isSameAs(checkstyleWarning);
 
             var spotBugs = new Report(SPOTBUGS_ID, SPOTBUGS_NAME, "spotbugs.xml");
-            var spotBugsWarning = builder.setFileName("A.java").setCategory("Style").setLineStart(1).buildAndClean();
+            var spotBugsWarning = builder.setFileName("A.java")
+                    .setCategory("Style")
+                    .setLineStart(1)
+                    .buildAndClean();
             spotBugs.add(spotBugsWarning);
-            spotBugs.add(builder.setFileName("A.java").setCategory("Style").setLineStart(1).buildAndClean());
+            spotBugs.add(builder.setFileName("A.java")
+                    .setCategory("Style")
+                    .setLineStart(1)
+                    .buildAndClean());
 
-            assertThat(spotBugs).hasSize(1)
+            assertThat(spotBugs)
+                    .hasSize(1)
                     .hasDuplicatesSize(1)
                     .hasId(SPOTBUGS_ID)
                     .hasEffectiveId(SPOTBUGS_ID)
@@ -1030,9 +1039,13 @@ class ReportTest extends SerializableTest<Report> {
             assertThat(spotBugs).hasId(SPOTBUGS_ID).hasName(SPOTBUGS_NAME).hasErrors();
 
             var filterBuilder = new IssueFilterBuilder();
-            Predicate<Issue> predicate = filterBuilder.setIncludeCategoryFilter("Style").build();
+            Predicate<Issue> predicate =
+                    filterBuilder.setIncludeCategoryFilter("Style").build();
 
-            assertThat(checkStyle.filter(predicate)).hasSize(1).hasId(CHECKSTYLE_ID).hasName(CHECKSTYLE_NAME);
+            assertThat(checkStyle.filter(predicate))
+                    .hasSize(1)
+                    .hasId(CHECKSTYLE_ID)
+                    .hasName(CHECKSTYLE_NAME);
 
             var filtered = container.filter(predicate);
             verifyContainer(filtered, checkstyleWarning, spotBugsWarning);
@@ -1059,7 +1072,8 @@ class ReportTest extends SerializableTest<Report> {
     }
 
     private void verifyContainer(final Report container, final Issue checkstyleWarning, final Issue spotBugsWarning) {
-        assertThat(container).hasSize(2)
+        assertThat(container)
+                .hasSize(2)
                 .hasDuplicatesSize(2)
                 .hasId("container")
                 .hasEffectiveId("container")
@@ -1067,10 +1081,9 @@ class ReportTest extends SerializableTest<Report> {
                 .hasEffectiveName("Aggregation")
                 .hasOriginReportFile("-")
                 .hasOnlyOriginReportFiles("checkstyle.xml", "spotbugs.xml");
-        assertThat(container.getInfoMessages()).contains(
-                "Info message from CheckStyle", "Info message from SpotBugs");
-        assertThat(container.getErrorMessages()).contains(
-                "Error message from CheckStyle", "Error message from SpotBugs");
+        assertThat(container.getInfoMessages()).contains("Info message from CheckStyle", "Info message from SpotBugs");
+        assertThat(container.getErrorMessages())
+                .contains("Error message from CheckStyle", "Error message from SpotBugs");
         assertThat(container).hasErrors();
 
         assertThat(container.get(0)).isSameAs(checkstyleWarning);
@@ -1091,7 +1104,9 @@ class ReportTest extends SerializableTest<Report> {
                 .forClass(Report.class)
                 .withPrefabValues(Report.class, new Report("left", "Left"), new Report("right", "Right"))
                 .withPrefabValues(TreeString.class, TreeString.valueOf("One"), TreeString.valueOf("Two"))
-                .withPrefabValues(LineRangeList.class, new LineRangeList(new LineRange(2, 2)),
+                .withPrefabValues(
+                        LineRangeList.class,
+                        new LineRangeList(new LineRange(2, 2)),
                         new LineRangeList(new LineRange(1, 1)))
                 .verify();
     }
@@ -1110,11 +1125,8 @@ class ReportTest extends SerializableTest<Report> {
          * Serializes a {@link Report} to a file. Use this method in case the report properties have been changed and
          * the readResolve method has been adapted accordingly so that the old serialization still can be read.
          *
-         * @param args
-         *         not used
-         *
-         * @throws IOException
-         *         if the file could not be written
+         * @param args not used
+         * @throws IOException if the file could not be written
          */
         public static void main(final String... args) throws IOException {
             new ReportTest().createSerializationFile();

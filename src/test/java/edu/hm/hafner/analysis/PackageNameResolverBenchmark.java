@@ -1,9 +1,13 @@
 package edu.hm.hafner.analysis;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import edu.hm.hafner.util.PackageDetectorFactory;
+import edu.hm.hafner.util.PackageDetectorFactory.FileSystemFacade;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
 import org.openjdk.jmh.annotations.Fork;
@@ -12,11 +16,6 @@ import org.openjdk.jmh.annotations.Mode;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
-
-import edu.hm.hafner.util.PackageDetectorFactory;
-import edu.hm.hafner.util.PackageDetectorFactory.FileSystemFacade;
-
-import static org.mockito.Mockito.*;
 
 /**
  * JMH Benchmarking of the {@link PackageNameResolver}.
@@ -31,8 +30,7 @@ public class PackageNameResolverBenchmark extends AbstractBenchmark {
     /**
      * Benchmarking the {@link PackageNameResolver} with 1000 Issues.
      *
-     * @param state
-     *         a {@link BenchmarkState} object containing the report
+     * @param state a {@link BenchmarkState} object containing the report
      */
     @Benchmark
     @BenchmarkMode(Mode.Throughput)
@@ -45,14 +43,12 @@ public class PackageNameResolverBenchmark extends AbstractBenchmark {
 
     private FileSystemFacade createFileSystemStub() throws IOException {
         var fileSystemStub = mock(FileSystemFacade.class);
-        when(fileSystemStub.openFile(FILE_NO_PACKAGE)).thenAnswer(
-                r -> new ByteArrayInputStream("package a.name;".getBytes(StandardCharsets.UTF_8)));
+        when(fileSystemStub.openFile(FILE_NO_PACKAGE))
+                .thenAnswer(r -> new ByteArrayInputStream("package a.name;".getBytes(StandardCharsets.UTF_8)));
         return fileSystemStub;
     }
 
-    /**
-     * State for the benchmark containing all preconfigured and necessary objects.
-     */
+    /** State for the benchmark containing all preconfigured and necessary objects. */
     @State(Scope.Benchmark)
     public static class BenchmarkState {
         private Report report = new Report();
@@ -61,15 +57,14 @@ public class PackageNameResolverBenchmark extends AbstractBenchmark {
             return report;
         }
 
-        /**
-         * Initializes the reports.
-         */
+        /** Initializes the reports. */
         @Setup(Level.Iteration)
         public void doSetup() {
             try (var issueBuilder = new IssueBuilder()) {
                 report = new Report();
                 for (int i = 0; i < 1000; i++) {
-                    report.add(issueBuilder.setFileName(FILE_WITH_PACKAGE + i)
+                    report.add(issueBuilder
+                            .setFileName(FILE_WITH_PACKAGE + i)
                             .setPackageName("existing")
                             .build());
                 }

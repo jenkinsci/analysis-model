@@ -1,8 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.util.Objects;
-
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 import edu.hm.hafner.analysis.DuplicationGroup;
 import edu.hm.hafner.analysis.Issue;
@@ -10,8 +8,8 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import java.util.Objects;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the extraction of Resharper DupFinder analysis results.
@@ -40,8 +38,7 @@ class DupFinderParserTest extends AbstractParserTest {
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Report report,
-            final SoftAssertions softly) {
+    protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
         softly.assertThat(report).hasSize(2);
 
         var publisher = report.get(0);
@@ -59,14 +56,16 @@ class DupFinderParserTest extends AbstractParserTest {
     private void assertThatReporterAndPublisherDuplicationsAreCorrectlyLinked(
             final Issue publisher, final Issue reporter) {
         assertThat(publisher)
-                .hasLineStart(PUBLISHER_LINE).hasLineEnd(PUBLISHER_LINE + 11)
+                .hasLineStart(PUBLISHER_LINE)
+                .hasLineEnd(PUBLISHER_LINE + 11)
                 .hasFileName(PUBLISHER)
                 .hasSeverity(Severity.WARNING_LOW)
                 .hasMessage("Found duplicated code.")
                 .hasCategory("Code Duplication")
                 .hasType("DupFinder");
         assertThat(reporter)
-                .hasLineStart(REPORTER_LINE).hasLineEnd(REPORTER_LINE + 11)
+                .hasLineStart(REPORTER_LINE)
+                .hasLineEnd(REPORTER_LINE + 11)
                 .hasFileName(REPORTER)
                 .hasSeverity(Severity.WARNING_LOW)
                 .hasMessage("Found duplicated code.")

@@ -1,16 +1,15 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import java.io.Serial;
+import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * A parser for IBM xlC compiler warnings.
@@ -22,18 +21,16 @@ public class XlcCompilerParser extends LookaheadParser {
     @Serial
     private static final long serialVersionUID = 5490211629355204910L;
 
-    private static final String XLC_WARNING_PATTERN = ANT_TASK + ".*((?:[A-Z]+|[0-9]+-)[0-9]+)* ?\\([USEWI]\\)\\s*("
-            + ".*)$";
+    private static final String XLC_WARNING_PATTERN =
+            ANT_TASK + ".*((?:[A-Z]+|[0-9]+-)[0-9]+)* ?\\([USEWI]\\)\\s*(" + ".*)$";
     private static final String XLC_WARNING_PATTERN_WITH_LINE = ANT_TASK + "\"?([^\"]*)\"?, line ([0-9]+)\\.[0-9]+:( "
             + "(?:[A-Z]+|[0-9]+-)[0-9]+)? \\(([USEWI])\\)\\s*(.*)$";
-    private static final String XLC_WARNING_PATTERN_NO_LINE = ANT_TASK + "\\s*((?:[A-Z]+|[0-9]+-)[0-9]+)?:? ?\\("
-            + "([USEWI])\\)( INFORMATION:)?\\s*(.*)$";
+    private static final String XLC_WARNING_PATTERN_NO_LINE =
+            ANT_TASK + "\\s*((?:[A-Z]+|[0-9]+-)[0-9]+)?:? ?\\(" + "([USEWI])\\)( INFORMATION:)?\\s*(.*)$";
     private static final Pattern PATTERN_WITH_LINE = Pattern.compile(XLC_WARNING_PATTERN_WITH_LINE);
     private static final Pattern PATTERN_WITHOUT_LINE = Pattern.compile(XLC_WARNING_PATTERN_NO_LINE);
 
-    /**
-     * Creates a new instance of {@link XlcCompilerParser}.
-     */
+    /** Creates a new instance of {@link XlcCompilerParser}. */
     public XlcCompilerParser() {
         super(XLC_WARNING_PATTERN);
     }
@@ -48,8 +45,8 @@ public class XlcCompilerParser extends LookaheadParser {
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
-            final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(
+            final Matcher matcher, final LookaheadStream lookahead, final IssueBuilder builder) {
         var line = matcher.group(0);
 
         var lineMatcher = PATTERN_WITH_LINE.matcher(line);

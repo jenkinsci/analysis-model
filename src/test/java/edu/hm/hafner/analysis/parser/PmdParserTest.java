@@ -1,6 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.ParsingException;
@@ -8,12 +8,9 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
+import org.junit.jupiter.api.Test;
 
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
-
-/**
- * Tests the extraction of PMD analysis results.
- */
+/** Tests the extraction of PMD analysis results. */
 class PmdParserTest extends AbstractParserTest {
     private static final String PREFIX = "pmd/";
 
@@ -32,8 +29,10 @@ class PmdParserTest extends AbstractParserTest {
 
         var actionIssues = report.filter(Issue.byPackageName("com.avaloq.adt.env.internal.ui.actions"));
         softly.assertThat(actionIssues).hasSize(1);
-        softly.assertThat(report.filter(Issue.byPackageName("com.avaloq.adt.env.internal.ui.actions"))).hasSize(1);
-        softly.assertThat(report.filter(Issue.byPackageName("com.avaloq.adt.env.internal.ui.dialogs"))).hasSize(2);
+        softly.assertThat(report.filter(Issue.byPackageName("com.avaloq.adt.env.internal.ui.actions")))
+                .hasSize(1);
+        softly.assertThat(report.filter(Issue.byPackageName("com.avaloq.adt.env.internal.ui.dialogs")))
+                .hasSize(2);
 
         assertThatReportHasSeverities(report, 0, 1, 2, 1);
 
@@ -51,8 +50,8 @@ class PmdParserTest extends AbstractParserTest {
 
     @Test
     void showFileNameWhenReportIsBroken() {
-        assertThatExceptionOfType(ParsingException.class).isThrownBy(
-                        () -> parseInPmdFolder("otherfile.xml"))
+        assertThatExceptionOfType(ParsingException.class)
+                .isThrownBy(() -> parseInPmdFolder("otherfile.xml"))
                 .withMessageContaining("target/test-classes/edu/hm/hafner/analysis/parser/pmd/otherfile.xml");
     }
 
@@ -65,8 +64,10 @@ class PmdParserTest extends AbstractParserTest {
         assertThat(report.get(0))
                 .hasFileName(
                         "/Users/hafner/Development/jenkins/workspace/Pipeline/src/main/java/edu/hm/hafner/analysis/parser/AjcParser.java")
-                .hasLineStart(30).hasLineEnd(74)
-                .hasColumnStart(12).hasColumnEnd(5)
+                .hasLineStart(30)
+                .hasLineEnd(74)
+                .hasColumnStart(12)
+                .hasColumnEnd(5)
                 .hasType("CyclomaticComplexity")
                 .hasCategory("Code Size")
                 .hasSeverity(Severity.WARNING_NORMAL)
@@ -84,13 +85,13 @@ class PmdParserTest extends AbstractParserTest {
 
         assertThat(report).hasSize(4 + 21);
         assertThatReportHasSeverities(report, 21, 0, 4, 0);
-        assertThat(report.get(4)).hasSeverity(Severity.ERROR)
+        assertThat(report.get(4))
+                .hasSeverity(Severity.ERROR)
                 .hasFileName(
                         "/Users/jordillach/DemoTenants/Tenants/vhosts/pre.elperiodico.com/themes/default/articleTemplates/forceOpinion.s.jsp")
                 .hasMessage(
                         "Error while parsing /Users/jordillach/DemoTenants/Tenants/vhosts/pre.elperiodico.com/themes/default/articleTemplates/forceOpinion.s.jsp");
-        assertThat(report.get(4).getDescription()).isEqualToIgnoringWhitespace(
-                """
+        assertThat(report.get(4).getDescription()).isEqualToIgnoringWhitespace("""
                         "<!--" ...net.sourceforge.pmd.PMDException: Error while parsing /Users/jordillach/DemoTenants/Tenants/vhosts/pre.elperiodico.com/themes/default/articleTemplates/forceOpinion.s.jsp
                             at net.sourceforge.pmd.SourceCodeProcessor.processSourceCode(SourceCodeProcessor.java:99)
                             at net.sourceforge.pmd.SourceCodeProcessor.processSourceCode(SourceCodeProcessor.java:51)
@@ -138,9 +139,7 @@ class PmdParserTest extends AbstractParserTest {
         assertThat(report).hasSize(2);
     }
 
-    /**
-     * Checks whether we correctly detect all 669 warnings.
-     */
+    /** Checks whether we correctly detect all 669 warnings. */
     @Test
     void scanFileWithSeveralWarnings() {
         var report = parseInPmdFolder("pmd-report.xml");
@@ -148,9 +147,7 @@ class PmdParserTest extends AbstractParserTest {
         assertThat(report).hasSize(669);
     }
 
-    /**
-     * Checks whether we create messages with a single dot.
-     */
+    /** Checks whether we create messages with a single dot. */
     @Test
     void verifySingleDot() {
         var fileName = "warning-message-with-dot.xml";
@@ -160,9 +157,7 @@ class PmdParserTest extends AbstractParserTest {
         assertThat(report.get(0)).hasMessage("Avoid really long parameter lists.");
     }
 
-    /**
-     * Checks whether we correctly detect an empty file.
-     */
+    /** Checks whether we correctly detect an empty file. */
     @Test
     void scanFileWithNoBugs() {
         var report = parseInPmdFolder("empty.xml");
@@ -170,17 +165,15 @@ class PmdParserTest extends AbstractParserTest {
         assertThat(report).isEmpty();
     }
 
-    /**
-     * Checks whether we correctly parse a file with 4 warnings.
-     */
+    /** Checks whether we correctly parse a file with 4 warnings. */
     @Test
     void testEquals() {
         var report = parseInPmdFolder("equals-test.xml");
 
         int expectedSize = 4;
         assertThat(report).hasSize(expectedSize);
-        assertThat(report.filter(Issue.byPackageName("com.avaloq.adt.env.core.db.plsqlCompletion"))).hasSize(
-                expectedSize);
+        assertThat(report.filter(Issue.byPackageName("com.avaloq.adt.env.core.db.plsqlCompletion")))
+                .hasSize(expectedSize);
         assertThatReportHasSeverities(report, 0, 0, 4, 0);
     }
 

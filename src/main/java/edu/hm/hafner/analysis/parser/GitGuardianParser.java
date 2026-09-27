@@ -1,15 +1,13 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
-
 import java.io.Serial;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * A parser for GitGuardian (ggshield) JSON reports.
@@ -70,8 +68,8 @@ public final class GitGuardianParser extends JsonIssueParser {
     private static final String BREAKS = "breaks";
     private static final String OCCURRENCES = "occurrences";
     private static final String[] FINDING_KEYS = {
-            LINE_START, LINE, MATCH, MESSAGE, DETECTOR_NAME,
-            POLICY, TYPE, ID, SEVERITY, CONFIDENCE
+        LINE_START, LINE, MATCH, MESSAGE, DETECTOR_NAME,
+        POLICY, TYPE, ID, SEVERITY, CONFIDENCE
     };
 
     @Override
@@ -161,10 +159,10 @@ public final class GitGuardianParser extends JsonIssueParser {
                 var defaultDescription = firstNonBlank(policy, DETAILS, DESCRIPTION);
 
                 int addedForPolicy = 0;
-                addedForPolicy += parseFindings(policy.optJSONArray(BREAKS),
-                        defaultFileName, defaultType, defaultDescription);
-                addedForPolicy += parseFindings(policy.optJSONArray(INCIDENTS),
-                        defaultFileName, defaultType, defaultDescription);
+                addedForPolicy +=
+                        parseFindings(policy.optJSONArray(BREAKS), defaultFileName, defaultType, defaultDescription);
+                addedForPolicy +=
+                        parseFindings(policy.optJSONArray(INCIDENTS), defaultFileName, defaultType, defaultDescription);
 
                 if (addedForPolicy == 0 && looksLikeFinding(policy)) {
                     report.add(converter.convert(policy, defaultFileName, defaultType, defaultDescription));
@@ -192,10 +190,10 @@ public final class GitGuardianParser extends JsonIssueParser {
                 var defaultDescription = firstNonBlank(secret, DETAILS, DESCRIPTION);
 
                 int addedForSecret = 0;
-                addedForSecret += parseFindings(secret.optJSONArray(OCCURRENCES),
-                        defaultFileName, defaultType, defaultDescription);
-                addedForSecret += parseFindings(secret.optJSONArray(MATCHES),
-                        defaultFileName, defaultType, defaultDescription);
+                addedForSecret += parseFindings(
+                        secret.optJSONArray(OCCURRENCES), defaultFileName, defaultType, defaultDescription);
+                addedForSecret +=
+                        parseFindings(secret.optJSONArray(MATCHES), defaultFileName, defaultType, defaultDescription);
 
                 if (addedForSecret == 0 && looksLikeFinding(secret)) {
                     report.add(converter.convert(secret, defaultFileName, defaultType, defaultDescription));
@@ -207,8 +205,11 @@ public final class GitGuardianParser extends JsonIssueParser {
             return added;
         }
 
-        private int parseFindings(@CheckForNull final JSONArray findings, final String defaultFileName,
-                final String defaultType, final String defaultDescription) {
+        private int parseFindings(
+                @CheckForNull final JSONArray findings,
+                final String defaultFileName,
+                final String defaultType,
+                final String defaultDescription) {
             if (findings == null || findings.isEmpty()) {
                 return 0;
             }
@@ -241,15 +242,18 @@ public final class GitGuardianParser extends JsonIssueParser {
             issueBuilder = builder;
         }
 
-        private Issue convert(final JSONObject finding,
-                final String defaultFileName, final String defaultType, final String defaultDescription) {
+        private Issue convert(
+                final JSONObject finding,
+                final String defaultFileName,
+                final String defaultType,
+                final String defaultDescription) {
             var fileName = firstNonBlank(finding, FILENAME, FILE, PATH, FILE_PATH, FILEPATH);
             if (fileName.isBlank()) {
                 fileName = defaultFileName;
             }
 
-            var type = firstNonBlank(finding,
-                    DETECTOR_NAME, DETECTOR, POLICY, POLICY_NAME, NAME, TYPE, ID, DETECTOR_ID);
+            var type =
+                    firstNonBlank(finding, DETECTOR_NAME, DETECTOR, POLICY, POLICY_NAME, NAME, TYPE, ID, DETECTOR_ID);
             if (type.isBlank()) {
                 type = defaultType;
             }
@@ -267,10 +271,7 @@ public final class GitGuardianParser extends JsonIssueParser {
                 description = defaultDescription;
             }
 
-            issueBuilder
-                    .setFileName(fileName)
-                    .setType(type)
-                    .setMessage(message);
+            issueBuilder.setFileName(fileName).setType(type).setMessage(message);
 
             if (!description.isBlank()) {
                 issueBuilder.setDescription(description);
@@ -279,8 +280,7 @@ public final class GitGuardianParser extends JsonIssueParser {
             var severity = firstNonBlank(finding, SEVERITY, CONFIDENCE);
             if (severity.isBlank()) {
                 issueBuilder.setSeverity(Severity.WARNING_HIGH);
-            }
-            else {
+            } else {
                 issueBuilder.guessSeverity(severity);
             }
 

@@ -1,18 +1,16 @@
 package edu.hm.hafner.analysis.parser;
 
+import edu.hm.hafner.analysis.SecureDigester;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.SAXException;
-
-import edu.hm.hafner.analysis.SecureDigester;
-import edu.umd.cs.findbugs.annotations.CheckForNull;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Parses the FindBugs pattern descriptions and provides access to these HTML messages.
@@ -25,11 +23,10 @@ public final class FindBugsMessages {
 
     /** Maps a key to HTML description. */
     private final Map<String, String> messages = new HashMap<>();
+
     private final Map<String, String> shortMessages = new HashMap<>();
 
-    /**
-     * Loads the available rules into a map.
-     */
+    /** Loads the available rules into a map. */
     @SuppressWarnings("all")
     @SuppressFBWarnings("DE_MIGHT_IGNORE")
     public FindBugsMessages() {
@@ -37,14 +34,16 @@ public final class FindBugsMessages {
             loadMessages("messages.xml", messages, shortMessages);
             loadMessages("fb-contrib-messages.xml", messages, shortMessages);
             loadMessages("find-sec-bugs-messages.xml", messages, shortMessages);
-        }
-        catch (Exception ignored) {
+        } catch (Exception ignored) {
             // ignore failures
         }
     }
 
-    private void loadMessages(final String fileName, final Map<String, String> messagesCache,
-            final Map<String, String> shortMessagesCache) throws IOException, SAXException {
+    private void loadMessages(
+            final String fileName,
+            final Map<String, String> messagesCache,
+            final Map<String, String> shortMessagesCache)
+            throws IOException, SAXException {
         try (var file = FindBugsMessages.class.getResourceAsStream("findbugs/" + fileName)) {
             List<Pattern> patterns = parse(file);
             for (Pattern pattern : patterns) {
@@ -57,14 +56,10 @@ public final class FindBugsMessages {
     /**
      * Parses the FindBugs pattern description.
      *
-     * @param file
-     *         XML file with the messages
-     *
+     * @param file XML file with the messages
      * @return a list of parsed patterns
-     * @throws SAXException
-     *         if we can't parse the file
-     * @throws IOException
-     *         if we can't read the file
+     * @throws SAXException if we can't parse the file
+     * @throws IOException if we can't read the file
      */
     public List<Pattern> parse(final InputStream file) throws IOException, SAXException {
         var digester = new SecureDigester(FindBugsMessages.class);
@@ -86,8 +81,7 @@ public final class FindBugsMessages {
     /**
      * Returns a HTML description for the specified bug.
      *
-     * @param name
-     *         name of the bug
+     * @param name name of the bug
      * @return a HTML description
      */
     public String getMessage(final String name) {
@@ -97,8 +91,7 @@ public final class FindBugsMessages {
     /**
      * Returns a short description for the specified bug.
      *
-     * @param name
-     *         name of the bug
+     * @param name name of the bug
      * @return a HTML description for the specified bug.
      */
     public String getShortMessage(final String name) {
@@ -122,8 +115,10 @@ public final class FindBugsMessages {
     public static class Pattern {
         @CheckForNull
         private String type;
+
         @CheckForNull
         private String description;
+
         @CheckForNull
         private String shortDescription;
 
@@ -139,8 +134,7 @@ public final class FindBugsMessages {
         /**
          * Sets the type to the specified value.
          *
-         * @param type
-         *         the value to set
+         * @param type the value to set
          */
         public void setType(@CheckForNull final String type) {
             this.type = type;
@@ -158,8 +152,7 @@ public final class FindBugsMessages {
         /**
          * Sets the description to the specified value.
          *
-         * @param description
-         *         the value to set
+         * @param description the value to set
          */
         public void setDescription(@CheckForNull final String description) {
             this.description = description;
@@ -177,8 +170,7 @@ public final class FindBugsMessages {
         /**
          * Sets the shortDescription to the specified value.
          *
-         * @param shortDescription
-         *         the value to set
+         * @param shortDescription the value to set
          */
         public void setShortDescription(@CheckForNull final String shortDescription) {
             this.shortDescription = shortDescription;

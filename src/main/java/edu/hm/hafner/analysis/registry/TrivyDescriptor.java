@@ -1,10 +1,10 @@
 package edu.hm.hafner.analysis.registry;
 
+import static j2html.TagCreator.*;
+
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.Report.IssueType;
 import edu.hm.hafner.analysis.parser.TrivyParser;
-
-import static j2html.TagCreator.*;
 
 /**
  * A descriptor for Aquasec Trivy.
@@ -26,16 +26,19 @@ class TrivyDescriptor extends ParserDescriptor {
 
     @Override
     public String getHelp() {
-        return join(text("Use commandline"),
-                code("trivy image -f json -o results.json 'image'"),
-                text(", see"),
-                a("tivy on Github").withHref("https://github.com/aquasecurity/trivy"),
-                text("for usage details."),
-                p("Supported scanners:"),
-                ul().with(
-                    li(a("Vulnerability Scanner").withHref("https://trivy.dev/latest/docs/scanner/vulnerability/")),
-                    li(a("Misconfiguration Scanner").withHref("https://trivy.dev/latest/docs/scanner/misconfiguration/"))
-                )).render();
+        return join(
+                        text("Use commandline"),
+                        code("trivy image -f json -o results.json 'image'"),
+                        text(", see"),
+                        a("tivy on Github").withHref("https://github.com/aquasecurity/trivy"),
+                        text("for usage details."),
+                        p("Supported scanners:"),
+                        ul().with(
+                                        li(a("Vulnerability Scanner")
+                                                .withHref("https://trivy.dev/latest/docs/scanner/vulnerability/")),
+                                        li(a("Misconfiguration Scanner")
+                                                .withHref("https://trivy.dev/latest/docs/scanner/misconfiguration/"))))
+                .render();
     }
 
     @Override

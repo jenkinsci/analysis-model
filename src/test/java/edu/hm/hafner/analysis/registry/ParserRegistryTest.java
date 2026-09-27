@@ -1,18 +1,16 @@
 package edu.hm.hafner.analysis.registry;
 
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 import edu.hm.hafner.analysis.FileReaderFactory;
 import edu.hm.hafner.analysis.Report.IssueType;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.registry.ParserDescriptor.Option;
 import edu.hm.hafner.util.ResourceTest;
-
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the class {@link ParserRegistry}.
@@ -35,13 +33,10 @@ class ParserRegistryTest extends ResourceTest {
     void shouldThrowExceptionIfParserNotFound() {
         var parserRegistry = new ParserRegistry();
 
-        assertThatExceptionOfType(NoSuchElementException.class)
-                .isThrownBy(() -> parserRegistry.get("-"));
+        assertThatExceptionOfType(NoSuchElementException.class).isThrownBy(() -> parserRegistry.get("-"));
     }
 
-    /**
-     * Ensures that new parsers have the correct type assigned.
-     */
+    /** Ensures that new parsers have the correct type assigned. */
     @Test
     void shouldAssignCorrectParserType() {
         var parserRegistry = new ParserRegistry();
@@ -63,10 +58,7 @@ class ParserRegistryTest extends ResourceTest {
                 .hasId(SPOTBUGS)
                 .hasName("SpotBugs")
                 .hasType(IssueType.BUG);
-        assertThat(parserRegistry.get("fossa"))
-                .hasId("fossa")
-                .hasName("FOSSA")
-                .hasType(IssueType.VULNERABILITY);
+        assertThat(parserRegistry.get("fossa")).hasId("fossa").hasName("FOSSA").hasType(IssueType.VULNERABILITY);
         assertThat(parserRegistry.get("detectify"))
                 .hasId("detectify")
                 .hasName("Detectify")
@@ -86,10 +78,7 @@ class ParserRegistryTest extends ResourceTest {
                 .hasId("swagger-lint")
                 .hasName("Swagger Lint")
                 .hasType(IssueType.WARNING);
-        assertThat(parserRegistry.get("black"))
-                .hasId("black")
-                .hasName("Black")
-                .hasType(IssueType.WARNING);
+        assertThat(parserRegistry.get("black")).hasId("black").hasName("Black").hasType(IssueType.WARNING);
         assertThat(parserRegistry.get("cookstyle"))
                 .hasId("cookstyle")
                 .hasName("Cookstyle")
@@ -117,15 +106,13 @@ class ParserRegistryTest extends ResourceTest {
         assertThat(report).hasSize(2).hasSeverities(Severity.WARNING_NORMAL);
 
         var highParser = cpdDescriptor.create(
-                new Option(CpdDescriptor.HIGH_OPTION_KEY, "20"),
-                new Option(CpdDescriptor.NORMAL_OPTION_KEY, "10"));
+                new Option(CpdDescriptor.HIGH_OPTION_KEY, "20"), new Option(CpdDescriptor.NORMAL_OPTION_KEY, "10"));
 
         var highReport = highParser.parse(new FileReaderFactory(getResourceAsFile("one-cpd.xml")));
         assertThat(highReport).hasSize(2).hasSeverities(Severity.WARNING_HIGH);
 
         var lowParser = cpdDescriptor.create(
-                new Option(CpdDescriptor.HIGH_OPTION_KEY, "100"),
-                new Option(CpdDescriptor.NORMAL_OPTION_KEY, "50"));
+                new Option(CpdDescriptor.HIGH_OPTION_KEY, "100"), new Option(CpdDescriptor.NORMAL_OPTION_KEY, "50"));
 
         var lowReport = lowParser.parse(new FileReaderFactory(getResourceAsFile("one-cpd.xml")));
         assertThat(lowReport).hasSize(2).hasSeverities(Severity.WARNING_LOW);
@@ -137,8 +124,8 @@ class ParserRegistryTest extends ResourceTest {
         verifyPriority("RANK", 0, 0, 12);
     }
 
-    private void verifyPriority(final String type, final int expectedHighSize, final int expectedNormalSize,
-            final int expectedLowSize) {
+    private void verifyPriority(
+            final String type, final int expectedHighSize, final int expectedNormalSize, final int expectedLowSize) {
         var parserRegistry = new ParserRegistry();
         var findbugsDescriptor = parserRegistry.get("findbugs");
 

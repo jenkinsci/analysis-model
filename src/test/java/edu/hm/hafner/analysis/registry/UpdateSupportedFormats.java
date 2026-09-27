@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis.registry;
 
 import java.io.IOException;
-
 import org.junit.jupiter.api.Test;
 
 /**

@@ -1,28 +1,23 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import org.json.JSONObject;
+import static j2html.TagCreator.*;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 import j2html.tags.ContainerTag;
-
-import static j2html.TagCreator.*;
+import java.io.Serial;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import org.json.JSONObject;
 
 /**
  * Parser for reports of pnpm audit scans.
  *
- * <p>
- * <strong>Usage: </strong>pnpm audit --json &gt; pnpm-audit.json
- * </p>
+ * <p><strong>Usage: </strong>pnpm audit --json &gt; pnpm-audit.json
  *
  * @author Fabian Kaupp - kauppfbi@gmail.com
  */
@@ -58,7 +53,8 @@ public class PnpmAuditParser extends JsonIssueParser {
     }
 
     private Issue convertToIssue(final JSONObject vulnerability, final IssueBuilder issueBuilder) {
-        return issueBuilder.setModuleName(vulnerability.optString("module_name", VALUE_NOT_SET))
+        return issueBuilder
+                .setModuleName(vulnerability.optString("module_name", VALUE_NOT_SET))
                 .setCategory(formatCategory(vulnerability))
                 .setSeverity(mapSeverity(vulnerability.optString("severity", "UNKNOWN")))
                 .setType(mapType(vulnerability))
@@ -88,17 +84,13 @@ public class PnpmAuditParser extends JsonIssueParser {
     private Severity mapSeverity(final String string) {
         if (PNPM_VULNERABILITY_SEVERITY_INFO.equalsIgnoreCase(string)) {
             return Severity.WARNING_LOW;
-        }
-        else if (PNPM_VULNERABILITY_SEVERITY_LOW.equalsIgnoreCase(string)) {
+        } else if (PNPM_VULNERABILITY_SEVERITY_LOW.equalsIgnoreCase(string)) {
             return Severity.WARNING_LOW;
-        }
-        else if (PNPM_VULNERABILITY_SEVERITY_MODERATE.equalsIgnoreCase(string)) {
+        } else if (PNPM_VULNERABILITY_SEVERITY_MODERATE.equalsIgnoreCase(string)) {
             return Severity.WARNING_NORMAL;
-        }
-        else if (PNPM_VULNERABILITY_SEVERITY_HIGH.equalsIgnoreCase(string)) {
+        } else if (PNPM_VULNERABILITY_SEVERITY_HIGH.equalsIgnoreCase(string)) {
             return Severity.WARNING_HIGH;
-        }
-        else if (PNPM_VULNERABILITY_SEVERITY_CRITICAL.equalsIgnoreCase(string)) {
+        } else if (PNPM_VULNERABILITY_SEVERITY_CRITICAL.equalsIgnoreCase(string)) {
             return Severity.ERROR;
         }
         return Severity.WARNING_NORMAL;
@@ -117,9 +109,10 @@ public class PnpmAuditParser extends JsonIssueParser {
             getValueAsContainerTag(installedVersion, "Installed Version").ifPresent(vulnerabilityTags::add);
         }
 
-        getValueAsContainerTag(vulnerability, "vulnerable_versions", "Vulnerable Versions").ifPresent(
-                vulnerabilityTags::add);
-        getValueAsContainerTag(vulnerability, "patched_versions", "Patched Versions").ifPresent(vulnerabilityTags::add);
+        getValueAsContainerTag(vulnerability, "vulnerable_versions", "Vulnerable Versions")
+                .ifPresent(vulnerabilityTags::add);
+        getValueAsContainerTag(vulnerability, "patched_versions", "Patched Versions")
+                .ifPresent(vulnerabilityTags::add);
         getValueAsContainerTag(vulnerability, "severity", "Severity").ifPresent(vulnerabilityTags::add);
         getValueAsContainerTag(vulnerability, "overview").ifPresent(vulnerabilityTags::add);
         getValueAsContainerTag(vulnerability, "references", "References").ifPresent(vulnerabilityTags::add);
@@ -145,8 +138,8 @@ public class PnpmAuditParser extends JsonIssueParser {
         return Optional.of(div(b(label + ": "), text(value)));
     }
 
-    private Optional<ContainerTag> getValueAsContainerTag(final JSONObject vulnerability, final String tagOfValue,
-            final String label) {
+    private Optional<ContainerTag> getValueAsContainerTag(
+            final JSONObject vulnerability, final String tagOfValue, final String label) {
         var value = vulnerability.optString(tagOfValue);
 
         if (value == null || value.isEmpty()) {

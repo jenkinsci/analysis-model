@@ -9,9 +9,7 @@ import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
-/**
- * A parser for the CrossCoreEmbeddedStudio (CCES) log files.
- */
+/** A parser for the CrossCoreEmbeddedStudio (CCES) log files. */
 public class CrossCoreEmbeddedStudioParser extends LookaheadParser {
     @Serial
     private static final long serialVersionUID = 8530148364775682773L;
@@ -27,16 +25,14 @@ public class CrossCoreEmbeddedStudioParser extends LookaheadParser {
     private static final String CCES_WARNING_PATTERN =
             "^\"(?<file>.+?)\", line (?<line>\\d+).*(?<category>cc\\d+).*warning:(?<messageBegin>.*)";
 
-    /**
-     * Creates a new instance of {@link CrossCoreEmbeddedStudioParser}.
-     */
+    /** Creates a new instance of {@link CrossCoreEmbeddedStudioParser}. */
     public CrossCoreEmbeddedStudioParser() {
         super(CCES_WARNING_PATTERN);
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
-            final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(
+            final Matcher matcher, final LookaheadStream lookahead, final IssueBuilder builder) {
         var message = new StringBuilder(matcher.group("messageBegin").trim());
 
         // always grab the second line

@@ -1,15 +1,13 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.apache.commons.lang3.StringUtils;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-
 import java.io.Serial;
+import org.apache.commons.lang3.StringUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * Parser for TruffleHog secret detection JSON reports.
@@ -79,11 +77,9 @@ public class TruffleHogParser extends JsonIssueParser {
 
         if (!type.isEmpty() && !foundBy.isEmpty()) {
             return type + " (detected by: " + foundBy + ")";
-        } 
-        else if (!type.isEmpty()) {
+        } else if (!type.isEmpty()) {
             return type;
-        } 
-        else if (!foundBy.isEmpty()) {
+        } else if (!foundBy.isEmpty()) {
             return "Secret detected by: " + foundBy;
         }
         return "Secret detected";

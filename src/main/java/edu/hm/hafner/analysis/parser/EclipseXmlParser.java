@@ -1,12 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
-
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-
 import edu.hm.hafner.analysis.Categories;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
@@ -14,9 +7,13 @@ import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.util.XmlElementUtil;
-
 import java.io.Serial;
 import java.util.Optional;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 /**
  * Parser for Eclipse Compiler output in XML format.
@@ -70,7 +67,8 @@ public class EclipseXmlParser extends IssueParser {
 
                 var problems = (NodeList) problemsPath.evaluate(source, XPathConstants.NODESET);
                 for (Element problem : XmlElementUtil.nodeListToList(problems)) {
-                    issueBuilder.guessSeverity(extractSeverity(problem))
+                    issueBuilder
+                            .guessSeverity(extractSeverity(problem))
                             .setLineStart(extractLineStart(problem))
                             .setMessage(extractMessage(problem))
                             .setCategory(decodeCategory(extractCategoryId(problem)))
@@ -81,8 +79,7 @@ public class EclipseXmlParser extends IssueParser {
             }
 
             return report;
-        }
-        catch (XPathExpressionException e) {
+        } catch (XPathExpressionException e) {
             throw new ParsingException(e, readerFactory);
         }
     }
@@ -90,10 +87,11 @@ public class EclipseXmlParser extends IssueParser {
     /**
      * These categories were taken from the ECJ source code. From January 15th, 2020, Ver. 3.20.
      *
-     * @param categoryId
-     *     eclipse generated category id.
+     * @param categoryId eclipse generated category id.
      * @return decoded category, or empty string.
-     * @see <a href="https://github.com/eclipse/eclipse.jdt.core/blob/master/org.eclipse.jdt.core/compiler/org/eclipse/jdt/core/compiler/CategorizedProblem.java">Eclipse Source Code</a>
+     * @see <a
+     *     href="https://github.com/eclipse/eclipse.jdt.core/blob/master/org.eclipse.jdt.core/compiler/org/eclipse/jdt/core/compiler/CategorizedProblem.java">Eclipse
+     *     Source Code</a>
      */
     @SuppressWarnings("PMD.CyclomaticComplexity")
     private String decodeCategory(final String categoryId) {
@@ -123,8 +121,7 @@ public class EclipseXmlParser extends IssueParser {
 
     private String extractMessage(final Element problem) {
         // XPath is "message/@value"
-        return XmlElementUtil.nodeListToList(problem.getChildNodes())
-                .stream()
+        return XmlElementUtil.nodeListToList(problem.getChildNodes()).stream()
                 .filter(e -> "message".equals(e.getNodeName()))
                 .findFirst()
                 .map(e -> e.getAttribute("value"))
@@ -146,8 +143,7 @@ public class EclipseXmlParser extends IssueParser {
      */
     private String extractColumnRange(final Element problem) {
         // XPath is "source_context/@sourceStart" and "source_context/@sourceEnd"
-        Optional<Element> ctx = XmlElementUtil.nodeListToList(problem.getChildNodes())
-                .stream()
+        Optional<Element> ctx = XmlElementUtil.nodeListToList(problem.getChildNodes()).stream()
                 .filter(e -> "source_context".equals(e.getNodeName()))
                 .findFirst();
 

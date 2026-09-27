@@ -1,15 +1,13 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.apache.commons.lang3.StringUtils;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-
 import java.io.Serial;
+import org.apache.commons.lang3.StringUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * A parser for gosec JSON output.
@@ -39,8 +37,7 @@ public class GosecParser extends JsonIssueParser {
         var issues = jsonReport.optJSONArray(ISSUES);
         if (issues != null) {
             parseIssues(report, issues, issueBuilder);
-        }
-        else if (looksLikeIssue(jsonReport)) {
+        } else if (looksLikeIssue(jsonReport)) {
             report.add(convertToIssue(jsonReport, issueBuilder));
         }
     }

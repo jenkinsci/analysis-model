@@ -1,18 +1,14 @@
 package edu.hm.hafner.analysis;
 
-import org.apache.commons.lang3.StringUtils;
-import org.xml.sax.SAXException;
-
 import edu.hm.hafner.analysis.ModuleDetectorRunner.FileSystemFacade;
-
 import java.io.IOException;
 import java.nio.file.InvalidPathException;
 import java.util.List;
 import java.util.Map;
+import org.apache.commons.lang3.StringUtils;
+import org.xml.sax.SAXException;
 
-/**
- * Detects module names by parsing the name of a source file, the Maven pom.xml.
- */
+/** Detects module names by parsing the name of a source file, the Maven pom.xml. */
 class MavenModuleDetector extends AbstractModuleDetector {
     static final String MAVEN_POM = "pom.xml";
 
@@ -37,9 +33,7 @@ class MavenModuleDetector extends AbstractModuleDetector {
     /**
      * Returns the project name stored in the POM.
      *
-     * @param pom
-     *         Maven POM file name
-     *
+     * @param pom Maven POM file name
      * @return the project name or an empty string if the name could not be resolved
      */
     private String parsePom(final String pom) {
@@ -57,8 +51,7 @@ class MavenModuleDetector extends AbstractModuleDetector {
 
             var result = digester.parse(file);
             return result.toString();
-        }
-        catch (IOException | SAXException | InvalidPathException ignored) {
+        } catch (IOException | SAXException | InvalidPathException ignored) {
             // ignore
         }
         return StringUtils.EMPTY;

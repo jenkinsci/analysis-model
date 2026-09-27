@@ -1,9 +1,11 @@
 package edu.hm.hafner.analysis.parser;
 
+import edu.hm.hafner.analysis.AbstractBenchmark;
+import edu.hm.hafner.analysis.FileReaderFactory;
+import edu.hm.hafner.analysis.ReaderFactory;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.util.Objects;
-
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
 import org.openjdk.jmh.annotations.Fork;
@@ -13,10 +15,6 @@ import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.infra.Blackhole;
-
-import edu.hm.hafner.analysis.AbstractBenchmark;
-import edu.hm.hafner.analysis.FileReaderFactory;
-import edu.hm.hafner.analysis.ReaderFactory;
 
 /**
  * Performance benchmarks for analysis parsers parsing xml files.
@@ -30,10 +28,8 @@ public class ParserBenchmark extends AbstractBenchmark {
     /**
      * Benchmarking for parsing an XML file with a {@link CheckStyleParser}.
      *
-     * @param state
-     *         a {@link BenchmarkState} object containing the FileReaderFactory object
-     * @param blackhole
-     *         a {@link Blackhole} to avoid dead code elimination
+     * @param state a {@link BenchmarkState} object containing the FileReaderFactory object
+     * @param blackhole a {@link Blackhole} to avoid dead code elimination
      */
     @Benchmark
     public void benchmarkCheckStyleParser(final BenchmarkState state, final Blackhole blackhole) {
@@ -45,10 +41,8 @@ public class ParserBenchmark extends AbstractBenchmark {
     /**
      * Benchmarking for parsing an xml file with a {@link PmdParser}.
      *
-     * @param state
-     *         a {@link BenchmarkState} object containing the FileReaderFactory object
-     * @param blackhole
-     *         a {@link Blackhole} to avoid dead code elminination
+     * @param state a {@link BenchmarkState} object containing the FileReaderFactory object
+     * @param blackhole a {@link Blackhole} to avoid dead code elminination
      */
     @Benchmark
     public void benchmarkPmdParser(final BenchmarkState state, final Blackhole blackhole) {
@@ -57,19 +51,18 @@ public class ParserBenchmark extends AbstractBenchmark {
         blackhole.consume(report);
     }
 
-    /**
-     * State for the benchmark containing all preconfigured and necessary objects.
-     */
+    /** State for the benchmark containing all preconfigured and necessary objects. */
     @State(Scope.Benchmark)
     public static class BenchmarkState {
         @SuppressWarnings("NullAway")
         private ReaderFactory checkstyleFileReaderFactory;
+
         @SuppressWarnings("NullAway")
         private ReaderFactory pmdFileReaderFactory;
 
         private ReaderFactory createFileReaderFactory(final String fileName) throws URISyntaxException {
-            return new FileReaderFactory(
-                    Path.of(Objects.requireNonNull(BenchmarkState.class.getResource(fileName)).toURI()));
+            return new FileReaderFactory(Path.of(Objects.requireNonNull(BenchmarkState.class.getResource(fileName))
+                    .toURI()));
         }
 
         public ReaderFactory getCheckstyleFileReaderFactory() {
@@ -80,9 +73,7 @@ public class ParserBenchmark extends AbstractBenchmark {
             return pmdFileReaderFactory;
         }
 
-        /**
-         * Initializes history and FileReaderFactory object for the benchmarks.
-         */
+        /** Initializes history and FileReaderFactory object for the benchmarks. */
         @Setup(Level.Iteration)
         public void doSetup() throws URISyntaxException {
             checkstyleFileReaderFactory = createFileReaderFactory("checkstyle/issue19122.xml");

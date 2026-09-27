@@ -1,15 +1,13 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.apache.commons.lang3.StringUtils;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
-
 import java.io.Serial;
+import org.apache.commons.lang3.StringUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * A parser for golangci-lint JSON output.
@@ -39,8 +37,7 @@ public class GolangCiLintParser extends JsonIssueParser {
         var issues = jsonReport.optJSONArray(ISSUES);
         if (issues != null) {
             parseIssues(report, issues, issueBuilder);
-        }
-        else if (looksLikeIssue(jsonReport)) {
+        } else if (looksLikeIssue(jsonReport)) {
             report.add(convertToIssue(jsonReport, issueBuilder));
         }
     }
@@ -87,12 +84,15 @@ public class GolangCiLintParser extends JsonIssueParser {
             return;
         }
 
-        issueBuilder.setFileName(position.optString(FILENAME))
+        issueBuilder
+                .setFileName(position.optString(FILENAME))
                 .setLineStart(position.optInt(LINE))
                 .setColumnStart(position.optInt(COLUMN));
     }
 
-    private void applyLineRange(@CheckForNull final JSONObject lineRange, final IssueBuilder issueBuilder,
+    private void applyLineRange(
+            @CheckForNull final JSONObject lineRange,
+            final IssueBuilder issueBuilder,
             @CheckForNull final JSONObject position) {
         if (lineRange == null) {
             return;

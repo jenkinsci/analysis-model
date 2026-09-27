@@ -1,13 +1,12 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.util.Optional;
-import java.util.regex.Matcher;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.util.LookaheadStream;
+import java.io.Serial;
+import java.util.Optional;
+import java.util.regex.Matcher;
 
 /**
  * A parser for Flex SDK compiler warnings.
@@ -21,9 +20,7 @@ public class FlexSdkParser extends LookaheadParser {
     private static final String FLEX_SDK_WARNING_PATTERN = "^\\s*(?:\\[.*\\])?\\s*(.*\\.as|.*\\.mxml)\\((\\d*)\\)"
             + ":\\s*(?:col:\\s*\\d*\\s*)?(?:Warning)\\s*:\\s*(.*)$";
 
-    /**
-     * Creates a new instance of {@link FlexSdkParser}.
-     */
+    /** Creates a new instance of {@link FlexSdkParser}. */
     public FlexSdkParser() {
         super(FLEX_SDK_WARNING_PATTERN);
     }
@@ -34,8 +31,8 @@ public class FlexSdkParser extends LookaheadParser {
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
-            final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(
+            final Matcher matcher, final LookaheadStream lookahead, final IssueBuilder builder) {
         return builder.setFileName(matcher.group(1))
                 .setLineStart(matcher.group(2))
                 .setMessage(matcher.group(3))

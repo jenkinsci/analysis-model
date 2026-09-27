@@ -1,16 +1,14 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.util.Iterator;
-
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import java.util.Iterator;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the class {@link PhpParser}.
@@ -44,7 +42,8 @@ class PhpParserTest extends AbstractParserTest {
                     .hasCategory(FATAL_ERROR_CATEGORY)
                     .hasLineStart(0)
                     .hasLineEnd(0)
-                    .hasMessage("SOAP-ERROR: Parsing WSDL: Couldn't load from '...' : failed to load external entity \"...\"")
+                    .hasMessage(
+                            "SOAP-ERROR: Parsing WSDL: Couldn't load from '...' : failed to load external entity \"...\"")
                     .hasFileName("-");
         }
     }
@@ -60,7 +59,8 @@ class PhpParserTest extends AbstractParserTest {
                 .hasCategory(WARNING_CATEGORY)
                 .hasLineStart(25)
                 .hasLineEnd(25)
-                .hasMessage("include_once(): Failed opening 'RegexpLineParser.php' for inclusion (include_path='.:/usr/share/pear') in PhpParser.php on line 25")
+                .hasMessage(
+                        "include_once(): Failed opening 'RegexpLineParser.php' for inclusion (include_path='.:/usr/share/pear') in PhpParser.php on line 25")
                 .hasFileName("PhpParser.php");
 
         softly.assertThat(iterator.next())
@@ -92,7 +92,8 @@ class PhpParserTest extends AbstractParserTest {
                 .hasCategory(WARNING_CATEGORY)
                 .hasLineStart(34)
                 .hasLineEnd(34)
-                .hasMessage("Missing argument 1 for Title::getText(), called in Title.php on line 22 and defined in Category.php on line 34")
+                .hasMessage(
+                        "Missing argument 1 for Title::getText(), called in Title.php on line 22 and defined in Category.php on line 34")
                 .hasFileName("Category.php");
     }
 

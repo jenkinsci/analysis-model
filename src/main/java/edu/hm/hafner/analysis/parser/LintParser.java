@@ -1,18 +1,16 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.apache.commons.lang3.StringUtils;
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
-
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-
 import java.io.Serial;
+import org.apache.commons.lang3.StringUtils;
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * Parser for Lint.
@@ -22,6 +20,7 @@ import java.io.Serial;
 public class LintParser extends IssueParser {
     @Serial
     private static final long serialVersionUID = 3341424685245834156L;
+
     private static final String FILE = "file";
 
     @Override
@@ -31,9 +30,7 @@ public class LintParser extends IssueParser {
         return report;
     }
 
-    /**
-     * Handles parsing.
-     */
+    /** Handles parsing. */
     static class JsLintXmlSaxParser extends DefaultHandler {
         private static final String ISSUE = "issue";
         private static final String ERROR = "error";
@@ -42,6 +39,7 @@ public class LintParser extends IssueParser {
 
         /** Categories. */
         static final String CATEGORY_PARSING = "Parsing";
+
         static final String CATEGORY_UNDEFINED_VARIABLE = "Undefined Variable";
         static final String CATEGORY_FORMATTING = "Formatting";
         private final IssueBuilder issueBuilder;
@@ -54,8 +52,8 @@ public class LintParser extends IssueParser {
         }
 
         @Override
-        public void startElement(final String namespaceURI,
-                final String localName, final String key, final Attributes atts) {
+        public void startElement(
+                final String namespaceURI, final String localName, final String key, final Attributes atts) {
             if (isLintDerivate(key)) {
                 return; // Start element, good to skip
             }
@@ -78,23 +76,20 @@ public class LintParser extends IssueParser {
             if (message.startsWith("Expected")) {
                 priority = Severity.WARNING_HIGH;
                 category = CATEGORY_PARSING;
-            }
-            else if (message.endsWith(" is not defined.")) {
+            } else if (message.endsWith(" is not defined.")) {
                 priority = Severity.WARNING_HIGH;
                 category = CATEGORY_UNDEFINED_VARIABLE;
-            }
-            else if (message.contains("Mixed spaces and tabs")) {
+            } else if (message.contains("Mixed spaces and tabs")) {
                 priority = Severity.WARNING_LOW;
                 category = CATEGORY_FORMATTING;
-            }
-            else if (message.contains("Unnecessary semicolon")) {
+            } else if (message.contains("Unnecessary semicolon")) {
                 category = CATEGORY_FORMATTING;
-            }
-            else if (message.contains("is better written in dot notation")) {
+            } else if (message.contains("is better written in dot notation")) {
                 category = CATEGORY_FORMATTING;
             }
 
-            issueBuilder.setFileName(fileName)
+            issueBuilder
+                    .setFileName(fileName)
                     .setLineStart(attributes.getValue("line"))
                     .setColumnStart(extractFrom(attributes, "column", "char"))
                     .setCategory(category)

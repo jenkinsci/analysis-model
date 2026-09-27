@@ -1,14 +1,12 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
-
 import java.io.Serial;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * A parser for CFN-Lint JSON output.
@@ -51,7 +49,8 @@ public class CfnLintParser extends JsonIssueParser {
     }
 
     private Issue convertToIssue(final JSONObject jsonIssue, final IssueBuilder issueBuilder) {
-        issueBuilder.setFileName(jsonIssue.optString(FILE_NAME))
+        issueBuilder
+                .setFileName(jsonIssue.optString(FILE_NAME))
                 .guessSeverity(jsonIssue.optString(LEVEL, "warning"))
                 .setMessage(jsonIssue.optString(MESSAGE));
 

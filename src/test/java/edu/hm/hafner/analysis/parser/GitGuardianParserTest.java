@@ -1,8 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.nio.file.FileSystems;
-
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 import edu.hm.hafner.analysis.FileReaderFactory;
 import edu.hm.hafner.analysis.IssueParser;
@@ -13,8 +11,8 @@ import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
 import edu.hm.hafner.analysis.registry.ParserRegistry;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import java.nio.file.FileSystems;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the class {@link GitGuardianParser}.
@@ -318,16 +316,17 @@ class GitGuardianParserTest extends AbstractParserTest {
 
     @Test
     void accepts() {
-        assertThat(new GitGuardianParser().accepts(
-                new FileReaderFactory(FileSystems.getDefault().getPath("gitguardian-report.json")))).isTrue();
-        assertThat(new GitGuardianParser().accepts(
-                new FileReaderFactory(FileSystems.getDefault().getPath("gitguardian-report.txt")))).isFalse();
+        assertThat(new GitGuardianParser()
+                        .accepts(new FileReaderFactory(FileSystems.getDefault().getPath("gitguardian-report.json"))))
+                .isTrue();
+        assertThat(new GitGuardianParser()
+                        .accepts(new FileReaderFactory(FileSystems.getDefault().getPath("gitguardian-report.txt"))))
+                .isFalse();
     }
 
     @Test
     void brokenInput() {
-        assertThatThrownBy(() -> parse("eclipse.txt"))
-                .isInstanceOf(ParsingException.class);
+        assertThatThrownBy(() -> parse("eclipse.txt")).isInstanceOf(ParsingException.class);
     }
 
     @Override

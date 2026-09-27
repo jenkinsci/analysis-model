@@ -1,25 +1,18 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-
 import java.io.Serial;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * A parser for hadolint json output.
  *
- * <p>
- * Possible usage via docker is:
- * </p>
- * {@code
- * <pre>
- *     docker run --rm -i hadolint/hadolint hadolint -f json - < Dockerfile | jq.
- * </pre>}
+ * <p>Possible usage via docker is: {@code <pre> docker run --rm -i hadolint/hadolint hadolint -f json - < Dockerfile |
+ * jq. </pre>}
  *
  * @author Andreas Mandel
  * @see <a href="https://github.com/hadolint/hadolint">hadolint</a>

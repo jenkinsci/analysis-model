@@ -1,8 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.nio.file.FileSystems;
-
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.assertThat;
+import static edu.hm.hafner.analysis.assertions.Assertions.assertThatThrownBy;
 
 import edu.hm.hafner.analysis.FileReaderFactory;
 import edu.hm.hafner.analysis.IssueParser;
@@ -13,8 +12,8 @@ import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
 import edu.hm.hafner.analysis.registry.ParserRegistry;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import java.nio.file.FileSystems;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the class {@link CookstyleParser}.
@@ -47,7 +46,8 @@ class CookstyleParserTest extends AbstractParserTest {
                 .hasColumnStart(1)
                 .hasColumnEnd(30)
                 .hasType("Chef/Deprecations/ResourceInheritsFromCompatResource")
-                .hasMessage("Resource still sets updated_by_last_action. In Chef Infra Client 13+ this is no longer necessary.")
+                .hasMessage(
+                        "Resource still sets updated_by_last_action. In Chef Infra Client 13+ this is no longer necessary.")
                 .hasSeverity(Severity.WARNING_HIGH);
 
         softly.assertThat(report.get(2))
@@ -57,7 +57,8 @@ class CookstyleParserTest extends AbstractParserTest {
                 .hasColumnStart(1)
                 .hasColumnEnd(50)
                 .hasType("Chef/Correctness/MetadataMissingName")
-                .hasMessage("Cookbook metadata.rb does not declare a 'name' field. This is required in Chef Infra Client 12+.")
+                .hasMessage(
+                        "Cookbook metadata.rb does not declare a 'name' field. This is required in Chef Infra Client 12+.")
                 .hasSeverity(Severity.ERROR);
 
         softly.assertThat(report.get(3))
@@ -78,16 +79,17 @@ class CookstyleParserTest extends AbstractParserTest {
 
     @Test
     void accepts() {
-        assertThat(new CookstyleParser().accepts(
-                new FileReaderFactory(FileSystems.getDefault().getPath("cookstyle-report.json")))).isTrue();
-        assertThat(new CookstyleParser().accepts(
-                new FileReaderFactory(FileSystems.getDefault().getPath("foo.txt")))).isFalse();
+        assertThat(new CookstyleParser()
+                        .accepts(new FileReaderFactory(FileSystems.getDefault().getPath("cookstyle-report.json"))))
+                .isTrue();
+        assertThat(new CookstyleParser()
+                        .accepts(new FileReaderFactory(FileSystems.getDefault().getPath("foo.txt"))))
+                .isFalse();
     }
 
     @Test
     void brokenInput() {
-        assertThatThrownBy(() -> parse("eclipse.txt"))
-                .isInstanceOf(ParsingException.class);
+        assertThatThrownBy(() -> parse("eclipse.txt")).isInstanceOf(ParsingException.class);
     }
 
     @Test
@@ -189,9 +191,7 @@ class CookstyleParserTest extends AbstractParserTest {
                 .hasColumnEnd(0);
     }
 
-    /**
-     * Verifies the full RuboCop/Cookstyle severity mapping applied by {@link CookstyleParser#mapSeverity(String)}.
-     */
+    /** Verifies the full RuboCop/Cookstyle severity mapping applied by {@link CookstyleParser#mapSeverity(String)}. */
     @Test
     void shouldMapAllSeverities() {
         var report = parseStringContent("""
@@ -273,10 +273,10 @@ class CookstyleParserTest extends AbstractParserTest {
                 """);
 
         assertThat(report).hasSize(6);
-        assertThat(report.get(0)).hasSeverity(Severity.ERROR);          
-        assertThat(report.get(1)).hasSeverity(Severity.ERROR);          
+        assertThat(report.get(0)).hasSeverity(Severity.ERROR);
+        assertThat(report.get(1)).hasSeverity(Severity.ERROR);
         assertThat(report.get(2)).hasSeverity(Severity.WARNING_HIGH);
-        assertThat(report.get(3)).hasSeverity(Severity.WARNING_NORMAL); 
+        assertThat(report.get(3)).hasSeverity(Severity.WARNING_NORMAL);
         assertThat(report.get(4)).hasSeverity(Severity.WARNING_NORMAL);
         assertThat(report.get(5)).hasSeverity(Severity.WARNING_LOW);
     }

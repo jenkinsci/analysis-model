@@ -27,13 +27,15 @@ class FlawfinderParserTest extends AbstractParserTest {
                 .hasFileName("src/Bar.c")
                 .hasLineStart(779)
                 .hasCategory("buffer")
-                .hasMessage("strncat:Easily used incorrectly (e.g., incorrectly computing the correct maximum size to add) [MS-banned] (CWE-120).")
+                .hasMessage(
+                        "strncat:Easily used incorrectly (e.g., incorrectly computing the correct maximum size to add) [MS-banned] (CWE-120).")
                 .hasSeverity(Severity.WARNING_HIGH);
         softly.assertThat(report.get(1))
                 .hasFileName("src/main.c")
                 .hasLineStart(114)
                 .hasCategory("format")
-                .hasMessage("printf:If format strings can be influenced by an attacker, they can be exploited (CWE-134).  Use a constant for the format specification.")
+                .hasMessage(
+                        "printf:If format strings can be influenced by an attacker, they can be exploited (CWE-134).  Use a constant for the format specification.")
                 .hasSeverity(Severity.WARNING_NORMAL);
         softly.assertThat(report.get(2))
                 .hasFileName("src/Bar.c")

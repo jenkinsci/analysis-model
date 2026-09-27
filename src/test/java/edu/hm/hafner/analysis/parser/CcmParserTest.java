@@ -29,11 +29,9 @@ class CcmParserTest extends AbstractParserTest {
         for (Issue issue : report) {
             if (issue.getSeverity().equals(Severity.WARNING_LOW)) {
                 numberOfLowPriorityFound++;
-            }
-            else if (issue.getSeverity().equals(Severity.WARNING_NORMAL)) {
+            } else if (issue.getSeverity().equals(Severity.WARNING_NORMAL)) {
                 numberOfNormalPriorityFound++;
-            }
-            else if (issue.getSeverity().equals(Severity.WARNING_HIGH)) {
+            } else if (issue.getSeverity().equals(Severity.WARNING_HIGH)) {
                 numberOfHighPriorityFound++;
             }
         }

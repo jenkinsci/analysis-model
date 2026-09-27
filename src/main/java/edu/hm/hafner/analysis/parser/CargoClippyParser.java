@@ -1,6 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.apache.commons.lang3.StringUtils;
+import static j2html.TagCreator.*;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
@@ -10,13 +10,11 @@ import edu.hm.hafner.analysis.util.IntegerParser;
 import edu.hm.hafner.util.LookaheadStream;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static j2html.TagCreator.*;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * A parser that will attempt to parser for `cargo clippy` warnings/errors/help statements.
@@ -28,20 +26,19 @@ public class CargoClippyParser extends LookaheadParser {
     private static final long serialVersionUID = -2677728927938443703L;
 
     /** First line in a cargo-clippy message should just be the level and summary of the issue. */
-    private static final String CARGO_CLIPPY_REGEX_STRING = "^(?<level>.+):\\s+(?<summary>(?!.+generated [0-9]+ warning).+)";
+    private static final String CARGO_CLIPPY_REGEX_STRING =
+            "^(?<level>.+):\\s+(?<summary>(?!.+generated [0-9]+ warning).+)";
 
-    /**
-     * Find the line that contains the offending file, start line number, and starting column number.
-     */
-    private static final Pattern CARGO_CLIPPY_FILE_PATTERN = Pattern
-            .compile("^\\s+-->\\s(?<file>.+):(?<line>\\d+):(?<column>\\d+)");
+    /** Find the line that contains the offending file, start line number, and starting column number. */
+    private static final Pattern CARGO_CLIPPY_FILE_PATTERN =
+            Pattern.compile("^\\s+-->\\s(?<file>.+):(?<line>\\d+):(?<column>\\d+)");
 
     /** Find the lines that are the rustc recommendation on what action should be taken. */
     private static final Pattern CARGO_CLIPPY_REC_PATTERN = Pattern.compile("^(\\s+(\\d+\\s+)?)\\|(.+|\\n)");
 
     /** Find the line that is a note ine from the rust compiler. */
-    private static final Pattern CARGO_CLIPPY_NOTE_PATTERN = Pattern
-            .compile("^\\s+=\\snote:\\s`#\\[(?<level>.+)\\((?<category>.+)\\)]`.+");
+    private static final Pattern CARGO_CLIPPY_NOTE_PATTERN =
+            Pattern.compile("^\\s+=\\snote:\\s`#\\[(?<level>.+)\\((?<category>.+)\\)]`.+");
 
     /** Find the line that is a help line from the rust compiler. */
     private static final Pattern CARGO_CLIPPY_HELP_PATTERN = Pattern.compile("^\\s+=\\shelp:(.+?)(?<url>http?s:.*)?");
@@ -55,9 +52,10 @@ public class CargoClippyParser extends LookaheadParser {
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
-            final IssueBuilder builder) {
-        final var defaultSeverity = Severity.guessFromString(matcher.group("level").trim());
+    protected Optional<Issue> createIssue(
+            final Matcher matcher, final LookaheadStream lookahead, final IssueBuilder builder) {
+        final var defaultSeverity =
+                Severity.guessFromString(matcher.group("level").trim());
 
         var description = createRecommendationMessage(lookahead);
         description.setLevel(matcher.group("level"));
@@ -79,9 +77,7 @@ public class CargoClippyParser extends LookaheadParser {
     /**
      * Look ahead and try to pull out the pertinent information.
      *
-     * @param lookahead
-     *         input stream
-     *
+     * @param lookahead input stream
      * @return the collected information about the fix recommendation.
      */
     private FileInformation createRecommendationMessage(final LookaheadStream lookahead) {
@@ -96,8 +92,7 @@ public class CargoClippyParser extends LookaheadParser {
                 fileInformation.setFileName(fileInfoMatcher.group("file"));
                 fileInformation.setFileLine(IntegerParser.parseInt(fileInfoMatcher.group("line")));
                 fileInformation.setColumnStart(IntegerParser.parseInt(fileInfoMatcher.group("column")));
-            }
-            else {
+            } else {
                 var clippyRecommendationMatcher = CARGO_CLIPPY_REC_PATTERN.matcher(line);
                 if (clippyRecommendationMatcher.matches()) {
                     description.append(line);
@@ -119,8 +114,8 @@ public class CargoClippyParser extends LookaheadParser {
         }
 
         if (description.toString().indexOf('^') != -1) {
-            fileInformation.setColumnEnd(StringUtils.countMatches(description.toString(), '^')
-                    + fileInformation.getColumnStart());
+            fileInformation.setColumnEnd(
+                    StringUtils.countMatches(description.toString(), '^') + fileInformation.getColumnStart());
         }
 
         fileInformation.setRecommendation(description.toString());
@@ -155,8 +150,7 @@ public class CargoClippyParser extends LookaheadParser {
         /**
          * Set the filename where the recommendation originated.
          *
-         * @param fileName
-         *         the filename of the recommendation.
+         * @param fileName the filename of the recommendation.
          */
         @SuppressFBWarnings("NM")
         void setFileName(final String fileName) {
@@ -175,8 +169,7 @@ public class CargoClippyParser extends LookaheadParser {
         /**
          * Set the file line where the recommendation originated.
          *
-         * @param fileLine
-         *         The line number.
+         * @param fileLine The line number.
          */
         void setFileLine(final Integer fileLine) {
             this.fileLine = fileLine;
@@ -194,8 +187,7 @@ public class CargoClippyParser extends LookaheadParser {
         /**
          * Set the clippy recommendation.
          *
-         * @param recommendation
-         *         The recommendation string.
+         * @param recommendation The recommendation string.
          */
         void setRecommendation(final String recommendation) {
             this.recommendation = recommendation;
@@ -213,8 +205,7 @@ public class CargoClippyParser extends LookaheadParser {
         /**
          * Sets the category of the recommendation.
          *
-         * @param category
-         *         The category name.
+         * @param category The category name.
          */
         void setCategory(final String category) {
             this.category = category;
@@ -232,8 +223,7 @@ public class CargoClippyParser extends LookaheadParser {
         /**
          * Set the level for the recommendation.
          *
-         * @param level
-         *         The component level.
+         * @param level The component level.
          */
         void setLevel(final String level) {
             this.level = level;
@@ -251,8 +241,7 @@ public class CargoClippyParser extends LookaheadParser {
         /**
          * Get the column number where the recommendation.
          *
-         * @param column
-         *         The column number.
+         * @param column The column number.
          */
         void setColumnStart(final Integer column) {
             this.columnStart = column;
@@ -270,8 +259,7 @@ public class CargoClippyParser extends LookaheadParser {
         /**
          * Set column the end column for the current issue.
          *
-         * @param column
-         *         The value for set to notiate the endinging column.
+         * @param column The value for set to notiate the endinging column.
          */
         void setColumnEnd(final Integer column) {
             this.columnEnd = column;
@@ -289,8 +277,7 @@ public class CargoClippyParser extends LookaheadParser {
         /**
          * Set the recommendation summary.
          *
-         * @param summary
-         *         The summary itself.
+         * @param summary The summary itself.
          */
         void setSummary(final String summary) {
             this.summary = summary;
@@ -308,17 +295,17 @@ public class CargoClippyParser extends LookaheadParser {
         /**
          * Set the help context.
          *
-         * @param text
-         *         the help text
-         * @param url
-         *         the optional URL
+         * @param text the help text
+         * @param url the optional URL
          */
         void setHelp(final String text, @CheckForNull final String url) {
             if (StringUtils.isBlank(url)) {
                 help = text;
-            }
-            else {
-                help = text + a().withHref(url).withText("cargo clippy documentation").render();
+            } else {
+                help = text
+                        + a().withHref(url)
+                                .withText("cargo clippy documentation")
+                                .render();
             }
         }
 

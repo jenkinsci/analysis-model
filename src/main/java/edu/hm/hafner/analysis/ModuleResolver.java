@@ -22,13 +22,11 @@ public class ModuleResolver {
     /**
      * Resolves the absolute paths of all affected files referenced by the specified report.
      *
-     * @param report
-     *         the issues to resolve the paths for
+     * @param report the issues to resolve the paths for
      */
     public void run(final Report report) {
-        List<Issue> issuesWithoutModule = report.stream()
-                .filter(issue -> !issue.hasModuleName())
-                .toList();
+        List<Issue> issuesWithoutModule =
+                report.stream().filter(issue -> !issue.hasModuleName()).toList();
 
         if (issuesWithoutModule.isEmpty()) {
             report.logInfo("-> all issues already have a valid module name");

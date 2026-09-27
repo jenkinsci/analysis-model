@@ -1,7 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.apache.commons.lang3.StringUtils;
-
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingException;
@@ -9,11 +7,11 @@ import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
-
 import java.io.Serial;
 import java.io.UncheckedIOException;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * A parser for the EmbeddedEngineer EA Code Generator tool log files.
@@ -25,10 +23,10 @@ public class EmbeddedEngineerParser extends IssueParser {
     private static final long serialVersionUID = -1251248150731418714L;
 
     private static final String LOG_BEGINNING_PATTERN = "^\\[.*?\\].*";
-    private static final Pattern HEADER_PATTERN = Pattern.compile(
-            "^([^\\(Start)]*)(Starting code generation for)\\s(?<file>.*\\})");
-    private static final Pattern SPECIAL_WARNING_PATTERN = Pattern.compile(
-            "^\\[([^\\]]*)\\]\\s(?<severity>Warn)\\s-\\s(?<description>[^']*)'(?<module>[^']*)"
+    private static final Pattern HEADER_PATTERN =
+            Pattern.compile("^([^\\(Start)]*)(Starting code generation for)\\s(?<file>.*\\})");
+    private static final Pattern SPECIAL_WARNING_PATTERN =
+            Pattern.compile("^\\[([^\\]]*)\\]\\s(?<severity>Warn)\\s-\\s(?<description>[^']*)'(?<module>[^']*)"
                     + "'\\s(?<details>\\(?[^{]*)(?<serial>[^)]*\\})");
 
     private static final Pattern WARNING_PATTERN = Pattern.compile(
@@ -40,8 +38,7 @@ public class EmbeddedEngineerParser extends IssueParser {
             try (var lookahead = new LookaheadStream(lines, reader.getFileName())) {
                 return parse(lookahead);
             }
-        }
-        catch (UncheckedIOException e) {
+        } catch (UncheckedIOException e) {
             throw new ParsingException(e, reader);
         }
     }
@@ -61,20 +58,19 @@ public class EmbeddedEngineerParser extends IssueParser {
                     if (matcher.matches()) {
                         group = matcher.group("severity");
 
-                        description = "%s'%s' %s%s".formatted(
-                                matcher.group("description"),
-                                matcher.group("module"),
-                                matcher.group("details"),
-                                matcher.group("serial"));
+                        description = "%s'%s' %s%s"
+                                .formatted(
+                                        matcher.group("description"),
+                                        matcher.group("module"),
+                                        matcher.group("details"),
+                                        matcher.group("serial"));
                         builder.setCategory(setCategory(lines));
                         builder.setModuleName(matcher.group("module"));
-                    }
-                    else {
+                    } else {
                         group = warningMatcher.group("severity");
                         builder.setCategory(warningMatcher.group("category"));
-                        description = "%s %s".formatted(
-                                warningMatcher.group("category"),
-                                warningMatcher.group("description"));
+                        description = "%s %s"
+                                .formatted(warningMatcher.group("category"), warningMatcher.group("description"));
                     }
                     var priority = mapPriority(lines, group);
                     builder.setDescription(description);
@@ -109,11 +105,9 @@ public class EmbeddedEngineerParser extends IssueParser {
     private String setCategory(final String line) {
         if (line.contains("Complex type")) {
             return "Complex type definition without referenced element";
-        }
-        else if (line.contains("skipped")) {
+        } else if (line.contains("skipped")) {
             return "Code generation skipped";
-        }
-        else if (line.contains("failed")) {
+        } else if (line.contains("failed")) {
             return "Code generation failed";
         }
         return "No Category";
@@ -122,14 +116,11 @@ public class EmbeddedEngineerParser extends IssueParser {
     private Severity mapPriority(final String line, final String group) {
         if (line.contains("Complex type") && group.contains("Warn")) {
             return Severity.WARNING_NORMAL;
-        }
-        else if (line.contains("skipped") && group.contains("Warn")) {
+        } else if (line.contains("skipped") && group.contains("Warn")) {
             return Severity.WARNING_NORMAL;
-        }
-        else if (line.contains("failed") && group.contains("Warn")) {
+        } else if (line.contains("failed") && group.contains("Warn")) {
             return Severity.WARNING_HIGH;
-        }
-        else if (group.contains("Error")) {
+        } else if (group.contains("Error")) {
             return Severity.ERROR;
         }
         return Severity.WARNING_NORMAL;

@@ -1,9 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.apache.commons.lang3.Strings;
-import org.apache.commons.text.StringEscapeUtils;
-import org.w3c.dom.Element;
-
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingException;
@@ -12,9 +8,11 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.util.IntegerParser;
 import edu.hm.hafner.analysis.util.XmlElementUtil;
-
 import java.io.Serial;
 import java.util.List;
+import org.apache.commons.lang3.Strings;
+import org.apache.commons.text.StringEscapeUtils;
+import org.w3c.dom.Element;
 
 /**
  * A parser for IntelliJ IDEA inspections.
@@ -24,6 +22,7 @@ import java.util.List;
 public class IdeaInspectionParser extends IssueParser {
     @Serial
     private static final long serialVersionUID = 3307389086106375473L;
+
     private static final String PATH_PREFIX = "file://";
     private static final String WARNING = "WARNING";
     private static final String ERROR = "ERROR";
@@ -44,7 +43,8 @@ public class IdeaInspectionParser extends IssueParser {
                 var problemClass = XmlElementUtil.getFirstChildElementByName(element, "problem_class");
                 if (problemClass.isPresent()) {
                     var problem = problemClass.get();
-                    issueBuilder.setFileName(stripPathPrefix(file))
+                    issueBuilder
+                            .setFileName(stripPathPrefix(file))
                             .setLineStart(IntegerParser.parseInt(getChildValue(element, "line")))
                             .setCategory(StringEscapeUtils.unescapeXml(getValue(problem)))
                             .setMessage(StringEscapeUtils.unescapeXml(getChildValue(element, "description")))
@@ -61,8 +61,7 @@ public class IdeaInspectionParser extends IssueParser {
         var priority = Severity.WARNING_LOW;
         if (WARNING.equals(severity)) {
             priority = Severity.WARNING_NORMAL;
-        }
-        else if (ERROR.equals(severity)) {
+        } else if (ERROR.equals(severity)) {
             priority = Severity.WARNING_HIGH;
         }
         return priority;

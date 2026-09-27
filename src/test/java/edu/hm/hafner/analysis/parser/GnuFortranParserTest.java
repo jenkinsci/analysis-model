@@ -1,20 +1,16 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.util.Iterator;
-
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.assertThat;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
+import java.util.Iterator;
+import org.junit.jupiter.api.Test;
 
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
-
-/**
- * Tests the class {@link GnuFortranParser}.
- */
+/** Tests the class {@link GnuFortranParser}. */
 class GnuFortranParserTest extends AbstractParserTest {
     GnuFortranParserTest() {
         super("GnuFortran.txt");
@@ -65,9 +61,7 @@ class GnuFortranParserTest extends AbstractParserTest {
                 .hasColumnStart(8);
     }
 
-    /**
-     * Test parsing of a file containing a Warning message output by the GNU Fortran Compiler.
-     */
+    /** Test parsing of a file containing a Warning message output by the GNU Fortran Compiler. */
     @Test
     void testWarningParser() {
         var warnings = parse("GnuFortranWarning.txt");
@@ -85,9 +79,7 @@ class GnuFortranParserTest extends AbstractParserTest {
         }
     }
 
-    /**
-     * Test parsing of a file containing an Error message output by the GNU Fortran Compiler.
-     */
+    /** Test parsing of a file containing an Error message output by the GNU Fortran Compiler. */
     @Test
     void testErrorParser() {
         var warnings = parse("GnuFortranError.txt");
@@ -107,9 +99,7 @@ class GnuFortranParserTest extends AbstractParserTest {
         }
     }
 
-    /**
-     * Test parsing of a file containing a Fatal Error message output by the GNU Fortran Compiler.
-     */
+    /** Test parsing of a file containing a Fatal Error message output by the GNU Fortran Compiler. */
     @Test
     void testFatalErrorParser() {
         var warnings = parse("GnuFortranFatalError.txt");
@@ -128,9 +118,7 @@ class GnuFortranParserTest extends AbstractParserTest {
         }
     }
 
-    /**
-     * Test parsing of a file containing an Internal Error message output by the GNU Fortran Compiler.
-     */
+    /** Test parsing of a file containing an Internal Error message output by the GNU Fortran Compiler. */
     @Test
     void testInternalErrorParser() {
         var warnings = parse("GnuFortranInternalError.txt");
@@ -149,9 +137,7 @@ class GnuFortranParserTest extends AbstractParserTest {
         }
     }
 
-    /**
-     * Test some inputs which are not valid error messages. For these no issue should be created.
-     */
+    /** Test some inputs which are not valid error messages. For these no issue should be created. */
     @Test
     void testInvalidParser() {
         var warnings = parse("GnuFortranInvalid.txt");

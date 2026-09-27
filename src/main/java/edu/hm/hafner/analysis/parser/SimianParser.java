@@ -1,17 +1,15 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.apache.commons.digester3.Digester;
-
 import edu.hm.hafner.analysis.DuplicationGroup;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
-
 import java.io.Serial;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import org.apache.commons.digester3.Digester;
 
 /**
  * A parser for Simian XML files.
@@ -26,18 +24,16 @@ public class SimianParser extends AbstractDryParser<SimianParser.Set> {
     /**
      * Creates a new instance of {@link SimianParser}.
      *
-     * @param highThreshold
-     *         minimum number of duplicate lines for high priority warnings
-     * @param normalThreshold
-     *         minimum number of duplicate lines for normal priority warnings
+     * @param highThreshold minimum number of duplicate lines for high priority warnings
+     * @param normalThreshold minimum number of duplicate lines for normal priority warnings
      */
     public SimianParser(final int highThreshold, final int normalThreshold) {
         super(highThreshold, normalThreshold);
     }
 
     /**
-     * Creates a new instance of {@link SimianParser}. The {@code highThreshold} is set to 50, the {@code normalThreshold}
-     * is set to 25.
+     * Creates a new instance of {@link SimianParser}. The {@code highThreshold} is set to 50, the
+     * {@code normalThreshold} is set to 25.
      */
     public SimianParser() {
         super(50, 25);
@@ -63,7 +59,8 @@ public class SimianParser extends AbstractDryParser<SimianParser.Set> {
         for (Set duplication : duplications) {
             var group = new DuplicationGroup();
             for (Block file : duplication.getBlocks()) {
-                issueBuilder.setSeverity(getPriority(duplication.getLineCount()))
+                issueBuilder
+                        .setSeverity(getPriority(duplication.getLineCount()))
                         .setLineStart(file.getStartLineNumber())
                         .setLineEnd(file.getEndLineNumber())
                         .setFileName(file.getSourceFile())
@@ -89,16 +86,14 @@ public class SimianParser extends AbstractDryParser<SimianParser.Set> {
         /**
          * Adds a new block to this duplication set.
          *
-         * @param block
-         *            the new block
+         * @param block the new block
          */
         public void addBlock(final Block block) {
             blocks.add(block);
         }
 
         /**
-         * Returns all blocks of this duplication set. The returned collection is
-         * read-only.
+         * Returns all blocks of this duplication set. The returned collection is read-only.
          *
          * @return all files
          */
@@ -134,6 +129,7 @@ public class SimianParser extends AbstractDryParser<SimianParser.Set> {
     public static class Block {
         @CheckForNull
         private String sourceFile;
+
         private int startLineNumber;
         private int endLineNumber;
 
@@ -150,8 +146,7 @@ public class SimianParser extends AbstractDryParser<SimianParser.Set> {
         /**
          * Sets the file name to the specified value.
          *
-         * @param sourceFile
-         *            the value to set
+         * @param sourceFile the value to set
          */
         public void setSourceFile(@CheckForNull final String sourceFile) {
             this.sourceFile = sourceFile;
@@ -167,11 +162,9 @@ public class SimianParser extends AbstractDryParser<SimianParser.Set> {
         }
 
         /**
-         * Sets the line number of the start of the duplication to the specified
-         * value.
+         * Sets the line number of the start of the duplication to the specified value.
          *
-         * @param startLineNumber
-         *            the value to set
+         * @param startLineNumber the value to set
          */
         public void setStartLineNumber(final int startLineNumber) {
             this.startLineNumber = startLineNumber;
@@ -187,11 +180,9 @@ public class SimianParser extends AbstractDryParser<SimianParser.Set> {
         }
 
         /**
-         * Sets the line number of the end of the duplication to the specified
-         * value.
+         * Sets the line number of the end of the duplication to the specified value.
          *
-         * @param endLineNumber
-         *            the value to set
+         * @param endLineNumber the value to set
          */
         public void setEndLineNumber(final int endLineNumber) {
             this.endLineNumber = endLineNumber;

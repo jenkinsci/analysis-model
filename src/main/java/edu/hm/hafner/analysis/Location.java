@@ -2,15 +2,14 @@ package edu.hm.hafner.analysis;
 
 import edu.hm.hafner.util.TreeString;
 import edu.hm.hafner.util.VisibleForTesting;
-
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.NavigableSet;
 import java.util.TreeSet;
 
 /**
- * Represents a location of an issue within a file. It includes the file name, line and column ranges. An issue
- * can have multiple locations if it spans multiple lines or columns, or files.
+ * Represents a location of an issue within a file. It includes the file name, line and column ranges. An issue can have
+ * multiple locations if it spans multiple lines or columns, or files.
  *
  * @author Akash Manna
  */
@@ -27,19 +26,18 @@ public class Location implements Serializable {
     /**
      * Creates a new {@link Location} with the specified parameters.
      *
-     * @param fileName
-     *         the name of the file
-     * @param lineStart
-     *         the first line (lines start at 1; 0 indicates the whole file)
-     * @param lineEnd
-     *         the last line (lines start at 1)
-     * @param columnStart
-     *         the first column (columns start at 1, 0 indicates the whole line)
-     * @param columnEnd
-     *         the last column (columns start at 1)
+     * @param fileName the name of the file
+     * @param lineStart the first line (lines start at 1; 0 indicates the whole file)
+     * @param lineEnd the last line (lines start at 1)
+     * @param columnStart the first column (columns start at 1, 0 indicates the whole line)
+     * @param columnEnd the last column (columns start at 1)
      */
-    public Location(final TreeString fileName, final int lineStart, final int lineEnd,
-            final int columnStart, final int columnEnd) {
+    public Location(
+            final TreeString fileName,
+            final int lineStart,
+            final int lineEnd,
+            final int columnStart,
+            final int columnEnd) {
         this.fileName = fileName;
 
         int providedLineStart = defaultInteger(lineStart);
@@ -47,8 +45,7 @@ public class Location implements Serializable {
         if (providedLineStart == 0) {
             this.lineStart = providedLineEnd;
             this.lineEnd = providedLineEnd;
-        }
-        else {
+        } else {
             this.lineStart = Math.min(providedLineStart, providedLineEnd);
             this.lineEnd = Math.max(providedLineStart, providedLineEnd);
         }
@@ -58,11 +55,14 @@ public class Location implements Serializable {
         if (providedColumnStart == 0) {
             this.columnStart = providedColumnEnd;
             this.columnEnd = providedColumnEnd;
-        }
-        else {
+        } else {
             // if the line ends on the next line, columnStart can be greater then columnEnd
-            this.columnStart = providedLineStart < providedLineEnd ? providedColumnStart : Math.min(providedColumnStart, providedColumnEnd);
-            this.columnEnd = providedLineStart < providedLineEnd ? providedColumnEnd : Math.max(providedColumnStart, providedColumnEnd);
+            this.columnStart = providedLineStart < providedLineEnd
+                    ? providedColumnStart
+                    : Math.min(providedColumnStart, providedColumnEnd);
+            this.columnEnd = providedLineStart < providedLineEnd
+                    ? providedColumnEnd
+                    : Math.max(providedColumnStart, providedColumnEnd);
         }
     }
 
@@ -71,32 +71,24 @@ public class Location implements Serializable {
      * It uses a {@link String} for the file name instead of a {@link TreeString} which is not ideal for production
      * code.
      *
-     * @param fileName
-     *         the name of the file
-     * @param lineStart
-     *         the first line (lines start at 1; 0 indicates the whole file)
-     * @param lineEnd
-     *         the last line (lines start at 1)
-     * @param columnStart
-     *         the first column (columns start at 1, 0 indicates the whole line)
-     * @param columnEnd
-     *         the last column (columns start at 1)
+     * @param fileName the name of the file
+     * @param lineStart the first line (lines start at 1; 0 indicates the whole file)
+     * @param lineEnd the last line (lines start at 1)
+     * @param columnStart the first column (columns start at 1, 0 indicates the whole line)
+     * @param columnEnd the last column (columns start at 1)
      */
     @VisibleForTesting
-    public Location(final String fileName, final int lineStart, final int lineEnd,
-            final int columnStart, final int columnEnd) {
+    public Location(
+            final String fileName, final int lineStart, final int lineEnd, final int columnStart, final int columnEnd) {
         this(TreeString.valueOf(fileName), lineStart, lineEnd, columnStart, columnEnd);
     }
 
     /**
      * Creates a new {@link Location} with the specified file name and line range.
      *
-     * @param fileName
-     *         the name of the file
-     * @param lineStart
-     *         the first line (lines start at 1; 0 indicates the whole file)
-     * @param lineEnd
-     *         the last line (lines start at 1)
+     * @param fileName the name of the file
+     * @param lineStart the first line (lines start at 1; 0 indicates the whole file)
+     * @param lineEnd the last line (lines start at 1)
      */
     public Location(final TreeString fileName, final int lineStart, final int lineEnd) {
         this(fileName, lineStart, lineEnd, 0, 0);
@@ -105,10 +97,8 @@ public class Location implements Serializable {
     /**
      * Creates a new {@link Location} with the specified file name and line.
      *
-     * @param fileName
-     *         the name of the file
-     * @param lineStart
-     *         the line number (lines start at 1; 0 indicates the whole file)
+     * @param fileName the name of the file
+     * @param lineStart the line number (lines start at 1; 0 indicates the whole file)
      */
     public Location(final TreeString fileName, final int lineStart) {
         this(fileName, lineStart, lineStart, 0, 0);
@@ -117,8 +107,7 @@ public class Location implements Serializable {
     /**
      * Creates a new {@link Location} with the specified file name.
      *
-     * @param fileName
-     *         the name of the file
+     * @param fileName the name of the file
      */
     public Location(final TreeString fileName) {
         this(fileName, 0, 0, 0, 0);
@@ -127,9 +116,7 @@ public class Location implements Serializable {
     /**
      * Creates a default Integer representation for undefined input parameters.
      *
-     * @param integer
-     *         the integer to check
-     *
+     * @param integer the integer to check
      * @return the valid integer value or 0 if the specified {@link Integer} is {@code null} or less than 0
      */
     private int defaultInteger(final int integer) {

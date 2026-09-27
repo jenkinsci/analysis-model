@@ -1,18 +1,16 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.apache.commons.digester3.Digester;
-
 import edu.hm.hafner.analysis.DuplicationGroup;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 import java.io.Serial;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import org.apache.commons.digester3.Digester;
 
 /**
  * A parser for Reshaper Dupfinder XML files.
@@ -27,18 +25,16 @@ public class DupFinderParser extends AbstractDryParser<DupFinderParser.Duplicate
     /**
      * Creates a new instance of {@link DupFinderParser}.
      *
-     * @param highThreshold
-     *         minimum number of duplicate lines for high priority warnings
-     * @param normalThreshold
-     *         minimum number of duplicate lines for normal priority warnings
+     * @param highThreshold minimum number of duplicate lines for high priority warnings
+     * @param normalThreshold minimum number of duplicate lines for normal priority warnings
      */
     public DupFinderParser(final int highThreshold, final int normalThreshold) {
         super(highThreshold, normalThreshold);
     }
 
     /**
-     * Creates a new instance of {@link DupFinderParser}. The {@code highThreshold} is set to 50, the {@code normalThreshold}
-     * is set to 25.
+     * Creates a new instance of {@link DupFinderParser}. The {@code highThreshold} is set to 50, the
+     * {@code normalThreshold} is set to 25.
      */
     public DupFinderParser() {
         super(50, 25);
@@ -80,7 +76,8 @@ public class DupFinderParser extends AbstractDryParser<DupFinderParser.Duplicate
                 group.setCodeFragment(fragment.getText());
                 var lineRange = fragment.getLineRange();
                 int count = lineRange.getEnd() - lineRange.getStart() + 1;
-                issueBuilder.setSeverity(getPriority(count))
+                issueBuilder
+                        .setSeverity(getPriority(count))
                         .setLineStart(lineRange.getStart())
                         .setLineEnd(lineRange.getEnd())
                         .setFileName(fragment.getFileName())
@@ -128,16 +125,14 @@ public class DupFinderParser extends AbstractDryParser<DupFinderParser.Duplicate
         /**
          * Adds a new file to this duplication.
          *
-         * @param file
-         *            the new file
+         * @param file the new file
          */
         public void addFragment(final Fragment file) {
             fragments.add(file);
         }
 
         /**
-         * Returns all files of the duplication. The returned collection is
-         * read-only.
+         * Returns all files of the duplication. The returned collection is read-only.
          *
          * @return all files
          */
@@ -156,10 +151,13 @@ public class DupFinderParser extends AbstractDryParser<DupFinderParser.Duplicate
     public static class Fragment {
         @CheckForNull
         private String fileName;
+
         @CheckForNull
         private String text;
+
         @CheckForNull
         private Range lineRange;
+
         @CheckForNull
         private Range offsetRange;
 

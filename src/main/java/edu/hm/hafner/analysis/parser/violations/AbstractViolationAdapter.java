@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis.parser.violations;
 
+import static se.bjurr.violations.lib.model.SEVERITY.*;
+
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
@@ -11,7 +13,6 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.TreeString;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
-
 import java.io.Serial;
 import java.util.Set;
 import java.util.logging.Level;
@@ -19,8 +20,6 @@ import se.bjurr.violations.lib.ViolationsLogger;
 import se.bjurr.violations.lib.model.SEVERITY;
 import se.bjurr.violations.lib.model.Violation;
 import se.bjurr.violations.lib.parsers.ViolationsParser;
-
-import static se.bjurr.violations.lib.model.SEVERITY.*;
 
 /**
  * Adapter for {@link ViolationsParser} instances. Converts the results of a {@link ViolationsParser} into a static
@@ -34,15 +33,13 @@ public abstract class AbstractViolationAdapter extends IssueParser {
 
     @SuppressWarnings({"illegalcatch", "OverlyBroadCatchBlock"})
     @Override
-    protected Report parseReport(final ReaderFactory readerFactory)
-            throws ParsingCanceledException, ParsingException {
+    protected Report parseReport(final ReaderFactory readerFactory) throws ParsingCanceledException, ParsingException {
         try {
             var parser = createParser();
-            Set<Violation> violations = parser.parseReportOutput(readerFactory.readString(),
-                    new NullViolationsLogger());
+            Set<Violation> violations =
+                    parser.parseReportOutput(readerFactory.readString(), new NullViolationsLogger());
             return convertToReport(violations);
-        }
-        catch (Exception exception) {
+        } catch (Exception exception) {
             throw new ParsingException(exception, readerFactory);
         }
     }
@@ -57,9 +54,7 @@ public abstract class AbstractViolationAdapter extends IssueParser {
     /**
      * Converts the list of violations to a corresponding report of issues.
      *
-     * @param violations
-     *         the violations
-     *
+     * @param violations the violations
      * @return the report
      */
     Report convertToReport(final Set<Violation> violations) {
@@ -80,10 +75,8 @@ public abstract class AbstractViolationAdapter extends IssueParser {
     /**
      * Post processes the report.
      *
-     * @param report
-     *         the report with all converted and valid issues
-     * @param violations
-     *         the violations that have been converted
+     * @param report the report with all converted and valid issues
+     * @param violations the violations that have been converted
      */
     void postProcess(final Report report, final Set<Violation> violations) {
         // empty default implementation
@@ -93,9 +86,7 @@ public abstract class AbstractViolationAdapter extends IssueParser {
      * Returns whether this violation is valid and should be converted to an {@link Issue}. Return {@code false} if the
      * specified violation is a false positive or should not be counted.
      *
-     * @param violation
-     *         the violation to check
-     *
+     * @param violation the violation to check
      * @return {@code true} if the violation is valid, {@code false} otherwise
      */
     boolean isValid(final Violation violation) {
@@ -105,11 +96,8 @@ public abstract class AbstractViolationAdapter extends IssueParser {
     /**
      * Converts the specified violation to a corresponding {@link Issue} instance.
      *
-     * @param violation
-     *         the violation
-     * @param builder
-     *         the issue builder to use
-     *
+     * @param violation the violation
+     * @param builder the issue builder to use
      * @return corresponding {@link Issue}
      */
     Issue convertToIssue(final Violation violation, final IssueBuilder builder) {
@@ -123,13 +111,12 @@ public abstract class AbstractViolationAdapter extends IssueParser {
      * Converts the specified violation to a corresponding {@link Issue} instance by setting the properties in the
      * provided {@link IssueBuilder}.
      *
-     * @param violation
-     *         the violation
-     * @param builder
-     *         the issue builder to change
+     * @param violation the violation
+     * @param builder the issue builder to change
      */
     void updateIssueBuilder(final Violation violation, final IssueBuilder builder) {
-        var location = new Location(TreeString.valueOf(getFileName(violation)),
+        var location = new Location(
+                TreeString.valueOf(getFileName(violation)),
                 toValidInt(violation.getStartLine()),
                 toValidInt(violation.getEndLine()),
                 toValidInt(violation.getColumn()),
@@ -145,9 +132,7 @@ public abstract class AbstractViolationAdapter extends IssueParser {
      * Returns the file name for the specified violation. Subclasses may override to provide a different file name or a
      * modified version of the file name.
      *
-     * @param violation
-     *         the violation
-     *
+     * @param violation the violation
      * @return the file name
      */
     protected String getFileName(final Violation violation) {
@@ -157,9 +142,7 @@ public abstract class AbstractViolationAdapter extends IssueParser {
     /**
      * Creates a default Integer representation for undefined input parameters.
      *
-     * @param integer
-     *         the integer to check
-     *
+     * @param integer the integer to check
      * @return the valid integer value or 0 if the specified {@link Integer} is {@code null} or less than 0
      */
     int toValidInt(@CheckForNull final Integer integer) {
@@ -173,10 +156,8 @@ public abstract class AbstractViolationAdapter extends IssueParser {
      * Subclasses may add additional {@link IssueBuilder} properties based on the content of the specified
      * {@link Violation}. This default implementation is empty.
      *
-     * @param builder
-     *         the issue builder to change
-     * @param violation
-     *         the violation instance
+     * @param builder the issue builder to change
+     * @param violation the violation instance
      */
     void extractAdditionalProperties(final IssueBuilder builder, final Violation violation) {
         // default implementation is empty
@@ -186,11 +167,8 @@ public abstract class AbstractViolationAdapter extends IssueParser {
      * Computes the {@link Severity} from the specified {@link SEVERITY}. Subclasses may override and use any of the
      * properties of the provided violation.
      *
-     * @param severity
-     *         the severity
-     * @param violation
-     *         the violation instance
-     *
+     * @param severity the severity
+     * @param violation the violation instance
      * @return the {@link Severity}
      */
     Severity convertSeverity(final SEVERITY severity, final Violation violation) {
@@ -203,9 +181,7 @@ public abstract class AbstractViolationAdapter extends IssueParser {
         return Severity.WARNING_LOW;
     }
 
-    /**
-     * A logger that does nothing.
-     */
+    /** A logger that does nothing. */
     private static class NullViolationsLogger implements ViolationsLogger {
         @Override
         public void log(final Level level, final String s) {

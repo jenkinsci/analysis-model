@@ -1,14 +1,8 @@
 package edu.hm.hafner.analysis;
 
-import org.apache.commons.lang3.StringUtils;
-import org.w3c.dom.Document;
-import org.xml.sax.helpers.DefaultHandler;
-
 import com.google.errorprone.annotations.MustBeClosed;
-
 import edu.hm.hafner.util.SecureXmlParserFactory;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
@@ -18,6 +12,9 @@ import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.apache.commons.lang3.StringUtils;
+import org.w3c.dom.Document;
+import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * Provides several useful helper methods to read the contents of a resource that is given by a {@link Reader}.
@@ -30,16 +27,14 @@ public abstract class ReaderFactory {
     private final Charset charset;
     private final Function<String, String> lineMapper;
 
-    private static final Pattern ANSI_COLOR_CODES
-            = Pattern.compile("\u001B\\[[;\\d]*[ -/]*[@-~]");
-    private static final Function<String, String> REMOVE_COLOR_CODES
-            = string -> ANSI_COLOR_CODES.matcher(string).replaceAll(StringUtils.EMPTY);
+    private static final Pattern ANSI_COLOR_CODES = Pattern.compile("\u001B\\[[;\\d]*[ -/]*[@-~]");
+    private static final Function<String, String> REMOVE_COLOR_CODES =
+            string -> ANSI_COLOR_CODES.matcher(string).replaceAll(StringUtils.EMPTY);
 
     /**
      * Creates a new factory to read a resource with a given charset.
      *
-     * @param charset
-     *         the charset to use when reading the file
+     * @param charset the charset to use when reading the file
      */
     protected ReaderFactory(final Charset charset) {
         this(charset, IDENTITY);
@@ -48,10 +43,8 @@ public abstract class ReaderFactory {
     /**
      * Creates a new factory to read a resource with a given charset.
      *
-     * @param charset
-     *         the charset to use when reading the file
-     * @param lineMapper
-     *         provides a mapper to transform each of the resource lines
+     * @param charset the charset to use when reading the file
+     * @param lineMapper provides a mapper to transform each of the resource lines
      */
     protected ReaderFactory(final Charset charset, final Function<String, String> lineMapper) {
         this.charset = charset;
@@ -77,8 +70,7 @@ public abstract class ReaderFactory {
      * Provides the lines of the file as a {@link Stream} of strings.
      *
      * @return the file content as stream
-     * @throws ParsingException
-     *         if the file could not be read
+     * @throws ParsingException if the file could not be read
      */
     @MustBeClosed
     @SuppressWarnings({"MustBeClosedChecker", "PMD.CloseResource"})
@@ -88,12 +80,10 @@ public abstract class ReaderFactory {
             Stream<String> stringStream = reader.lines().onClose(closeReader(reader));
             if (hasLineMapper()) {
                 return stringStream.map(lineMapper);
-            }
-            else {
+            } else {
                 return stringStream;
             }
-        }
-        catch (UncheckedIOException e) {
+        } catch (UncheckedIOException e) {
             throw new ParsingException(e, this);
         }
     }
@@ -103,8 +93,7 @@ public abstract class ReaderFactory {
         return () -> {
             try {
                 closeable.close();
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 throw new ParsingException(e, this);
             }
         };
@@ -120,14 +109,12 @@ public abstract class ReaderFactory {
      * Reads the whole file into a {@link String}.
      *
      * @return the file content as string
-     * @throws ParsingException
-     *         if the file could not be read
+     * @throws ParsingException if the file could not be read
      */
     public String readString() {
         try (Stream<String> lines = readStream()) {
             return lines.collect(Collectors.joining("\n"));
-        }
-        catch (UncheckedIOException exception) {
+        } catch (UncheckedIOException exception) {
             throw new ParsingException(exception, this);
         }
     }
@@ -136,15 +123,13 @@ public abstract class ReaderFactory {
      * Parses the whole file into a {@link Document}.
      *
      * @return the file content as document
-     * @throws ParsingException
-     *         if the file could not be parsed
+     * @throws ParsingException if the file could not be parsed
      */
     public Document readDocument() {
         try (var reader = create()) {
             var parserFactory = new SecureXmlParserFactory();
             return parserFactory.readDocument(reader, getCharset());
-        }
-        catch (IOException | SecureXmlParserFactory.ParsingException exception) {
+        } catch (IOException | SecureXmlParserFactory.ParsingException exception) {
             throw new ParsingException(exception, this);
         }
     }
@@ -161,17 +146,13 @@ public abstract class ReaderFactory {
     /**
      * Parses the whole file with the specified SAX {@link DefaultHandler}.
      *
-     * @param handler
-     *         the SAX handler to parse the file
-     *
-     * @throws ParsingException
-     *         if the file could not be parsed
+     * @param handler the SAX handler to parse the file
+     * @throws ParsingException if the file could not be parsed
      */
     public void parse(final DefaultHandler handler) {
         try (var reader = create()) {
             new SecureXmlParserFactory().parse(reader, getCharset(), handler);
-        }
-        catch (IOException | SecureXmlParserFactory.ParsingException exception) {
+        } catch (IOException | SecureXmlParserFactory.ParsingException exception) {
             throw new ParsingException(exception, this);
         }
     }

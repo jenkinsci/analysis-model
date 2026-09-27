@@ -5,7 +5,6 @@ import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
-
 import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -37,29 +36,28 @@ public class GnuFortranParser extends LookaheadParser {
     /** Optional part of the category. */
     private static final Pattern MESSAGE_TRIM_PATTERN = Pattern.compile(" at \\(\\d\\)");
     /** Regex to match the category and the actual error message itself. */
-    private static final Pattern ERROR_MESSAGE_PATTERN = Pattern.compile("(Warning|Error|Fatal Error|Internal Error at \\(1\\)):\\s?(.*)");
+    private static final Pattern ERROR_MESSAGE_PATTERN =
+            Pattern.compile("(Warning|Error|Fatal Error|Internal Error at \\(1\\)):\\s?(.*)");
 
-    /**
-     * Creates a new instance of {@link GnuFortranParser}.
-     */
+    /** Creates a new instance of {@link GnuFortranParser}. */
     public GnuFortranParser() {
         super(MESSAGE_START_REGEX);
     }
 
     /**
-     * This Function is called once the start of a possible error message is detected.
-     * It uses the provided lookaheadStream to check if the following lines match the message too.
-     * The lines from the lookaheadStream are only consumed if they are successfully matched to a part
-     * of the error message, if they can not be matched the function returns without creating an issue.
+     * This Function is called once the start of a possible error message is detected. It uses the provided
+     * lookaheadStream to check if the following lines match the message too. The lines from the lookaheadStream are
+     * only consumed if they are successfully matched to a part of the error message, if they can not be matched the
+     * function returns without creating an issue.
      *
      * @param matcher the regular expression matcher
      * @param lookahead the lookahead stream to read additional lines
      * @param builder the issue builder to use
-     *
      * @return Issue if the rest of the message was sucesfully matched too
      */
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead, final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(
+            final Matcher matcher, final LookaheadStream lookahead, final IssueBuilder builder) {
         // Gather location of the error.
 
         // Match all include lines

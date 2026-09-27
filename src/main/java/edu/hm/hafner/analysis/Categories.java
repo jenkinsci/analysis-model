@@ -1,12 +1,11 @@
 package edu.hm.hafner.analysis;
 
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Strings;
 
-import edu.umd.cs.findbugs.annotations.CheckForNull;
-
 /**
- * Provides convenience methods to detect categories. 
+ * Provides convenience methods to detect categories.
  *
  * @author Ullrich Hafner
  */
@@ -23,9 +22,7 @@ public final class Categories {
     /**
      * Classifies the warning message: tries to guess a category from the warning message.
      *
-     * @param message
-     *         the message to check
-     *
+     * @param message the message to check
      * @return warning category, empty string if unknown
      */
     public static String guessCategory(@CheckForNull final String message) {
@@ -42,11 +39,8 @@ public final class Categories {
      * Returns a category for the current warning. If the provided category is not empty, then a capitalized string is
      * returned. Otherwise the category is obtained from the specified message text.
      *
-     * @param category
-     *         the warning category (might be empty)
-     * @param message
-     *         the warning message
-     *
+     * @param category the warning category (might be empty)
+     * @param message the warning message
      * @return the actual category
      */
     public static String guessCategoryIfEmpty(@CheckForNull final String category, @CheckForNull final String message) {

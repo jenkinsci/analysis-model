@@ -1,7 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.apache.commons.lang3.StringUtils;
-import org.w3c.dom.Element;
+import static edu.hm.hafner.analysis.util.IntegerParser.parseInt;
 
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
@@ -11,14 +10,13 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.util.XmlElementUtil;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
-
 import java.io.Serial;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
-
-import static edu.hm.hafner.analysis.util.IntegerParser.*;
+import org.apache.commons.lang3.StringUtils;
+import org.w3c.dom.Element;
 
 /**
  * Parses Gendarme violations.
@@ -41,7 +39,8 @@ public class GendarmeParser extends IssueParser {
         var mainNode = document.getElementsByTagName("gendarme-output");
 
         var rootElement = (Element) mainNode.item(0);
-        var resultsElement = (Element) rootElement.getElementsByTagName("results").item(0);
+        var resultsElement =
+                (Element) rootElement.getElementsByTagName("results").item(0);
         var rulesElement = (Element) rootElement.getElementsByTagName("rules").item(0);
 
         Map<String, GendarmeRule> rules = parseRules(XmlElementUtil.getChildElementsByName(rulesElement, "rule"));
@@ -53,20 +52,23 @@ public class GendarmeParser extends IssueParser {
             var warnings = new Report();
             for (Element ruleElement : ruleElements) {
                 var ruleName = ruleElement.getAttribute("Name");
-                var problem = ruleElement.getElementsByTagName("problem").item(0).getTextContent();
+                var problem =
+                        ruleElement.getElementsByTagName("problem").item(0).getTextContent();
                 List<Element> targetElements = XmlElementUtil.getChildElementsByName(ruleElement, "target");
 
                 var rule = rules.get(ruleName);
                 if (rule != null) {
                     for (Element targetElement : targetElements) {
-                        var defectElement = (Element) targetElement.getElementsByTagName("defect").item(0);
+                        var defectElement = (Element)
+                                targetElement.getElementsByTagName("defect").item(0);
                         var source = defectElement.getAttribute("Source");
 
                         var fileName = extractFileNameMatch(rule, source, 1);
                         var priority = extractPriority(defectElement);
                         int line = parseInt(extractFileNameMatch(rule, source, 2));
 
-                        issueBuilder.setFileName(fileName)
+                        issueBuilder
+                                .setFileName(fileName)
                                 .setLineStart(line)
                                 .setCategory(rule.getName())
                                 .setMessage(problem)
@@ -128,10 +130,13 @@ public class GendarmeParser extends IssueParser {
     static class GendarmeRule {
         @CheckForNull
         private String name;
+
         @CheckForNull
         private String typeName;
+
         @CheckForNull
         private GendarmeRuleType type;
+
         @CheckForNull
         private String uri;
 
@@ -173,6 +178,8 @@ public class GendarmeParser extends IssueParser {
     }
 
     enum GendarmeRuleType {
-        METHOD, TYPE, ASSEMBLY
+        METHOD,
+        TYPE,
+        ASSEMBLY
     }
 }

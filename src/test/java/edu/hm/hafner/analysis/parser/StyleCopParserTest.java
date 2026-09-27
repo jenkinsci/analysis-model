@@ -1,16 +1,14 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.util.Iterator;
-
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import java.util.Iterator;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the class {@link StyleCopParser}.
@@ -71,9 +69,7 @@ class StyleCopParserTest extends AbstractParserTest {
                 .hasFileName("MainClass.cs");
     }
 
-    /**
-     * Verifies that the StyleCop parser works as expected with a file of 3 warnings.
-     */
+    /** Verifies that the StyleCop parser works as expected with a file of 3 warnings. */
     @Test
     void testStyleCopOneFile() {
         var result = parse("stylecop/onefile.xml");
@@ -81,9 +77,7 @@ class StyleCopParserTest extends AbstractParserTest {
         assertThat(result).hasSize(3);
     }
 
-    /**
-     * Verifies that the StyleCop parser works as expected with a file of 2 warnings (4.3 format).
-     */
+    /** Verifies that the StyleCop parser works as expected with a file of 2 warnings (4.3 format). */
     @Test
     void testStyleCop43() {
         var result = parse("stylecop/stylecop-v4.3.xml");

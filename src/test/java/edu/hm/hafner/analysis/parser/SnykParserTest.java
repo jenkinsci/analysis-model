@@ -1,6 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueParser;
@@ -8,8 +8,7 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the class {@link SnykParser}.
@@ -103,8 +102,7 @@ class SnykParserTest extends AbstractParserTest {
         var report = parse("snyk-report.json");
 
         var first = report.get(0);
-        assertThat(first.getMessage())
-                .isEqualTo("Prototype Pollution");
+        assertThat(first.getMessage()).isEqualTo("Prototype Pollution");
 
         assertThat(first.getDescription())
                 .contains("All versions of lodash")
@@ -116,10 +114,12 @@ class SnykParserTest extends AbstractParserTest {
     void shouldContainProperties() {
         var report = parse("snyk-report.json");
 
-        assertThat(report.stream()).map(Issue::getPackageName).containsExactly(
-                "lodash@4.17.15", "yargs-parser@13.1.1", "minimist@1.2.0");
-        assertThat(report.stream()).map(Issue::getSeverity).containsExactly(
-                Severity.ERROR, Severity.WARNING_HIGH, Severity.WARNING_NORMAL);
+        assertThat(report.stream())
+                .map(Issue::getPackageName)
+                .containsExactly("lodash@4.17.15", "yargs-parser@13.1.1", "minimist@1.2.0");
+        assertThat(report.stream())
+                .map(Issue::getSeverity)
+                .containsExactly(Severity.ERROR, Severity.WARNING_HIGH, Severity.WARNING_NORMAL);
     }
 
     @Test
@@ -127,9 +127,7 @@ class SnykParserTest extends AbstractParserTest {
         var report = parse("snyk-report.json");
         var description = report.get(0).getDescription();
 
-        assertThat(description)
-                .as("Description should contain message section")
-                .isEqualToIgnoringWhitespace("""
+        assertThat(description).as("Description should contain message section").isEqualToIgnoringWhitespace("""
                         <p><strong>Prototype Pollution</strong></p>
                         <p>All versions of lodash versions before 4.17.21 are vulnerable to Prototype pollution via the toObject converter. This
                             allows attackers to inject arbitrary properties on Object.prototype which may lead to Denial of Service or Remote

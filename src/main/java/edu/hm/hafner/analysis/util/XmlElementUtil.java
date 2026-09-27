@@ -1,31 +1,26 @@
 package edu.hm.hafner.analysis.util;
 
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
 import edu.umd.cs.findbugs.annotations.CheckForNull;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * Provides some useful methods to process the DOM.
  *
  * @author Ullrich Hafner
  */
-//CHECKSTYLE:OFF
+// CHECKSTYLE:OFF
 @SuppressWarnings("all")
 public final class XmlElementUtil {
     /**
      * Returns all elements in the parent that match the specified name.
      *
-     * @param parent
-     *         the parent element
-     * @param name
-     *         the expected name of the childs
-     *
+     * @param parent the parent element
+     * @param name the expected name of the childs
      * @return the elements, the list might be empty if there is no match
      */
     public static List<Element> getChildElementsByName(final Element parent, final String name) {
@@ -33,7 +28,8 @@ public final class XmlElementUtil {
         if (parent != null) {
             var child = parent.getFirstChild();
             while (child != null) {
-                if (child.getNodeType() == Node.ELEMENT_NODE && child.getNodeName().equals(name)) {
+                if (child.getNodeType() == Node.ELEMENT_NODE
+                        && child.getNodeName().equals(name)) {
                     elements.add((Element) child);
                 }
                 child = child.getNextSibling();
@@ -45,11 +41,8 @@ public final class XmlElementUtil {
     /**
      * Returns the first element in the parent that match the specified name.
      *
-     * @param parent
-     *         the parent element
-     * @param name
-     *         the expected name of the childs
-     *
+     * @param parent the parent element
+     * @param name the expected name of the childs
      * @return the first element if there is a match, {@link Optional#empty()} otherwise
      */
     public static Optional<Element> getFirstChildElementByName(final Element parent, final String name) {
@@ -59,9 +52,7 @@ public final class XmlElementUtil {
     /**
      * Convert a {@link NodeList} into a {@code List<Element>}. Also filters out non elements from the node list.
      *
-     * @param nodeList
-     *         node list to convert.
-     *
+     * @param nodeList node list to convert.
      * @return list of elements.
      */
     public static List<Element> nodeListToList(@CheckForNull final NodeList nodeList) {

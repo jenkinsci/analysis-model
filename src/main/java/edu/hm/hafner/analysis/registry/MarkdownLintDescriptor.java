@@ -5,7 +5,7 @@ import edu.hm.hafner.analysis.parser.MarkdownLintParser;
 
 /**
  * A descriptor for markdownlint JSON reports.
- * 
+ *
  * @author Akash Manna
  */
 class MarkdownLintDescriptor extends ParserDescriptor {

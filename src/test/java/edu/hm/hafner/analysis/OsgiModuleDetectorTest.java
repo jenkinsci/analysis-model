@@ -1,17 +1,15 @@
 package edu.hm.hafner.analysis;
 
-import java.util.List;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 
+import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
-
-/**
- * Tests the OsgiModuleDetector class.
- */
+/** Tests the OsgiModuleDetector class. */
 class OsgiModuleDetectorTest extends AbstractModuleDetectorTest {
     private static final String PATH_PREFIX_OSGI = "path/to/osgi/";
     private static final String EXPECTED_OSGI_MODULE = "de.faktorlogik.prototyp";
@@ -44,8 +42,7 @@ class OsgiModuleDetectorTest extends AbstractModuleDetectorTest {
                 .isEqualTo(EXPECTED_OSGI_MODULE);
         assertThat(detector.guessModuleName(PREFIX + PATH_PREFIX_OSGI + "in/between/something.txt"))
                 .isEqualTo(EXPECTED_OSGI_MODULE);
-        assertThat(detector.guessModuleName(PREFIX + "path/to/something.txt"))
-                .isEqualTo(StringUtils.EMPTY);
+        assertThat(detector.guessModuleName(PREFIX + "path/to/something.txt")).isEqualTo(StringUtils.EMPTY);
     }
 
     @Test
@@ -62,8 +59,7 @@ class OsgiModuleDetectorTest extends AbstractModuleDetectorTest {
                 .isEqualTo(expectedName);
         assertThat(detector.guessModuleName(PREFIX + PATH_PREFIX_OSGI + "in/between/something.txt"))
                 .isEqualTo(expectedName);
-        assertThat(detector.guessModuleName(PREFIX + "path/to/something.txt"))
-                .isEqualTo(StringUtils.EMPTY);
+        assertThat(detector.guessModuleName(PREFIX + "path/to/something.txt")).isEqualTo(StringUtils.EMPTY);
     }
 
     @Test
@@ -80,7 +76,6 @@ class OsgiModuleDetectorTest extends AbstractModuleDetectorTest {
                 .isEqualTo(expectedName);
         assertThat(detector.guessModuleName(PREFIX + PATH_PREFIX_OSGI + "in/between/something.txt"))
                 .isEqualTo(expectedName);
-        assertThat(detector.guessModuleName(PREFIX + "path/to/something.txt"))
-                .isEqualTo(StringUtils.EMPTY);
+        assertThat(detector.guessModuleName(PREFIX + "path/to/something.txt")).isEqualTo(StringUtils.EMPTY);
     }
 }

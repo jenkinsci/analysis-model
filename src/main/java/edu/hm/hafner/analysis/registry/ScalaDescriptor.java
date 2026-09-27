@@ -1,13 +1,12 @@
 package edu.hm.hafner.analysis.registry;
 
-import java.util.Collection;
-
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.SbtScalacParser;
 import edu.hm.hafner.analysis.parser.ScalacParser;
+import java.util.Collection;
 
 /**
- * A descriptor for the  Scalac parser.
+ * A descriptor for the Scalac parser.
  *
  * @author Lorenz Munsch
  */

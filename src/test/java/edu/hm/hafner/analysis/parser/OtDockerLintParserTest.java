@@ -1,8 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.nio.file.FileSystems;
-
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.assertThat;
+import static edu.hm.hafner.analysis.assertions.Assertions.assertThatThrownBy;
 
 import edu.hm.hafner.analysis.FileReaderFactory;
 import edu.hm.hafner.analysis.IssueParser;
@@ -11,8 +10,8 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import java.nio.file.FileSystems;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the class {@link OtDockerLintParser}.
@@ -34,10 +33,8 @@ class OtDockerLintParserTest extends AbstractParserTest {
                 .hasLineStart(3)
                 .hasFileName("testing/Dockerfile.testing")
                 .hasSeverity(Severity.ERROR);
-        softly.assertThat(report.get(2))
-                .hasSeverity(Severity.WARNING_LOW);
-        softly.assertThat(report.get(1))
-                .hasSeverity(Severity.WARNING_NORMAL);
+        softly.assertThat(report.get(2)).hasSeverity(Severity.WARNING_LOW);
+        softly.assertThat(report.get(1)).hasSeverity(Severity.WARNING_NORMAL);
     }
 
     @Override
@@ -47,15 +44,16 @@ class OtDockerLintParserTest extends AbstractParserTest {
 
     @Test
     void accepts() {
-        assertThat(new OtDockerLintParser().accepts(
-                new FileReaderFactory(FileSystems.getDefault().getPath("lint.json")))).isTrue();
-        assertThat(new OtDockerLintParser().accepts(
-                new FileReaderFactory(FileSystems.getDefault().getPath("foo.txt")))).isFalse();
+        assertThat(new OtDockerLintParser()
+                        .accepts(new FileReaderFactory(FileSystems.getDefault().getPath("lint.json"))))
+                .isTrue();
+        assertThat(new OtDockerLintParser()
+                        .accepts(new FileReaderFactory(FileSystems.getDefault().getPath("foo.txt"))))
+                .isFalse();
     }
 
     @Test
     void brokenInput() {
-        assertThatThrownBy(() -> parse("eclipse.txt"))
-                .isInstanceOf(ParsingException.class);
+        assertThatThrownBy(() -> parse("eclipse.txt")).isInstanceOf(ParsingException.class);
     }
 }

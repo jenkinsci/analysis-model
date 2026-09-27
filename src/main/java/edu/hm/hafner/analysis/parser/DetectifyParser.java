@@ -1,20 +1,21 @@
 package edu.hm.hafner.analysis.parser;
 
+import static j2html.TagCreator.a;
+import static j2html.TagCreator.join;
+import static j2html.TagCreator.p;
+import static j2html.TagCreator.strong;
+import static j2html.TagCreator.text;
+
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.Report;
+import j2html.tags.DomContent;
+import j2html.tags.Text;
 import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Report;
-
-import j2html.tags.DomContent;
-import j2html.tags.Text;
-
-import static j2html.TagCreator.*;
 
 /**
  * Parser for Detectify vulnerability reports in JSON format.
@@ -66,8 +67,8 @@ public class DetectifyParser extends JsonIssueParser {
         }
     }
 
-    private void parseVulnerabilities(final Report report, final JSONArray vulnerabilities,
-            final IssueBuilder issueBuilder) {
+    private void parseVulnerabilities(
+            final Report report, final JSONArray vulnerabilities, final IssueBuilder issueBuilder) {
         for (int i = 0; i < vulnerabilities.length(); i++) {
             var vulnerability = vulnerabilities.getJSONObject(i);
             report.add(createIssue(vulnerability, issueBuilder));
@@ -163,8 +164,7 @@ public class DetectifyParser extends JsonIssueParser {
     private void processReference(final Object reference, final List<DomContent> items) {
         if (reference instanceof String url) {
             items.add(createLinkOrText(url, url));
-        } 
-        else if (reference instanceof JSONObject object) {
+        } else if (reference instanceof JSONObject object) {
             processReferenceObject(object, items);
         }
     }
@@ -174,8 +174,7 @@ public class DetectifyParser extends JsonIssueParser {
         var label = firstNonBlank(object, "title", "name", "text");
         if (!url.isBlank()) {
             items.add(createLinkOrText(url, label.isBlank() ? url : label));
-        } 
-        else if (!label.isBlank()) {
+        } else if (!label.isBlank()) {
             items.add(text(label));
         }
     }

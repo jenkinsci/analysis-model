@@ -5,9 +5,7 @@ import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
 
-/**
- * Tests the class {@link P4Parser}.
- */
+/** Tests the class {@link P4Parser}. */
 class P4ParserTest extends AbstractParserTest {
     P4ParserTest() {
         super("perforce.txt");

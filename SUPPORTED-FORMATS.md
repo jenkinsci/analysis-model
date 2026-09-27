@@ -1,4 +1,5 @@
 <!--- DO NOT EDIT -- Generated at 2026-09-25T12:45:27.175167853 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -8,7 +9,6 @@ If your tool is not yet supported, you can
 2. provide a [pull request](https://github.com/jenkinsci/analysis-model/pulls) with a new parser.
 
 If your tool is supported, but some properties are missing (icon, URL, etc.), please file a [pull request](https://github.com/jenkinsci/analysis-model/pulls).
-
 
 <table>
     <thead>

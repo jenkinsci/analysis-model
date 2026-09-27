@@ -1,26 +1,20 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.util.Iterator;
-
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
+import java.util.Iterator;
+import org.junit.jupiter.api.Test;
 
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
-
-/**
- * Tests the class {@link PyLintParser}.
- */
+/** Tests the class {@link PyLintParser}. */
 class PylintParserTest extends AbstractParserTest {
     private static final String ISSUES_FILE = "pylint_parseable.txt";
 
-    /**
-     * Creates a new instance of {@link PylintParserTest}.
-     */
+    /** Creates a new instance of {@link PylintParserTest}. */
     PylintParserTest() {
         super(ISSUES_FILE);
     }

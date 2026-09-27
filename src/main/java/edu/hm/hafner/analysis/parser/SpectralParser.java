@@ -1,17 +1,15 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
-
 import java.io.Serial;
 import java.util.Map;
 import java.util.TreeMap;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * A parser for Spectral JSON output.
@@ -47,7 +45,8 @@ public class SpectralParser extends JsonIssueParser {
         parseIssues(report, jsonReport, issueBuilder);
     }
 
-    private void parseIssues(final Report report, @CheckForNull final JSONArray issues, final IssueBuilder issueBuilder) {
+    private void parseIssues(
+            final Report report, @CheckForNull final JSONArray issues, final IssueBuilder issueBuilder) {
         if (issues == null) {
             return;
         }
@@ -61,7 +60,8 @@ public class SpectralParser extends JsonIssueParser {
     }
 
     private Issue convertToIssue(final JSONObject jsonIssue, final IssueBuilder issueBuilder) {
-        issueBuilder.setType(jsonIssue.optString(CODE, "-"))
+        issueBuilder
+                .setType(jsonIssue.optString(CODE, "-"))
                 .setMessage(jsonIssue.optString(MESSAGE))
                 .setFileName(jsonIssue.optString(SOURCE, "-"));
 

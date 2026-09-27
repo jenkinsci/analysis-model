@@ -5,7 +5,6 @@ import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
-
 import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -20,19 +19,17 @@ public class TaskingVxCompilerParser extends LookaheadParser {
     private static final long serialVersionUID = -5225265084645449716L;
 
     /** Pattern of TASKING VX compiler warnings. */
-    private static final String TASKING_VX_COMPILER_WARNING_PATTERN = "^[a-z0-9]+? (I|W|E|F)(\\d+): (?:\\[\"(.*?)\" (\\d+)"
-            + "\\/(\\d+)\\] )?(.*)$";
+    private static final String TASKING_VX_COMPILER_WARNING_PATTERN =
+            "^[a-z0-9]+? (I|W|E|F)(\\d+): (?:\\[\"(.*?)\" (\\d+)" + "\\/(\\d+)\\] )?(.*)$";
 
-    /**
-     * Creates a new instance of {@code TaskingVXCompilerParser}.
-     */
+    /** Creates a new instance of {@code TaskingVXCompilerParser}. */
     public TaskingVxCompilerParser() {
         super(TASKING_VX_COMPILER_WARNING_PATTERN);
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
-            final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(
+            final Matcher matcher, final LookaheadStream lookahead, final IssueBuilder builder) {
         var type = matcher.group(1);
 
         switch (type) {

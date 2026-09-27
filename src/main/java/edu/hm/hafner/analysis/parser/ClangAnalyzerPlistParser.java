@@ -1,15 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpression;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingException;
@@ -18,10 +8,17 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.util.IntegerParser;
 import edu.hm.hafner.analysis.util.XmlElementUtil;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 /**
  * A parser for the clang-analyzer static analysis warnings.
@@ -47,10 +44,8 @@ public class ClangAnalyzerPlistParser extends IssueParser {
             var xPathFactory = XPathFactory.newInstance();
             var xPath = xPathFactory.newXPath();
 
-            var filesPath = xPath.compile(
-                    "/plist/dict/key[text()='files']/following-sibling::array/string");
-            var diagnosticsPath = xPath.compile(
-                    "/plist/dict/key[text()='diagnostics']/following-sibling::array/dict");
+            var filesPath = xPath.compile("/plist/dict/key[text()='files']/following-sibling::array/string");
+            var diagnosticsPath = xPath.compile("/plist/dict/key[text()='diagnostics']/following-sibling::array/dict");
             var diagDescriptionPath = compileDiagStrPath(xPath, "description");
             var diagCategoryPath = compileDiagStrPath(xPath, "category");
             var diagTypePath = compileDiagStrPath(xPath, "type");
@@ -64,7 +59,8 @@ public class ClangAnalyzerPlistParser extends IssueParser {
 
             var diagnostics = (NodeList) diagnosticsPath.evaluate(doc, XPathConstants.NODESET);
             for (Element diag : XmlElementUtil.nodeListToList(diagnostics)) {
-                issueBuilder.setFileName(getFileName(files, diag, diagLocationFilePath))
+                issueBuilder
+                        .setFileName(getFileName(files, diag, diagLocationFilePath))
                         .guessSeverity("Warning")
                         .setMessage(extractField(diag, diagDescriptionPath))
                         .setLineStart(extractIntField(diag, diagLocationLinePath))
@@ -76,8 +72,7 @@ public class ClangAnalyzerPlistParser extends IssueParser {
             }
 
             return report;
-        }
-        catch (XPathExpressionException e) {
+        } catch (XPathExpressionException e) {
             throw new ParsingException(e, readerFactory);
         }
     }
@@ -94,8 +89,9 @@ public class ClangAnalyzerPlistParser extends IssueParser {
         return files;
     }
 
-    private static String getFileName(final List<String> files, final Element diag,
-            final XPathExpression diagLocationFilePath) throws XPathExpressionException {
+    private static String getFileName(
+            final List<String> files, final Element diag, final XPathExpression diagLocationFilePath)
+            throws XPathExpressionException {
         int idx = extractIntField(diag, diagLocationFilePath);
         if (idx >= files.size()) {
             return "-";

@@ -10,9 +10,7 @@ import edu.hm.hafner.analysis.registry.AbstractParserTest;
  * @author Ullrich Hafner
  */
 class CssLintParserTest extends AbstractParserTest {
-    /**
-     * Creates a new instance of {@link CssLintParserTest}.
-     */
+    /** Creates a new instance of {@link CssLintParserTest}. */
     protected CssLintParserTest() {
         super("jslint/csslint.xml");
     }

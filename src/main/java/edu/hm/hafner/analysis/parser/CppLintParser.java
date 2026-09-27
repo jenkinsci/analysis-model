@@ -1,16 +1,15 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.util.Optional;
-import java.util.regex.Matcher;
+import static edu.hm.hafner.analysis.util.IntegerParser.*;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
-
-import static edu.hm.hafner.analysis.util.IntegerParser.*;
+import java.io.Serial;
+import java.util.Optional;
+import java.util.regex.Matcher;
 
 /**
  * A parser for Cpplint static code checker warnings.
@@ -25,16 +24,14 @@ public class CppLintParser extends LookaheadParser {
     private static final int SEVERITY_HIGH_LIMIT = 5;
     private static final int SEVERITY_NORMAL_LIMIT = 3;
 
-    /**
-     * Creates a new instance of {@link CppLintParser}.
-     */
+    /** Creates a new instance of {@link CppLintParser}. */
     public CppLintParser() {
         super(PATTERN);
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
-            final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(
+            final Matcher matcher, final LookaheadStream lookahead, final IssueBuilder builder) {
         var priority = mapPriority(matcher.group(5));
 
         return builder.setFileName(matcher.group(1))

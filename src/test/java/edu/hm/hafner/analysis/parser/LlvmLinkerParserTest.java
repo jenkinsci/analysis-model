@@ -1,16 +1,14 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
-
 import java.util.Iterator;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the class {@link LlvmLinkerParser}.
@@ -72,9 +70,7 @@ class LlvmLinkerParserTest extends AbstractParserTest {
         assertThat(warnings).hasSize(3);
 
         try (var softly = new SoftAssertions()) {
-            softly.assertThat(warnings.get(0))
-                    .hasFileName("/ld.lld-15")
-                    .hasMessage("cannot find -lmylib");
+            softly.assertThat(warnings.get(0)).hasFileName("/ld.lld-15").hasMessage("cannot find -lmylib");
         }
     }
 

@@ -1,18 +1,16 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.apache.commons.lang3.StringUtils;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.hm.hafner.analysis.util.IntegerParser;
-
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 import java.io.Serial;
 import java.util.regex.Pattern;
+import org.apache.commons.lang3.StringUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * A parser for Intelephense diagnostics in JSON format.
@@ -49,8 +47,7 @@ public class IntelephenseParser extends JsonIssueParser {
         var diagnostics = jsonReport.optJSONArray(DIAGNOSTICS);
         if (diagnostics != null) {
             parseDiagnostics(report, diagnostics, issueBuilder, defaultFileName, defaultSource);
-        }
-        else if (isDiagnostic(jsonReport)) {
+        } else if (isDiagnostic(jsonReport)) {
             report.add(convertToIssue(jsonReport, issueBuilder, defaultFileName, defaultSource));
         }
     }
@@ -65,16 +62,19 @@ public class IntelephenseParser extends JsonIssueParser {
                 var diagnostics = jsonObject.optJSONArray(DIAGNOSTICS);
                 if (diagnostics != null) {
                     parseDiagnostics(report, diagnostics, issueBuilder, defaultFileName, defaultSource);
-                }
-                else if (isDiagnostic(jsonObject)) {
+                } else if (isDiagnostic(jsonObject)) {
                     report.add(convertToIssue(jsonObject, issueBuilder, defaultFileName, defaultSource));
                 }
             }
         }
     }
 
-    private void parseDiagnostics(final Report report, final JSONArray diagnostics, final IssueBuilder issueBuilder,
-            final String defaultFileName, final String defaultSource) {
+    private void parseDiagnostics(
+            final Report report,
+            final JSONArray diagnostics,
+            final IssueBuilder issueBuilder,
+            final String defaultFileName,
+            final String defaultSource) {
         for (int i = 0; i < diagnostics.length(); i++) {
             var diagnostic = diagnostics.optJSONObject(i);
             if (diagnostic != null) {
@@ -87,8 +87,11 @@ public class IntelephenseParser extends JsonIssueParser {
         return jsonObject.has(MESSAGE) || jsonObject.has(RANGE) || jsonObject.has(CODE) || jsonObject.has(SEVERITY);
     }
 
-    private Issue convertToIssue(final JSONObject diagnostic, final IssueBuilder issueBuilder,
-            final String defaultFileName, final String defaultSource) {
+    private Issue convertToIssue(
+            final JSONObject diagnostic,
+            final IssueBuilder issueBuilder,
+            final String defaultFileName,
+            final String defaultSource) {
         var fileName = resolveFileName(diagnostic, defaultFileName);
         var type = firstNonBlank(diagnostic, CODE, "ruleId");
         var message = getStringOrDefaultIfBlank(diagnostic, MESSAGE, "-");
@@ -98,10 +101,7 @@ public class IntelephenseParser extends JsonIssueParser {
             source = defaultSource;
         }
 
-        issueBuilder.setFileName(fileName)
-                .setType(type)
-                .setMessage(message)
-                .setSeverity(severity);
+        issueBuilder.setFileName(fileName).setType(type).setMessage(message).setSeverity(severity);
 
         if (StringUtils.isNotBlank(source)) {
             issueBuilder.setCategory(source);
@@ -153,8 +153,8 @@ public class IntelephenseParser extends JsonIssueParser {
         applyPosition(range.optJSONObject(END), issueBuilder, false);
     }
 
-    private void applyPosition(@CheckForNull final JSONObject position, final IssueBuilder issueBuilder,
-            final boolean start) {
+    private void applyPosition(
+            @CheckForNull final JSONObject position, final IssueBuilder issueBuilder, final boolean start) {
         if (position == null) {
             return;
         }
@@ -163,8 +163,7 @@ public class IntelephenseParser extends JsonIssueParser {
         if (line >= 0) {
             if (start) {
                 issueBuilder.setLineStart(line + 1);
-            }
-            else {
+            } else {
                 issueBuilder.setLineEnd(line + 1);
             }
         }
@@ -173,8 +172,7 @@ public class IntelephenseParser extends JsonIssueParser {
         if (character >= 0) {
             if (start) {
                 issueBuilder.setColumnStart(character + 1);
-            }
-            else {
+            } else {
                 issueBuilder.setColumnEnd(character);
             }
         }
@@ -187,8 +185,7 @@ public class IntelephenseParser extends JsonIssueParser {
         if (severityValue instanceof String string) {
             if (StringUtils.isNumeric(string)) {
                 return severityFromCode(IntegerParser.parseInt(string));
-            }
-            else {
+            } else {
                 return Severity.guessFromString(string);
             }
         }

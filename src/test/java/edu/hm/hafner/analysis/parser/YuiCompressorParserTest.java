@@ -37,8 +37,9 @@ class YuiCompressorParserTest extends AbstractParserTest {
                 .hasCategory("Duplicate variable")
                 .hasLineStart(0)
                 .hasLineEnd(0)
-                .hasMessage("The variable replacement has already been declared in the same scope..."
-                        + " [replace(variable,replacement);}var  ---> replacement <--- =globalStoredVars[name];if(replacement!=]")
+                .hasMessage(
+                        "The variable replacement has already been declared in the same scope..."
+                                + " [replace(variable,replacement);}var  ---> replacement <--- =globalStoredVars[name];if(replacement!=]")
                 .hasFileName("unknown.file");
         softly.assertThat(report.get(2))
                 .hasSeverity(Severity.WARNING_HIGH)
@@ -48,14 +49,13 @@ class YuiCompressorParserTest extends AbstractParserTest {
                 .hasMessage("Using 'eval' is not recommended. Moreover, using 'eval' reduces the level of compression!"
                         + " [function(condition,label){if( ---> eval <--- (condition)){this.doGotolabel(label]")
                 .hasFileName("unknown.file");
-        //Warning with only one line
+        // Warning with only one line
         softly.assertThat(report.get(3))
                 .hasSeverity(Severity.WARNING_HIGH)
                 .hasCategory("Duplicate function")
                 .hasLineStart(0)
                 .hasLineEnd(0)
-                .hasMessage("The function myFunction has already been declared in the same scope..."
-                        + " []")
+                .hasMessage("The function myFunction has already been declared in the same scope..." + " []")
                 .hasFileName("unknown.file");
     }
 }

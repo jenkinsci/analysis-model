@@ -1,11 +1,10 @@
 package edu.hm.hafner.analysis.registry;
 
-import java.util.Collection;
-
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.Report.IssueType;
 import edu.hm.hafner.analysis.parser.ErrorProneParser;
 import edu.hm.hafner.analysis.parser.GradleErrorProneParser;
+import java.util.Collection;
 
 /**
  * A descriptor for Error Prone.

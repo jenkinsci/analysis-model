@@ -1,14 +1,13 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.util.Iterator;
+import static edu.hm.hafner.analysis.assertions.Assertions.assertThat;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import java.util.Iterator;
 
 /**
  * Tests the class {@link PreFastParser}.

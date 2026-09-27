@@ -3,12 +3,12 @@ package edu.hm.hafner.analysis.registry;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.CheckStyleParser;
 import edu.hm.hafner.analysis.parser.EsLintParser;
-
 import java.util.Collection;
 import java.util.List;
 
 /**
- * A descriptor for ESLint. Supports json format {@link EsLintParser} and for backward compatibility checkstyle {@link CheckStyleParser}.
+ * A descriptor for ESLint. Supports json format {@link EsLintParser} and for backward compatibility checkstyle
+ * {@link CheckStyleParser}.
  *
  * @author Lorenz Munsch
  */

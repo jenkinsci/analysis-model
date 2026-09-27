@@ -1,10 +1,10 @@
 package edu.hm.hafner.analysis.registry;
 
+import static j2html.TagCreator.*;
+
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.parser.NpmAuditParser;
-
-import static j2html.TagCreator.*;
 
 /**
  * A descriptor for npm audit.
@@ -26,11 +26,13 @@ class NpmAuditDescriptor extends ParserDescriptor {
 
     @Override
     public String getHelp() {
-        return join(text("Use commandline"),
-                code("npm audit --json > npm-audit.json"),
-                text(", see"),
-                a("npm audit").withHref("https://docs.npmjs.com/cli/commands/npm-audit"),
-                text("for usage details.")).render();
+        return join(
+                        text("Use commandline"),
+                        code("npm audit --json > npm-audit.json"),
+                        text(", see"),
+                        a("npm audit").withHref("https://docs.npmjs.com/cli/commands/npm-audit"),
+                        text("for usage details."))
+                .render();
     }
 
     @Override

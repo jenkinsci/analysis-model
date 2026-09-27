@@ -1,17 +1,15 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 import edu.hm.hafner.analysis.FileReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
-
 import java.util.Objects;
 import java.util.stream.Collectors;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the class {@link IarParser}.
@@ -87,8 +85,7 @@ class IarParserTest extends AbstractParserTest {
      */
     @Test
     void issue58159Utf8() {
-        var warnings = createParser().parse(
-                new FileReaderFactory(getResourceAsFile("issue58159-2.txt")));
+        var warnings = createParser().parse(new FileReaderFactory(getResourceAsFile("issue58159-2.txt")));
 
         var collect = warnings.stream().map(Objects::toString).collect(Collectors.joining("\n"));
         assertThat(warnings).as(collect).hasDuplicatesSize(4).hasSize(61);

@@ -1,8 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.assertThat;
 
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
@@ -10,8 +8,9 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the class {@link ShellCheckParser}.
@@ -26,7 +25,7 @@ class ShellCheckParserTest extends AbstractParserTest {
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
         assertThat(report).hasSize(8);
-        
+
         // Test first issue - SC2086: error level (unquoted variable)
         softly.assertThat(report.get(0))
                 .hasLineStart(10)
@@ -38,7 +37,7 @@ class ShellCheckParserTest extends AbstractParserTest {
                 .hasMessage("Double quote to prevent globbing and word splitting. [fixable]")
                 .hasFileName("script.sh")
                 .hasSeverity(Severity.ERROR);
-        
+
         // Test second issue - SC2046: warning level
         softly.assertThat(report.get(1))
                 .hasLineStart(15)
@@ -50,7 +49,7 @@ class ShellCheckParserTest extends AbstractParserTest {
                 .hasMessage("Quote this to prevent word splitting.")
                 .hasFileName("script.sh")
                 .hasSeverity(Severity.WARNING_NORMAL);
-        
+
         // Test third issue - SC2155: warning level
         softly.assertThat(report.get(2))
                 .hasLineStart(20)
@@ -62,7 +61,7 @@ class ShellCheckParserTest extends AbstractParserTest {
                 .hasMessage("Declare and assign separately to avoid masking return values.")
                 .hasFileName("deploy.sh")
                 .hasSeverity(Severity.WARNING_NORMAL);
-        
+
         // Test fourth issue - SC2164: warning level (cd without error check)
         softly.assertThat(report.get(3))
                 .hasLineStart(8)
@@ -74,7 +73,7 @@ class ShellCheckParserTest extends AbstractParserTest {
                 .hasMessage("Use 'cd ... || exit' or 'cd ... || return' in case cd fails.")
                 .hasFileName("deploy.sh")
                 .hasSeverity(Severity.WARNING_NORMAL);
-        
+
         // Test fifth issue - SC2034: info level (unused variable)
         softly.assertThat(report.get(4))
                 .hasLineStart(12)
@@ -86,7 +85,7 @@ class ShellCheckParserTest extends AbstractParserTest {
                 .hasMessage("unused_var appears unused. Verify use (or export if used externally).")
                 .hasFileName("utils.sh")
                 .hasSeverity(Severity.WARNING_LOW);
-        
+
         // Test sixth issue - SC2006: style level (deprecated backticks)
         softly.assertThat(report.get(5))
                 .hasLineStart(25)
@@ -98,7 +97,7 @@ class ShellCheckParserTest extends AbstractParserTest {
                 .hasMessage("Use $(...) notation instead of legacy backticked `...`. [fixable]")
                 .hasFileName("legacy.sh")
                 .hasSeverity(Severity.WARNING_LOW);
-        
+
         // Test seventh issue - SC2230: info level
         softly.assertThat(report.get(6))
                 .hasLineStart(30)
@@ -110,7 +109,7 @@ class ShellCheckParserTest extends AbstractParserTest {
                 .hasMessage("which is non-standard. Use builtin 'command -v' instead.")
                 .hasFileName("check.sh")
                 .hasSeverity(Severity.WARNING_LOW);
-        
+
         // Test eighth issue - SC1091: info level (source file not found)
         softly.assertThat(report.get(7))
                 .hasLineStart(5)

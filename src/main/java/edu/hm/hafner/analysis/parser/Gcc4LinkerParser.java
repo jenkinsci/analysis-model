@@ -1,18 +1,16 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.Strings;
+import static edu.hm.hafner.analysis.Severity.*;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.util.LookaheadStream;
-
 import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
-
-import static edu.hm.hafner.analysis.Severity.*;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 /**
  * A parser for gcc 4.x linker warnings.
@@ -29,34 +27,29 @@ public class Gcc4LinkerParser extends LookaheadParser {
     private static final String LINKER_WARNING_PATTERN = "^(?:(.+?)(?:(?::(?:(\\d+):)? (undefined reference to .*))|"
             + "(?::?\\(\\.\\w+\\+0x[0-9a-fA-F]+\\)): (?:(warning): )?(.*))|.*/ld(?:\\.exe)?: (?:(warning): )?(.*))$";
 
-    /**
-     * Creates a new instance of {@link Gcc4LinkerParser}.
-     */
+    /** Creates a new instance of {@link Gcc4LinkerParser}. */
     public Gcc4LinkerParser() {
         super(LINKER_WARNING_PATTERN);
     }
 
     @Override
     @SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
-    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
-            final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(
+            final Matcher matcher, final LookaheadStream lookahead, final IssueBuilder builder) {
         if (StringUtils.isNotBlank(matcher.group(7))) {
             parseLdError(matcher, builder);
-        }
-        else {
+        } else {
             // link error
             if (StringUtils.isNotBlank(matcher.group(3))) {
                 // error of type "undefined reference..."
                 builder.setMessage(matcher.group(3));
                 builder.setSeverity(WARNING_HIGH);
-            }
-            else {
+            } else {
                 // generic linker error with reference to the binary section and
                 // offset
                 if (Strings.CI.equals(matcher.group(4), "warning")) {
                     builder.setSeverity(WARNING_NORMAL);
-                }
-                else {
+                } else {
                     builder.setSeverity(WARNING_HIGH);
                 }
                 var message = matcher.group(5);
@@ -76,8 +69,7 @@ public class Gcc4LinkerParser extends LookaheadParser {
     private void parseLdError(final Matcher matcher, final IssueBuilder builder) {
         if (Strings.CI.equals(matcher.group(6), "warning")) {
             builder.setSeverity(WARNING_NORMAL);
-        }
-        else {
+        } else {
             builder.setSeverity(WARNING_HIGH);
         }
         builder.setMessage(matcher.group(7));

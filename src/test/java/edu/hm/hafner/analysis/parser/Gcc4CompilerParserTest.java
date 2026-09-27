@@ -1,8 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import static org.assertj.core.api.Assumptions.*;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
@@ -10,12 +9,11 @@ import edu.hm.hafner.analysis.Report.IssueFilterBuilder;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
-
 import java.util.Iterator;
 import java.util.function.Predicate;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
-import static org.assertj.core.api.Assumptions.*;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 /**
  * Tests the class {@link Gcc4CompilerParser}.
@@ -276,16 +274,14 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
         assertThat(warnings).hasSize(3);
 
         assertThat(warnings.get(0))
-                .hasFileName(
-                        "/path/to/workspace/libraries/this-library-workspace/sublibrary/src/FirstProblemFile.cpp");
+                .hasFileName("/path/to/workspace/libraries/this-library-workspace/sublibrary/src/FirstProblemFile.cpp");
 
         assertThat(warnings.get(1))
                 .hasFileName(
                         "/path/to/workspace/libraries/this-library-workspace/sublibrary/inc/Library/ProblemFile.h");
 
         assertThat(warnings.get(2))
-                .hasFileName(
-                        "/path/to/workspace/libraries/this-library-workspace/sublibrary/src/OtherProblemFile.cpp");
+                .hasFileName("/path/to/workspace/libraries/this-library-workspace/sublibrary/src/OtherProblemFile.cpp");
     }
 
     /**
@@ -461,8 +457,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
     void issue5870() {
         var warnings = parse("issue5870.txt");
 
-        assertThat(warnings)
-                .isEmpty();
+        assertThat(warnings).isEmpty();
     }
 
     /**
@@ -474,8 +469,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
     void issue11799() {
         var warnings = parse("issue11799.txt");
 
-        assertThat(warnings)
-                .hasSize(4);
+        assertThat(warnings).hasSize(4);
 
         Iterator<? extends Issue> iterator = warnings.iterator();
 
@@ -535,7 +529,8 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
 
         Predicate<Issue> predicate = new IssueFilterBuilder()
                 .setExcludeMessageFilter(".*QVTKWidget.*", ".*tmpnam.*")
-                .setExcludeFileNameFilter(".*qrc_icons\\.cpp.*").build();
+                .setExcludeFileNameFilter(".*qrc_icons\\.cpp.*")
+                .build();
         var filtered = warnings.filter(predicate);
         assertThat(filtered).hasSize(0);
     }
@@ -555,8 +550,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
             softly.assertThat(warnings.get(0))
                     .hasLineStart(204)
                     .hasColumnStart(26)
-                    .hasMessage(
-                            """
+                    .hasMessage("""
                             ‘StarLibs::Camelot::ScBitTrue::StarUlPhyRxCommonCamelot::SectorDLCAL’ will be initialized after [-Wreorder]
                             ParamNumeric<unsigned> SectorDLCAL;
                             ^~~~~~~~~~~""")
@@ -568,8 +562,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
             softly.assertThat(warnings.get(1))
                     .hasLineStart(179)
                     .hasColumnStart(32)
-                    .hasMessage(
-                            """
+                    .hasMessage("""
                             ‘ParamNumeric<unsigned int> StarLibs::Camelot::ScBitTrue::StarUlPhyRxCommonCamelot::UseDSPBuilderFFT’ [-Wreorder]
                             ParamNumeric<unsigned> UseDSPBuilderFFT;
                             ^~~~~~~~~~~~~~~~""")
@@ -599,8 +592,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
             softly.assertThat(warnings.get(4))
                     .hasLineStart(168)
                     .hasColumnStart(21)
-                    .hasMessage(
-                            """
+                    .hasMessage("""
                             dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
                             In file included from ../../../StarLibs/Camelot/ScBitTrue/AlteraDspBuilderFFT/csl/steps.h:4:0,
                                              from ../../../StarLibs/Camelot/ScBitTrue/AlteraDspBuilderFFT/csl/csl.h:4,
@@ -625,7 +617,7 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
     @Test
     @org.junitpioneer.jupiter.Issue("https://github.com/jenkinsci/analysis-model/issues/1488")
     void shouldRegisterPrimaryLocationInTheBeginning() {
-        var report = parseStringContent(""" 
+        var report = parseStringContent("""
                 /workspace/foo.cpp:134:26: warning: declaration of \\'i\\' shadows a previous local [-Wshadow]
                   134 |                 for (u32 i = 0; i < (cmd.Size-sizeof(TDSPCommand))/4 && (cmd.Size>sizeof(TDSPCommand))>0; i++)
                       |                          ^
@@ -713,8 +705,8 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
     }
 
     /**
-     * Parses a file with GCC errors and warnings that include note lines.
-     * Tests that note lines are properly captured and associated with the main issue.
+     * Parses a file with GCC errors and warnings that include note lines. Tests that note lines are properly captured
+     * and associated with the main issue.
      *
      * @see <a href="https://issues.jenkins.io/browse/JENKINS-56815">Issue 56815</a>
      */
@@ -796,8 +788,8 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
     }
 
     /**
-     * Parses a warning log with consecutive warnings from different compilation units.
-     * The "In file included from" lines should not be treated as message continuation.
+     * Parses a warning log with consecutive warnings from different compilation units. The "In file included from"
+     * lines should not be treated as message continuation.
      *
      * @param fileName the name of the test file to parse
      * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-62454">Issue 62454</a>
@@ -816,21 +808,24 @@ class Gcc4CompilerParserTest extends AbstractParserTest {
             softly.assertThat(iterator.next())
                     .hasLineStart(84)
                     .hasLineEnd(84)
-                    .hasMessage("comparison between signed and unsigned integer expressions [-Wsign-compare]\n  if (SYSTIME_DIFF(now, lastResult) > MS2ST(SAMPLING_TIME_IN_MS)) {")
+                    .hasMessage(
+                            "comparison between signed and unsigned integer expressions [-Wsign-compare]\n  if (SYSTIME_DIFF(now, lastResult) > MS2ST(SAMPLING_TIME_IN_MS)) {")
                     .hasFileName("src/ledpwm/PWMLedManager.cpp")
                     .hasSeverity(Severity.WARNING_NORMAL);
 
             softly.assertThat(iterator.next())
                     .hasLineStart(96)
                     .hasLineEnd(96)
-                    .hasMessage("comparison between signed and unsigned integer expressions [-Wsign-compare]\n    if(S2ST(lightSamplingTime) < SYSTIME_DIFF(now, lastStoredResult)) {")
+                    .hasMessage(
+                            "comparison between signed and unsigned integer expressions [-Wsign-compare]\n    if(S2ST(lightSamplingTime) < SYSTIME_DIFF(now, lastStoredResult)) {")
                     .hasFileName("src/ledpwm/PWMLedManager.cpp")
                     .hasSeverity(Severity.WARNING_NORMAL);
 
             softly.assertThat(iterator.next())
                     .hasLineStart(26)
                     .hasLineEnd(26)
-                    .hasMessage("'virtual void idata::AbstractThreadBase::initialize()' was hidden [-Woverloaded-virtual]\n  virtual void initialize();\n               ^~~~~~~~~~")
+                    .hasMessage(
+                            "'virtual void idata::AbstractThreadBase::initialize()' was hidden [-Woverloaded-virtual]\n  virtual void initialize();\n               ^~~~~~~~~~")
                     .hasFileName("common/thread/abstract_thread.h")
                     .hasSeverity(Severity.WARNING_NORMAL);
         }

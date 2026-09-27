@@ -1,6 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
@@ -8,8 +8,7 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the {@link JcReportParser}.
@@ -22,9 +21,7 @@ class JcReportParserTest extends AbstractParserTest {
         super("jcreport/testCorrect.xml");
     }
 
-    /**
-     * Reads a file with 5 warnings.
-     */
+    /** Reads a file with 5 warnings. */
     @Test
     void testGetWarningList() {
         var warnings = parseDefaultFile();
@@ -67,13 +64,11 @@ class JcReportParserTest extends AbstractParserTest {
      * Test the SAXException when file is corrupted. When a SAXException is triggered a new IOException is thrown. This
      * explains the expected = IOException.class.
      *
-     * @throws ParsingCanceledException
-     *         -> thrown by jcrp.parse();
+     * @throws ParsingCanceledException -> thrown by jcrp.parse();
      */
     @Test
     void testSAXEception() throws ParsingCanceledException {
-        assertThatThrownBy(() -> parse("jcreport/testCorrupt.xml"))
-                .isInstanceOf(ParsingException.class);
+        assertThatThrownBy(() -> parse("jcreport/testCorrupt.xml")).isInstanceOf(ParsingException.class);
     }
 
     @Override

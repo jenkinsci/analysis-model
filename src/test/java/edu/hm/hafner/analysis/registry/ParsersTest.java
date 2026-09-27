@@ -1,16 +1,14 @@
 package edu.hm.hafner.analysis.registry;
 
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 import edu.hm.hafner.analysis.FileReaderFactory;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.util.ResourceTest;
-
 import java.util.Arrays;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 /**
  * Integration tests of all parsers.
@@ -22,43 +20,43 @@ class ParsersTest extends ResourceTest {
     private static final String CODE_FRAGMENT = """
             <pre><code>
                 #
-            
+
                 ERROR HANDLING: N/A
                 #
                 REMARKS: N/A
                 #
                 ****************************** END HEADER *************************************
                 #
-            
+
                 ***************************** BEGIN PDL ***************************************
                 #
                 ****************************** END PDL ****************************************
                 #
-            
+
                 ***************************** BEGIN CODE **************************************
                 **
                 *******************************************************************************
-            
+
                 *******************************************************************************
                 *******************************************************************************
-            
+
             if [ $# -lt 3 ]
             then
             exit 1
             fi
-            
+
                 *******************************************************************************
                 initialize local variables
                 shift input parameter (twice) to leave only files to copy
                 *******************************************************************************
-            
+
             files=&quot;&quot;
             shift
             shift
-            
+
                 *******************************************************************************
                 *******************************************************************************
-            
+
             for i in $*
             do
             files=&quot;$files $directory/$i&quot;
@@ -70,18 +68,17 @@ class ParsersTest extends ResourceTest {
     /** Verifies that a broken file does not fail. */
     @Test
     void shouldSilentlyIgnoreWrongFile() {
-        assertThatExceptionOfType(ParsingException.class).isThrownBy(() ->
-                findIssuesOfTool(0, "checkstyle", "CargoCheck.json"));
+        assertThatExceptionOfType(ParsingException.class)
+                .isThrownBy(() -> findIssuesOfTool(0, "checkstyle", "CargoCheck.json"));
     }
 
     /**
-     * Runs with several tools that internally delegate to CheckStyle's  parser on an output file that contains 6
-     * issues.
+     * Runs with several tools that internally delegate to CheckStyle's parser on an output file that contains 6 issues.
      */
     @Test
     void shouldFindAllIssuesForCheckStyleAlias() {
-        for (String tool : Arrays.asList("detekt", "eslint", "ktlint", "php-code-sniffer",
-                "swiftlint", "stylelint", "tslint")) {
+        var tools = Arrays.asList("detekt", "eslint", "ktlint", "php-code-sniffer", "swiftlint", "stylelint", "tslint");
+        for (String tool : tools) {
             findIssuesOfTool(4, tool, "checkstyle.xml");
         }
     }
@@ -260,9 +257,7 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(6, "js-hint", "jshint.xml");
     }
 
-    /**
-     * Runs the JUnit parser on an output file that contains 2 and 1 issues.
-     */
+    /** Runs the JUnit parser on an output file that contains 2 and 1 issues. */
     @Test
     void shouldFindAllJUnitIssues() {
         findIssuesOfTool(2, "junit", "junit.xml");
@@ -325,8 +320,7 @@ class ParsersTest extends ResourceTest {
     void shouldFindAllDupFinderIssues() {
         var dupfinder = "dupfinder";
         var report = findIssuesOfTool(2, dupfinder, "dupfinder.xml");
-        assertThatDescriptionOfIssueIsSet(dupfinder, report.get(0),
-                """
+        assertThatDescriptionOfIssueIsSet(dupfinder, report.get(0), """
                 <pre><code>
                     if (items == null) throw new ArgumentNullException(&quot;items&quot;);
                 </code>
@@ -369,7 +363,9 @@ class ParsersTest extends ResourceTest {
     void shouldFindAllPmdIssues() {
         var pmd = "pmd";
         var report = findIssuesOfTool(262, pmd, "pmd-6.xml");
-        assertThatDescriptionOfIssueIsSet(pmd, report.get(0),
+        assertThatDescriptionOfIssueIsSet(
+                pmd,
+                report.get(0),
                 "A high number of imports can indicate a high degree of coupling within an object.");
     }
 
@@ -379,9 +375,10 @@ class ParsersTest extends ResourceTest {
         var checkstyle = "checkstyle";
         var report = findIssuesOfTool(4, checkstyle, "checkstyle.xml");
 
-        assertThatDescriptionOfIssueIsSet(checkstyle, report.get(2),
-                "<p>Since Checkstyle 3.1</p><p>");
-        assertThatDescriptionOfIssueIsSet(checkstyle, report.get(2),
+        assertThatDescriptionOfIssueIsSet(checkstyle, report.get(2), "<p>Since Checkstyle 3.1</p><p>");
+        assertThatDescriptionOfIssueIsSet(
+                checkstyle,
+                report.get(2),
                 "The check finds classes that are designed for extension (subclass creation).");
     }
 
@@ -391,8 +388,8 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(3, "phan", "phan-report.json");
     }
 
-    private void assertThatDescriptionOfIssueIsSet(final String tool, final Issue issue,
-            final String expectedDescription) {
+    private void assertThatDescriptionOfIssueIsSet(
+            final String tool, final Issue issue, final String expectedDescription) {
         var parserRegistry = new ParserRegistry();
         var descriptor = parserRegistry.get(tool);
 
@@ -406,8 +403,7 @@ class ParsersTest extends ResourceTest {
         var findbugs = "findbugs";
         var report = findIssuesOfTool(2, findbugs, "findbugs-native.xml");
 
-        assertThatDescriptionOfIssueIsSet(findbugs, report.get(0),
-                """
+        assertThatDescriptionOfIssueIsSet(findbugs, report.get(0), """
                 <p> The fields of this class appear to be accessed inconsistently with respect
                   to synchronization.&nbsp; This bug report indicates that the bug pattern detector
                   judged that
@@ -419,14 +415,14 @@ class ParsersTest extends ResourceTest {
                   <li> The number of unsynchronized field accesses (reads and writes) was no more than
                        one third of all accesses, with writes being weighed twice as high as reads</li>
                   </ul>
-                
+
                   <p> A typical bug matching this bug pattern is forgetting to synchronize
                   one of the methods in a class that is intended to be thread-safe.</p>
-                
+
                   <p> You can select the nodes labeled "Unsynchronized access" to show the
                   code locations where the detector believed that a field was accessed
                   without synchronization.</p>
-                
+
                   <p> Note that there are various sources of inaccuracy in this detector;
                   for example, the detector cannot statically detect all situations in which
                   a lock is held.&nbsp; Also, even when the detector is accurate in
@@ -469,8 +465,9 @@ class ParsersTest extends ResourceTest {
         var report = findIssuesOfTool(1, spotBugs, "issue55707.xml");
         var issue = report.get(0);
         assertThatDescriptionOfIssueIsSet(spotBugs, issue, expectedDescription);
-        assertThat(issue).hasMessage(
-                "java/nio/file/Paths.get(Ljava/lang/String;[Ljava/lang/String;)Ljava/nio/file/Path; reads a file whose location might be specified by user input");
+        assertThat(issue)
+                .hasMessage(
+                        "java/nio/file/Paths.get(Ljava/lang/String;[Ljava/lang/String;)Ljava/nio/file/Path; reads a file whose location might be specified by user input");
     }
 
     /** Runs the Clang-Analyzer parser on an output file that contains 3 issues. */
@@ -623,9 +620,7 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(7, "ghs-multi", "ghsmulti.txt");
     }
 
-    /**
-     * Runs the Gnat parser on an output file that contains 9 issues.
-     */
+    /** Runs the Gnat parser on an output file that contains 9 issues. */
     @Test
     void shouldFindAllGnatIssues() {
         findIssuesOfTool(9, "gnat", "gnat.txt");
@@ -703,9 +698,7 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(13, "ansiblelint", "ansibleLint.txt");
     }
 
-    /**
-     * Runs the Perl::Critic parser on an output file that contains 105 issues.
-     */
+    /** Runs the Perl::Critic parser on an output file that contains 105 issues. */
     @Test
     void shouldFindAllPerlCriticIssues() {
         findIssuesOfTool(105, "perl-critic", "perlcritic.txt");
@@ -717,9 +710,7 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(5, "php", "php.txt");
     }
 
-    /**
-     * Runs the PHPStan scanner on an output file that contains 14 issues.
-     */
+    /** Runs the PHPStan scanner on an output file that contains 14 issues. */
     @Test
     void shouldFindAllPhpStanIssues() {
         findIssuesOfTool(11, "phpstan", "phpstan.xml");
@@ -779,15 +770,15 @@ class ParsersTest extends ResourceTest {
         var pylint = "pylint";
         var report = findIssuesOfTool(9 + 22, pylint, "pyLint.txt", "pylint_parseable.txt");
 
-        assertThatDescriptionOfIssueIsSet(pylint, report.get(1),
+        assertThatDescriptionOfIssueIsSet(
+                pylint,
+                report.get(1),
                 "Used when the name doesn't match the regular expression associated to its type(constant, variable, class...).");
-        assertThatDescriptionOfIssueIsSet(pylint, report.get(7),
-                "Used when an imported module or variable is not used.");
+        assertThatDescriptionOfIssueIsSet(
+                pylint, report.get(7), "Used when an imported module or variable is not used.");
     }
 
-    /**
-     * Runs the QacSourceCodeAnalyser parser on an output file that contains 9 issues.
-     */
+    /** Runs the QacSourceCodeAnalyser parser on an output file that contains 9 issues. */
     @Test
     void shouldFindAllQACSourceCodeAnalyserIssues() {
         findIssuesOfTool(9, "qac", "QACSourceCodeAnalyser.txt");
@@ -844,22 +835,23 @@ class ParsersTest extends ResourceTest {
     /** Runs the Java parser on several output files that contain 2 + 1 + 1 + 1 + 2 issues. */
     @Test
     void shouldFindAllJavaIssues() {
-        findIssuesOfTool(2 + 1 + 1 + 1 + 2, "java", "javac.txt", "gradle.java.log",
+        findIssuesOfTool(
+                2 + 1 + 1 + 1 + 2,
+                "java",
+                "javac.txt",
+                "gradle.java.log",
                 "gradle.another.java.log",
-                "ant-javac.txt", "hpi.txt");
+                "ant-javac.txt",
+                "hpi.txt");
     }
 
-    /**
-     * Runs the Kotlin parser on several output files that contain 1 issues.
-     */
+    /** Runs the Kotlin parser on several output files that contain 1 issues. */
     @Test
     void shouldFindAllKotlinIssues() {
         findIssuesOfTool(1, "kotlin", "kotlin.txt");
     }
 
-    /**
-     * Runs the CssLint parser on an output file that contains 51 issues.
-     */
+    /** Runs the CssLint parser on an output file that contains 51 issues. */
     @Test
     void shouldFindAllCssLintIssues() {
         findIssuesOfTool(51, "csslint", "csslint.xml");
@@ -1160,7 +1152,8 @@ class ParsersTest extends ResourceTest {
         var allIssues = new Report();
         for (String fileName : fileNames) {
             var parser = descriptor.create();
-            var report = parser.parse(new FileReaderFactory(getResourceAsFile("../parser/").resolve(fileName)));
+            var report = parser.parse(
+                    new FileReaderFactory(getResourceAsFile("../parser/").resolve(fileName)));
             allIssues.addAll(report);
         }
 

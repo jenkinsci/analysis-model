@@ -5,11 +5,10 @@ import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
 
-/**
- * Tests the class {@link SunCParser}.
- */
+/** Tests the class {@link SunCParser}. */
 class SunCParserTest extends AbstractParserTest {
-    private static final String MESSAGE = "String literal converted to char* in formal argument 1 in call to userlog(char*, ...).";
+    private static final String MESSAGE =
+            "String literal converted to char* in formal argument 1 in call to userlog(char*, ...).";
     private static final String CATEGORY = "badargtypel2w";
 
     SunCParserTest() {

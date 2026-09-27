@@ -1,8 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.nio.file.FileSystems;
-
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 import edu.hm.hafner.analysis.FileReaderFactory;
 import edu.hm.hafner.analysis.IssueParser;
@@ -13,8 +11,8 @@ import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
 import edu.hm.hafner.analysis.registry.ParserRegistry;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import java.nio.file.FileSystems;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the class {@link KubeHunterParser}.
@@ -196,7 +194,8 @@ class KubeHunterParserTest extends AbstractParserTest {
         assertThat(descriptor.getPattern()).isEqualTo("**/kube-hunter.json");
         assertThat(descriptor.getHelp()).contains("kube-hunter --report json --dispatch stdout");
         assertThat(descriptor.getUrl()).isEqualTo("https://github.com/aquasecurity/kube-hunter");
-        assertThat(descriptor.getIconUrl()).isEqualTo("https://github.com/aquasecurity/kube-hunter/blob/main/kube-hunter.png?raw=true");
+        assertThat(descriptor.getIconUrl())
+                .isEqualTo("https://github.com/aquasecurity/kube-hunter/blob/main/kube-hunter.png?raw=true");
         assertThat(descriptor.getType()).isEqualTo(IssueType.VULNERABILITY);
         assertThat(descriptor.hasHelp()).isTrue();
         assertThat(descriptor.hasUrl()).isTrue();

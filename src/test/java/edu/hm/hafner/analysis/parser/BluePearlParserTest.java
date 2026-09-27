@@ -26,22 +26,19 @@ class BluePearlParserTest extends AbstractParserTest {
 
         softly.assertThat(report.get(0))
                 .hasLineStart(51)
-                .hasMessage(
-                        "actual bit length 1 differs from formal bit length 4 for port 'output_we'")
+                .hasMessage("actual bit length 1 differs from formal bit length 4 for port 'output_we'")
                 .hasFileName("top_adapter_bram.v")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(report.get(1))
                 .hasLineStart(32)
-                .hasMessage(
-                        "actual bit length 1 differs from formal bit length 4 for port 'bram0_addr'")
+                .hasMessage("actual bit length 1 differs from formal bit length 4 for port 'bram0_addr'")
                 .hasFileName("top_adapter_bram.v")
                 .hasSeverity(Severity.ERROR);
 
         softly.assertThat(report.get(2))
                 .hasLineStart(42)
-                .hasMessage(
-                        "actual bit length 1 differs from formal bit length 4 for port 'input_addr'")
+                .hasMessage("actual bit length 1 differs from formal bit length 4 for port 'input_addr'")
                 .hasFileName("top_adapter_bram.v")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
@@ -54,15 +51,13 @@ class BluePearlParserTest extends AbstractParserTest {
 
         softly.assertThat(report.get(4))
                 .hasLineStart(42)
-                .hasMessage(
-                        "actual bit length 1 differs from formal bit length 4 for port 'input_addr'")
+                .hasMessage("actual bit length 1 differs from formal bit length 4 for port 'input_addr'")
                 .hasFileName("C:/lajfakjfka/top_adapter_bram.v")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(report.get(5))
                 .hasLineStart(42)
-                .hasMessage(
-                        "actual bit length 1 differs from formal bit length 4 for port 'input_addr'")
+                .hasMessage("actual bit length 1 differs from formal bit length 4 for port 'input_addr'")
                 .hasFileName("../lajfakjfka/top_adapter_bram.v")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
@@ -75,31 +70,26 @@ class BluePearlParserTest extends AbstractParserTest {
 
         softly.assertThat(report.get(7))
                 .hasLineStart(32)
-                .hasMessage(
-                        "actual bit length 1 differs from formal bit length 4 for port 'bram02_addr'")
+                .hasMessage("actual bit length 1 differs from formal bit length 4 for port 'bram02_addr'")
                 .hasFileName("top_adapter_bram2.v")
                 .hasSeverity(Severity.ERROR);
 
         softly.assertThat(report.get(8))
-                .hasMessage(
-                        "Could not find top module 'top_altfp_mult' in design.")
+                .hasMessage("Could not find top module 'top_altfp_mult' in design.")
                 .hasSeverity(Severity.ERROR);
 
         softly.assertThat(report.get(9))
-                .hasMessage(
-                        "Module: 'counter' Cannot find module 'counter' for instantiation.")
+                .hasMessage("Module: 'counter' Cannot find module 'counter' for instantiation.")
                 .hasFileName("simple_fp.v")
                 .hasLineStart(7)
                 .hasSeverity(Severity.ERROR);
 
         softly.assertThat(report.get(10))
-                .hasMessage(
-                        "ERROR: Termination due to non-recoverable errors")
+                .hasMessage("ERROR: Termination due to non-recoverable errors")
                 .hasSeverity(Severity.ERROR);
 
         softly.assertThat(report.get(11))
-                .hasMessage(
-                        "'work.altera_primitives_components' failed to restore")
+                .hasMessage("'work.altera_primitives_components' failed to restore")
                 .hasSeverity(Severity.ERROR);
     }
 }

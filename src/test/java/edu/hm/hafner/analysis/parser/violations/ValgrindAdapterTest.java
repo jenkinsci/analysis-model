@@ -4,7 +4,6 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
-
 import se.bjurr.violations.lib.model.Violation;
 
 /**
@@ -56,17 +55,15 @@ class ValgrindAdapterTest extends AbstractParserTest {
                 .hasLineStart(Violation.NO_LINE)
                 .hasSeverity(Severity.WARNING_HIGH);
 
-        report.forEach(
-                issue -> {
-                    final var description = issue.getDescription();
-                    if (Violation.NO_FILE.equals(issue.getFileName())) {
-                        softly.assertThat(description).doesNotContain("Primary Stack Trace");
-                    }
-                    else {
-                        softly.assertThat(description).contains("Primary Stack Trace", "&lt;insert_a_suppression_name_here&gt;");
-                    }
-                }
-        );
+        report.forEach(issue -> {
+            final var description = issue.getDescription();
+            if (Violation.NO_FILE.equals(issue.getFileName())) {
+                softly.assertThat(description).doesNotContain("Primary Stack Trace");
+            } else {
+                softly.assertThat(description)
+                        .contains("Primary Stack Trace", "&lt;insert_a_suppression_name_here&gt;");
+            }
+        });
     }
 
     @Override

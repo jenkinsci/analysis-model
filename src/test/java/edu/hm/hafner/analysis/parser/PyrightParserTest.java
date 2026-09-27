@@ -1,8 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.nio.file.FileSystems;
-
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 import edu.hm.hafner.analysis.FileReaderFactory;
 import edu.hm.hafner.analysis.IssueParser;
@@ -13,8 +11,8 @@ import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
 import edu.hm.hafner.analysis.registry.ParserRegistry;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import java.nio.file.FileSystems;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the class {@link PyrightParser}.
@@ -78,16 +76,17 @@ class PyrightParserTest extends AbstractParserTest {
 
     @Test
     void accepts() {
-        assertThat(new PyrightParser().accepts(
-                new FileReaderFactory(FileSystems.getDefault().getPath("pyright-report.json")))).isTrue();
-        assertThat(new PyrightParser().accepts(
-                new FileReaderFactory(FileSystems.getDefault().getPath("foo.txt")))).isFalse();
+        assertThat(new PyrightParser()
+                        .accepts(new FileReaderFactory(FileSystems.getDefault().getPath("pyright-report.json"))))
+                .isTrue();
+        assertThat(new PyrightParser()
+                        .accepts(new FileReaderFactory(FileSystems.getDefault().getPath("foo.txt"))))
+                .isFalse();
     }
 
     @Test
     void brokenInput() {
-        assertThatThrownBy(() -> parse("eclipse.txt"))
-                .isInstanceOf(ParsingException.class);
+        assertThatThrownBy(() -> parse("eclipse.txt")).isInstanceOf(ParsingException.class);
     }
 
     @Test
@@ -223,7 +222,8 @@ class PyrightParserTest extends AbstractParserTest {
         assertThat(descriptor.getPattern()).isEqualTo("**/pyright-report.json");
         assertThat(descriptor.getHelp()).contains("pyright --outputjson");
         assertThat(descriptor.getUrl()).isEqualTo("https://github.com/microsoft/pyright");
-        assertThat(descriptor.getIconUrl()).isEqualTo("https://github.com/microsoft/pyright/blob/main/docs/img/PyrightLarge.png");
+        assertThat(descriptor.getIconUrl())
+                .isEqualTo("https://github.com/microsoft/pyright/blob/main/docs/img/PyrightLarge.png");
         assertThat(descriptor.getType()).isEqualTo(IssueType.WARNING);
         assertThat(descriptor.hasHelp()).isTrue();
         assertThat(descriptor.hasUrl()).isTrue();

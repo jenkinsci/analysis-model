@@ -1,14 +1,13 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.util.Optional;
-import java.util.regex.Matcher;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
+import java.io.Serial;
+import java.util.Optional;
+import java.util.regex.Matcher;
 
 /**
  * A parser for PRQA QA-C Sourcecode Analyser warnings.
@@ -22,23 +21,20 @@ public class QacSourceCodeAnalyserParser extends LookaheadParser {
     /** Pattern of QA-C Sourcecode Analyser warnings. */
     private static final String QAC_WARNING_PATTERN = "^(.+?)\\((\\d+),(\\d+)\\): (Err|Msg)\\((\\d+):(\\d+)\\) (.+?)$";
 
-    /**
-     * Creates a new instance of {@code QACSourceCodeAnalyserParser}.
-     */
+    /** Creates a new instance of {@code QACSourceCodeAnalyserParser}. */
     public QacSourceCodeAnalyserParser() {
         super(QAC_WARNING_PATTERN);
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
-            final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(
+            final Matcher matcher, final LookaheadStream lookahead, final IssueBuilder builder) {
         Severity priority;
         String category;
         if (equalsIgnoreCase(matcher.group(4), "err")) {
             priority = Severity.WARNING_HIGH;
             category = "ERROR";
-        }
-        else {
+        } else {
             priority = Severity.WARNING_NORMAL;
             category = "Warning";
         }

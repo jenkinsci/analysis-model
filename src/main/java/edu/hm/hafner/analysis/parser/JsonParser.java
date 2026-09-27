@@ -1,19 +1,17 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONTokener;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
-
 import java.io.IOException;
 import java.io.Serial;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 
 /**
  * Parser that reads the 1:1 JSON mapping of the properties of the {@link Issue} bean.
@@ -23,6 +21,7 @@ import java.util.stream.StreamSupport;
 public class JsonParser extends JsonBaseParser {
     @Serial
     private static final long serialVersionUID = -6494117943149352139L;
+
     private static final String ISSUES = "issues";
     private static final boolean SEQUENTIAL = false;
 
@@ -33,7 +32,8 @@ public class JsonParser extends JsonBaseParser {
 
     @Override
     protected Report parseReport(final ReaderFactory readerFactory) throws ParsingException {
-        try (var reader = readerFactory.create(); var builder = new IssueBuilder()) {
+        try (var reader = readerFactory.create();
+                var builder = new IssueBuilder()) {
             var jsonReport = (JSONObject) new JSONTokener(reader).nextValue();
 
             var report = new Report();
@@ -46,8 +46,7 @@ public class JsonParser extends JsonBaseParser {
                         .forEach(report::add);
             }
             return report;
-        }
-        catch (IOException | JSONException exception) {
+        } catch (IOException | JSONException exception) {
             throw new ParsingException(exception, readerFactory);
         }
     }

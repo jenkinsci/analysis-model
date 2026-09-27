@@ -20,7 +20,8 @@ class CoverityAdapterTest extends AbstractParserTest {
                 .hasType("constant_expression_result/bit_and_with_zero")
                 .hasLineStart(79)
                 .hasSeverity(Severity.WARNING_NORMAL);
-        softly.assertThat(issue.getMessage()).startsWith("Bitwise-and ('&amp;') operation applied to zero always produces zero.");
+        softly.assertThat(issue.getMessage())
+                .startsWith("Bitwise-and ('&amp;') operation applied to zero always produces zero.");
     }
 
     @Override

@@ -1,8 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.nio.file.FileSystems;
-
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 import edu.hm.hafner.analysis.FileReaderFactory;
 import edu.hm.hafner.analysis.IssueParser;
@@ -12,8 +10,8 @@ import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
 import edu.hm.hafner.analysis.registry.ParserRegistry;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import java.nio.file.FileSystems;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the class {@link FossaParser}.
@@ -79,16 +77,17 @@ class FossaParserTest extends AbstractParserTest {
 
     @Test
     void accepts() {
-        assertThat(new FossaParser().accepts(
-                new FileReaderFactory(FileSystems.getDefault().getPath("fossa-report.json")))).isTrue();
-        assertThat(new FossaParser().accepts(
-                new FileReaderFactory(FileSystems.getDefault().getPath("foo.txt")))).isFalse();
+        assertThat(new FossaParser()
+                        .accepts(new FileReaderFactory(FileSystems.getDefault().getPath("fossa-report.json"))))
+                .isTrue();
+        assertThat(new FossaParser()
+                        .accepts(new FileReaderFactory(FileSystems.getDefault().getPath("foo.txt"))))
+                .isFalse();
     }
 
     @Test
     void brokenInput() {
-        assertThatThrownBy(() -> parse("eclipse.txt"))
-                .isInstanceOf(ParsingException.class);
+        assertThatThrownBy(() -> parse("eclipse.txt")).isInstanceOf(ParsingException.class);
     }
 
     @Test
@@ -196,7 +195,8 @@ class FossaParserTest extends AbstractParserTest {
         assertThat(descriptor.getPattern()).isEqualTo("**/fossa-report.json");
         assertThat(descriptor.getHelp()).contains("fossa test --format json");
         assertThat(descriptor.getUrl()).isEqualTo("https://docs.fossa.com/");
-        assertThat(descriptor.getIconUrl()).isEqualTo("https://github.com/fossas/fossa-cli/blob/master/docs/assets/header.png?raw=true");
+        assertThat(descriptor.getIconUrl())
+                .isEqualTo("https://github.com/fossas/fossa-cli/blob/master/docs/assets/header.png?raw=true");
         assertThat(descriptor.hasHelp()).isTrue();
         assertThat(descriptor.hasUrl()).isTrue();
     }

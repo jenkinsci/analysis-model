@@ -1,16 +1,14 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import org.apache.commons.lang3.StringUtils;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
+import java.io.Serial;
+import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * A parser for the ant JavaDoc compiler warnings.
@@ -20,23 +18,20 @@ import edu.hm.hafner.util.LookaheadStream;
 public class JavaDocParser extends AbstractMavenLogParser {
     @Serial
     private static final long serialVersionUID = 7127568148333474921L;
+
     private static final String JAVA_DOC_WARNING_PATTERN = "(?:\\s*\\[(?:javadoc|WARNING|ERROR)\\]\\s*)?(?:(?:(?:Exit"
             + " code: \\d* - )?(.*):(\\d+))|(?:\\s*javadoc\\s*)):\\s*(warning|error)\\s*[-:]\\s*(.*)";
 
     private static final Pattern TAG_PATTERN = Pattern.compile(".*(@\\w+).*");
 
-    /**
-     * Creates a new instance of {@link JavaDocParser}.
-     */
+    /** Creates a new instance of {@link JavaDocParser}. */
     public JavaDocParser() {
         super(JAVA_DOC_WARNING_PATTERN);
     }
 
     @Override
     protected boolean isLineInteresting(final String line) {
-        return super.isLineInteresting(line)
-                && !hasGoals(MAVEN_COMPILER_PLUGIN)
-                && lineContainsKeywords(line);
+        return super.isLineInteresting(line) && !hasGoals(MAVEN_COMPILER_PLUGIN) && lineContainsKeywords(line);
     }
 
     private boolean lineContainsKeywords(final String line) {
@@ -55,16 +50,15 @@ public class JavaDocParser extends AbstractMavenLogParser {
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
-            final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(
+            final Matcher matcher, final LookaheadStream lookahead, final IssueBuilder builder) {
         var type = matcher.group(3);
 
         var message = matcher.group(4);
         var tagMatcher = TAG_PATTERN.matcher(message);
         if (tagMatcher.matches()) {
             builder.setCategory("JavaDoc %s".formatted(tagMatcher.group(1)));
-        }
-        else {
+        } else {
             builder.setCategory("-");
         }
         return builder.setFileName(StringUtils.defaultIfEmpty(matcher.group(1), " - "))

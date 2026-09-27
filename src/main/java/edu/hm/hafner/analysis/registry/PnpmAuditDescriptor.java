@@ -1,10 +1,10 @@
 package edu.hm.hafner.analysis.registry;
 
+import static j2html.TagCreator.*;
+
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.Report.IssueType;
 import edu.hm.hafner.analysis.parser.PnpmAuditParser;
-
-import static j2html.TagCreator.*;
 
 /**
  * A descriptor for pnpm audit.
@@ -26,11 +26,13 @@ class PnpmAuditDescriptor extends ParserDescriptor {
 
     @Override
     public String getHelp() {
-        return join(text("Use commandline"),
-                code("pnpm audit --json > pnpm-audit.json"),
-                text(", see"),
-                a("pnpm audit").withHref("https://pnpm.io/cli/audit"),
-                text("for usage details.")).render();
+        return join(
+                        text("Use commandline"),
+                        code("pnpm audit --json > pnpm-audit.json"),
+                        text(", see"),
+                        a("pnpm audit").withHref("https://pnpm.io/cli/audit"),
+                        text("for usage details."))
+                .render();
     }
 
     @Override

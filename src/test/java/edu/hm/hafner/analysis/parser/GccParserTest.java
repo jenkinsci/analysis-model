@@ -1,16 +1,14 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.util.Iterator;
-
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.assertThat;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import java.util.Iterator;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the class {@link GccParser}.
@@ -77,7 +75,6 @@ class GccParserTest extends AbstractParserTest {
                     .hasLineEnd(52)
                     .hasMessage("large integer implicitly truncated to unsigned type")
                     .hasFileName("src/test_simple_sgs_message.cxx")
-
                     .hasCategory(GCC_WARNING)
                     .hasSeverity(Severity.WARNING_NORMAL);
         }
@@ -343,7 +340,8 @@ class GccParserTest extends AbstractParserTest {
         assertThat(warnings).hasSize(1);
     }
 
-    @Test @org.junitpioneer.jupiter.Issue("JENKINS-70996")
+    @Test
+    @org.junitpioneer.jupiter.Issue("JENKINS-70996")
     void ignoreDirectoriesFromOtherTools() {
         var warnings = parse("issue70996.txt");
 

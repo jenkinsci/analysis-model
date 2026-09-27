@@ -1,6 +1,8 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import static edu.hm.hafner.analysis.parser.FindBugsParser.PriorityProperty.*;
+import static org.mockito.Mockito.*;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.ReaderFactory;
@@ -10,20 +12,14 @@ import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.parser.FindBugsParser.PriorityProperty;
 import edu.hm.hafner.analysis.parser.FindBugsParser.XmlBugInstance;
-
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
+import org.junit.jupiter.api.Test;
 
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
-import static edu.hm.hafner.analysis.parser.FindBugsParser.PriorityProperty.*;
-import static org.mockito.Mockito.*;
-
-/**
- * Tests the extraction of FindBugs analysis results.
- */
+/** Tests the extraction of FindBugs analysis results. */
 @SuppressWarnings("NullAway")
 class FindBugsParserTest {
     private static final String SECOND_WARNING_HASH = "f32497e4bd8c80ef6228f10bd3363f52";
@@ -32,8 +28,7 @@ class FindBugsParserTest {
 
     private Report parseFile(final String fileName, final PriorityProperty priorityProperty) {
         var readerFactory = mock(ReaderFactory.class);
-        when(readerFactory.create()).thenAnswer(
-                mock -> new InputStreamReader(read(fileName), StandardCharsets.UTF_8));
+        when(readerFactory.create()).thenAnswer(mock -> new InputStreamReader(read(fileName), StandardCharsets.UTF_8));
         when(readerFactory.getFileName()).thenReturn(fileName);
         var parser = new FindBugsParser(priorityProperty);
         parser.setId("findbugs");
@@ -55,21 +50,21 @@ class FindBugsParserTest {
     void shouldAssignCorrectSeverity() {
         var confidenceReport = parseFile("findbugs-severities.xml", CONFIDENCE);
         assertThat(confidenceReport).hasSize(12);
-        assertThatReportHasSeverities(confidenceReport,
-                0, 1, 11, 0);
-        assertThat(confidenceReport).hasToString(
-                "FindBugs (findbugs): 12 bugs (high: 1, normal: 11)");
+        assertThatReportHasSeverities(confidenceReport, 0, 1, 11, 0);
+        assertThat(confidenceReport).hasToString("FindBugs (findbugs): 12 bugs (high: 1, normal: 11)");
 
         var rankReport = parseFile("findbugs-severities.xml", RANK);
         assertThat(rankReport).hasSize(12);
-        assertThatReportHasSeverities(rankReport,
-                0, 0, 0, 12);
-        assertThat(rankReport).hasToString(
-                "FindBugs (findbugs): 12 bugs (low: 12)");
+        assertThatReportHasSeverities(rankReport, 0, 0, 0, 12);
+        assertThat(rankReport).hasToString("FindBugs (findbugs): 12 bugs (low: 12)");
     }
 
-    private void assertThatReportHasSeverities(final Report report, final int expectedSizeError,
-            final int expectedSizeHigh, final int expectedSizeNormal, final int expectedSizeLow) {
+    private void assertThatReportHasSeverities(
+            final Report report,
+            final int expectedSizeError,
+            final int expectedSizeHigh,
+            final int expectedSizeNormal,
+            final int expectedSizeLow) {
         assertThat(report.getSizeOf(Severity.ERROR)).isEqualTo(expectedSizeError);
         assertThat(report.getSizeOf(Severity.WARNING_HIGH)).isEqualTo(expectedSizeHigh);
         assertThat(report.getSizeOf(Severity.WARNING_NORMAL)).isEqualTo(expectedSizeNormal);
@@ -121,7 +116,8 @@ class FindBugsParserTest {
     void issue7238() {
         var report = parseFile("issue7238.xml", CONFIDENCE);
 
-        assertThat(report).hasSize(1808)
+        assertThat(report)
+                .hasSize(1808)
                 .hasDuplicatesSize(12); // 12 issues are skipped (same attributes, but different instance hash)
     }
 
@@ -146,9 +142,7 @@ class FindBugsParserTest {
         }
     }
 
-    /**
-     * Tests the message mapping.
-     */
+    /** Tests the message mapping. */
     @Test
     void testMessageMapping() throws Exception {
         try (var stream = new InputStreamReader(read(FINDBUGS_NATIVE_XML), StandardCharsets.UTF_8)) {
@@ -158,26 +152,48 @@ class FindBugsParserTest {
             }
             assertThat(mapping).hasSize(2);
             assertThat(mapping).containsKeys(FIRST_WARNING_HASH, SECOND_WARNING_HASH);
-            assertThat(mapping.get(FIRST_WARNING_HASH)).isEqualTo(
-                    "Inconsistent synchronization of org.apache.hadoop.dfs.BlockCrcUpgradeObjectDatanode.blocksPreviouslyUpgraded; locked 85% of time");
-            assertThat(mapping.get(SECOND_WARNING_HASH)).isEqualTo(
-                    "Should org.apache.hadoop.streaming.StreamJob$MultiPropertyOption be a _static_ inner class?");
+            assertThat(mapping.get(FIRST_WARNING_HASH))
+                    .isEqualTo(
+                            "Inconsistent synchronization of org.apache.hadoop.dfs.BlockCrcUpgradeObjectDatanode.blocksPreviouslyUpgraded; locked 85% of time");
+            assertThat(mapping.get(SECOND_WARNING_HASH))
+                    .isEqualTo(
+                            "Should org.apache.hadoop.streaming.StreamJob$MultiPropertyOption be a _static_ inner class?");
         }
     }
 
-    /**
-     * Checks whether we correctly detect a file in FindBugs native format.
-     */
+    /** Checks whether we correctly detect a file in FindBugs native format. */
     @Test
     void testFileWithMultipleLinesAndRanges() {
-        scanNativeFile(FINDBUGS_NATIVE_XML, FINDBUGS_NATIVE_XML,
-                Severity.WARNING_NORMAL, "org/apache/hadoop/dfs/BlockCrcUpgrade.java", "org.apache.hadoop.dfs", 1309,
+        scanNativeFile(
+                FINDBUGS_NATIVE_XML,
+                FINDBUGS_NATIVE_XML,
+                Severity.WARNING_NORMAL,
+                "org/apache/hadoop/dfs/BlockCrcUpgrade.java",
+                "org.apache.hadoop.dfs",
                 1309,
-                4, "org/apache/hadoop/streaming/StreamJob.java", "org.apache.hadoop.streaming", 935, 980, 0,
+                1309,
+                4,
+                "org/apache/hadoop/streaming/StreamJob.java",
+                "org.apache.hadoop.streaming",
+                935,
+                980,
+                0,
                 CONFIDENCE);
-        scanNativeFile(FINDBUGS_NATIVE_XML, FINDBUGS_NATIVE_XML,
-                Severity.WARNING_LOW, "org/apache/hadoop/dfs/BlockCrcUpgrade.java", "org.apache.hadoop.dfs", 1309, 1309,
-                4, "org/apache/hadoop/streaming/StreamJob.java", "org.apache.hadoop.streaming", 935, 980, 0, RANK);
+        scanNativeFile(
+                FINDBUGS_NATIVE_XML,
+                FINDBUGS_NATIVE_XML,
+                Severity.WARNING_LOW,
+                "org/apache/hadoop/dfs/BlockCrcUpgrade.java",
+                "org.apache.hadoop.dfs",
+                1309,
+                1309,
+                4,
+                "org/apache/hadoop/streaming/StreamJob.java",
+                "org.apache.hadoop.streaming",
+                935,
+                980,
+                0,
+                RANK);
     }
 
     /**
@@ -186,41 +202,58 @@ class FindBugsParserTest {
      */
     @Test
     void scanFileWarningsHaveMultipleClasses() {
-        scanNativeFile("findbugs-multclass.xml", "FindBugs",
-                Severity.WARNING_HIGH, "umd/cs/findbugs/PluginLoader.java", "edu.umd.cs.findbugs", 82, 82,
-                0, "edu/umd/cs/findbugs/PluginLoader.java", "edu.umd.cs.findbugs", 93, 93, 0, CONFIDENCE);
-        scanNativeFile("findbugs-multclass.xml", "FindBugs",
-                Severity.WARNING_LOW, "umd/cs/findbugs/PluginLoader.java", "edu.umd.cs.findbugs", 82, 82,
-                0, "edu/umd/cs/findbugs/PluginLoader.java", "edu.umd.cs.findbugs", 93, 93, 0, RANK);
+        scanNativeFile(
+                "findbugs-multclass.xml",
+                "FindBugs",
+                Severity.WARNING_HIGH,
+                "umd/cs/findbugs/PluginLoader.java",
+                "edu.umd.cs.findbugs",
+                82,
+                82,
+                0,
+                "edu/umd/cs/findbugs/PluginLoader.java",
+                "edu.umd.cs.findbugs",
+                93,
+                93,
+                0,
+                CONFIDENCE);
+        scanNativeFile(
+                "findbugs-multclass.xml",
+                "FindBugs",
+                Severity.WARNING_LOW,
+                "umd/cs/findbugs/PluginLoader.java",
+                "edu.umd.cs.findbugs",
+                82,
+                82,
+                0,
+                "edu/umd/cs/findbugs/PluginLoader.java",
+                "edu.umd.cs.findbugs",
+                93,
+                93,
+                0,
+                RANK);
     }
 
-    /**
-     * Checks whether we could also parse bugs of the fbcontrib plug-in.
-     */
+    /** Checks whether we could also parse bugs of the fbcontrib plug-in. */
     @Test
     void scanFbContribFile() {
         var report = parseFile("fbcontrib.xml", CONFIDENCE);
         assertThat(report.filter(Issue.byPackageName("hudson.plugins.tasks"))).hasSize(16);
-        assertThat(report.filter(Issue.byFileName("hudson/plugins/tasks/ResultSummary.java"))).hasSize(2);
+        assertThat(report.filter(Issue.byFileName("hudson/plugins/tasks/ResultSummary.java")))
+                .hasSize(2);
     }
 
-    /**
-     * Checks whether we generate a message if there is no message in the XML file.
-     */
+    /** Checks whether we generate a message if there is no message in the XML file. */
     @Test
     void handleFilesWithoutMessages() {
         var report = parseFile("findbugs-nomessage.xml", CONFIDENCE);
         assertThat(report).hasSize(1);
 
-        assertThat(report.get(0))
-                .hasCategory("STYLE")
-                .hasType("RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE");
+        assertThat(report.get(0)).hasCategory("STYLE").hasType("RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE");
         assertThat(report.get(0).getMessage()).contains("Redundant nullcheck of");
     }
 
-    /**
-     * Verifies that third party categories are correctly parsed.
-     */
+    /** Verifies that third party categories are correctly parsed. */
     @Test
     void thirdPartyCategory() {
         var report = parseFile("findbugs-3rd-party-category.xml", CONFIDENCE);
@@ -230,11 +263,20 @@ class FindBugsParserTest {
     }
 
     @SuppressWarnings("parameternumber")
-    private void scanNativeFile(final String findbugsFile, final String projectName, final Severity priority,
-            final String fileName1, final String packageName1,
-            final int start1, final int end1, final int ranges1,
-            final String fileName2, final String packageName2,
-            final int start2, final int end2, final int ranges2,
+    private void scanNativeFile(
+            final String findbugsFile,
+            final String projectName,
+            final Severity priority,
+            final String fileName1,
+            final String packageName1,
+            final int start1,
+            final int end1,
+            final int ranges1,
+            final String fileName2,
+            final String packageName2,
+            final int start2,
+            final int end2,
+            final int ranges2,
             final PriorityProperty priorityProperty) {
         var report = parseFile(findbugsFile, priorityProperty);
         assertThat(report.getModules()).containsExactly(projectName);

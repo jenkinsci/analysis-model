@@ -1,15 +1,13 @@
 package edu.hm.hafner.analysis.parser;
 
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.Report;
 import java.io.Serial;
 import java.util.Locale;
-
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.apache.commons.lang3.StringUtils;
-
-import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Report;
 
 /**
  * Parser for OpenSCAP vulnerability/compliance reports in JSON format.
@@ -49,7 +47,7 @@ public class OpenScapParser extends JsonIssueParser {
     private void parseTestResults(final Report report, final JSONArray testResults, final IssueBuilder issueBuilder) {
         for (int i = 0; i < testResults.length(); i++) {
             JSONObject result = testResults.getJSONObject(i);
-            
+
             String resultStatus = result.optString(RESULT_TAG, "");
             if (shouldReportResult(resultStatus)) {
                 report.add(createIssueFromTestResult(result, issueBuilder));
@@ -60,7 +58,7 @@ public class OpenScapParser extends JsonIssueParser {
     private void parseRules(final Report report, final JSONArray rules, final IssueBuilder issueBuilder) {
         for (int i = 0; i < rules.length(); i++) {
             JSONObject rule = rules.getJSONObject(i);
-            
+
             String resultStatus = rule.optString(RESULT_TAG, "");
             if (shouldReportResult(resultStatus)) {
                 report.add(createIssueFromRule(rule, issueBuilder));
@@ -75,35 +73,34 @@ public class OpenScapParser extends JsonIssueParser {
 
     private Issue createIssueFromTestResult(final JSONObject testResult, final IssueBuilder issueBuilder) {
         JSONObject rule = testResult.optJSONObject(RULE_TAG);
-        
+
         String ruleId = "-";
         String title = "Unknown";
         String description = "";
-        
+
         if (rule != null) {
             ruleId = rule.optString(RULE_ID_TAG, "-");
             title = rule.optString(TITLE_TAG, "Unknown");
             description = rule.optString(DESCRIPTION_TAG, "");
         }
-        
+
         String severity = testResult.optString(SEVERITY_TAG, "medium");
         String evidence = testResult.optString(EVIDENCE_TAG, "");
         String file = testResult.optString(FILE_TAG, "-");
         String resultStatus = testResult.optString(RESULT_TAG, "");
-        
+
         String message = title;
         if (!evidence.isEmpty()) {
             message = title + " - " + evidence;
         }
-        
+
         String descriptionText = description;
         if (!evidence.isEmpty() && description.isEmpty()) {
             descriptionText = evidence;
-        } 
-        else if (!evidence.isEmpty()) {
+        } else if (!evidence.isEmpty()) {
             descriptionText = description + "\n\nEvidence: " + evidence;
         }
-        
+
         return issueBuilder
                 .setFileName(file)
                 .setType(ruleId)
@@ -121,7 +118,7 @@ public class OpenScapParser extends JsonIssueParser {
         String severity = rule.optString(SEVERITY_TAG, "medium");
         String file = rule.optString(FILE_TAG, "-");
         String resultStatus = rule.optString(RESULT_TAG, "");
-        
+
         return issueBuilder
                 .setFileName(file)
                 .setType(ruleId)

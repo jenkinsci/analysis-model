@@ -1,11 +1,7 @@
 package edu.hm.hafner.analysis;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.exception.ExceptionUtils;
-
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.FormatMethod;
-
 import edu.hm.hafner.util.Ensure;
 import edu.hm.hafner.util.FilteredLog;
 import edu.hm.hafner.util.Generated;
@@ -14,7 +10,6 @@ import edu.hm.hafner.util.TreeStringBuilder;
 import edu.hm.hafner.util.VisibleForTesting;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -40,6 +35,8 @@ import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 
 /**
  * A report contains a set of unique {@link Issue issues}: it contains no duplicate elements, i.e., it models the
@@ -47,20 +44,25 @@ import java.util.stream.Stream;
  * in this report are ordered by their index: the first added issue is at position 0, the second added issue is at
  * position 1, and so on.
  *
- * <p>
- * Additionally, this report provides methods to find and filter issues based on different properties. To create issues
- * use the provided {@link IssueBuilder builder} class.
- * </p>
+ * <p>Additionally, this report provides methods to find and filter issues based on different properties. To create
+ * issues use the provided {@link IssueBuilder builder} class.
  *
  * @author Ullrich Hafner
  */
-@SuppressWarnings({"PMD.ExcessivePublicCount", "PMD.GodClass", "PMD.CyclomaticComplexity", "PMD.CouplingBetweenObjects", "checkstyle:ClassFanOutComplexity"})
+@SuppressWarnings({
+    "PMD.ExcessivePublicCount",
+    "PMD.GodClass",
+    "PMD.CyclomaticComplexity",
+    "PMD.CouplingBetweenObjects",
+    "checkstyle:ClassFanOutComplexity"
+})
 public class Report implements Iterable<Issue>, Serializable {
     @Serial
     private static final long serialVersionUID = 14L; // release 14.0.0
 
     @VisibleForTesting
     static final String DEFAULT_ID = "-";
+
     private static final ReportFormatter FORMATTER = new ReportFormatter();
 
     private String id;
@@ -75,18 +77,19 @@ public class Report implements Iterable<Issue>, Serializable {
 
     @SuppressWarnings("serial")
     private Set<Issue> elements = new LinkedHashSet<>();
+
     @SuppressWarnings("serial")
     private List<String> infoMessages = new ArrayList<>();
+
     @SuppressWarnings("serial")
     private List<String> errorMessages = new ArrayList<>();
+
     @SuppressWarnings("serial")
     private Map<String, Integer> countersByKey = new HashMap<>();
 
     private int duplicatesSize;
 
-    /**
-     * Creates an empty {@link Report}.
-     */
+    /** Creates an empty {@link Report}. */
     public Report() {
         this(DEFAULT_ID, DEFAULT_ID, DEFAULT_ID);
     }
@@ -94,10 +97,8 @@ public class Report implements Iterable<Issue>, Serializable {
     /**
      * Creates an empty {@link Report} with the specified ID and name.
      *
-     * @param id
-     *         the ID of the report
-     * @param name
-     *         a human-readable name for the report
+     * @param id the ID of the report
+     * @param name a human-readable name for the report
      */
     public Report(final String id, final String name) {
         this(id, name, DEFAULT_ID);
@@ -107,12 +108,9 @@ public class Report implements Iterable<Issue>, Serializable {
      * Creates an empty {@link Report} with the specified ID and name. Link the report with the specified source file
      * that is the origin of the issues.
      *
-     * @param id
-     *         the ID of the report
-     * @param name
-     *         a human-readable name for the report
-     * @param originReportFile
-     *         the specified source file that is the origin of the issues.
+     * @param id the ID of the report
+     * @param name a human-readable name for the report
+     * @param originReportFile the specified source file that is the origin of the issues.
      */
     public Report(final String id, final String name, final String originReportFile) {
         this(id, name, originReportFile, IssueType.WARNING);
@@ -122,14 +120,10 @@ public class Report implements Iterable<Issue>, Serializable {
      * Creates an empty {@link Report} with the specified ID and name. Link the report with the specified source file
      * that is the origin of the issues.
      *
-     * @param id
-     *         the ID of the report
-     * @param name
-     *         a human-readable name for the report
-     * @param originReportFile
-     *         the specified source file that is the origin of the issues
-     * @param elementType
-     *         the type of the issues in the report
+     * @param id the ID of the report
+     * @param name a human-readable name for the report
+     * @param originReportFile the specified source file that is the origin of the issues
+     * @param elementType the type of the issues in the report
      */
     public Report(final String id, final String name, final String originReportFile, final IssueType elementType) {
         this.id = id;
@@ -143,9 +137,7 @@ public class Report implements Iterable<Issue>, Serializable {
      * will contain the issues of all specified reports, in the same order. The properties of the specified reports will
      * also be copied.
      *
-     * @param reports
-     *         the reports to append
-     *
+     * @param reports the reports to append
      * @see #copyIssuesAndProperties(Report, Report)
      */
     @SuppressWarnings("ConstructorLeaksThis")
@@ -162,9 +154,7 @@ public class Report implements Iterable<Issue>, Serializable {
      * will contain the issues of all specified reports, in the same order. The properties of the specified reports will
      * also be copied.
      *
-     * @param reports
-     *         the initial set of issues
-     *
+     * @param reports the initial set of issues
      * @see #copyIssuesAndProperties(Report, Report)
      */
     @SuppressWarnings("ConstructorLeaksThis")
@@ -230,10 +220,8 @@ public class Report implements Iterable<Issue>, Serializable {
      * Sets the origin of all issues in this report. Calling this method will associate all containing issues and issues
      * in sub-reports using the specified ID and name.
      *
-     * @param originId
-     *         the ID of the report
-     * @param originName
-     *         a human-readable name for the report
+     * @param originId the ID of the report
+     * @param originName a human-readable name for the report
      */
     public void setOrigin(final String originId, final String originName) {
         var normalizedId = StringUtils.defaultIfBlank(originId, DEFAULT_ID);
@@ -242,18 +230,16 @@ public class Report implements Iterable<Issue>, Serializable {
         id = normalizedId;
         name = normalizedName;
         subReports.forEach(report -> report.setOrigin(normalizedId, normalizedName));
-        elements.forEach(issue -> issue.setOrigin(normalizedId, normalizedName));    }
+        elements.forEach(issue -> issue.setOrigin(normalizedId, normalizedName));
+    }
 
     /**
      * Sets the origin of all issues in this report. Calling this method will associate all containing issues and issues
      * in sub-reports using the specified ID and name.
      *
-     * @param originId
-     *         the ID of the report
-     * @param originName
-     *         a human-readable name for the report
-     * @param originElementType
-     *         the type of the issues in the report
+     * @param originId the ID of the report
+     * @param originName a human-readable name for the report
+     * @param originElementType the type of the issues in the report
      */
     private void setOrigin(final String originId, final String originName, final IssueType originElementType) {
         setOrigin(originId, originName);
@@ -269,18 +255,14 @@ public class Report implements Iterable<Issue>, Serializable {
      * Sets the origin of all issues in this report. Calling this method will associate all containing issues and issues
      * in sub-reports using the specified ID and name.
      *
-     * @param originId
-     *         the ID of the report
-     * @param originName
-     *         a human-readable name for the report
-     * @param elementType
-     *         the type of the issues in the report
-     * @param reportFile
-     *         the report file name to add
+     * @param originId the ID of the report
+     * @param originName a human-readable name for the report
+     * @param elementType the type of the issues in the report
+     * @param reportFile the report file name to add
      */
     @SuppressWarnings("checkstyle:HiddenField")
-    public void setOrigin(final String originId, final String originName, final IssueType elementType,
-            final String reportFile) {
+    public void setOrigin(
+            final String originId, final String originName, final IssueType elementType, final String reportFile) {
         setOrigin(originId, originName, elementType);
         setOriginReportFile(reportFile);
     }
@@ -302,8 +284,7 @@ public class Report implements Iterable<Issue>, Serializable {
     /**
      * Stores the name of the report file that is the origin of the contained issues.
      *
-     * @param originReportFile
-     *         the report file name to add
+     * @param originReportFile the report file name to add
      */
     public void setOriginReportFile(final String originReportFile) {
         this.originReportFile = new PathUtil().getAbsolutePath(originReportFile);
@@ -332,13 +313,10 @@ public class Report implements Iterable<Issue>, Serializable {
      */
     public IssueType getElementType() {
         if (elements.isEmpty()) {
-            var types = subReports.stream()
-                    .map(Report::getElementType)
-                    .collect(Collectors.toSet());
+            var types = subReports.stream().map(Report::getElementType).collect(Collectors.toSet());
             if (types.size() > 1) {
                 return IssueType.WARNING; // fallback if the element type is not unique
-            }
-            else if (types.isEmpty()) {
+            } else if (types.isEmpty()) {
                 return elementType;
             }
             return types.iterator().next();
@@ -370,9 +348,7 @@ public class Report implements Iterable<Issue>, Serializable {
      * Appends the specified issue to the end of this report. Duplicates will be skipped (the number of skipped elements
      * is available using the method {@link #getDuplicatesSize()}).
      *
-     * @param issue
-     *         the issue to append
-     *
+     * @param issue the issue to append
      * @return this
      */
     @CanIgnoreReturnValue
@@ -382,8 +358,7 @@ public class Report implements Iterable<Issue>, Serializable {
         }
         if (contains(issue)) {
             duplicatesSize++; // elements are marked as duplicate if the fingerprint is different
-        }
-        else {
+        } else {
             elements.add(issue);
         }
 
@@ -395,11 +370,8 @@ public class Report implements Iterable<Issue>, Serializable {
      * Duplicates will be skipped (the number of skipped elements is available using the method
      * {@link #getDuplicatesSize()}).
      *
-     * @param issue
-     *         the first issue to append
-     * @param additionalIssues
-     *         the additional issue to append
-     *
+     * @param issue the first issue to append
+     * @param additionalIssues the additional issue to append
      * @return this
      * @see #add(Issue)
      */
@@ -417,9 +389,7 @@ public class Report implements Iterable<Issue>, Serializable {
      * Duplicates will be skipped (the number of skipped elements is available using the method
      * {@link #getDuplicatesSize()}).
      *
-     * @param issues
-     *         the issues to append
-     *
+     * @param issues the issues to append
      * @return this
      * @see #add(Issue)
      */
@@ -435,9 +405,7 @@ public class Report implements Iterable<Issue>, Serializable {
      * Appends the specified {@link Report reports} to this report. This report will then contain the issues of all
      * specified reports, in the same order. The properties of the specified reports will also be copied.
      *
-     * @param reports
-     *         the reports to append
-     *
+     * @param reports the reports to append
      * @return this
      * @see #copyIssuesAndProperties(Report, Report)
      */
@@ -453,8 +421,7 @@ public class Report implements Iterable<Issue>, Serializable {
             }
             if (report.subReports.isEmpty()) {
                 reportsToAdd.add(report);
-            }
-            else {
+            } else {
                 reportsToAdd.addAll(report.subReports);
                 infoMessages.addAll(report.infoMessages);
                 errorMessages.addAll(report.errorMessages);
@@ -466,8 +433,7 @@ public class Report implements Iterable<Issue>, Serializable {
             for (Issue issue : report) {
                 if (contains(issue)) {
                     duplicatesSize++; // elements are marked as duplicate if the fingerprint is different
-                }
-                else {
+                } else {
                     copyWithoutDuplicates.add(issue);
                 }
             }
@@ -500,7 +466,9 @@ public class Report implements Iterable<Issue>, Serializable {
      * @return this
      */
     @Serial
-    @SuppressFBWarnings(value = "RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE", justification = "Deserialization of instances that do not have all fields yet")
+    @SuppressFBWarnings(
+            value = "RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE",
+            justification = "Deserialization of instances that do not have all fields yet")
     protected Object readResolve() {
         if (countersByKey == null) {
             countersByKey = new HashMap<>();
@@ -523,12 +491,9 @@ public class Report implements Iterable<Issue>, Serializable {
      * Removes the issue with the specified ID. Note that the number of reported duplicates is not affected by calling
      * this method.
      *
-     * @param issueId
-     *         the ID of the issue
-     *
+     * @param issueId the ID of the issue
      * @return the removed element
-     * @throws NoSuchElementException
-     *         if there is no such issue found
+     * @throws NoSuchElementException if there is no such issue found
      */
     Issue remove(final UUID issueId) {
         Optional<Issue> issue = removeIfContained(issueId);
@@ -556,34 +521,27 @@ public class Report implements Iterable<Issue>, Serializable {
     }
 
     private Optional<Issue> find(final UUID issueId) {
-        return elements.stream()
-                .filter(issue -> issue.getId().equals(issueId))
-                .findAny();
+        return elements.stream().filter(issue -> issue.getId().equals(issueId)).findAny();
     }
 
     /**
      * Returns the issue with the specified ID.
      *
-     * @param issueId
-     *         the ID of the issue
-     *
+     * @param issueId the ID of the issue
      * @return the found issue
-     * @throws NoSuchElementException
-     *         if there is no such issue found
+     * @throws NoSuchElementException if there is no such issue found
      */
     public Issue findById(final UUID issueId) {
-        return stream().filter(issue -> issue.getId().equals(issueId))
+        return stream()
+                .filter(issue -> issue.getId().equals(issueId))
                 .findAny()
-                .orElseThrow(() -> new NoSuchElementException(
-                        "No issue found with id %s.".formatted(issueId)));
+                .orElseThrow(() -> new NoSuchElementException("No issue found with id %s.".formatted(issueId)));
     }
 
     /**
      * Finds all issues that match the specified criterion.
      *
-     * @param criterion
-     *         the filter criterion
-     *
+     * @param criterion the filter criterion
      * @return the found issues
      */
     public Set<Issue> findByProperty(final Predicate<? super Issue> criterion) {
@@ -593,9 +551,7 @@ public class Report implements Iterable<Issue>, Serializable {
     /**
      * Finds all issues that match the specified criterion.
      *
-     * @param criterion
-     *         the filter criterion
-     *
+     * @param criterion the filter criterion
      * @return the found issues
      */
     public Report filter(final Predicate<? super Issue> criterion) {
@@ -638,12 +594,9 @@ public class Report implements Iterable<Issue>, Serializable {
     /**
      * Returns the issue with the specified index.
      *
-     * @param index
-     *         the index
-     *
+     * @param index the index
      * @return the issue at the specified index
-     * @throws IndexOutOfBoundsException
-     *         if there is no element for the given index
+     * @throws IndexOutOfBoundsException if there is no element for the given index
      */
     public Issue get(final int index) {
         if (index < 0 || index >= size()) {
@@ -711,15 +664,14 @@ public class Report implements Iterable<Issue>, Serializable {
      * @return total number of duplicates
      */
     public int getDuplicatesSize() {
-        return duplicatesSize + subReports.stream().mapToInt(Report::getDuplicatesSize).sum();
+        return duplicatesSize
+                + subReports.stream().mapToInt(Report::getDuplicatesSize).sum();
     }
 
     /**
      * Returns the number of issues with the specified {@code severity}.
      *
-     * @param severity
-     *         the severity of the issues
-     *
+     * @param severity the severity of the issues
      * @return total number of issues
      */
     public int getSizeOf(final String severity) {
@@ -729,13 +681,14 @@ public class Report implements Iterable<Issue>, Serializable {
     /**
      * Returns the number of issues with the specified {@link Severity}.
      *
-     * @param severity
-     *         the severity of the issues
-     *
+     * @param severity the severity of the issues
      * @return total number of issues
      */
     public int getSizeOf(final Severity severity) {
-        return stream().filter(issue -> issue.getSeverity().equals(severity)).mapToInt(e -> 1).sum();
+        return stream()
+                .filter(issue -> issue.getSeverity().equals(severity))
+                .mapToInt(e -> 1)
+                .sum();
     }
 
     @Override
@@ -772,8 +725,7 @@ public class Report implements Iterable<Issue>, Serializable {
     private String getNamePrefix() {
         if (isEmptyOrDefault(getName()) && isEmptyOrDefault(getId())) {
             return StringUtils.EMPTY;
-        }
-        else {
+        } else {
             return String.format(Locale.ENGLISH, "%s (%s): ", getName(), getId());
         }
     }
@@ -956,11 +908,8 @@ public class Report implements Iterable<Issue>, Serializable {
     /**
      * Returns the different values for a given property for all issues.
      *
-     * @param propertyMapper
-     *         the property mapper that selects the property
-     * @param <T>
-     *         type of the property
-     *
+     * @param propertyMapper the property mapper that selects the property
+     * @param <T> type of the property
      * @return the set of different values
      * @see #getFiles()
      */
@@ -971,37 +920,29 @@ public class Report implements Iterable<Issue>, Serializable {
     /**
      * Returns the number of occurrences for every existing value of a given property for all issues.
      *
-     * @param propertyMapper
-     *         the property mapper that selects the property to evaluate
-     * @param <T>
-     *         type of the property
-     *
+     * @param propertyMapper the property mapper that selects the property to evaluate
+     * @param <T> type of the property
      * @return a mapping of: property value to the number of issues for that value
      * @see #getProperties(Function)
      */
     public <T> Map<T, Integer> getPropertyCount(final Function<? super Issue, T> propertyMapper) {
-        return stream().collect(
-                Collectors.groupingBy(propertyMapper, Collectors.reducing(0, issue -> 1, Integer::sum)));
+        return stream()
+                .collect(Collectors.groupingBy(propertyMapper, Collectors.reducing(0, issue -> 1, Integer::sum)));
     }
 
     /**
      * Groups issues by a specified property. Returns the results as a mapping of property values to a new set of
      * {@link Report} for this value.
      *
-     * @param propertyName
-     *         the property to that selects the property to evaluate
-     *
+     * @param propertyName the property to that selects the property to evaluate
      * @return a mapping of: property value to the number of issues for that value
      * @see #getProperties(Function)
      */
     public Map<String, Report> groupByProperty(final String propertyName) {
-        var issues = stream()
-                .collect(Collectors.groupingBy(Issue.getPropertyValueGetter(propertyName)));
+        var issues = stream().collect(Collectors.groupingBy(Issue.getPropertyValueGetter(propertyName)));
 
         return issues.entrySet().stream()
-                .collect(Collectors.toMap(
-                        Map.Entry::getKey,
-                        e -> new Report().addAll(e.getValue())));
+                .collect(Collectors.toMap(Map.Entry::getKey, e -> new Report().addAll(e.getValue())));
     }
 
     /**
@@ -1053,8 +994,7 @@ public class Report implements Iterable<Issue>, Serializable {
     /**
      * Merge all log messages from the specified log into the log of this report.
      *
-     * @param log
-     *         the log messages to merge
+     * @param log the log messages to merge
      */
     public void mergeLogMessages(final FilteredLog log) {
         infoMessages.addAll(log.getInfoMessages());
@@ -1062,16 +1002,11 @@ public class Report implements Iterable<Issue>, Serializable {
     }
 
     /**
-     * Logs the specified information message. Use this method to log any useful information when composing this
-     * report.
+     * Logs the specified information message. Use this method to log any useful information when composing this report.
      *
-     * @param format
-     *         A <a href="../util/Formatter.html#syntax">format string</a>
-     * @param args
-     *         Arguments referenced by the format specifiers in the format string.  If there are more arguments than
-     *         format specifiers, the extra arguments are ignored.  The number of arguments is variable and may be
-     *         zero.
-     *
+     * @param format A <a href="../util/Formatter.html#syntax">format string</a>
+     * @param args Arguments referenced by the format specifiers in the format string. If there are more arguments than
+     *     format specifiers, the extra arguments are ignored. The number of arguments is variable and may be zero.
      * @see #getInfoMessages()
      */
     @FormatMethod
@@ -1082,13 +1017,9 @@ public class Report implements Iterable<Issue>, Serializable {
     /**
      * Logs the specified error message. Use this method to log any error when composing this report.
      *
-     * @param format
-     *         A <a href="../util/Formatter.html#syntax">format string</a>
-     * @param args
-     *         Arguments referenced by the format specifiers in the format string.  If there are more arguments than
-     *         format specifiers, the extra arguments are ignored.  The number of arguments is variable and may be
-     *         zero.
-     *
+     * @param format A <a href="../util/Formatter.html#syntax">format string</a>
+     * @param args Arguments referenced by the format specifiers in the format string. If there are more arguments than
+     *     format specifiers, the extra arguments are ignored. The number of arguments is variable and may be zero.
      * @see #getInfoMessages()
      */
     @FormatMethod
@@ -1099,15 +1030,10 @@ public class Report implements Iterable<Issue>, Serializable {
     /**
      * Logs the specified exception. Use this method to log any exception when composing this report.
      *
-     * @param exception
-     *         the exception to log
-     * @param format
-     *         A <a href="../util/Formatter.html#syntax">format string</a>
-     * @param args
-     *         Arguments referenced by the format specifiers in the format string.  If there are more arguments than
-     *         format specifiers, the extra arguments are ignored.  The number of arguments is variable and may be
-     *         zero.
-     *
+     * @param exception the exception to log
+     * @param format A <a href="../util/Formatter.html#syntax">format string</a>
+     * @param args Arguments referenced by the format specifiers in the format string. If there are more arguments than
+     *     format specifiers, the extra arguments are ignored. The number of arguments is variable and may be zero.
      * @see #getInfoMessages()
      */
     @FormatMethod
@@ -1134,11 +1060,9 @@ public class Report implements Iterable<Issue>, Serializable {
         return mergeMessages(errorMessages, Report::getErrorMessages);
     }
 
-    private List<String> mergeMessages(final List<String> thisMessages,
-            final Function<Report, List<String>> sumMessages) {
-        return Stream.concat(
-                        subReports.stream().map(sumMessages).flatMap(Collection::stream),
-                        thisMessages.stream())
+    private List<String> mergeMessages(
+            final List<String> thisMessages, final Function<Report, List<String>> sumMessages) {
+        return Stream.concat(subReports.stream().map(sumMessages).flatMap(Collection::stream), thisMessages.stream())
                 .collect(Collectors.toList());
     }
 
@@ -1178,8 +1102,19 @@ public class Report implements Iterable<Issue>, Serializable {
     @Override
     @Generated
     public int hashCode() {
-        return Objects.hash(id, name, icon, elementType, parserId, originReportFile, subReports, elements,
-                infoMessages, errorMessages, countersByKey, duplicatesSize);
+        return Objects.hash(
+                id,
+                name,
+                icon,
+                elementType,
+                parserId,
+                originReportFile,
+                subReports,
+                elements,
+                infoMessages,
+                errorMessages,
+                countersByKey,
+                duplicatesSize);
     }
 
     @Serial
@@ -1281,8 +1216,22 @@ public class Report implements Iterable<Issue>, Serializable {
             var additionalProperties = (Serializable) input.readObject();
             var uuid = (UUID) input.readObject();
 
-            var issue = new Issue(path, locations, category, type, packageName, moduleName, severity,
-                    message, description, origin, originName, reference, fingerprint, additionalProperties, uuid);
+            var issue = new Issue(
+                    path,
+                    locations,
+                    category,
+                    type,
+                    packageName,
+                    moduleName,
+                    severity,
+                    message,
+                    description,
+                    origin,
+                    originName,
+                    reference,
+                    fingerprint,
+                    additionalProperties,
+                    uuid);
 
             elements.add(issue);
         }
@@ -1304,9 +1253,7 @@ public class Report implements Iterable<Issue>, Serializable {
     /**
      * Returns a human-readable name for the specified {@code origin} of this report.
      *
-     * @param origin
-     *         the origin to get the human-readable name for
-     *
+     * @param origin the origin to get the human-readable name for
      * @return the name, or an empty string if no such name has been set
      */
     public String getNameOfOrigin(final String origin) {
@@ -1326,10 +1273,8 @@ public class Report implements Iterable<Issue>, Serializable {
     /**
      * Sets the specified custom counter for this report.
      *
-     * @param key
-     *         the unique key for this counter
-     * @param value
-     *         the value to set
+     * @param key the unique key for this counter
+     * @param value the value to set
      */
     public void setCounter(final String key, final int value) {
         countersByKey.put(Objects.requireNonNull(key), value);
@@ -1340,8 +1285,7 @@ public class Report implements Iterable<Issue>, Serializable {
      * not be set by parsers as it is overwritten by the {@link IssueDifference differencing engine} while computing new
      * and fixed issues.
      *
-     * @param reference
-     *         the reference
+     * @param reference the reference
      */
     public void setReference(final String reference) {
         stream().forEach(issue -> issue.setReference(reference));
@@ -1350,21 +1294,18 @@ public class Report implements Iterable<Issue>, Serializable {
     /**
      * Returns the specified custom counter of this report.
      *
-     * @param key
-     *         the unique key for this counter
-     *
+     * @param key the unique key for this counter
      * @return the value of the specified counter, or 0 if the counter has not been set or is undefined
      */
     public int getCounter(final String key) {
-        return countersByKey.getOrDefault(key, 0) + subReports.stream().mapToInt(r -> r.getCounter(key)).sum();
+        return countersByKey.getOrDefault(key, 0)
+                + subReports.stream().mapToInt(r -> r.getCounter(key)).sum();
     }
 
     /**
      * Returns whether the specified custom counter of this report is defined.
      *
-     * @param key
-     *         the unique key for this counter
-     *
+     * @param key the unique key for this counter
      * @return {@code true} if the counter has been set, {@code false} otherwise
      */
     public boolean hasCounter(final String key) {
@@ -1389,26 +1330,25 @@ public class Report implements Iterable<Issue>, Serializable {
         /**
          * Adds a new filter for each pattern string. Adds the filter either to the include or exclude list.
          *
-         * @param patterns
-         *         filter patterns.
-         * @param propertyToFilter
-         *         Function to get a string from Issue for patterns
-         * @param type
-         *         type of the filter
+         * @param patterns filter patterns.
+         * @param propertyToFilter Function to get a string from Issue for patterns
+         * @param type type of the filter
          */
-        private void addNewFilter(final Collection<String> patterns,
+        private void addNewFilter(
+                final Collection<String> patterns,
                 final Function<Issue, String> propertyToFilter,
                 final FilterType type) {
             Collection<Predicate<Issue>> filters = new ArrayList<>();
             for (String pattern : patterns) {
                 filters.add(issueToFilter -> Pattern.compile(pattern, Pattern.DOTALL)
-                        .matcher(propertyToFilter.apply(issueToFilter)).find() == isIncludeFilter(type));
+                                .matcher(propertyToFilter.apply(issueToFilter))
+                                .find()
+                        == isIncludeFilter(type));
             }
 
             if (isIncludeFilter(type)) {
                 includeFilters.addAll(filters);
-            }
-            else {
+            } else {
                 excludeFilters.addAll(filters);
             }
         }
@@ -1424,18 +1364,18 @@ public class Report implements Iterable<Issue>, Serializable {
          */
         @SuppressWarnings("NoFunctionalReturnType")
         public Predicate<Issue> build() {
-            return includeFilters.stream().reduce(Predicate::or).orElse(issue -> true)
+            return includeFilters.stream()
+                    .reduce(Predicate::or)
+                    .orElse(issue -> true)
                     .and(excludeFilters.stream().reduce(Predicate::and).orElse(issue -> true));
         }
 
-        //<editor-fold desc="File name">
+        // <editor-fold desc="File name">
 
         /**
          * Add a new filter for {@code Issue::getFileName}.
          *
-         * @param patterns
-         *         the patterns to match
-         *
+         * @param patterns the patterns to match
          * @return this
          */
         @CanIgnoreReturnValue
@@ -1447,9 +1387,7 @@ public class Report implements Iterable<Issue>, Serializable {
         /**
          * Add a new filter for {@code Issue::getFileName}.
          *
-         * @param patterns
-         *         the patterns to match
-         *
+         * @param patterns the patterns to match
          * @return this
          */
         @CanIgnoreReturnValue
@@ -1460,9 +1398,7 @@ public class Report implements Iterable<Issue>, Serializable {
         /**
          * Add a new filter for {@code Issue::getFileName}.
          *
-         * @param patterns
-         *         the patterns to match
-         *
+         * @param patterns the patterns to match
          * @return this
          */
         @CanIgnoreReturnValue
@@ -1474,9 +1410,7 @@ public class Report implements Iterable<Issue>, Serializable {
         /**
          * Add a new filter for {@code Issue::getFileName}.
          *
-         * @param patterns
-         *         the patterns to match
-         *
+         * @param patterns the patterns to match
          * @return this
          */
         @CanIgnoreReturnValue
@@ -1484,16 +1418,14 @@ public class Report implements Iterable<Issue>, Serializable {
             return setExcludeFileNameFilter(Arrays.asList(patterns));
         }
 
-        //</editor-fold>
+        // </editor-fold>
 
-        //<editor-fold desc="Package name">
+        // <editor-fold desc="Package name">
 
         /**
          * Add a new filter for {@code Issue::getPackageName}.
          *
-         * @param patterns
-         *         the patterns to match
-         *
+         * @param patterns the patterns to match
          * @return this
          */
         @CanIgnoreReturnValue
@@ -1505,9 +1437,7 @@ public class Report implements Iterable<Issue>, Serializable {
         /**
          * Add a new filter for {@code Issue::getPackageName}.
          *
-         * @param patterns
-         *         the patterns to match
-         *
+         * @param patterns the patterns to match
          * @return this
          */
         @CanIgnoreReturnValue
@@ -1518,9 +1448,7 @@ public class Report implements Iterable<Issue>, Serializable {
         /**
          * Add a new filter for {@code Issue::getPackageName}.
          *
-         * @param patterns
-         *         the patterns to match
-         *
+         * @param patterns the patterns to match
          * @return this
          */
         @CanIgnoreReturnValue
@@ -1532,9 +1460,7 @@ public class Report implements Iterable<Issue>, Serializable {
         /**
          * Add a new filter for {@code Issue::getPackageName}.
          *
-         * @param patterns
-         *         the patterns to match
-         *
+         * @param patterns the patterns to match
          * @return this
          */
         @CanIgnoreReturnValue
@@ -1542,16 +1468,14 @@ public class Report implements Iterable<Issue>, Serializable {
             return setExcludePackageNameFilter(Arrays.asList(patterns));
         }
 
-        //</editor-fold>
+        // </editor-fold>
 
-        //<editor-fold desc="Module name">
+        // <editor-fold desc="Module name">
 
         /**
          * Add a new filter for {@code Issue::getModuleName}.
          *
-         * @param patterns
-         *         the patterns to match
-         *
+         * @param patterns the patterns to match
          * @return this
          */
         @CanIgnoreReturnValue
@@ -1563,9 +1487,7 @@ public class Report implements Iterable<Issue>, Serializable {
         /**
          * Add a new filter for {@code Issue::getModuleName}.
          *
-         * @param patterns
-         *         the patterns to match
-         *
+         * @param patterns the patterns to match
          * @return this
          */
         @CanIgnoreReturnValue
@@ -1576,9 +1498,7 @@ public class Report implements Iterable<Issue>, Serializable {
         /**
          * Add a new filter for {@code Issue::getModuleName}.
          *
-         * @param patterns
-         *         the patterns to match
-         *
+         * @param patterns the patterns to match
          * @return this
          */
         @CanIgnoreReturnValue
@@ -1590,9 +1510,7 @@ public class Report implements Iterable<Issue>, Serializable {
         /**
          * Add a new filter for {@code Issue::getModuleName}.
          *
-         * @param patterns
-         *         the patterns to match
-         *
+         * @param patterns the patterns to match
          * @return this
          */
         @CanIgnoreReturnValue
@@ -1600,16 +1518,14 @@ public class Report implements Iterable<Issue>, Serializable {
             return setExcludeModuleNameFilter(Arrays.asList(patterns));
         }
 
-        //</editor-fold>
+        // </editor-fold>
 
-        //<editor-fold desc="Category">
+        // <editor-fold desc="Category">
 
         /**
          * Add a new filter for {@code Issue::getCategory}.
          *
-         * @param patterns
-         *         the patterns to match
-         *
+         * @param patterns the patterns to match
          * @return this
          */
         @CanIgnoreReturnValue
@@ -1621,9 +1537,7 @@ public class Report implements Iterable<Issue>, Serializable {
         /**
          * Add a new filter for {@code Issue::getCategory}.
          *
-         * @param patterns
-         *         the patterns to match
-         *
+         * @param patterns the patterns to match
          * @return this
          */
         @CanIgnoreReturnValue
@@ -1634,9 +1548,7 @@ public class Report implements Iterable<Issue>, Serializable {
         /**
          * Add a new filter for {@code Issue::getCategory}.
          *
-         * @param patterns
-         *         the patterns to match
-         *
+         * @param patterns the patterns to match
          * @return this
          */
         @CanIgnoreReturnValue
@@ -1648,9 +1560,7 @@ public class Report implements Iterable<Issue>, Serializable {
         /**
          * Add a new filter for {@code Issue::getCategory}.
          *
-         * @param patterns
-         *         the patterns to match
-         *
+         * @param patterns the patterns to match
          * @return this
          */
         @CanIgnoreReturnValue
@@ -1658,16 +1568,14 @@ public class Report implements Iterable<Issue>, Serializable {
             return setExcludeCategoryFilter(Arrays.asList(patterns));
         }
 
-        //</editor-fold>
+        // </editor-fold>
 
-        //<editor-fold desc="Type">
+        // <editor-fold desc="Type">
 
         /**
          * Add a new filter for {@code Issue::getCategory}.
          *
-         * @param patterns
-         *         the patterns to match
-         *
+         * @param patterns the patterns to match
          * @return this
          */
         @CanIgnoreReturnValue
@@ -1679,9 +1587,7 @@ public class Report implements Iterable<Issue>, Serializable {
         /**
          * Add a new filter for {@code Issue::getType}.
          *
-         * @param patterns
-         *         the patterns to match
-         *
+         * @param patterns the patterns to match
          * @return this
          */
         @CanIgnoreReturnValue
@@ -1692,9 +1598,7 @@ public class Report implements Iterable<Issue>, Serializable {
         /**
          * Add a new filter for {@code Issue::getType}.
          *
-         * @param patterns
-         *         the patterns to match
-         *
+         * @param patterns the patterns to match
          * @return this
          */
         @CanIgnoreReturnValue
@@ -1706,9 +1610,7 @@ public class Report implements Iterable<Issue>, Serializable {
         /**
          * Add a new filter for {@code Issue::getType}.
          *
-         * @param patterns
-         *         the patterns to match
-         *
+         * @param patterns the patterns to match
          * @return this
          */
         @CanIgnoreReturnValue
@@ -1716,16 +1618,14 @@ public class Report implements Iterable<Issue>, Serializable {
             return setExcludeTypeFilter(Arrays.asList(patterns));
         }
 
-        //</editor-fold>
+        // </editor-fold>
 
-        //<editor-fold desc="Message">
+        // <editor-fold desc="Message">
 
         /**
          * Add a new filter for {@code Issue::getMessage}.
          *
-         * @param patterns
-         *         the patterns to match
-         *
+         * @param patterns the patterns to match
          * @return this
          */
         @CanIgnoreReturnValue
@@ -1737,9 +1637,7 @@ public class Report implements Iterable<Issue>, Serializable {
         /**
          * Add a new filter for {@code Issue::getMessage}.
          *
-         * @param patterns
-         *         the patterns to match
-         *
+         * @param patterns the patterns to match
          * @return this
          */
         @CanIgnoreReturnValue
@@ -1750,9 +1648,7 @@ public class Report implements Iterable<Issue>, Serializable {
         /**
          * Add a new filter for {@code Issue::getMessage}.
          *
-         * @param patterns
-         *         the patterns to match
-         *
+         * @param patterns the patterns to match
          * @return this
          */
         @CanIgnoreReturnValue
@@ -1764,9 +1660,7 @@ public class Report implements Iterable<Issue>, Serializable {
         /**
          * Add a new filter for {@code Issue::getMessage}.
          *
-         * @param patterns
-         *         the patterns to match
-         *
+         * @param patterns the patterns to match
          * @return this
          */
         @CanIgnoreReturnValue
@@ -1775,15 +1669,12 @@ public class Report implements Iterable<Issue>, Serializable {
         }
 
         private void addMessageFilter(final Collection<String> patterns, final FilterType filterType) {
-            addNewFilter(patterns, issue -> "%s%n%s".formatted(issue.getMessage(), issue.getDescription()),
-                    filterType);
+            addNewFilter(patterns, issue -> "%s%n%s".formatted(issue.getMessage(), issue.getDescription()), filterType);
         }
-        //</editor-fold>
+        // </editor-fold>
     }
 
-    /**
-     * Returns the type of the issues. The type is used to customize reports in the UI.
-     */
+    /** Returns the type of the issues. The type is used to customize reports in the UI. */
     public enum IssueType {
         /** A parser that scans the output of a build tool to find warnings. */
         WARNING,
