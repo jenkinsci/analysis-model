@@ -1,17 +1,15 @@
 package edu.hm.hafner.analysis.parser;
 
+import edu.hm.hafner.analysis.DuplicationGroup;
+import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.Report;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 import java.io.Serial;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-
 import org.apache.commons.digester3.Digester;
-
-import edu.hm.hafner.analysis.DuplicationGroup;
-import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Report;
-import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * A parser for PMD's CPD XML files.
@@ -26,10 +24,8 @@ public class CpdParser extends AbstractDryParser<CpdParser.Duplication> {
     /**
      * Creates a new instance of {@link CpdParser}.
      *
-     * @param highThreshold
-     *         minimum number of duplicate lines for high priority warnings
-     * @param normalThreshold
-     *         minimum number of duplicate lines for normal priority warnings
+     * @param highThreshold minimum number of duplicate lines for high priority warnings
+     * @param normalThreshold minimum number of duplicate lines for normal priority warnings
      */
     public CpdParser(final int highThreshold, final int normalThreshold) {
         super(highThreshold, normalThreshold);
@@ -58,13 +54,15 @@ public class CpdParser extends AbstractDryParser<CpdParser.Duplication> {
     }
 
     @Override
-    protected Report convertDuplicationsToIssues(final List<Duplication> duplications, final IssueBuilder issueBuilder) {
+    protected Report convertDuplicationsToIssues(
+            final List<Duplication> duplications, final IssueBuilder issueBuilder) {
         var report = new Report();
 
         for (Duplication duplication : duplications) {
             var group = new DuplicationGroup(duplication.getCodeFragment());
             for (SourceFile file : duplication.getFiles()) {
-                issueBuilder.setSeverity(getPriority(duplication.getLines()))
+                issueBuilder
+                        .setSeverity(getPriority(duplication.getLines()))
                         .setLineStart(file.getLine())
                         .setLineEnd(file.getLine() + duplication.getLines() - 1)
                         .setFileName(file.getPath())
@@ -104,8 +102,7 @@ public class CpdParser extends AbstractDryParser<CpdParser.Duplication> {
         /**
          * Sets the path of this file to the specified value.
          *
-         * @param path
-         *         the value to set
+         * @param path the value to set
          */
         public void setPath(@CheckForNull final String path) {
             this.path = path;
@@ -123,8 +120,7 @@ public class CpdParser extends AbstractDryParser<CpdParser.Duplication> {
         /**
          * Sets the line of the duplication to the specified value.
          *
-         * @param line
-         *         the value to set
+         * @param line the value to set
          */
         public void setLine(final int line) {
             this.line = line;
@@ -152,16 +148,14 @@ public class CpdParser extends AbstractDryParser<CpdParser.Duplication> {
         /**
          * Adds a new file to this duplication.
          *
-         * @param file
-         *            the new file
+         * @param file the new file
          */
         public void addFile(final SourceFile file) {
             files.add(file);
         }
 
         /**
-         * Returns all files of the duplication. The returned collection is
-         * read-only.
+         * Returns all files of the duplication. The returned collection is read-only.
          *
          * @return all files
          */

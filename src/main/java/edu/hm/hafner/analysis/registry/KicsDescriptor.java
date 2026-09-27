@@ -1,10 +1,13 @@
 package edu.hm.hafner.analysis.registry;
 
+import static j2html.TagCreator.a;
+import static j2html.TagCreator.code;
+import static j2html.TagCreator.join;
+import static j2html.TagCreator.text;
+
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.Report.IssueType;
 import edu.hm.hafner.analysis.parser.KicsParser;
-
-import static j2html.TagCreator.*;
 
 /**
  * A descriptor for KICS JSON reports.
@@ -36,13 +39,15 @@ class KicsDescriptor extends ParserDescriptor {
 
     @Override
     public String getHelp() {
-        return join(text("Use commandline"),
-                code("kics scan -p <path> -o ./ --report-formats json"),
-                text("to generate results.json, see"),
-                a("KICS").withHref("https://docs.kics.io/latest/"),
-                text("for usage details.")).render();
+        return join(
+                        text("Use commandline"),
+                        code("kics scan -p <path> -o ./ --report-formats json"),
+                        text("to generate results.json, see"),
+                        a("KICS").withHref("https://docs.kics.io/latest/"),
+                        text("for usage details."))
+                .render();
     }
-    
+
     @Override
     public String getIconUrl() {
         return "https://github.com/Checkmarx/kics/blob/master/docs/img/icon.svg?raw=true";

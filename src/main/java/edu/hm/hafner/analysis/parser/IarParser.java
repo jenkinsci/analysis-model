@@ -1,14 +1,13 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.util.Optional;
-import java.util.regex.Matcher;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
+import java.io.Serial;
+import java.util.Optional;
+import java.util.regex.Matcher;
 
 /**
  * A parser for the IAR C/C++ compiler warnings. Note, that since release 4.1 this parser requires that IAR compilers
@@ -25,9 +24,7 @@ public class IarParser extends LookaheadParser {
     static final String IAR_WARNING_PATTERN = ANT_TASK
             + "(?:\"?(.*?)\"?[\\(,](\\d+)\\)?\\s+(?::\\s)?)?(Error|Remark|Warning|Fatal [Ee]rror)\\[(\\w+)\\]: (.*)$";
 
-    /**
-     * Creates a new instance of {@link IarParser}.
-     */
+    /** Creates a new instance of {@link IarParser}. */
     public IarParser() {
         super(IAR_WARNING_PATTERN);
     }
@@ -38,8 +35,8 @@ public class IarParser extends LookaheadParser {
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
-            final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(
+            final Matcher matcher, final LookaheadStream lookahead, final IssueBuilder builder) {
         return builder.setSeverity(mapPriority(matcher))
                 .setMessage(normalizeWhitespaceInMessage(matcher.group(5)))
                 .setFileName(matcher.group(1))
@@ -52,14 +49,11 @@ public class IarParser extends LookaheadParser {
         Severity priority;
         if (equalsIgnoreCase(matcher.group(3), "Remark")) {
             priority = Severity.WARNING_LOW;
-        }
-        else if (equalsIgnoreCase(matcher.group(3), "Error")) {
+        } else if (equalsIgnoreCase(matcher.group(3), "Error")) {
             priority = Severity.ERROR;
-        }
-        else if (equalsIgnoreCase(matcher.group(3), "Fatal error")) {
+        } else if (equalsIgnoreCase(matcher.group(3), "Fatal error")) {
             priority = Severity.ERROR;
-        }
-        else {
+        } else {
             priority = Severity.WARNING_NORMAL;
         }
         return priority;

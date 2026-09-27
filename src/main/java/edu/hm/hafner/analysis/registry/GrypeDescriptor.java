@@ -3,9 +3,7 @@ package edu.hm.hafner.analysis.registry;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.GrypeParser;
 
-/**
- * Descriptor for Grype report parser.
- */
+/** Descriptor for Grype report parser. */
 class GrypeDescriptor extends ParserDescriptor {
     private static final String ID = "grype";
     private static final String NAME = "Grype";

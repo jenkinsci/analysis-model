@@ -1,12 +1,11 @@
 package edu.hm.hafner.analysis;
 
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
+
+import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-
-import nl.jqno.equalsverifier.EqualsVerifier;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
  * Tests the class {@link Severity}.
@@ -66,20 +65,21 @@ class SeverityTest {
 
     @Test
     void shouldReturnPredefinedSetOfSeverities() {
-        assertThat(Severity.getPredefinedValues()).containsExactlyInAnyOrder(
-                Severity.ERROR, Severity.WARNING_HIGH, Severity.WARNING_NORMAL, Severity.WARNING_LOW);
+        assertThat(Severity.getPredefinedValues())
+                .containsExactlyInAnyOrder(
+                        Severity.ERROR, Severity.WARNING_HIGH, Severity.WARNING_NORMAL, Severity.WARNING_LOW);
     }
 
     @Test
     void shouldCollectSeverities() {
-        assertThat(Severity.collectSeveritiesFrom(Severity.ERROR))
-                .containsExactly(Severity.ERROR);
+        assertThat(Severity.collectSeveritiesFrom(Severity.ERROR)).containsExactly(Severity.ERROR);
         assertThat(Severity.collectSeveritiesFrom(Severity.WARNING_HIGH))
                 .containsExactly(Severity.ERROR, Severity.WARNING_HIGH);
         assertThat(Severity.collectSeveritiesFrom(Severity.WARNING_NORMAL))
                 .containsExactlyInAnyOrder(Severity.ERROR, Severity.WARNING_HIGH, Severity.WARNING_NORMAL);
         assertThat(Severity.collectSeveritiesFrom(Severity.WARNING_LOW))
-                .containsExactlyInAnyOrder(Severity.ERROR, Severity.WARNING_HIGH, Severity.WARNING_NORMAL, Severity.WARNING_LOW);
+                .containsExactlyInAnyOrder(
+                        Severity.ERROR, Severity.WARNING_HIGH, Severity.WARNING_NORMAL, Severity.WARNING_LOW);
     }
 
     @ParameterizedTest(name = "[{index}] Default severity = {0}")

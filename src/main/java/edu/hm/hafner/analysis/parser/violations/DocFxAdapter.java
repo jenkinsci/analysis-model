@@ -1,11 +1,10 @@
 package edu.hm.hafner.analysis.parser.violations;
 
-import java.io.Serial;
+import static se.bjurr.violations.lib.model.SEVERITY.*;
 
+import java.io.Serial;
 import se.bjurr.violations.lib.model.Violation;
 import se.bjurr.violations.lib.parsers.DocFXParser;
-
-import static se.bjurr.violations.lib.model.SEVERITY.*;
 
 /**
  * Parses DocFX files.

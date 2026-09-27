@@ -1,12 +1,10 @@
 package edu.hm.hafner.analysis;
 
-import java.util.function.Predicate;
-
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 import edu.hm.hafner.analysis.Report.IssueFilterBuilder;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import java.util.function.Predicate;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit test for {@link IssueFilterBuilder}.
@@ -48,11 +46,14 @@ class IssueFilterTest {
      */
     @Test
     void shouldHandleApostrophe() {
-        var predicate = new IssueFilterBuilder().setExcludeMessageFilter(
-                "'tools.jar' was not found, kapt may work unreliably").build();
+        var predicate = new IssueFilterBuilder()
+                .setExcludeMessageFilter("'tools.jar' was not found, kapt may work unreliably")
+                .build();
 
         var report = new Report();
-        report.add(new IssueBuilder().setMessage("'tools.jar' was not found, kapt may work unreliably").build());
+        report.add(new IssueBuilder()
+                .setMessage("'tools.jar' was not found, kapt may work unreliably")
+                .build());
 
         var filtered = report.filter(predicate);
         assertThat(filtered).hasSize(0);
@@ -60,16 +61,24 @@ class IssueFilterTest {
 
     @Test
     void shouldUseFindRatherThanMatch() {
-        var predicate = new IssueFilterBuilder().setIncludeMessageFilter("something").build();
+        var predicate =
+                new IssueFilterBuilder().setIncludeMessageFilter("something").build();
 
         var report = new Report();
         report.add(new IssueBuilder().setLineStart(1).setMessage("something").build());
         report.add(new IssueBuilder().setLineStart(2).setMessage(" something").build());
         report.add(new IssueBuilder().setLineStart(3).setMessage("something ").build());
         report.add(new IssueBuilder().setLineStart(4).setMessage(" something ").build());
-        report.add(new IssueBuilder().setLineStart(5).setMessage("Before something After").build());
-        report.add(new IssueBuilder().setLineStart(6).setMessage("Before something").build());
-        report.add(new IssueBuilder().setLineStart(7).setMessage("something After").build());
+        report.add(new IssueBuilder()
+                .setLineStart(5)
+                .setMessage("Before something After")
+                .build());
+        report.add(new IssueBuilder()
+                .setLineStart(6)
+                .setMessage("Before something")
+                .build());
+        report.add(
+                new IssueBuilder().setLineStart(7).setMessage("something After").build());
 
         var filtered = report.filter(predicate);
         assertThat(filtered).hasSize(7);
@@ -77,7 +86,9 @@ class IssueFilterTest {
 
     @Test
     void shouldMatchMultiLinesInMessage() {
-        var predicate = new IssueFilterBuilder().setExcludeMessageFilter(".*something.*").build();
+        var predicate = new IssueFilterBuilder()
+                .setExcludeMessageFilter(".*something.*")
+                .build();
 
         var report = new Report();
         report.add(new IssueBuilder().setMessage("something").build());
@@ -95,7 +106,9 @@ class IssueFilterTest {
      */
     @Test
     void shouldMatchMultiLinesInDescription() {
-        var predicate = new IssueFilterBuilder().setExcludeMessageFilter(".*something.*").build();
+        var predicate = new IssueFilterBuilder()
+                .setExcludeMessageFilter(".*something.*")
+                .build();
 
         var report = new Report();
         report.add(new IssueBuilder().setDescription("something").build());
@@ -113,13 +126,24 @@ class IssueFilterTest {
      */
     @Test
     void shouldMatchMessageOrDescriptionInIncludeFilter() {
-        var predicate = new IssueFilterBuilder().setIncludeMessageFilter(".*something.*").build();
+        var predicate = new IssueFilterBuilder()
+                .setIncludeMessageFilter(".*something.*")
+                .build();
 
         var report = new Report();
-        report.add(new IssueBuilder().setDescription("something").setMessage("else").build());
-        report.add(new IssueBuilder().setDescription("else").setMessage("something").build());
+        report.add(new IssueBuilder()
+                .setDescription("something")
+                .setMessage("else")
+                .build());
+        report.add(new IssueBuilder()
+                .setDescription("else")
+                .setMessage("something")
+                .build());
         report.add(new IssueBuilder().setDescription("else").setMessage("else").build());
-        report.add(new IssueBuilder().setDescription("something").setMessage("something").build());
+        report.add(new IssueBuilder()
+                .setDescription("something")
+                .setMessage("something")
+                .build());
 
         var filtered = report.filter(predicate);
         assertThat(filtered).hasSize(3);
@@ -167,17 +191,15 @@ class IssueFilterTest {
 
     @Test
     void shouldFindIssue1ByAFileNameIncludeMatch() {
-        var filter = new IssueFilterBuilder()
-                .setIncludeFileNameFilter("FileName1")
-                .build();
+        var filter =
+                new IssueFilterBuilder().setIncludeFileNameFilter("FileName1").build();
         applyFilterAndCheckResult(filter, getIssues(), ISSUE1);
     }
 
     @Test
     void shouldFindIssue1ByAFileNameExcludeMatch() {
-        var filter = new IssueFilterBuilder()
-                .setExcludeFileNameFilter("FileName1")
-                .build();
+        var filter =
+                new IssueFilterBuilder().setExcludeFileNameFilter("FileName1").build();
         applyFilterAndCheckResult(filter, getIssues(), ISSUE2, ISSUE3);
     }
 
@@ -233,17 +255,13 @@ class IssueFilterTest {
 
     @Test
     void shouldFindIssue2ByATypeIncludeMatch() {
-        var filter = new IssueFilterBuilder()
-                .setIncludeTypeFilter("Type2")
-                .build();
+        var filter = new IssueFilterBuilder().setIncludeTypeFilter("Type2").build();
         applyFilterAndCheckResult(filter, getIssues(), ISSUE2);
     }
 
     @Test
     void shouldFindIssue2ByACategoryExcludeMatch() {
-        var filter = new IssueFilterBuilder()
-                .setExcludeTypeFilter("Type2")
-                .build();
+        var filter = new IssueFilterBuilder().setExcludeTypeFilter("Type2").build();
         applyFilterAndCheckResult(filter, getIssues(), ISSUE1, ISSUE3);
     }
 
@@ -278,32 +296,27 @@ class IssueFilterTest {
 
     @Test
     void shouldFindIssue1ByAMessageIncludeMatch() {
-        var filter = new IssueFilterBuilder()
-                .setIncludeMessageFilter("Message1")
-                .build();
+        var filter =
+                new IssueFilterBuilder().setIncludeMessageFilter("Message1").build();
         applyFilterAndCheckResult(filter, getIssues(), ISSUE1);
     }
 
     @Test
     void shouldRemoveIssue2ByAMessageExcludeMatch() {
-        var filter = new IssueFilterBuilder()
-                .setExcludeMessageFilter("Message2")
-                .build();
+        var filter =
+                new IssueFilterBuilder().setExcludeMessageFilter("Message2").build();
         applyFilterAndCheckResult(filter, getIssues(), ISSUE1, ISSUE3);
     }
 
     /**
      * Applies filter and checks if result is equal to expected values.
      *
-     * @param criterion
-     *         the filter criterion
-     * @param report
-     *         the issues to filter.
-     * @param expectedOutput
-     *         the expected filter result.
+     * @param criterion the filter criterion
+     * @param report the issues to filter.
+     * @param expectedOutput the expected filter result.
      */
-    private void applyFilterAndCheckResult(final Predicate<? super Issue> criterion, final Report report,
-            final Issue... expectedOutput) {
+    private void applyFilterAndCheckResult(
+            final Predicate<? super Issue> criterion, final Report report, final Issue... expectedOutput) {
         assertThat(report.filter(criterion).iterator()).toIterable().containsExactly(expectedOutput);
     }
 

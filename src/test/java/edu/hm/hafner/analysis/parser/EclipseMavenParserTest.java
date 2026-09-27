@@ -1,18 +1,15 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 import edu.hm.hafner.analysis.Categories;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
+import org.junit.jupiter.api.Test;
 
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
-
-/**
- * Tests the class {@link EclipseMavenParser}.
- */
+/** Tests the class {@link EclipseMavenParser}. */
 class EclipseMavenParserTest extends AbstractParserTest {
     EclipseMavenParserTest() {
         super("issue13969.txt");
@@ -122,9 +119,7 @@ class EclipseMavenParserTest extends AbstractParserTest {
         }
     }
 
-    /**
-     * Tests that warnings are categorized as {@code Code} or {@code JavaDoc}.
-     */
+    /** Tests that warnings are categorized as {@code Code} or {@code JavaDoc}. */
     @Test
     void javadocCategory() {
         var warnings = parse("eclipse-maven-withjavadoc.log");

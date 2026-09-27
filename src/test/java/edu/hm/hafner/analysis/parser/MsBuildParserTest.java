@@ -1,20 +1,16 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
-
 import java.util.Iterator;
+import org.junit.jupiter.api.Test;
 
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
-
-/**
- * Tests the class {@link MsBuildParser}.
- */
+/** Tests the class {@link MsBuildParser}. */
 class MsBuildParserTest extends AbstractParserTest {
     MsBuildParserTest() {
         super("msbuild.txt");
@@ -29,8 +25,7 @@ class MsBuildParserTest extends AbstractParserTest {
     void shouldRemoveAnsiColors() {
         var warnings = parse("MSBuildANSIColor.txt");
 
-        assertThat(warnings)
-                .hasSize(1);
+        assertThat(warnings).hasSize(1);
 
         assertThatReportHasSeverities(warnings, 0, 0, 1, 0);
 
@@ -65,9 +60,9 @@ class MsBuildParserTest extends AbstractParserTest {
     }
 
     /**
-     * Extended test for issue 56613 - ensures tool names are properly handled.
-     * Executable names (.exe) and pseudo-file placeholders are still dropped.
-     * Bare task names (EXEC, NMAKE, CSC, MSBuild, rs) now produce issues with fileName "-".
+     * Extended test for issue 56613 - ensures tool names are properly handled. Executable names (.exe) and pseudo-file
+     * placeholders are still dropped. Bare task names (EXEC, NMAKE, CSC, MSBuild, rs) now produce issues with fileName
+     * "-".
      *
      * @see <a href="https://issues.jenkins.io/browse/JENKINS-56613">Issue 56613</a>
      */
@@ -93,17 +88,20 @@ class MsBuildParserTest extends AbstractParserTest {
                     .hasFileName("-")
                     .hasCategory("NU1902")
                     .hasSeverity(Severity.WARNING_NORMAL)
-                    .hasMessage("Package 'Microsoft.IdentityModel.JsonWebTokens' 6.11.1 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-59j7-ghrg-fj52");
+                    .hasMessage(
+                            "Package 'Microsoft.IdentityModel.JsonWebTokens' 6.11.1 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-59j7-ghrg-fj52");
             softly.assertThat(warnings.get(1))
                     .hasFileName("-")
                     .hasCategory("NU1903")
                     .hasSeverity(Severity.WARNING_NORMAL)
-                    .hasMessage("Package 'Microsoft.Owin' 4.2.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-3rq8-h3gj-r5c6");
+                    .hasMessage(
+                            "Package 'Microsoft.Owin' 4.2.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-3rq8-h3gj-r5c6");
             softly.assertThat(warnings.get(2))
                     .hasFileName("-")
                     .hasCategory("NU1902")
                     .hasSeverity(Severity.WARNING_NORMAL)
-                    .hasMessage("Package 'System.IdentityModel.Tokens.Jwt' 6.11.1 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-59j7-ghrg-fj52");
+                    .hasMessage(
+                            "Package 'System.IdentityModel.Tokens.Jwt' 6.11.1 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-59j7-ghrg-fj52");
         }
     }
 
@@ -135,8 +133,8 @@ class MsBuildParserTest extends AbstractParserTest {
     }
 
     /**
-     * Test for issue 56613 - ensures that valid source file warnings are still parsed correctly.
-     * This validates that the fix for tool names doesn't break normal warning detection.
+     * Test for issue 56613 - ensures that valid source file warnings are still parsed correctly. This validates that
+     * the fix for tool names doesn't break normal warning detection.
      *
      * @see <a href="https://issues.jenkins.io/browse/JENKINS-56613">Issue 56613</a>
      */
@@ -149,8 +147,8 @@ class MsBuildParserTest extends AbstractParserTest {
     }
 
     /**
-     * Test for issue 56613 - ensures valid source file warnings are still parsed correctly.
-     * This validates that the fix for tool names doesn't break normal warning detection.
+     * Test for issue 56613 - ensures valid source file warnings are still parsed correctly. This validates that the fix
+     * for tool names doesn't break normal warning detection.
      *
      * @see <a href="https://issues.jenkins.io/browse/JENKINS-56613">Issue 56613</a>
      */
@@ -221,10 +219,12 @@ class MsBuildParserTest extends AbstractParserTest {
 
         try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
-                    .hasFileName("C:/DVR/workspace/_Branch_build_updates-SDSYGOEWO53Z6ASKV6W4GSRWQU4DXCNNDGKGTWMQJ4O7LTMGYQVQ/live555/transport/include/TransportRTCP.h")
+                    .hasFileName(
+                            "C:/DVR/workspace/_Branch_build_updates-SDSYGOEWO53Z6ASKV6W4GSRWQU4DXCNNDGKGTWMQJ4O7LTMGYQVQ/live555/transport/include/TransportRTCP.h")
                     .hasCategory("C4275")
                     .hasSeverity(Severity.WARNING_NORMAL)
-                    .hasMessage("non dll-interface class 'transport::RtcpSpec' used as base for dll-interface class 'transport::TransportRTCPInstance'")
+                    .hasMessage(
+                            "non dll-interface class 'transport::RtcpSpec' used as base for dll-interface class 'transport::TransportRTCPInstance'")
                     .hasLineStart(39);
             softly.assertThat(warnings.get(1))
                     .hasFileName(
@@ -324,19 +324,22 @@ class MsBuildParserTest extends AbstractParserTest {
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasMessage(
                             "Property `margin` should be written more concisely as `5px 0 0` instead of `5px 0 0 0`")
-                    .hasLineStart(41).hasColumnStart(17);
+                    .hasLineStart(41)
+                    .hasColumnStart(17);
             softly.assertThat(warnings.get(1))
                     .hasFileName("src/search-list.component.scss")
                     .hasCategory("shorthand_values")
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasMessage(
                             "Property `margin` should be written more concisely as `5px 0 0` instead of `5px 0 0 0`")
-                    .hasLineStart(42).hasColumnStart(18);
+                    .hasLineStart(42)
+                    .hasColumnStart(18);
         }
     }
 
     /**
-     * MSBuildParser should also detect subcategories as described at <a href="http://blogs.msdn.com/b/msbuild/archive/2006/11/03/msbuild-visual-studio-aware-error-messages-and-message-formats.aspx">
+     * MSBuildParser should also detect subcategories as described at <a
+     * href="http://blogs.msdn.com/b/msbuild/archive/2006/11/03/msbuild-visual-studio-aware-error-messages-and-message-formats.aspx">
      * MSBuild / Visual Studio aware error messages and message formats</a>.
      *
      * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-27914">Issue 27914</a>
@@ -412,7 +415,7 @@ class MsBuildParserTest extends AbstractParserTest {
     }
 
     /**
-     * Parses a file with  warnings of a Visual Studio analysis.
+     * Parses a file with warnings of a Visual Studio analysis.
      *
      * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-20154">Issue 20154</a>
      */
@@ -866,7 +869,7 @@ class MsBuildParserTest extends AbstractParserTest {
     }
 
     /**
-     * Update regular expression to detect logging prefixes like <pre>{@code 17:4>}</pre>.
+     * Update regular expression to detect logging prefixes like {@code 17:4>}.
      *
      * @see <a href="https://issues.jenkins-ci.org/browse/JENKINS-48647">Issue 48647</a>
      */
@@ -906,10 +909,12 @@ class MsBuildParserTest extends AbstractParserTest {
             softly.assertThat(report).hasSize(2);
             assertThatReportHasSeverities(report, 0, 0, 2, 0);
             softly.assertThat(iterator.next())
-                    .hasFileName("C:/Jenkins/workspace/windows-kicad-msvc-tom/build/release/cpu/amd64/label/msvc/src/include/footprint_info.h")
+                    .hasFileName(
+                            "C:/Jenkins/workspace/windows-kicad-msvc-tom/build/release/cpu/amd64/label/msvc/src/include/footprint_info.h")
                     .hasCategory("C4251")
                     .hasSeverity(Severity.WARNING_NORMAL)
-                    .hasMessage("'FOOTPRINT_ASYNC_LOADER::m_last_table': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'FOOTPRINT_ASYNC_LOADER'")
+                    .hasMessage(
+                            "'FOOTPRINT_ASYNC_LOADER::m_last_table': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'FOOTPRINT_ASYNC_LOADER'")
                     .hasDescription("")
                     .hasPackageName("-")
                     .hasLineStart(320)
@@ -940,8 +945,8 @@ class MsBuildParserTest extends AbstractParserTest {
     }
 
     /**
-     * Parser should not stop processing when parsing CMake output that contains text before
-     * '-- Build files have been written to'.
+     * Parser should not stop processing when parsing CMake output that contains text before '-- Build files have been
+     * written to'.
      *
      * @see <a href="https://issues.jenkins-ci.org/browse//JENKINS-66950">Issue 66950</a>
      */
@@ -953,8 +958,8 @@ class MsBuildParserTest extends AbstractParserTest {
     }
 
     /**
-     * Parser should handle invalid filenames like &lt;command line option&gt; from PC-Lint.
-     * Issues with invalid filenames should be filtered out, only valid file warnings should be parsed.
+     * Parser should handle invalid filenames like &lt;command line option&gt; from PC-Lint. Issues with invalid
+     * filenames should be filtered out, only valid file warnings should be parsed.
      *
      * @see <a href="https://issues.jenkins.io/browse/JENKINS-64541">Issue 64541</a>
      */
@@ -1063,7 +1068,8 @@ class MsBuildParserTest extends AbstractParserTest {
         assertThat(report).hasSize(1);
 
         assertThat(report.get(0))
-                .hasFileName("C:/Program Files (x86)/Microsoft Visual Studio/2019/Professional/VC/Tools/MSVC/14.29.30133/include/type_traits")
+                .hasFileName(
+                        "C:/Program Files (x86)/Microsoft Visual Studio/2019/Professional/VC/Tools/MSVC/14.29.30133/include/type_traits")
                 .hasCategory("C4267")
                 .hasSeverity(Severity.WARNING_NORMAL)
                 .hasLineStart(1534)
@@ -1214,7 +1220,8 @@ class MsBuildParserTest extends AbstractParserTest {
 
             // Fourth warning - different file
             softly.assertThat(warnings.get(3))
-                    .hasFileName("/Program Files (x86)/Jenkins/workspace/POS_Manager_develop/Externals/Lib/Common/FBHStrUtils.pas")
+                    .hasFileName(
+                            "/Program Files (x86)/Jenkins/workspace/POS_Manager_develop/Externals/Lib/Common/FBHStrUtils.pas")
                     .hasCategory("W1024")
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasMessage("Combining signed and unsigned types - widened both operands")
@@ -1223,9 +1230,8 @@ class MsBuildParserTest extends AbstractParserTest {
     }
 
     /**
-     * MSBuildParser should not treat linker parameters as filenames but still report the warnings.
-     * Tests multiple linker parameters like /INCREMENTAL, /OPT:REF, etc.
-     * The warnings should be visible with filename set to "-".
+     * MSBuildParser should not treat linker parameters as filenames but still report the warnings. Tests multiple
+     * linker parameters like /INCREMENTAL, /OPT:REF, etc. The warnings should be visible with filename set to "-".
      *
      * @see <a href="https://github.com/jenkinsci/warnings-ng-plugin/issues/3238">Issue 3238</a>
      */

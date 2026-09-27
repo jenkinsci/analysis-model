@@ -1,16 +1,15 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.util.Optional;
-import java.util.regex.Matcher;
+import static edu.hm.hafner.analysis.util.IntegerParser.parseInt;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
-
-import static edu.hm.hafner.analysis.util.IntegerParser.*;
+import java.io.Serial;
+import java.util.Optional;
+import java.util.regex.Matcher;
 
 /**
  * A parser for the Perl::Critic warnings.
@@ -26,21 +25,18 @@ public class PerlCriticParser extends LookaheadParser {
     private static final int SEVERITY_LOW_LIMIT = 2;
     private static final int SEVERITY_NORMAL_LIMIT = 4;
 
-    /**
-     * Creates a new instance of {@link PerlCriticParser}.
-     */
+    /** Creates a new instance of {@link PerlCriticParser}. */
     public PerlCriticParser() {
         super(PERLCRITIC_WARNING_PATTERN);
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
-            final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(
+            final Matcher matcher, final LookaheadStream lookahead, final IssueBuilder builder) {
         String filename;
         if (matcher.group(1) == null) {
             filename = "-";
-        }
-        else {
+        } else {
             filename = matcher.group(1);
         }
 
@@ -56,19 +52,15 @@ public class PerlCriticParser extends LookaheadParser {
     /**
      * Checks the severity level, parsed from the warning and return the priority level.
      *
-     * @param priority
-     *         the severity level of the warning.
-     *
+     * @param priority the severity level of the warning.
      * @return the priority level.
      */
     private Severity checkPriority(final int priority) {
         if (priority < SEVERITY_LOW_LIMIT) {
             return Severity.WARNING_LOW;
-        }
-        else if (priority < SEVERITY_NORMAL_LIMIT) {
+        } else if (priority < SEVERITY_NORMAL_LIMIT) {
             return Severity.WARNING_NORMAL;
-        }
-        else {
+        } else {
             return Severity.WARNING_HIGH;
         }
     }

@@ -1,8 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.apache.commons.lang3.Strings;
-import org.xml.sax.SAXException;
-
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingException;
@@ -12,12 +9,13 @@ import edu.hm.hafner.analysis.SecureDigester;
 import edu.hm.hafner.analysis.Severity;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 import java.io.IOException;
 import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import org.apache.commons.lang3.Strings;
+import org.xml.sax.SAXException;
 
 /**
  * A parser for CCM XML files.
@@ -60,8 +58,7 @@ public class CcmParser extends IssueParser {
             }
 
             return report;
-        }
-        catch (IOException | SAXException exception) {
+        } catch (IOException | SAXException exception) {
             throw new ParsingException(exception, ccmXmlFile);
         }
     }
@@ -73,10 +70,11 @@ public class CcmParser extends IssueParser {
             for (Metric metric : collection.getMetrics()) {
                 var priority = calculateMetricPriority(metric);
 
-                var complexity = String.format(Locale.ENGLISH, "%s has a complexity of %d", metric.getUnit(),
-                        metric.getComplexity());
+                var complexity = String.format(
+                        Locale.ENGLISH, "%s has a complexity of %d", metric.getUnit(), metric.getComplexity());
 
-                issueBuilder.setSeverity(priority)
+                issueBuilder
+                        .setSeverity(priority)
                         .setMessage(complexity)
                         .setCategory(metric.getClassification())
                         .setLineStart(metric.getStartLineNumber())
@@ -92,11 +90,9 @@ public class CcmParser extends IssueParser {
     private Severity calculateMetricPriority(final Metric metric) {
         if (isMetricHighPriority(metric)) {
             return Severity.WARNING_HIGH;
-        }
-        else if (isMetricModeratePriority(metric)) {
+        } else if (isMetricModeratePriority(metric)) {
             return Severity.WARNING_NORMAL;
-        }
-        else {
+        } else {
             return Severity.WARNING_LOW;
         }
     }
@@ -106,15 +102,16 @@ public class CcmParser extends IssueParser {
         if (Strings.CS.contains(metricClassification, "high")) {
             return true;
         }
-        return "C".equals(metricClassification) || "D".equals(metricClassification)
-                || "E".equals(metricClassification) || "F".equals(metricClassification);
+        return "C".equals(metricClassification)
+                || "D".equals(metricClassification)
+                || "E".equals(metricClassification)
+                || "F".equals(metricClassification);
     }
 
     private boolean isMetricModeratePriority(final Metric metric) {
         var metricClassification = metric.getClassification();
 
-        return Strings.CS.contains(metricClassification, "moderate")
-                || "B".equals(metricClassification);
+        return Strings.CS.contains(metricClassification, "moderate") || "B".equals(metricClassification);
     }
 
     /**
@@ -126,9 +123,7 @@ public class CcmParser extends IssueParser {
     @SuppressWarnings("all")
     @SuppressFBWarnings("EI")
     public static class Ccm {
-        /**
-         * List of metrics present in the XML file.
-         */
+        /** List of metrics present in the XML file. */
         private List<Metric> metrics = new ArrayList<>();
 
         public List<Metric> getMetrics() {
@@ -147,48 +142,36 @@ public class CcmParser extends IssueParser {
     /**
      * Entity representing the Metric from CCM.exe output.
      *
-     * <p>
-     *     It has the {@link #complexity}, {@link #unit}, {@link #classification} and {@link #file} fields.
-     * </p>
+     * <p>It has the {@link #complexity}, {@link #unit}, {@link #classification} and {@link #file} fields.
      *
      * @author Bruno P. Kinoshita - http://www.kinoshita.eti.br
      * @since 1.0
      */
     @SuppressWarnings("all")
     public static class Metric {
-        /**
-         * Total CC of the method.
-         */
+        /** Total CC of the method. */
         private int complexity;
 
-        /**
-         * String containing Class_Name::Method_Name
-         */
+        /** String containing Class_Name::Method_Name */
         @CheckForNull
         private String unit;
 
         /**
-         * CCM outputs a String with a classification such as "complex, high risk", "untestable, very high risk", etc. As
-         * there is no documentation on which values are used to determine a method's CC classification CCM Plugin only
-         * outputs this value. But does not use the information as a constraint in any place.
+         * CCM outputs a String with a classification such as "complex, high risk", "untestable, very high risk", etc.
+         * As there is no documentation on which values are used to determine a method's CC classification CCM Plugin
+         * only outputs this value. But does not use the information as a constraint in any place.
          */
         @CheckForNull
         private String classification;
 
-        /**
-         * The file name (e.g.:\ascx\request\open\form.ascx.cs).
-         */
+        /** The file name (e.g.:\ascx\request\open\form.ascx.cs). */
         @CheckForNull
         private String file;
 
-        /**
-         * The start line number of the measurement
-         */
+        /** The start line number of the measurement */
         private int startLineNumber;
 
-        /**
-         * The end line number of the measurement
-         */
+        /** The end line number of the measurement */
         private int endLineNumber;
 
         public int getComplexity() {

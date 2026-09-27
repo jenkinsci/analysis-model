@@ -1,10 +1,13 @@
 package edu.hm.hafner.analysis.registry;
 
+import static j2html.TagCreator.a;
+import static j2html.TagCreator.code;
+import static j2html.TagCreator.join;
+import static j2html.TagCreator.text;
+
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.Report.IssueType;
 import edu.hm.hafner.analysis.parser.YoctoScannerParser;
-
-import static j2html.TagCreator.*;
 
 /**
  * A descriptor for Yocto Scanner.
@@ -26,11 +29,14 @@ class YoctoScannerDescriptor extends ParserDescriptor {
 
     @Override
     public String getHelp() {
-        return join(text("Use commandline"),
-                code("bitbake <your product image>"),
-                text(", add INHERIT += \"cve-check\" in your local.conf"),
-                a("Yocto Scanner").withHref("https://docs.yoctoproject.org/dev/dev-manual/vulnerabilities.html"),
-                text("for usage details.")).render();
+        return join(
+                        text("Use commandline"),
+                        code("bitbake <your product image>"),
+                        text(", add INHERIT += \"cve-check\" in your local.conf"),
+                        a("Yocto Scanner")
+                                .withHref("https://docs.yoctoproject.org/dev/dev-manual/vulnerabilities.html"),
+                        text("for usage details."))
+                .render();
     }
 
     @Override

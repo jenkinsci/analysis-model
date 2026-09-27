@@ -1,14 +1,12 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
-
 import java.io.Serial;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * A parser for Talisman security scanner JSON reports.
@@ -46,8 +44,12 @@ public class TalismanParser extends JsonIssueParser {
         parseDetailList(report, fileResult.optJSONArray(WARNING_LIST_KEY), filename, issueBuilder, true);
     }
 
-    private void parseDetailList(final Report report, @CheckForNull final JSONArray detailList,
-            final String filename, final IssueBuilder issueBuilder, final boolean isWarning) {
+    private void parseDetailList(
+            final Report report,
+            @CheckForNull final JSONArray detailList,
+            final String filename,
+            final IssueBuilder issueBuilder,
+            final boolean isWarning) {
         if (detailList == null) {
             return;
         }
@@ -56,8 +58,7 @@ public class TalismanParser extends JsonIssueParser {
             var detail = detailList.getJSONObject(i);
             if (isWarning) {
                 issueBuilder.setSeverity(Severity.WARNING_LOW);
-            }
-            else {
+            } else {
                 issueBuilder.guessSeverity(detail.optString(SEVERITY_KEY, ""));
             }
             report.add(issueBuilder

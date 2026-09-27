@@ -8,18 +8,14 @@ import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
 import net.minidev.json.parser.ParseException;
 
-/**
- * Provides descriptions for all pylint rules.
- */
+/** Provides descriptions for all pylint rules. */
 public class PyLintDescriptions {
     static final String NO_DESCRIPTION_FOUND = "no description found";
 
     private final Map<String, String> descriptionByName = new HashMap<>();
     private final Map<String, String> descriptionById = new HashMap<>();
 
-    /**
-     * Loads the available rules into a map.
-     */
+    /** Loads the available rules into a map. */
     public PyLintDescriptions() {
         var parser = new JSONParser(JSONParser.MODE_JSON_SIMPLE);
 
@@ -31,8 +27,7 @@ public class PyLintDescriptions {
                 descriptionByName.put(object.getAsString("name"), description);
                 descriptionById.put(object.getAsString("code"), description);
             }
-        }
-        catch (IOException | ParseException ignored) {
+        } catch (IOException | ParseException ignored) {
             // ignore all exceptions
         }
     }
@@ -49,9 +44,7 @@ public class PyLintDescriptions {
     /**
      * Returns the description of PyLint rule with the specified name.
      *
-     * @param name
-     *         the name of the rule, like 'missing-docstring'
-     *
+     * @param name the name of the rule, like 'missing-docstring'
      * @return the description for the specified rule
      */
     public String getDescription(final String name) {

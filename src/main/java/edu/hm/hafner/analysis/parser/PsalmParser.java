@@ -1,14 +1,12 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.apache.commons.lang3.StringUtils;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
-
 import java.io.Serial;
+import org.apache.commons.lang3.StringUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * A parser for Psalm JSON reports.
@@ -48,8 +46,8 @@ public class PsalmParser extends JsonIssueParser {
         }
     }
 
-    private void parseIssues(final Report report, final JSONArray issues,
-            final IssueBuilder issueBuilder, final String fileName) {
+    private void parseIssues(
+            final Report report, final JSONArray issues, final IssueBuilder issueBuilder, final String fileName) {
         if (issues == null) {
             return;
         }
@@ -62,8 +60,7 @@ public class PsalmParser extends JsonIssueParser {
         }
     }
 
-    private Issue convertToIssue(final JSONObject jsonIssue,
-            final IssueBuilder issueBuilder, final String fileName) {
+    private Issue convertToIssue(final JSONObject jsonIssue, final IssueBuilder issueBuilder, final String fileName) {
         var lineStart = jsonIssue.optInt(LINE_FROM, 0);
         var lineEnd = jsonIssue.optInt(LINE_TO, lineStart);
 

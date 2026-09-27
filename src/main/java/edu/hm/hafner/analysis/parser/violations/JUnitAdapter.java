@@ -1,18 +1,17 @@
 package edu.hm.hafner.analysis.parser.violations;
 
+import static se.bjurr.violations.lib.model.SEVERITY.*;
+
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-
 import java.io.Serial;
 import java.util.stream.Stream;
 import se.bjurr.violations.lib.model.SEVERITY;
 import se.bjurr.violations.lib.model.Violation;
 import se.bjurr.violations.lib.parsers.JUnitParser;
-
-import static se.bjurr.violations.lib.model.SEVERITY.*;
 
 /**
  * Parses JUnit files.
@@ -69,9 +68,7 @@ public class JUnitAdapter extends AbstractViolationAdapter {
 
     private int count(final ReaderFactory readerFactory, final String text) {
         try (Stream<String> lines = readerFactory.readStream()) {
-            return Math.toIntExact(lines
-                    .filter(line -> line.contains(text))
-                    .count());
+            return Math.toIntExact(lines.filter(line -> line.contains(text)).count());
         }
     }
 }

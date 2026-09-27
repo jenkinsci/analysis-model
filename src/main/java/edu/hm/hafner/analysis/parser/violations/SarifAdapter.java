@@ -32,8 +32,7 @@ public class SarifAdapter extends AbstractViolationAdapter {
             if (path != null) {
                 return removePrefix(path);
             }
-        }
-        catch (URISyntaxException exception) {
+        } catch (URISyntaxException exception) {
             // ignore
         }
         return fileName;

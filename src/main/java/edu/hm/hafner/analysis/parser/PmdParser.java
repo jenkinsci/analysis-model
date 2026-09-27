@@ -1,9 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.Strings;
-import org.xml.sax.SAXException;
-
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingException;
@@ -12,13 +8,15 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.SecureDigester;
 import edu.hm.hafner.analysis.Severity;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
-
 import java.io.IOException;
 import java.io.Serial;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
+import org.xml.sax.SAXException;
 
 /**
  * A parser for PMD XML files.
@@ -66,8 +64,7 @@ public class PmdParser extends IssueParser {
             }
 
             return convertIssues(pmd);
-        }
-        catch (IOException | SAXException exception) {
+        } catch (IOException | SAXException exception) {
             throw new ParsingException(exception, readerFactory);
         }
     }
@@ -92,8 +89,7 @@ public class PmdParser extends IssueParser {
             }
 
             return convertErrors(pmd);
-        }
-        catch (IOException | SAXException exception) {
+        } catch (IOException | SAXException exception) {
             throw new ParsingException(exception, readerFactory);
         }
     }
@@ -103,7 +99,8 @@ public class PmdParser extends IssueParser {
             var report = new Report();
             for (File file : pmdIssues.getFiles()) {
                 for (Violation warning : file.getViolations()) {
-                    issueBuilder.setSeverity(mapPriority(warning))
+                    issueBuilder
+                            .setSeverity(mapPriority(warning))
                             .setMessage(createMessage(warning))
                             .setCategory(warning.getRuleset())
                             .setType(warning.getRule())
@@ -124,7 +121,8 @@ public class PmdParser extends IssueParser {
         try (var issueBuilder = new IssueBuilder()) {
             var report = new Report();
             for (PmdError error : pmdIssues.getErrors()) {
-                issueBuilder.setSeverity(Severity.ERROR)
+                issueBuilder
+                        .setSeverity(Severity.ERROR)
                         .setMessage(error.getMsg())
                         .setDescription(error.getDescription())
                         .setFileName(error.getFilename());
@@ -137,8 +135,7 @@ public class PmdParser extends IssueParser {
     private Severity mapPriority(final Violation warning) {
         if (warning.getPriority() < PMD_PRIORITY_MAPPED_TO_HIGH_PRIORITY) {
             return Severity.WARNING_HIGH;
-        }
-        else if (warning.getPriority() > PMD_PRIORITY_MAPPED_TO_LOW_PRIORITY) {
+        } else if (warning.getPriority() > PMD_PRIORITY_MAPPED_TO_LOW_PRIORITY) {
             return Severity.WARNING_LOW;
         }
         return Severity.WARNING_NORMAL;
@@ -151,8 +148,7 @@ public class PmdParser extends IssueParser {
         }
         if (Strings.CS.endsWith(original, ".")) {
             return original;
-        }
-        else {
+        } else {
             return original + ".";
         }
     }
@@ -173,11 +169,15 @@ public class PmdParser extends IssueParser {
 
         @CheckForNull
         private String externalInfoUrl;
+
         @CheckForNull
         private String javaPackage;
+
         private int priority;
+
         @CheckForNull
         private String message;
+
         private int beginline;
         private int endline;
         private int begincolumn;
@@ -282,8 +282,7 @@ public class PmdParser extends IssueParser {
         /**
          * Adds a new file.
          *
-         * @param file
-         *         the file to add
+         * @param file the file to add
          */
         public void addFile(final File file) {
             files.add(file);
@@ -292,8 +291,7 @@ public class PmdParser extends IssueParser {
         /**
          * Adds a new error.
          *
-         * @param error
-         *         the error to add
+         * @param error the error to add
          */
         public void addError(final PmdError error) {
             errors.add(error);
@@ -327,8 +325,10 @@ public class PmdParser extends IssueParser {
     public static class PmdError {
         @CheckForNull
         private String filename;
+
         @CheckForNull
         private String msg;
+
         @CheckForNull
         private String description;
 
@@ -376,16 +376,14 @@ public class PmdParser extends IssueParser {
         /**
          * Adds a new violation to this file.
          *
-         * @param violation
-         *            the new violation
+         * @param violation the new violation
          */
         public void addViolation(final Violation violation) {
             violations.add(violation);
         }
 
         /**
-         * Returns all violations of this file. The returned collection is
-         * read-only.
+         * Returns all violations of this file. The returned collection is read-only.
          *
          * @return all violations in this file
          */

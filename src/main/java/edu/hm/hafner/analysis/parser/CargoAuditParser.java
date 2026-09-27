@@ -1,18 +1,17 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.json.JSONObject;
+import static j2html.TagCreator.*;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-
 import j2html.tags.Text;
 import j2html.tags.UnescapedText;
 import java.io.Serial;
+import java.util.ArrayList;
 import java.util.Locale;
-
-import static j2html.TagCreator.*;
+import org.json.JSONObject;
 
 /**
  * A parser for cargo audit JSON output.
@@ -57,41 +56,42 @@ public class CargoAuditParser extends JsonIssueParser {
                 .setFileName(packageName)
                 .setType(advisory.optString(ID, "-"))
                 .setMessage(advisory.optString(TITLE, ""))
-                .setDescription(buildDescription(advisory.optString(TITLE, ""), 
-                    advisory.optString(DESCRIPTION, ""), advisory))
+                .setDescription(
+                        buildDescription(advisory.optString(TITLE, ""), advisory.optString(DESCRIPTION, ""), advisory))
                 .setSeverity(mapSeverity(advisory.optString(SEVERITY, "")))
                 .build();
     }
 
     /**
-     * Maps cargo audit severity levels to analysis model severities. Cargo audit vulnerability severities
-     * in a security context require higher priority mapping: "high" vulnerabilities are treated as ERROR
-     * (critical issues), and unknown severities default to NORMAL (not LOW) to avoid minimizing unknowns.
+     * Maps cargo audit severity levels to analysis model severities. Cargo audit vulnerability severities in a security
+     * context require higher priority mapping: "high" vulnerabilities are treated as ERROR (critical issues), and
+     * unknown severities default to NORMAL (not LOW) to avoid minimizing unknowns.
      *
      * @param severityString the severity string from cargo audit
      * @return the mapped Severity
      */
     private Severity mapSeverity(final String severityString) {
         var severity = Severity.guessFromString(severityString);
-        
+
         if (severity.equals(Severity.WARNING_HIGH)) {
             return Severity.ERROR;
         }
-        
-        if (severity.equals(Severity.WARNING_LOW) && !severityString.toLowerCase(Locale.ENGLISH).contains("low")) {
+
+        if (severity.equals(Severity.WARNING_LOW)
+                && !severityString.toLowerCase(Locale.ENGLISH).contains("low")) {
             return Severity.WARNING_NORMAL;
         }
-        
+
         return severity;
     }
 
     private String buildDescription(final String title, final String description, final JSONObject advisory) {
-        var tags = new java.util.ArrayList<>();
-        
+        var tags = new ArrayList<>();
+
         if (!title.isEmpty()) {
             tags.add(p(strong(title)));
         }
-        
+
         if (!description.isEmpty()) {
             tags.add(p(description));
         }
@@ -103,7 +103,10 @@ public class CargoAuditParser extends JsonIssueParser {
         if (advisory.has(URL)) {
             var url = advisory.optString(URL, "");
             if (!url.isEmpty()) {
-                tags.add(p(strong("Reference:"), new UnescapedText("&nbsp;"), a().withHref(url).withText(url)));
+                tags.add(p(
+                        strong("Reference:"),
+                        new UnescapedText("&nbsp;"),
+                        a().withHref(url).withText(url)));
             }
         }
 

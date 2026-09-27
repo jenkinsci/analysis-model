@@ -1,21 +1,19 @@
 package edu.hm.hafner.analysis;
 
+import static org.assertj.core.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+import edu.hm.hafner.analysis.ModuleDetectorRunner.FileSystemFacade;
+import edu.hm.hafner.util.PathUtil;
+import edu.hm.hafner.util.ResourceTest;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.List;
-
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
-
-import edu.hm.hafner.analysis.ModuleDetectorRunner.FileSystemFacade;
-import edu.hm.hafner.util.PathUtil;
-import edu.hm.hafner.util.ResourceTest;
-
-import static org.assertj.core.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 abstract class AbstractModuleDetectorTest extends ResourceTest {
     static final Path ROOT = Path.of(File.pathSeparatorChar == ';' ? "C:\\Windows" : "/tmp");
@@ -47,8 +45,7 @@ abstract class AbstractModuleDetectorTest extends ResourceTest {
             var fileSystem = mock(FileSystemFacade.class);
             stub.apply(fileSystem);
             return fileSystem;
-        }
-        catch (IOException exception) {
+        } catch (IOException exception) {
             throw new AssertionError(exception);
         }
     }
@@ -57,9 +54,7 @@ abstract class AbstractModuleDetectorTest extends ResourceTest {
         return asInputStream(fileName);
     }
 
-    /**
-     * Stubs the {@link FileSystemFacade} using a lambda.
-     */
+    /** Stubs the {@link FileSystemFacade} using a lambda. */
     @FunctionalInterface
     protected interface Stub {
         void apply(FileSystemFacade f) throws IOException;

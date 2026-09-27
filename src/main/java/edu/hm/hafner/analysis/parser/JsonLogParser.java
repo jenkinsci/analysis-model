@@ -1,16 +1,14 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
-
 import java.io.Serial;
 import java.util.Optional;
 import java.util.stream.Stream;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Parser for logs in JSON format.
@@ -46,8 +44,7 @@ public class JsonLogParser extends JsonBaseParser {
         try {
             var jsonIssue = new JSONObject(line);
             return convertToIssue(jsonIssue);
-        }
-        catch (JSONException e) {
+        } catch (JSONException e) {
             report.logException(e, "Could not parse line: «%s»", line);
             return Optional.empty();
         }

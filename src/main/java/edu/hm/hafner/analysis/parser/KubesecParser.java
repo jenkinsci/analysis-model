@@ -1,14 +1,12 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-
 import java.io.Serial;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * A parser for Kubesec JSON output.
@@ -47,7 +45,8 @@ public class KubesecParser extends JsonIssueParser {
         }
     }
 
-    private void parseKubesecResult(final JSONObject kubesecResult, final Report report, final IssueBuilder issueBuilder) {
+    private void parseKubesecResult(
+            final JSONObject kubesecResult, final Report report, final IssueBuilder issueBuilder) {
         var object = kubesecResult.optString(OBJECT, NOT_AVAILABLE);
         var scoring = kubesecResult.optJSONObject(SCORING);
         var totalFindings = 0;
@@ -71,8 +70,12 @@ public class KubesecParser extends JsonIssueParser {
         }
     }
 
-    private int parseFindings(final JSONArray findings, final String object, final Severity severity,
-                              final Report report, final IssueBuilder issueBuilder) {
+    private int parseFindings(
+            final JSONArray findings,
+            final String object,
+            final Severity severity,
+            final Report report,
+            final IssueBuilder issueBuilder) {
         var numberOfFindings = 0;
         for (Object entry : findings) {
             if (entry instanceof JSONObject finding) {
@@ -83,8 +86,8 @@ public class KubesecParser extends JsonIssueParser {
         return numberOfFindings;
     }
 
-    private Issue convertToIssue(final JSONObject finding, final String object, final Severity severity,
-                                final IssueBuilder issueBuilder) {
+    private Issue convertToIssue(
+            final JSONObject finding, final String object, final Severity severity, final IssueBuilder issueBuilder) {
         return issueBuilder
                 .setFileName(object)
                 .setType(finding.optString(SELECTOR, NOT_AVAILABLE))
@@ -95,8 +98,8 @@ public class KubesecParser extends JsonIssueParser {
                 .buildAndClean();
     }
 
-    private Issue createInvalidResourceIssue(final JSONObject kubesecResult, final String object,
-            final IssueBuilder issueBuilder) {
+    private Issue createInvalidResourceIssue(
+            final JSONObject kubesecResult, final String object, final IssueBuilder issueBuilder) {
         var score = kubesecResult.optInt(SCORE, 0);
         var description = "Resource: " + object + "\nScore: " + score;
 
@@ -113,15 +116,15 @@ public class KubesecParser extends JsonIssueParser {
     private String formatDescription(final JSONObject finding, final String object) {
         var sb = new StringBuilder(128);
         sb.append("Resource: ").append(object).append("\n");
-        
+
         var selector = finding.optString(SELECTOR, NOT_AVAILABLE);
         if (!NOT_AVAILABLE.equals(selector)) {
             sb.append("Selector: ").append(selector).append("\n");
         }
-        
+
         var points = finding.optInt(POINTS, 0);
         sb.append("Score Impact: ").append(points > 0 ? "+" : "").append(points).append(" points");
-        
+
         return sb.toString();
     }
 }

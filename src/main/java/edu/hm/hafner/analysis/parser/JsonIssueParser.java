@@ -1,10 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.apache.commons.lang3.StringUtils;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONTokener;
+import static j2html.TagCreator.*;
 
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
@@ -12,17 +8,18 @@ import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
-
+import j2html.tags.DomContent;
+import j2html.tags.Text;
 import java.io.IOException;
 import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
-
-import j2html.tags.DomContent;
-import j2html.tags.Text;
-
-import static j2html.TagCreator.*;
+import org.apache.commons.lang3.StringUtils;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 
 /**
  * Base class for parsers that operate on a `*.json` file that contains issues in a JSON data structure.
@@ -36,19 +33,17 @@ public abstract class JsonIssueParser extends IssueParser {
     @Override
     protected Report parseReport(final ReaderFactory readerFactory) throws ParsingException {
         var report = new Report();
-        try (var reader = readerFactory.create(); var issueBuilder = new IssueBuilder()) {
+        try (var reader = readerFactory.create();
+                var issueBuilder = new IssueBuilder()) {
             var parsedValue = new JSONTokener(reader).nextValue();
             if (parsedValue instanceof final JSONObject jsonReport) {
                 parseJsonObject(report, jsonReport, issueBuilder);
-            }
-            else if (parsedValue instanceof final JSONArray jsonReport) {
+            } else if (parsedValue instanceof final JSONArray jsonReport) {
                 parseJsonArray(report, jsonReport, issueBuilder);
-            }
-            else {
+            } else {
                 throw new ParsingException(readerFactory, "Cannot process parsed JSON object '%s'", parsedValue);
             }
-        }
-        catch (IOException | JSONException | ClassCastException e) {
+        } catch (IOException | JSONException | ClassCastException e) {
             throw new ParsingException(e, readerFactory);
         }
         return report;
@@ -62,12 +57,9 @@ public abstract class JsonIssueParser extends IssueParser {
     /**
      * Parses the specified JSON object and populates the provided report with all issues.
      *
-     * @param report
-     *         the report to fill
-     * @param jsonReport
-     *         the input JSON report given as JSON object
-     * @param issueBuilder
-     *         build to be used to create issues
+     * @param report the report to fill
+     * @param jsonReport the input JSON report given as JSON object
+     * @param issueBuilder build to be used to create issues
      */
     protected void parseJsonObject(final Report report, final JSONObject jsonReport, final IssueBuilder issueBuilder) {
         // by default, no issues are reported
@@ -76,19 +68,19 @@ public abstract class JsonIssueParser extends IssueParser {
     /**
      * Parses the specified JSON object and populates the provided report with all issues.
      *
-     * @param report
-     *         the report to fill
-     * @param jsonReport
-     *         the input JSON report given as JSON array
-     * @param issueBuilder
-     *         build to be used to create issues
+     * @param report the report to fill
+     * @param jsonReport the input JSON report given as JSON array
+     * @param issueBuilder build to be used to create issues
      */
     protected void parseJsonArray(final Report report, final JSONArray jsonReport, final IssueBuilder issueBuilder) {
         // by default, no issues are reported
     }
 
-    protected void applyStart(@CheckForNull final JSONObject start, final IssueBuilder issueBuilder,
-            final String lineKey, final String columnKey) {
+    protected void applyStart(
+            @CheckForNull final JSONObject start,
+            final IssueBuilder issueBuilder,
+            final String lineKey,
+            final String columnKey) {
         if (start == null) {
             return;
         }
@@ -96,8 +88,11 @@ public abstract class JsonIssueParser extends IssueParser {
         issueBuilder.setLineStart(start.optInt(lineKey)).setColumnStart(start.optInt(columnKey));
     }
 
-    protected void applyEnd(@CheckForNull final JSONObject end, final IssueBuilder issueBuilder,
-            final String lineKey, final String columnKey) {
+    protected void applyEnd(
+            @CheckForNull final JSONObject end,
+            final IssueBuilder issueBuilder,
+            final String lineKey,
+            final String columnKey) {
         if (end == null) {
             return;
         }
@@ -119,8 +114,8 @@ public abstract class JsonIssueParser extends IssueParser {
         return "";
     }
 
-    protected static String getStringOrDefaultIfBlank(@CheckForNull final JSONObject jsonObject, final String key,
-            final String defaultValue) {
+    protected static String getStringOrDefaultIfBlank(
+            @CheckForNull final JSONObject jsonObject, final String key, final String defaultValue) {
         if (jsonObject == null) {
             return defaultValue;
         }
@@ -133,11 +128,8 @@ public abstract class JsonIssueParser extends IssueParser {
      * Joins a list of {@link DomContent} elements, inserting the specified {@code separator} between each adjacent
      * pair. Returns the result as a single {@link DomContent} suitable for embedding in an HTML description.
      *
-     * @param contents
-     *         the list of content elements to join
-     * @param separator
-     *         the separator to insert between adjacent elements
-     *
+     * @param contents the list of content elements to join
+     * @param separator the separator to insert between adjacent elements
      * @return the joined {@link DomContent}
      */
     static DomContent joinWithSeparator(final List<DomContent> contents, final Text separator) {
@@ -157,11 +149,8 @@ public abstract class JsonIssueParser extends IssueParser {
      * and wrapped in a {@code <p>} tag with the given label. Returns an empty string if the array is {@code null},
      * empty, or contains only {@code null} values.
      *
-     * @param array
-     *         the JSON array of path segments (may be {@code null})
-     * @param label
-     *         the bold label to prefix the path, e.g. {@code "Location"} or {@code "Path"}
-     *
+     * @param array the JSON array of path segments (may be {@code null})
+     * @param label the bold label to prefix the path, e.g. {@code "Location"} or {@code "Path"}
      * @return the HTML description string, or an empty string if no meaningful content
      */
     @SuppressWarnings("ReferenceEquality")

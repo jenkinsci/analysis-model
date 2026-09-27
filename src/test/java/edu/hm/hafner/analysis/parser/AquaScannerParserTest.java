@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.assertThat;
+import static edu.hm.hafner.analysis.assertions.Assertions.assertThatThrownBy;
 
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingException;
@@ -8,12 +9,9 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
+import org.junit.jupiter.api.Test;
 
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
-
-/**
- * Tests the class {@link AquaScannerParser}.
- */
+/** Tests the class {@link AquaScannerParser}. */
 class AquaScannerParserTest extends AbstractParserTest {
     private static final String EXPECTED_FILENAME = "/opt/app/app-runner.jar:org/jose4j/json/JsonHeaderUtil.class";
 

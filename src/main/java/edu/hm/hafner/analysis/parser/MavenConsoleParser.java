@@ -1,19 +1,17 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.util.Optional;
-import java.util.regex.Matcher;
-
-import org.apache.commons.lang3.RegExUtils;
-import org.apache.commons.lang3.StringUtils;
+import static j2html.TagCreator.*;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
-
-import static j2html.TagCreator.*;
+import java.io.Serial;
+import java.util.Optional;
+import java.util.regex.Matcher;
+import org.apache.commons.lang3.RegExUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * A parser for maven console warnings.
@@ -39,9 +37,8 @@ public class MavenConsoleParser extends AbstractMavenLogParser {
      * (.*)                -> Capture group 3 matches zero or more characters except line breaks, represents the actual error message
      * }</pre>
      *
-     * <p>
-     * Typical maven logs:
-     * </p>
+     * <p>Typical maven logs:
+     *
      * <pre>{@code
      * 1) 22:07:27  [WARNING] For this reason, future Maven versions might no longer support building such malformed projects.
      * 2) [ERROR] The POM for org.codehaus.groovy.maven:gmaven-plugin:jar:1.1 is missing
@@ -49,9 +46,7 @@ public class MavenConsoleParser extends AbstractMavenLogParser {
      */
     private static final String PATTERN = "^(?<timestamp>.*\\s|)\\[(?<severity>WARNING|ERROR)\\]\\s*(?<message>.*)$";
 
-    /**
-     * Creates a new instance of {@link MavenConsoleParser}.
-     */
+    /** Creates a new instance of {@link MavenConsoleParser}. */
     public MavenConsoleParser() {
         super(PATTERN);
     }
@@ -66,8 +61,9 @@ public class MavenConsoleParser extends AbstractMavenLogParser {
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
-            final IssueBuilder builder) throws ParsingException {
+    protected Optional<Issue> createIssue(
+            final Matcher matcher, final LookaheadStream lookahead, final IssueBuilder builder)
+            throws ParsingException {
         var severity = matcher.group("severity");
         builder.setLineStart(lookahead.getLine()).guessSeverity(severity);
 
@@ -82,8 +78,7 @@ public class MavenConsoleParser extends AbstractMavenLogParser {
                 message.append('\n');
                 message.append(StringUtils.substring(lookahead.next(), length));
             }
-        }
-        else {
+        } else {
             var continuation = "^(?:.*\\s\\s|)\\[" + severity + "\\] ";
             while (lookahead.hasNext(continuation)) {
                 message.append('\n');
@@ -96,7 +91,8 @@ public class MavenConsoleParser extends AbstractMavenLogParser {
                 return Optional.empty();
             }
         }
-        return builder.setDescription(pre().with(code().withText(message.toString())).render())
+        return builder.setDescription(
+                        pre().with(code().withText(message.toString())).render())
                 .setType(getGoal())
                 .setModuleName(getModule())
                 .setLineEnd(lookahead.getLine())

@@ -1,18 +1,21 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.Strings;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import static j2html.TagCreator.b;
+import static j2html.TagCreator.div;
+import static j2html.TagCreator.join;
+import static j2html.TagCreator.p;
+import static j2html.TagCreator.rawHtml;
+import static j2html.TagCreator.text;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-
 import java.io.Serial;
-
-import static j2html.TagCreator.*;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * Parser for Veracode Pipeline Scanner (pipeline-scan) tool.
@@ -71,16 +74,13 @@ public class VeraCodePipelineScannerParser extends JsonIssueParser {
      * Otherwise, files are returned as is. The solution does not cater for all scenarios but should be sufficient for
      * most common use case (Java/Kotlin project with Maven folder structure).
      *
-     * @param rawFileName
-     *         file name reported by Veracode
-     *
+     * @param rawFileName file name reported by Veracode
      * @return original file name or a java file name prepended with src/main/java
      */
     private String getEnrichedFileName(final String rawFileName) {
         if (Strings.CS.endsWith(rawFileName, ".java") && !Strings.CS.startsWith(rawFileName, "src/main/java/")) {
             return "src/main/java/" + rawFileName;
-        }
-        else if (Strings.CS.endsWith(rawFileName, ".kt") && !Strings.CS.startsWith(rawFileName, "src/main/kotlin/")) {
+        } else if (Strings.CS.endsWith(rawFileName, ".kt") && !Strings.CS.startsWith(rawFileName, "src/main/kotlin/")) {
             return "src/main/kotlin/" + rawFileName;
         }
         return rawFileName;
@@ -89,8 +89,7 @@ public class VeraCodePipelineScannerParser extends JsonIssueParser {
     private String getPackageName(final String scope) {
         if (scope.contains(".")) {
             return StringUtils.substringBeforeLast(scope, ".");
-        }
-        else {
+        } else {
             return VALUE_NOT_SET;
         }
     }
@@ -99,15 +98,10 @@ public class VeraCodePipelineScannerParser extends JsonIssueParser {
      * Retrieve source file values in a null safe manner. Veracode has nested JSON objects representing a source file
      * (files -> source_file -> values) for which we need to do null checking.
      *
-     * @param finding
-     *         contains top level vulnerability information
-     * @param key
-     *         used to retrieve values from the nested source file
-     * @param altValue
-     *         in case there is a missing source file
-     * @param <T>
-     *         type of the return value
-     *
+     * @param finding contains top level vulnerability information
+     * @param key used to retrieve values from the nested source file
+     * @param altValue in case there is a missing source file
+     * @param <T> type of the return value
      * @return field value of the source file
      */
     @SuppressWarnings("unchecked")
@@ -128,19 +122,15 @@ public class VeraCodePipelineScannerParser extends JsonIssueParser {
      * href="https://docs.veracode.com/r/review_severity_exploitability">Veracode severity table</a> for details on
      * scoring.
      *
-     * @param severity
-     *         as an integer from 0 to 5 (inclusive).
-     *
+     * @param severity as an integer from 0 to 5 (inclusive).
      * @return {@link Severity}
      */
     private Severity mapSeverity(final int severity) {
         if (severity <= VERACODE_LOW_THRESHOLD) {
             return Severity.WARNING_LOW;
-        }
-        else if (severity >= VERACODE_HIGH_THRESHOLD) {
+        } else if (severity >= VERACODE_HIGH_THRESHOLD) {
             return Severity.WARNING_HIGH;
-        }
-        else {
+        } else {
             return Severity.WARNING_NORMAL;
         }
     }
@@ -150,11 +140,12 @@ public class VeraCodePipelineScannerParser extends JsonIssueParser {
         final var flawLink = finding.optString("flaw_details_link", VALUE_NOT_SET);
         final var severity = finding.optString("severity", VALUE_NOT_SET);
         final var displayHtml = finding.optString("display_text", VALUE_NOT_SET);
-        return join(div(b("Resource: "), text(fileName)),
-                div(b("CWE Id: "), text(cweId)),
-                div(b("Flaw Details: "), text(flawLink)),
-                div(b("Severity: "), text(severity)),
-                p(rawHtml(displayHtml)))
+        return join(
+                        div(b("Resource: "), text(fileName)),
+                        div(b("CWE Id: "), text(cweId)),
+                        div(b("Flaw Details: "), text(flawLink)),
+                        div(b("Severity: "), text(severity)),
+                        p(rawHtml(displayHtml)))
                 .render();
     }
 }

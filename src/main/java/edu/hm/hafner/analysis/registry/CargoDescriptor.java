@@ -4,8 +4,7 @@ import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.CargoCheckParser;
 
 /**
- * A descriptor for {@code rustc} compiler messages emitted by {@code cargo check
- *  * --message-format json}.
+ * A descriptor for {@code rustc} compiler messages emitted by {@code cargo check * --message-format json}.
  *
  * @author Lorenz Munsch
  */

@@ -1,8 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.apache.commons.lang3.EnumUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.text.CaseUtils;
+import static edu.hm.hafner.analysis.Categories.*;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
@@ -11,33 +9,26 @@ import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-
 import java.io.Serial;
 import java.nio.file.Path;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
-
-import static edu.hm.hafner.analysis.Categories.*;
+import org.apache.commons.lang3.EnumUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.CaseUtils;
 
 /**
  * A parser for <a href="http://robotframework.org/">Robot Framework</a>. Parses output from <a
- * href="https://github.com/boakley/robotframework-lint">robotframework-lint</a>.
- * To generate rflint file use:
- * {@code
- * <pre>
- *     cmd$ pip install robotframework-lint
- *     cmd$ rflint path/to/test.robot
- * </pre>}
+ * href="https://github.com/boakley/robotframework-lint">robotframework-lint</a>. To generate rflint file use:
+ * {@code <pre> cmd$ pip install robotframework-lint cmd$ rflint path/to/test.robot </pre>}
  *
  * @author traitanit
  * @author Bassam Khouri
  */
 public class RfLintParser extends IssueParser {
-    /**
-     * Map of Robot Framework severity to the analysis model severity.
-     */
+    /** Map of Robot Framework severity to the analysis model severity. */
     private enum RfLintSeverity {
         ERROR(Severity.WARNING_HIGH),
         E(ERROR),
@@ -63,11 +54,9 @@ public class RfLintParser extends IssueParser {
         /**
          * Determines the RfLintSeverity based on the provided character.
          *
-         * @param violationSeverity
-         *         The character presentiting the violation severity
-         *
+         * @param violationSeverity The character presentiting the violation severity
          * @return An instance of RfLintSeverity matching the character. `WARNING` as the default if the severity
-         *         character is not valid.
+         *     character is not valid.
          */
         static RfLintSeverity fromCharacter(final char violationSeverity) {
             if (EnumUtils.isValidEnum(RfLintSeverity.class, String.valueOf(violationSeverity))) {
@@ -77,9 +66,7 @@ public class RfLintParser extends IssueParser {
         }
     }
 
-    /**
-     * The possible categories.
-     */
+    /** The possible categories. */
     private enum RfLintCategory {
         SUITE("Suite"),
         KEYWORD("Keyword"),
@@ -98,9 +85,7 @@ public class RfLintParser extends IssueParser {
         }
     }
 
-    /**
-     * The list of the rule names built into rflint.
-     */
+    /** The list of the rule names built into rflint. */
     private enum RfLintRuleName {
         DUPLICATE_KEYWORD_NAMES(RfLintCategory.SUITE),
         DUPLICATE_TEST_NAMES(RfLintCategory.SUITE),
@@ -135,14 +120,13 @@ public class RfLintParser extends IssueParser {
         /**
          * Determines the RfLintRuleName based on the provided name.
          *
-         * @param name
-         *         the name of the rule
-         *
+         * @param name the name of the rule
          * @return An instance of RfLintRuleName matching the name. `UNKNOWN` as the default if the name is not valid.
          */
         static RfLintRuleName fromName(final String name) {
             for (RfLintRuleName rule : values()) {
-                if (CaseUtils.toCamelCase(rule.name(), CAPITALIZE_FIRST_LETTER, '_').equals(name)) {
+                if (CaseUtils.toCamelCase(rule.name(), CAPITALIZE_FIRST_LETTER, '_')
+                        .equals(name)) {
                     return rule;
                 }
             }
@@ -160,7 +144,8 @@ public class RfLintParser extends IssueParser {
 
     @Override
     protected Report parseReport(final ReaderFactory readerFactory) {
-        try (Stream<String> lines = readerFactory.readStream(); var builder = new IssueBuilder()) {
+        try (Stream<String> lines = readerFactory.readStream();
+                var builder = new IssueBuilder()) {
             var warnings = new Report();
             lines.forEach(line -> parseLine(builder, warnings, line));
             return warnings;

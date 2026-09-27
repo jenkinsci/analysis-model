@@ -5,9 +5,7 @@ import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
 
-/**
- * Tests the class {@link AntJavacParser} for output log of a HPI compile.
- */
+/** Tests the class {@link AntJavacParser} for output log of a HPI compile. */
 class HpiCompileParserTest extends AbstractParserTest {
     HpiCompileParserTest() {
         super("hpi.txt");

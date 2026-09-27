@@ -1,15 +1,13 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
-
 import java.io.Serial;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * A parser for KubeLinter JSON output.
@@ -60,7 +58,8 @@ public class KubeLinterParser extends JsonIssueParser {
         applyDiagnostic(issueReport.optJSONObject(DIAGNOSTIC), issueBuilder);
 
         var object = issueReport.optJSONObject(OBJECT);
-        return issueBuilder.setFileName(findFilePath(object))
+        return issueBuilder
+                .setFileName(findFilePath(object))
                 .setCategory(findKind(object))
                 .setSeverity(Severity.WARNING_NORMAL)
                 .setType(issueReport.optString(CHECK, NOT_AVAILABLE))

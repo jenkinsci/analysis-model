@@ -1,8 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.apache.commons.lang3.StringUtils;
-import org.w3c.dom.Element;
-
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingCanceledException;
@@ -11,19 +8,19 @@ import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.util.XmlElementUtil;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
-
 import java.io.Serial;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import org.apache.commons.lang3.StringUtils;
+import org.w3c.dom.Element;
 
-/**
- * Parses a fxcop xml report file.
- */
+/** Parses a fxcop xml report file. */
 @SuppressWarnings("unused")
 public class FxCopParser extends IssueParser {
     @Serial
     private static final long serialVersionUID = -7208558002331355408L;
+
     private static final int CAPACITY = 1024;
 
     @Override
@@ -31,9 +28,7 @@ public class FxCopParser extends IssueParser {
         return new XmlParser().parse(readerFactory);
     }
 
-    /**
-     * Handles parsing of the XML file.
-     */
+    /** Handles parsing of the XML file. */
     private static class XmlParser {
         private final Report warnings = new Report();
         private final FxCopRuleSet ruleSet = new FxCopRuleSet();
@@ -74,8 +69,7 @@ public class FxCopParser extends IssueParser {
             }
         }
 
-        private void parseResources(final Element target, final String parentName,
-                final IssueBuilder issueBuilder) {
+        private void parseResources(final Element target, final String parentName, final IssueBuilder issueBuilder) {
             var resources = XmlElementUtil.getFirstChildElementByName(target, "Resources");
             if (resources.isPresent()) {
                 for (Element resource : XmlElementUtil.getChildElementsByName(resources.get(), "Resource")) {
@@ -85,8 +79,7 @@ public class FxCopParser extends IssueParser {
             }
         }
 
-        private void parseModules(final Element target, final String parentName,
-                final IssueBuilder issueBuilder) {
+        private void parseModules(final Element target, final String parentName, final IssueBuilder issueBuilder) {
             var modulesElement = XmlElementUtil.getFirstChildElementByName(target, "Modules");
             if (modulesElement.isPresent()) {
                 for (Element module : XmlElementUtil.getChildElementsByName(modulesElement.get(), "Module")) {
@@ -109,8 +102,7 @@ public class FxCopParser extends IssueParser {
             }
         }
 
-        private void parseTypes(final Element typesElement, final String parentName,
-                final IssueBuilder issueBuilder) {
+        private void parseTypes(final Element typesElement, final String parentName, final IssueBuilder issueBuilder) {
             var types = XmlElementUtil.getFirstChildElementByName(typesElement, "Types");
             if (types.isPresent()) {
                 for (Element type : XmlElementUtil.getChildElementsByName(types.get(), "Type")) {
@@ -122,8 +114,7 @@ public class FxCopParser extends IssueParser {
             }
         }
 
-        private void parseMembers(final Element members, final String parentName,
-                final IssueBuilder issueBuilder) {
+        private void parseMembers(final Element members, final String parentName, final IssueBuilder issueBuilder) {
             var membersElement = XmlElementUtil.getFirstChildElementByName(members, "Members");
             if (membersElement.isPresent()) {
                 for (Element member : XmlElementUtil.getChildElementsByName(membersElement.get(), "Member")) {
@@ -132,8 +123,8 @@ public class FxCopParser extends IssueParser {
             }
         }
 
-        private void parseAccessors(final Element accessorsElement, final String parentName,
-                final IssueBuilder issueBuilder) {
+        private void parseAccessors(
+                final Element accessorsElement, final String parentName, final IssueBuilder issueBuilder) {
             var accessors = XmlElementUtil.getFirstChildElementByName(accessorsElement, "Accessors");
             if (accessors.isPresent()) {
                 for (Element member : XmlElementUtil.getChildElementsByName(accessors.get(), "Accessor")) {
@@ -142,14 +133,12 @@ public class FxCopParser extends IssueParser {
             }
         }
 
-        private void parseMember(final Element member, final String parentName,
-                final IssueBuilder issueBuilder) {
+        private void parseMember(final Element member, final String parentName, final IssueBuilder issueBuilder) {
             parseMessages(member, parentName, issueBuilder);
             parseAccessors(member, parentName, issueBuilder);
         }
 
-        private void parseMessages(final Element messages, final String parentName,
-                final IssueBuilder issueBuilder) {
+        private void parseMessages(final Element messages, final String parentName, final IssueBuilder issueBuilder) {
             var messagesElement = XmlElementUtil.getFirstChildElementByName(messages, "Messages");
             if (messagesElement.isPresent()) {
                 for (Element message : XmlElementUtil.getChildElementsByName(messagesElement.get(), "Message")) {
@@ -160,8 +149,8 @@ public class FxCopParser extends IssueParser {
             }
         }
 
-        private void parseIssue(final Element issue, final Element parent, final String parentName,
-                final IssueBuilder issueBuilder) {
+        private void parseIssue(
+                final Element issue, final Element parent, final String parentName, final IssueBuilder issueBuilder) {
             var typeName = getString(parent, "TypeName");
             var category = getString(parent, "Category");
             var checkId = getString(parent, "CheckId");
@@ -171,8 +160,7 @@ public class FxCopParser extends IssueParser {
             var rule = ruleSet.getRule(category, checkId);
             if (rule == null) {
                 msgBuilder.append(typeName);
-            }
-            else {
+            } else {
                 msgBuilder.append("<a href=\"");
                 msgBuilder.append(rule.getUrl());
                 msgBuilder.append("\">");
@@ -186,7 +174,8 @@ public class FxCopParser extends IssueParser {
             var fileName = getString(issue, "File");
             var fileLine = getString(issue, "Line");
 
-            issueBuilder.setFileName(filePath + "/" + fileName)
+            issueBuilder
+                    .setFileName(filePath + "/" + fileName)
                     .setLineStart(fileLine)
                     .setCategory(category)
                     .setMessage(msgBuilder.toString())
@@ -200,8 +189,7 @@ public class FxCopParser extends IssueParser {
         private String getString(final Element element, final String name) {
             if (element.hasAttribute(name)) {
                 return element.getAttribute(name);
-            }
-            else {
+            } else {
                 return "";
             }
         }
@@ -217,10 +205,13 @@ public class FxCopParser extends IssueParser {
         private final String typeName;
         private final String category;
         private final String checkId;
+
         @CheckForNull
         private String name;
+
         @CheckForNull
         private String url;
+
         @CheckForNull
         private String description;
 
@@ -279,13 +270,16 @@ public class FxCopParser extends IssueParser {
     public static class FxCopRuleSet {
         private final Map<String, FxCopRule> rules = new HashMap<>();
 
-        /***
-         * Parse the element and insert the rule into the rule set.
+        /**
+         * * Parse the element and insert the rule into the rule set.
+         *
          * @param element the element
          */
         public void addRule(final Element element) {
-            var rule = new FxCopRule(element.getAttribute("TypeName"), element.getAttribute("Category"), element
-                    .getAttribute("CheckId"));
+            var rule = new FxCopRule(
+                    element.getAttribute("TypeName"),
+                    element.getAttribute("Category"),
+                    element.getAttribute("CheckId"));
             rule.setUrl(getNamedTagText(element, "Url"));
             rule.setDescription(getNamedTagText(element, "Description"));
             rule.setName(getNamedTagText(element, "Name"));
@@ -296,19 +290,15 @@ public class FxCopParser extends IssueParser {
         /**
          * Returns the text value of the named child element if it exists
          *
-         * @param element
-         *         the element to check look for child elements
-         * @param tagName
-         *         the name of the child element
-         *
+         * @param element the element to check look for child elements
+         * @param tagName the name of the child element
          * @return the text value; or "" if no element was found
          */
         private String getNamedTagText(final Element element, final String tagName) {
             Optional<Element> foundElement = XmlElementUtil.getFirstChildElementByName(element, tagName);
             if (foundElement.isPresent()) {
                 return foundElement.get().getTextContent();
-            }
-            else {
+            } else {
                 return StringUtils.EMPTY;
             }
         }
@@ -316,12 +306,10 @@ public class FxCopParser extends IssueParser {
         /**
          * Returns if the rule set contains a rule for the specified category and id
          *
-         * @param category
-         *         the rule category
-         * @param checkId
-         *         the rule id
-         *
-         * @return {@code true}  if the rule set contains a rule for the specified category and id, {@code false} otherwise
+         * @param category the rule category
+         * @param checkId the rule id
+         * @return {@code true} if the rule set contains a rule for the specified category and id, {@code false}
+         *     otherwise
          */
         public boolean contains(final String category, final String checkId) {
             return rules.containsKey(getRuleKey(category, checkId));
@@ -330,11 +318,8 @@ public class FxCopParser extends IssueParser {
         /**
          * Returns the specified rule if it exists
          *
-         * @param category
-         *         the rule category
-         * @param checkId
-         *         the id of the rule
-         *
+         * @param category the rule category
+         * @param checkId the id of the rule
          * @return the rule; null otherwise
          */
         @CheckForNull
@@ -350,11 +335,8 @@ public class FxCopParser extends IssueParser {
         /**
          * Returns the key for the map
          *
-         * @param category
-         *         category of the rule
-         * @param checkId
-         *         id of the rule
-         *
+         * @param category category of the rule
+         * @param checkId id of the rule
          * @return category + "#" + checkid
          */
         private String getRuleKey(final String category, final String checkId) {

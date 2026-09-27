@@ -1,16 +1,14 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.apache.commons.lang3.StringUtils;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-
 import java.io.Serial;
 import java.util.Locale;
+import org.apache.commons.lang3.StringUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * A parser for Cookstyle (Chef's RuboCop-based linter) JSON reports.
@@ -52,17 +50,17 @@ public class CookstyleParser extends JsonIssueParser {
         }
     }
 
-    private void parseOffenses(final Report report, final JSONArray offenses,
-            final String filePath, final IssueBuilder issueBuilder) {
+    private void parseOffenses(
+            final Report report, final JSONArray offenses, final String filePath, final IssueBuilder issueBuilder) {
         for (int i = 0; i < offenses.length(); i++) {
             var offense = offenses.getJSONObject(i);
             report.add(convertToIssue(offense, filePath, issueBuilder));
         }
     }
 
-    private Issue convertToIssue(final JSONObject offense, final String filePath,
-            final IssueBuilder issueBuilder) {
-        issueBuilder.setFileName(filePath)
+    private Issue convertToIssue(final JSONObject offense, final String filePath, final IssueBuilder issueBuilder) {
+        issueBuilder
+                .setFileName(filePath)
                 .setMessage(offense.optString(MESSAGE_TAG, "-"))
                 .setType(offense.optString(COP_NAME_TAG, "-"))
                 .setSeverity(mapSeverity(offense.optString(SEVERITY_TAG, "warning")));
@@ -81,7 +79,8 @@ public class CookstyleParser extends JsonIssueParser {
             return;
         }
 
-        issueBuilder.setLineStart(location.optInt(START_LINE_TAG))
+        issueBuilder
+                .setLineStart(location.optInt(START_LINE_TAG))
                 .setLineEnd(location.optInt(LAST_LINE_TAG))
                 .setColumnStart(location.optInt(START_COLUMN_TAG))
                 .setColumnEnd(location.optInt(LAST_COLUMN_TAG));
@@ -90,9 +89,7 @@ public class CookstyleParser extends JsonIssueParser {
     /**
      * Maps a RuboCop/Cookstyle severity string to an analysis model {@link Severity}.
      *
-     * @param severity
-     *         the RuboCop severity string
-     *
+     * @param severity the RuboCop severity string
      * @return the mapped {@link Severity}
      */
     static Severity mapSeverity(final String severity) {

@@ -1,11 +1,11 @@
 package edu.hm.hafner.analysis.parser;
 
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
+
 import edu.hm.hafner.analysis.Categories;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
  * Common assertions for differently formatted Eclipse output, from the same source code.
@@ -20,8 +20,7 @@ final class EclipseSharedChecks {
     /**
      * Verifies that warnings are categorized as {@code Code} or {@code JavaDoc}.
      *
-     * @param warnings
-     *         the warnings to check
+     * @param warnings the warnings to check
      */
     static void verifyCategory(final Report warnings) {
         assertThat(warnings).hasSize(5);

@@ -1,6 +1,8 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.apache.commons.lang3.StringUtils;
+import static j2html.TagCreator.a;
+import static j2html.TagCreator.code;
+import static j2html.TagCreator.pre;
 
 import java.util.HashMap;
 import java.util.List;
@@ -8,8 +10,7 @@ import java.util.Map;
 import net.sourceforge.pmd.lang.rule.Rule;
 import net.sourceforge.pmd.lang.rule.RuleSet;
 import net.sourceforge.pmd.lang.rule.RuleSetLoader;
-
-import static j2html.TagCreator.*;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Provides access to rule descriptions and examples.
@@ -19,9 +20,7 @@ import static j2html.TagCreator.*;
 public class PmdMessages {
     private final Map<String, RuleSet> rules = new HashMap<>();
 
-    /**
-     * Loads the available rules into a map.
-     */
+    /** Loads the available rules into a map. */
     public PmdMessages() {
         var loader = new RuleSetLoader();
         var ruleSets = loader.getStandardRuleSets();
@@ -45,11 +44,8 @@ public class PmdMessages {
     /**
      * Returns the message for the specified PMD rule.
      *
-     * @param ruleSetName
-     *         PMD rule set
-     * @param ruleName
-     *         PMD rule ID
-     *
+     * @param ruleSetName PMD rule set
+     * @param ruleName PMD rule ID
      * @return the message
      */
     public String getMessage(final String ruleSetName, final String ruleName) {
@@ -66,9 +62,7 @@ public class PmdMessages {
     /**
      * Creates the message string to be shown for the specified rule.
      *
-     * @param rule
-     *         the rule
-     *
+     * @param rule the rule
      * @return the message string to be shown for the specified rule
      */
     private String createMessage(final Rule rule) {
@@ -78,7 +72,9 @@ public class PmdMessages {
             message.append(pre().with(code(examples.getFirst())).renderFormatted());
         }
         if (StringUtils.isNotBlank(rule.getExternalInfoUrl())) {
-            message.append(a().withHref(rule.getExternalInfoUrl()).withText("See PMD documentation.").renderFormatted());
+            message.append(a().withHref(rule.getExternalInfoUrl())
+                    .withText("See PMD documentation.")
+                    .renderFormatted());
         }
         return message.toString();
     }

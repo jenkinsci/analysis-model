@@ -1,14 +1,12 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.apache.commons.lang3.StringUtils;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
-
 import java.io.Serial;
+import org.apache.commons.lang3.StringUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * Parser for Gitleaks JSON reports.
@@ -61,8 +59,7 @@ public class GitleaksParser extends JsonIssueParser {
 
         if (leak.has(START_LINE) || leak.has(END_LINE)) {
             issueBuilder.setLineStart(leak.optInt(START_LINE)).setLineEnd(leak.optInt(END_LINE));
-        }
-        else if (leak.has(LINE)) {
+        } else if (leak.has(LINE)) {
             var line = leak.optInt(LINE);
             issueBuilder.setLineStart(line).setLineEnd(line);
         }

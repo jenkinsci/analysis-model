@@ -6,7 +6,7 @@
   <parent>
     <groupId>edu.hm.hafner</groupId>
     <artifactId>codingstyle-pom</artifactId>
-    <version>6.18.0</version>
+    <version>7.0.0</version>
     <relativePath />
   </parent>
 
@@ -19,15 +19,9 @@
   <description>This library provides a Java object model to read, aggregate, filter, and query static analysis reports.
     It is used by Jenkins' warnings next generation plug-in to visualize the warnings of individual builds.
     Additionally, this library is used by a GitHub action to autograde student software projects based on a given set of
-    metrics (unit tests, code and mutation coverage, static analysis warnings).
-  </description>
+    metrics (unit tests, code and mutation coverage, static analysis warnings).</description>
 
-  <scm>
-    <connection>scm:git:https://github.com/jenkinsci/analysis-model.git</connection>
-    <developerConnection>scm:git:git@github.com:jenkinsci/analysis-model.git</developerConnection>
-    <url>https://github.com/jenkinsci/analysis-model</url>
-    <tag>${scmTag}</tag>
-  </scm>
+  <url>https://cs.hm.edu/~hafner</url>
 
   <licenses>
     <license>
@@ -36,20 +30,24 @@
     </license>
     <license>
       <name>Creative Commons Attribution 4.0 International License</name>
-      <comments>All documents are licensed under a Creative Commons Attribution 4.0 International License
-      </comments>
+      <comments>All documents are licensed under a Creative Commons Attribution 4.0 International License</comments>
     </license>
   </licenses>
 
   <developers>
     <developer>
-      <name>Ullrich Hafner</name>
       <id>uhafner</id>
+      <name>Ullrich Hafner</name>
       <email>ullrich.hafner@gmail.com</email>
     </developer>
   </developers>
 
-  <url>https://cs.hm.edu/~hafner</url>
+  <scm>
+    <connection>scm:git:https://github.com/jenkinsci/analysis-model.git</connection>
+    <developerConnection>scm:git:git@github.com:jenkinsci/analysis-model.git</developerConnection>
+    <tag>${scmTag}</tag>
+    <url>https://github.com/jenkinsci/analysis-model</url>
+  </scm>
 
   <properties>
     <scmTag>HEAD</scmTag>
@@ -90,16 +88,128 @@
   </dependencyManagement>
 
   <dependencies>
-    <!-- Project Dependencies -->
+    <!-- FindBugs Parser Dependencies -->
     <dependency>
-      <groupId>org.jsoup</groupId>
-      <artifactId>jsoup</artifactId>
-      <version>${jsoup.version}</version>
+      <groupId>com.github.spotbugs</groupId>
+      <artifactId>spotbugs</artifactId>
+      <version>${spotbugs.api.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>com.github.spotbugs</groupId>
+          <artifactId>spotbugs-annotations</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>com.google.code.findbugs</groupId>
+          <artifactId>annotations</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>com.google.errorprone</groupId>
+          <artifactId>error_prone_annotations</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-lang3</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-text</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-api</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>xml-apis</groupId>
+          <artifactId>xml-apis</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>com.j2html</groupId>
+      <artifactId>j2html</artifactId>
+      <version>${j2html.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-beanutils</groupId>
+      <artifactId>commons-beanutils</artifactId>
+      <version>${commons-beanutils.version}</version>
     </dependency>
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
       <version>${commons.io.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>net.minidev</groupId>
+      <artifactId>json-smart</artifactId>
+      <version>${json-smart.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.ow2.asm</groupId>
+          <artifactId>asm</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <!-- PMD Messages -->
+    <dependency>
+      <groupId>net.sourceforge.pmd</groupId>
+      <artifactId>pmd-core</artifactId>
+      <version>${pmd.api.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>com.google.code.gson</groupId>
+          <artifactId>gson</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>com.ibm.icu</groupId>
+          <artifactId>icu4j</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>commons-io</groupId>
+          <artifactId>commons-io</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>net.sourceforge.saxon</groupId>
+          <artifactId>saxon</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-lang3</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.ow2.asm</groupId>
+          <artifactId>asm</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.slf4j</groupId>
+          <artifactId>jul-to-slf4j</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <dependency>
+      <groupId>net.sourceforge.pmd</groupId>
+      <artifactId>pmd-java</artifactId>
+      <version>${pmd.api.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>commons-io</groupId>
+          <artifactId>commons-io</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>net.sourceforge.saxon</groupId>
+          <artifactId>saxon</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-lang3</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.ow2.asm</groupId>
+          <artifactId>asm</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.apache.commons</groupId>
@@ -117,127 +227,10 @@
       </exclusions>
     </dependency>
     <dependency>
-      <groupId>commons-beanutils</groupId>
-      <artifactId>commons-beanutils</artifactId>
-      <version>${commons-beanutils.version}</version>
-    </dependency>
-    <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-text</artifactId>
       <version>${commons.text.version}</version>
       <exclusions>
-        <exclusion>
-          <artifactId>commons-lang3</artifactId>
-          <groupId>org.apache.commons</groupId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>se.bjurr.violations</groupId>
-      <artifactId>violations-lib</artifactId>
-      <version>${violations-lib.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.j2html</groupId>
-      <artifactId>j2html</artifactId>
-      <version>${j2html.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>xerces</groupId>
-      <artifactId>xercesImpl</artifactId>
-      <version>2.12.2</version>
-    </dependency>
-    <!-- FindBugs Parser Dependencies -->
-    <dependency>
-      <groupId>com.github.spotbugs</groupId>
-      <artifactId>spotbugs</artifactId>
-      <version>${spotbugs.api.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>com.github.spotbugs</groupId>
-          <artifactId>spotbugs-annotations</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>com.google.code.findbugs</groupId>
-          <artifactId>annotations</artifactId>
-        </exclusion>
-        <exclusion>
-          <artifactId>xml-apis</artifactId>
-          <groupId>xml-apis</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>commons-lang3</artifactId>
-          <groupId>org.apache.commons</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>commons-text</artifactId>
-          <groupId>org.apache.commons</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>slf4j-api</artifactId>
-          <groupId>org.slf4j</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>error_prone_annotations</artifactId>
-          <groupId>com.google.errorprone</groupId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-
-    <!-- PMD Messages -->
-    <dependency>
-      <groupId>net.sourceforge.pmd</groupId>
-      <artifactId>pmd-core</artifactId>
-      <version>${pmd.api.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>com.ibm.icu</groupId>
-          <artifactId>icu4j</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>net.sourceforge.saxon</groupId>
-          <artifactId>saxon</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.ow2.asm</groupId>
-          <artifactId>asm</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>commons-io</groupId>
-          <artifactId>commons-io</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.apache.commons</groupId>
-          <artifactId>commons-lang3</artifactId>
-        </exclusion>
-        <exclusion>
-          <artifactId>gson</artifactId>
-          <groupId>com.google.code.gson</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>jul-to-slf4j</artifactId>
-          <groupId>org.slf4j</groupId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-
-    <dependency>
-      <groupId>net.sourceforge.pmd</groupId>
-      <artifactId>pmd-java</artifactId>
-      <version>${pmd.api.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>net.sourceforge.saxon</groupId>
-          <artifactId>saxon</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.ow2.asm</groupId>
-          <artifactId>asm</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>commons-io</groupId>
-          <artifactId>commons-io</artifactId>
-        </exclusion>
         <exclusion>
           <groupId>org.apache.commons</groupId>
           <artifactId>commons-lang3</artifactId>
@@ -251,16 +244,27 @@
       <artifactId>json</artifactId>
       <version>${json.version}</version>
     </dependency>
+    <!-- Project Dependencies -->
     <dependency>
-      <groupId>net.minidev</groupId>
-      <artifactId>json-smart</artifactId>
-      <version>${json-smart.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>org.ow2.asm</groupId>
-          <artifactId>asm</artifactId>
-        </exclusion>
-      </exclusions>
+      <groupId>org.jsoup</groupId>
+      <artifactId>jsoup</artifactId>
+      <version>${jsoup.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${slf4j.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>se.bjurr.violations</groupId>
+      <artifactId>violations-lib</artifactId>
+      <version>${violations-lib.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>xerces</groupId>
+      <artifactId>xercesImpl</artifactId>
+      <version>2.12.2</version>
     </dependency>
 
     <!-- Test Dependencies -->
@@ -275,12 +279,6 @@
       <artifactId>jmh-generator-annprocess</artifactId>
       <version>${jmh.version}</version>
       <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-      <version>${slf4j.version}</version>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
@@ -481,10 +479,10 @@
             <executions>
               <execution>
                 <id>flatten</id>
-                <phase>process-resources</phase>
                 <goals>
                   <goal>flatten</goal>
                 </goals>
+                <phase>process-resources</phase>
                 <configuration>
                   <flattenMode>ossrh</flattenMode>
                   <flattenDependencyMode>all</flattenDependencyMode>
@@ -497,6 +495,13 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-enforcer-plugin</artifactId>
+            <dependencies>
+              <dependency>
+                <groupId>io.jenkins.tools.incrementals</groupId>
+                <artifactId>incrementals-enforcer-rules</artifactId>
+                <version>1.13</version>
+              </dependency>
+            </dependencies>
             <executions>
               <execution>
                 <id>display-info</id>
@@ -513,20 +518,12 @@
                 </configuration>
               </execution>
             </executions>
-            <dependencies>
-              <dependency>
-                <groupId>io.jenkins.tools.incrementals</groupId>
-                <artifactId>incrementals-enforcer-rules</artifactId>
-                <version>1.13</version>
-              </dependency>
-            </dependencies>
           </plugin>
           <plugin>
             <artifactId>maven-release-plugin</artifactId>
             <configuration>
               <preparationGoals>build-helper:parse-version versions:set-property -Dproperty=previousVersion
-                -DnewVersion=${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}
-              </preparationGoals>
+                -DnewVersion=${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}</preparationGoals>
               <completionGoals>incrementals:reincrementalify</completionGoals>
             </configuration>
           </plugin>

@@ -1,12 +1,8 @@
 package edu.hm.hafner.analysis;
 
-import org.apache.commons.lang3.StringUtils;
-
 import com.google.errorprone.annotations.MustBeClosed;
-
 import edu.hm.hafner.util.VisibleForTesting;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -17,6 +13,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.stream.Stream;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Creates a fingerprint of the specified issue using the source code at the affected line. The fingerprint is computed
@@ -27,17 +24,17 @@ import java.util.stream.Stream;
 public class FullTextFingerprint {
     /** Number of lines before and after current line to consider. */
     private static final int DEFAULT_LINES_LOOK_AHEAD = 3;
+
     private static final int LINE_RANGE_BUFFER_SIZE = 1000;
     private static final char[] HEX_CHARACTERS = "0123456789ABCDEF".toCharArray();
 
     @SuppressWarnings("PMD.AvoidMessageDigestField")
     private final MessageDigest digest;
+
     private final FileSystem fileSystem;
     private final int linesLookAhead;
 
-    /**
-     * Creates a new instance of {@link FullTextFingerprint}.
-     */
+    /** Creates a new instance of {@link FullTextFingerprint}. */
     public FullTextFingerprint() {
         this(DEFAULT_LINES_LOOK_AHEAD);
     }
@@ -45,42 +42,37 @@ public class FullTextFingerprint {
     /**
      * Creates a new instance of {@link FullTextFingerprint}.
      *
-     * @param linesLookAhead
-     *          the number of lines which is used in the fingerprinting process
+     * @param linesLookAhead the number of lines which is used in the fingerprinting process
      */
     public FullTextFingerprint(final int linesLookAhead) {
         this(linesLookAhead, new FileSystem());
     }
 
     @VisibleForTesting
-    @SuppressFBWarnings(value = "WEAK_MESSAGE_DIGEST_MD5", justification = "The fingerprint is just used to track new warnings")
+    @SuppressFBWarnings(
+            value = "WEAK_MESSAGE_DIGEST_MD5",
+            justification = "The fingerprint is just used to track new warnings")
     FullTextFingerprint(final int linesLookAhead, final FileSystem fileSystem) {
         this.fileSystem = fileSystem;
         this.linesLookAhead = linesLookAhead;
         try {
             digest = MessageDigest.getInstance("MD5"); // lgtm [java/weak-cryptographic-algorithm]
-        }
-        catch (NoSuchAlgorithmException e) {
+        } catch (NoSuchAlgorithmException e) {
             throw new IllegalStateException(e);
         }
     }
 
     /**
      * Creates a fingerprint of the specified issue using the source code at the affected line. The fingerprint is
-     * computed using the 1:1 content of a small number of lines before and after the affected line (see {@link
-     * #linesLookAhead}).
+     * computed using the 1:1 content of a small number of lines before and after the affected line (see
+     * {@link #linesLookAhead}).
      *
-     * @param fileName
-     *         the absolute path of the affected file
-     * @param line
-     *         the line of the issue
-     * @param charset
-     *         the encoding to be used when reading the affected file
-     *
+     * @param fileName the absolute path of the affected file
+     * @param line the line of the issue
+     * @param charset the encoding to be used when reading the affected file
      * @return a fingerprint of the selected range of source code lines (if the file could not be read then the
-     *         fingerprint actually is the hashcode of the filename)
-     * @throws IOException
-     *         if the file could not be read
+     *     fingerprint actually is the hashcode of the filename)
+     * @throws IOException if the file could not be read
      */
     public String compute(final String fileName, final int line, final Charset charset) throws IOException {
         try (Stream<String> lines = fileSystem.readLinesFromFile(fileName, charset)) {
@@ -135,15 +127,12 @@ public class FullTextFingerprint {
     private int computeStartLine(final int affectedLine) {
         if (affectedLine == 0) { // indicates the whole file
             return linesLookAhead + 1;
-        }
-        else {
+        } else {
             return affectedLine;
         }
     }
 
-    /**
-     * Facade for file system operations. May be replaced by stubs in test cases.
-     */
+    /** Facade for file system operations. May be replaced by stubs in test cases. */
     @VisibleForTesting
     static class FileSystem {
         @MustBeClosed

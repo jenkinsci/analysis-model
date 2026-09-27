@@ -1,14 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
-
-import org.apache.commons.lang3.StringUtils;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
@@ -22,8 +13,14 @@ import edu.hm.hafner.analysis.util.XmlElementUtil;
 import edu.hm.hafner.util.TreeString;
 import edu.hm.hafner.util.TreeStringBuilder;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 import java.io.Serial;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
+import org.apache.commons.lang3.StringUtils;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 /**
  * Parser that reads the 1:1 XML mapping of the properties of the {@link Issue} bean.
@@ -39,9 +36,7 @@ public class XmlParser extends IssueParser {
     private static final String DEFAULT_ROOT_PATH = "/issue";
     private static final String LOCATIONS_PATH = "locations/location";
 
-    /**
-     * Create a new {@link XmlParser} instance.
-     */
+    /** Create a new {@link XmlParser} instance. */
     public XmlParser() {
         this(DEFAULT_ROOT_PATH);
     }
@@ -49,8 +44,7 @@ public class XmlParser extends IssueParser {
     /**
      * Create a new {@link XmlParser} instance.
      *
-     * @param root
-     *         path to issues tag.
+     * @param root path to issues tag.
      */
     public XmlParser(final String root) {
         super();
@@ -58,9 +52,7 @@ public class XmlParser extends IssueParser {
         xmlIssueRoot = root;
     }
 
-    /**
-     * Path to the issues within the XML-File.
-     */
+    /** Path to the issues within the XML-File. */
     private final String xmlIssueRoot;
 
     private String getXmlIssueRoot() {
@@ -84,7 +76,8 @@ public class XmlParser extends IssueParser {
 
             var fileNames = new TreeStringBuilder(); // for interning file names
             for (Element issue : XmlElementUtil.nodeListToList(issues)) {
-                issueBuilder.setMessage(path.evaluate(MESSAGE, issue))
+                issueBuilder
+                        .setMessage(path.evaluate(MESSAGE, issue))
                         .setCategory(path.evaluate(CATEGORY, issue))
                         .setType(path.evaluate(TYPE, issue))
                         .setSeverity(Severity.valueOf(path.evaluate(SEVERITY, issue), Severity.WARNING_NORMAL))
@@ -102,31 +95,32 @@ public class XmlParser extends IssueParser {
                 report.add(issueBuilder.buildAndClean());
             }
             return report;
-        }
-        catch (XPathExpressionException e) {
+        } catch (XPathExpressionException e) {
             throw new ParsingException(e, readerFactory);
         }
     }
 
-    private void readLineRanges(final Element issue, final XPath path, final IssueBuilder issueBuilder,
-            final TreeStringBuilder fileNames)
+    private void readLineRanges(
+            final Element issue, final XPath path, final IssueBuilder issueBuilder, final TreeStringBuilder fileNames)
             throws XPathExpressionException {
         var fileName = readFileName(issue, path, fileNames);
-        issueBuilder.addLocation(new Location(fileName,
-                readInt(issue, path, LINE_START), readInt(issue, path, LINE_END),
-                readInt(issue, path, COLUMN_START), readInt(issue, path, COLUMN_END)));
+        issueBuilder.addLocation(new Location(
+                fileName,
+                readInt(issue, path, LINE_START),
+                readInt(issue, path, LINE_END),
+                readInt(issue, path, COLUMN_START),
+                readInt(issue, path, COLUMN_END)));
         var lineElements = XmlElementUtil.nodeListToList(
                 (NodeList) path.evaluate(LINE_RANGES_PATH, issue, XPathConstants.NODESET));
         for (Element lineRange : lineElements) {
-            issueBuilder.addLocation(new Location(fileName,
-                    readInt(lineRange, path, LINE_RANGE_START), readInt(lineRange, path, LINE_RANGE_END)));
+            issueBuilder.addLocation(new Location(
+                    fileName, readInt(lineRange, path, LINE_RANGE_START), readInt(lineRange, path, LINE_RANGE_END)));
         }
     }
 
     private TreeString readFileName(final Element issue, final XPath path, final TreeStringBuilder fileNames)
             throws XPathExpressionException {
-        return fileNames.intern(
-                StringUtils.defaultIfEmpty(path.evaluate(FILE_NAME, issue), "-"));
+        return fileNames.intern(StringUtils.defaultIfEmpty(path.evaluate(FILE_NAME, issue), "-"));
     }
 
     private int readInt(final Element issue, final XPath path, final String elementName)
@@ -134,16 +128,19 @@ public class XmlParser extends IssueParser {
         return IntegerParser.parseInt(path.evaluate(elementName, issue));
     }
 
-    private void readLocations(final Element issue, final XPath path,
-            final IssueBuilder issueBuilder, final TreeStringBuilder fileNames)
+    private void readLocations(
+            final Element issue, final XPath path, final IssueBuilder issueBuilder, final TreeStringBuilder fileNames)
             throws XPathExpressionException {
-        var locations = XmlElementUtil.nodeListToList(
-                (NodeList) path.evaluate(LOCATIONS_PATH, issue, XPathConstants.NODESET));
+        var locations =
+                XmlElementUtil.nodeListToList((NodeList) path.evaluate(LOCATIONS_PATH, issue, XPathConstants.NODESET));
         for (Element location : locations) {
             var fileName = readFileName(location, path, fileNames);
-            issueBuilder.addLocation(new Location(fileName,
-                    readInt(location, path, LINE_START), readInt(location, path, LINE_END),
-                    readInt(location, path, COLUMN_START), readInt(location, path, COLUMN_END)));
+            issueBuilder.addLocation(new Location(
+                    fileName,
+                    readInt(location, path, LINE_START),
+                    readInt(location, path, LINE_END),
+                    readInt(location, path, COLUMN_START),
+                    readInt(location, path, COLUMN_END)));
         }
     }
 }

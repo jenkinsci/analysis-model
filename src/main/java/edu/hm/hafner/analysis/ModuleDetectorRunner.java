@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis;
 
+import com.google.errorprone.annotations.MustBeClosed;
+import edu.hm.hafner.util.PathUtil;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.InvalidPathException;
@@ -10,12 +12,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.commons.lang3.StringUtils;
-
-import com.google.errorprone.annotations.MustBeClosed;
-
-import edu.hm.hafner.util.PathUtil;
 
 /**
  * Detects module names by parsing the name of a source file, the Maven pom.xml file or the ANT build.xml file.
@@ -39,10 +36,8 @@ public class ModuleDetectorRunner {
     /**
      * Creates a new instance of {@link ModuleDetectorRunner}.
      *
-     * @param workspace
-     *         the workspace to scan for module files
-     * @param fileSystemFacade
-     *         file system facade to find and load the files with
+     * @param workspace the workspace to scan for module files
+     * @param fileSystemFacade file system facade to find and load the files with
      */
     public ModuleDetectorRunner(final Path workspace, final FileSystemFacade fileSystemFacade) {
         this.fileSystemFacade = fileSystemFacade;
@@ -51,8 +46,7 @@ public class ModuleDetectorRunner {
                 new AntModuleDetector(this.fileSystemFacade),
                 new GradleModuleDetector(this.fileSystemFacade),
                 new MavenModuleDetector(this.fileSystemFacade),
-                new OsgiModuleDetector(this.fileSystemFacade)
-        );
+                new OsgiModuleDetector(this.fileSystemFacade));
 
         fileNameToModuleName = createFilesToModuleMapping(workspace);
         prefixes = new ArrayList<>(fileNameToModuleName.keySet());
@@ -62,9 +56,7 @@ public class ModuleDetectorRunner {
     /**
      * Returns a mapping of path prefixes to module names.
      *
-     * @param workspace
-     *         the workspace to start scanning for files
-     *
+     * @param workspace the workspace to start scanning for files
      * @return the mapping of path prefixes to module names
      */
     private Map<String, String> createFilesToModuleMapping(final Path workspace) {
@@ -82,9 +74,7 @@ public class ModuleDetectorRunner {
     /**
      * Uses the path prefixes of pom.xml or build.xml files to guess a module name for the specified file.
      *
-     * @param originalFileName
-     *         file name to guess a module for, must be an absolute path
-     *
+     * @param originalFileName file name to guess a module for, must be an absolute path
      * @return a module name or an empty string
      */
     public String guessModuleName(final String originalFileName) {
@@ -102,9 +92,7 @@ public class ModuleDetectorRunner {
     /**
      * Finds files of the matching pattern.
      *
-     * @param path
-     *         root path to scan in
-     *
+     * @param path root path to scan in
      * @return the found files (as absolute paths)
      */
     private List<String> find(final Path path) {
@@ -116,8 +104,7 @@ public class ModuleDetectorRunner {
                 var relativePath = normalizePath(relativeFileName);
                 if (relativePath.startsWith(SLASH)) {
                     absoluteFileNames.add(relativePath);
-                }
-                else {
+                } else {
                     absoluteFileNames.add(new PathUtil().getAbsolutePath(path) + SLASH + relativePath);
                 }
             }
@@ -130,18 +117,13 @@ public class ModuleDetectorRunner {
         return fileName.replace(BACK_SLASH, SLASH);
     }
 
-    /**
-     * Facade for file system operations. May be replaced by stubs in test cases.
-     */
+    /** Facade for file system operations. May be replaced by stubs in test cases. */
     public interface FileSystemFacade {
         /**
          * Returns all file names that match the specified pattern.
          *
-         * @param root
-         *         root directory to start the search from
-         * @param pattern
-         *         the Ant pattern to search for
-         *
+         * @param root root directory to start the search from
+         * @param pattern the Ant pattern to search for
          * @return the found file names
          */
         List<String> find(Path root, String pattern);
@@ -149,14 +131,10 @@ public class ModuleDetectorRunner {
         /**
          * Creates an {@link InputStream} from the specified filename.
          *
-         * @param fileName
-         *         the file name
-         *
+         * @param fileName the file name
          * @return the input stream
-         * @throws IOException
-         *         if the stream could not be opened
-         * @throws InvalidPathException
-         *         if the file name is invalid
+         * @throws IOException if the stream could not be opened
+         * @throws InvalidPathException if the file name is invalid
          */
         @MustBeClosed
         InputStream open(String fileName) throws IOException, InvalidPathException;

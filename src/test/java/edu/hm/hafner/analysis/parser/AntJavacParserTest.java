@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTimeoutPreemptively;
 
 import edu.hm.hafner.analysis.Categories;
 import edu.hm.hafner.analysis.FileReaderFactory;
@@ -8,16 +9,11 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
-
 import java.nio.charset.Charset;
 import java.time.Duration;
+import org.junit.jupiter.api.Test;
 
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
-
-/**
- * Tests the class {@link AntJavacParser}.
- */
+/** Tests the class {@link AntJavacParser}. */
 class AntJavacParserTest extends AbstractParserTest {
     private static final Duration TIMEOUT = Duration.ofSeconds(5);
 
@@ -152,14 +148,10 @@ class AntJavacParserTest extends AbstractParserTest {
     void issue2316() {
         var warnings = parse("issue2316.txt");
 
-        assertThat(warnings)
-                .hasSize(18)
-                .hasDuplicatesSize(2).hasOnlySeverities(Severity.WARNING_NORMAL);
+        assertThat(warnings).hasSize(18).hasDuplicatesSize(2).hasOnlySeverities(Severity.WARNING_NORMAL);
     }
 
-    /**
-     * Parses a warning log with 3 ANT warnings. They all use different tasks.
-     */
+    /** Parses a warning log with 3 ANT warnings. They all use different tasks. */
     @Test
     void parseDifferentTaskNames() {
         var warnings = parse("taskname.txt");
@@ -167,9 +159,7 @@ class AntJavacParserTest extends AbstractParserTest {
         assertThat(warnings).hasSize(1).hasDuplicatesSize(2);
     }
 
-    /**
-     * Verifies that arrays in deprecated methods are correctly handled.
-     */
+    /** Verifies that arrays in deprecated methods are correctly handled. */
     @Test
     void parseArrayInDeprecatedMethod() {
         var warnings = parse("issue5868.txt");
@@ -177,7 +167,8 @@ class AntJavacParserTest extends AbstractParserTest {
         assertThat(warnings).hasSize(1);
 
         try (var softly = new SoftAssertions()) {
-            softly.assertThat(warnings.get(0)).hasSeverity(Severity.WARNING_NORMAL)
+            softly.assertThat(warnings.get(0))
+                    .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory("Deprecation")
                     .hasLineStart(225)
                     .hasLineEnd(225)
@@ -194,7 +185,8 @@ class AntJavacParserTest extends AbstractParserTest {
         assertThat(warnings).hasSize(1);
 
         try (var softly = new SoftAssertions()) {
-            softly.assertThat(warnings.get(0)).hasSeverity(Severity.ERROR)
+            softly.assertThat(warnings.get(0))
+                    .hasSeverity(Severity.ERROR)
                     .hasLineStart(59)
                     .hasMessage("';' expected")
                     .hasFileName("/var/lib/jenkins/workspace/webhooks/src/main/java/File.java");
@@ -209,9 +201,9 @@ class AntJavacParserTest extends AbstractParserTest {
     @Test
     void parseJapaneseWarnings() {
         // force to use windows-31j - the default encoding on Windows Japanese.
-        var warnings = createParser().parse(
-                new FileReaderFactory(getResourceAsFile("ant-javac-japanese.txt"),
-                        Charset.forName("windows-31j")));
+        var warnings = createParser()
+                .parse(new FileReaderFactory(
+                        getResourceAsFile("ant-javac-japanese.txt"), Charset.forName("windows-31j")));
 
         assertThat(warnings).hasSize(1);
     }

@@ -1,12 +1,10 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.json.JSONObject;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
-
 import java.io.Serial;
+import org.json.JSONObject;
 
 /**
  * A parser for Revive JSON output.
@@ -33,9 +31,9 @@ public class ReviveParser extends JsonIssueParser {
         }
     }
 
-    private Issue convertToIssue(final String fileName, final JSONObject jsonIssue,
-            final IssueBuilder issueBuilder) {
-        issueBuilder.setFileName(fileName)
+    private Issue convertToIssue(final String fileName, final JSONObject jsonIssue, final IssueBuilder issueBuilder) {
+        issueBuilder
+                .setFileName(fileName)
                 .setLineStart(jsonIssue.optInt("line", 0))
                 .setColumnStart(jsonIssue.optInt("column", 0))
                 .setType(jsonIssue.optString("rule", "-"))

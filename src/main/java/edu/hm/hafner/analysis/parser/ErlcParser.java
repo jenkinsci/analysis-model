@@ -1,14 +1,13 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.util.Optional;
-import java.util.regex.Matcher;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
+import java.io.Serial;
+import java.util.Optional;
+import java.util.regex.Matcher;
 
 /**
  * A parser for the erlc compiler warnings.
@@ -19,19 +18,17 @@ public class ErlcParser extends LookaheadParser {
     @Serial
     private static final long serialVersionUID = 8986478184830773892L;
 
-    private static final String ERLC_WARNING_PATTERN = "^(.+\\.(?:erl|yrl|mib|bin|rel|asn1|idl)):(\\d*): ([wW]arning:"
-            + " )?(.+)$";
+    private static final String ERLC_WARNING_PATTERN =
+            "^(.+\\.(?:erl|yrl|mib|bin|rel|asn1|idl)):(\\d*): ([wW]arning:" + " )?(.+)$";
 
-    /**
-     * Creates a new instance of {@link ErlcParser}.
-     */
+    /** Creates a new instance of {@link ErlcParser}. */
     public ErlcParser() {
         super(ERLC_WARNING_PATTERN);
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
-            final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(
+            final Matcher matcher, final LookaheadStream lookahead, final IssueBuilder builder) {
         Severity priority;
         String category;
         var categoryMatch = matcher.group(3);
@@ -39,8 +36,7 @@ public class ErlcParser extends LookaheadParser {
         if (equalsIgnoreCase(categoryMatch, "warning: ")) {
             priority = Severity.WARNING_NORMAL;
             category = categoryMatch.substring(0, categoryMatch.length() - 2);
-        }
-        else {
+        } else {
             priority = Severity.WARNING_HIGH;
             category = "Error";
         }

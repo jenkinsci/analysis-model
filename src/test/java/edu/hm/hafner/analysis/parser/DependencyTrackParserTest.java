@@ -1,8 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.nio.file.FileSystems;
-
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 import edu.hm.hafner.analysis.FileReaderFactory;
 import edu.hm.hafner.analysis.Issue;
@@ -13,8 +11,8 @@ import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
 import edu.hm.hafner.analysis.registry.ParserRegistry;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import java.nio.file.FileSystems;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the class {@link DependencyTrackParser}.
@@ -107,9 +105,7 @@ class DependencyTrackParserTest extends AbstractParserTest {
         var report = parse("dependency-track-findings.json");
 
         assertThat(report).hasSize(4);
-        assertThat(report.stream())
-                .map(Issue::getMessage)
-                .doesNotContain("Log4Shell - Remote Code Execution in Log4j");
+        assertThat(report.stream()).map(Issue::getMessage).doesNotContain("Log4Shell - Remote Code Execution in Log4j");
     }
 
     @Test
@@ -236,10 +232,7 @@ class DependencyTrackParserTest extends AbstractParserTest {
                 """);
 
         assertThat(report).hasSize(1);
-        assertThat(report.get(0))
-                .hasFileName("-")
-                .hasPackageName("-")
-                .hasMessage("No Component");
+        assertThat(report.get(0)).hasFileName("-").hasPackageName("-").hasMessage("No Component");
     }
 
     @Test
@@ -256,11 +249,7 @@ class DependencyTrackParserTest extends AbstractParserTest {
                 """);
 
         assertThat(report).hasSize(1);
-        assertThat(report.get(0))
-                .hasType("-")
-                .hasMessage("")
-                .hasCategory("")
-                .hasSeverity(Severity.WARNING_NORMAL);
+        assertThat(report.get(0)).hasType("-").hasMessage("").hasCategory("").hasSeverity(Severity.WARNING_NORMAL);
     }
 
     @Test
@@ -283,9 +272,7 @@ class DependencyTrackParserTest extends AbstractParserTest {
                 """);
 
         assertThat(report).hasSize(1);
-        assertThat(report.get(0))
-                .hasFileName("-")
-                .hasPackageName("-");
+        assertThat(report.get(0)).hasFileName("-").hasPackageName("-");
     }
 
     @Test
@@ -308,9 +295,7 @@ class DependencyTrackParserTest extends AbstractParserTest {
                 """);
 
         assertThat(report).hasSize(1);
-        assertThat(report.get(0))
-                .hasPackageName("my-lib")
-                .hasFileName("my-lib");
+        assertThat(report.get(0)).hasPackageName("my-lib").hasFileName("my-lib");
     }
 
     @Test
@@ -475,8 +460,7 @@ class DependencyTrackParserTest extends AbstractParserTest {
                 }
                 """);
 
-        assertThat(report.get(0).getDescription())
-                .contains("CVE Alias(es): CVE-2023-2222, CVE-2023-3333");
+        assertThat(report.get(0).getDescription()).contains("CVE Alias(es): CVE-2023-2222, CVE-2023-3333");
     }
 
     @Test
@@ -528,9 +512,7 @@ class DependencyTrackParserTest extends AbstractParserTest {
                 }
                 """);
 
-        assertThat(report.get(0).getDescription())
-                .contains("CWE-79")
-                .doesNotContain("CWE-79 (");
+        assertThat(report.get(0).getDescription()).contains("CWE-79").doesNotContain("CWE-79 (");
     }
 
     @Test
@@ -556,9 +538,7 @@ class DependencyTrackParserTest extends AbstractParserTest {
                 }
                 """);
 
-        assertThat(report.get(0))
-                .hasFileName("pkg:npm/my-pkg@3.0")
-                .hasPackageName("my-pkg@3.0");
+        assertThat(report.get(0)).hasFileName("pkg:npm/my-pkg@3.0").hasPackageName("my-pkg@3.0");
     }
 
     @Test
@@ -623,18 +603,21 @@ class DependencyTrackParserTest extends AbstractParserTest {
 
     @Test
     void shouldAcceptOnlyJsonFiles() {
-        assertThat(new DependencyTrackParser().accepts(
-                new FileReaderFactory(FileSystems.getDefault().getPath("dependency-track-findings.json")))).isTrue();
-        assertThat(new DependencyTrackParser().accepts(
-                new FileReaderFactory(FileSystems.getDefault().getPath("report.xml")))).isFalse();
-        assertThat(new DependencyTrackParser().accepts(
-                new FileReaderFactory(FileSystems.getDefault().getPath("output.txt")))).isFalse();
+        assertThat(new DependencyTrackParser()
+                        .accepts(new FileReaderFactory(
+                                FileSystems.getDefault().getPath("dependency-track-findings.json"))))
+                .isTrue();
+        assertThat(new DependencyTrackParser()
+                        .accepts(new FileReaderFactory(FileSystems.getDefault().getPath("report.xml"))))
+                .isFalse();
+        assertThat(new DependencyTrackParser()
+                        .accepts(new FileReaderFactory(FileSystems.getDefault().getPath("output.txt"))))
+                .isFalse();
     }
 
     @Test
     void shouldThrowParsingExceptionForMalformedJson() {
-        assertThatThrownBy(() -> parse("eclipse.txt"))
-                .isInstanceOf(ParsingException.class);
+        assertThatThrownBy(() -> parse("eclipse.txt")).isInstanceOf(ParsingException.class);
     }
 
     @Test

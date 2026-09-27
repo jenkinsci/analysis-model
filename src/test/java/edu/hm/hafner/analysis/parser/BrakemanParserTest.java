@@ -1,8 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.nio.file.FileSystems;
-
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.assertThat;
+import static edu.hm.hafner.analysis.assertions.Assertions.assertThatThrownBy;
 
 import edu.hm.hafner.analysis.FileReaderFactory;
 import edu.hm.hafner.analysis.IssueParser;
@@ -11,8 +10,8 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import java.nio.file.FileSystems;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the class {@link BrakemanParser}.
@@ -40,10 +39,9 @@ class BrakemanParserTest extends AbstractParserTest {
         softly.assertThat(report.get(20)).hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(report.get(10))
-                .hasMessage(
-                    "Directory traversal vulnerability in "
-                    + "actionpack-page_caching 1.2.0 (CVE-2020-8159). Upgrade "
-                    + "to actionpack-page_caching 1.2.2")
+                .hasMessage("Directory traversal vulnerability in "
+                        + "actionpack-page_caching 1.2.0 (CVE-2020-8159). Upgrade "
+                        + "to actionpack-page_caching 1.2.2")
                 .hasCategory("Directory Traversal")
                 .hasSeverity(Severity.WARNING_LOW)
                 .hasType("PageCachingCVE")
@@ -58,15 +56,16 @@ class BrakemanParserTest extends AbstractParserTest {
 
     @Test
     void accepts() {
-        assertThat(new BrakemanParser().accepts(
-                new FileReaderFactory(FileSystems.getDefault().getPath("brakeman.json")))).isTrue();
-        assertThat(new BrakemanParser().accepts(
-                new FileReaderFactory(FileSystems.getDefault().getPath("brakeman.xml")))).isFalse();
+        assertThat(new BrakemanParser()
+                        .accepts(new FileReaderFactory(FileSystems.getDefault().getPath("brakeman.json"))))
+                .isTrue();
+        assertThat(new BrakemanParser()
+                        .accepts(new FileReaderFactory(FileSystems.getDefault().getPath("brakeman.xml"))))
+                .isFalse();
     }
 
     @Test
     void brokenInput() {
-        assertThatThrownBy(() -> parse("eclipse.txt"))
-                .isInstanceOf(ParsingException.class);
+        assertThatThrownBy(() -> parse("eclipse.txt")).isInstanceOf(ParsingException.class);
     }
 }

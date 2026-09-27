@@ -6,7 +6,7 @@ import edu.hm.hafner.analysis.parser.GitleaksParser;
 
 /**
  * Descriptor for Gitleaks JSON reports.
- * 
+ *
  * @author Akash Manna
  */
 class GitleaksDescriptor extends ParserDescriptor {

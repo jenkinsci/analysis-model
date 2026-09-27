@@ -1,20 +1,17 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.StringUtils;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
-
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import edu.umd.cs.findbugs.annotations.CheckForNull;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * A parser for the MSBuild/PcLint compiler warnings.
@@ -30,44 +27,37 @@ public class MsBuildParser extends LookaheadParser {
             "(?:^(?:.*)Command line warning ([A-Za-z0-9]+):\\s*(.*)\\s*\\[(.*)\\])"; // Group 1 - 3
 
     /** Pattern for optional line number in MSBuild output. */
-    public static final String OPTIONAL_LINE_NUMBER_PATTERN =
-            "(?:\\s*(?:\\d+|\\d+:\\d+)>)?"; // Optional Group
+    public static final String OPTIONAL_LINE_NUMBER_PATTERN = "(?:\\s*(?:\\d+|\\d+:\\d+)>)?"; // Optional Group
 
     /** Pattern for different line column combinations in MSBuild output. */
     private static final String LINE_COLUMN_PATTERN =
             "\\((?:(\\d+),(\\d+),(\\d+),(\\d+)|(\\d+)(?:-(\\d+))?(?:,(\\d+)(?:-(\\d+))?)?)\\)"; // Group 5 - 12
 
     /** Pattern for file name in MSBuild output. */
-    public static final String FILE_NAME_PATTERN =
-            "(?:(?:(?:(.*?)" // Group 9 - filename with line/column
-                    + LINE_COLUMN_PATTERN // Groups 10-17 - line/column combinations
-                    + "|.*LINK)\\s*:|(.*):)"; // Group 18 - simple filename
+    public static final String FILE_NAME_PATTERN = "(?:(?:(?:(.*?)" // Group 9 - filename with line/column
+            + LINE_COLUMN_PATTERN // Groups 10-17 - line/column combinations
+            + "|.*LINK)\\s*:|(.*):)"; // Group 18 - simple filename
 
     /** Pattern for severity type in MSBuild output. */
     public static final String SEVERITY_PATTERN =
             "\\s*((?:[A-z-_]+\\s)?(?:[Nn]ote|[Ii]nfo|[Ww]arning|[Hh]int|(?:fatal\\s*)?[Ee]rror))[^A-Za-z0-9]\\s*:?\\s*"; // Group 19
 
     /** Pattern for category of the issue in MSBuild output. */
-    public static final String CATEGORY_PATTERN =
-            "([A-Za-z0-9\\-_]+)?\\s*:\\s"; // Group 20
+    public static final String CATEGORY_PATTERN = "([A-Za-z0-9\\-_]+)?\\s*:\\s"; // Group 20
 
     /** Pattern for type of the issue in MSBuild output. */
-    public static final String TYPE_PATTERN =
-            "(?:\\s*([A-Za-z0-9.]+)\\s*:)?\\s*"; // Group 21
+    public static final String TYPE_PATTERN = "(?:\\s*([A-Za-z0-9.]+)\\s*:)?\\s*"; // Group 21
 
     /** Pattern for message in MSBuild output. */
-    public static final String MESSAGE_PATTERN =
-            "(.*?)"; // Group 22
+    public static final String MESSAGE_PATTERN = "(.*?)"; // Group 22
 
     /** Pattern for project directory in MSBuild output. */
-    public static final String PROJECT_DIR_PATTERN =
-            "(?: \\[([^\\]]*)[/\\\\][^\\]\\\\]+\\])?"; // Group 23
+    public static final String PROJECT_DIR_PATTERN = "(?: \\[([^\\]]*)[/\\\\][^\\]\\\\]+\\])?"; // Group 23
 
-    /**
-     * Pattern for Delphi compiler hints/warnings (simplified format without standard MSBuild prefix).
-     */
+    /** Pattern for Delphi compiler hints/warnings (simplified format without standard MSBuild prefix). */
     // Groups 4-8: 4=filename, 5=line, 6=severity, 7=category, 8=message
-    private static final String DELPHI_SIMPLE_PATTERN = "^\\s*([A-Za-z]:[^\\(]+\\.(?:pas|dpr|dpk|dproj))\\((\\d+)\\)\\s+([Ww]arning|[Hh]int)\\s*:\\s*([A-Za-z0-9]+)\\s+(.*)$";
+    private static final String DELPHI_SIMPLE_PATTERN =
+            "^\\s*([A-Za-z]:[^\\(]+\\.(?:pas|dpr|dpk|dproj))\\((\\d+)\\)\\s+([Ww]arning|[Hh]int)\\s*:\\s*([A-Za-z0-9]+)\\s+(.*)$";
 
     private static final String MS_BUILD_WARNING_PATTERN = COMMAND_LINE_WARNING_PATTERN
             + "|"
@@ -84,22 +74,19 @@ public class MsBuildParser extends LookaheadParser {
             + "))$";
 
     /**
-     * Pattern to identify bare tool names that should be ignored (without path separators).
-     * Only matches tool names when they appear alone, not as part of a path.
+     * Pattern to identify bare tool names that should be ignored (without path separators). Only matches tool names
+     * when they appear alone, not as part of a path.
      */
     private static final Pattern TOOL_NAME_PATTERN = Pattern.compile(
-            "^(?:EXEC|NMAKE|LINK|MSBUILD|CSC|MSBuild|link|nmake|msbuild|cl|rs)$|"
-            + "^[^/\\\\]*\\.exe$|"
-            + "^<[^>]+>$",
+            "^(?:EXEC|NMAKE|LINK|MSBUILD|CSC|MSBuild|link|nmake|msbuild|cl|rs)$|" + "^[^/\\\\]*\\.exe$|" + "^<[^>]+>$",
             Pattern.CASE_INSENSITIVE);
 
     /**
-     * Pattern to identify compiler/linker parameters (e.g., /INCREMENTAL, /OPT:ICF, -Wall).
-     * These should not be treated as filenames.
+     * Pattern to identify compiler/linker parameters (e.g., /INCREMENTAL, /OPT:ICF, -Wall). These should not be treated
+     * as filenames.
      */
-    private static final Pattern LINKER_PARAMETER_PATTERN = Pattern.compile(
-            "^[/-][A-Z][A-Z0-9]*(?::[A-Z0-9]+)?$",
-            Pattern.CASE_INSENSITIVE);
+    private static final Pattern LINKER_PARAMETER_PATTERN =
+            Pattern.compile("^[/-][A-Z][A-Z0-9]*(?::[A-Z0-9]+)?$", Pattern.CASE_INSENSITIVE);
 
     private static final Pattern LINKER_CAUSE = Pattern.compile(".*imported by '([A-Za-z0-9\\-_.]+)'.*");
     private static final String EXPECTED_CATEGORY = "Expected";
@@ -116,25 +103,20 @@ public class MsBuildParser extends LookaheadParser {
     private static final Pattern SYSTEM_TOOL = Pattern.compile(".*\\.exe$|^<[^>]+>$", Pattern.CASE_INSENSITIVE);
     private static final Pattern INVALID_PATH_CHARS = Pattern.compile("[<>|\"?]");
 
-    /**
-     * Creates a new instance of {@link MsBuildParser}.
-     */
+    /** Creates a new instance of {@link MsBuildParser}. */
     public MsBuildParser() {
         super(MS_BUILD_WARNING_PATTERN);
     }
 
-    /**
-     * Overrides the default implementation of 4000-character limit
-     * Returns true regardless of the length.
-     */
+    /** Overrides the default implementation of 4000-character limit Returns true regardless of the length. */
     @Override
     protected boolean isLineInteresting(final String line) {
         return true;
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
-            final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(
+            final Matcher matcher, final LookaheadStream lookahead, final IssueBuilder builder) {
         // Check if this matches the Delphi simple pattern (groups 4-8)
         if (StringUtils.isNotBlank(matcher.group(4))) {
             return createDelphiSimpleIssue(matcher, builder);
@@ -199,8 +181,8 @@ public class MsBuildParser extends LookaheadParser {
                 .buildOptional();
     }
 
-    private Optional<Issue> createDelphiEmbeddedIssue(final Matcher matcher, @CheckForNull final String message,
-            final IssueBuilder builder) {
+    private Optional<Issue> createDelphiEmbeddedIssue(
+            final Matcher matcher, @CheckForNull final String message, final IssueBuilder builder) {
         if (message != null) {
             var delphiMatcher = DELPHI_FILE_PATTERN.matcher(message);
             if (delphiMatcher.matches()) {
@@ -236,8 +218,8 @@ public class MsBuildParser extends LookaheadParser {
         }
     }
 
-    private Optional<Issue> createStandardIssue(final Matcher matcher, @CheckForNull final String message,
-            final IssueBuilder builder) {
+    private Optional<Issue> createStandardIssue(
+            final Matcher matcher, @CheckForNull final String message, final IssueBuilder builder) {
         var category = matcher.group(20);
         if (EXPECTED_CATEGORY.equals(category)) {
             return Optional.empty();
@@ -253,9 +235,7 @@ public class MsBuildParser extends LookaheadParser {
     /**
      * Checks if the given fileName is a compiler/linker parameter (e.g., /INCREMENTAL, /OPT:ICF).
      *
-     * @param fileName
-     *         the filename to check
-     *
+     * @param fileName the filename to check
      * @return true if this is a linker parameter, false otherwise
      */
     private boolean isLinkerParameter(final String fileName) {
@@ -267,20 +247,18 @@ public class MsBuildParser extends LookaheadParser {
     }
 
     /**
-     * Checks if the given fileName is a known tool name.
-     * Tool names include executables (e.g., ConsoleTranslator.exe) and bare tool names (e.g., NMAKE, rs).
-     * This method is conservative and only filters known tool names to avoid false positives.
+     * Checks if the given fileName is a known tool name. Tool names include executables (e.g., ConsoleTranslator.exe)
+     * and bare tool names (e.g., NMAKE, rs). This method is conservative and only filters known tool names to avoid
+     * false positives.
      *
-     * @param fileName
-     *         the filename to check
-     *
+     * @param fileName the filename to check
      * @return the resolved filename if it should be kept, or empty if it should be dropped
      */
     private Optional<String> checkToolName(@CheckForNull final String fileName) {
         if (StringUtils.isBlank(fileName)) {
             return Optional.empty();
         }
-        
+
         var cleanFileName = fileName.trim();
         if (NO_SOURCE_FILE.equals(cleanFileName) || UNKNOWN_FILE.equals(cleanFileName)) {
             return Optional.empty();
@@ -302,9 +280,7 @@ public class MsBuildParser extends LookaheadParser {
     /**
      * Determines the name of the file that is the cause of the warning.
      *
-     * @param matcher
-     *         the matcher to get the matches from
-     *
+     * @param matcher the matcher to get the matches from
      * @return the name of the file with a warning
      */
     private String determineFileName(final Matcher matcher) {
@@ -327,17 +303,20 @@ public class MsBuildParser extends LookaheadParser {
         var message = StringUtils.defaultString(messageText);
         // Group 22 is message
         var linker = LINKER_CAUSE.matcher(message);
-        return linker.matches() ? linker.group(1)
+        return linker.matches()
+                ? linker.group(1)
                 : StringUtils.defaultIfBlank(StringUtils.substringBetween(message, "'"), UNKNOWN_FILE);
     }
 
     private String normalizeFileName(final String fileName, @CheckForNull final String projectDir) {
         var concatenated = FilenameUtils.concat(projectDir, fileName);
         var normalized = canResolveRelativeFileName(fileName, projectDir)
-                ? (concatenated != null ? concatenated : fileName) : fileName;
+                ? (concatenated != null ? concatenated : fileName)
+                : fileName;
 
         return (MSBUILD.equals(normalized.trim()) || containsInvalidPathCharacters(normalized))
-                ? NO_SOURCE_FILE : normalized;
+                ? NO_SOURCE_FILE
+                : normalized;
     }
 
     private boolean containsInvalidPathCharacters(final String fileName) {
@@ -349,7 +328,6 @@ public class MsBuildParser extends LookaheadParser {
         if (StringUtils.isBlank(projectDir)) {
             return false;
         }
-        return FilenameUtils.getPrefixLength(fileName) == 0
-                && !MSBUILD.equals(fileName.trim());
+        return FilenameUtils.getPrefixLength(fileName) == 0 && !MSBUILD.equals(fileName.trim());
     }
 }

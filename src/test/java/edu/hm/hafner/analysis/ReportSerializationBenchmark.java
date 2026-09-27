@@ -1,16 +1,14 @@
 package edu.hm.hafner.analysis;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Arrays;
-
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.infra.Blackhole;
-
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * JMH Benchmarking the serialization and deserialization of the class {@link Report}.
@@ -26,8 +24,7 @@ public class ReportSerializationBenchmark extends AbstractBenchmark {
     /**
      * Benchmarking the serialization of {@link Report}.
      *
-     * @param blackhole
-     *         the black hole that will consume the read bytes
+     * @param blackhole the black hole that will consume the read bytes
      */
     @Benchmark
     public void benchmarkingReportSerialization(final Blackhole blackhole) {
@@ -37,8 +34,7 @@ public class ReportSerializationBenchmark extends AbstractBenchmark {
     /**
      * Benchmarking the deserialization of a byte array to a {@link Report}.
      *
-     * @param blackhole
-     *         the black hole that will consume the created report
+     * @param blackhole the black hole that will consume the created report
      */
     @Benchmark
     public void benchmarkingReportDeserialization(final Blackhole blackhole) {
@@ -61,17 +57,15 @@ public class ReportSerializationBenchmark extends AbstractBenchmark {
     /**
      * Converts a report to a byte array.
      *
-     * @param report
-     *         the report to convert to a byte array
-     *
+     * @param report the report to convert to a byte array
      * @return bytes
      */
     private static byte[] toByteArray(final Report report) {
-        try (var out = new ByteArrayOutputStream(); var stream = new ObjectOutputStream(out)) {
+        try (var out = new ByteArrayOutputStream();
+                var stream = new ObjectOutputStream(out)) {
             stream.writeObject(report);
             return out.toByteArray();
-        }
-        catch (IOException exception) {
+        } catch (IOException exception) {
             throw new IllegalStateException("Can't serialize report " + report, exception);
         }
     }
@@ -79,18 +73,16 @@ public class ReportSerializationBenchmark extends AbstractBenchmark {
     /**
      * Converts a byte array to a report.
      *
-     * @param bytes
-     *         the byte array to convert to a report
-     *
+     * @param bytes the byte array to convert to a report
      * @return report
      */
     @SuppressFBWarnings("OBJECT_DESERIALIZATION")
     @SuppressWarnings("BanSerializableRead")
     private static Report toReport(final byte[] bytes) {
-        try (var in = new ByteArrayInputStream(bytes); var stream = new ObjectInputStream(in)) {
+        try (var in = new ByteArrayInputStream(bytes);
+                var stream = new ObjectInputStream(in)) {
             return (Report) stream.readObject();
-        }
-        catch (IOException | ClassNotFoundException exception) {
+        } catch (IOException | ClassNotFoundException exception) {
             throw new IllegalStateException("Can't deserialize byte array " + Arrays.toString(bytes), exception);
         }
     }

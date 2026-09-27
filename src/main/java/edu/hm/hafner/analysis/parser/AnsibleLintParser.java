@@ -1,22 +1,19 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.util.Optional;
-import java.util.regex.Matcher;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
+import java.io.Serial;
+import java.util.Optional;
+import java.util.regex.Matcher;
 
 /**
  * A parser for Ansible Lint warnings.
  *
- * <p>
- * The parser expects the Ansible Lint output to be in a "parseable output in the format of pep8".
- * Pass the argument {@code -p} to Ansible Lint to get a compatible output.
- * </p>
+ * <p>The parser expects the Ansible Lint output to be in a "parseable output in the format of pep8". Pass the argument
+ * {@code -p} to Ansible Lint to get a compatible output.
  *
  * @author Ce Qi
  */
@@ -24,11 +21,10 @@ public class AnsibleLintParser extends LookaheadParser {
     @Serial
     private static final long serialVersionUID = 8481090596321427484L;
 
-    private static final String ANSIBLE_LINT_WARNING_PATTERN = "(?<file>.*)\\:(?<lineno>[0-9]*)\\:\\s*(\\[(?<cat>[a-zA-Z0-9\\-\\[\\]]+)\\]|(?<newcat>[^\\[][a-zA-Z0-9\\[\\]\\-]+)):?\\s(?<msg>.*?)(?<warn>\\s\\(warning\\))?$";
+    private static final String ANSIBLE_LINT_WARNING_PATTERN =
+            "(?<file>.*)\\:(?<lineno>[0-9]*)\\:\\s*(\\[(?<cat>[a-zA-Z0-9\\-\\[\\]]+)\\]|(?<newcat>[^\\[][a-zA-Z0-9\\[\\]\\-]+)):?\\s(?<msg>.*?)(?<warn>\\s\\(warning\\))?$";
 
-    /**
-     * Creates a new instance of {@link AnsibleLintParser}.
-     */
+    /** Creates a new instance of {@link AnsibleLintParser}. */
     public AnsibleLintParser() {
         super(ANSIBLE_LINT_WARNING_PATTERN);
     }
@@ -39,8 +35,8 @@ public class AnsibleLintParser extends LookaheadParser {
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
-            final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(
+            final Matcher matcher, final LookaheadStream lookahead, final IssueBuilder builder) {
         final String cat;
 
         /* Ansible-lint has changed the style of parseable output. This requires
@@ -48,8 +44,7 @@ public class AnsibleLintParser extends LookaheadParser {
          * containing square brackets. */
         if (matcher.group("cat") != null) {
             cat = matcher.group("cat");
-        }
-        else {
+        } else {
             cat = matcher.group("newcat");
         }
 

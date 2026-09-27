@@ -1,26 +1,22 @@
 package edu.hm.hafner.analysis;
 
-import org.apache.commons.io.IOUtils;
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 
 import edu.hm.hafner.analysis.ModuleDetectorRunner.FileSystemFacade;
 import edu.hm.hafner.util.PathUtil;
 import edu.hm.hafner.util.ResourceTest;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.List;
+import org.apache.commons.io.IOUtils;
+import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
-
-/**
- * Tests the class {@link ModuleDetectorRunner}.
- */
+/** Tests the class {@link ModuleDetectorRunner}. */
 class ModuleDetectorTest extends ResourceTest {
     private static final String MANIFEST = "MANIFEST.MF";
     private static final Path ROOT = Path.of(File.pathSeparatorChar == ';' ? "C:\\Windows" : "/tmp");
@@ -61,8 +57,8 @@ class ModuleDetectorTest extends ResourceTest {
         var ant = prefix + AntModuleDetector.ANT_PROJECT;
         var maven = prefix + MavenModuleDetector.MAVEN_POM;
 
-        verifyOrder(prefix, ant, maven, new String[]{ant, maven});
-        verifyOrder(prefix, ant, maven, new String[]{maven, ant});
+        verifyOrder(prefix, ant, maven, new String[] {ant, maven});
+        verifyOrder(prefix, ant, maven, new String[] {maven, ant});
     }
 
     @Test
@@ -93,15 +89,17 @@ class ModuleDetectorTest extends ResourceTest {
         assertThat(detector.guessModuleName(prefix + "something.txt")).isEqualTo(EXPECTED_MAVEN_MODULE);
     }
 
-    private void verifyOrder(final String prefix, final String ant, final String maven, final String osgi,
-            final String... foundFiles) {
+    private void verifyOrder(
+            final String prefix, final String ant, final String maven, final String osgi, final String... foundFiles) {
         var fileSystem = createFileSystemStub(stub -> {
             when(stub.find(any(), anyString())).thenReturn(List.of(foundFiles));
             when(stub.open(ant)).thenAnswer(filename -> read(AntModuleDetector.ANT_PROJECT));
             when(stub.open(maven)).thenAnswer(filename -> read(MavenModuleDetector.MAVEN_POM));
             when(stub.open(osgi)).thenAnswer(filename -> read(MANIFEST));
-            when(stub.open(prefix + "/" + OsgiModuleDetector.PLUGIN_PROPERTIES)).thenAnswer(filename -> createEmptyStream());
-            when(stub.open(prefix + "/" + OsgiModuleDetector.BUNDLE_PROPERTIES)).thenAnswer(filename -> createEmptyStream());
+            when(stub.open(prefix + "/" + OsgiModuleDetector.PLUGIN_PROPERTIES))
+                    .thenAnswer(filename -> createEmptyStream());
+            when(stub.open(prefix + "/" + OsgiModuleDetector.BUNDLE_PROPERTIES))
+                    .thenAnswer(filename -> createEmptyStream());
         });
 
         var detector = new ModuleDetectorRunner(ROOT, fileSystem);
@@ -118,15 +116,12 @@ class ModuleDetectorTest extends ResourceTest {
             var fileSystem = mock(FileSystemFacade.class);
             stub.apply(fileSystem);
             return fileSystem;
-        }
-        catch (IOException exception) {
+        } catch (IOException exception) {
             throw new AssertionError(exception);
         }
     }
 
-    /**
-     * Stubs the {@link FileSystemFacade} using a lambda.
-     */
+    /** Stubs the {@link FileSystemFacade} using a lambda. */
     @FunctionalInterface
     private interface Stub {
         void apply(FileSystemFacade f) throws IOException;

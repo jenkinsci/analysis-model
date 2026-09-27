@@ -1,11 +1,10 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.*;
 
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
-
-import static org.assertj.core.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 /**
  * A base class for parsers that cannot process simple text files.

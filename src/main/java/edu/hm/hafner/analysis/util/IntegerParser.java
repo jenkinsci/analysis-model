@@ -1,8 +1,7 @@
 package edu.hm.hafner.analysis.util;
 
-import org.apache.commons.lang3.StringUtils;
-
 import edu.umd.cs.findbugs.annotations.CheckForNull;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Parses integers from string values.
@@ -14,9 +13,7 @@ public final class IntegerParser {
      * Converts a number (represented by the specified String) to an integer value. If the string is not a valid number,
      * then 0 is returned. This method does not throw exceptions if the value is invalid.
      *
-     * @param number
-     *         the line number (as a string)
-     *
+     * @param number the line number (as a string)
      * @return the converted number
      * @see Integer#parseInt(String)
      */
@@ -24,8 +21,7 @@ public final class IntegerParser {
         if (StringUtils.isNotBlank(number)) {
             try {
                 return Integer.parseInt(number);
-            }
-            catch (NumberFormatException ignored) {
+            } catch (NumberFormatException ignored) {
                 // ignore and return 0
             }
         }

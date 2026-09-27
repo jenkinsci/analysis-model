@@ -1,34 +1,28 @@
 {
-  "qualityGates": [
-    {
-      "metric": "test-success-rate",
-      "name": "Tests Success Rate",
-      "threshold": 100.0,
-      "criticality": "FAILURE"
-    },
-    {
-      "metric": "line",
-      "name": "Line Coverage",
-      "threshold": 80.0,
-      "criticality": "UNSTABLE"
-    },
-    {
-      "metric": "branch",
-      "name": "Branch Coverage",
-      "threshold": 80.0,
-      "criticality": "UNSTABLE"
-    },
-    {
-      "metric": "bugs",
-      "name": "Potential Bugs",
-      "threshold": 0.0,
-      "criticality": "FAILURE"
-    },
-    {
-      "metric": "style",
-      "name": "Style Violations",
-      "threshold": 0.0,
-      "criticality": "FAILURE"
-    }
-  ]
+  "qualityGates": [ {
+    "metric": "test-success-rate",
+    "name": "Tests Success Rate",
+    "threshold": 100.0,
+    "criticality": "FAILURE"
+  }, {
+    "metric": "line",
+    "name": "Line Coverage",
+    "threshold": 80.0,
+    "criticality": "UNSTABLE"
+  }, {
+    "metric": "branch",
+    "name": "Branch Coverage",
+    "threshold": 80.0,
+    "criticality": "UNSTABLE"
+  }, {
+    "metric": "bugs",
+    "name": "Potential Bugs",
+    "threshold": 0.0,
+    "criticality": "FAILURE"
+  }, {
+    "metric": "style",
+    "name": "Style Violations",
+    "threshold": 0.0,
+    "criticality": "FAILURE"
+  } ]
 }

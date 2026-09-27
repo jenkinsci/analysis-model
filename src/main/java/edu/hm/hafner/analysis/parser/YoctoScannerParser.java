@@ -1,16 +1,14 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
+import static j2html.TagCreator.*;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-
 import java.io.Serial;
-
-import static j2html.TagCreator.*;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * Parser for Yocto Scanner CLI (bitbake) tool.
@@ -41,8 +39,8 @@ public class YoctoScannerParser extends JsonIssueParser {
         }
     }
 
-    private void parseVulnerabilities(final Report report, final IssueBuilder issueBuilder,
-            final JSONObject resourceWrapper) {
+    private void parseVulnerabilities(
+            final Report report, final IssueBuilder issueBuilder, final JSONObject resourceWrapper) {
         var vulnerabilities = resourceWrapper.getJSONArray("issue");
         for (Object vulnerability : vulnerabilities) {
             if (vulnerability instanceof JSONObject obj) {
@@ -55,8 +53,8 @@ public class YoctoScannerParser extends JsonIssueParser {
         }
     }
 
-    private Issue convertToIssue(final JSONObject resource, final JSONObject vulnerability,
-            final IssueBuilder issueBuilder) {
+    private Issue convertToIssue(
+            final JSONObject resource, final JSONObject vulnerability, final IssueBuilder issueBuilder) {
         final var packageName = resource.getString("name");
         final var fileName = vulnerability.optString("id", "UNKNOWN");
         return issueBuilder
@@ -74,8 +72,7 @@ public class YoctoScannerParser extends JsonIssueParser {
         double score;
         if (hasScoreV3) {
             score = vulnerability.getDouble("scorev3");
-        }
-        else {
+        } else {
             score = INVALID_SCORE;
         }
 
@@ -85,30 +82,30 @@ public class YoctoScannerParser extends JsonIssueParser {
 
         if (score >= 0 && score < 4.0) {
             return Severity.WARNING_LOW;
-        }
-        else if (score >= 4.0 && score < 7.0) {
+        } else if (score >= 4.0 && score < 7.0) {
             return Severity.WARNING_NORMAL;
-        }
-        else if (score >= 7.0 && score <= 10.0) {
+        } else if (score >= 7.0 && score <= 10.0) {
             return Severity.WARNING_HIGH;
         }
 
         return Severity.ERROR;
     }
 
-    private String formatDescription(final String packageName, final JSONObject resource,
-            final JSONObject vulnerability) {
+    private String formatDescription(
+            final String packageName, final JSONObject resource, final JSONObject vulnerability) {
         final var version = resource.optString("version", VALUE_NOT_SET);
         final var layer = resource.optString("layer", "UNKOWN");
         final var vector = vulnerability.optString("vector", "UNKOWN");
         final var link = vulnerability.optString("link", "UNKOWN");
         final var description = vulnerability.optString("summary", "");
 
-        return join(div(b("Package: "), text(packageName)),
-                div(b("Version: "), text(version)),
-                div(b("Link: "), a(link).withHref(link)),
-                div(b("Yocto Layer: "), text(layer)),
-                div(b("Vector: "), text(vector)),
-                p(text(description))).render();
+        return join(
+                        div(b("Package: "), text(packageName)),
+                        div(b("Version: "), text(version)),
+                        div(b("Link: "), a(link).withHref(link)),
+                        div(b("Yocto Layer: "), text(layer)),
+                        div(b("Vector: "), text(vector)),
+                        p(text(description)))
+                .render();
     }
 }

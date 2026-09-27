@@ -1,14 +1,12 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
+import java.io.Serial;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * A parser for Brakeman JSON output.
@@ -48,24 +46,22 @@ public class BrakemanParser extends JsonIssueParser {
         int line = warning.optInt("line", 1);
 
         return issueBuilder
-            .setMessage(message.toString())
-            .setCategory(category)
-            .setType(warningType)
-            .setSeverity(severity)
-            .setFileName(fileName)
-            .setLineStart(line)
-            .setFingerprint(fingerprint)
-            .buildAndClean();
+                .setMessage(message.toString())
+                .setCategory(category)
+                .setType(warningType)
+                .setSeverity(severity)
+                .setFileName(fileName)
+                .setLineStart(line)
+                .setFingerprint(fingerprint)
+                .buildAndClean();
     }
 
     private Severity getSeverity(final String confidence) {
         if (equalsIgnoreCase(confidence, "Medium")) {
             return Severity.WARNING_NORMAL;
-        }
-        else if (equalsIgnoreCase(confidence, "High")) {
+        } else if (equalsIgnoreCase(confidence, "High")) {
             return Severity.WARNING_HIGH;
-        }
-        else if (equalsIgnoreCase(confidence, "Weak")) {
+        } else if (equalsIgnoreCase(confidence, "Weak")) {
             return Severity.WARNING_LOW;
         }
         return Severity.WARNING_HIGH;

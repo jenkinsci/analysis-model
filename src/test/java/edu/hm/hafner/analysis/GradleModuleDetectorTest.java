@@ -1,13 +1,12 @@
 package edu.hm.hafner.analysis;
 
-import java.util.List;
-
-import org.apache.commons.lang3.StringUtils;
-import org.junit.jupiter.api.Test;
-
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
+
+import java.util.List;
+import org.apache.commons.lang3.StringUtils;
+import org.junit.jupiter.api.Test;
 
 class GradleModuleDetectorTest extends AbstractModuleDetectorTest {
     private static final String EXPECTED_GRADLE_MODULE_ROOT = "root-project";
@@ -33,9 +32,8 @@ class GradleModuleDetectorTest extends AbstractModuleDetectorTest {
 
     @Test
     void shouldIdentifyModuleByReadingGradlePath() {
-        var factory = createFileSystemStub(stub ->
-                when(stub.find(any(), anyString())).thenReturn(
-                        List.of(PATH_PREFIX_GRADLE + GradleModuleDetector.BUILD_GRADLE)));
+        var factory = createFileSystemStub(stub -> when(stub.find(any(), anyString()))
+                .thenReturn(List.of(PATH_PREFIX_GRADLE + GradleModuleDetector.BUILD_GRADLE)));
 
         var detector = new ModuleDetectorRunner(ROOT, factory);
 
@@ -47,8 +45,8 @@ class GradleModuleDetectorTest extends AbstractModuleDetectorTest {
 
     @Test
     void shouldIdentifyModuleByFindingClosestGradlePath() {
-        var factory = createFileSystemStub(stub ->
-                when(stub.find(any(), anyString())).thenReturn(List.of(
+        var factory = createFileSystemStub(stub -> when(stub.find(any(), anyString()))
+                .thenReturn(List.of(
                         PATH_PREFIX_GRADLE + GradleModuleDetector.BUILD_GRADLE,
                         PATH_PREFIX_GRADLE + "moduleB/" + GradleModuleDetector.BUILD_GRADLE,
                         PATH_PREFIX_GRADLE + "a-module/" + GradleModuleDetector.BUILD_GRADLE)));
@@ -56,11 +54,9 @@ class GradleModuleDetectorTest extends AbstractModuleDetectorTest {
         var detector = new ModuleDetectorRunner(ROOT, factory);
         var gradleWorkspace = PREFIX + PATH_PREFIX_GRADLE;
 
-        assertThat(detector.guessModuleName(
-                gradleWorkspace + "a-module/build/reports/something.txt"))
+        assertThat(detector.guessModuleName(gradleWorkspace + "a-module/build/reports/something.txt"))
                 .isEqualTo(EXPECTED_GRADLE_MODULE_A);
-        assertThat(detector.guessModuleName(
-                gradleWorkspace + "moduleB/build/reports/something.txt"))
+        assertThat(detector.guessModuleName(gradleWorkspace + "moduleB/build/reports/something.txt"))
                 .isEqualTo(EXPECTED_GRADLE_MODULE_B);
         assertThat(detector.guessModuleName(gradleWorkspace + "build/reports/something.txt"))
                 .isEqualTo(EXPECTED_GRADLE_MODULE_ROOT_BY_PATH);
@@ -70,9 +66,8 @@ class GradleModuleDetectorTest extends AbstractModuleDetectorTest {
 
     @Test
     void shouldIdentifyModuleByReadingGradleKtsPath() {
-        var factory = createFileSystemStub(stub ->
-                when(stub.find(any(), anyString())).thenReturn(List.of(
-                        PATH_PREFIX_GRADLE + GradleModuleDetector.BUILD_GRADLE_KTS)));
+        var factory = createFileSystemStub(stub -> when(stub.find(any(), anyString()))
+                .thenReturn(List.of(PATH_PREFIX_GRADLE + GradleModuleDetector.BUILD_GRADLE_KTS)));
 
         var detector = new ModuleDetectorRunner(ROOT, factory);
 
@@ -85,21 +80,20 @@ class GradleModuleDetectorTest extends AbstractModuleDetectorTest {
     @Test
     void shouldIdentifyModuleByReadingGradleSettings() {
         var factory = createFileSystemStub(stub -> {
-            when(stub.find(any(), anyString())).thenReturn(List.of(
-                    PATH_PREFIX_GRADLE + GradleModuleDetector.SETTINGS_GRADLE,
-                    PATH_PREFIX_GRADLE + "moduleB/" + GradleModuleDetector.BUILD_GRADLE,
-                    PATH_PREFIX_GRADLE + "a-module/" + GradleModuleDetector.BUILD_GRADLE));
+            when(stub.find(any(), anyString()))
+                    .thenReturn(List.of(
+                            PATH_PREFIX_GRADLE + GradleModuleDetector.SETTINGS_GRADLE,
+                            PATH_PREFIX_GRADLE + "moduleB/" + GradleModuleDetector.BUILD_GRADLE,
+                            PATH_PREFIX_GRADLE + "a-module/" + GradleModuleDetector.BUILD_GRADLE));
             when(stub.open(anyString())).thenAnswer(filename -> read("settings-1.gradle"));
         });
 
         var detector = new ModuleDetectorRunner(ROOT, factory);
         var gradleWorkspace = PREFIX + PATH_PREFIX_GRADLE;
 
-        assertThat(detector.guessModuleName(
-                gradleWorkspace + "a-module/build/reports/something.txt"))
+        assertThat(detector.guessModuleName(gradleWorkspace + "a-module/build/reports/something.txt"))
                 .isEqualTo(EXPECTED_GRADLE_MODULE_A);
-        assertThat(detector.guessModuleName(
-                gradleWorkspace + "moduleB/build/reports/something.txt"))
+        assertThat(detector.guessModuleName(gradleWorkspace + "moduleB/build/reports/something.txt"))
                 .isEqualTo(EXPECTED_GRADLE_MODULE_B);
         assertThat(detector.guessModuleName(gradleWorkspace + "build/reports/something.txt"))
                 .isEqualTo(EXPECTED_GRADLE_MODULE_ROOT);
@@ -110,8 +104,8 @@ class GradleModuleDetectorTest extends AbstractModuleDetectorTest {
     @Test
     void shouldIdentifyModuleByReadingGradleSettingsKts() {
         var factory = createFileSystemStub(stub -> {
-            when(stub.find(any(), anyString())).thenReturn(List.of(
-                    PATH_PREFIX_GRADLE + GradleModuleDetector.SETTINGS_GRADLE_KTS));
+            when(stub.find(any(), anyString()))
+                    .thenReturn(List.of(PATH_PREFIX_GRADLE + GradleModuleDetector.SETTINGS_GRADLE_KTS));
             when(stub.open(anyString())).thenAnswer(filename -> read("settings-1.gradle"));
         });
 
@@ -127,22 +121,21 @@ class GradleModuleDetectorTest extends AbstractModuleDetectorTest {
     @Test
     void shouldEnsureThatGradleSettingsHasPrecedenceOverRootBuild() {
         var factory = createFileSystemStub(stub -> {
-            when(stub.find(any(), anyString())).thenReturn(List.of(
-                    PATH_PREFIX_GRADLE + GradleModuleDetector.BUILD_GRADLE,
-                    PATH_PREFIX_GRADLE + GradleModuleDetector.SETTINGS_GRADLE,
-                    PATH_PREFIX_GRADLE + "moduleB/" + GradleModuleDetector.BUILD_GRADLE,
-                    PATH_PREFIX_GRADLE + "a-module/" + GradleModuleDetector.BUILD_GRADLE));
+            when(stub.find(any(), anyString()))
+                    .thenReturn(List.of(
+                            PATH_PREFIX_GRADLE + GradleModuleDetector.BUILD_GRADLE,
+                            PATH_PREFIX_GRADLE + GradleModuleDetector.SETTINGS_GRADLE,
+                            PATH_PREFIX_GRADLE + "moduleB/" + GradleModuleDetector.BUILD_GRADLE,
+                            PATH_PREFIX_GRADLE + "a-module/" + GradleModuleDetector.BUILD_GRADLE));
             when(stub.open(anyString())).thenAnswer(filename -> read("settings-1.gradle"));
         });
 
         var detector = new ModuleDetectorRunner(ROOT, factory);
         var gradleWorkspace = PREFIX + PATH_PREFIX_GRADLE;
 
-        assertThat(detector.guessModuleName(
-                gradleWorkspace + "a-module/build/reports/something.txt"))
+        assertThat(detector.guessModuleName(gradleWorkspace + "a-module/build/reports/something.txt"))
                 .isEqualTo(EXPECTED_GRADLE_MODULE_A);
-        assertThat(detector.guessModuleName(
-                gradleWorkspace + "moduleB/build/reports/something.txt"))
+        assertThat(detector.guessModuleName(gradleWorkspace + "moduleB/build/reports/something.txt"))
                 .isEqualTo(EXPECTED_GRADLE_MODULE_B);
         assertThat(detector.guessModuleName(gradleWorkspace + "build/reports/something.txt"))
                 .isEqualTo(EXPECTED_GRADLE_MODULE_ROOT);
@@ -153,8 +146,8 @@ class GradleModuleDetectorTest extends AbstractModuleDetectorTest {
     @Test
     void shouldEnsureThatGradleSettingsCanParseFormat1() {
         var factory = createFileSystemStub(stub -> {
-            when(stub.find(any(), anyString())).thenReturn(
-                    List.of(PATH_PREFIX_GRADLE + GradleModuleDetector.SETTINGS_GRADLE));
+            when(stub.find(any(), anyString()))
+                    .thenReturn(List.of(PATH_PREFIX_GRADLE + GradleModuleDetector.SETTINGS_GRADLE));
             when(stub.open(anyString())).thenAnswer(fileName -> read("settings-1.gradle"));
         });
 
@@ -168,8 +161,8 @@ class GradleModuleDetectorTest extends AbstractModuleDetectorTest {
     @Test
     void shouldEnsureThatGradleSettingsCanParseFormat2() {
         var factory = createFileSystemStub(stub -> {
-            when(stub.find(any(), anyString())).thenReturn(List.of(
-                    PATH_PREFIX_GRADLE + GradleModuleDetector.SETTINGS_GRADLE));
+            when(stub.find(any(), anyString()))
+                    .thenReturn(List.of(PATH_PREFIX_GRADLE + GradleModuleDetector.SETTINGS_GRADLE));
             when(stub.open(anyString())).thenAnswer(fileName -> read("settings-2.gradle"));
         });
 
@@ -183,8 +176,8 @@ class GradleModuleDetectorTest extends AbstractModuleDetectorTest {
     @Test
     void shouldEnsureThatGradleSettingsCanParseFormat3() {
         var factory = createFileSystemStub(stub -> {
-            when(stub.find(any(), anyString())).thenReturn(List.of(
-                    PATH_PREFIX_GRADLE + GradleModuleDetector.SETTINGS_GRADLE));
+            when(stub.find(any(), anyString()))
+                    .thenReturn(List.of(PATH_PREFIX_GRADLE + GradleModuleDetector.SETTINGS_GRADLE));
             when(stub.open(anyString())).thenAnswer(fileName -> read("settings-3.gradle"));
         });
 
@@ -198,8 +191,8 @@ class GradleModuleDetectorTest extends AbstractModuleDetectorTest {
     @Test
     void shouldEnsureThatGradleSettingsCanParseFormat4() {
         var factory = createFileSystemStub(stub -> {
-            when(stub.find(any(), anyString())).thenReturn(List.of(
-                    PATH_PREFIX_GRADLE + GradleModuleDetector.SETTINGS_GRADLE));
+            when(stub.find(any(), anyString()))
+                    .thenReturn(List.of(PATH_PREFIX_GRADLE + GradleModuleDetector.SETTINGS_GRADLE));
             when(stub.open(anyString())).thenAnswer(fileName -> read("settings-4.gradle"));
         });
 
@@ -213,9 +206,10 @@ class GradleModuleDetectorTest extends AbstractModuleDetectorTest {
     @Test
     void shouldIgnoreGradleSettingsWithoutProjectName() {
         var factory = createFileSystemStub(stub -> {
-            when(stub.find(any(), anyString())).thenReturn(List.of(
-                    PATH_PREFIX_GRADLE + GradleModuleDetector.BUILD_GRADLE,
-                    PATH_PREFIX_GRADLE + GradleModuleDetector.SETTINGS_GRADLE));
+            when(stub.find(any(), anyString()))
+                    .thenReturn(List.of(
+                            PATH_PREFIX_GRADLE + GradleModuleDetector.BUILD_GRADLE,
+                            PATH_PREFIX_GRADLE + GradleModuleDetector.SETTINGS_GRADLE));
             when(stub.open(anyString())).thenAnswer(fileName -> read("settings-5.gradle"));
         });
 
@@ -228,12 +222,10 @@ class GradleModuleDetectorTest extends AbstractModuleDetectorTest {
 
     @Test
     void shouldIgnoreGradleFileWithNoParentPath() {
-        var factory = createFileSystemStub(stub ->
-                when(stub.find(any(), anyString())).thenReturn(List.of(
-                        GradleModuleDetector.BUILD_GRADLE)));
+        var factory = createFileSystemStub(
+                stub -> when(stub.find(any(), anyString())).thenReturn(List.of(GradleModuleDetector.BUILD_GRADLE)));
 
         var detector = new ModuleDetectorRunner(ROOT_ABSOLUTE, factory);
-        assertThat(detector.guessModuleName("build/reports/something.txt"))
-                .isEqualTo(StringUtils.EMPTY);
+        assertThat(detector.guessModuleName("build/reports/something.txt")).isEqualTo(StringUtils.EMPTY);
     }
 }

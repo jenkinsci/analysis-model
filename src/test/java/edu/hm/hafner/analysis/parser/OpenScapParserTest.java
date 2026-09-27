@@ -1,17 +1,16 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.assertThat;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.Report;
+import edu.hm.hafner.analysis.Report.IssueType;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
 import edu.hm.hafner.analysis.registry.ParserRegistry;
-import edu.hm.hafner.analysis.Report.IssueType;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the class {@link OpenScapParser}.
@@ -58,7 +57,8 @@ class OpenScapParserTest extends AbstractParserTest {
                 .hasFileName("config/sshd_config")
                 .hasSeverity(Severity.ERROR)
                 .hasType("xccdf_org.ssgproject.content_rule_ssh_password_authentication")
-                .hasMessage("Disable SSH Password Authentication - PasswordAuthentication is enabled in SSH configuration")
+                .hasMessage(
+                        "Disable SSH Password Authentication - PasswordAuthentication is enabled in SSH configuration")
                 .hasCategory("fail");
 
         softly.assertThat(report.get(2).getDescription())
@@ -96,9 +96,7 @@ class OpenScapParserTest extends AbstractParserTest {
     @Test
     void shouldNotReportPassResults() {
         var report = parse("openscap-report.json");
-        assertThat(report.get())
-                .map(Issue::getCategory)
-                .doesNotContain("pass", "notapplicable");
+        assertThat(report.get()).map(Issue::getCategory).doesNotContain("pass", "notapplicable");
     }
 
     @Test
@@ -121,8 +119,7 @@ class OpenScapParserTest extends AbstractParserTest {
                 .hasMessage("Test Rule With Description")
                 .hasCategory("fail");
 
-        assertThat(report.get(1).getDescription())
-                .contains("Detailed description of the issue");
+        assertThat(report.get(1).getDescription()).contains("Detailed description of the issue");
 
         assertThat(report.get(2))
                 .hasFileName("config/test3.conf")
@@ -179,15 +176,15 @@ class OpenScapParserTest extends AbstractParserTest {
         assertThat(descriptor.getPattern()).isEqualTo("**/openscap-report.json");
         assertThat(descriptor.getHelp()).contains("oscap scan --results-arf results.xml --report report.html");
         assertThat(descriptor.getUrl()).isEqualTo("https://github.com/OpenSCAP/openscap");
-        assertThat(descriptor.getIconUrl()).isEqualTo("https://github.com/OpenSCAP/openscap/blob/main/docs/manual/images/vertical-logo.png");
+        assertThat(descriptor.getIconUrl())
+                .isEqualTo("https://github.com/OpenSCAP/openscap/blob/main/docs/manual/images/vertical-logo.png");
         assertThat(descriptor.getType()).isEqualTo(IssueType.WARNING);
         assertThat(descriptor.hasHelp()).isTrue();
         assertThat(descriptor.hasUrl()).isTrue();
     }
 
     private void assertOnlyFailureCategories(final Report report) {
-        assertThat(report.get())
-                .map(Issue::getCategory)
-                .allSatisfy(category -> assertThat(category).isIn("fail", "error"));
+        assertThat(report.get()).map(Issue::getCategory).allSatisfy(category -> assertThat(category)
+                .isIn("fail", "error"));
     }
 }

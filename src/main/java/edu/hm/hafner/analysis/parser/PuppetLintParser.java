@@ -1,18 +1,16 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.Strings;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
-
 import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 /**
  * A parser for puppet-lint checks warnings.
@@ -24,21 +22,19 @@ public class PuppetLintParser extends LookaheadParser {
     private static final long serialVersionUID = 7492869677427430346L;
 
     private static final String SEPARATOR = "::";
-    private static final String PUPPET_LINT_PATTERN_WARNING = "^\\s*((?:[A-Za-z]:)?[^:]+):([0-9]+):([^:]+):("
-            + "(?:WARNING)|(?:ERROR)):\\s*(.*)$";
+    private static final String PUPPET_LINT_PATTERN_WARNING =
+            "^\\s*((?:[A-Za-z]:)?[^:]+):([0-9]+):([^:]+):(" + "(?:WARNING)|(?:ERROR)):\\s*(.*)$";
     private static final String PUPPET_LINT_PATTERN_PACKAGE = "^(.*/?modules/)?([^/]*)/manifests(.*)?(/([^/]*)\\.pp)$";
     private static final Pattern PACKAGE_PATTERN = Pattern.compile(PUPPET_LINT_PATTERN_PACKAGE);
 
-    /**
-     * Creates a new instance of {@link PuppetLintParser}.
-     */
+    /** Creates a new instance of {@link PuppetLintParser}. */
     public PuppetLintParser() {
         super(PUPPET_LINT_PATTERN_WARNING);
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
-            final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(
+            final Matcher matcher, final LookaheadStream lookahead, final IssueBuilder builder) {
         return builder.setFileName(matcher.group(1))
                 .setLineStart(matcher.group(2))
                 .setCategory(matcher.group(3))

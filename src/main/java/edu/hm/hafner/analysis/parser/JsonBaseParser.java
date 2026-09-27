@@ -1,20 +1,18 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.Location;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.TreeStringBuilder;
-
 import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * Base Parser JSON format.
@@ -24,14 +22,13 @@ import java.util.UUID;
 abstract class JsonBaseParser extends IssueParser {
     @Serial
     private static final long serialVersionUID = -2318844382394973833L;
+
     private static final TreeStringBuilder TREE_STRING_BUILDER = new TreeStringBuilder();
 
     /**
      * Deserialize an Issue from a JSON object.
      *
-     * @param jsonIssue
-     *         the issue as a JSON object
-     *
+     * @param jsonIssue the issue as a JSON object
      * @return issue instance
      */
     Optional<Issue> convertToIssue(final JSONObject jsonIssue) {
@@ -44,11 +41,8 @@ abstract class JsonBaseParser extends IssueParser {
      * Deserialize an Issue from a JSON object. Properties that are not part of equals like {@code reference} or
      * {@code directory} will be skipped.
      *
-     * @param jsonIssue
-     *         the issue as a JSON object
-     * @param builder
-     *         the issue builder to use
-     *
+     * @param jsonIssue the issue as a JSON object
+     * @param builder the issue builder to use
      * @return issue instance
      */
     @SuppressWarnings({"PMD.CyclomaticComplexity", "PMD.CognitiveComplexity", "PMD.NPathComplexity"})
@@ -116,12 +110,10 @@ abstract class JsonBaseParser extends IssueParser {
                 var lineStart = jsonRange.getInt(LINE_RANGE_START);
                 if (jsonRange.has(LINE_RANGE_END)) {
                     builder.addLocation(lineStart, jsonRange.getInt(LINE_RANGE_END));
-                }
-                else {
+                } else {
                     builder.addLocation(lineStart, lineStart);
                 }
-            }
-            else if (jsonRange.has(LINE_RANGE_END)) {
+            } else if (jsonRange.has(LINE_RANGE_END)) {
                 var line = jsonRange.getInt(LINE_RANGE_END);
                 builder.addLocation(line, line);
             }

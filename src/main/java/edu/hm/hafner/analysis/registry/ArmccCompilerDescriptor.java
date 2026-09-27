@@ -4,7 +4,6 @@ import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.Armcc52CompilerParser;
 import edu.hm.hafner.analysis.parser.Armcc5CompilerParser;
 import edu.hm.hafner.analysis.parser.ArmccCompilerParser;
-
 import java.util.Collection;
 
 /**

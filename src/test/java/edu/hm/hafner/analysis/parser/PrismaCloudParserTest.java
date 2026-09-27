@@ -1,8 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.nio.file.FileSystems;
-
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.assertThat;
+import static edu.hm.hafner.analysis.assertions.Assertions.assertThatThrownBy;
 
 import edu.hm.hafner.analysis.FileReaderFactory;
 import edu.hm.hafner.analysis.IssueParser;
@@ -12,8 +11,8 @@ import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
 import edu.hm.hafner.analysis.registry.ParserRegistry;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import java.nio.file.FileSystems;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the class {@link PrismaCloudParser}.
@@ -87,7 +86,8 @@ class PrismaCloudParserTest extends AbstractParserTest {
                 .hasCategory(CATEGORY_COMPLIANCE);
 
         softly.assertThat(report.get(3).getDescription())
-                .contains("Adding the update instructions in a single line on the Dockerfile will cache the update layer.")
+                .contains(
+                        "Adding the update instructions in a single line on the Dockerfile will cache the update layer.")
                 .contains("Image contains: (13) files with vulnerable setuid/setgid permissions");
 
         // Second compliance: medium severity
@@ -108,16 +108,15 @@ class PrismaCloudParserTest extends AbstractParserTest {
     void accepts() {
         var parser = new PrismaCloudParser();
 
-        assertThat(parser.accepts(
-                new FileReaderFactory(FileSystems.getDefault().getPath("prisma-cloud-report.json")))).isTrue();
-        assertThat(parser.accepts(
-                new FileReaderFactory(FileSystems.getDefault().getPath("prisma-cloud-report.txt")))).isFalse();
+        assertThat(parser.accepts(new FileReaderFactory(FileSystems.getDefault().getPath("prisma-cloud-report.json"))))
+                .isTrue();
+        assertThat(parser.accepts(new FileReaderFactory(FileSystems.getDefault().getPath("prisma-cloud-report.txt"))))
+                .isFalse();
     }
 
     @Test
     void brokenInput() {
-        assertThatThrownBy(() -> parse("eclipse.txt"))
-                .isInstanceOf(ParsingException.class);
+        assertThatThrownBy(() -> parse("eclipse.txt")).isInstanceOf(ParsingException.class);
     }
 
     @Test
@@ -323,10 +322,7 @@ class PrismaCloudParserTest extends AbstractParserTest {
                 """);
 
         assertThat(report).hasSize(1);
-        assertThat(report.get(0))
-                .hasFileName("-")
-                .hasType("CVE-2022-0001")
-                .hasSeverity(Severity.WARNING_NORMAL);
+        assertThat(report.get(0)).hasFileName("-").hasType("CVE-2022-0001").hasSeverity(Severity.WARNING_NORMAL);
     }
 
     @Test
@@ -352,8 +348,7 @@ class PrismaCloudParserTest extends AbstractParserTest {
                 """);
 
         assertThat(report).hasSize(1);
-        assertThat(report.get(0))
-                .hasPackageName("no-version-pkg");
+        assertThat(report.get(0)).hasPackageName("no-version-pkg");
     }
 
     @Test
@@ -446,7 +441,9 @@ class PrismaCloudParserTest extends AbstractParserTest {
         assertThat(descriptor.getPattern()).isEqualTo("**/prisma-cloud-report.json");
         assertThat(descriptor.getHelp()).contains("twistcli");
         assertThat(descriptor.getUrl()).isEqualTo("https://www.paloaltonetworks.com/prisma/cloud");
-        assertThat(descriptor.getIconUrl()).isEqualTo("https://github.com/PaloAltoNetworks/prisma-cloud-docs/blob/master/docs/api/cdn/prisma-cloud-logo.png?raw=true");
+        assertThat(descriptor.getIconUrl())
+                .isEqualTo(
+                        "https://github.com/PaloAltoNetworks/prisma-cloud-docs/blob/master/docs/api/cdn/prisma-cloud-logo.png?raw=true");
         assertThat(descriptor.hasHelp()).isTrue();
         assertThat(descriptor.hasUrl()).isTrue();
     }

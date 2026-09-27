@@ -1,8 +1,6 @@
 package edu.hm.hafner.analysis;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.util.LineRange;
@@ -10,13 +8,13 @@ import edu.hm.hafner.util.LineRangeList;
 import edu.hm.hafner.util.SerializableTest;
 import edu.hm.hafner.util.TreeString;
 import edu.hm.hafner.util.TreeStringBuilder;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
 import nl.jqno.equalsverifier.EqualsVerifier;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 /**
  * Unit tests for {@link Issue}.
@@ -58,17 +56,22 @@ class IssueTest extends SerializableTest<Issue> {
     @Test
     void shouldVerifyLocations() {
         assertThat(createIssueWithLocation(0, 0, 0, 0))
-                .isForWholeFile().isInSingleLine().isForWholeLine();
+                .isForWholeFile()
+                .isInSingleLine()
+                .isForWholeLine();
         assertThat(createIssueWithLocation(1, 1, 0, 0))
-                .isNotForWholeFile().isInSingleLine().isForWholeLine();
+                .isNotForWholeFile()
+                .isInSingleLine()
+                .isForWholeLine();
         assertThat(createIssueWithLocation(1, 1, 1, 1))
-                .isNotForWholeFile().isInSingleLine().isNotForWholeLine();
+                .isNotForWholeFile()
+                .isInSingleLine()
+                .isNotForWholeLine();
     }
 
-    private Issue createIssueWithLocation(final int lineStart, final int lineEnd, final int columnStart,
-            final int columnEnd) {
-        return createIssue(PATH_NAME, FILE_NAME_TS, lineStart, lineEnd, columnStart, columnEnd,
-                UUID.randomUUID());
+    private Issue createIssueWithLocation(
+            final int lineStart, final int lineEnd, final int columnStart, final int columnEnd) {
+        return createIssue(PATH_NAME, FILE_NAME_TS, lineStart, lineEnd, columnStart, columnEnd, UUID.randomUUID());
     }
 
     @Test
@@ -93,12 +96,12 @@ class IssueTest extends SerializableTest<Issue> {
                     .hasBaseName("new.txt");
         }
 
-        var other = createIssue(PATH_NAME, newName, 2, 1, 2, 1,
-                UUID.randomUUID());
-        assertThat(issue).as("Equals should not consider pathName in computation").isEqualTo(other);
+        var other = createIssue(PATH_NAME, newName, 2, 1, 2, 1, UUID.randomUUID());
+        assertThat(issue)
+                .as("Equals should not consider pathName in computation")
+                .isEqualTo(other);
 
-        var emptyPath = createIssue("", FILE_NAME_TS, 2, 1, 2, 1,
-                UUID.randomUUID());
+        var emptyPath = createIssue("", FILE_NAME_TS, 2, 1, 2, 1, UUID.randomUUID());
 
         try (var softly = new SoftAssertions()) {
             softly.assertThat(emptyPath)
@@ -111,8 +114,7 @@ class IssueTest extends SerializableTest<Issue> {
 
     @Test
     void shouldConvertWindowsNames() {
-        var issue = createIssue("C:\\Windows", FILE_NAME_TS, 2, 1, 2, 1,
-                UUID.randomUUID());
+        var issue = createIssue("C:\\Windows", FILE_NAME_TS, 2, 1, 2, 1, UUID.randomUUID());
 
         try (var softly = new SoftAssertions()) {
             softly.assertThat(issue)
@@ -132,8 +134,8 @@ class IssueTest extends SerializableTest<Issue> {
                 .setPathName("/jenkins-data/jenkins/workspace/root/trunk/sw/build")
                 .setFileName("../../component/app/_src/file.c")) {
             var issue = builder.build();
-            assertThat(issue.getAbsolutePath()).isEqualTo(
-                    "/jenkins-data/jenkins/workspace/root/trunk/component/app/_src/file.c");
+            assertThat(issue.getAbsolutePath())
+                    .isEqualTo("/jenkins-data/jenkins/workspace/root/trunk/component/app/_src/file.c");
         }
     }
 
@@ -156,22 +158,28 @@ class IssueTest extends SerializableTest<Issue> {
 
     @ParameterizedTest(name = "{0}")
     @CsvSource({
-            "'All negative', -1, -2, -3, -4, 0, 0, 0, 0",
-            "'All zero', 0, 0, 0, 0, 0, 0, 0, 0",
-            "'Same line, startColumn < endColumn', 2, 1, 2, 5, 2, 1, 2, 5",
-            "'Same line, startColumn > endColumn', 3, 5, 3, 1, 3, 1, 3, 5",
-            "'Multiline, startLine > endLine, startColumn < endColumn', 4, 1, 3, 2, 3, 1, 4, 2",
-            "'Multiline, startLine > endLine, startColumn > endColumn', 3, 2, 2, 1, 2, 1, 3, 2",
-            "'Multiline, startLine < endLine, startColumn < endColumn', 5, 4, 6, 8, 5, 4, 6, 8",
-            "'Multiline, startLine < endLine, startColumn > endColumn', 5, 8, 6, 4, 5, 8, 6, 4"
+        "'All negative', -1, -2, -3, -4, 0, 0, 0, 0",
+        "'All zero', 0, 0, 0, 0, 0, 0, 0, 0",
+        "'Same line, startColumn < endColumn', 2, 1, 2, 5, 2, 1, 2, 5",
+        "'Same line, startColumn > endColumn', 3, 5, 3, 1, 3, 1, 3, 5",
+        "'Multiline, startLine > endLine, startColumn < endColumn', 4, 1, 3, 2, 3, 1, 4, 2",
+        "'Multiline, startLine > endLine, startColumn > endColumn', 3, 2, 2, 1, 2, 1, 3, 2",
+        "'Multiline, startLine < endLine, startColumn < endColumn', 5, 4, 6, 8, 5, 4, 6, 8",
+        "'Multiline, startLine < endLine, startColumn > endColumn', 5, 8, 6, 4, 5, 8, 6, 4"
     })
     @SuppressWarnings("checkstyle:ParameterNumber")
-    void shouldFixStartEndLineColumnValues(final String description,
-            final int lineStart, final int columnStart,
-            final int lineEnd, final int columnEnd,
-            final int expectedLineStart, final int expectedColumnStart,
-            final int expectedLineEnd, final int expectedColumnEnd) {
-        try (var builder = new IssueBuilder(); var softly = new SoftAssertions()) {
+    void shouldFixStartEndLineColumnValues(
+            final String description,
+            final int lineStart,
+            final int columnStart,
+            final int lineEnd,
+            final int columnEnd,
+            final int expectedLineStart,
+            final int expectedColumnStart,
+            final int expectedLineEnd,
+            final int expectedColumnEnd) {
+        try (var builder = new IssueBuilder();
+                var softly = new SoftAssertions()) {
             var issue = builder.setLineStart(lineStart)
                     .setLineEnd(lineEnd)
                     .setColumnStart(columnStart)
@@ -218,10 +226,8 @@ class IssueTest extends SerializableTest<Issue> {
         }
 
         try (var softly = new SoftAssertions()) {
-            softly.assertThat(Issue.getPropertyValueAsString(issue, "fileName"))
-                    .isEqualTo(issue.getFileName());
-            softly.assertThat(Issue.getPropertyValueAsString(issue, "category"))
-                    .isEqualTo(issue.getCategory());
+            softly.assertThat(Issue.getPropertyValueAsString(issue, "fileName")).isEqualTo(issue.getFileName());
+            softly.assertThat(Issue.getPropertyValueAsString(issue, "category")).isEqualTo(issue.getCategory());
             softly.assertThat(Issue.getPropertyValueAsString(issue, "lineStart"))
                     .isEqualTo(String.valueOf(issue.getLineStart()));
             softly.assertThat(Issue.getPropertyValueAsString(issue, "severity"))
@@ -307,17 +313,34 @@ class IssueTest extends SerializableTest<Issue> {
     }
 
     @SuppressWarnings("checkstyle:ParameterNumber")
-    private Issue createIssue(final String pathName, final TreeString fileName,
-            final int lineStart, final int lineEnd, final int columnStart, final int columnEnd,
+    private Issue createIssue(
+            final String pathName,
+            final TreeString fileName,
+            final int lineStart,
+            final int lineEnd,
+            final int columnStart,
+            final int columnEnd,
             final UUID id) {
         var locations = new ArrayList<Location>();
         locations.add(new Location(fileName, lineStart, lineEnd, columnStart, columnEnd));
         locations.add(new Location(fileName, 5, 6));
 
-        return new Issue(pathName, locations, CATEGORY, TYPE, PACKAGE_NAME_TS,
-                MODULE_NAME, SEVERITY, MESSAGE_TS, DESCRIPTION,
-                ORIGIN, ORIGIN_NAME, REFERENCE, FINGERPRINT,
-                ADDITIONAL_PROPERTIES, id);
+        return new Issue(
+                pathName,
+                locations,
+                CATEGORY,
+                TYPE,
+                PACKAGE_NAME_TS,
+                MODULE_NAME,
+                SEVERITY,
+                MESSAGE_TS,
+                DESCRIPTION,
+                ORIGIN,
+                ORIGIN_NAME,
+                REFERENCE,
+                FINGERPRINT,
+                ADDITIONAL_PROPERTIES,
+                id);
     }
 
     @Test
@@ -326,13 +349,23 @@ class IssueTest extends SerializableTest<Issue> {
         filled.add(new LineRange(15));
 
         EqualsVerifier.simple()
-                .withPrefabValues(TreeString.class,
-                        TREE_STRING_BUILDER.intern("One"),
-                        TREE_STRING_BUILDER.intern("Two"))
+                .withPrefabValues(
+                        TreeString.class, TREE_STRING_BUILDER.intern("One"), TREE_STRING_BUILDER.intern("Two"))
                 .withPrefabValues(LineRangeList.class, new LineRangeList(10), filled)
                 .forClass(Issue.class)
-                .withIgnoredFields("id", "reference", "pathName", "fingerprint", "partOfModifiedCode",
-                        "fileName", "lineStart", "lineEnd", "columnStart", "columnEnd", "lineRanges").verify();
+                .withIgnoredFields(
+                        "id",
+                        "reference",
+                        "pathName",
+                        "fingerprint",
+                        "partOfModifiedCode",
+                        "fileName",
+                        "lineStart",
+                        "lineEnd",
+                        "columnStart",
+                        "columnEnd",
+                        "lineRanges")
+                .verify();
     }
 
     @Override
@@ -365,11 +398,8 @@ class IssueTest extends SerializableTest<Issue> {
          * Serializes an {@link Issue} to a file. Use this method in case the issue properties have been changed and the
          * readResolve method has been adapted accordingly so that the old serialization still can be read.
          *
-         * @param args
-         *         not used
-         *
-         * @throws IOException
-         *         if the file could not be written
+         * @param args not used
+         * @throws IOException if the file could not be written
          */
         public static void main(final String... args) throws IOException {
             new IssueTest().createSerializationFile();

@@ -3,9 +3,7 @@ package edu.hm.hafner.analysis.registry;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.ValeParser;
 
-/**
- * Descriptor for the vale prose linter.
- */
+/** Descriptor for the vale prose linter. */
 class ValeDescriptor extends ParserDescriptor {
     private static final String ID = "vale";
     private static final String NAME = "Vale";

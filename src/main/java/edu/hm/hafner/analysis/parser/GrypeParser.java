@@ -1,21 +1,19 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-
-import org.json.JSONObject;
+import static j2html.TagCreator.*;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-
-import static j2html.TagCreator.*;
+import java.io.Serial;
+import org.json.JSONObject;
 
 /**
  * JSON report parser for grype.
  *
- * @see  <a href="https://plugins.jenkins.io/grypescanner/">Jenkins Plugin GrypeScanner</a>
- * @see  <a href="https://github.com/anchore/grype">grype</a>
+ * @see <a href="https://plugins.jenkins.io/grypescanner/">Jenkins Plugin GrypeScanner</a>
+ * @see <a href="https://github.com/anchore/grype">grype</a>
  */
 public class GrypeParser extends JsonIssueParser {
     @Serial
@@ -59,14 +57,15 @@ public class GrypeParser extends JsonIssueParser {
             packageName = packageName + " " + version;
         }
 
-        return issueBuilder.setPackageName(packageName)
+        return issueBuilder
+                .setPackageName(packageName)
                 .setCategory(artifact.optString(TYPE_TAG, "Unknown"))
                 .setSeverity(Severity.guessFromString(vulnerability.getString(SEVERITY_TAG)))
                 .setType(vulnerability.getString(ID_TAG))
                 .setMessage(vulnerability.optString(DESCRIPTION_TAG, "Unknown"))
-                .setDescription(p().with(a()
-                        .withHref(vulnerability.getString(DATA_SOURCE_TAG))
-                        .withText(vulnerability.getString(DATA_SOURCE_TAG))).render())
+                .setDescription(p().with(a().withHref(vulnerability.getString(DATA_SOURCE_TAG))
+                                .withText(vulnerability.getString(DATA_SOURCE_TAG)))
+                        .render())
                 .build();
     }
 }

@@ -1,14 +1,13 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.util.Optional;
-import java.util.regex.Matcher;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
+import java.io.Serial;
+import java.util.Optional;
+import java.util.regex.Matcher;
 
 /**
  * A parser for Perforce execution.
@@ -30,21 +29,22 @@ public class P4Parser extends LookaheadParser {
     private static final String PERFORCE_WARNING_PATTERN = "^(.*) - " + "(" + CANT_ADD + OR + WARNING_ADD_OF + OR
             + OPENED_FOR_EDIT + OR + NOTHING_CHANGED + ")" + "(.*)$";
 
-    /**
-     * Creates a new instance of {@link P4Parser}.
-     */
+    /** Creates a new instance of {@link P4Parser}. */
     public P4Parser() {
         super(PERFORCE_WARNING_PATTERN);
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
-            final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(
+            final Matcher matcher, final LookaheadStream lookahead, final IssueBuilder builder) {
         var category = matcher.group(2).trim();
         var p = mapPriority(category);
-        return builder.setFileName(matcher.group(1).trim()).setLineStart(0).setCategory(category).setMessage(
-                matcher.group(1).trim())
-                .setSeverity(p).buildOptional();
+        return builder.setFileName(matcher.group(1).trim())
+                .setLineStart(0)
+                .setCategory(category)
+                .setMessage(matcher.group(1).trim())
+                .setSeverity(p)
+                .buildOptional();
     }
 
     private Severity mapPriority(final String category) {

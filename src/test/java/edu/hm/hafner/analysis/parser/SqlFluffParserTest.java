@@ -1,8 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.nio.file.FileSystems;
-
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 import edu.hm.hafner.analysis.FileReaderFactory;
 import edu.hm.hafner.analysis.IssueParser;
@@ -12,8 +10,8 @@ import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
 import edu.hm.hafner.analysis.registry.ParserRegistry;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import java.nio.file.FileSystems;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the class {@link SqlFluffParser}.
@@ -81,16 +79,17 @@ class SqlFluffParserTest extends AbstractParserTest {
 
     @Test
     void accepts() {
-        assertThat(new SqlFluffParser().accepts(
-                new FileReaderFactory(FileSystems.getDefault().getPath("sqlfluff.json")))).isTrue();
-        assertThat(new SqlFluffParser().accepts(
-                new FileReaderFactory(FileSystems.getDefault().getPath("foo.txt")))).isFalse();
+        assertThat(new SqlFluffParser()
+                        .accepts(new FileReaderFactory(FileSystems.getDefault().getPath("sqlfluff.json"))))
+                .isTrue();
+        assertThat(new SqlFluffParser()
+                        .accepts(new FileReaderFactory(FileSystems.getDefault().getPath("foo.txt"))))
+                .isFalse();
     }
 
     @Test
     void brokenInput() {
-        assertThatThrownBy(() -> parse("eclipse.txt"))
-                .isInstanceOf(ParsingException.class);
+        assertThatThrownBy(() -> parse("eclipse.txt")).isInstanceOf(ParsingException.class);
     }
 
     @Test
@@ -193,14 +192,11 @@ class SqlFluffParserTest extends AbstractParserTest {
     void shouldBuildCorrectMessagePriority() {
         var report = parse("sqlfluff-edge-cases.json");
 
-        assertThat(report.get(0).getMessage())
-                .isEqualTo("Inconsistent style detected");  
+        assertThat(report.get(0).getMessage()).isEqualTo("Inconsistent style detected");
 
-        assertThat(report.get(1).getMessage())
-                .isEqualTo("Missing rule name and description");  
+        assertThat(report.get(1).getMessage()).isEqualTo("Missing rule name and description");
 
-        assertThat(report.get(2).getMessage())
-                .isEqualTo("Format");  
+        assertThat(report.get(2).getMessage()).isEqualTo("Format");
     }
 
     @Test
@@ -225,15 +221,9 @@ class SqlFluffParserTest extends AbstractParserTest {
                 .hasFileName("test1.sql")
                 .hasLineStart(1);
 
-        assertThat(report.get(1))
-                .hasType("L009")
-                .hasMessage("Test description")
-                .hasFileName("test2.sql");
+        assertThat(report.get(1)).hasType("L009").hasMessage("Test description").hasFileName("test2.sql");
 
-        assertThat(report.get(2))
-                .hasType("L010")
-                .hasMessage("")
-                .hasFileName("test3.sql");
+        assertThat(report.get(2)).hasType("L010").hasMessage("").hasFileName("test3.sql");
 
         assertThat(report.get(3))
                 .hasType("L011")
@@ -241,10 +231,7 @@ class SqlFluffParserTest extends AbstractParserTest {
                 .hasFileName("test4.sql")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
-        assertThat(report.get(4))
-                .hasType("L012")
-                .hasMessage("")
-                .hasFileName("test5.sql");
+        assertThat(report.get(4)).hasType("L012").hasMessage("").hasFileName("test5.sql");
 
         assertThat(report.get(5))
                 .hasType("L013")
@@ -288,11 +275,11 @@ class SqlFluffParserTest extends AbstractParserTest {
             assertThat(issue.getSeverity()).isEqualTo(Severity.WARNING_NORMAL);
         }
 
-        assertThat(report.get(0).getCategory()).isEmpty(); 
-        assertThat(report.get(1).getCategory()).isEmpty(); 
-        assertThat(report.get(2).getCategory()).isEmpty(); 
+        assertThat(report.get(0).getCategory()).isEmpty();
+        assertThat(report.get(1).getCategory()).isEmpty();
+        assertThat(report.get(2).getCategory()).isEmpty();
         assertThat(report.get(3).getCategory()).isEqualTo("OnlyRuleName");
-        assertThat(report.get(4).getCategory()).isEmpty(); 
+        assertThat(report.get(4).getCategory()).isEmpty();
         assertThat(report.get(5).getCategory()).isEqualTo("RuleName");
         assertThat(report.get(6).getCategory()).isEqualTo("ColumnOnly");
         assertThat(report.get(7).getCategory()).isEqualTo("MixedFields");

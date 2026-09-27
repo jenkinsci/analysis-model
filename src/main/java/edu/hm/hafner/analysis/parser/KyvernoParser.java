@@ -1,20 +1,20 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.json.JSONObject;
+import static j2html.TagCreator.b;
+import static j2html.TagCreator.br;
+import static j2html.TagCreator.join;
+import static j2html.TagCreator.text;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
-
 import j2html.tags.DomContent;
-
 import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
-
-import static j2html.TagCreator.*;
+import org.json.JSONObject;
 
 /**
  * A parser for Kyverno policy validation JSON reports (OpenReports format).
@@ -69,8 +69,11 @@ public class KyvernoParser extends JsonIssueParser {
         }
     }
 
-    private Issue convertToIssue(final JSONObject rule, final String resourceName,
-                                  @CheckForNull final JSONObject resource, final IssueBuilder issueBuilder) {
+    private Issue convertToIssue(
+            final JSONObject rule,
+            final String resourceName,
+            @CheckForNull final JSONObject resource,
+            final IssueBuilder issueBuilder) {
         var ruleName = rule.optString(RULE_NAME, "-");
         var ruleType = rule.optString(RULE_TYPE, "-");
         var message = rule.optString(MESSAGE, "Policy validation failed");
@@ -108,8 +111,8 @@ public class KyvernoParser extends JsonIssueParser {
         return metadata == null ? "" : metadata.optString(key, "");
     }
 
-    private String buildDescription(final String ruleName, final String ruleType,
-                                        @CheckForNull final JSONObject resource) {
+    private String buildDescription(
+            final String ruleName, final String ruleType, @CheckForNull final JSONObject resource) {
         var parts = new ArrayList<DomContent>();
         parts.add(b("Rule: "));
         parts.add(text(ruleName));

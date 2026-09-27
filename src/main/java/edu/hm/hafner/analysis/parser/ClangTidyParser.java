@@ -1,16 +1,14 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.apache.commons.lang3.StringUtils;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
-
 import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * A parser for the clang-tidy static analysis warnings.
@@ -20,20 +18,19 @@ import java.util.regex.Matcher;
 public class ClangTidyParser extends LookaheadParser {
     @Serial
     private static final long serialVersionUID = -3015592762345283182L;
+
     private static final String CLANG_TIDY_WARNING_PATTERN = "(?:clang-tidy\\S* (?:-\\S+ )*|)"
             + "((?<file>.+):(?<line>\\d+):(?<column>\\d+): |)(?<severity>warning|error): (?<message>.*?) \\[(?<category>[^\\s]*?)\\]$";
     private static final int CATEGORY_PARTS_COUNT = 2;
 
-    /**
-     * Creates a new instance of {@link ClangTidyParser}.
-     */
+    /** Creates a new instance of {@link ClangTidyParser}. */
     public ClangTidyParser() {
         super(CLANG_TIDY_WARNING_PATTERN);
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
-            final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(
+            final Matcher matcher, final LookaheadStream lookahead, final IssueBuilder builder) {
         // Reject GCC warnings that have [-W...]: Gcc4CompilerParser should handle these
         var category = matcher.group("category");
         if (category.startsWith("-W")) {

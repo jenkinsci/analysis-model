@@ -1,14 +1,13 @@
 package edu.hm.hafner.analysis.registry;
 
-import java.util.Collection;
+import static j2html.TagCreator.*;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.JsonLogParser;
 import edu.hm.hafner.analysis.parser.JsonParser;
 import edu.hm.hafner.analysis.parser.XmlParser;
-
-import static j2html.TagCreator.*;
+import java.util.Collection;
 
 /**
  * A descriptor for the native format of the analysis model. This format is a 1:1 mapping of the properties of the
@@ -31,9 +30,11 @@ class NativeFormatDescriptor extends CompositeParserDescriptor {
 
     @Override
     public String getHelp() {
-        return p().withText("Create an output file that contains issues in the native analysis-model format, "
-                + "in either XML or JSON. "
-                + "The parser is even capable of reading individual lines of a log file that contains issues in JSON format.").render();
+        return p().withText(
+                        "Create an output file that contains issues in the native analysis-model format, "
+                                + "in either XML or JSON. "
+                                + "The parser is even capable of reading individual lines of a log file that contains issues in JSON format.")
+                .render();
     }
 
     @Override

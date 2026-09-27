@@ -21,15 +21,15 @@ public class RuffParser extends JsonIssueParser {
     private static final long serialVersionUID = 7219981561481086494L;
 
     private static final Map<Character, Severity> SEVERITY_MAP = Map.of(
-            'E', Severity.ERROR,           // Errors
-            'F', Severity.WARNING_HIGH,    // Pyflakes (likely bugs)
-            'B', Severity.WARNING_HIGH,    // flake8-bugbear (likely bugs)
-            'W', Severity.WARNING_NORMAL,  // Warnings
-            'C', Severity.WARNING_NORMAL,  // Complexity
-            'D', Severity.WARNING_LOW,     // Documentation
-            'I', Severity.WARNING_LOW,     // Import sorting
-            'N', Severity.WARNING_LOW      // Naming conventions
-    );
+            'E', Severity.ERROR, // Errors
+            'F', Severity.WARNING_HIGH, // Pyflakes (likely bugs)
+            'B', Severity.WARNING_HIGH, // flake8-bugbear (likely bugs)
+            'W', Severity.WARNING_NORMAL, // Warnings
+            'C', Severity.WARNING_NORMAL, // Complexity
+            'D', Severity.WARNING_LOW, // Documentation
+            'I', Severity.WARNING_LOW, // Import sorting
+            'N', Severity.WARNING_LOW // Naming conventions
+            );
 
     private static final Map<String, String> CATEGORY_MAP = Map.ofEntries(
             Map.entry("E", "pycodestyle"),
@@ -43,8 +43,7 @@ public class RuffParser extends JsonIssueParser {
             Map.entry("B", "flake8-bugbear"),
             Map.entry("A", "flake8-builtins"),
             Map.entry("COM", "flake8-commas"),
-            Map.entry("S", "flake8-bandit")
-    );
+            Map.entry("S", "flake8-bandit"));
 
     @Override
     protected void parseJsonArray(final Report report, final JSONArray jsonReport, final IssueBuilder issueBuilder) {

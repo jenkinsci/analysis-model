@@ -1,20 +1,18 @@
 package edu.hm.hafner.analysis;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import static org.mockito.Mockito.*;
 
 import edu.hm.hafner.analysis.FullTextFingerprint.FileSystem;
 import edu.hm.hafner.util.ResourceTest;
-
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.nio.charset.MalformedInputException;
 import java.nio.charset.StandardCharsets;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
-import static org.mockito.Mockito.*;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 /**
  * Tests the class {@link FingerprintGenerator}.
@@ -43,8 +41,8 @@ class FingerprintGeneratorTest extends ResourceTest {
         generator.run(new FullTextFingerprint(3, fileSystem), report, CHARSET_AFFECTED_FILE);
 
         assertThatIssueHasDefaultFingerprint(report);
-        assertThat(report.getErrorMessages()).contains(
-                "- 'file.txt', provided encoding '%s' seems to be wrong".formatted(CHARSET_AFFECTED_FILE));
+        assertThat(report.getErrorMessages())
+                .contains("- 'file.txt', provided encoding '%s' seems to be wrong".formatted(CHARSET_AFFECTED_FILE));
     }
 
     @Test
@@ -58,9 +56,11 @@ class FingerprintGeneratorTest extends ResourceTest {
             assertThat(report.get(0).hasFingerprint()).isFalse();
 
             var alreadySet = "already-set";
-            report.add(issueBuilder.setFingerprint(alreadySet).setMessage(AFFECTED_FILE_NAME).build());
-            generator.run(createFullTextFingerprint("fingerprint-two.txt"),
-                    report, CHARSET_AFFECTED_FILE);
+            report.add(issueBuilder
+                    .setFingerprint(alreadySet)
+                    .setMessage(AFFECTED_FILE_NAME)
+                    .build());
+            generator.run(createFullTextFingerprint("fingerprint-two.txt"), report, CHARSET_AFFECTED_FILE);
 
             assertThat(report.get(0).hasFingerprint()).isTrue();
             assertThat(report.get(1).getFingerprint()).isEqualTo(alreadySet);
@@ -107,10 +107,10 @@ class FingerprintGeneratorTest extends ResourceTest {
         try {
             var fileSystem = mock(FileSystem.class);
             when(fileSystem.readLinesFromFile(anyString(), any()))
-                    .thenReturn(asStream(firstFile)).thenReturn(asStream(secondFile));
+                    .thenReturn(asStream(firstFile))
+                    .thenReturn(asStream(secondFile));
             return fileSystem;
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new AssertionError(e);
         }
     }
@@ -142,15 +142,27 @@ class FingerprintGeneratorTest extends ResourceTest {
     }
 
     @ParameterizedTest(name = "[{index}] Skip non source code file {0}")
-    @ValueSource(strings = {"library.o", "program.exe", "library.dll", "program.so", "library.a", "program.lib",
-            "library.jar", "library.war", "program.zip", "library.7z", "program.tar.gz", "library.tar.bz2",
-            "UPPER_CASE.EXE"})
+    @ValueSource(
+            strings = {
+                "library.o",
+                "program.exe",
+                "library.dll",
+                "program.so",
+                "library.a",
+                "program.lib",
+                "library.jar",
+                "library.war",
+                "program.zip",
+                "library.7z",
+                "program.tar.gz",
+                "library.tar.bz2",
+                "UPPER_CASE.EXE"
+            })
     void shouldUseFallbackFingerprintOnNonSourceFiles(final String fileName) {
         var report = createReportWithOneIssueFor(fileName);
 
         var generator = new FingerprintGenerator();
-        generator.run(createFullTextFingerprint("fingerprint-two.txt"),
-                report, CHARSET_AFFECTED_FILE);
+        generator.run(createFullTextFingerprint("fingerprint-two.txt"), report, CHARSET_AFFECTED_FILE);
 
         assertThatIssueHasDefaultFingerprint(report);
     }
@@ -163,8 +175,7 @@ class FingerprintGeneratorTest extends ResourceTest {
         var report = createReportWithOneIssueFor(fileName);
 
         var generator = new FingerprintGenerator();
-        generator.run(createFullTextFingerprint("fingerprint-two.txt"),
-                report, CHARSET_AFFECTED_FILE);
+        generator.run(createFullTextFingerprint("fingerprint-two.txt"), report, CHARSET_AFFECTED_FILE);
 
         assertThatIssueHasDefaultFingerprint(report);
     }

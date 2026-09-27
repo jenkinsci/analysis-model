@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTimeoutPreemptively;
 
 import edu.hm.hafner.analysis.Categories;
 import edu.hm.hafner.analysis.Issue;
@@ -8,16 +9,11 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
-
 import java.time.Duration;
 import java.util.Iterator;
+import org.junit.jupiter.api.Test;
 
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
-
-/**
- * Tests the class {@link JavacParser}.
- */
+/** Tests the class {@link JavacParser}. */
 class JavacParserTest extends AbstractParserTest {
     JavacParserTest() {
         super("javac.txt");
@@ -30,7 +26,8 @@ class JavacParserTest extends AbstractParserTest {
 
     @Test
     void shouldIgnoreSurefireMessages() {
-        var report = parseStringContent("[\u001B[1;33mWARNING\u001B[m] 'build.plugins.plugin.version' for org.sonatype.plugins:nexus-staging-maven-plugin is missing. @ edu.hm.hafner:analysis-model:${revision}${changelist}, /home/runner/work/analysis-model/analysis-model/pom.xml, line 303, column 15");
+        var report = parseStringContent(
+                "[\u001B[1;33mWARNING\u001B[m] 'build.plugins.plugin.version' for org.sonatype.plugins:nexus-staging-maven-plugin is missing. @ edu.hm.hafner:analysis-model:${revision}${changelist}, /home/runner/work/analysis-model/analysis-model/pom.xml, line 303, column 15");
 
         assertThat(report).isEmpty();
     }
@@ -42,7 +39,8 @@ class JavacParserTest extends AbstractParserTest {
         assertThat(warnings).hasSize(1);
     }
 
-    @Test @org.junitpioneer.jupiter.Issue("JENKINS-72077")
+    @Test
+    @org.junitpioneer.jupiter.Issue("JENKINS-72077")
     void issue72077IgnoreTestWarnings() {
         var warnings = parse("issue72077.txt");
 
@@ -65,8 +63,10 @@ class JavacParserTest extends AbstractParserTest {
                 .hasCategory(Categories.DEPRECATION)
                 .hasLineStart(40)
                 .hasLineEnd(40)
-                .hasMessage("org.eclipse.ui.contentassist.ContentAssistHandler in org.eclipse.ui.contentassist has been deprecated")
-                .hasFileName("C:/Build/Results/jobs/ADT-Base/workspace/com.avaloq.adt.ui/src/main/java/com/avaloq/adt/ui/elements/AvaloqDialog.java")
+                .hasMessage(
+                        "org.eclipse.ui.contentassist.ContentAssistHandler in org.eclipse.ui.contentassist has been deprecated")
+                .hasFileName(
+                        "C:/Build/Results/jobs/ADT-Base/workspace/com.avaloq.adt.ui/src/main/java/com/avaloq/adt/ui/elements/AvaloqDialog.java")
                 .hasColumnStart(36);
     }
 
@@ -127,9 +127,7 @@ class JavacParserTest extends AbstractParserTest {
         assertThat(report).hasSize(4);
     }
 
-    /**
-     * Parses a warning log with 4 compile errors.
-     */
+    /** Parses a warning log with 4 compile errors. */
     @Test
     void shouldParseErrors() {
         var warnings = parse("javac-errors.txt");
@@ -175,9 +173,7 @@ class JavacParserTest extends AbstractParserTest {
         assertThat(warnings).hasSize(4);
     }
 
-    /**
-     * Parses a warning log written by Gradle containing 4 Kotlin warnings.
-     */
+    /** Parses a warning log written by Gradle containing 4 Kotlin warnings. */
     @Test
     void kotlinGradle() {
         var warnings = parse("kotlin-gradle.txt");
@@ -185,9 +181,7 @@ class JavacParserTest extends AbstractParserTest {
         assertThat(warnings).hasSize(4);
     }
 
-    /**
-     * Parses an error log written by Gradle containing 1 Kotlin error.
-     */
+    /** Parses an error log written by Gradle containing 1 Kotlin error. */
     @Test
     void kotlinGradleError() {
         var errors = parse("kotlin-gradle-error.txt");
@@ -195,9 +189,7 @@ class JavacParserTest extends AbstractParserTest {
         assertThat(errors).hasSize(1);
     }
 
-    /**
-     * Verifies that arrays in deprecated methods are correctly handled.
-     */
+    /** Verifies that arrays in deprecated methods are correctly handled. */
     @Test
     void parseArrayInDeprecatedMethod() {
         var warnings = parse("issue5868.txt");
@@ -210,14 +202,13 @@ class JavacParserTest extends AbstractParserTest {
                     .hasCategory("Deprecation")
                     .hasLineStart(14)
                     .hasLineEnd(14)
-                    .hasMessage("loadAvailable(java.lang.String,int,int,java.lang.String[]) in my.OtherClass has been deprecated")
+                    .hasMessage(
+                            "loadAvailable(java.lang.String,int,int,java.lang.String[]) in my.OtherClass has been deprecated")
                     .hasFileName("D:/path/to/my/Class.java");
         }
     }
 
-    /**
-     * Parses parallel pipeline output based on 'javac.txt'.
-     */
+    /** Parses parallel pipeline output based on 'javac.txt'. */
     @Test
     void parseParallelPipelineOutput() {
         var warnings = parse("javac-parallel-pipeline.txt");
@@ -230,21 +221,23 @@ class JavacParserTest extends AbstractParserTest {
                     .hasCategory(Categories.DEPRECATION)
                     .hasLineStart(12)
                     .hasLineEnd(12)
-                    .hasMessage("org.eclipse.jface.contentassist.SubjectControlContentAssistant in org.eclipse.jface.contentassist has been deprecated")
-                    .hasFileName("C:/Build/Results/jobs/ADT-Base/workspace/com.avaloq.adt.ui/src/main/java/com/avaloq/adt/ui/elements/AvaloqDialog.java");
+                    .hasMessage(
+                            "org.eclipse.jface.contentassist.SubjectControlContentAssistant in org.eclipse.jface.contentassist has been deprecated")
+                    .hasFileName(
+                            "C:/Build/Results/jobs/ADT-Base/workspace/com.avaloq.adt.ui/src/main/java/com/avaloq/adt/ui/elements/AvaloqDialog.java");
             softly.assertThat(warnings.get(1))
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasCategory(Categories.DEPRECATION)
                     .hasLineStart(40)
                     .hasLineEnd(40)
-                    .hasMessage("org.eclipse.ui.contentassist.ContentAssistHandler in org.eclipse.ui.contentassist has been deprecated")
-                    .hasFileName("C:/Build/Results/jobs/ADT-Base/workspace/com.avaloq.adt.ui/src/main/java/com/avaloq/adt/ui/elements/AvaloqDialog.java");
+                    .hasMessage(
+                            "org.eclipse.ui.contentassist.ContentAssistHandler in org.eclipse.ui.contentassist has been deprecated")
+                    .hasFileName(
+                            "C:/Build/Results/jobs/ADT-Base/workspace/com.avaloq.adt.ui/src/main/java/com/avaloq/adt/ui/elements/AvaloqDialog.java");
         }
     }
 
-    /**
-     * Parses a file with five deprecation warnings.
-     */
+    /** Parses a file with five deprecation warnings. */
     @Test
     void parseMaven() {
         var warnings = parse("maven.txt");
@@ -275,10 +268,8 @@ class JavacParserTest extends AbstractParserTest {
     /**
      * Verifies the annotation content.
      *
-     * @param annotation
-     *         the annotation to check
-     * @param lineNumber
-     *         the line number of the warning
+     * @param annotation the annotation to check
+     * @param lineNumber the line number of the warning
      */
     private void assertThatWarningIsAtLine(final Issue annotation, final int lineNumber) {
         try (var softly = new SoftAssertions()) {
@@ -287,8 +278,10 @@ class JavacParserTest extends AbstractParserTest {
                     .hasCategory(Categories.PROPRIETARY_API)
                     .hasLineStart(lineNumber)
                     .hasLineEnd(lineNumber)
-                    .hasMessage("com.sun.org.apache.xerces.internal.impl.dv.util.Base64 is Sun proprietary API and may be removed in a future release")
-                    .hasFileName("/home/hudson/hudson/data/jobs/Hudson main/workspace/remoting/src/test/java/hudson/remoting/BinarySafeStreamTest.java");
+                    .hasMessage(
+                            "com.sun.org.apache.xerces.internal.impl.dv.util.Base64 is Sun proprietary API and may be removed in a future release")
+                    .hasFileName(
+                            "/home/hudson/hudson/data/jobs/Hudson main/workspace/remoting/src/test/java/hudson/remoting/BinarySafeStreamTest.java");
         }
     }
 
@@ -297,26 +290,34 @@ class JavacParserTest extends AbstractParserTest {
         var warnings = parse("issue63346.log");
         assertThat(warnings).hasSize(4);
 
-        assertThat(warnings.get(0)).hasSeverity(Severity.WARNING_NORMAL)
+        assertThat(warnings.get(0))
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasLineStart(216)
-                .hasFileName("/home/runner/work/warnings-ng-plugin/warnings-ng-plugin/plugin/src/main/java/io/jenkins/plugins/analysis/warnings/axivion/AxivionSuite.java");
+                .hasFileName(
+                        "/home/runner/work/warnings-ng-plugin/warnings-ng-plugin/plugin/src/main/java/io/jenkins/plugins/analysis/warnings/axivion/AxivionSuite.java");
 
-        assertThat(warnings.get(1)).hasSeverity(Severity.WARNING_NORMAL)
+        assertThat(warnings.get(1))
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasLineStart(372)
-                .hasFileName("/home/runner/work/warnings-ng-plugin/warnings-ng-plugin/plugin/src/main/java/io/jenkins/plugins/analysis/warnings/axivion/AxivionSuite.java");
+                .hasFileName(
+                        "/home/runner/work/warnings-ng-plugin/warnings-ng-plugin/plugin/src/main/java/io/jenkins/plugins/analysis/warnings/axivion/AxivionSuite.java");
 
-        assertThat(warnings.get(2)).hasSeverity(Severity.WARNING_NORMAL)
+        assertThat(warnings.get(2))
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasLineStart(407)
-                .hasFileName("/home/runner/work/warnings-ng-plugin/warnings-ng-plugin/plugin/src/main/java/io/jenkins/plugins/analysis/warnings/axivion/AxivionSuite.java");
+                .hasFileName(
+                        "/home/runner/work/warnings-ng-plugin/warnings-ng-plugin/plugin/src/main/java/io/jenkins/plugins/analysis/warnings/axivion/AxivionSuite.java");
 
-        assertThat(warnings.get(3)).hasSeverity(Severity.WARNING_NORMAL)
+        assertThat(warnings.get(3))
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasLineStart(194)
-                .hasFileName("/home/runner/work/warnings-ng-plugin/warnings-ng-plugin/plugin/target/generated-test-sources/assertj-assertions/io/jenkins/plugins/analysis/core/assertions/Assertions.java");
+                .hasFileName(
+                        "/home/runner/work/warnings-ng-plugin/warnings-ng-plugin/plugin/target/generated-test-sources/assertj-assertions/io/jenkins/plugins/analysis/core/assertions/Assertions.java");
     }
 
-     /**
-     * Parses a warning log written by Gradle containing 2 Kotlin warnings.
-     * One in kotlin 1.8 style and the other one in the old style.
+    /**
+     * Parses a warning log written by Gradle containing 2 Kotlin warnings. One in kotlin 1.8 style and the other one in
+     * the old style.
      */
     @Test
     void kotlin18WarningStyle() {
@@ -324,32 +325,41 @@ class JavacParserTest extends AbstractParserTest {
 
         assertThat(warnings).hasSize(7);
 
-        assertThat(warnings.get(0)).hasSeverity(Severity.WARNING_NORMAL)
+        assertThat(warnings.get(0))
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasLineStart(214)
                 .hasColumnStart(35)
                 .hasFileName("/project/app/src/main/java/ui/Activity.kt");
-        assertThat(warnings.get(1)).hasSeverity(Severity.WARNING_NORMAL)
+        assertThat(warnings.get(1))
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasLineStart(424)
                 .hasColumnStart(29)
                 .hasFileName("/project/app/src/main/java/ui/Activity.kt");
-        assertThat(warnings.get(2)).hasSeverity(Severity.WARNING_NORMAL)
+        assertThat(warnings.get(2))
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasLineStart(425)
                 .hasColumnStart(29)
                 .hasFileName("/project/app/src/main/java/ui/Activity.kt")
                 .hasCategory("Deprecation")
-                .hasMessage("deprecated: Serializable! to kotlin.collections.HashMap<String, String> /* = java.util.HashMap<String, String> */");
-        assertThat(warnings.get(3)).hasSeverity(Severity.WARNING_NORMAL)
+                .hasMessage(
+                        "deprecated: Serializable! to kotlin.collections.HashMap<String, String> /* = java.util.HashMap<String, String> */");
+        assertThat(warnings.get(3))
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasLineStart(424)
                 .hasColumnStart(29)
                 .hasFileName("/project/app/src/main/java/ui/Activity.kt");
-        assertThat(warnings.get(4)).hasSeverity(Severity.WARNING_NORMAL)
+        assertThat(warnings.get(4))
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasLineStart(123)
                 .hasColumnStart(456);
-        assertThat(warnings.get(5)).hasSeverity(Severity.WARNING_NORMAL)
+        assertThat(warnings.get(5))
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasLineStart(426)
                 .hasColumnStart(29)
-                .hasMessage("Unchecked cast: Serializable! to kotlin.collections.HashMap<String, String> /* = java.util.HashMap<String, String> */");
-        assertThat(warnings.get(6)).hasSeverity(Severity.WARNING_NORMAL)
+                .hasMessage(
+                        "Unchecked cast: Serializable! to kotlin.collections.HashMap<String, String> /* = java.util.HashMap<String, String> */");
+        assertThat(warnings.get(6))
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasLineStart(8)
                 .hasColumnStart(27)
                 .hasCategory("Deprecation")
@@ -357,9 +367,9 @@ class JavacParserTest extends AbstractParserTest {
                 .hasMessage("'PackageStats' is deprecated. Deprecated in Java");
     }
 
-     /**
-     * Parses a warning log written by Gradle containing 3 Kotlin warnings and 1 error.
-     * Having a cmake directory switch log in between. Following duplicated Kotlin errors should still be treated as duplicates.
+    /**
+     * Parses a warning log written by Gradle containing 3 Kotlin warnings and 1 error. Having a cmake directory switch
+     * log in between. Following duplicated Kotlin errors should still be treated as duplicates.
      */
     @Test
     void kotlinAndCmakeDirectoryOutput() {
@@ -367,25 +377,31 @@ class JavacParserTest extends AbstractParserTest {
 
         assertThat(warnings).hasSize(5);
 
-        assertThat(warnings.get(0)).hasSeverity(Severity.WARNING_NORMAL)
+        assertThat(warnings.get(0))
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasLineStart(214)
                 .hasColumnStart(35)
                 .hasFileName("/project/app/src/main/java/ui/Activity.kt");
-        assertThat(warnings.get(1)).hasSeverity(Severity.WARNING_NORMAL)
+        assertThat(warnings.get(1))
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasLineStart(424)
                 .hasColumnStart(29)
                 .hasFileName("/project/app/src/main/java/ui/Activity.kt");
-        assertThat(warnings.get(2)).hasSeverity(Severity.WARNING_NORMAL)
+        assertThat(warnings.get(2))
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasLineStart(425)
                 .hasColumnStart(29)
                 .hasFileName("/project/app/src/main/java/ui/Activity.kt")
                 .hasCategory("Deprecation")
-                .hasMessage("deprecated: Serializable! to kotlin.collections.HashMap<String, String> /* = java.util.HashMap<String, String> */");
-        assertThat(warnings.get(3)).hasSeverity(Severity.WARNING_NORMAL)
+                .hasMessage(
+                        "deprecated: Serializable! to kotlin.collections.HashMap<String, String> /* = java.util.HashMap<String, String> */");
+        assertThat(warnings.get(3))
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasLineStart(200)
                 .hasColumnStart(2)
                 .hasFileName("C:/project/app/src/main/java/ui/Activity.kt");
-        assertThat(warnings.get(4)).hasSeverity(Severity.WARNING_NORMAL)
+        assertThat(warnings.get(4))
+                .hasSeverity(Severity.WARNING_NORMAL)
                 .hasLineStart(8)
                 .hasColumnStart(27)
                 .hasCategory("Deprecation")

@@ -1,6 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.*;
 
 import edu.hm.hafner.analysis.FileReaderFactory;
 import edu.hm.hafner.analysis.ParsingException;
@@ -8,12 +8,9 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
+import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.*;
-
-/**
- * Tests the class {@link QtTranslationParser}.
- */
+/** Tests the class {@link QtTranslationParser}. */
 class QtTranslationParserTest extends AbstractParserTest {
     QtTranslationParserTest() {
         super("qttranslation/shouldParseAllIssues.ts");
@@ -164,14 +161,12 @@ class QtTranslationParserTest extends AbstractParserTest {
 
     @Test
     void duplicatedName() {
-        assertThatThrownBy(() -> parse("qttranslation/duplicatedName.ts"))
-                .isInstanceOf(ParsingException.class);
+        assertThatThrownBy(() -> parse("qttranslation/duplicatedName.ts")).isInstanceOf(ParsingException.class);
     }
 
     @Test
     void duplicatedSource() {
-        assertThatThrownBy(() -> parse("qttranslation/duplicatedSource.ts"))
-                .isInstanceOf(ParsingException.class);
+        assertThatThrownBy(() -> parse("qttranslation/duplicatedSource.ts")).isInstanceOf(ParsingException.class);
     }
 
     @Test
@@ -182,14 +177,12 @@ class QtTranslationParserTest extends AbstractParserTest {
 
     @Test
     void missingElementStart() {
-        assertThatThrownBy(() -> parse("qttranslation/missingElementStart.ts"))
-                .isInstanceOf(ParsingException.class);
+        assertThatThrownBy(() -> parse("qttranslation/missingElementStart.ts")).isInstanceOf(ParsingException.class);
     }
 
     @Test
     void missingName() {
-        assertThatThrownBy(() -> parse("qttranslation/missingName.ts"))
-                .isInstanceOf(ParsingException.class);
+        assertThatThrownBy(() -> parse("qttranslation/missingName.ts")).isInstanceOf(ParsingException.class);
     }
 
     @Test
@@ -200,14 +193,12 @@ class QtTranslationParserTest extends AbstractParserTest {
 
     @Test
     void missingSource() {
-        assertThatThrownBy(() -> parse("qttranslation/missingSource.ts"))
-                .isInstanceOf(ParsingException.class);
+        assertThatThrownBy(() -> parse("qttranslation/missingSource.ts")).isInstanceOf(ParsingException.class);
     }
 
     @Test
     void missingTranslation() {
-        assertThatThrownBy(() -> parse("qttranslation/missingTranslation.ts"))
-                .isInstanceOf(ParsingException.class);
+        assertThatThrownBy(() -> parse("qttranslation/missingTranslation.ts")).isInstanceOf(ParsingException.class);
     }
 
     @Test
@@ -233,8 +224,7 @@ class QtTranslationParserTest extends AbstractParserTest {
 
     @Test
     void rootElementHasParent() {
-        assertThatThrownBy(() -> parse("qttranslation/rootElementHasParent.ts"))
-                .isInstanceOf(ParsingException.class);
+        assertThatThrownBy(() -> parse("qttranslation/rootElementHasParent.ts")).isInstanceOf(ParsingException.class);
     }
 
     @Test
@@ -245,7 +235,6 @@ class QtTranslationParserTest extends AbstractParserTest {
 
     @Test
     void wrongParent() {
-        assertThatThrownBy(() -> parse("qttranslation/wrongParent.ts"))
-                .isInstanceOf(ParsingException.class);
+        assertThatThrownBy(() -> parse("qttranslation/wrongParent.ts")).isInstanceOf(ParsingException.class);
     }
 }

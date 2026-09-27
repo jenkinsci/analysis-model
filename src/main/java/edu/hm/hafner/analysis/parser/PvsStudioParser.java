@@ -1,10 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.apache.commons.lang3.StringUtils;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingCanceledException;
@@ -14,7 +9,6 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.parser.PvsStudioParser.PlogMessagesReader.PlogMessage;
 import edu.hm.hafner.analysis.util.IntegerParser;
-
 import java.io.Serial;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,6 +18,10 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
+import org.apache.commons.lang3.StringUtils;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * A parser for the PVS-Studio static analyzer.
@@ -33,6 +31,7 @@ import java.util.stream.Stream;
 public class PvsStudioParser extends IssueParser {
     @Serial
     private static final long serialVersionUID = -7777775729854832128L;
+
     private static final String SEVERITY_HIGH = "1";
     private static final String SEVERITY_NORMAL = "2";
     private static final String SEVERITY_LOW = "3";
@@ -40,14 +39,11 @@ public class PvsStudioParser extends IssueParser {
     private static Severity getSeverity(final String level) {
         if (SEVERITY_HIGH.equals(level)) {
             return Severity.WARNING_HIGH;
-        }
-        else if (SEVERITY_NORMAL.equals(level)) {
+        } else if (SEVERITY_NORMAL.equals(level)) {
             return Severity.WARNING_NORMAL;
-        }
-        else if (SEVERITY_LOW.equals(level)) {
+        } else if (SEVERITY_LOW.equals(level)) {
             return Severity.WARNING_LOW;
-        }
-        else {
+        } else {
             return Severity.ERROR;
         }
     }
@@ -65,7 +61,8 @@ public class PvsStudioParser extends IssueParser {
                 issueBuilder.setMessage(plogMessage.toString());
                 issueBuilder.setCategory(plogMessage.getType());
 
-                issueBuilder.setType(AnalyzerType.fromErrorCode(plogMessage.getType()).getMessage());
+                issueBuilder.setType(
+                        AnalyzerType.fromErrorCode(plogMessage.getType()).getMessage());
 
                 issueBuilder.setLineStart(plogMessage.getLine());
 
@@ -88,9 +85,7 @@ public class PvsStudioParser extends IssueParser {
         /**
          * Getting list messages from the report.
          *
-         * @param readerFactory
-         *         factory containing report file reader
-         *
+         * @param readerFactory factory containing report file reader
          * @return list plog messages
          */
         List<PlogMessage> getMessagesFromReport(final ReaderFactory readerFactory) {
@@ -155,7 +150,8 @@ public class PvsStudioParser extends IssueParser {
 
             msg.level = eElement.getElementsByTagName("Level").item(0).getTextContent();
 
-            msg.lineNumber = IntegerParser.parseInt(eElement.getElementsByTagName("Line").item(0).getTextContent());
+            msg.lineNumber = IntegerParser.parseInt(
+                    eElement.getElementsByTagName("Line").item(0).getTextContent());
             if (msg.lineNumber <= 0) {
                 ++failWarningsCount;
                 return;
@@ -165,12 +161,15 @@ public class PvsStudioParser extends IssueParser {
         }
 
         private boolean skipMessage(final NodeList elements) {
-            return elements != null && elements.item(0) != null
+            return elements != null
+                    && elements.item(0) != null
                     && equalsIgnoreCase(elements.item(0).getTextContent(), "true");
         }
 
         private boolean nodeNotNull(final NodeList elements) {
-            return elements != null && elements.item(0) != null && elements.item(0).getTextContent() != null;
+            return elements != null
+                    && elements.item(0) != null
+                    && elements.item(0).getTextContent() != null;
         }
 
         private boolean errorCodeIsValid(final String errorCode) {
@@ -218,84 +217,52 @@ public class PvsStudioParser extends IssueParser {
      */
     static final class AnalyzerType {
         /**
-         * Diagnosis of 64-bit errors (Viva64, C++).
-         * <a href="https://pvs-studio.com/en/docs/warnings/#64CPP">...</a>
+         * Diagnosis of 64-bit errors (Viva64, C++). <a href="https://pvs-studio.com/en/docs/warnings/#64CPP">...</a>
          */
         private static final int VIVA64_CCPP_ERRORCODE_BEGIN = 100;
         /**
-         * Diagnosis of 64-bit errors (Viva64, C++).
-         * <a href="https://pvs-studio.com/en/docs/warnings/#64CPP">...</a>
+         * Diagnosis of 64-bit errors (Viva64, C++). <a href="https://pvs-studio.com/en/docs/warnings/#64CPP">...</a>
          */
         private static final int VIVA64_CCPP_ERRORCODE_END = 499;
-        /**
-         * General Analysis (C++).
-         * <a href="https://pvs-studio.com/en/docs/warnings/#GeneralAnalysisCPP">...</a>
-         */
+        /** General Analysis (C++). <a href="https://pvs-studio.com/en/docs/warnings/#GeneralAnalysisCPP">...</a> */
         private static final int GENERAL_CCPP_LOW_ERRORCODE_BEGIN = 500;
-        /**
-         * General Analysis (C++).
-         * <a href="https://pvs-studio.com/en/docs/warnings/#GeneralAnalysisCPP">...</a>
-         */
+        /** General Analysis (C++). <a href="https://pvs-studio.com/en/docs/warnings/#GeneralAnalysisCPP">...</a> */
         private static final int GENERAL_CCPP_LOW_ERRORCODE_END = 799;
         /**
-         * Diagnosis of micro-optimizations (C++).
-         * <a href="https://pvs-studio.com/en/docs/warnings/#MicroOptimizationsCPP">...</a>
+         * Diagnosis of micro-optimizations (C++). <a
+         * href="https://pvs-studio.com/en/docs/warnings/#MicroOptimizationsCPP">...</a>
          */
         private static final int OPTIMIZATION_CCPP_ERRORCODE_BEGIN = 800;
         /**
-         * Diagnosis of micro-optimizations (C++).
-         * <a href="https://pvs-studio.com/en/docs/warnings/#MicroOptimizationsCPP">...</a>
+         * Diagnosis of micro-optimizations (C++). <a
+         * href="https://pvs-studio.com/en/docs/warnings/#MicroOptimizationsCPP">...</a>
          */
         private static final int OPTIMIZATION_CCPP_ERRORCODE_END = 999;
-        /**
-         * General Analysis (C++).
-         * <a href="https://pvs-studio.com/en/docs/warnings/">...</a>
-         */
+        /** General Analysis (C++). <a href="https://pvs-studio.com/en/docs/warnings/">...</a> */
         private static final int GENERAL_CCPP_HIGH_ERRORCODE_BEGIN = 1000;
-        /**
-         * General Analysis (C++).
-         * <a href="https://pvs-studio.com/en/docs/warnings/">...</a>
-         */
+        /** General Analysis (C++). <a href="https://pvs-studio.com/en/docs/warnings/">...</a> */
         private static final int GENERAL_CCPP_HIGH_ERRORCODE_END = 1999;
         /**
-         * Customers Specific Requests (C++).
-         * <a href="https://pvs-studio.com/en/docs/warnings/#CustomersSpecificRequestsCPP">...</a>
+         * Customers Specific Requests (C++). <a
+         * href="https://pvs-studio.com/en/docs/warnings/#CustomersSpecificRequestsCPP">...</a>
          */
         private static final int CUSTOMERSPECIFIC_CCPP_ERRORCODE_BEGIN = 2000;
         /**
-         * Customers Specific Requests (C++).
-         * <a href="https://pvs-studio.com/en/docs/warnings/#CustomersSpecificRequestsCPP">...</a>
+         * Customers Specific Requests (C++). <a
+         * href="https://pvs-studio.com/en/docs/warnings/#CustomersSpecificRequestsCPP">...</a>
          */
         private static final int CUSTOMERSPECIFIC_CCPP_ERRORCODE_END = 2499;
-        /**
-         * MISRA errors.
-         * <a href="https://pvs-studio.com/en/docs/warnings/#MISRA">...</a>
-         */
+        /** MISRA errors. <a href="https://pvs-studio.com/en/docs/warnings/#MISRA">...</a> */
         private static final int MISRA_CCPP_ERRORCODE_BEGIN = 2500;
-        /**
-         * MISRA errors.
-         * <a href="https://pvs-studio.com/en/docs/warnings/#MISRA">...</a>
-         */
+        /** MISRA errors. <a href="https://pvs-studio.com/en/docs/warnings/#MISRA">...</a> */
         private static final int MISRA_CCPP_ERRORCODE_END = 2999;
-        /**
-         * General Analysis (C#).
-         * <a href="https://pvs-studio.com/en/docs/warnings/#GeneralAnalysisCS">...</a>
-         */
+        /** General Analysis (C#). <a href="https://pvs-studio.com/en/docs/warnings/#GeneralAnalysisCS">...</a> */
         private static final int GENERAL_CS_ERRORCODE_BEGIN = 3000;
-        /**
-         * General Analysis (C#).
-         * <a href="https://pvs-studio.com/en/docs/warnings/#GeneralAnalysisCS">...</a>
-         */
+        /** General Analysis (C#). <a href="https://pvs-studio.com/en/docs/warnings/#GeneralAnalysisCS">...</a> */
         private static final int GENERAL_CS_ERRORCODE_END = 3499;
-        /**
-         * General Analysis (Java).
-         * <a href="https://pvs-studio.com/en/docs/warnings/#GeneralAnalysisJAVA">...</a>
-         */
+        /** General Analysis (Java). <a href="https://pvs-studio.com/en/docs/warnings/#GeneralAnalysisJAVA">...</a> */
         private static final int GENERAL_JAVA_ERRORCODE_BEGIN = 6000;
-        /**
-         * General Analysis (Java).
-         * <a href="https://pvs-studio.com/en/docs/warnings/#GeneralAnalysisJAVA">...</a>
-         */
+        /** General Analysis (Java). <a href="https://pvs-studio.com/en/docs/warnings/#GeneralAnalysisJAVA">...</a> */
         private static final int GENERAL_JAVA_ERRORCODE_END = 6999;
 
         static final String VIVA_64_MESSAGE = "64-bit";
@@ -309,8 +276,9 @@ public class PvsStudioParser extends IssueParser {
             // prevents instantiation
         }
 
-        private static final AnalysisType[] ANALYSIS_TYPES = {new Viva64(), new General(),
-                new Optimization(), new CustomerSpecific(), new Misra()};
+        private static final AnalysisType[] ANALYSIS_TYPES = {
+            new Viva64(), new General(), new Optimization(), new CustomerSpecific(), new Misra()
+        };
 
         static AnalysisType fromErrorCode(final String errorCodeStr) {
             if (equalsIgnoreCase(errorCodeStr, "External")) {
@@ -327,9 +295,7 @@ public class PvsStudioParser extends IssueParser {
                     .orElse(new Unknown());
         }
 
-        /**
-         * Viva64 AnalysisType.
-         */
+        /** Viva64 AnalysisType. */
         static final class Viva64 implements AnalysisType {
             @Override
             public String getMessage() {
@@ -346,9 +312,7 @@ public class PvsStudioParser extends IssueParser {
             }
         }
 
-        /**
-         * GENERAL AnalysisType.
-         */
+        /** GENERAL AnalysisType. */
         private static final class General implements AnalysisType {
             @Override
             public String getMessage() {
@@ -359,25 +323,20 @@ public class PvsStudioParser extends IssueParser {
             public Optional<AnalysisType> create(final int errorCode) {
                 if (errorCode >= GENERAL_CCPP_LOW_ERRORCODE_BEGIN && errorCode <= GENERAL_CCPP_LOW_ERRORCODE_END) {
                     return Optional.of(new General());
-                }
-                else if (errorCode >= GENERAL_CCPP_HIGH_ERRORCODE_BEGIN && errorCode <= GENERAL_CCPP_HIGH_ERRORCODE_END) {
+                } else if (errorCode >= GENERAL_CCPP_HIGH_ERRORCODE_BEGIN
+                        && errorCode <= GENERAL_CCPP_HIGH_ERRORCODE_END) {
                     return Optional.of(new General());
-                }
-                else if (errorCode >= GENERAL_CS_ERRORCODE_BEGIN && errorCode <= GENERAL_CS_ERRORCODE_END) {
+                } else if (errorCode >= GENERAL_CS_ERRORCODE_BEGIN && errorCode <= GENERAL_CS_ERRORCODE_END) {
                     return Optional.of(new General());
-                }
-                else if (errorCode >= GENERAL_JAVA_ERRORCODE_BEGIN && errorCode <= GENERAL_JAVA_ERRORCODE_END) {
+                } else if (errorCode >= GENERAL_JAVA_ERRORCODE_BEGIN && errorCode <= GENERAL_JAVA_ERRORCODE_END) {
                     return Optional.of(new General());
-                }
-                else {
+                } else {
                     return Optional.empty();
                 }
             }
         }
 
-        /**
-         * OPTIMIZATION AnalysisType.
-         */
+        /** OPTIMIZATION AnalysisType. */
         private static final class Optimization implements AnalysisType {
             @Override
             public String getMessage() {
@@ -394,9 +353,7 @@ public class PvsStudioParser extends IssueParser {
             }
         }
 
-        /**
-         * CustomerSpecific AnalysisType.
-         */
+        /** CustomerSpecific AnalysisType. */
         private static final class CustomerSpecific implements AnalysisType {
             @Override
             public String getMessage() {
@@ -405,7 +362,8 @@ public class PvsStudioParser extends IssueParser {
 
             @Override
             public Optional<AnalysisType> create(final int errorCode) {
-                if (errorCode >= CUSTOMERSPECIFIC_CCPP_ERRORCODE_BEGIN && errorCode <= CUSTOMERSPECIFIC_CCPP_ERRORCODE_END) {
+                if (errorCode >= CUSTOMERSPECIFIC_CCPP_ERRORCODE_BEGIN
+                        && errorCode <= CUSTOMERSPECIFIC_CCPP_ERRORCODE_END) {
                     return Optional.of(new CustomerSpecific());
                 }
 
@@ -413,9 +371,7 @@ public class PvsStudioParser extends IssueParser {
             }
         }
 
-        /**
-         * MISRA AnalysisType.
-         */
+        /** MISRA AnalysisType. */
         private static final class Misra implements AnalysisType {
             @Override
             public String getMessage() {
@@ -432,9 +388,7 @@ public class PvsStudioParser extends IssueParser {
             }
         }
 
-        /**
-         * Unknown AnalysisType.
-         */
+        /** Unknown AnalysisType. */
         private static final class Unknown implements AnalysisType {
             @Override
             public String getMessage() {

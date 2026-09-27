@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.assertThat;
+import static edu.hm.hafner.analysis.assertions.Assertions.assertThatThrownBy;
 
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingException;
@@ -8,12 +9,9 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
+import org.junit.jupiter.api.Test;
 
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
-
-/**
- * Tests the class {@link YoctoScannerParser}.
- */
+/** Tests the class {@link YoctoScannerParser}. */
 class YoctoScannerParserTest extends AbstractParserTest {
     YoctoScannerParserTest() {
         super("yocto_scanner_result.json");
@@ -28,13 +26,13 @@ class YoctoScannerParserTest extends AbstractParserTest {
                 .hasFileName("acl")
                 .hasType("CVE-2009-4411")
                 .hasDescription("<div><b>Package: </b>acl</div> <div><b>Version: </b>2.3.2</div>"
-                                + " <div><b>Link: </b><a href=\"https://nvd.nist.gov/vuln/detail/CVE-2009-4411\""
-                                + ">https://nvd.nist.gov/vuln/detail/CVE-2009-4411</a></div>"
-                                + " <div><b>Yocto Layer: </b>meta</div> <div><b>Vector: </b>LOCAL</div> <p>"
-                                + "The (1) setfacl and (2) getfacl commands in XFS acl 2.2.47, when running"
-                                + " in recursive (-R) mode, follow symbolic links even when the --physical"
-                                + " (aka -P) or -L option is specified, which might allow local users to modify"
-                                + " the ACL for arbitrary files or directories via a symlink attack.</p>");
+                        + " <div><b>Link: </b><a href=\"https://nvd.nist.gov/vuln/detail/CVE-2009-4411\""
+                        + ">https://nvd.nist.gov/vuln/detail/CVE-2009-4411</a></div>"
+                        + " <div><b>Yocto Layer: </b>meta</div> <div><b>Vector: </b>LOCAL</div> <p>"
+                        + "The (1) setfacl and (2) getfacl commands in XFS acl 2.2.47, when running"
+                        + " in recursive (-R) mode, follow symbolic links even when the --physical"
+                        + " (aka -P) or -L option is specified, which might allow local users to modify"
+                        + " the ACL for arbitrary files or directories via a symlink attack.</p>");
         softly.assertThat(report.get(3))
                 .hasSeverity(Severity.WARNING_NORMAL)
                 .hasFileName("automake-native")

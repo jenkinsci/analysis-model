@@ -1,19 +1,17 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.apache.commons.lang3.StringUtils;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import static j2html.TagCreator.*;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-
 import j2html.tags.ContainerTag;
 import j2html.tags.DomContent;
 import java.io.Serial;
-
-import static j2html.TagCreator.*;
+import org.apache.commons.lang3.StringUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * A parser for EsLint JSON files.
@@ -99,8 +97,7 @@ public class EsLintParser extends JsonIssueParser {
     private static Severity toSeverity(final int severity) {
         if (severity == 1) {
             return Severity.WARNING_NORMAL;
-        }
-        else {
+        } else {
             return Severity.ERROR;
         }
     }

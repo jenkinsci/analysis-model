@@ -1,6 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.assertThat;
 
 import edu.hm.hafner.analysis.DuplicationGroup;
 import edu.hm.hafner.analysis.Issue;
@@ -8,55 +8,54 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
+import org.junit.jupiter.api.Test;
 
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
-
-/**
- * Tests the extraction of PMD's CPD analysis results.
- */
+/** Tests the extraction of PMD's CPD analysis results. */
 @SuppressWarnings("NullAway")
 class CpdParserTest extends AbstractParserTest {
-    private static final String FILE_NAME_REPORTER = "/home/ulli/Hudson/jobs/M-Single-Freestyle/workspace/src/main/java/hudson/plugins/warnings/util/HealthAwareMavenReporter.java";
-    private static final String FILE_NAME_PUBLISHER = "/home/ulli/Hudson/jobs/M-Single-Freestyle/workspace/src/main/java/hudson/plugins/warnings/util/HealthAwarePublisher.java";
+    private static final String FILE_NAME_REPORTER =
+            "/home/ulli/Hudson/jobs/M-Single-Freestyle/workspace/src/main/java/hudson/plugins/warnings/util/HealthAwareMavenReporter.java";
+    private static final String FILE_NAME_PUBLISHER =
+            "/home/ulli/Hudson/jobs/M-Single-Freestyle/workspace/src/main/java/hudson/plugins/warnings/util/HealthAwarePublisher.java";
     private static final String CODE_FRAGMENT = """
             #
-            
+
                 ERROR HANDLING: N/A
                 #
                 REMARKS: N/A
                 #
                 ****************************** END HEADER *************************************
                 #
-            
+
                 ***************************** BEGIN PDL ***************************************
                 #
                 ****************************** END PDL ****************************************
                 #
-            
+
                 ***************************** BEGIN CODE **************************************
                 **
                 *******************************************************************************
-            
+
                 *******************************************************************************
                 *******************************************************************************
-            
+
             if [ $# -lt 3 ]
             then
             exit 1
             fi
-            
+
                 *******************************************************************************
                 initialize local variables
                 shift input parameter (twice) to leave only files to copy
                 *******************************************************************************
-            
+
             files=""
             shift
             shift
-            
+
                 *******************************************************************************
                 *******************************************************************************
-            
+
             for i in $*
             do
             files="$files $directory/$i"
@@ -80,14 +79,16 @@ class CpdParserTest extends AbstractParserTest {
         var reporterSecond = report.get(2);
         var publisherSecond = report.get(3);
         softly.assertThat(reporterSecond)
-                .hasLineStart(274).hasLineEnd(274 + 95 - 1)
+                .hasLineStart(274)
+                .hasLineEnd(274 + 95 - 1)
                 .hasFileName(FILE_NAME_REPORTER)
                 .hasSeverity(Severity.WARNING_HIGH)
                 .hasMessage("Found duplicated code.")
                 .hasCategory("Code Duplication")
                 .hasType("CPD");
         softly.assertThat(publisherSecond)
-                .hasLineStart(202).hasLineEnd(202 + 95 - 1)
+                .hasLineStart(202)
+                .hasLineEnd(202 + 95 - 1)
                 .hasFileName(FILE_NAME_PUBLISHER)
                 .hasSeverity(Severity.WARNING_HIGH)
                 .hasMessage("Found duplicated code.")
@@ -96,8 +97,10 @@ class CpdParserTest extends AbstractParserTest {
 
         var additionalProperties = publisherSecond.getAdditionalProperties();
         softly.assertThat(additionalProperties).isEqualTo(reporterSecond.getAdditionalProperties());
-        softly.assertThat(additionalProperties).isInstanceOfSatisfying(DuplicationGroup.class,
-                duplicationGroup -> assertThat(duplicationGroup.getCodeFragment()).isNotEmpty());
+        softly.assertThat(additionalProperties)
+                .isInstanceOfSatisfying(
+                        DuplicationGroup.class, duplicationGroup -> assertThat(duplicationGroup.getCodeFragment())
+                                .isNotEmpty());
     }
 
     @Test
@@ -139,12 +142,14 @@ class CpdParserTest extends AbstractParserTest {
         assertThat(report).hasSize(2);
         var first = report.get(0);
         assertThat(first)
-                .hasLineStart(19).hasLineEnd(19 + 68 - 1)
+                .hasLineStart(19)
+                .hasLineEnd(19 + 68 - 1)
                 .hasFileName("csci07/csc60/remote_copy.sh")
                 .hasSeverity(Severity.WARNING_HIGH);
         var second = report.get(1);
         assertThat(second)
-                .hasLineStart(19).hasLineEnd(19 + 68 - 1)
+                .hasLineStart(19)
+                .hasLineEnd(19 + 68 - 1)
                 .hasFileName("csci08/csc90/remote_copy.sh")
                 .hasSeverity(Severity.WARNING_HIGH);
 
@@ -171,9 +176,7 @@ class CpdParserTest extends AbstractParserTest {
         assertThat(report).hasSize(8);
     }
 
-    /**
-     * Verifies the parser on a report that contains 1 duplication (i.e., 2 warnings).
-     */
+    /** Verifies the parser on a report that contains 1 duplication (i.e., 2 warnings). */
     @Test
     void scanFileWithOneDuplication() {
         var report = parseCpd("one-cpd.xml");
@@ -183,14 +186,16 @@ class CpdParserTest extends AbstractParserTest {
         assertThatReporterAndPublisherDuplicationsAreCorrectlyLinked(report.get(0), report.get(1));
     }
 
-    private void assertThatReporterAndPublisherDuplicationsAreCorrectlyLinked(final Issue reporterFirst,
-            final Issue publisherFirst) {
+    private void assertThatReporterAndPublisherDuplicationsAreCorrectlyLinked(
+            final Issue reporterFirst, final Issue publisherFirst) {
         assertThat(reporterFirst)
-                .hasLineStart(76).hasLineEnd(76 + 36 - 1)
+                .hasLineStart(76)
+                .hasLineEnd(76 + 36 - 1)
                 .hasFileName(FILE_NAME_REPORTER)
                 .hasSeverity(Severity.WARNING_NORMAL);
         assertThat(publisherFirst)
-                .hasLineStart(69).hasLineEnd(69 + 36 - 1)
+                .hasLineStart(69)
+                .hasLineEnd(69 + 36 - 1)
                 .hasFileName(FILE_NAME_PUBLISHER)
                 .hasSeverity(Severity.WARNING_NORMAL);
         var additionalProperties = reporterFirst.getAdditionalProperties();

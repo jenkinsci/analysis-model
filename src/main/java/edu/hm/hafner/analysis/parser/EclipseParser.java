@@ -1,20 +1,18 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.apache.commons.lang3.Strings;
-
 import edu.hm.hafner.analysis.Categories;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.util.LookaheadStream;
-
 import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.apache.commons.lang3.Strings;
 
 /**
  * A parser for Eclipse compiler warnings.
@@ -41,9 +39,7 @@ public class EclipseParser extends LookaheadParser {
         return !isXmlFile(readerFactory);
     }
 
-    /**
-     * Creates a new instance of {@link EclipseParser}.
-     */
+    /** Creates a new instance of {@link EclipseParser}. */
     public EclipseParser() {
         super(ECLIPSE_FIRST_LINE_REGEXP);
     }
@@ -54,8 +50,8 @@ public class EclipseParser extends LookaheadParser {
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
-            final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(
+            final Matcher matcher, final LookaheadStream lookahead, final IssueBuilder builder) {
         builder.guessSeverity(matcher.group("severity"))
                 .setFileName(matcher.group("file"))
                 .setLineStart(matcher.group("line"));
@@ -86,16 +82,13 @@ public class EclipseParser extends LookaheadParser {
      * Sets the issue's category to {@code Javadoc} if the message starts with {@value #JAVADOC_PREFIX}, {@code Other}
      * otherwise. Unlike {@link #extractMessage(IssueBuilder, String)}, the {@code message} is assumed to be cleaned-up.
      *
-     * @param builder
-     *     IssueBuilder to populate.
-     * @param message
-     *     issue to examine.
+     * @param builder IssueBuilder to populate.
+     * @param message issue to examine.
      */
     static void extractCategory(final IssueBuilder builder, final String message) {
         if (Strings.CS.startsWith(message, JAVADOC_PREFIX)) {
             builder.setCategory(Categories.JAVADOC);
-        }
-        else {
+        } else {
             builder.setCategory(Categories.OTHER);
         }
     }

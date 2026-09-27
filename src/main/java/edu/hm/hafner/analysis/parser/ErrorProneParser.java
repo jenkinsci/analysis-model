@@ -1,19 +1,17 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.apache.commons.lang3.Strings;
+import static j2html.TagCreator.*;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.util.LookaheadStream;
-
 import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static j2html.TagCreator.*;
+import org.apache.commons.lang3.Strings;
 
 /**
  * A parser for ErrorProne warnings during a Maven build.
@@ -26,8 +24,7 @@ public class ErrorProneParser extends LookaheadParser {
 
     private static final Pattern URL_PATTERN = Pattern.compile("\\s+\\(see (?<url>http\\S+)\\s*\\)");
     private static final Pattern FIX_PATTERN = Pattern.compile("\\s+Did you mean '(?<code>.*)'\\?");
-    private static final String WARNINGS_PATTERN
-            = "^(?:\\[\\p{Alnum}*\\]\\s+)?"
+    private static final String WARNINGS_PATTERN = "^(?:\\[\\p{Alnum}*\\]\\s+)?"
             + "\\[(?<severity>WARNING|ERROR)\\]\\s+"
             + "(?<file>.+):"
             + "\\[(?<line>\\d+)(?:,(?<column>\\d+))?\\]\\s+"
@@ -35,16 +32,15 @@ public class ErrorProneParser extends LookaheadParser {
             + "(?<message>.*)";
     private static final String SEE_ERROR_PRONE_DOCUMENTATION = "See ErrorProne documentation.";
 
-    /**
-     * Creates a new instance of {@link ErrorProneParser}.
-     */
+    /** Creates a new instance of {@link ErrorProneParser}. */
     public ErrorProneParser() {
         super(WARNINGS_PATTERN);
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
-            final IssueBuilder builder) throws ParsingException {
+    protected Optional<Issue> createIssue(
+            final Matcher matcher, final LookaheadStream lookahead, final IssueBuilder builder)
+            throws ParsingException {
         var description = createDescription(lookahead);
         if (description.contains(SEE_ERROR_PRONE_DOCUMENTATION)) {
             builder.setFileName(matcher.group("file"))
@@ -66,9 +62,7 @@ public class ErrorProneParser extends LookaheadParser {
     /**
      * Extracts the description of a warning.
      *
-     * @param lookahead
-     *         the input stream
-     *
+     * @param lookahead the input stream
      * @return the description
      */
     static String createDescription(final LookaheadStream lookahead) {
@@ -79,19 +73,16 @@ public class ErrorProneParser extends LookaheadParser {
             var line = lookahead.next();
             var urlMatcher = URL_PATTERN.matcher(line);
             if (urlMatcher.matches()) {
-                url.append(p().with(a()
-                        .withHref(urlMatcher.group("url"))
-                        .withText(SEE_ERROR_PRONE_DOCUMENTATION)).render());
+                url.append(p().with(a().withHref(urlMatcher.group("url")).withText(SEE_ERROR_PRONE_DOCUMENTATION))
+                        .render());
                 urlFound = true;
-            }
-            else {
+            } else {
                 var fixMatcher = FIX_PATTERN.matcher(line);
                 if (fixMatcher.matches()) {
                     description.append("Did you mean: ");
-                    description.append(pre().with(
-                            code().withText(fixMatcher.group("code"))).render());
-                }
-                else if (urlFound) {
+                    description.append(pre().with(code().withText(fixMatcher.group("code")))
+                            .render());
+                } else if (urlFound) {
                     description.append(line);
                 }
             }

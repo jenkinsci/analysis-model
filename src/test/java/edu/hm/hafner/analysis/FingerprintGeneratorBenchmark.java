@@ -1,14 +1,13 @@
 package edu.hm.hafner.analysis;
 
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.Random;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Level;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
-
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.util.Random;
 
 /**
  * JMH Benchmarking of the {@link FingerprintGenerator}.
@@ -21,8 +20,7 @@ public class FingerprintGeneratorBenchmark extends AbstractBenchmark {
     /**
      * Benchmarking the {@link FingerprintGenerator} with one issue.
      *
-     * @param state
-     *         a {@link BenchmarkState} object containing the report
+     * @param state a {@link BenchmarkState} object containing the report
      */
     @Benchmark
     public void benchmarkingOneIssue(final BenchmarkState state) {
@@ -34,8 +32,7 @@ public class FingerprintGeneratorBenchmark extends AbstractBenchmark {
     /**
      * Benchmarking the {@link FingerprintGenerator} with multiple issues.
      *
-     * @param state
-     *         a {@link BenchmarkState} object containing the report
+     * @param state a {@link BenchmarkState} object containing the report
      */
     @Benchmark
     public void benchmarkingMultipleIssues(final BenchmarkState state) {
@@ -44,9 +41,7 @@ public class FingerprintGeneratorBenchmark extends AbstractBenchmark {
         generator.run(new FullTextFingerprint(), state.getMultipleIssuesReport(), CHARSET_AFFECTED_FILE);
     }
 
-    /**
-     * State for the benchmark containing all preconfigured and necessary objects.
-     */
+    /** State for the benchmark containing all preconfigured and necessary objects. */
     @State(Scope.Benchmark)
     public static class BenchmarkState {
         // TODO: Add some meaningful content into the file to fingerprint
@@ -55,6 +50,7 @@ public class FingerprintGeneratorBenchmark extends AbstractBenchmark {
         private Report singleIssueReport = new Report();
         private FullTextFingerprint fingerprint = new FullTextFingerprint();
         private Report multipleIssuesReport = new Report();
+
         @SuppressWarnings("NullAway")
         private Random random;
 
@@ -70,9 +66,7 @@ public class FingerprintGeneratorBenchmark extends AbstractBenchmark {
             return fingerprint;
         }
 
-        /**
-         * Initializes the reports.
-         */
+        /** Initializes the reports. */
         @Setup(Level.Iteration)
         public void doSetup() {
             singleIssueReport = new Report();

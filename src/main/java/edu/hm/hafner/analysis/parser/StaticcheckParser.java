@@ -1,13 +1,11 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
-
 import java.io.Serial;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * A parser for Staticcheck JSON output.
@@ -34,8 +32,7 @@ public class StaticcheckParser extends JsonIssueParser {
     protected void parseJsonObject(final Report report, final JSONObject jsonReport, final IssueBuilder issueBuilder) {
         if (jsonReport.has(DIAGNOSTICS)) {
             parseDiagnostics(report, jsonReport.getJSONArray(DIAGNOSTICS), issueBuilder);
-        }
-        else if (looksLikeIssue(jsonReport)) {
+        } else if (looksLikeIssue(jsonReport)) {
             report.add(convertToIssue(jsonReport, issueBuilder));
         }
     }
@@ -59,7 +56,8 @@ public class StaticcheckParser extends JsonIssueParser {
     }
 
     private Issue convertToIssue(final JSONObject jsonIssue, final IssueBuilder issueBuilder) {
-        issueBuilder.setType(jsonIssue.optString(CODE, "-"))
+        issueBuilder
+                .setType(jsonIssue.optString(CODE, "-"))
                 .guessSeverity(jsonIssue.optString(SEVERITY, "warning"))
                 .setMessage(jsonIssue.optString(MESSAGE));
 

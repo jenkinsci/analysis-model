@@ -1,18 +1,15 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.assertThat;
 
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
+import org.junit.jupiter.api.Test;
 
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
-
-/**
- * Tests the class {@link XlcParserTest}.
- */
+/** Tests the class {@link XlcParserTest}. */
 class XlcParserTest extends AbstractParserTest {
     private static final String FILE_NAME = "-";
 
@@ -36,9 +33,7 @@ class XlcParserTest extends AbstractParserTest {
                 .hasFileName("file.c");
     }
 
-    /**
-     * Parses a string with xlC error.
-     */
+    /** Parses a string with xlC error. */
     @Test
     void testWarningsParserSevereError() {
         var warnings = parseString("file.c, line 11.18: 1506-189 (S) Floating point constant 10.23.3 is not valid");
@@ -54,9 +49,7 @@ class XlcParserTest extends AbstractParserTest {
         }
     }
 
-    /**
-     * Parses a string with xlC error in z/OS message format.
-     */
+    /** Parses a string with xlC error in z/OS message format. */
     @Test
     void testWarningsParserSevereErrorZOS() {
         var warnings = parseString(
@@ -73,9 +66,7 @@ class XlcParserTest extends AbstractParserTest {
         }
     }
 
-    /**
-     * Parses a string with xlC unrecoverable error.
-     */
+    /** Parses a string with xlC unrecoverable error. */
     @Test
     void testWarningsParserUnrecoverableError() {
         var warnings2 = parseString("file.c, line 5.1: 1506-001 (U) INTERNAL COMPILER ERROR");
@@ -118,9 +109,7 @@ class XlcParserTest extends AbstractParserTest {
         }
     }
 
-    /**
-     * Parses a string with xlC warning.
-     */
+    /** Parses a string with xlC warning. */
     @Test
     void testWarningsParserWarning() {
         var warnings = parseString("file.c, line 5.9: 1506-304 (W) No function prototype given for \"printf\".");
@@ -136,9 +125,7 @@ class XlcParserTest extends AbstractParserTest {
         }
     }
 
-    /**
-     * Parses a string with xlC warning message in z/OS format.
-     */
+    /** Parses a string with xlC warning message in z/OS format. */
     @Test
     void testWarningsParserWarningZOS() {
         var warnings1 = parseString(
@@ -154,8 +141,8 @@ class XlcParserTest extends AbstractParserTest {
                     .hasFileName("./Testapi.cpp");
         }
 
-        var warnings = parseString(
-                "CCN7504(W) \"//''\" is not a valid suboption for \"SEARCH\".  The option is ignored.");
+        var warnings =
+                parseString("CCN7504(W) \"//''\" is not a valid suboption for \"SEARCH\".  The option is ignored.");
 
         try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
@@ -168,13 +155,11 @@ class XlcParserTest extends AbstractParserTest {
         }
     }
 
-    /**
-     * Parses a string with xlC informational message.
-     */
+    /** Parses a string with xlC informational message. */
     @Test
     void testWarningsParserInfo() {
-        var warnings2 = parseString(
-                "file.c, line 12.9: 1506-478 (I) The then branch of conditional is an empty statement.");
+        var warnings2 =
+                parseString("file.c, line 12.9: 1506-478 (I) The then branch of conditional is an empty statement.");
 
         try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings2.get(0))
@@ -200,8 +185,7 @@ class XlcParserTest extends AbstractParserTest {
                     .hasFileName(FILE_NAME);
         }
 
-        var warnings = parseString(
-                "1540-5336 (I) Global variable \"__td __td__Q2_3std13runtime_error\" is not used.");
+        var warnings = parseString("1540-5336 (I) Global variable \"__td __td__Q2_3std13runtime_error\" is not used.");
 
         try (var softly = new SoftAssertions()) {
             softly.assertThat(warnings.get(0))
@@ -214,9 +198,7 @@ class XlcParserTest extends AbstractParserTest {
         }
     }
 
-    /**
-     * Parses a string with xlC informational message in z/OS format.
-     */
+    /** Parses a string with xlC informational message in z/OS format. */
     @Test
     void testWarningsParserInfoZOS1() {
         var warnings1 = parseString(

@@ -1,16 +1,14 @@
 package edu.hm.hafner.analysis;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import static org.mockito.Mockito.*;
 
 import edu.hm.hafner.util.PackageDetectorFactory;
 import edu.hm.hafner.util.PackageDetectorFactory.FileSystemFacade;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
-import static org.mockito.Mockito.*;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the class {@link PackageNameResolver}.
@@ -20,8 +18,10 @@ import static org.mockito.Mockito.*;
 class PackageNameResolverTest {
     private static final String FILE_NO_PACKAGE = "one.java";
     private static final String FILE_WITH_PACKAGE = "two.java";
-    private static final Issue ISSUE_WITHOUT_PACKAGE = new IssueBuilder().setFileName(FILE_NO_PACKAGE).build();
-    private static final Issue ISSUE_WITH_PACKAGE = new IssueBuilder().setFileName(FILE_WITH_PACKAGE)
+    private static final Issue ISSUE_WITHOUT_PACKAGE =
+            new IssueBuilder().setFileName(FILE_NO_PACKAGE).build();
+    private static final Issue ISSUE_WITH_PACKAGE = new IssueBuilder()
+            .setFileName(FILE_WITH_PACKAGE)
             .setPackageName("existing")
             .build();
 
@@ -83,8 +83,8 @@ class PackageNameResolverTest {
 
     private FileSystemFacade createFileSystemStub() throws IOException {
         var fileSystemStub = mock(FileSystemFacade.class);
-        when(fileSystemStub.openFile(FILE_NO_PACKAGE)).thenAnswer(
-                r -> new ByteArrayInputStream("package a.name;".getBytes(StandardCharsets.UTF_8)));
+        when(fileSystemStub.openFile(FILE_NO_PACKAGE))
+                .thenAnswer(r -> new ByteArrayInputStream("package a.name;".getBytes(StandardCharsets.UTF_8)));
         return fileSystemStub;
     }
 

@@ -1,6 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Location;
@@ -8,10 +8,8 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.util.LineRange;
-
 import java.util.Iterator;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the class {@link XmlParser}.
@@ -24,9 +22,7 @@ class XmlParserTest extends StructuredFileParserTest {
     private static final String ISSUES_INCOMPATIBLE_VALUE = "xmlParserIncompatibleValues.xml";
     private static final String CUSTOM_PATH = "/analysisReport/elements/issue";
 
-    /**
-     * Creates a new instance of {@link XmlParserTest}.
-     */
+    /** Creates a new instance of {@link XmlParserTest}. */
     XmlParserTest() {
         super(ISSUES_DEFAULT_FILE);
     }
@@ -54,10 +50,7 @@ class XmlParserTest extends StructuredFileParserTest {
                 .hasAdditionalProperties("")
                 .hasReference("")
                 .hasLineRanges(new LineRange(5, 6))
-                .hasLocations(
-                        new Location("file-name", 1, 2, 3, 4),
-                        new Location("file-name", 5, 6, 0, 0)
-                );
+                .hasLocations(new Location("file-name", 1, 2, 3, 4), new Location("file-name", 5, 6, 0, 0));
     }
 
     @Override
@@ -86,10 +79,7 @@ class XmlParserTest extends StructuredFileParserTest {
                 .hasFingerprint("fingerprint")
                 .hasAdditionalProperties("")
                 .hasLineRanges(new LineRange(5, 6))
-                .hasLocations(
-                        new Location("file-name", 1, 2, 3, 4),
-                        new Location("another-file-name", 5, 6, 0, 0)
-                );
+                .hasLocations(new Location("file-name", 1, 2, 3, 4), new Location("another-file-name", 5, 6, 0, 0));
     }
 
     @Test
@@ -98,8 +88,7 @@ class XmlParserTest extends StructuredFileParserTest {
         var report = parser.parseReport(createReaderFactory(ISSUES_CUSTOM_PATH_FILE));
         var iterator = report.iterator();
         try (var softly = new SoftAssertions()) {
-            softly.assertThat(report)
-                    .hasSize(2);
+            softly.assertThat(report).hasSize(2);
             softly.assertThat(iterator.next())
                     .hasFileName("file-name")
                     .hasLineStart(1)
@@ -138,7 +127,8 @@ class XmlParserTest extends StructuredFileParserTest {
 
     @Test
     void shouldAcceptSampleFile() {
-        assertThat(createParser().accepts(createReaderFactory(ISSUES_DEFAULT_FILE))).isTrue();
+        assertThat(createParser().accepts(createReaderFactory(ISSUES_DEFAULT_FILE)))
+                .isTrue();
     }
 
     @Test
@@ -146,8 +136,7 @@ class XmlParserTest extends StructuredFileParserTest {
         var report = createParser().parseReport(createReaderFactory(ISSUES_INCOMPATIBLE_VALUE));
         Iterator<Issue> iterator = report.iterator();
         try (var softly = new SoftAssertions()) {
-            softly.assertThat(report)
-                    .hasSize(1);
+            softly.assertThat(report).hasSize(1);
             softly.assertThat(iterator.next())
                     .hasFileName("-")
                     .hasLineStart(0)

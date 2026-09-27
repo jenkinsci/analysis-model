@@ -1,6 +1,4 @@
-/**
- * The available parsers. For each report a different parser is provided.
- */
+/** The available parsers. For each report a different parser is provided. */
 @DefaultAnnotation(NonNull.class)
 package edu.hm.hafner.analysis.parser;
 

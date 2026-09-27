@@ -6,10 +6,8 @@ import edu.hm.hafner.analysis.parser.GccParser;
 /**
  * A descriptor for legacy GNU C Compiler (gcc) versions older than GCC 4.
  *
- * <p>
- * This parser is designed for very old GCC compilers (pre-GCC 4) that use a different output format. 
- * For modern GCC versions (4 and newer, including GCC 5–15), use the "gcc" parser instead.
- * </p>
+ * <p>This parser is designed for very old GCC compilers (pre-GCC 4) that use a different output format. For modern GCC
+ * versions (4 and newer, including GCC 5–15), use the "gcc" parser instead.
  *
  * @author Lorenz Munsch
  */

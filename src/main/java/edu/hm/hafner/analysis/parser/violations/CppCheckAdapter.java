@@ -5,7 +5,6 @@ import edu.hm.hafner.analysis.Location;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.util.IntegerParser;
 import edu.hm.hafner.util.TreeStringBuilder;
-
 import java.io.Serial;
 import java.util.Comparator;
 import java.util.List;
@@ -22,6 +21,7 @@ import se.bjurr.violations.lib.parsers.CPPCheckParser;
 public class CppCheckAdapter extends AbstractViolationAdapter {
     @Serial
     private static final long serialVersionUID = 2244442395053328008L;
+
     private static final String ORDER_KEY = "order";
 
     @Override
@@ -32,8 +32,7 @@ public class CppCheckAdapter extends AbstractViolationAdapter {
     @Override
     Report convertToReport(final Set<Violation> violations) {
         try (var issueBuilder = new IssueBuilder()) {
-            var violationsPerGroup = violations.stream()
-                    .collect(Collectors.groupingBy(Violation::getGroup));
+            var violationsPerGroup = violations.stream().collect(Collectors.groupingBy(Violation::getGroup));
 
             var report = new Report();
             var fileNames = new TreeStringBuilder();
@@ -52,33 +51,26 @@ public class CppCheckAdapter extends AbstractViolationAdapter {
     }
 
     /**
-     * Sorts violations by their insertion order as recorded by the CppCheck parser.
-     * The parser adds an "order" property to each violation to preserve the original order from the XML file.
+     * Sorts violations by their insertion order as recorded by the CppCheck parser. The parser adds an "order" property
+     * to each violation to preserve the original order from the XML file.
      *
-     * @param group
-     *         the list of violations in the same group
-     *
+     * @param group the list of violations in the same group
      * @return the violations sorted by their insertion order
      */
     private List<Violation> sortByInsertionOrder(final List<Violation> group) {
-        return group.stream()
-                .sorted(Comparator.comparingInt(this::getOrder))
-                .toList();
+        return group.stream().sorted(Comparator.comparingInt(this::getOrder)).toList();
     }
 
     /**
      * Extracts the order property from a violation.
      *
-     * @param violation
-     *         the violation
-     *
+     * @param violation the violation
      * @return the order of the violation, or Integer.MAX_VALUE if not present
      */
     private int getOrder(final Violation violation) {
         try {
             return IntegerParser.parseInt(violation.getSpecifics().getOrDefault(ORDER_KEY, "0"));
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             return Integer.MAX_VALUE;
         }
     }

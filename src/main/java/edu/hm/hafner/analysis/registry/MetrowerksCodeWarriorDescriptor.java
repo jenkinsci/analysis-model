@@ -1,10 +1,9 @@
 package edu.hm.hafner.analysis.registry;
 
-import java.util.Collection;
-
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.MetrowerksCwCompilerParser;
 import edu.hm.hafner.analysis.parser.MetrowerksCwLinkerParser;
+import java.util.Collection;
 
 /**
  * A descriptor for the Metrowerks CodeWarrior compiler.

@@ -1,17 +1,15 @@
 package edu.hm.hafner.analysis;
 
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.*;
 
 import edu.hm.hafner.util.LineRange;
 import edu.hm.hafner.util.LineRangeList;
 import edu.hm.hafner.util.SerializableTest;
 import edu.hm.hafner.util.TreeString;
-
 import java.io.IOException;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
-
-import static org.assertj.core.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the class {@link DuplicationGroup}.
@@ -103,11 +101,13 @@ class DuplicationGroupTest extends SerializableTest<DuplicationGroup> {
             red.add(new LineRange(1));
             var blue = new LineRangeList();
             blue.add(new LineRange(2));
-            EqualsVerifier
-                    .forClass(DuplicationGroup.class)
+            EqualsVerifier.forClass(DuplicationGroup.class)
                     .withOnlyTheseFields("codeFragment")
                     .withPrefabValues(LineRangeList.class, red, blue)
-                    .withPrefabValues(Issue.class, builder.setFileName("red").build(), builder.setFileName("blue").build())
+                    .withPrefabValues(
+                            Issue.class,
+                            builder.setFileName("red").build(),
+                            builder.setFileName("blue").build())
                     .withPrefabValues(TreeString.class, TreeString.valueOf("red"), TreeString.valueOf("blue"))
                     .suppress(Warning.NONFINAL_FIELDS)
                     .verify();
@@ -118,11 +118,8 @@ class DuplicationGroupTest extends SerializableTest<DuplicationGroup> {
      * Serializes a code duplication to a file. Use this method in case the properties have been changed and the
      * readResolve method has been adapted accordingly so that the old serialization still can be read.
      *
-     * @param args
-     *         not used
-     *
-     * @throws IOException
-     *         if the file could not be written
+     * @param args not used
+     * @throws IOException if the file could not be written
      */
     public static void main(final String... args) throws IOException {
         new DuplicationGroupTest().createSerializationFile();

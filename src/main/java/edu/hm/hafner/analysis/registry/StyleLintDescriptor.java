@@ -3,12 +3,12 @@ package edu.hm.hafner.analysis.registry;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.CheckStyleParser;
 import edu.hm.hafner.analysis.parser.StyleLintParser;
-
 import java.util.Collection;
 import java.util.List;
 
 /**
- * A descriptor for Stylelint. Supports json format {@link StyleLintParser} and for backward compatibility checkstyle {@link CheckStyleParser}.
+ * A descriptor for Stylelint. Supports json format {@link StyleLintParser} and for backward compatibility checkstyle
+ * {@link CheckStyleParser}.
  *
  * @author Alexander Brandes
  */

@@ -1,25 +1,32 @@
 package edu.hm.hafner.analysis.parser.violations;
 
+import static j2html.TagCreator.attrs;
+import static j2html.TagCreator.br;
+import static j2html.TagCreator.div;
+import static j2html.TagCreator.h4;
+import static j2html.TagCreator.iff;
+import static j2html.TagCreator.p;
+import static j2html.TagCreator.pre;
+import static j2html.TagCreator.table;
+import static j2html.TagCreator.td;
+import static j2html.TagCreator.text;
+import static j2html.TagCreator.tr;
+
+import edu.hm.hafner.analysis.IssueBuilder;
+import edu.hm.hafner.analysis.Report;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+import j2html.tags.ContainerTag;
+import j2html.tags.DomContentJoiner;
 import java.io.Serial;
 import java.util.Map;
 import java.util.Set;
-
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
-
-import edu.hm.hafner.analysis.IssueBuilder;
-import edu.hm.hafner.analysis.Report;
-import edu.umd.cs.findbugs.annotations.CheckForNull;
-
-import j2html.tags.ContainerTag;
-import j2html.tags.DomContentJoiner;
 import se.bjurr.violations.lib.model.Violation;
 import se.bjurr.violations.lib.parsers.ValgrindParser;
-
-import static j2html.TagCreator.*;
 
 /**
  * Parses Valgrind XML report files.
@@ -29,6 +36,7 @@ import static j2html.TagCreator.*;
 public class ValgrindAdapter extends AbstractViolationAdapter {
     @Serial
     private static final long serialVersionUID = -6117336551972081612L;
+
     private static final int NUMBERED_STACK_THRESHOLD = 2;
     private static final int NO_LINE = -1;
 
@@ -42,7 +50,7 @@ public class ValgrindAdapter extends AbstractViolationAdapter {
         try (var issueBuilder = new IssueBuilder()) {
             var report = new Report();
 
-            for (Violation violation: violations) {
+            for (Violation violation : violations) {
                 updateIssueBuilder(violation, issueBuilder);
                 issueBuilder.setCategory("valgrind:" + violation.getReporter());
                 issueBuilder.setDescription(generateDescriptionHtml(violation));
@@ -60,20 +68,29 @@ public class ValgrindAdapter extends AbstractViolationAdapter {
         return DomContentJoiner.join(
                         "",
                         false,
-                        generateGeneralTableHtml(violation.getSource(), violation.getGroup(), specifics.get("tid"), specifics.get("threadname"), auxWhats),
+                        generateGeneralTableHtml(
+                                violation.getSource(),
+                                violation.getGroup(),
+                                specifics.get("tid"),
+                                specifics.get("threadname"),
+                                auxWhats),
                         maybeGenerateStackTracesHtml(specifics.get("stacks"), violation.getMessage(), auxWhats),
-                        maybeGenerateSuppressionHtml(specifics.get("suppression"))
-                ).render();
+                        maybeGenerateSuppressionHtml(specifics.get("suppression")))
+                .render();
     }
 
-    private ContainerTag generateGeneralTableHtml(final String executable, final String uniqueId, @CheckForNull final String threadId, @CheckForNull final String threadName, @CheckForNull final JSONArray auxWhats) {
+    private ContainerTag generateGeneralTableHtml(
+            final String executable,
+            final String uniqueId,
+            @CheckForNull final String threadId,
+            @CheckForNull final String threadName,
+            @CheckForNull final JSONArray auxWhats) {
         var generalTable = table(
                 attrs(".table.table-striped"),
                 maybeGenerateTableRowHtml("Executable", executable),
                 maybeGenerateTableRowHtml("Unique Id", uniqueId),
                 maybeGenerateTableRowHtml("Thread Id", threadId),
-                maybeGenerateTableRowHtml("Thread Name", threadName)
-        );
+                maybeGenerateTableRowHtml("Thread Name", threadName));
 
         if (auxWhats != null && !auxWhats.isEmpty()) {
             for (int auxwhatIndex = 0; auxwhatIndex < auxWhats.length(); auxwhatIndex++) {
@@ -85,7 +102,8 @@ public class ValgrindAdapter extends AbstractViolationAdapter {
     }
 
     @CheckForNull
-    private ContainerTag maybeGenerateStackTracesHtml(@CheckForNull final String stacksJson, final String message, @CheckForNull final JSONArray auxWhats) {
+    private ContainerTag maybeGenerateStackTracesHtml(
+            @CheckForNull final String stacksJson, final String message, @CheckForNull final JSONArray auxWhats) {
         if (StringUtils.isBlank(stacksJson)) {
             return null;
         }
@@ -119,13 +137,9 @@ public class ValgrindAdapter extends AbstractViolationAdapter {
         return null;
     }
 
-    private ContainerTag generateStackTraceHtml(final String title, @CheckForNull final String message, final JSONArray frames) {
-        var stackTraceContainer =
-                div(
-                        br(),
-                        h4(title),
-                        iff(StringUtils.isNotBlank(message), p(message))
-                );
+    private ContainerTag generateStackTraceHtml(
+            final String title, @CheckForNull final String message, final JSONArray frames) {
+        var stackTraceContainer = div(br(), h4(title), iff(StringUtils.isNotBlank(message), p(message)));
 
         for (int frameIndex = 0; frameIndex < frames.length(); frameIndex++) {
             var frame = frames.getJSONObject(frameIndex);
@@ -141,20 +155,14 @@ public class ValgrindAdapter extends AbstractViolationAdapter {
     }
 
     private ContainerTag generateStackFrameHtml(final JSONObject frame) {
-        return
-                table(
-                        maybeGenerateTableRowHtml("Object", frame.optString("obj")),
-                        maybeGenerateTableRowHtml("Function", frame.optString("fn")),
-                        maybeGenerateStackFrameFileTableRowHtml(frame)
-                );
+        return table(
+                maybeGenerateTableRowHtml("Object", frame.optString("obj")),
+                maybeGenerateTableRowHtml("Function", frame.optString("fn")),
+                maybeGenerateStackFrameFileTableRowHtml(frame));
     }
 
     private ContainerTag maybeGenerateSuppressionHtml(@CheckForNull final String suppression) {
-        return
-                iff(
-                        StringUtils.isNotBlank(suppression),
-                        div(br(), h4("Suppression"), table(tr(td(pre(suppression)))))
-                );
+        return iff(StringUtils.isNotBlank(suppression), div(br(), h4("Suppression"), table(tr(td(pre(suppression))))));
     }
 
     private ContainerTag maybeGenerateTableRowHtml(final String name, @CheckForNull final String value) {

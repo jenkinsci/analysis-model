@@ -1,20 +1,18 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.nio.file.FileSystems;
-
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 import edu.hm.hafner.analysis.FileReaderFactory;
-import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
 import edu.hm.hafner.analysis.registry.ParserRegistry;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import java.nio.file.FileSystems;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the class {@link DetectSecretsParser}.
@@ -31,8 +29,8 @@ class DetectSecretsParserTest extends AbstractParserTest {
         assertThat(report).hasSize(4);
 
         var types = report.stream().map(Issue::getType).toList();
-        assertThat(types).containsExactlyInAnyOrder(
-                "AWS Access Key", "Basic Auth Credentials", "Secret Keyword", "Private Key");
+        assertThat(types)
+                .containsExactlyInAnyOrder("AWS Access Key", "Basic Auth Credentials", "Secret Keyword", "Private Key");
 
         var awsIssue = report.stream()
                 .filter(i -> "AWS Access Key".equals(i.getType()))
@@ -86,18 +84,20 @@ class DetectSecretsParserTest extends AbstractParserTest {
 
     @Test
     void accepts() {
-        assertThat(new DetectSecretsParser().accepts(
-                new FileReaderFactory(FileSystems.getDefault().getPath("detect-secrets.json")))).isTrue();
-        assertThat(new DetectSecretsParser().accepts(
-                new FileReaderFactory(FileSystems.getDefault().getPath(".secrets.baseline")))).isFalse();
-        assertThat(new DetectSecretsParser().accepts(
-                new FileReaderFactory(FileSystems.getDefault().getPath("foo.txt")))).isFalse();
+        assertThat(new DetectSecretsParser()
+                        .accepts(new FileReaderFactory(FileSystems.getDefault().getPath("detect-secrets.json"))))
+                .isTrue();
+        assertThat(new DetectSecretsParser()
+                        .accepts(new FileReaderFactory(FileSystems.getDefault().getPath(".secrets.baseline"))))
+                .isFalse();
+        assertThat(new DetectSecretsParser()
+                        .accepts(new FileReaderFactory(FileSystems.getDefault().getPath("foo.txt"))))
+                .isFalse();
     }
 
     @Test
     void brokenInput() {
-        assertThatThrownBy(() -> parse("eclipse.txt"))
-                .isInstanceOf(ParsingException.class);
+        assertThatThrownBy(() -> parse("eclipse.txt")).isInstanceOf(ParsingException.class);
     }
 
     @Test
@@ -373,7 +373,6 @@ class DetectSecretsParserTest extends AbstractParserTest {
                 """);
 
         assertThat(report).hasSize(1);
-        assertThat(report.get(0))
-                .hasMessage("RSA Private Key detected");
+        assertThat(report.get(0)).hasMessage("RSA Private Key detected");
     }
 }

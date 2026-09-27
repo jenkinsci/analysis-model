@@ -1,14 +1,12 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-
 import java.io.Serial;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * A parser for Phan JSON output.
@@ -63,7 +61,10 @@ public class PhanParser extends JsonIssueParser {
     }
 
     private boolean isIssue(final JSONObject jsonIssue) {
-        return jsonIssue.has(CHECK_NAME) || jsonIssue.has(TYPE) || jsonIssue.has(DESCRIPTION) || jsonIssue.has(LOCATION);
+        return jsonIssue.has(CHECK_NAME)
+                || jsonIssue.has(TYPE)
+                || jsonIssue.has(DESCRIPTION)
+                || jsonIssue.has(LOCATION);
     }
 
     private Issue convertToIssue(final JSONObject jsonIssue, final IssueBuilder issueBuilder) {
@@ -93,8 +94,7 @@ public class PhanParser extends JsonIssueParser {
         if (severityValue instanceof String string) {
             try {
                 return parseSeverity(Integer.valueOf(string));
-            }
-            catch (NumberFormatException exception) {
+            } catch (NumberFormatException exception) {
                 return Severity.guessFromString(string);
             }
         }

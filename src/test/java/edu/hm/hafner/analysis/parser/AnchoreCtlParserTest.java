@@ -1,6 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.junit.jupiter.api.Test;
+import static j2html.TagCreator.*;
 
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.Report;
@@ -8,8 +8,7 @@ import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
 import edu.hm.hafner.analysis.registry.ParserRegistry;
-
-import static j2html.TagCreator.*;
+import org.junit.jupiter.api.Test;
 
 class AnchoreCtlParserTest extends AbstractParserTest {
     AnchoreCtlParserTest() {
@@ -27,10 +26,10 @@ class AnchoreCtlParserTest extends AbstractParserTest {
                 .hasCategory("rpm")
                 .hasFileName("/usr/lib64/libssl.so.1.1")
                 .hasDescription(join(
-                        p(join(b("Fix:"), text(" 1.1.1l"))),
-                        p(join(text("Affected version: "), text("1.1.1k"))),
-                        p(a("CVE-2021-1234").withHref("https://nvd.nist.gov/vuln/detail/CVE-2021-1234"))
-                ).render());
+                                p(join(b("Fix:"), text(" 1.1.1l"))),
+                                p(join(text("Affected version: "), text("1.1.1k"))),
+                                p(a("CVE-2021-1234").withHref("https://nvd.nist.gov/vuln/detail/CVE-2021-1234")))
+                        .render());
 
         softly.assertThat(report.get(1))
                 .hasMessage("CVE-2021-5678")
@@ -39,11 +38,11 @@ class AnchoreCtlParserTest extends AbstractParserTest {
                 .hasCategory("APKG")
                 .hasFileName("/lib/apk/db/installed")
                 .hasDescription(join(
-                        p(text("No fix available")),
-                        p(join(text("Affected version: "), text("1.34.0-r0"))),
-                        p(b("CISA Known Exploited Vulnerability (KEV)")),
-                        p(a("CVE-2021-5678").withHref("https://nvd.nist.gov/vuln/detail/CVE-2021-5678"))
-                ).render());
+                                p(text("No fix available")),
+                                p(join(text("Affected version: "), text("1.34.0-r0"))),
+                                p(b("CISA Known Exploited Vulnerability (KEV)")),
+                                p(a("CVE-2021-5678").withHref("https://nvd.nist.gov/vuln/detail/CVE-2021-5678")))
+                        .render());
 
         softly.assertThat(report.get(2))
                 .hasMessage("CVE-2022-9999")
@@ -52,11 +51,11 @@ class AnchoreCtlParserTest extends AbstractParserTest {
                 .hasCategory("rpm")
                 .hasFileName("/lib64/libz.so.1")
                 .hasDescription(join(
-                        p(text("No fix available")),
-                        p(join(text("Affected version: "), text("1.2.11"))),
-                        p(text("Vendor will not fix")),
-                        p(a("CVE-2022-9999").withHref("https://nvd.nist.gov/vuln/detail/CVE-2022-9999"))
-                ).render());
+                                p(text("No fix available")),
+                                p(join(text("Affected version: "), text("1.2.11"))),
+                                p(text("Vendor will not fix")),
+                                p(a("CVE-2022-9999").withHref("https://nvd.nist.gov/vuln/detail/CVE-2022-9999")))
+                        .render());
     }
 
     @Test
@@ -86,12 +85,12 @@ class AnchoreCtlParserTest extends AbstractParserTest {
                     .hasCategory("rpm")
                     .hasFileName("/lib64/libz.so.1")
                     .hasDescription(join(
-                            p(join(b("Fix:"), text(" 1.2.12"))),
-                            p(join(text("Affected version: "), text("1.2.11"))),
-                            p(b("CISA Known Exploited Vulnerability (KEV)")),
-                            p(text("Vendor will not fix")),
-                            p(a("CVE-2022-3333").withHref("https://nvd.nist.gov/vuln/detail/CVE-2022-3333"))
-                    ).render());
+                                    p(join(b("Fix:"), text(" 1.2.12"))),
+                                    p(join(text("Affected version: "), text("1.2.11"))),
+                                    p(b("CISA Known Exploited Vulnerability (KEV)")),
+                                    p(text("Vendor will not fix")),
+                                    p(a("CVE-2022-3333").withHref("https://nvd.nist.gov/vuln/detail/CVE-2022-3333")))
+                            .render());
         }
     }
 
@@ -148,9 +147,9 @@ class AnchoreCtlParserTest extends AbstractParserTest {
                     .hasSeverity(Severity.WARNING_LOW)
                     .hasFileName("pkg:pypi/requests@2.26.0")
                     .hasDescription(join(
-                            p(join(b("Fix:"), text(" 2.27.0"))),
-                            p(join(text("Affected version: "), text("2.26.0")))
-                    ).render());
+                                    p(join(b("Fix:"), text(" 2.27.0"))),
+                                    p(join(text("Affected version: "), text("2.26.0"))))
+                            .render());
         }
     }
 
@@ -160,9 +159,7 @@ class AnchoreCtlParserTest extends AbstractParserTest {
 
         try (var softly = new SoftAssertions()) {
             softly.assertThat(report).hasSize(1);
-            softly.assertThat(report.get(0))
-                    .hasMessage("CVE-2021-1111")
-                    .hasSeverity(Severity.WARNING_LOW);
+            softly.assertThat(report.get(0)).hasMessage("CVE-2021-1111").hasSeverity(Severity.WARNING_LOW);
         }
     }
 
@@ -195,10 +192,9 @@ class AnchoreCtlParserTest extends AbstractParserTest {
                     .hasMessage("CVE-2021-7777")
                     .hasSeverity(Severity.WARNING_HIGH)
                     .hasFileName("-")
-                    .hasDescription(join(
-                            p(text("No fix available")),
-                            p(join(text("Affected version: "), text("1.0.0")))
-                    ).render());
+                    .hasDescription(
+                            join(p(text("No fix available")), p(join(text("Affected version: "), text("1.0.0"))))
+                                    .render());
         }
     }
 
@@ -213,21 +209,22 @@ class AnchoreCtlParserTest extends AbstractParserTest {
                     .hasSeverity(Severity.ERROR)
                     .hasPackageName("libcurl4t64")
                     .hasCategory("deb")
-                    .hasFileName("pkg:deb/debian/libcurl4t64@8.14.1-2%2Bdeb13u4?arch=amd64&distro=debian-13&upstream=curl")
+                    .hasFileName(
+                            "pkg:deb/debian/libcurl4t64@8.14.1-2%2Bdeb13u4?arch=amd64&distro=debian-13&upstream=curl")
                     .hasDescription(join(
-                            p(text("No fix available")),
-                            p(join(text("Affected version: "), text("8.14.1-2+deb13u4"))),
-                            p(text("Vendor will not fix"))
-                    ).render());
+                                    p(text("No fix available")),
+                                    p(join(text("Affected version: "), text("8.14.1-2+deb13u4"))),
+                                    p(text("Vendor will not fix")))
+                            .render());
             softly.assertThat(report.get(1))
                     .hasMessage("CVE-2026-42533")
                     .hasSeverity(Severity.WARNING_HIGH)
                     .hasPackageName("nginx")
                     .hasDescription(join(
-                            p(join(b("Fix:"), text(" 1.31.4-1~trixie"))),
-                            p(join(text("Affected version: "), text("1.31.3-1~trixie"))),
-                            p(b("CISA Known Exploited Vulnerability (KEV)"))
-                    ).render());
+                                    p(join(b("Fix:"), text(" 1.31.4-1~trixie"))),
+                                    p(join(text("Affected version: "), text("1.31.3-1~trixie"))),
+                                    p(b("CISA Known Exploited Vulnerability (KEV)")))
+                            .render());
         }
     }
 
@@ -242,19 +239,18 @@ class AnchoreCtlParserTest extends AbstractParserTest {
                     .hasSeverity(Severity.WARNING_NORMAL)
                     .hasPackageName("ssl_client")
                     .hasCategory("apk")
-                    .hasDescription(join(
-                            p(text("No fix available")),
-                            p(join(text("Affected version: "), text("1.36.1-r31")))
-                    ).render());
+                    .hasDescription(
+                            join(p(text("No fix available")), p(join(text("Affected version: "), text("1.36.1-r31"))))
+                                    .render());
             softly.assertThat(report.get(1))
                     .hasMessage("CVE-2026-8376")
                     .hasSeverity(Severity.ERROR)
                     .hasPackageName("perl-base")
                     .hasDescription(join(
-                            p(text("No fix available")),
-                            p(join(text("Affected version: "), text("5.40.1-6"))),
-                            p(text("Vendor will not fix"))
-                    ).render());
+                                    p(text("No fix available")),
+                                    p(join(text("Affected version: "), text("5.40.1-6"))),
+                                    p(text("Vendor will not fix")))
+                            .render());
         }
     }
 
@@ -280,9 +276,7 @@ class AnchoreCtlParserTest extends AbstractParserTest {
         var report = parse("anchorectl-null-nvd-entry.json");
         try (var softly = new SoftAssertions()) {
             softly.assertThat(report).hasSize(1);
-            softly.assertThat(report.get(0))
-                    .hasMessage("CVE-2021-4444")
-                    .hasSeverity(Severity.WARNING_NORMAL);
+            softly.assertThat(report.get(0)).hasMessage("CVE-2021-4444").hasSeverity(Severity.WARNING_NORMAL);
         }
     }
 
@@ -294,9 +288,7 @@ class AnchoreCtlParserTest extends AbstractParserTest {
             softly.assertThat(report.get(0))
                     .hasMessage("CVE-2021-8888")
                     .hasSeverity(Severity.WARNING_LOW)
-                    .hasDescription(join(
-                            p(join(b("Fix:"), text(" 7.79.2-r0")))
-                    ).render());
+                    .hasDescription(join(p(join(b("Fix:"), text(" 7.79.2-r0")))).render());
         }
     }
 

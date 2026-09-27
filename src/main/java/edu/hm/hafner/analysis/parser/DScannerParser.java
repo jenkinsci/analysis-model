@@ -1,13 +1,11 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.json.JSONObject;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Severity;
-
 import java.io.Serial;
 import java.util.Optional;
+import org.json.JSONObject;
 
 /**
  * Parser report in JSON format as exported by DScanner.
@@ -17,6 +15,7 @@ import java.util.Optional;
 public class DScannerParser extends JsonParser {
     @Serial
     private static final long serialVersionUID = -3396574381502866972L;
+
     private static final String KEY = "key";
     private static final String LINE = "line";
     private static final String COLUMN = "column";

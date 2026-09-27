@@ -1,8 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.nio.file.FileSystems;
-
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.assertThat;
+import static edu.hm.hafner.analysis.assertions.Assertions.assertThatThrownBy;
 
 import edu.hm.hafner.analysis.FileReaderFactory;
 import edu.hm.hafner.analysis.IssueParser;
@@ -12,8 +11,8 @@ import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
 import edu.hm.hafner.analysis.registry.ParserRegistry;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import java.nio.file.FileSystems;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the class {@link GradleLintParser}.
@@ -36,8 +35,7 @@ class GradleLintParserTest extends AbstractParserTest {
                 .hasLineStart(14)
                 .hasMessage("In Gradle, dependency declarations do not need to be surrounded by parentheses");
 
-        softly.assertThat(report.get(0).getDescription())
-                .contains("compile('com.google.guava:guava:28.0-jre')");
+        softly.assertThat(report.get(0).getDescription()).contains("compile('com.google.guava:guava:28.0-jre')");
 
         softly.assertThat(report.get(1))
                 .hasFileName("build.gradle")
@@ -46,8 +44,7 @@ class GradleLintParserTest extends AbstractParserTest {
                 .hasLineStart(18)
                 .hasMessage("this dependency is unused and can be removed");
 
-        softly.assertThat(report.get(1).getDescription())
-                .contains("testImplementation('junit:junit:4.12')");
+        softly.assertThat(report.get(1).getDescription()).contains("testImplementation('junit:junit:4.12')");
 
         softly.assertThat(report.get(2))
                 .hasFileName("subproject/build.gradle")
@@ -56,8 +53,7 @@ class GradleLintParserTest extends AbstractParserTest {
                 .hasLineStart(9)
                 .hasMessage("junit:junit is below the minimum version of 5.0.0");
 
-        softly.assertThat(report.get(2).getDescription())
-                .contains("testImplementation 'junit:junit:4.12'");
+        softly.assertThat(report.get(2).getDescription()).contains("testImplementation 'junit:junit:4.12'");
 
         softly.assertThat(report.get(3))
                 .hasFileName("build.gradle")
@@ -74,16 +70,17 @@ class GradleLintParserTest extends AbstractParserTest {
 
     @Test
     void accepts() {
-        assertThat(new GradleLintParser().accepts(
-                new FileReaderFactory(FileSystems.getDefault().getPath("gradle-lint-report.json")))).isTrue();
-        assertThat(new GradleLintParser().accepts(
-                new FileReaderFactory(FileSystems.getDefault().getPath("foo.txt")))).isFalse();
+        assertThat(new GradleLintParser()
+                        .accepts(new FileReaderFactory(FileSystems.getDefault().getPath("gradle-lint-report.json"))))
+                .isTrue();
+        assertThat(new GradleLintParser()
+                        .accepts(new FileReaderFactory(FileSystems.getDefault().getPath("foo.txt"))))
+                .isFalse();
     }
 
     @Test
     void brokenInput() {
-        assertThatThrownBy(() -> parse("eclipse.txt"))
-                .isInstanceOf(ParsingException.class);
+        assertThatThrownBy(() -> parse("eclipse.txt")).isInstanceOf(ParsingException.class);
     }
 
     @Test
@@ -254,8 +251,7 @@ class GradleLintParserTest extends AbstractParserTest {
                 """);
 
         assertThat(report).hasSize(1);
-        assertThat(report.get(0).getDescription())
-                .contains("compile('org.springframework:spring-core:5.3.9')");
+        assertThat(report.get(0).getDescription()).contains("compile('org.springframework:spring-core:5.3.9')");
     }
 
     @Test

@@ -14,9 +14,7 @@ public final class Armcc5CompilerParser extends ArmccAbstractParser {
     private static final String ARMCC5_WARNING_PATTERN =
             "^(?<file>.+)\\((?<line>\\d+)\\): (?<severity>warning|error):\\s+#(?<code>.+): (?<message>.+)$";
 
-    /**
-     * Creates a new instance of {@link Armcc5CompilerParser}.
-     */
+    /** Creates a new instance of {@link Armcc5CompilerParser}. */
     public Armcc5CompilerParser() {
         super(ARMCC5_WARNING_PATTERN);
     }

@@ -26,10 +26,11 @@ class SemgrepAdapterTest extends AbstractParserTest {
                 .hasType("java.lang.security.audit.formatted-sql-string.formatted-sql-string")
                 .hasSeverity(Severity.WARNING_HIGH);
 
-        softly.assertThat(report.get(0).getMessage()).contains("Detected a formatted string in a SQL statement. This could lead to SQL"
-                + " injection if variables in the SQL statement are not properly sanitized."
-                + " Use a prepared statements (java.sql.PreparedStatement) instead. You can"
-                + " obtain a PreparedStatement using 'connection.prepareStatement'.");
+        softly.assertThat(report.get(0).getMessage())
+                .contains("Detected a formatted string in a SQL statement. This could lead to SQL"
+                        + " injection if variables in the SQL statement are not properly sanitized."
+                        + " Use a prepared statements (java.sql.PreparedStatement) instead. You can"
+                        + " obtain a PreparedStatement using 'connection.prepareStatement'.");
     }
 
     @Override

@@ -1,13 +1,11 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.json.JSONObject;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-
 import java.io.Serial;
+import org.json.JSONObject;
 
 /**
  * A parser for Gradle Lint (nebula.lint) JSON reports.
@@ -31,8 +29,7 @@ public class GradleLintParser extends JsonIssueParser {
     private static final int WARNING_PRIORITY = 2;
 
     @Override
-    protected void parseJsonObject(final Report report, final JSONObject jsonReport,
-            final IssueBuilder issueBuilder) {
+    protected void parseJsonObject(final Report report, final JSONObject jsonReport, final IssueBuilder issueBuilder) {
         var violations = jsonReport.optJSONArray(VIOLATIONS);
         if (violations == null) {
             return;
@@ -71,9 +68,7 @@ public class GradleLintParser extends JsonIssueParser {
     /**
      * Maps a Gradle Lint numeric priority to a {@link Severity}.
      *
-     * @param priority
-     *         the numeric priority from the JSON report
-     *
+     * @param priority the numeric priority from the JSON report
      * @return the corresponding {@link Severity}
      */
     private Severity mapPriorityToSeverity(final int priority) {

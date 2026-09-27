@@ -1,17 +1,13 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.json.JSONObject;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
-
 import java.io.Serial;
+import org.json.JSONObject;
 
-/**
- * Parser for vale reports.
- */
+/** Parser for vale reports. */
 public class ValeParser extends JsonIssueParser {
     // Constants for JSON keys
     private static final String CHECK = "Check";
@@ -42,7 +38,8 @@ public class ValeParser extends JsonIssueParser {
     private Issue createIssue(final IssueBuilder issueBuilder, final String fileName, final JSONObject data) {
         var span = data.getJSONArray(SPAN_KEY);
         int line = data.getInt(LINE_KEY);
-        return issueBuilder.setFileName(fileName)
+        return issueBuilder
+                .setFileName(fileName)
                 .setDescription(data.getString(CHECK))
                 .setMessage(data.getString(MESSAGE_KEY))
                 .setSeverity(Severity.guessFromString(data.getString(SEVERITY_KEY)))

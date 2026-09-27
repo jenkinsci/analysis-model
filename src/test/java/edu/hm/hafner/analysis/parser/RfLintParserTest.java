@@ -1,15 +1,14 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.nio.file.Path;
-import java.util.Iterator;
+import static edu.hm.hafner.analysis.assertions.Assertions.assertThat;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import java.nio.file.Path;
+import java.util.Iterator;
 
 /**
  * Tests the class {@link RfLintParser}.
@@ -25,9 +24,7 @@ class RfLintParserTest extends AbstractParserTest {
     private static final String CUSTOM_CATEGORY = "Custom";
     private static final String ISSUES_FILE = "rflint.txt";
 
-    /**
-     * Creates a new instance of {@link RfLintParserTest}.
-     */
+    /** Creates a new instance of {@link RfLintParserTest}. */
     RfLintParserTest() {
         super(ISSUES_FILE);
     }

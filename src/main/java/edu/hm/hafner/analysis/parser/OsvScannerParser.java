@@ -1,21 +1,19 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
+import static j2html.TagCreator.*;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
-
 import j2html.tags.DomContent;
 import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import static j2html.TagCreator.*;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * Parser for OSV-Scanner security vulnerability reports in JSON format.
@@ -58,8 +56,8 @@ public class OsvScannerParser extends JsonIssueParser {
         }
     }
 
-    private void parsePackages(final Report report, final JSONObject result, final String sourcePath,
-            final IssueBuilder issueBuilder) {
+    private void parsePackages(
+            final Report report, final JSONObject result, final String sourcePath, final IssueBuilder issueBuilder) {
         if (!result.has(PACKAGES_TAG)) {
             return;
         }
@@ -70,7 +68,10 @@ public class OsvScannerParser extends JsonIssueParser {
         }
     }
 
-    private void parseVulnerabilities(final Report report, final JSONObject packageEntry, final String sourcePath,
+    private void parseVulnerabilities(
+            final Report report,
+            final JSONObject packageEntry,
+            final String sourcePath,
             final IssueBuilder issueBuilder) {
         if (!packageEntry.has(VULNERABILITIES_TAG)) {
             return;
@@ -89,8 +90,12 @@ public class OsvScannerParser extends JsonIssueParser {
         }
     }
 
-    private Issue convertToIssue(final JSONObject vulnerability, final String sourcePath,
-            final String packageName, final String ecosystem, final IssueBuilder issueBuilder) {
+    private Issue convertToIssue(
+            final JSONObject vulnerability,
+            final String sourcePath,
+            final String packageName,
+            final String ecosystem,
+            final IssueBuilder issueBuilder) {
         var id = vulnerability.optString(ID_TAG, "-");
         var summary = vulnerability.optString(SUMMARY_TAG, "");
         var details = vulnerability.optString(DETAILS_TAG, "");
@@ -125,12 +130,10 @@ public class OsvScannerParser extends JsonIssueParser {
     }
 
     /**
-     * Resolves severity from the vulnerability's {@code database_specific.severity} field,
-     * falling back to WARNING_NORMAL if not present.
+     * Resolves severity from the vulnerability's {@code database_specific.severity} field, falling back to
+     * WARNING_NORMAL if not present.
      *
-     * @param vulnerability
-     *         the vulnerability JSON object
-     *
+     * @param vulnerability the vulnerability JSON object
      * @return the resolved {@link Severity}
      */
     private Severity resolveSeverity(final JSONObject vulnerability) {
@@ -179,8 +182,7 @@ public class OsvScannerParser extends JsonIssueParser {
             }
             if (alias.startsWith("CVE-")) {
                 links.add(a(alias).withHref("https://nvd.nist.gov/vuln/detail/" + alias));
-            }
-            else {
+            } else {
                 links.add(text(alias));
             }
         }
@@ -193,8 +195,6 @@ public class OsvScannerParser extends JsonIssueParser {
             return Optional.empty();
         }
         var osvUrl = "https://osv.dev/vulnerability/" + id;
-        return Optional.of(p(strong("OSV Entry:"),
-                text(" "),
-                a(id).withHref(osvUrl)));
+        return Optional.of(p(strong("OSV Entry:"), text(" "), a(id).withHref(osvUrl)));
     }
 }

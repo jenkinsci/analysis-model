@@ -1,8 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.apache.commons.lang3.StringUtils;
-import org.dom4j.DocumentException;
-import org.xml.sax.SAXException;
+import static edu.hm.hafner.analysis.parser.FindBugsParser.PriorityProperty.*;
 
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
@@ -20,7 +18,6 @@ import edu.umd.cs.findbugs.SortedBugCollection;
 import edu.umd.cs.findbugs.SourceLineAnnotation;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.ba.SourceFinder;
-
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Serial;
@@ -29,8 +26,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static edu.hm.hafner.analysis.parser.FindBugsParser.PriorityProperty.*;
+import org.apache.commons.lang3.StringUtils;
+import org.dom4j.DocumentException;
+import org.xml.sax.SAXException;
 
 /**
  * A parser for the native FindBugs XML files.
@@ -68,8 +66,7 @@ public class FindBugsParser extends IssueParser {
     /**
      * Creates a new instance of {@link FindBugsParser}.
      *
-     * @param priorityProperty
-     *         determines whether to use the rank or confidence when evaluation the {@link Severity}
+     * @param priorityProperty determines whether to use the rank or confidence when evaluation the {@link Severity}
      */
     public FindBugsParser(final PriorityProperty priorityProperty) {
         super();
@@ -102,8 +99,7 @@ public class FindBugsParser extends IssueParser {
                 hashToMessageMapping.put(bug.getInstanceHash(), bug.getMessage());
                 categories.put(bug.getType(), bug.getCategory());
             }
-        }
-        catch (SAXException | IOException exception) {
+        } catch (SAXException | IOException exception) {
             throw new ParsingException(exception, readerFactory);
         }
 
@@ -113,21 +109,18 @@ public class FindBugsParser extends IssueParser {
     /**
      * Returns the parsed FindBugs analysis file. This scanner accepts files in the native FindBugs format.
      *
-     * @param builder
-     *         the issue builder
-     * @param readerFactory
-     *         the FindBugs analysis file
-     * @param sources
-     *         a collection of folders to scan for source files
-     * @param hashToMessageMapping
-     *         mapping of hash codes to messages
-     * @param categories
-     *         mapping from bug types to their categories
-     *
+     * @param builder the issue builder
+     * @param readerFactory the FindBugs analysis file
+     * @param sources a collection of folders to scan for source files
+     * @param hashToMessageMapping mapping of hash codes to messages
+     * @param categories mapping from bug types to their categories
      * @return the parsed result (stored in the module instance)
      */
-    private Report parse(final ReaderFactory readerFactory, final Collection<String> sources,
-            final IssueBuilder builder, final Map<String, String> hashToMessageMapping,
+    private Report parse(
+            final ReaderFactory readerFactory,
+            final Collection<String> sources,
+            final IssueBuilder builder,
+            final Map<String, String> hashToMessageMapping,
             final Map<String, String> categories) {
         try (var input = readerFactory.create()) {
             var bugs = readXml(input);
@@ -135,15 +128,18 @@ public class FindBugsParser extends IssueParser {
             try (var project = bugs.getProject()) {
                 return convertBugsToIssues(sources, builder, hashToMessageMapping, categories, bugs, project);
             }
-        }
-        catch (DocumentException | IOException exception) {
+        } catch (DocumentException | IOException exception) {
             throw new ParsingException(exception, readerFactory);
         }
     }
 
-    private Report convertBugsToIssues(final Collection<String> sources, final IssueBuilder builder,
-            final Map<String, String> hashToMessageMapping, final Map<String, String> categories,
-            final SortedBugCollection collection, final Project project) {
+    private Report convertBugsToIssues(
+            final Collection<String> sources,
+            final IssueBuilder builder,
+            final Map<String, String> hashToMessageMapping,
+            final Map<String, String> categories,
+            final SortedBugCollection collection,
+            final Project project) {
         project.addSourceDirs(sources);
 
         try (var sourceFinder = new SourceFinder(project)) {
@@ -158,7 +154,8 @@ public class FindBugsParser extends IssueParser {
                 builder.setSeverity(getPriority(warning))
                         .setMessage(createMessage(hashToMessageMapping, warning, warning.getMessage()))
                         .addLocation(extractPrimaryLocation(warning, pathBuilder, sourceFinder))
-                        .setCategory(categories.getOrDefault(type, warning.getBugPattern().getCategory()))
+                        .setCategory(categories.getOrDefault(
+                                type, warning.getBugPattern().getCategory()))
                         .setType(type)
                         .setPackageName(warning.getPrimaryClass().getPackageName())
                         .setFingerprint(warning.getInstanceHash());
@@ -171,8 +168,8 @@ public class FindBugsParser extends IssueParser {
         }
     }
 
-    private Location extractPrimaryLocation(final BugInstance warning, final TreeStringBuilder pathBuilder,
-            final SourceFinder sourceFinder) {
+    private Location extractPrimaryLocation(
+            final BugInstance warning, final TreeStringBuilder pathBuilder, final SourceFinder sourceFinder) {
         var sourceLine = warning.getPrimarySourceLineAnnotation();
         var primaryPath = pathBuilder.intern(findSourceFile(sourceFinder, sourceLine));
         return new Location(primaryPath, sourceLine.getStartLine(), sourceLine.getEndLine());
@@ -183,14 +180,10 @@ public class FindBugsParser extends IssueParser {
      * warnings to messages. A bug is represented by its unique hash code. Also obtains original categories for bug
      * types.
      *
-     * @param file
-     *         the FindBugs XML file
-     *
+     * @param file the FindBugs XML file
      * @return the map of warning messages
-     * @throws SAXException
-     *         if the file contains no valid XML
-     * @throws IOException
-     *         signals that an I/O exception has occurred.
+     * @throws SAXException if the file contains no valid XML
+     * @throws IOException signals that an I/O exception has occurred.
      */
     @VisibleForTesting
     List<XmlBugInstance> preParse(final Reader file) throws SAXException, IOException {
@@ -211,8 +204,8 @@ public class FindBugsParser extends IssueParser {
         return bugs;
     }
 
-    private String createMessage(final Map<String, String> hashToMessageMapping, final BugInstance warning,
-            final String message) {
+    private String createMessage(
+            final Map<String, String> hashToMessageMapping, final BugInstance warning, final String message) {
         return StringUtils.defaultIfEmpty(hashToMessageMapping.get(warning.getInstanceHash()), message);
     }
 
@@ -231,14 +224,16 @@ public class FindBugsParser extends IssueParser {
             var collection = new SortedBugCollection();
             collection.readXML(file);
             return collection;
-        }
-        finally {
+        } finally {
             Thread.currentThread().setContextClassLoader(contextClassLoader);
         }
     }
 
-    private void setAffectedLines(final BugInstance warning, final IssueBuilder builder,
-            final TreeStringBuilder pathBuilder, final SourceFinder sourceFinder) {
+    private void setAffectedLines(
+            final BugInstance warning,
+            final IssueBuilder builder,
+            final TreeStringBuilder pathBuilder,
+            final SourceFinder sourceFinder) {
         var annotationIterator = warning.annotationIterator();
         while (annotationIterator.hasNext()) {
             var bugAnnotation = annotationIterator.next();
@@ -253,8 +248,7 @@ public class FindBugsParser extends IssueParser {
         try {
             var sourceFile = sourceFinder.findSourceFile(sourceLine);
             return sourceFile.getFullFileName();
-        }
-        catch (IOException ignored) {
+        } catch (IOException ignored) {
             return sourceLine.getPackageName().replace(DOT, SLASH) + SLASH + sourceLine.getSourceFile();
         }
     }
@@ -262,9 +256,7 @@ public class FindBugsParser extends IssueParser {
     /**
      * Maps the FindBugs library rank to plug-in priority enumeration.
      *
-     * @param warning
-     *         the FindBugs warning
-     *
+     * @param warning the FindBugs warning
      * @return mapped priority enumeration
      */
     private Severity getPriorityByRank(final BugInstance warning) {
@@ -281,9 +273,7 @@ public class FindBugsParser extends IssueParser {
     /**
      * Maps the FindBugs library priority to plug-in priority enumeration.
      *
-     * @param warning
-     *         the FindBugs warning
-     *
+     * @param warning the FindBugs warning
      * @return mapped priority enumeration
      */
     private Severity getPriorityByPriority(final BugInstance warning) {
@@ -303,10 +293,13 @@ public class FindBugsParser extends IssueParser {
     public static class XmlBugInstance {
         @CheckForNull
         private String instanceHash;
+
         @CheckForNull
         private String message;
+
         @CheckForNull
         private String type;
+
         @CheckForNull
         private String category;
 

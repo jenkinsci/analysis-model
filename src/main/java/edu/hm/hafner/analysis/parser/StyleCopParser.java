@@ -1,8 +1,5 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.apache.commons.lang3.StringUtils;
-import org.w3c.dom.Element;
-
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingException;
@@ -11,9 +8,10 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.util.IntegerParser;
 import edu.hm.hafner.analysis.util.XmlElementUtil;
-
 import java.io.Serial;
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
+import org.w3c.dom.Element;
 
 /**
  * Parses a StyleCop XML report files.
@@ -43,7 +41,8 @@ public class StyleCopParser extends IssueParser {
         try (var issueBuilder = new IssueBuilder()) {
             var report = new Report();
             for (Element element : elements) {
-                issueBuilder.setFileName(getString(element, "Source"))
+                issueBuilder
+                        .setFileName(getString(element, "Source"))
                         .setLineStart(getLineNumber(element))
                         .setCategory(getCategory(element))
                         .setType(getString(element, "Rule"))
@@ -59,9 +58,7 @@ public class StyleCopParser extends IssueParser {
     /**
      * Returns the Category of a StyleCop Violation.
      *
-     * @param element
-     *         The Element which represents the violation
-     *
+     * @param element The Element which represents the violation
      * @return category of violation
      */
     private String getCategory(final Element element) {
@@ -70,8 +67,7 @@ public class StyleCopParser extends IssueParser {
         int i = ruleNameSpace.lastIndexOf('.');
         if (i == -1) {
             return getString(element, "RuleId");
-        }
-        else {
+        } else {
             return ruleNameSpace.substring(i + 1);
         }
     }
@@ -79,17 +75,14 @@ public class StyleCopParser extends IssueParser {
     /**
      * Returns the value for the named attribute if it exists.
      *
-     * @param element
-     *            the element to check for an attribute
-     * @param name
-     *            the name of the attribute
+     * @param element the element to check for an attribute
+     * @param name the name of the attribute
      * @return the value of the attribute; "" if there is no such attribute.
      */
     private String getString(final Element element, final String name) {
         if (element.hasAttribute(name)) {
             return element.getAttribute(name);
-        }
-        else {
+        } else {
             return StringUtils.EMPTY;
         }
     }
@@ -97,16 +90,14 @@ public class StyleCopParser extends IssueParser {
     /**
      * Returns the LineNumber for the given violation.
      *
-     * @param violation
-     *            the xml Element "violation" to get the Linenumber from.
+     * @param violation the xml Element "violation" to get the Linenumber from.
      * @return the lineNumber of the violation. 0 if there is no LineNumber or the LineNumber cant't be parsed into an
-     *         Integer.
+     *     Integer.
      */
     private int getLineNumber(final Element violation) {
         if (violation.hasAttribute("LineNumber")) {
             return IntegerParser.parseInt(violation.getAttribute("LineNumber"));
-        }
-        else {
+        } else {
             return 0;
         }
     }

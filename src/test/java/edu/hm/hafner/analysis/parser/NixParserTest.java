@@ -1,15 +1,15 @@
 package edu.hm.hafner.analysis.parser;
 
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
+
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
 
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
-
 /**
  * Tests the class {@link NixParser}.
- * 
+ *
  * @author Akash Manna
  */
 class NixParserTest extends AbstractParserTest {

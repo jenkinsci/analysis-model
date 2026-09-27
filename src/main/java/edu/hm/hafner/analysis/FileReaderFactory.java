@@ -1,12 +1,8 @@
 package edu.hm.hafner.analysis;
 
-import org.apache.commons.io.input.BOMInputStream;
-
 import com.google.errorprone.annotations.MustBeClosed;
-
 import edu.hm.hafner.util.SecureXmlParserFactory;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,6 +14,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
+import org.apache.commons.io.input.BOMInputStream;
 
 /**
  * Provides a {@link ReaderFactory} that returns readers for a given file.
@@ -27,17 +24,17 @@ import java.nio.file.Path;
 public class FileReaderFactory extends ReaderFactory {
     private final Path file;
     private final String fileName;
+
     @CheckForNull
     private Charset charset;
+
     private final boolean isCharsetUndetected;
 
     /**
      * Creates a new factory to read the specified file with a given charset.
      *
-     * @param file
-     *         the file to open
-     * @param charset
-     *         the charset to use when reading the file (or {@code null} if the charset should be detected)
+     * @param file the file to open
+     * @param charset the charset to use when reading the file (or {@code null} if the charset should be detected)
      */
     public FileReaderFactory(final Path file, @CheckForNull final Charset charset) {
         super(StandardCharsets.UTF_8);
@@ -51,28 +48,27 @@ public class FileReaderFactory extends ReaderFactory {
     /**
      * Creates a new factory to read the specified file. The charset will be detected from xml header.
      *
-     * @param file
-     *         the file to open
+     * @param file the file to open
      */
     public FileReaderFactory(final Path file) {
         this(file, null);
     }
 
     @SuppressWarnings("PMD.CloseResource")
-    @Override @MustBeClosed
+    @Override
+    @MustBeClosed
     public Reader create() {
         try {
             if (isCharsetUndetected) {
                 charset = detectCharset(Files.newInputStream(file));
             }
             var inputStream = Files.newInputStream(file);
-            var bomInputStream = BOMInputStream.builder().setInputStream(inputStream).get();
+            var bomInputStream =
+                    BOMInputStream.builder().setInputStream(inputStream).get();
             return new InputStreamReader(bomInputStream, getCharset());
-        }
-        catch (FileNotFoundException | InvalidPathException exception) {
+        } catch (FileNotFoundException | InvalidPathException exception) {
             throw new ParsingException(exception, "Can't find file '%s'", fileName);
-        }
-        catch (IOException | UncheckedIOException exception) {
+        } catch (IOException | UncheckedIOException exception) {
             throw new ParsingException(exception, "Can't open file '%s'", fileName);
         }
     }
@@ -85,8 +81,7 @@ public class FileReaderFactory extends ReaderFactory {
             if (encodingTitle != null) {
                 return Charset.forName(encodingTitle);
             }
-        }
-        catch (IllegalArgumentException ignore) {
+        } catch (IllegalArgumentException ignore) {
             // Ignore it the charset couldn't be detected
         }
 

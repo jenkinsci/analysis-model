@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingException;
@@ -8,9 +9,7 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the class {@link PnpmAuditParser}.
@@ -58,12 +57,8 @@ class PnpmAuditParserTest extends AbstractParserTest {
                 .hasSeverity(Severity.WARNING_NORMAL)
                 .hasType("CVE-2016-1000236")
                 .hasModuleName("cookie-signature");
-        assertThat(report.get(11))
-                .hasModuleName("express")
-                .hasSeverity(Severity.WARNING_NORMAL);
-        assertThat(report.get(12))
-                .hasModuleName("fresh")
-                .hasType("Uncategorized");
+        assertThat(report.get(11)).hasModuleName("express").hasSeverity(Severity.WARNING_NORMAL);
+        assertThat(report.get(12)).hasModuleName("fresh").hasType("Uncategorized");
 
         // read specific issue description, which was prepared for test purposes
         var description = report.get(5).getDescription();

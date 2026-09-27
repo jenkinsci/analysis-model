@@ -1,8 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.nio.file.FileSystems;
-
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 import edu.hm.hafner.analysis.FileReaderFactory;
 import edu.hm.hafner.analysis.IssueParser;
@@ -12,8 +10,8 @@ import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
 import edu.hm.hafner.analysis.registry.ParserRegistry;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import java.nio.file.FileSystems;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the class {@link PhanParser}.
@@ -39,8 +37,7 @@ class PhanParserTest extends AbstractParserTest {
                 .hasSeverity(Severity.ERROR)
                 .hasMessage("Unexpected token '}'");
 
-        softly.assertThat(report.get(0).getDescription())
-                .isEqualTo("Syntax PhanSyntaxError Unexpected token '}'");
+        softly.assertThat(report.get(0).getDescription()).isEqualTo("Syntax PhanSyntaxError Unexpected token '}'");
 
         softly.assertThat(report.get(1))
                 .hasFileName("src/Bar.php")
@@ -68,16 +65,17 @@ class PhanParserTest extends AbstractParserTest {
 
     @Test
     void accepts() {
-        assertThat(new PhanParser().accepts(
-                new FileReaderFactory(FileSystems.getDefault().getPath("phan-report.json")))).isTrue();
-        assertThat(new PhanParser().accepts(
-                new FileReaderFactory(FileSystems.getDefault().getPath("foo.txt")))).isFalse();
+        assertThat(new PhanParser()
+                        .accepts(new FileReaderFactory(FileSystems.getDefault().getPath("phan-report.json"))))
+                .isTrue();
+        assertThat(new PhanParser()
+                        .accepts(new FileReaderFactory(FileSystems.getDefault().getPath("foo.txt"))))
+                .isFalse();
     }
 
     @Test
     void brokenInput() {
-        assertThatThrownBy(() -> parse("eclipse.txt"))
-                .isInstanceOf(ParsingException.class);
+        assertThatThrownBy(() -> parse("eclipse.txt")).isInstanceOf(ParsingException.class);
     }
 
     @Test

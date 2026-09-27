@@ -1,16 +1,15 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.util.Optional;
-import java.util.regex.Matcher;
+import static edu.hm.hafner.analysis.Categories.*;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
-
-import static edu.hm.hafner.analysis.Categories.*;
+import java.io.Serial;
+import java.util.Optional;
+import java.util.regex.Matcher;
 
 /**
  * A parser for the Pep8 compiler warnings.
@@ -23,16 +22,14 @@ public class Pep8Parser extends LookaheadParser {
 
     private static final String PEP8_WARNING_PATTERN = "(.*):(\\d+):(\\d+): (\\D\\d*) (.*)";
 
-    /**
-     * Creates a new instance of {@link Pep8Parser}.
-     */
+    /** Creates a new instance of {@link Pep8Parser}. */
     public Pep8Parser() {
         super(PEP8_WARNING_PATTERN);
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
-            final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(
+            final Matcher matcher, final LookaheadStream lookahead, final IssueBuilder builder) {
         var message = matcher.group(5);
         var category = guessCategoryIfEmpty(matcher.group(4), message);
 
@@ -53,8 +50,7 @@ public class Pep8Parser extends LookaheadParser {
     private Severity mapPriority(final String priority) {
         if (priority.contains("E")) {
             return Severity.WARNING_NORMAL;
-        }
-        else {
+        } else {
             return Severity.WARNING_LOW;
         }
     }

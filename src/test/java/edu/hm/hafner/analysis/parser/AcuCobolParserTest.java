@@ -1,18 +1,15 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.util.Iterator;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
+import java.util.Iterator;
 
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
-
-/**
- * Tests the class {@link AcuCobolParser}.
- */
+/** Tests the class {@link AcuCobolParser}. */
 class AcuCobolParserTest extends AbstractParserTest {
     AcuCobolParserTest() {
         super("acu.txt");

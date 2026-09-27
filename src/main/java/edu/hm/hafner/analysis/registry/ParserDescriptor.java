@@ -1,13 +1,11 @@
 package edu.hm.hafner.analysis.registry;
 
-import java.io.Serial;
-import java.util.AbstractMap.SimpleImmutableEntry;
-
-import org.apache.commons.lang3.StringUtils;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.Report.IssueType;
+import java.io.Serial;
+import java.util.AbstractMap.SimpleImmutableEntry;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Parent class for all descriptors.
@@ -21,10 +19,8 @@ public abstract class ParserDescriptor {
     /**
      * Creates a new {@link ParserDescriptor} instance.
      *
-     * @param id
-     *         the technical ID
-     * @param name
-     *         the name of the parser
+     * @param id the technical ID
+     * @param name the name of the parser
      */
     ParserDescriptor(final String id, final String name) {
         this.id = id;
@@ -52,10 +48,8 @@ public abstract class ParserDescriptor {
     /**
      * Returns the type of the parser. The type is used to categorize parsers.
      *
-     * <p>
-     * This default implementation returns * {@link IssueType#WARNING}.
-     * Override this method if your parser is of a different type.
-     * </p>
+     * <p>This default implementation returns * {@link IssueType#WARNING}. Override this method if your parser is of a
+     * different type.
      *
      * @return the type of the parser
      */
@@ -66,10 +60,8 @@ public abstract class ParserDescriptor {
     /**
      * Creates a new {@link IssueParser} instance.
      *
-     * @param options
-     *         options to configure the parser - may customize the new parser instance (if supported by the selected
-     *         tool)
-     *
+     * @param options options to configure the parser - may customize the new parser instance (if supported by the
+     *     selected tool)
      * @return the parser
      */
     public final IssueParser createParser(final Option... options) {
@@ -83,10 +75,8 @@ public abstract class ParserDescriptor {
     /**
      * Creates a new {@link IssueParser} instance.
      *
-     * @param options
-     *         options to configure the parser - may customize the new parser instance (if supported by the selected
-     *         tool)
-     *
+     * @param options options to configure the parser - may customize the new parser instance (if supported by the
+     *     selected tool)
      * @return the parser
      */
     protected abstract IssueParser create(Option... options);
@@ -153,18 +143,14 @@ public abstract class ParserDescriptor {
      * Returns a detailed description of the specified issue. If there is no additional description is available, then
      * an empty String is returned.
      *
-     * @param issue
-     *         the issue to get the description for
-     *
+     * @param issue the issue to get the description for
      * @return the description
      */
     public String getDescription(final Issue issue) {
         return issue.getDescription();
     }
 
-    /**
-     * A parser configuration option. Basically an immutable key and value pair.
-     */
+    /** A parser configuration option. Basically an immutable key and value pair. */
     public static class Option extends SimpleImmutableEntry<String, String> {
         @Serial
         private static final long serialVersionUID = 7376822311558465523L;
@@ -172,10 +158,8 @@ public abstract class ParserDescriptor {
         /**
          * Creates an entry representing a mapping from the specified key to the specified value.
          *
-         * @param key
-         *         the key represented by this entry
-         * @param value
-         *         the value represented by this entry
+         * @param key the key represented by this entry
+         * @param value the value represented by this entry
          */
         public Option(final String key, final String value) {
             super(key, value);

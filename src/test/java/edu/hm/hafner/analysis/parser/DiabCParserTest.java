@@ -1,28 +1,22 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.util.Iterator;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
+import java.util.Iterator;
 
-/**
- * Tests the class {@link DiabCParser}.
- */
+/** Tests the class {@link DiabCParser}. */
 class DiabCParserTest extends AbstractParserTest {
-    /**
-     * Creates a new instance of {@link DiabCParserTest}.
-     */
+    /** Creates a new instance of {@link DiabCParserTest}. */
     protected DiabCParserTest() {
         super("diabc.txt");
     }
 
     @Override
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
-        softly.assertThat(report).hasSize(12)
-                .hasDuplicatesSize(1);
+        softly.assertThat(report).hasSize(12).hasDuplicatesSize(1);
         Iterator<Issue> iterator = report.iterator();
 
         softly.assertThat(iterator.next())

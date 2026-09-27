@@ -1,16 +1,14 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.util.Optional;
-import java.util.regex.Matcher;
-
-import org.apache.commons.lang3.StringUtils;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
+import java.io.Serial;
+import java.util.Optional;
+import java.util.regex.Matcher;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * A parser for the GHS Multi compiler warnings.
@@ -22,8 +20,8 @@ public class GhsMultiParser extends LookaheadParser {
     private static final long serialVersionUID = 8149238560432255036L;
 
     /**
-     * Regex Pattern to match start of Warning / Error. Groups are used to identify FileName, StartLine, IssueType, Category,
-     * Start of message.
+     * Regex Pattern to match start of Warning / Error. Groups are used to identify FileName, StartLine, IssueType,
+     * Category, Start of message.
      */
     private static final String GHS_MULTI_WARNING_PATTERN = "\"(?<file>.*)\"\\,"
             + "\\s*line\\s*(?<line>\\d+)"
@@ -35,16 +33,14 @@ public class GhsMultiParser extends LookaheadParser {
     /** Regex Pattern to match the ending of the warning or error message. */
     private static final String MESSAGE_END_REGEX = "\\s*\\^";
 
-    /**
-     * Creates a new instance of {@link GhsMultiParser}.
-     */
+    /** Creates a new instance of {@link GhsMultiParser}. */
     public GhsMultiParser() {
         super(GHS_MULTI_WARNING_PATTERN);
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
-            final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(
+            final Matcher matcher, final LookaheadStream lookahead, final IssueBuilder builder) {
         var type = StringUtils.capitalize(matcher.group("severity"));
         var messageStart = matcher.group("message");
 
@@ -57,8 +53,7 @@ public class GhsMultiParser extends LookaheadParser {
         if (StringUtils.isNotBlank(matcher.group("column"))) {
             builder.setColumnStart(matcher.group("column"));
             message = messageStart;
-        }
-        else {
+        } else {
             message = extractMessage(messageStart, lookahead);
         }
 
@@ -74,11 +69,8 @@ public class GhsMultiParser extends LookaheadParser {
     /**
      * Go through all following lines appending the message until a line with only the ^ Symbol is found.
      *
-     * @param messageStart
-     *         start of the message
-     * @param lookahead
-     *         lines used for message creation
-     *
+     * @param messageStart start of the message
+     * @param lookahead lines used for message creation
      * @return concatenated message string
      */
     private String extractMessage(final String messageStart, final LookaheadStream lookahead) {

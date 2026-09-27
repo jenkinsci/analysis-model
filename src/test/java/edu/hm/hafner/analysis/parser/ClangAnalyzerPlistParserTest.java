@@ -1,17 +1,14 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
+import org.junit.jupiter.api.Test;
 
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
-
-/**
- * Tests for {@link TaglistParser}.
- */
+/** Tests for {@link TaglistParser}. */
 class ClangAnalyzerPlistParserTest extends AbstractParserTest {
     ClangAnalyzerPlistParserTest() {
         super("clang-analyzer-test.txt");
@@ -58,8 +55,10 @@ class ClangAnalyzerPlistParserTest extends AbstractParserTest {
     void shouldOnlyAcceptXmlFiles() {
         var parser = createParser();
 
-        assertThat(parser.accepts(createReaderFactory("clang-analyzer-test.txt"))).isTrue();
+        assertThat(parser.accepts(createReaderFactory("clang-analyzer-test.txt")))
+                .isTrue();
 
-        assertThat(parser.accepts(createReaderFactory("clang-analyzer-bad.txt"))).isFalse();
+        assertThat(parser.accepts(createReaderFactory("clang-analyzer-bad.txt")))
+                .isFalse();
     }
 }

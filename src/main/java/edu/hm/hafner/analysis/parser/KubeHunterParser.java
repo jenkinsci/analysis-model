@@ -1,15 +1,13 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
-import org.apache.commons.lang3.StringUtils;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
-
 import java.io.Serial;
+import org.apache.commons.lang3.StringUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * A parser for Kube Hunter JSON output.
@@ -42,8 +40,8 @@ public class KubeHunterParser extends JsonIssueParser {
         parseVulnerabilities(report, jsonReport, issueBuilder);
     }
 
-    private void parseVulnerabilities(final Report report, @CheckForNull final JSONArray vulnerabilities,
-            final IssueBuilder issueBuilder) {
+    private void parseVulnerabilities(
+            final Report report, @CheckForNull final JSONArray vulnerabilities, final IssueBuilder issueBuilder) {
         if (vulnerabilities == null) {
             return;
         }
@@ -59,7 +57,8 @@ public class KubeHunterParser extends JsonIssueParser {
         var fileName = StringUtils.defaultIfBlank(firstNonBlank(vulnerability, LOCATION), NOT_AVAILABLE);
         var category = StringUtils.defaultIfBlank(firstNonBlank(vulnerability, CATEGORY), NOT_AVAILABLE);
         var type = StringUtils.defaultIfBlank(firstNonBlank(vulnerability, VID), NOT_AVAILABLE);
-        var message = StringUtils.defaultIfBlank(firstNonBlank(vulnerability, VULNERABILITY, DESCRIPTION), NOT_AVAILABLE);
+        var message =
+                StringUtils.defaultIfBlank(firstNonBlank(vulnerability, VULNERABILITY, DESCRIPTION), NOT_AVAILABLE);
 
         return issueBuilder
                 .setFileName(fileName)

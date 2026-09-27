@@ -1,33 +1,32 @@
 package edu.hm.hafner.analysis;
 
-import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.Strings;
+import static edu.hm.hafner.analysis.util.IntegerParser.*;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import edu.hm.hafner.util.Ensure;
 import edu.hm.hafner.util.LineRangeList;
 import edu.hm.hafner.util.PathUtil;
 import edu.hm.hafner.util.TreeString;
 import edu.hm.hafner.util.TreeStringBuilder;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
-import static edu.hm.hafner.analysis.util.IntegerParser.*;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 /**
  * Creates new {@link Issue issues} using the builder pattern. All properties that have not been set in the builder will
  * be set to their default value.
  *
- * <p>Example:</p>
+ * <p>Example:
  *
- * <blockquote><pre>
+ * <blockquote>
+ *
+ * <pre>
  * try (var builder = new IssueBuilder()) {
  *     builder.setFileName("affected.file")
  *            .setLineStart(0)
@@ -35,7 +34,9 @@ import static edu.hm.hafner.analysis.util.IntegerParser.*;
  *            .setMessage("Missing Javadoc")
  *            .setSeverity(Severity.WARNING_LOW);
  * }
- * </pre></blockquote>
+ * </pre>
+ *
+ * </blockquote>
  *
  * @author Ullrich Hafner
  */
@@ -60,15 +61,19 @@ public class IssueBuilder implements AutoCloseable {
 
     @CheckForNull
     private String pathName;
+
     private TreeString fileName = UNDEFINED_TREE_STRING;
     private TreeString packageName = UNDEFINED_TREE_STRING;
 
     @CheckForNull
     private String directory;
+
     @CheckForNull
     private String category;
+
     @CheckForNull
     private String type;
+
     @CheckForNull
     private Severity severity;
 
@@ -77,14 +82,19 @@ public class IssueBuilder implements AutoCloseable {
 
     @CheckForNull
     private String moduleName;
+
     @CheckForNull
     private String origin;
+
     @CheckForNull
     private String originName;
+
     @CheckForNull
     private String reference;
+
     @CheckForNull
     private String fingerprint;
+
     @CheckForNull
     private Serializable additionalProperties;
 
@@ -93,9 +103,7 @@ public class IssueBuilder implements AutoCloseable {
     /**
      * Sets the unique ID of the issue. If not set, then an ID will be generated.
      *
-     * @param id
-     *         the ID
-     *
+     * @param id the ID
      * @return this
      */
     @CanIgnoreReturnValue
@@ -108,9 +116,7 @@ public class IssueBuilder implements AutoCloseable {
      * Sets additional properties from the statical analysis tool. This object could be used to store tool-specific
      * information.
      *
-     * @param additionalProperties
-     *         the instance
-     *
+     * @param additionalProperties the instance
      * @return this
      */
     @CanIgnoreReturnValue
@@ -121,12 +127,10 @@ public class IssueBuilder implements AutoCloseable {
 
     /**
      * Sets the fingerprint for this issue. Used to decide if two issues are equal even if the equals method returns
-     * {@code false} since some properties differ due to code refactorings. The fingerprint is created by
-     * analyzing the content of the affected file.
+     * {@code false} since some properties differ due to code refactorings. The fingerprint is created by analyzing the
+     * content of the affected file.
      *
-     * @param fingerprint
-     *         the fingerprint to set
-     *
+     * @param fingerprint the fingerprint to set
      * @return this
      */
     @CanIgnoreReturnValue
@@ -136,17 +140,15 @@ public class IssueBuilder implements AutoCloseable {
     }
 
     private void ensureThatLocationsAreEmpty() {
-        Ensure.that(locations.isEmpty()).isTrue(
-                "Cannot set single location properties when locations are already defined");
+        Ensure.that(locations.isEmpty())
+                .isTrue("Cannot set single location properties when locations are already defined");
     }
 
     /**
      * Sets the name of the affected file. This file name is a path relative to the path of the affected files (see
      * {@link #setPathName(String)}).
      *
-     * @param fileName
-     *         the file name
-     *
+     * @param fileName the file name
      * @return this
      */
     @CanIgnoreReturnValue
@@ -165,13 +167,11 @@ public class IssueBuilder implements AutoCloseable {
     TreeString internFileName(@CheckForNull final String unsafeFileName) {
         if (unsafeFileName == null || StringUtils.isEmpty(unsafeFileName)) {
             return UNDEFINED_TREE_STRING;
-        }
-        else {
+        } else {
             if (directory != null && PATH_UTIL.isAbsolute(normalizeFileName(unsafeFileName))) {
                 return fileNameBuilder.intern(normalizeFileName(unsafeFileName));
             }
-            return fileNameBuilder.intern(normalizeFileName(
-                    PATH_UTIL.createAbsolutePath(directory, unsafeFileName)));
+            return fileNameBuilder.intern(normalizeFileName(PATH_UTIL.createAbsolutePath(directory, unsafeFileName)));
         }
     }
 
@@ -182,9 +182,7 @@ public class IssueBuilder implements AutoCloseable {
      * {@code path} and {@code fileName} properties. I.e., the created issue will get a new file name that is composed
      * of {@code directory} and {@code fileName}.
      *
-     * @param directory
-     *         the directory that contains all affected files
-     *
+     * @param directory the directory that contains all affected files
      * @return this
      */
     @CanIgnoreReturnValue
@@ -195,13 +193,11 @@ public class IssueBuilder implements AutoCloseable {
 
     /**
      * Sets the path of the affected file. Note that this path is not the parent folder of the affected file. This path
-     * is the folder that contains all the affected files of a {@link Report}. The path of an affected file is stored
-     * in the {@code path} and {@code fileName} properties so that issues can be tracked even if the root folder changes
+     * is the folder that contains all the affected files of a {@link Report}. The path of an affected file is stored in
+     * the {@code path} and {@code fileName} properties so that issues can be tracked even if the root folder changes
      * (due to different build environments).
      *
-     * @param pathName
-     *         the path that contains all affected files
-     *
+     * @param pathName the path that contains all affected files
      * @return this
      */
     @CanIgnoreReturnValue
@@ -213,9 +209,7 @@ public class IssueBuilder implements AutoCloseable {
     /**
      * Sets the first line of this issue (lines start at 1; 0 indicates the whole file).
      *
-     * @param lineStart
-     *         the first line
-     *
+     * @param lineStart the first line
      * @return this
      */
     @CanIgnoreReturnValue
@@ -229,9 +223,7 @@ public class IssueBuilder implements AutoCloseable {
     /**
      * Sets the first line of this issue (lines start at 1; 0 indicates the whole file).
      *
-     * @param lineStart
-     *         the first line
-     *
+     * @param lineStart the first line
      * @return this
      */
     @CanIgnoreReturnValue
@@ -249,9 +241,7 @@ public class IssueBuilder implements AutoCloseable {
     /**
      * Sets the last line of this issue (lines start at 1).
      *
-     * @param lineEnd
-     *         the last line
-     *
+     * @param lineEnd the last line
      * @return this
      */
     @CanIgnoreReturnValue
@@ -265,9 +255,7 @@ public class IssueBuilder implements AutoCloseable {
     /**
      * Sets the last line of this issue (lines start at 1).
      *
-     * @param lineEnd
-     *         the last line
-     *
+     * @param lineEnd the last line
      * @return this
      */
     @CanIgnoreReturnValue
@@ -285,9 +273,7 @@ public class IssueBuilder implements AutoCloseable {
     /**
      * Sets the first column of this issue (columns start at 1, 0 indicates the whole line).
      *
-     * @param columnStart
-     *         the first column
-     *
+     * @param columnStart the first column
      * @return this
      */
     @CanIgnoreReturnValue
@@ -301,9 +287,7 @@ public class IssueBuilder implements AutoCloseable {
     /**
      * Sets the first column of this issue (columns start at 1, 0 indicates the whole line).
      *
-     * @param columnStart
-     *         the first column
-     *
+     * @param columnStart the first column
      * @return this
      */
     @CanIgnoreReturnValue
@@ -321,9 +305,7 @@ public class IssueBuilder implements AutoCloseable {
     /**
      * Sets the last column of this issue (columns start at 1).
      *
-     * @param columnEnd
-     *         the last column
-     *
+     * @param columnEnd the last column
      * @return this
      */
     @CanIgnoreReturnValue
@@ -337,9 +319,7 @@ public class IssueBuilder implements AutoCloseable {
     /**
      * Sets the last column of this issue (columns start at 1).
      *
-     * @param columnEnd
-     *         the last column
-     *
+     * @param columnEnd the last column
      * @return this
      */
     @CanIgnoreReturnValue
@@ -358,9 +338,7 @@ public class IssueBuilder implements AutoCloseable {
      * Sets the category of this issue (depends on the available categories of the static analysis tool). Examples for
      * categories are "Deprecation", "Design", or "Javadoc".
      *
-     * @param category
-     *         the category
-     *
+     * @param category the category
      * @return this
      */
     @CanIgnoreReturnValue
@@ -373,9 +351,7 @@ public class IssueBuilder implements AutoCloseable {
      * Sets the type of this issue (depends on the available types of the static analysis tool). The type typically is
      * the associated rule of the static analysis tool that reported this issue.
      *
-     * @param type
-     *         the type
-     *
+     * @param type the type
      * @return this
      */
     @CanIgnoreReturnValue
@@ -387,9 +363,7 @@ public class IssueBuilder implements AutoCloseable {
     /**
      * Sets the name of the package or name space (or similar concept) that contains this issue.
      *
-     * @param packageName
-     *         the package or namespace name
-     *
+     * @param packageName the package or namespace name
      * @return this
      */
     @CanIgnoreReturnValue
@@ -409,9 +383,7 @@ public class IssueBuilder implements AutoCloseable {
     /**
      * Sets the name of the module or project (or similar concept) that contains this issue.
      *
-     * @param moduleName
-     *         the module name
-     *
+     * @param moduleName the module name
      * @return this
      */
     @CanIgnoreReturnValue
@@ -423,9 +395,7 @@ public class IssueBuilder implements AutoCloseable {
     /**
      * Sets the ID of the tool that did report this issue.
      *
-     * @param origin
-     *         the ID of the originating tool
-     *
+     * @param origin the ID of the originating tool
      * @return this
      */
     @CanIgnoreReturnValue
@@ -437,9 +407,7 @@ public class IssueBuilder implements AutoCloseable {
     /**
      * Sets the name of the tool that did report this issue.
      *
-     * @param originName
-     *         the ID of the originating tool
-     *
+     * @param originName the ID of the originating tool
      * @return this
      */
     @CanIgnoreReturnValue
@@ -451,9 +419,7 @@ public class IssueBuilder implements AutoCloseable {
     /**
      * Sets a reference to the execution of the static analysis tool (build ID, timestamp, etc.).
      *
-     * @param reference
-     *         the reference
-     *
+     * @param reference the reference
      * @return this
      */
     @CanIgnoreReturnValue
@@ -465,9 +431,7 @@ public class IssueBuilder implements AutoCloseable {
     /**
      * Sets the severity of this issue.
      *
-     * @param severity
-     *         the severity
-     *
+     * @param severity the severity
      * @return this
      */
     @CanIgnoreReturnValue
@@ -480,9 +444,7 @@ public class IssueBuilder implements AutoCloseable {
      * Guesses the severity for the issues: converts the String severity to one of the predefined severities. If the
      * provided String does not match (even partly), then the default severity will be returned.
      *
-     * @param severityString
-     *         the severity given as a string representation
-     *
+     * @param severityString the severity given as a string representation
      * @return this
      */
     @CanIgnoreReturnValue
@@ -494,9 +456,7 @@ public class IssueBuilder implements AutoCloseable {
     /**
      * Sets the detailed message for this issue.
      *
-     * @param message
-     *         the message
-     *
+     * @param message the message
      * @return this
      */
     @CanIgnoreReturnValue
@@ -507,17 +467,14 @@ public class IssueBuilder implements AutoCloseable {
     /**
      * Sets the detailed message for this issue.
      *
-     * @param message
-     *         the message
-     *
+     * @param message the message
      * @return this
      */
     @CanIgnoreReturnValue
     public IssueBuilder setMessage(@CheckForNull final String message) {
         if (StringUtils.isBlank(message)) {
             this.message = EMPTY_TREE_STRING;
-        }
-        else {
+        } else {
             this.message = messageBuilder.intern(StringUtils.stripToEmpty(message));
         }
         return this;
@@ -527,9 +484,7 @@ public class IssueBuilder implements AutoCloseable {
      * Sets an additional description for this issue. Static analysis tools might provide some additional information
      * about this issue. This description may contain valid HTML.
      *
-     * @param description
-     *         the description (as HTML content)
-     *
+     * @param description the description (as HTML content)
      * @return this
      */
     @CanIgnoreReturnValue
@@ -539,12 +494,10 @@ public class IssueBuilder implements AutoCloseable {
     }
 
     /**
-     * Sets additional line ranges of this issue. Note that the primary range given by {@code lineStart} and {@code
-     * lineEnd} is not included.
+     * Sets additional line ranges of this issue. Note that the primary range given by {@code lineStart} and
+     * {@code lineEnd} is not included.
      *
-     * @param lineRanges
-     *         the additional line ranges
-     *
+     * @param lineRanges the additional line ranges
      * @return this
      * @deprecated use {@link #setLocations(List)} or {@link #addLocation(Location)} instead
      */
@@ -564,9 +517,7 @@ public class IssueBuilder implements AutoCloseable {
     /**
      * Sets the locations of this issue, the first location is considered the primary location.
      *
-     * @param locations
-     *         the locations of this issue
-     *
+     * @param locations the locations of this issue
      * @return this
      */
     @CanIgnoreReturnValue
@@ -579,9 +530,7 @@ public class IssueBuilder implements AutoCloseable {
     /**
      * Adds another location to this issue, the first location is considered the primary location.
      *
-     * @param location
-     *         the file location to add
-     *
+     * @param location the file location to add
      * @return this
      */
     @CanIgnoreReturnValue
@@ -590,11 +539,13 @@ public class IssueBuilder implements AutoCloseable {
             return this;
         }
         if (isInPrimaryFile(location)) { // reuse file name instance of the primary location
-            locations.add(new Location(locations.get(0).getFileNameTreeString(),
-                    location.getLineStart(), location.getLineEnd(),
-                    location.getColumnStart(), location.getColumnEnd()));
-        }
-        else {
+            locations.add(new Location(
+                    locations.get(0).getFileNameTreeString(),
+                    location.getLineStart(),
+                    location.getLineEnd(),
+                    location.getColumnStart(),
+                    location.getColumnEnd()));
+        } else {
             locations.add(location);
         }
 
@@ -604,35 +555,25 @@ public class IssueBuilder implements AutoCloseable {
     /**
      * Adds another location to this issue, the first location is considered the primary location.
      *
-     * @param fileName
-     *         the name of the affected file
-     * @param lineStart
-     *         the first line of the affected code
-     * @param lineEnd
-     *         the last line of the affected code
-     * @param columnStart
-     *         the first column of the affected code
-     * @param columnEnd
-     *         the last column of the affected code
-     *
+     * @param fileName the name of the affected file
+     * @param lineStart the first line of the affected code
+     * @param lineEnd the last line of the affected code
+     * @param columnStart the first column of the affected code
+     * @param columnEnd the last column of the affected code
      * @return this
      */
     @CanIgnoreReturnValue
     @SuppressWarnings("checkstyle:HiddenField")
-    public IssueBuilder addLocation(final String fileName,
-            final int lineStart, final int lineEnd,
-            final int columnStart, final int columnEnd) {
+    public IssueBuilder addLocation(
+            final String fileName, final int lineStart, final int lineEnd, final int columnStart, final int columnEnd) {
         return addLocation(new Location(internFileName(fileName), lineStart, lineEnd, columnStart, columnEnd));
     }
 
     /**
      * Adds another location to this issue, the first location is considered the primary location.
      *
-     * @param start
-     *         the first line
-     * @param end
-     *         the last line
-     *
+     * @param start the first line
+     * @param end the last line
      * @return this
      */
     @CanIgnoreReturnValue
@@ -650,16 +591,13 @@ public class IssueBuilder implements AutoCloseable {
     }
 
     private boolean isInPrimaryFile(final Location location) {
-        return !locations.isEmpty()
-                && locations.get(0).getFileName().equals(location.getFileName());
+        return !locations.isEmpty() && locations.get(0).getFileName().equals(location.getFileName());
     }
 
     /**
      * Initializes this builder with an exact copy of all properties of the specified issue.
      *
-     * @param copy
-     *         the issue to copy the properties from
-     *
+     * @param copy the issue to copy the properties from
      * @return the initialized builder
      */
     IssueBuilder copy(final Issue copy) {
@@ -706,15 +644,15 @@ public class IssueBuilder implements AutoCloseable {
     private Issue buildWithConstructor() {
         List<Location> actualLocations;
         if (locations.isEmpty()) {
-            var primary = new Location(getFileName(), getLineStart(), getLineEnd(),
-                    getColumnStart(), getColumnEnd());
+            var primary = new Location(getFileName(), getLineStart(), getLineEnd(), getColumnStart(), getColumnEnd());
             actualLocations = List.of(primary);
-        }
-        else {
+        } else {
             actualLocations = List.copyOf(locations);
         }
 
-        return new Issue(pathName, actualLocations,
+        return new Issue(
+                pathName,
+                actualLocations,
                 StringUtils.defaultString(category).intern(),
                 defaultString(type),
                 packageName,
@@ -733,9 +671,7 @@ public class IssueBuilder implements AutoCloseable {
     /**
      * Strips whitespace from the start and end of a String returning an empty String if {@code null} input.
      *
-     * @param string
-     *         the string to check
-     *
+     * @param string the string to check
      * @return the stripped string or the empty string if the specified string is {@code null}
      */
     private String stripToEmpty(@CheckForNull final String string) {
@@ -743,8 +679,8 @@ public class IssueBuilder implements AutoCloseable {
     }
 
     /**
-     * Creates a new {@link Issue} based on the specified properties. The returned issue is wrapped in an {@link
-     * Optional}. After building the issue, this {@link IssueBuilder} will be reset to its defaults.
+     * Creates a new {@link Issue} based on the specified properties. The returned issue is wrapped in an
+     * {@link Optional}. After building the issue, this {@link IssueBuilder} will be reset to its defaults.
      *
      * @return the created issue
      * @see #buildAndClean()
@@ -779,25 +715,20 @@ public class IssueBuilder implements AutoCloseable {
     }
 
     private static String normalizeFileName(@CheckForNull final String platformFileName) {
-        return defaultString(Strings.CS.replace(
-                StringUtils.strip(platformFileName), "\\", "/"));
+        return defaultString(Strings.CS.replace(StringUtils.strip(platformFileName), "\\", "/"));
     }
 
     /**
      * Creates a default String representation for undefined input parameters.
      *
-     * @param string
-     *         the string to check
-     *
+     * @param string the string to check
      * @return the valid string or a default string if the specified string is not valid
      */
     private static String defaultString(@CheckForNull final String string) {
         return StringUtils.defaultIfEmpty(string, UNDEFINED).intern();
     }
 
-    /**
-     * Reduce the memory print of internal string instances.
-     */
+    /** Reduce the memory print of internal string instances. */
     @Override
     public void close() {
         fileNameBuilder.dedup();

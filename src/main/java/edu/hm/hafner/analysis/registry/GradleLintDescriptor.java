@@ -26,7 +26,7 @@ class GradleLintDescriptor extends ParserDescriptor {
     public IssueType getType() {
         return IssueType.WARNING;
     }
-  
+
     @Override
     public String getPattern() {
         return "**/gradle-lint-report.json";

@@ -1,19 +1,16 @@
 package edu.hm.hafner.analysis;
 
+import static edu.hm.hafner.analysis.assertions.Assertions.assertThat;
+
+import com.google.errorprone.annotations.MustBeClosed;
+import edu.hm.hafner.util.ResourceTest;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-
 import org.junit.jupiter.api.Test;
-
-import com.google.errorprone.annotations.MustBeClosed;
-
-import edu.hm.hafner.util.ResourceTest;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 /**
  * Tests the class {@link FileReaderFactory}.
@@ -25,8 +22,7 @@ class FileReaderFactoryTest extends ResourceTest {
 
     @Test
     void shouldRemoveColorCodesAfterAllLineMappers() {
-        var factory = new ConsoleLogReaderFactory(
-                getResourceAsFile("ath-colored.log"));
+        var factory = new ConsoleLogReaderFactory(getResourceAsFile("ath-colored.log"));
 
         assertThat(factory.readString()).isEqualToIgnoringWhitespace("""
                 [WARNING]
@@ -89,7 +85,11 @@ class FileReaderFactoryTest extends ResourceTest {
     private void assertEncoding(final FileReaderFactory factory, final Charset charset) {
         var document = factory.readDocument();
         assertThat(factory.getCharset()).isEqualTo(charset);
-        assertThat(document.getElementsByTagName("text").item(0).getChildNodes().item(0).getNodeValue())
+        assertThat(document.getElementsByTagName("text")
+                        .item(0)
+                        .getChildNodes()
+                        .item(0)
+                        .getNodeValue())
                 .isEqualTo("aä");
     }
 
@@ -138,8 +138,7 @@ class FileReaderFactoryTest extends ResourceTest {
         public Reader create() {
             try {
                 return Files.newBufferedReader(log);
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 throw new ParsingException(e);
             }
         }

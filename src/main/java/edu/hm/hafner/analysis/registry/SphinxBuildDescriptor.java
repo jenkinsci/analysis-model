@@ -1,10 +1,9 @@
 package edu.hm.hafner.analysis.registry;
 
-import java.util.Collection;
-
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.SphinxBuildLinkCheckParser;
 import edu.hm.hafner.analysis.parser.SphinxBuildParser;
+import java.util.Collection;
 
 /**
  * A descriptor for Sphinx build warnings.

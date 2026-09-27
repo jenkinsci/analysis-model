@@ -1,19 +1,15 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.util.Locale;
-
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.assertThat;
 
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
+import java.util.Locale;
+import org.junit.jupiter.api.Test;
 
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
-
-/**
- * Tests the extraction of Simian's analysis results.
- */
+/** Tests the extraction of Simian's analysis results. */
 class SimianParserTest extends AbstractParserTest {
     private static final String MATRIX_RUN = "C:/java/hudson/matrix/MatrixRun.java";
     private static final String MAVEN_BUILD = "C:/java/hudson/maven/MavenBuild.java";
@@ -28,13 +24,13 @@ class SimianParserTest extends AbstractParserTest {
     }
 
     @Override
-    protected void assertThatIssuesArePresent(final Report report,
-            final SoftAssertions softly) {
+    protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
         softly.assertThat(report).hasSize(2);
 
         var firstIssue = report.get(0);
         softly.assertThat(firstIssue)
-                .hasLineStart(93).hasLineEnd(98)
+                .hasLineStart(93)
+                .hasLineEnd(98)
                 .hasFileName(MAVEN_BUILD)
                 .hasSeverity(Severity.WARNING_LOW)
                 .hasMessage("Found duplicated code.")
@@ -44,7 +40,8 @@ class SimianParserTest extends AbstractParserTest {
 
         var secondIssue = report.get(1);
         softly.assertThat(secondIssue)
-                .hasLineStart(76).hasLineEnd(81)
+                .hasLineStart(76)
+                .hasLineEnd(81)
                 .hasFileName(MAVEN_BUILD)
                 .hasSeverity(Severity.WARNING_LOW)
                 .hasMessage("Found duplicated code.")
@@ -60,11 +57,13 @@ class SimianParserTest extends AbstractParserTest {
         assertThat(report).hasSize(2);
 
         assertThat(report.get(0))
-                .hasLineStart(92).hasLineEnd(97)
+                .hasLineStart(92)
+                .hasLineEnd(97)
                 .hasFileName(MAVEN_BUILD)
                 .hasSeverity(Severity.WARNING_LOW);
         assertThat(report.get(1))
-                .hasLineStart(61).hasLineEnd(66)
+                .hasLineStart(61)
+                .hasLineEnd(66)
                 .hasFileName(MATRIX_RUN)
                 .hasSeverity(Severity.WARNING_LOW);
     }
@@ -80,22 +79,26 @@ class SimianParserTest extends AbstractParserTest {
         assertThat(report).hasSize(4);
 
         assertThat(report.get(0))
-                .hasLineStart(92).hasLineEnd(97)
+                .hasLineStart(92)
+                .hasLineEnd(97)
                 .hasFileName(MAVEN_BUILD)
                 .hasSeverity(Severity.WARNING_LOW);
 
         assertThat(report.get(1))
-                .hasLineStart(61).hasLineEnd(66)
+                .hasLineStart(61)
+                .hasLineEnd(66)
                 .hasFileName(MATRIX_RUN)
                 .hasSeverity(Severity.WARNING_LOW);
 
         assertThat(report.get(2))
-                .hasLineStart(93).hasLineEnd(98)
+                .hasLineStart(93)
+                .hasLineEnd(98)
                 .hasFileName(MAVEN_BUILD)
                 .hasSeverity(Severity.WARNING_LOW);
 
         assertThat(report.get(3))
-                .hasLineStart(76).hasLineEnd(81)
+                .hasLineStart(76)
+                .hasLineEnd(81)
                 .hasFileName(MAVEN_BUILD)
                 .hasSeverity(Severity.WARNING_LOW);
     }

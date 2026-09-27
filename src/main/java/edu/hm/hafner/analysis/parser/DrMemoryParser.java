@@ -1,12 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.util.Locale;
-import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import org.apache.commons.lang3.StringUtils;
+import static edu.hm.hafner.analysis.util.IntegerParser.parseInt;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
@@ -15,8 +9,12 @@ import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
-import static edu.hm.hafner.analysis.util.IntegerParser.*;
+import java.io.Serial;
+import java.util.Locale;
+import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * A parser for the Dr. Memory Errors.
@@ -26,26 +24,24 @@ import static edu.hm.hafner.analysis.util.IntegerParser.*;
 public class DrMemoryParser extends LookaheadParser {
     @Serial
     private static final long serialVersionUID = 7195239138601238590L;
+
     private static final String DR_MEMORY_WARNING_PATTERN = "Error #\\d+: (.*)";
 
     /** Regex pattern to extract the file path from a line. */
-    private static final Pattern FILE_PATH_PATTERN = Pattern.compile(
-            "#\\s*\\d+.*?\\[(?<file>.*/?.*):(?<line>\\d+)]");
+    private static final Pattern FILE_PATH_PATTERN = Pattern.compile("#\\s*\\d+.*?\\[(?<file>.*/?.*):(?<line>\\d+)]");
 
     /** Regex pattern to extract the jenkins path from file path. */
-    private static final Pattern JENKINS_PATH_PATTERN = Pattern
-            .compile(".*?(/jobs/.*?/workspace/|workspace/)");
+    private static final Pattern JENKINS_PATH_PATTERN = Pattern.compile(".*?(/jobs/.*?/workspace/|workspace/)");
 
-    /**
-     * Creates a new instance of {@link DrMemoryParser}.
-     */
+    /** Creates a new instance of {@link DrMemoryParser}. */
     public DrMemoryParser() {
         super(DR_MEMORY_WARNING_PATTERN);
     }
 
-    @Override @SuppressFBWarnings(value = "POTENTIAL_XML_INJECTION", justification = "Message is cleaned in UI")
-    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
-            final IssueBuilder builder)
+    @Override
+    @SuppressFBWarnings(value = "POTENTIAL_XML_INJECTION", justification = "Message is cleaned in UI")
+    protected Optional<Issue> createIssue(
+            final Matcher matcher, final LookaheadStream lookahead, final IssueBuilder builder)
             throws ParsingException {
         var header = matcher.group(1);
 
@@ -89,33 +85,25 @@ public class DrMemoryParser extends LookaheadParser {
         if (header.startsWith("unaddressable access")) {
             builder.setCategory("Unaddressable Access");
             builder.setSeverity(Severity.WARNING_HIGH);
-        }
-        else if (header.startsWith("uninitialized read")) {
+        } else if (header.startsWith("uninitialized read")) {
             builder.setCategory("Uninitialized Read");
             builder.setSeverity(Severity.WARNING_HIGH);
-        }
-        else if (header.startsWith("invalid heap argument")) {
+        } else if (header.startsWith("invalid heap argument")) {
             builder.setCategory("Invalid Heap Argument");
             builder.setSeverity(Severity.WARNING_HIGH);
-        }
-        else if (header.startsWith("reachable leak")) {
+        } else if (header.startsWith("reachable leak")) {
             builder.setCategory("Reachable Leak");
             builder.setSeverity(Severity.WARNING_HIGH);
-        }
-        else if (header.startsWith("leak")) {
+        } else if (header.startsWith("leak")) {
             builder.setCategory("Leak");
             builder.setSeverity(Severity.WARNING_HIGH);
-        }
-        else if (header.startsWith("possible leak")) {
+        } else if (header.startsWith("possible leak")) {
             builder.setCategory("Possible Leak");
-        }
-        else if (header.startsWith("gdi usage error")) {
+        } else if (header.startsWith("gdi usage error")) {
             builder.setCategory("GDI Usage Error");
-        }
-        else if (header.startsWith("handle leak")) {
+        } else if (header.startsWith("handle leak")) {
             builder.setCategory("Handle Leak");
-        }
-        else if (header.startsWith("warning")) {
+        } else if (header.startsWith("warning")) {
             builder.setCategory("Warning");
         }
     }
@@ -125,10 +113,8 @@ public class DrMemoryParser extends LookaheadParser {
      * originates from within the user's code. This assumes that the user's code is within the Jenkins workspace folder.
      * Otherwise, the file path and line number is obtained from the top of the stack trace.
      *
-     * @param stackTrace
-     *         the stack trace in the correct order
-     * @param builder
-     *         the issue builder
+     * @param stackTrace the stack trace in the correct order
+     * @param builder the issue builder
      */
     private void findOriginatingErrorLocation(final String stackTrace, final IssueBuilder builder) {
         builder.setFileName("-");

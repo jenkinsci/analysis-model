@@ -1,25 +1,20 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
+import org.junit.jupiter.api.Test;
 
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
-
-/**
- * Tests the class {@link NagFortranParser}.
- */
+/** Tests the class {@link NagFortranParser}. */
 class NagFortranParserTest extends AbstractParserTest {
     NagFortranParserTest() {
         super("NagFortran.txt");
     }
 
-    /**
-     * Test parsing of a file containing an Info message output by the NAG Fortran Compiler.
-     */
+    /** Test parsing of a file containing an Info message output by the NAG Fortran Compiler. */
     @Test
     void testInfoParser() {
         var warnings = parse("NagFortranInfo.txt");
@@ -37,9 +32,7 @@ class NagFortranParserTest extends AbstractParserTest {
         }
     }
 
-    /**
-     * Test parsing of a file containing a Warning message output by the NAG Fortran Compiler.
-     */
+    /** Test parsing of a file containing a Warning message output by the NAG Fortran Compiler. */
     @Test
     void testWarningParser() {
         var warnings = parse("NagFortranWarning.txt");
@@ -57,9 +50,7 @@ class NagFortranParserTest extends AbstractParserTest {
         }
     }
 
-    /**
-     * Test parsing of a file containing a Questionable message output by the NAG Fortran Compiler.
-     */
+    /** Test parsing of a file containing a Questionable message output by the NAG Fortran Compiler. */
     @Test
     void testQuestionableParser() {
         var warnings = parse("NagFortranQuestionable.txt");
@@ -78,9 +69,7 @@ class NagFortranParserTest extends AbstractParserTest {
         }
     }
 
-    /**
-     * Test parsing of a file containing an Extension message output by the NAG Fortran Compiler.
-     */
+    /** Test parsing of a file containing an Extension message output by the NAG Fortran Compiler. */
     @Test
     void testExtensionParser() {
         var warnings = parse("NagFortranExtension.txt");
@@ -98,9 +87,7 @@ class NagFortranParserTest extends AbstractParserTest {
         }
     }
 
-    /**
-     * Test parsing of a file containing an Obsolescent message output by the NAG Fortran Compiler.
-     */
+    /** Test parsing of a file containing an Obsolescent message output by the NAG Fortran Compiler. */
     @Test
     void testObsolescentParser() {
         var warnings = parse("NagFortranObsolescent.txt");
@@ -118,9 +105,7 @@ class NagFortranParserTest extends AbstractParserTest {
         }
     }
 
-    /**
-     * Test parsing of a file containing a Deleted fature used message output by the NAG Fortran Compiler.
-     */
+    /** Test parsing of a file containing a Deleted fature used message output by the NAG Fortran Compiler. */
     @Test
     void testDeletedFeatureUsedParser() {
         var warnings = parse("NagFortranDeletedFeatureUsed.txt");
@@ -138,9 +123,7 @@ class NagFortranParserTest extends AbstractParserTest {
         }
     }
 
-    /**
-     * Test parsing of a file containing an Error message, with no line number, output by the NAG Fortran Compiler.
-     */
+    /** Test parsing of a file containing an Error message, with no line number, output by the NAG Fortran Compiler. */
     @Test
     void testErrorParser() {
         var warnings = parse("NagFortranError.txt");
@@ -159,9 +142,7 @@ class NagFortranParserTest extends AbstractParserTest {
         }
     }
 
-    /**
-     * Test parsing of a file containing a Runtime Error message output by the NAG Fortran Compiler.
-     */
+    /** Test parsing of a file containing a Runtime Error message output by the NAG Fortran Compiler. */
     @Test
     void testRuntimeErrorParser() {
         var warnings = parse("NagFortranRuntimeError.txt");
@@ -199,9 +180,7 @@ class NagFortranParserTest extends AbstractParserTest {
         }
     }
 
-    /**
-     * Test parsing of a file containing a Panic message output by the NAG Fortran Compiler.
-     */
+    /** Test parsing of a file containing a Panic message output by the NAG Fortran Compiler. */
     @Test
     void testPanicParser() {
         var warnings = parse("NagFortranPanic.txt");
@@ -219,9 +198,7 @@ class NagFortranParserTest extends AbstractParserTest {
         }
     }
 
-    /**
-     * Test parsing of a file containing a Non-standard(Obsolete) message output by the NAG Fortran Compiler.
-     */
+    /** Test parsing of a file containing a Non-standard(Obsolete) message output by the NAG Fortran Compiler. */
     @Test
     void testNonStandardObsoleteParser() {
         var warnings = parse("NagFortranNonStandardObsolete.txt");
@@ -239,9 +216,7 @@ class NagFortranParserTest extends AbstractParserTest {
         }
     }
 
-    /**
-     * Test parsing of a file containing a Extension(NAG) message output by the NAG Fortran Compiler.
-     */
+    /** Test parsing of a file containing a Extension(NAG) message output by the NAG Fortran Compiler. */
     @Test
     void testExtensionNAGParser() {
         var warnings = parse("NagFortranExtensionNAG.txt");
@@ -259,9 +234,7 @@ class NagFortranParserTest extends AbstractParserTest {
         }
     }
 
-    /**
-     * Test parsing of a file containing a Extension(F2018) message output by the NAG Fortran Compiler.
-     */
+    /** Test parsing of a file containing a Extension(F2018) message output by the NAG Fortran Compiler. */
     @Test
     void testExtensionF2018Parser() {
         var warnings = parse("NagFortranExtensionF2018.txt");
@@ -279,9 +252,7 @@ class NagFortranParserTest extends AbstractParserTest {
         }
     }
 
-    /**
-     * Test parsing of a file containing a Extension(F2008) message output by the NAG Fortran Compiler.
-     */
+    /** Test parsing of a file containing a Extension(F2008) message output by the NAG Fortran Compiler. */
     @Test
     void testExtensionF2008Parser() {
         var warnings = parse("NagFortranExtensionF2008.txt");
@@ -322,7 +293,8 @@ class NagFortranParserTest extends AbstractParserTest {
                 .hasFileName("/file3.f90")
                 .hasCategory("Questionable")
                 .hasSeverity(Severity.WARNING_NORMAL)
-                .hasMessage("Array constructor has polymorphic element P(5) (but the constructor value will not be polymorphic)")
+                .hasMessage(
+                        "Array constructor has polymorphic element P(5) (but the constructor value will not be polymorphic)")
                 .hasLineStart(12);
 
         softly.assertThat(report.get(3))

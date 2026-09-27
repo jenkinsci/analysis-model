@@ -1,15 +1,13 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
-
 import java.io.Serial;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * A parser for OWASP Dependency-Track findings exported in the Finding Packaging Format (FPF).
@@ -143,8 +141,8 @@ public class DependencyTrackParser extends JsonIssueParser {
         issueBuilder.guessSeverity(vulnerability.optString(VULN_SEVERITY, "MEDIUM"));
     }
 
-    private String buildDescription(@CheckForNull final JSONObject vulnerability,
-            @CheckForNull final JSONObject component) {
+    private String buildDescription(
+            @CheckForNull final JSONObject vulnerability, @CheckForNull final JSONObject component) {
         if (vulnerability == null) {
             return "";
         }

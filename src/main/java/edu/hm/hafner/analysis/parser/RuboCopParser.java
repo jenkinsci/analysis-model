@@ -1,16 +1,15 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.util.Optional;
-import java.util.regex.Matcher;
+import static edu.hm.hafner.analysis.Categories.guessCategoryIfEmpty;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.LookaheadParser;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
-
-import static edu.hm.hafner.analysis.Categories.*;
+import java.io.Serial;
+import java.util.Optional;
+import java.util.regex.Matcher;
 
 /**
  * A parser for the ruboCop warnings.
@@ -26,16 +25,14 @@ public class RuboCopParser extends LookaheadParser {
     private static final String ERROR = "E";
     private static final String FATAL = "F";
 
-    /**
-     * Creates a new instance of {@link RuboCopParser}.
-     */
+    /** Creates a new instance of {@link RuboCopParser}. */
     public RuboCopParser() {
         super(RUBOCOP_WARNING_PATTERN);
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
-            final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(
+            final Matcher matcher, final LookaheadStream lookahead, final IssueBuilder builder) {
         var message = matcher.group("message");
         var category = guessCategoryIfEmpty(matcher.group("category"), message);
 

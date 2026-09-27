@@ -1,5 +1,7 @@
 package edu.hm.hafner.analysis;
 
+import edu.hm.hafner.util.FilteredLog;
+import edu.hm.hafner.util.VisibleForTesting;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -9,13 +11,9 @@ import java.nio.file.InvalidPathException;
 import java.nio.file.NoSuchFileException;
 import java.util.Locale;
 import java.util.Set;
-
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-
-import edu.hm.hafner.util.FilteredLog;
-import edu.hm.hafner.util.VisibleForTesting;
 
 /**
  * Creates fingerprints for a set of issues.
@@ -23,18 +21,15 @@ import edu.hm.hafner.util.VisibleForTesting;
  * @author Ullrich Hafner
  */
 public class FingerprintGenerator {
-    private static final Set<String> NON_SOURCE_CODE_EXTENSIONS = Set.of(
-            "o", "exe", "dll", "so", "a", "lib", "jar", "war", "zip", "7z", "gz", "bz2");
+    private static final Set<String> NON_SOURCE_CODE_EXTENSIONS =
+            Set.of("o", "exe", "dll", "so", "a", "lib", "jar", "war", "zip", "7z", "gz", "bz2");
 
     /**
      * Creates fingerprints for the specified set of issues.
      *
-     * @param algorithm
-     *         fingerprinting algorithm
-     * @param report
-     *         the issues to analyze
-     * @param charset
-     *         the character set to use when reading the source files
+     * @param algorithm fingerprinting algorithm
+     * @param report the issues to analyze
+     * @param charset the character set to use when reading the source files
      */
     public void run(final FullTextFingerprint algorithm, final Report report, final Charset charset) {
         var log = new FilteredLog("Can't create fingerprints for some files:");
@@ -43,8 +38,7 @@ public class FingerprintGenerator {
             if (!issue.hasFingerprint()) {
                 if (hasAllowedExtension(issue.getFileName())) {
                     sum += computeFingerprint(issue, algorithm, charset, log);
-                }
-                else {
+                } else {
                     issue.setFingerprint(createDefaultFingerprint(issue));
                 }
             }
@@ -56,14 +50,13 @@ public class FingerprintGenerator {
     private boolean hasAllowedExtension(final String fileName) {
         try {
             return !NON_SOURCE_CODE_EXTENSIONS.contains(StringUtils.lowerCase(FilenameUtils.getExtension(fileName)));
-        }
-        catch (IllegalArgumentException exception) {
+        } catch (IllegalArgumentException exception) {
             return false; // if the file name is invalid, we assume that it is not a source code file
         }
     }
 
-    private int computeFingerprint(final Issue issue, final FullTextFingerprint algorithm, final Charset charset,
-            final FilteredLog log) {
+    private int computeFingerprint(
+            final Issue issue, final FullTextFingerprint algorithm, final Charset charset, final FilteredLog log) {
         var absolutePath = issue.getAbsolutePath();
         try {
             if (issue.hasFileName()) {
@@ -71,15 +64,12 @@ public class FingerprintGenerator {
                 issue.setFingerprint(digest);
                 return 1;
             }
-        }
-        catch (FileNotFoundException | NoSuchFileException exception) {
+        } catch (FileNotFoundException | NoSuchFileException exception) {
             log.logError("- '%s' file not found", absolutePath);
-        }
-        catch (IOException | InvalidPathException | UncheckedIOException exception) {
+        } catch (IOException | InvalidPathException | UncheckedIOException exception) {
             if (exception.getCause() instanceof MalformedInputException) {
                 log.logError("- '%s', provided encoding '%s' seems to be wrong", absolutePath, charset);
-            }
-            else {
+            } else {
                 log.logError("- '%s', IO exception has been thrown: %s", absolutePath, exception);
             }
         }
@@ -90,12 +80,15 @@ public class FingerprintGenerator {
     @VisibleForTesting
     static String createDefaultFingerprint(final Issue issue) {
         var builder = new HashCodeBuilder();
-        return String.format(Locale.ENGLISH, "FALLBACK-%x",
+        return String.format(
+                Locale.ENGLISH,
+                "FALLBACK-%x",
                 builder.append(issue.getBaseName())
                         .append(issue.getType())
                         .append(issue.getCategory())
                         .append(issue.getSeverity())
                         .append(issue.getOrigin())
-                        .append(issue.getLineStart()).build());
+                        .append(issue.getLineStart())
+                        .build());
     }
 }

@@ -1,14 +1,12 @@
 package edu.hm.hafner.analysis;
 
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.*;
 
 import edu.hm.hafner.util.ResourceTest;
-
 import java.nio.charset.StandardCharsets;
 import java.nio.file.NoSuchFileException;
 import java.util.Iterator;
-
-import static org.assertj.core.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the class {@link FullTextFingerprint}.
@@ -27,10 +25,12 @@ class FullTextFingerprintTest extends ResourceTest {
         var fingerprint = new FullTextFingerprint();
 
         assertThat(fingerprint.extractContext(-1, asIterator(affectedFile)))
-                .as("Fingerprint for illegal line numbers should be empty").isEmpty();
+                .as("Fingerprint for illegal line numbers should be empty")
+                .isEmpty();
 
         assertThat(fingerprint.extractContext(0, asIterator(affectedFile)))
-                .as("Wrong fingerprint for whole file").isEqualTo("1234567");
+                .as("Wrong fingerprint for whole file")
+                .isEqualTo("1234567");
 
         assertThat(fingerprint.extractContext(1, asIterator(affectedFile))).isEqualTo("1234");
         assertThat(fingerprint.extractContext(2, asIterator(affectedFile))).isEqualTo("12345");
@@ -48,7 +48,8 @@ class FullTextFingerprintTest extends ResourceTest {
         assertThat(fingerprint.extractContext(33, asIterator(affectedFile))).isEqualTo("0");
 
         assertThat(fingerprint.extractContext(34, asIterator(affectedFile)))
-                .as("Fingerprint for line numbers out of range should be empty").isEmpty();
+                .as("Fingerprint for line numbers out of range should be empty")
+                .isEmpty();
     }
 
     /**
@@ -62,10 +63,12 @@ class FullTextFingerprintTest extends ResourceTest {
         var fingerprint = new FullTextFingerprint(1);
 
         assertThat(fingerprint.extractContext(-1, asIterator(affectedFile)))
-                .as("Fingerprint for illegal line numbers should be empty").isEmpty();
+                .as("Fingerprint for illegal line numbers should be empty")
+                .isEmpty();
 
         assertThat(fingerprint.extractContext(0, asIterator(affectedFile)))
-                .as("Wrong fingerprint for whole file").isEqualTo("123");
+                .as("Wrong fingerprint for whole file")
+                .isEqualTo("123");
 
         assertThat(fingerprint.extractContext(1, asIterator(affectedFile))).isEqualTo("12");
         assertThat(fingerprint.extractContext(2, asIterator(affectedFile))).isEqualTo("123");
@@ -81,7 +84,8 @@ class FullTextFingerprintTest extends ResourceTest {
         assertThat(fingerprint.extractContext(31, asIterator(affectedFile))).isEqualTo("0");
 
         assertThat(fingerprint.extractContext(32, asIterator(affectedFile)))
-                .as("Fingerprint for line numbers out of range should be empty").isEmpty();
+                .as("Fingerprint for line numbers out of range should be empty")
+                .isEmpty();
     }
 
     /**
@@ -99,12 +103,13 @@ class FullTextFingerprintTest extends ResourceTest {
 
         for (int line = 0; line < 34; line++) {
             if (line == 10 || line == 20) {
-                assertThat(fingerprint).isEqualTo(
-                        code.createFingerprint(line, getTextLinesAsStream(affectedFile), StandardCharsets.UTF_8));
-            }
-            else {
-                assertThat(fingerprint).isNotEqualTo(
-                        code.createFingerprint(line, getTextLinesAsStream(affectedFile), StandardCharsets.UTF_8));
+                assertThat(fingerprint)
+                        .isEqualTo(code.createFingerprint(
+                                line, getTextLinesAsStream(affectedFile), StandardCharsets.UTF_8));
+            } else {
+                assertThat(fingerprint)
+                        .isNotEqualTo(code.createFingerprint(
+                                line, getTextLinesAsStream(affectedFile), StandardCharsets.UTF_8));
             }
         }
     }

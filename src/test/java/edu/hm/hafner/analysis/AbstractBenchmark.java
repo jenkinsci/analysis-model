@@ -21,8 +21,7 @@ public abstract class AbstractBenchmark {
     /**
      * BenchmarkRunner - runs all benchmark tests in the concrete test class.
      *
-     * @throws RunnerException
-     *         if the benchmark failed
+     * @throws RunnerException if the benchmark failed
      */
     @Test
     public void benchmark() throws RunnerException {

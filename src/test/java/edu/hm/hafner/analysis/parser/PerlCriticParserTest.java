@@ -1,16 +1,14 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.util.Iterator;
-
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import java.util.Iterator;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the Perl::Critic Parser.
@@ -27,9 +25,7 @@ class PerlCriticParserTest extends AbstractParserTest {
         assertThat(report).hasSize(105);
     }
 
-    /**
-     * Parses a file with three warnings.
-     */
+    /** Parses a file with three warnings. */
     @Test
     void testPerlCriticParserCreateWarning() {
         var warnings = parse("issue17792.txt");
@@ -68,9 +64,7 @@ class PerlCriticParserTest extends AbstractParserTest {
         }
     }
 
-    /**
-     * Parses a file with three warnings without the filename in the warning.
-     */
+    /** Parses a file with three warnings without the filename in the warning. */
     @Test
     void testPerlCriticParserCreateWarningNoFileName() {
         var warnings = parse("issue17792-nofilename.txt");

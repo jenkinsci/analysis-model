@@ -1,8 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.nio.file.FileSystems;
-
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 import edu.hm.hafner.analysis.FileReaderFactory;
 import edu.hm.hafner.analysis.IssueParser;
@@ -12,8 +10,8 @@ import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
 import edu.hm.hafner.analysis.registry.ParserRegistry;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import java.nio.file.FileSystems;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the class {@link SwaggerLintParser}.
@@ -87,17 +85,18 @@ class SwaggerLintParserTest extends AbstractParserTest {
 
     @Test
     void accepts() {
-        assertThat(new SwaggerLintParser().accepts(
-                new FileReaderFactory(FileSystems.getDefault().getPath("swagger-lint-report.json")))).isTrue();
+        assertThat(new SwaggerLintParser()
+                        .accepts(new FileReaderFactory(FileSystems.getDefault().getPath("swagger-lint-report.json"))))
+                .isTrue();
 
-        assertThat(new SwaggerLintParser().accepts(
-                new FileReaderFactory(FileSystems.getDefault().getPath("foo.txt")))).isFalse();
+        assertThat(new SwaggerLintParser()
+                        .accepts(new FileReaderFactory(FileSystems.getDefault().getPath("foo.txt"))))
+                .isFalse();
     }
 
     @Test
     void brokenInput() {
-        assertThatThrownBy(() -> parse("eclipse.txt"))
-                .isInstanceOf(ParsingException.class);
+        assertThatThrownBy(() -> parse("eclipse.txt")).isInstanceOf(ParsingException.class);
     }
 
     @Test
@@ -143,10 +142,7 @@ class SwaggerLintParserTest extends AbstractParserTest {
 
         assertThat(report).hasSize(1);
 
-        assertThat(report.get(0))
-                .hasType("-")
-                .hasMessage("")
-                .hasSeverity(Severity.WARNING_NORMAL);
+        assertThat(report.get(0)).hasType("-").hasMessage("").hasSeverity(Severity.WARNING_NORMAL);
     }
 
     @Test
@@ -165,9 +161,7 @@ class SwaggerLintParserTest extends AbstractParserTest {
 
         assertThat(report).hasSize(1);
 
-        assertThat(report.get(0))
-                .hasType("valid-rule")
-                .hasMessage("Valid issue");
+        assertThat(report.get(0)).hasType("valid-rule").hasMessage("Valid issue");
     }
 
     @Test
@@ -184,9 +178,7 @@ class SwaggerLintParserTest extends AbstractParserTest {
 
         assertThat(report).hasSize(1);
 
-        assertThat(report.get(0).getDescription())
-                .contains("definitions")
-                .contains("Location");
+        assertThat(report.get(0).getDescription()).contains("definitions").contains("Location");
     }
 
     @Test
@@ -259,9 +251,7 @@ class SwaggerLintParserTest extends AbstractParserTest {
 
         assertThat(report).hasSize(1);
 
-        assertThat(report.get(0))
-                .hasType("null-segment-rule")
-                .hasMessage("Location contains only null");
+        assertThat(report.get(0)).hasType("null-segment-rule").hasMessage("Location contains only null");
 
         assertThat(report.get(0).getDescription()).isEmpty();
     }
@@ -280,9 +270,7 @@ class SwaggerLintParserTest extends AbstractParserTest {
 
         assertThat(report).hasSize(1);
 
-        assertThat(report.get(0))
-                .hasType("mixed-location-rule")
-                .hasMessage("Location contains null entries");
+        assertThat(report.get(0)).hasType("mixed-location-rule").hasMessage("Location contains null entries");
 
         assertThat(report.get(0).getDescription())
                 .contains("definitions")

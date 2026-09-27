@@ -1,18 +1,14 @@
 package edu.hm.hafner.analysis;
 
+import edu.hm.hafner.analysis.ModuleDetectorRunner.FileSystemFacade;
 import java.io.IOException;
 import java.nio.file.InvalidPathException;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.SAXException;
 
-import edu.hm.hafner.analysis.ModuleDetectorRunner.FileSystemFacade;
-
-/**
- * Detects module names by parsing the name of a source file, the ANT build.xml.
- */
+/** Detects module names by parsing the name of a source file, the ANT build.xml. */
 class AntModuleDetector extends AbstractModuleDetector {
     static final String ANT_PROJECT = "build.xml";
 
@@ -37,9 +33,7 @@ class AntModuleDetector extends AbstractModuleDetector {
     /**
      * Returns the project name stored in the Ant build.xml.
      *
-     * @param buildXml
-     *         Ant build.xml file name
-     *
+     * @param buildXml Ant build.xml file name
      * @return the project name or an empty string if the name could not be resolved
      */
     private String parseBuildXml(final String buildXml) {
@@ -53,8 +47,7 @@ class AntModuleDetector extends AbstractModuleDetector {
 
             var result = digester.parse(file);
             return result.toString();
-        }
-        catch (IOException | SAXException | InvalidPathException ignored) {
+        } catch (IOException | SAXException | InvalidPathException ignored) {
             // ignore
         }
         return StringUtils.EMPTY;

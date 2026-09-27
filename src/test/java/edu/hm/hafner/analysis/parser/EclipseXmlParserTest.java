@@ -1,13 +1,12 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 import edu.hm.hafner.analysis.Categories;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link TaglistParser}.
@@ -90,9 +89,7 @@ class EclipseXmlParserTest extends StructuredFileParserTest {
                 .hasCategory(EclipseXmlParser.POTENTIAL_PROGRAMMING_PROBLEM);
     }
 
-    /**
-     * Tests that warnings are categorized as {@code Code} or {@code JavaDoc}.
-     */
+    /** Tests that warnings are categorized as {@code Code} or {@code JavaDoc}. */
     @Test
     void javadocCategory() {
         var warnings = parse("eclipse-withjavadoc.xml");

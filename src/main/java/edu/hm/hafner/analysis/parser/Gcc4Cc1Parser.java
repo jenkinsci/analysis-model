@@ -12,9 +12,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
 
 /**
- * A parser for GCC cc1/cc1plus internal compiler warnings and errors.
- * These messages do not include file names or line numbers and are emitted by
- * the compiler's internal phases.
+ * A parser for GCC cc1/cc1plus internal compiler warnings and errors. These messages do not include file names or line
+ * numbers and are emitted by the compiler's internal phases.
  *
  * @author Akash Manna
  * @see <a href="https://issues.jenkins.io/browse/JENKINS-73509">Issue 73509</a>
@@ -28,21 +27,20 @@ public class Gcc4Cc1Parser extends LookaheadParser {
             + "(?<severity>warning|error|note):\\s*"
             + "(?<message>.*)$";
 
-    /**
-     * Creates a new instance of {@link Gcc4Cc1Parser}.
-     */
+    /** Creates a new instance of {@link Gcc4Cc1Parser}. */
     public Gcc4Cc1Parser() {
         super(GCC_CC1_WARNING_PATTERN);
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
-            final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(
+            final Matcher matcher, final LookaheadStream lookahead, final IssueBuilder builder) {
         var compilerName = matcher.group("compiler");
         var severityLevel = matcher.group("severity");
         var messageContent = matcher.group("message");
 
-        if (StringUtils.isBlank(compilerName) || StringUtils.isBlank(severityLevel)
+        if (StringUtils.isBlank(compilerName)
+                || StringUtils.isBlank(severityLevel)
                 || StringUtils.isBlank(messageContent)) {
             return Optional.empty();
         }

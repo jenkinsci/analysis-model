@@ -1,8 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.nio.file.FileSystems;
-
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 import edu.hm.hafner.analysis.FileReaderFactory;
 import edu.hm.hafner.analysis.IssueParser;
@@ -12,12 +10,12 @@ import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
 import edu.hm.hafner.analysis.registry.ParserRegistry;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import java.nio.file.FileSystems;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the class {@link KubeLinterParser}.
- * 
+ *
  * @author Akash Manna
  */
 class KubeLinterParserTest extends AbstractParserTest {
@@ -57,8 +55,10 @@ class KubeLinterParserTest extends AbstractParserTest {
     @Test
     void accepts() {
         var parser = new KubeLinterParser();
-        assertThat(parser.accepts(new FileReaderFactory(FileSystems.getDefault().getPath("kubelinter.json")))).isTrue();
-        assertThat(parser.accepts(new FileReaderFactory(FileSystems.getDefault().getPath("kubelinter.txt")))).isFalse();
+        assertThat(parser.accepts(new FileReaderFactory(FileSystems.getDefault().getPath("kubelinter.json"))))
+                .isTrue();
+        assertThat(parser.accepts(new FileReaderFactory(FileSystems.getDefault().getPath("kubelinter.txt"))))
+                .isFalse();
     }
 
     @Test

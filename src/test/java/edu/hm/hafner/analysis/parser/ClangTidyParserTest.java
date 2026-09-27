@@ -1,13 +1,12 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the class {@link ClangTidyParser}.
@@ -84,7 +83,8 @@ class ClangTidyParserTest extends AbstractParserTest {
                 .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(annotation.get(7))
-                .hasMessage("/path/to/project/tools/yocto-toolchain/sysroots/core2-64-fslc-linux/usr/include/qt5/QtQml: 'linker' input unused")
+                .hasMessage(
+                        "/path/to/project/tools/yocto-toolchain/sysroots/core2-64-fslc-linux/usr/include/qt5/QtQml: 'linker' input unused")
                 .hasCategory("clang-diagnostic-unused-command-line-argument")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
@@ -94,7 +94,8 @@ class ClangTidyParserTest extends AbstractParserTest {
                 .hasFileName("/path with space/to/project/src/path_with_space.cpp")
                 .hasCategory("google-explicit-constructor")
                 .hasSeverity(Severity.WARNING_NORMAL)
-                .hasDescription("See <a href=\"https://clang.llvm.org/extra/clang-tidy/checks/google/explicit-constructor.html\">Clang-Tidy documentation</a>.");
+                .hasDescription(
+                        "See <a href=\"https://clang.llvm.org/extra/clang-tidy/checks/google/explicit-constructor.html\">Clang-Tidy documentation</a>.");
     }
 
     @Test
@@ -151,7 +152,8 @@ class ClangTidyParserTest extends AbstractParserTest {
                 .hasLineStart(24)
                 .hasColumnStart(5)
                 .hasFileName("/path with space/to/project/src/path_with_space.cpp")
-                .hasMessage("single-argument constructors must be marked explicit to avoid unintentional implicit conversions")
+                .hasMessage(
+                        "single-argument constructors must be marked explicit to avoid unintentional implicit conversions")
                 .hasCategory("google-explicit-constructor")
                 .hasSeverity(Severity.WARNING_NORMAL);
         assertThat(report.get(4).getDescription())
@@ -160,9 +162,10 @@ class ClangTidyParserTest extends AbstractParserTest {
     }
 
     /**
-     * Verifies that clang-tidy parser filters out GCC warnings when processing cmake build output.
-     * When running clang-tidy via cmake with CMAKE_CXX_CLANG_TIDY, both clang-tidy and GCC warnings are generated in the same output.
-     * The parser should only include clang-tidy warnings with [check-name] pattern and exclude GCC warnings with [-W...] pattern.
+     * Verifies that clang-tidy parser filters out GCC warnings when processing cmake build output. When running
+     * clang-tidy via cmake with CMAKE_CXX_CLANG_TIDY, both clang-tidy and GCC warnings are generated in the same
+     * output. The parser should only include clang-tidy warnings with [check-name] pattern and exclude GCC warnings
+     * with [-W...] pattern.
      *
      * @see <a href="https://issues.jenkins.io/browse/JENKINS-64614">Issue 64614</a>
      */
@@ -185,7 +188,8 @@ class ClangTidyParserTest extends AbstractParserTest {
                 .hasLineStart(15)
                 .hasColumnStart(5)
                 .hasFileName("/home/user/project/src/utils.cpp")
-                .hasMessage("single-argument constructors must be marked explicit to avoid unintentional implicit conversions")
+                .hasMessage(
+                        "single-argument constructors must be marked explicit to avoid unintentional implicit conversions")
                 .hasCategory("google-explicit-constructor")
                 .hasSeverity(Severity.WARNING_NORMAL);
 

@@ -1,19 +1,17 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.IOException;
-import java.io.Serial;
-import java.util.Optional;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONTokener;
-
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.ReaderFactory;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
+import java.io.IOException;
+import java.io.Serial;
+import java.util.Optional;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 
 /**
  * A parser for Flow warnings.
@@ -49,8 +47,7 @@ public class FlowParser extends JsonIssueParser {
         try (var reader = readerFactory.create()) {
             var value = new JSONTokener(reader).nextValue();
             return value instanceof final JSONObject jsono && jsono.has(FLOW_VERSION);
-        }
-        catch (IOException | JSONException ignored) {
+        } catch (IOException | JSONException ignored) {
             return false;
         }
     }
@@ -62,12 +59,12 @@ public class FlowParser extends JsonIssueParser {
         }
     }
 
-    private void extractIssues(final JSONArray elements, final Report report,
-            final IssueBuilder issueBuilder) {
+    private void extractIssues(final JSONArray elements, final Report report, final IssueBuilder issueBuilder) {
         for (Object object : elements) {
             if (object instanceof final JSONObject issue) {
-                findFirstMessage(issue).ifPresent(
-                        jsonObject -> report.add(createIssueFromJsonObject(issue, jsonObject, issueBuilder)));
+                findFirstMessage(issue)
+                        .ifPresent(
+                                jsonObject -> report.add(createIssueFromJsonObject(issue, jsonObject, issueBuilder)));
             }
         }
     }
@@ -75,9 +72,7 @@ public class FlowParser extends JsonIssueParser {
     /**
      * Find the first message of issue.
      *
-     * @param issue
-     *         the object to find the message from.
-     *
+     * @param issue the object to find the message from.
      * @return first message
      */
     private Optional<JSONObject> findFirstMessage(final JSONObject issue) {
@@ -89,8 +84,8 @@ public class FlowParser extends JsonIssueParser {
         return Optional.ofNullable(message.optJSONObject(0));
     }
 
-    private Issue createIssueFromJsonObject(final JSONObject issue, final JSONObject message,
-            final IssueBuilder issueBuilder) {
+    private Issue createIssueFromJsonObject(
+            final JSONObject issue, final JSONObject message, final IssueBuilder issueBuilder) {
         return issueBuilder
                 .setFileName(parseFileNameFromMessage(message))
                 .setType(parseType(issue))
@@ -106,9 +101,7 @@ public class FlowParser extends JsonIssueParser {
     /**
      * Parse function for severity.
      *
-     * @param issue
-     *         the object to parse.
-     *
+     * @param issue the object to parse.
      * @return the severity.
      */
     private Severity parseSeverity(final JSONObject issue) {
@@ -125,9 +118,7 @@ public class FlowParser extends JsonIssueParser {
     /**
      * Parse function for type.
      *
-     * @param issue
-     *         the object to parse.
-     *
+     * @param issue the object to parse.
      * @return the type.
      */
     private String parseType(final JSONObject issue) {
@@ -137,9 +128,7 @@ public class FlowParser extends JsonIssueParser {
     /**
      * Parse function for filename from message.
      *
-     * @param message
-     *         the object to parse.
-     *
+     * @param message the object to parse.
      * @return the filename.
      */
     private String parseFileNameFromMessage(final JSONObject message) {
@@ -149,9 +138,7 @@ public class FlowParser extends JsonIssueParser {
     /**
      * Parse function for message from message.
      *
-     * @param message
-     *         the object to parse.
-     *
+     * @param message the object to parse.
      * @return the message.
      */
     private String parseMessageFromMessage(final JSONObject message) {
@@ -161,11 +148,8 @@ public class FlowParser extends JsonIssueParser {
     /**
      * Parse function for locations from message.
      *
-     * @param message
-     *         the object to parse.
-     * @param key
-     *         the attribute name of location
-     *
+     * @param message the object to parse.
+     * @param key the attribute name of location
      * @return the attribute of location.
      */
     private Integer parseLocFromMessage(final JSONObject message, final String key) {

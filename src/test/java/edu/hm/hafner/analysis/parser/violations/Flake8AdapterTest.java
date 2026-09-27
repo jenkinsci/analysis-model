@@ -1,13 +1,12 @@
 package edu.hm.hafner.analysis.parser.violations;
 
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the class {@link Flake8Adapter}.
@@ -45,7 +44,8 @@ class Flake8AdapterTest extends AbstractParserTest {
         var report = parse("flake8-issue53786");
 
         assertThat(report).hasSize(9);
-        assertThat(report.get(8)).hasFileName("../devopsloft/application.py")
+        assertThat(report.get(8))
+                .hasFileName("../devopsloft/application.py")
                 .hasLineStart(42)
                 .hasColumnStart(1)
                 .hasType("E302")
@@ -58,12 +58,14 @@ class Flake8AdapterTest extends AbstractParserTest {
 
         assertThat(report).hasSize(2);
         try (var softly = new SoftAssertions()) {
-            softly.assertThat(report.get(0)).hasFileName("./src/init.py")
+            softly.assertThat(report.get(0))
+                    .hasFileName("./src/init.py")
                     .hasLineStart(254)
                     .hasColumnStart(58)
                     .hasType("W292")
                     .hasMessage("no newline at end of file");
-            softly.assertThat(report.get(1)).hasFileName("./src/init.py")
+            softly.assertThat(report.get(1))
+                    .hasFileName("./src/init.py")
                     .hasLineStart(66)
                     .hasColumnStart(121)
                     .hasType("E501")

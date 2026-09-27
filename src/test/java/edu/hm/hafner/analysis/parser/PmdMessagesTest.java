@@ -1,8 +1,8 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.assertThat;
 
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the class {@link PmdMessages}.
@@ -15,9 +15,7 @@ class PmdMessagesTest {
     @Test
     void shouldInitializeRuleSets() {
         var messages = new PmdMessages();
-        assertThat(messages.size())
-                .as("Wrong number of rule sets found")
-                .isEqualTo(EXPECTED_RULE_SETS_SIZE);
+        assertThat(messages.size()).as("Wrong number of rule sets found").isEqualTo(EXPECTED_RULE_SETS_SIZE);
 
         assertThat(messages.getMessage("Error Prone", "NullAssignment"))
                 .contains("Assigning a \"null\" to a variable (outside of its declaration) is usually bad form.");

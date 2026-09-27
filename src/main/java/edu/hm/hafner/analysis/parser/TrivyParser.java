@@ -1,33 +1,35 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
+import static j2html.TagCreator.a;
+import static j2html.TagCreator.b;
+import static j2html.TagCreator.div;
+import static j2html.TagCreator.join;
+import static j2html.TagCreator.li;
+import static j2html.TagCreator.p;
+import static j2html.TagCreator.text;
+import static j2html.TagCreator.ul;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 import j2html.tags.ContainerTag;
 import j2html.tags.DomContent;
 import java.io.Serial;
-
-import static j2html.TagCreator.*;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * Parser for reports of aquasec trivy container vulnerability scanner.
  *
- * <p>
- * <strong>Usage: </strong>trivy image -f json -o results.json golang:1.12-alpine
- * </p>
+ * <p><strong>Usage: </strong>trivy image -f json -o results.json golang:1.12-alpine
  *
- * <p>
- * The parser supports scanner results from:
- * </p>
+ * <p>The parser supports scanner results from:
+ *
  * <ul>
- *  <li>Vulnerability Scanner</li>
- *  <li>Misconfiguration Scanner</li>
+ *   <li>Vulnerability Scanner
+ *   <li>Misconfiguration Scanner
  * </ul>
  *
  * @author Thomas Fürer - tfuerer.javanet@gmail.com
@@ -41,9 +43,7 @@ public class TrivyParser extends JsonIssueParser {
     private static final String TRIVY_VULNERABILITY_LEVEL_TAG_MEDIUM = "medium";
     private static final String TRIVY_VULNERABILITY_LEVEL_TAG_LOW = "low";
 
-    /**
-     * Used with schema version 2 starting with trivy 0.20.0.
-     */
+    /** Used with schema version 2 starting with trivy 0.20.0. */
     @Override
     protected void parseJsonObject(final Report report, final JSONObject jsonReport, final IssueBuilder issueBuilder) {
         var results = jsonReport.optJSONArray("Results");
@@ -52,9 +52,7 @@ public class TrivyParser extends JsonIssueParser {
         }
     }
 
-    /**
-     * Used with the older schema before trivy 0.20.0.
-     */
+    /** Used with the older schema before trivy 0.20.0. */
     @Override
     protected void parseJsonArray(final Report report, final JSONArray jsonReport, final IssueBuilder issueBuilder) {
         parseResults(report, jsonReport, issueBuilder);
@@ -78,7 +76,8 @@ public class TrivyParser extends JsonIssueParser {
     }
 
     private Issue convertToVulnerabilityIssue(final JSONObject vulnerability, final IssueBuilder issueBuilder) {
-        return issueBuilder.setFileName(vulnerability.optString("PkgName", VALUE_NOT_SET))
+        return issueBuilder
+                .setFileName(vulnerability.optString("PkgName", VALUE_NOT_SET))
                 .setCategory(vulnerability.optString("SeveritySource", VALUE_NOT_SET))
                 .setSeverity(mapSeverity(vulnerability.optString("Severity", "UNKNOWN")))
                 .setType(vulnerability.optString("VulnerabilityID", VALUE_NOT_SET))
@@ -113,11 +112,9 @@ public class TrivyParser extends JsonIssueParser {
     private Severity mapSeverity(final String string) {
         if (TRIVY_VULNERABILITY_LEVEL_TAG_LOW.equalsIgnoreCase(string)) {
             return Severity.WARNING_LOW;
-        }
-        else if (TRIVY_VULNERABILITY_LEVEL_TAG_MEDIUM.equalsIgnoreCase(string)) {
+        } else if (TRIVY_VULNERABILITY_LEVEL_TAG_MEDIUM.equalsIgnoreCase(string)) {
             return Severity.WARNING_NORMAL;
-        }
-        else if (TRIVY_VULNERABILITY_LEVEL_TAG_HIGH.equalsIgnoreCase(string)) {
+        } else if (TRIVY_VULNERABILITY_LEVEL_TAG_HIGH.equalsIgnoreCase(string)) {
             return Severity.WARNING_HIGH;
         }
         return Severity.ERROR;
@@ -129,11 +126,13 @@ public class TrivyParser extends JsonIssueParser {
         var fixedVersion = vulnerability.optString("FixedVersion", "still open");
         var severity = vulnerability.optString("Severity", "UNKNOWN");
         var description = vulnerability.optString("Description", "");
-        return join(p(div(b("File: "), text(fileName)),
-                div(b("Installed Version: "), text(installedVersion)),
-                div(b("Fixed Version: "), text(fixedVersion)),
-                div(b("Severity: "), text(severity)),
-                p(text(description)))).render();
+        return join(p(
+                        div(b("File: "), text(fileName)),
+                        div(b("Installed Version: "), text(installedVersion)),
+                        div(b("Fixed Version: "), text(fixedVersion)),
+                        div(b("Severity: "), text(severity)),
+                        p(text(description))))
+                .render();
     }
 
     private String formatMisconfigurationDescription(final JSONObject misconfiguration) {

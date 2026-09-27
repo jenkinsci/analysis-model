@@ -1,14 +1,13 @@
 package edu.hm.hafner.analysis.parser.violations;
 
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the class {@link CppCheckAdapter}.
@@ -24,8 +23,7 @@ class CppCheckAdapterTest extends AbstractParserTest {
     protected void assertThatIssuesArePresent(final Report report, final SoftAssertions softly) {
         softly.assertThat(report).hasSize(3);
         softly.assertThat(report.get(0))
-                .hasMessage(
-                        """
+                .hasMessage("""
                         The scope of the variable 'i' can be reduced. Warning: It can be unsafe to fix this message. Be careful. Especially when there are inner loops. Here is an example where cppcheck will write that the scope for 'i' can be reduced:
                         void f(int x)
                         {
@@ -44,8 +42,7 @@ class CppCheckAdapterTest extends AbstractParserTest {
                 .hasLineStart(498)
                 .hasSeverity(Severity.WARNING_LOW);
         softly.assertThat(report.get(2))
-                .hasMessage(
-                        """
+                .hasMessage("""
                         The scope of the variable 'i' can be reduced. Warning: It can be unsafe to fix this message. Be careful. Especially when there are inner loops. Here is an example where cppcheck will write that the scope for 'i' can be reduced:
                         void f(int x)
                         {
@@ -89,8 +86,9 @@ class CppCheckAdapterTest extends AbstractParserTest {
                 .hasSecondaryLocations();
 
         assertThat(secondIssue.getLocations()).hasSize(2);
-        assertThat(secondIssue.getSecondaryLocations()).hasSize(1).first().satisfies(location ->
-                assertThat(location).hasFileName(secondaryFile).hasLineStart(335));
+        assertThat(secondIssue.getSecondaryLocations()).hasSize(1).first().satisfies(location -> assertThat(location)
+                .hasFileName(secondaryFile)
+                .hasLineStart(335));
     }
 
     /**
@@ -113,10 +111,9 @@ class CppCheckAdapterTest extends AbstractParserTest {
                 .hasLineStart(51)
                 .hasMessage("Variable 'that' is reassigned a value before the old one has been used.")
                 .hasType("redundantAssignment");
-        assertThat(secondIssue.getSecondaryLocations()).hasSize(1).first().satisfies(location ->
-                assertThat(location)
-                        .hasFileName("that/cloud_composer/src/point_selectors/rectangular_frustum_selector.cpp")
-                        .hasLineStart(53));
+        assertThat(secondIssue.getSecondaryLocations()).hasSize(1).first().satisfies(location -> assertThat(location)
+                .hasFileName("that/cloud_composer/src/point_selectors/rectangular_frustum_selector.cpp")
+                .hasLineStart(53));
     }
 
     private void verifyFirstIssue(final Issue issue, final String fileName) {
@@ -127,8 +124,9 @@ class CppCheckAdapterTest extends AbstractParserTest {
                 .hasType("redundantAssignment")
                 .hasSecondaryLocations();
         assertThat(issue.getLocations()).hasSize(2);
-        assertThat(issue.getSecondaryLocations()).hasSize(1).first().satisfies(location ->
-                assertThat(location).hasFileName(fileName).hasLineStart(51));
+        assertThat(issue.getSecondaryLocations()).hasSize(1).first().satisfies(location -> assertThat(location)
+                .hasFileName(fileName)
+                .hasLineStart(51));
     }
 
     /**
@@ -143,8 +141,10 @@ class CppCheckAdapterTest extends AbstractParserTest {
         assertThat(report).hasSize(1);
         var issue = report.get(0);
 
-        assertThat(issue).hasFileName("-")
-                .hasMessage("Cppcheck cannot find all the include files (use --check-config for details). Cppcheck cannot find all the include files. Cppcheck can check the code without the include files found. But the results will probably be more accurate if all the include files are found. Please check your project's include directories and add all of them as include directories for Cppcheck. To see what files Cppcheck cannot find use --check-config.");
+        assertThat(issue)
+                .hasFileName("-")
+                .hasMessage(
+                        "Cppcheck cannot find all the include files (use --check-config for details). Cppcheck cannot find all the include files. Cppcheck can check the code without the include files found. But the results will probably be more accurate if all the include files are found. Please check your project's include directories and add all of them as include directories for Cppcheck. To see what files Cppcheck cannot find use --check-config.");
     }
 
     /**
@@ -180,11 +180,14 @@ class CppCheckAdapterTest extends AbstractParserTest {
                 .hasFileName("derived.hpp")
                 .hasLineStart(115)
                 .hasColumnStart(7)
-                .hasMessage("The function 'reset' overrides a function in a base class but is not marked with a 'override' specifier.. Function in derived class")
-                .hasType("missingOverride").hasSecondaryLocations();
+                .hasMessage(
+                        "The function 'reset' overrides a function in a base class but is not marked with a 'override' specifier.. Function in derived class")
+                .hasType("missingOverride")
+                .hasSecondaryLocations();
         assertThat(issue.getLocations()).hasSize(2);
-        assertThat(issue.getSecondaryLocations()).hasSize(1).first().satisfies(location ->
-                assertThat(location).hasFileName("base.hpp").hasLineStart(117));
+        assertThat(issue.getSecondaryLocations()).hasSize(1).first().satisfies(location -> assertThat(location)
+                .hasFileName("base.hpp")
+                .hasLineStart(117));
     }
 
     @Override

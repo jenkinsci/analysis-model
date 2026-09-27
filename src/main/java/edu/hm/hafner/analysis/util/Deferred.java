@@ -1,14 +1,12 @@
 package edu.hm.hafner.analysis.util;
 
-import java.util.function.Supplier;
-
 import edu.umd.cs.findbugs.annotations.CheckForNull;
+import java.util.function.Supplier;
 
 /**
  * Deferred element wrapper of a singleton instance. Creates a constant instance when it is accessed the first time.
  *
- * @param <T>
- *         type of the instance
+ * @param <T> type of the instance
  */
 public final class Deferred<T> {
     private final Supplier<T> supplier;
@@ -20,8 +18,7 @@ public final class Deferred<T> {
     /**
      * Creates a new instance that creates a singleton when it is accessed the first time.
      *
-     * @param supplier
-     *         the supplier to create the instance
+     * @param supplier the supplier to create the instance
      */
     public Deferred(final Supplier<T> supplier) {
         this.supplier = supplier;

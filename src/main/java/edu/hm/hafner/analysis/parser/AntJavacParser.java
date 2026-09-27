@@ -1,17 +1,15 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.io.Serial;
-import java.util.Optional;
-import java.util.regex.Matcher;
-
-import org.apache.commons.lang3.StringUtils;
+import static edu.hm.hafner.analysis.Categories.*;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.util.LookaheadStream;
-
-import static edu.hm.hafner.analysis.Categories.*;
+import java.io.Serial;
+import java.util.Optional;
+import java.util.regex.Matcher;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * A parser for the ant javac compiler warnings.
@@ -28,16 +26,17 @@ public class AntJavacParser extends AbstractMavenLogParser {
             + ".*)\".*)$" + "|^(.*class)\\s*:\\s*warning\\s*:\\s*(.*)$";
     // \u8b66\u544a is Japanese l10n
 
-    /**
-     * Creates a new instance of {@link AntJavacParser}.
-     */
+    /** Creates a new instance of {@link AntJavacParser}. */
     public AntJavacParser() {
         super(ANT_JAVAC_WARNING_PATTERN);
     }
 
     @Override
     protected boolean isLineInteresting(final String line) {
-        return super.isLineInteresting(line) && !hasGoalOrModule() && containsWarningPrefix(line) && !line.contains("@");
+        return super.isLineInteresting(line)
+                && !hasGoalOrModule()
+                && containsWarningPrefix(line)
+                && !line.contains("@");
     }
 
     private boolean containsWarningPrefix(final String line) {
@@ -45,8 +44,8 @@ public class AntJavacParser extends AbstractMavenLogParser {
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
-            final IssueBuilder builder) {
+    protected Optional<Issue> createIssue(
+            final Matcher matcher, final LookaheadStream lookahead, final IssueBuilder builder) {
         builder.setSeverity(mapSeverity(matcher.group(3)));
         if (StringUtils.isNotBlank(matcher.group(8))) {
             return builder.setFileName(matcher.group(8))
@@ -54,15 +53,13 @@ public class AntJavacParser extends AbstractMavenLogParser {
                     .setCategory(StringUtils.EMPTY)
                     .setMessage(matcher.group(9))
                     .buildOptional();
-        }
-        else if (StringUtils.isBlank(matcher.group(6))) {
+        } else if (StringUtils.isBlank(matcher.group(6))) {
             return builder.setFileName(matcher.group(1))
                     .setLineStart(matcher.group(2))
                     .setCategory(guessCategoryIfEmpty(matcher.group(4), matcher.group(5)))
                     .setMessage(matcher.group(5))
                     .buildOptional();
-        }
-        else {
+        } else {
             return builder.setFileName(matcher.group(7))
                     .setLineStart(0)
                     .setCategory("Path")

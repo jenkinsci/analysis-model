@@ -1,15 +1,13 @@
 package edu.hm.hafner.analysis;
 
-import org.apache.commons.lang3.StringUtils;
-
 import edu.hm.hafner.util.Generated;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
-
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Links all affected files of a duplicated code fragment. A code duplication could be reported by a code duplication
@@ -21,21 +19,19 @@ public final class DuplicationGroup implements Serializable {
 
     @SuppressWarnings("serial")
     private final List<Issue> occurrences = new ArrayList<>();
+
     private String codeFragment = StringUtils.EMPTY;
 
     /**
      * Creates a new duplication group for the specified code fragment.
      *
-     * @param codeFragment
-     *         the copied code fragment
+     * @param codeFragment the copied code fragment
      */
     public DuplicationGroup(@CheckForNull final String codeFragment) {
         setCodeFragment(codeFragment);
     }
 
-    /**
-     * Creates a new duplication group. The code fragment is not set and should be set using {@link #add(Issue)}.
-     */
+    /** Creates a new duplication group. The code fragment is not set and should be set using {@link #add(Issue)}. */
     public DuplicationGroup() {
         this(StringUtils.EMPTY);
     }
@@ -44,8 +40,7 @@ public final class DuplicationGroup implements Serializable {
      * Sets the code fragment of the duplication group. Once this value has been set to a non-empty value it will not
      * change again.
      *
-     * @param codeFragment
-     *         the copied code fragment
+     * @param codeFragment the copied code fragment
      */
     @SuppressWarnings("InstanceVariableUsedBeforeInitialized")
     public void setCodeFragment(@CheckForNull final String codeFragment) {
@@ -57,8 +52,7 @@ public final class DuplicationGroup implements Serializable {
     /**
      * Adds the specified duplication (represented by an {@link Issue} instance) to this group of duplications.
      *
-     * @param issue
-     *         the issues that reference the position of the duplicated code fragment
+     * @param issue the issues that reference the position of the duplicated code fragment
      */
     public void add(final Issue issue) {
         occurrences.add(issue);

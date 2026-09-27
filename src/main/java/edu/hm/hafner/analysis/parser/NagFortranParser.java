@@ -7,7 +7,6 @@ import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.util.IntegerParser;
 import edu.hm.hafner.util.LookaheadStream;
-
 import java.io.Serial;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -26,16 +25,14 @@ public class NagFortranParser extends LookaheadParser {
             + "(.+\\.[^,:\\n]+)(, line (\\d+))?: (.+(\\s+detected"
             + " at .+)?)";
 
-    /**
-     * Creates a new instance of {@link NagFortranParser}.
-     */
+    /** Creates a new instance of {@link NagFortranParser}. */
     public NagFortranParser() {
         super(NAGFOR_MSG_PATTERN);
     }
 
     @Override
-    protected Optional<Issue> createIssue(final Matcher matcher, final LookaheadStream lookahead,
-            final IssueBuilder builder)
+    protected Optional<Issue> createIssue(
+            final Matcher matcher, final LookaheadStream lookahead, final IssueBuilder builder)
             throws ParsingException {
         var messageBuilder = new StringBuilder(matcher.group(5));
 

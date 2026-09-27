@@ -1,19 +1,18 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the class {@link EsLintParser}.
  *
- *  @author Ulrich Grave
+ * @author Ulrich Grave
  */
 class EsLintParserTest extends AbstractParserTest {
     EsLintParserTest() {
@@ -37,7 +36,8 @@ class EsLintParserTest extends AbstractParserTest {
                 .hasLineEnd(1)
                 .hasColumnEnd(16)
                 .hasMessage("'addOne' is defined but never used.")
-                .hasDescription("<p>Suggestions:</p> <ul><li><p>Remove unused variable &#x27;addOne&#x27;.</p></li></ul>")
+                .hasDescription(
+                        "<p>Suggestions:</p> <ul><li><p>Remove unused variable &#x27;addOne&#x27;.</p></li></ul>")
                 .hasSeverity(Severity.WARNING_NORMAL);
 
         softly.assertThat(report.get(1))
@@ -48,7 +48,8 @@ class EsLintParserTest extends AbstractParserTest {
                 .hasLineEnd(2)
                 .hasColumnEnd(17)
                 .hasMessage("Use the isNaN function to compare with NaN.")
-                .hasDescription("<p>Suggestions:</p> <ul><li><p>Replace with Number.isNaN.</p> <pre><code>!Number.isNaN(i)</code></pre></li><li><p>Replace with Number.isNaN and cast to a Number.</p> <pre><code>!Number.isNaN(Number(i))</code></pre></li></ul>")
+                .hasDescription(
+                        "<p>Suggestions:</p> <ul><li><p>Replace with Number.isNaN.</p> <pre><code>!Number.isNaN(i)</code></pre></li><li><p>Replace with Number.isNaN and cast to a Number.</p> <pre><code>!Number.isNaN(Number(i))</code></pre></li></ul>")
                 .hasSeverity(Severity.ERROR);
 
         softly.assertThat(report.get(2))
@@ -109,8 +110,10 @@ class EsLintParserTest extends AbstractParserTest {
 
     @Test
     void shouldAcceptJsonFiles() {
-        assertThat(createParser().accepts(createReaderFactory("eslint/eslint.json"))).isTrue();
-        assertThat(createParser().accepts(createReaderFactory("eslint/eslint-checkstyle.xml"))).isFalse();
+        assertThat(createParser().accepts(createReaderFactory("eslint/eslint.json")))
+                .isTrue();
+        assertThat(createParser().accepts(createReaderFactory("eslint/eslint-checkstyle.xml")))
+                .isFalse();
     }
 
     @Test

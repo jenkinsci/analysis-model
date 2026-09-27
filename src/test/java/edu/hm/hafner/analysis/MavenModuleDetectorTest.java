@@ -1,13 +1,12 @@
 package edu.hm.hafner.analysis;
 
-import java.util.List;
-
-import org.apache.commons.lang3.StringUtils;
-import org.junit.jupiter.api.Test;
-
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
+
+import java.util.List;
+import org.apache.commons.lang3.StringUtils;
+import org.junit.jupiter.api.Test;
 
 class MavenModuleDetectorTest extends AbstractModuleDetectorTest {
     private static final String PATH_PREFIX_MAVEN = "path/to/maven/";
@@ -31,17 +30,16 @@ class MavenModuleDetectorTest extends AbstractModuleDetectorTest {
     @Test
     void shouldIdentifyModuleByReadingMavenPom() {
         var factory = createFileSystemStub(stub -> {
-            when(stub.find(any(), anyString())).thenReturn(
-                    List.of(PATH_PREFIX_MAVEN + MavenModuleDetector.MAVEN_POM));
+            when(stub.find(any(), anyString())).thenReturn(List.of(PATH_PREFIX_MAVEN + MavenModuleDetector.MAVEN_POM));
             when(stub.open(anyString())).thenAnswer(fileName -> read(MavenModuleDetector.MAVEN_POM));
         });
 
         var detector = new ModuleDetectorRunner(ROOT, factory);
 
-        assertThat(detector.guessModuleName(PREFIX + PATH_PREFIX_MAVEN + "something.txt")).isEqualTo(
-                EXPECTED_MAVEN_MODULE);
-        assertThat(detector.guessModuleName(PREFIX + PATH_PREFIX_MAVEN + "in/between/something.txt")).isEqualTo(
-                EXPECTED_MAVEN_MODULE);
+        assertThat(detector.guessModuleName(PREFIX + PATH_PREFIX_MAVEN + "something.txt"))
+                .isEqualTo(EXPECTED_MAVEN_MODULE);
+        assertThat(detector.guessModuleName(PREFIX + PATH_PREFIX_MAVEN + "in/between/something.txt"))
+                .isEqualTo(EXPECTED_MAVEN_MODULE);
         assertThat(detector.guessModuleName(PREFIX + "path/to/something.txt")).isEqualTo(StringUtils.EMPTY);
     }
 
@@ -59,7 +57,6 @@ class MavenModuleDetectorTest extends AbstractModuleDetectorTest {
                 .isEqualTo(artifactId);
         assertThat(detector.guessModuleName(PREFIX + PATH_PREFIX_MAVEN + "in/between/something.txt"))
                 .isEqualTo(artifactId);
-        assertThat(detector.guessModuleName(PREFIX + "path/to/something.txt"))
-                .isEqualTo(StringUtils.EMPTY);
+        assertThat(detector.guessModuleName(PREFIX + "path/to/something.txt")).isEqualTo(StringUtils.EMPTY);
     }
 }

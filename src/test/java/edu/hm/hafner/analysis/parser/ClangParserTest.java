@@ -1,16 +1,14 @@
 package edu.hm.hafner.analysis.parser;
 
-import java.util.Iterator;
-
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import java.util.Iterator;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the class {@link ClangParser}.
@@ -32,7 +30,8 @@ class ClangParserTest extends AbstractParserTest {
         Iterator<Issue> iterator = report.iterator();
 
         softly.assertThat(report).hasSize(9);
-        softly.assertThat(iterator.next()).hasLineStart(28)
+        softly.assertThat(iterator.next())
+                .hasLineStart(28)
                 .hasLineEnd(28)
                 .hasColumnStart(8)
                 .hasColumnEnd(8)
@@ -40,7 +39,8 @@ class ClangParserTest extends AbstractParserTest {
                 .hasFileName("test.c")
                 .hasCategory("-Wextra-tokens")
                 .hasSeverity(Severity.WARNING_NORMAL);
-        softly.assertThat(iterator.next()).hasLineStart(28)
+        softly.assertThat(iterator.next())
+                .hasLineStart(28)
                 .hasLineEnd(28)
                 .hasColumnStart(8)
                 .hasColumnEnd(8)
@@ -48,19 +48,22 @@ class ClangParserTest extends AbstractParserTest {
                 .hasFileName("/path/to/test.c")
                 .hasCategory("-Wextra-tokens")
                 .hasSeverity(Severity.WARNING_NORMAL);
-        softly.assertThat(iterator.next()).hasLineStart(128)
+        softly.assertThat(iterator.next())
+                .hasLineStart(128)
                 .hasLineEnd(128)
                 .hasMessage("extra tokens at end of #endif directive")
                 .hasFileName("test.c")
                 .hasCategory("-Wextra-tokens")
                 .hasSeverity(Severity.WARNING_NORMAL);
-        softly.assertThat(iterator.next()).hasLineStart(28)
+        softly.assertThat(iterator.next())
+                .hasLineStart(28)
                 .hasLineEnd(28)
                 .hasMessage("extra tokens at end of #endif directive")
                 .hasFileName("test.c")
                 .hasCategory(DEFAULT_CATEGORY)
                 .hasSeverity(Severity.WARNING_NORMAL);
-        softly.assertThat(iterator.next()).hasLineStart(3)
+        softly.assertThat(iterator.next())
+                .hasLineStart(3)
                 .hasLineEnd(3)
                 .hasColumnStart(11)
                 .hasColumnEnd(11)
@@ -68,7 +71,8 @@ class ClangParserTest extends AbstractParserTest {
                 .hasFileName("t.c")
                 .hasCategory("-Wformat")
                 .hasSeverity(Severity.WARNING_NORMAL);
-        softly.assertThat(iterator.next()).hasLineStart(3)
+        softly.assertThat(iterator.next())
+                .hasLineStart(3)
                 .hasLineEnd(3)
                 .hasColumnStart(11)
                 .hasColumnEnd(11)
@@ -76,7 +80,8 @@ class ClangParserTest extends AbstractParserTest {
                 .hasFileName("t.c")
                 .hasCategory("-Wformat,1")
                 .hasSeverity(Severity.WARNING_NORMAL);
-        softly.assertThat(iterator.next()).hasLineStart(3)
+        softly.assertThat(iterator.next())
+                .hasLineStart(3)
                 .hasLineEnd(3)
                 .hasColumnStart(11)
                 .hasColumnEnd(11)
@@ -84,7 +89,8 @@ class ClangParserTest extends AbstractParserTest {
                 .hasFileName("t.c")
                 .hasCategory("-Wformat,Format String")
                 .hasSeverity(Severity.WARNING_NORMAL);
-        softly.assertThat(iterator.next()).hasLineStart(47)
+        softly.assertThat(iterator.next())
+                .hasLineStart(47)
                 .hasLineEnd(47)
                 .hasColumnStart(15)
                 .hasColumnEnd(15)
@@ -92,7 +98,8 @@ class ClangParserTest extends AbstractParserTest {
                 .hasFileName("exprs.c")
                 .hasCategory(DEFAULT_CATEGORY)
                 .hasSeverity(Severity.WARNING_NORMAL);
-        softly.assertThat(iterator.next()).hasLineStart(103)
+        softly.assertThat(iterator.next())
+                .hasLineStart(103)
                 .hasLineEnd(103)
                 .hasColumnStart(55)
                 .hasColumnEnd(55)
@@ -115,7 +122,8 @@ class ClangParserTest extends AbstractParserTest {
         assertThat(warnings).hasSize(1);
 
         try (var softly = new SoftAssertions()) {
-            softly.assertThat(warnings.get(0)).hasLineStart(1211)
+            softly.assertThat(warnings.get(0))
+                    .hasLineStart(1211)
                     .hasLineEnd(1211)
                     .hasColumnStart(26)
                     .hasColumnEnd(26)
@@ -129,8 +137,9 @@ class ClangParserTest extends AbstractParserTest {
     /**
      * Parses a file with test results. There should be no warning.
      *
-     * @see <a href="https://wiki.jenkins.io/display/JENKINS/Warnings+Plugin?focusedCommentId=138447465#comment-138447465">Wiki
-     *         Report</a>
+     * @see <a
+     *     href="https://wiki.jenkins.io/display/JENKINS/Warnings+Plugin?focusedCommentId=138447465#comment-138447465">Wiki
+     *     Report</a>
      */
     @Test
     void shouldNotDetectTestResults() {
@@ -163,7 +172,8 @@ class ClangParserTest extends AbstractParserTest {
         assertThat(warnings).hasSize(1);
 
         try (var softly = new SoftAssertions()) {
-            softly.assertThat(warnings.get(0)).hasLineStart(10)
+            softly.assertThat(warnings.get(0))
+                    .hasLineStart(10)
                     .hasLineEnd(10)
                     .hasColumnStart(10)
                     .hasColumnEnd(10)
@@ -186,7 +196,8 @@ class ClangParserTest extends AbstractParserTest {
         assertThat(warnings).hasSize(1);
 
         try (var softly = new SoftAssertions()) {
-            softly.assertThat(warnings.get(0)).hasLineStart(1518)
+            softly.assertThat(warnings.get(0))
+                    .hasLineStart(1518)
                     .hasLineEnd(1518)
                     .hasColumnStart(28)
                     .hasColumnEnd(28)
@@ -204,7 +215,8 @@ class ClangParserTest extends AbstractParserTest {
         assertThat(warnings).hasSize(3);
 
         try (var softly = new SoftAssertions()) {
-            softly.assertThat(warnings.get(0)).hasLineStart(35)
+            softly.assertThat(warnings.get(0))
+                    .hasLineStart(35)
                     .hasLineEnd(35)
                     .hasColumnStart(15)
                     .hasColumnEnd(15)
@@ -212,7 +224,8 @@ class ClangParserTest extends AbstractParserTest {
                     .hasFileName("/project/src/cpp/MyClass.cpp")
                     .hasCategory("-Wunused-parameter")
                     .hasSeverity(Severity.WARNING_NORMAL);
-            softly.assertThat(warnings.get(1)).hasLineStart(35)
+            softly.assertThat(warnings.get(1))
+                    .hasLineStart(35)
                     .hasLineEnd(35)
                     .hasColumnStart(15)
                     .hasColumnEnd(15)
@@ -220,7 +233,8 @@ class ClangParserTest extends AbstractParserTest {
                     .hasFileName("C:/project/src/cpp/MyClass.cpp")
                     .hasCategory("-Wunused-parameter")
                     .hasSeverity(Severity.WARNING_NORMAL);
-            softly.assertThat(warnings.get(2)).hasLineStart(35)
+            softly.assertThat(warnings.get(2))
+                    .hasLineStart(35)
                     .hasLineEnd(35)
                     .hasColumnStart(15)
                     .hasColumnEnd(15)

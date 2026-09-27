@@ -1,13 +1,11 @@
 package edu.hm.hafner.analysis.registry;
 
+import static j2html.TagCreator.*;
+
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.AnchoreCtlParser;
 
-import static j2html.TagCreator.*;
-
-/**
- * Descriptor for the AnchoreCTL vulnerability report parser.
- */
+/** Descriptor for the AnchoreCTL vulnerability report parser. */
 class AnchoreCtlDescriptor extends ParserDescriptor {
     private static final String ID = "anchore-ctl";
     private static final String NAME = "AnchoreCTL";
@@ -34,11 +32,11 @@ class AnchoreCtlDescriptor extends ParserDescriptor {
     @Override
     public String getHelp() {
         return join(
-                text("Use commandline"),
-                code("anchorectl image one-time-scan -o json IMAGE > anchorectl-scan.json"),
-                text(", see"),
-                a("anchorectl documentation").withHref(getUrl()),
-                text("for usage details.")
-        ).render();
+                        text("Use commandline"),
+                        code("anchorectl image one-time-scan -o json IMAGE > anchorectl-scan.json"),
+                        text(", see"),
+                        a("anchorectl documentation").withHref(getUrl()),
+                        text("for usage details."))
+                .render();
     }
 }

@@ -1,19 +1,15 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.assertThat;
 
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.util.LineRange;
-
 import java.util.UUID;
+import org.junit.jupiter.api.Test;
 
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
-
-/**
- * Tests the class {@link JsonParser}.
- */
+/** Tests the class {@link JsonParser}. */
 class JsonParserTest extends StructuredFileParserTest {
     JsonParserTest() {
         super("issues.json");
@@ -79,7 +75,8 @@ class JsonParserTest extends StructuredFileParserTest {
     /** The same report as issues.json but with locations instead of line ranges. */
     @Test
     void shouldReadLocations() {
-        verifyReport(parse("issues-location.json"));     }
+        verifyReport(parse("issues-location.json"));
+    }
 
     @Override
     protected JsonParser createParser() {

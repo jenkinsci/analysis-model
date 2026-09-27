@@ -1,17 +1,15 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.RevApiInfoExtension;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
-
 import java.util.HashMap;
 import java.util.Map;
-
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 class RevApiParserTest extends StructuredFileParserTest {
     RevApiParserTest() {
@@ -71,8 +69,8 @@ class RevApiParserTest extends StructuredFileParserTest {
                      </tr>
                  </table>
                 """);
-        softly.assertThat(report.get(0).getAdditionalProperties()).isInstanceOfSatisfying(RevApiInfoExtension.class,
-                i -> softly.assertThat(i)
+        softly.assertThat(report.get(0).getAdditionalProperties())
+                .isInstanceOfSatisfying(RevApiInfoExtension.class, i -> softly.assertThat(i)
                         .hasNewFile("-")
                         .hasOldFile("class edu.hm.hafner.analysis.parser.AquaScannerParser")
                         .hasIssueName("java.class.removed")

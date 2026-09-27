@@ -1,9 +1,9 @@
 package edu.hm.hafner.analysis.registry;
 
+import static j2html.TagCreator.*;
+
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.parser.AquaScannerParser;
-
-import static j2html.TagCreator.*;
 
 /**
  * A descriptor for Aqua Scanner.
@@ -25,11 +25,14 @@ class AquaScannerDescriptor extends ParserDescriptor {
 
     @Override
     public String getHelp() {
-        return join(text("Use commandline"),
-                code("scannercli scan 'image' --jsonfile results.json"),
-                text(", see"),
-                a("Aqua Scanner CLI").withHref("https://support.aquasec.com/support/solutions/articles/16000120206"),
-                text("for usage details.")).render();
+        return join(
+                        text("Use commandline"),
+                        code("scannercli scan 'image' --jsonfile results.json"),
+                        text(", see"),
+                        a("Aqua Scanner CLI")
+                                .withHref("https://support.aquasec.com/support/solutions/articles/16000120206"),
+                        text("for usage details."))
+                .render();
     }
 
     @Override

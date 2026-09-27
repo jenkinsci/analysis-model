@@ -1,6 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import org.junit.jupiter.api.Test;
+import static edu.hm.hafner.analysis.assertions.Assertions.*;
 
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.ParsingException;
@@ -8,12 +8,9 @@ import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.analysis.assertions.SoftAssertions;
 import edu.hm.hafner.analysis.registry.AbstractParserTest;
+import org.junit.jupiter.api.Test;
 
-import static edu.hm.hafner.analysis.assertions.Assertions.*;
-
-/**
- * Tests the class {@link TrivyParser}.
- */
+/** Tests the class {@link TrivyParser}. */
 class TrivyParserTest extends AbstractParserTest {
     TrivyParserTest() {
         super("trivy_result.json");
@@ -56,18 +53,10 @@ class TrivyParserTest extends AbstractParserTest {
 
         assertThat(report).hasSize(4);
 
-        assertThat(report.get(0))
-                .hasSeverity(Severity.WARNING_LOW)
-                .hasType("CVE-2017-6519");
-        assertThat(report.get(1))
-                .hasSeverity(Severity.WARNING_NORMAL)
-                .hasType("CVE-2020-8619");
-        assertThat(report.get(2))
-                .hasSeverity(Severity.WARNING_HIGH)
-                .hasType("CVE-2020-5555");
-        assertThat(report.get(3))
-                .hasSeverity(Severity.ERROR)
-                .hasType("CVE-2020-9999");
+        assertThat(report.get(0)).hasSeverity(Severity.WARNING_LOW).hasType("CVE-2017-6519");
+        assertThat(report.get(1)).hasSeverity(Severity.WARNING_NORMAL).hasType("CVE-2020-8619");
+        assertThat(report.get(2)).hasSeverity(Severity.WARNING_HIGH).hasType("CVE-2020-5555");
+        assertThat(report.get(3)).hasSeverity(Severity.ERROR).hasType("CVE-2020-9999");
     }
 
     @Test
@@ -81,28 +70,32 @@ class TrivyParserTest extends AbstractParserTest {
                 .hasCategory("Dockerfile Security Check")
                 .hasType("DS002")
                 .hasMessage("Image user should not be 'root'")
-                .hasDescription("<p>Running containers with &#x27;root&#x27; user can lead to a container escape situation. It is a best practice to run containers as non-root users, which can be done by adding a &#x27;USER&#x27; statement to the Dockerfile.</p> <p>Specify at least 1 USER command in Dockerfile with non-root user as argument</p> <p>Add &#x27;USER &lt;non root user name&gt;&#x27; line to the Dockerfile</p> <p>References:</p> <ul><li><a href=\"https://avd.aquasec.com/misconfig/ds002\">https://avd.aquasec.com/misconfig/ds002</a></li><li><a href=\"https://docs.docker.com/develop/develop-images/dockerfile_best-practices/\">https://docs.docker.com/develop/develop-images/dockerfile_best-practices/</a></li><li><a href=\"https://avd.aquasec.com/misconfig/ds002\">https://avd.aquasec.com/misconfig/ds002</a></li></ul>");
+                .hasDescription(
+                        "<p>Running containers with &#x27;root&#x27; user can lead to a container escape situation. It is a best practice to run containers as non-root users, which can be done by adding a &#x27;USER&#x27; statement to the Dockerfile.</p> <p>Specify at least 1 USER command in Dockerfile with non-root user as argument</p> <p>Add &#x27;USER &lt;non root user name&gt;&#x27; line to the Dockerfile</p> <p>References:</p> <ul><li><a href=\"https://avd.aquasec.com/misconfig/ds002\">https://avd.aquasec.com/misconfig/ds002</a></li><li><a href=\"https://docs.docker.com/develop/develop-images/dockerfile_best-practices/\">https://docs.docker.com/develop/develop-images/dockerfile_best-practices/</a></li><li><a href=\"https://avd.aquasec.com/misconfig/ds002\">https://avd.aquasec.com/misconfig/ds002</a></li></ul>");
         assertThat(report.get(1))
                 .hasFileName("docker/Dockerfile")
                 .hasSeverity(Severity.WARNING_LOW)
                 .hasCategory("Dockerfile Security Check")
                 .hasType("DS026")
                 .hasMessage("No HEALTHCHECK defined")
-                .hasDescription("<p>You should add HEALTHCHECK instruction in your docker container images to perform the health check on running containers.</p>");
+                .hasDescription(
+                        "<p>You should add HEALTHCHECK instruction in your docker container images to perform the health check on running containers.</p>");
         assertThat(report.get(2))
                 .hasFileName("other/Dockerfile")
                 .hasSeverity(Severity.WARNING_HIGH)
                 .hasCategory("Dockerfile Security Check")
                 .hasType("DS002")
                 .hasMessage("Image user should not be 'root'")
-                .hasDescription("<p>Running containers with &#x27;root&#x27; user can lead to a container escape situation. It is a best practice to run containers as non-root users, which can be done by adding a &#x27;USER&#x27; statement to the Dockerfile.</p> <p>Specify at least 1 USER command in Dockerfile with non-root user as argument</p> <p>Add &#x27;USER &lt;non root user name&gt;&#x27; line to the Dockerfile</p> <p>References:</p> <ul><li><a href=\"https://docs.docker.com/develop/develop-images/dockerfile_best-practices/\">https://docs.docker.com/develop/develop-images/dockerfile_best-practices/</a></li><li><a href=\"https://avd.aquasec.com/misconfig/ds002\">https://avd.aquasec.com/misconfig/ds002</a></li></ul>");
+                .hasDescription(
+                        "<p>Running containers with &#x27;root&#x27; user can lead to a container escape situation. It is a best practice to run containers as non-root users, which can be done by adding a &#x27;USER&#x27; statement to the Dockerfile.</p> <p>Specify at least 1 USER command in Dockerfile with non-root user as argument</p> <p>Add &#x27;USER &lt;non root user name&gt;&#x27; line to the Dockerfile</p> <p>References:</p> <ul><li><a href=\"https://docs.docker.com/develop/develop-images/dockerfile_best-practices/\">https://docs.docker.com/develop/develop-images/dockerfile_best-practices/</a></li><li><a href=\"https://avd.aquasec.com/misconfig/ds002\">https://avd.aquasec.com/misconfig/ds002</a></li></ul>");
         assertThat(report.get(3))
                 .hasFileName("other/Dockerfile")
                 .hasSeverity(Severity.WARNING_LOW)
                 .hasCategory("Dockerfile Security Check")
                 .hasType("DS026")
                 .hasMessage("No HEALTHCHECK defined")
-                .hasDescription("<p>You should add HEALTHCHECK instruction in your docker container images to perform the health check on running containers.</p> <p>References:</p> <ul><li><a href=\"https://avd.aquasec.com/misconfig/ds026\">https://avd.aquasec.com/misconfig/ds026</a></li></ul>");
+                .hasDescription(
+                        "<p>You should add HEALTHCHECK instruction in your docker container images to perform the health check on running containers.</p> <p>References:</p> <ul><li><a href=\"https://avd.aquasec.com/misconfig/ds026\">https://avd.aquasec.com/misconfig/ds026</a></li></ul>");
     }
 
     @Test
