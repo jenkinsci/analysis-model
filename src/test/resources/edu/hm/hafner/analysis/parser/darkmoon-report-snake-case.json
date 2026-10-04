@@ -1,0 +1,20 @@
+{
+  "findings": [
+    {
+      "title": "Boolean-based blind SQL injection in product search",
+      "severity": "medium",
+      "cvss_score": 6.5,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+      "category": "sql_injection",
+      "status": "exploited",
+      "description": "The q parameter is concatenated into a SQL query.",
+      "endpoint": "https://demo.example.com/search?q=shoes",
+      "discovered_by_agent": "wordpress",
+      "remediation": "Use prepared statements.",
+      "evidence_explanation": "Two payloads returned different result sets.",
+      "cve": "CVE-2026-55512",
+      "mitre_attack_id": "T1190",
+      "mitre_attack_name": "Exploit Public-Facing Application"
+    }
+  ]
+}
