@@ -1031,6 +1031,12 @@ class ParsersTest extends ResourceTest {
         findIssuesOfTool(3, "checkov", "checkov-report.json");
     }
 
+    /** Runs the Darkmoon parser on an output file that contains 3 issues. */
+    @Test
+    void shouldFindAllDarkmoonIssues() {
+        findIssuesOfTool(3, "darkmoon", "darkmoon-report.json");
+    }
+
     /** Runs the trivy parser on an output file that contains 4 issues. */
     @Test
     void shouldFindAllTrivyIssues() {
