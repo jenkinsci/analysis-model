@@ -45,14 +45,14 @@
   <scm>
     <connection>scm:git:https://github.com/jenkinsci/analysis-model.git</connection>
     <developerConnection>scm:git:git@github.com:jenkinsci/analysis-model.git</developerConnection>
-    <tag>v14.19.0</tag>
+    <tag>${scmTag}</tag>
     <url>https://github.com/jenkinsci/analysis-model</url>
   </scm>
 
   <properties>
     <scmTag>HEAD</scmTag>
-    <revision>14.19.0</revision>
-    <changelist></changelist>
+    <revision>14.20.0</revision>
+    <changelist>-SNAPSHOT</changelist>
     <previousVersion>14.19.0</previousVersion>
 
     <module.name>edu.hm.hafner.analysis.model</module.name>
