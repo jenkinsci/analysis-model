@@ -1,4 +1,5 @@
-<!--- DO NOT EDIT -- Generated at 2026-09-27T22:29:00.636001225 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2026-10-05T12:08:30.748983688 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -8,7 +9,6 @@ If your tool is not yet supported, you can
 2. provide a [pull request](https://github.com/jenkinsci/analysis-model/pulls) with a new parser.
 
 If your tool is supported, but some properties are missing (icon, URL, etc.), please file a [pull request](https://github.com/jenkinsci/analysis-model/pulls).
-
 
 <table>
     <thead>
@@ -791,6 +791,27 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
             </td>
             <td>
                 **/dscanner-report.json
+            </td>
+        </tr>
+        <tr>
+            <td>
+                darkmoon
+            </td>
+            <td>
+                <img src="https://raw.githubusercontent.com/ASCIT31/Dark-Moon/master/docs/pics/logo_blue.png" alt="Darkmoon" height="64" width="64">
+            </td>
+            <td>
+                <a href="https://github.com/ASCIT31/Dark-Moon">
+                    Darkmoon
+                </a>
+            </td>
+            <td>
+                **/darkmoon-*.json
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Run the <a href="https://github.com/ASCIT31/darkmoon-action">Darkmoon GitHub Action</a> with <code>report-format: json</code> to write the findings of an assessment to <code>darkmoon-&amp;lt;campaign&amp;gt;.json</code>. <br> Findings carry the exploitation status, CVSS, CVE and MITRE ATT&amp;amp;CK data.
             </td>
         </tr>
         <tr>
