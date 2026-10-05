@@ -22,7 +22,7 @@ class ParserRegistryTest extends ResourceTest {
     // please check if you are using the correct type and increment the corresponding count
     private static final long WARNING_PARSERS_COUNT = 161L;
     private static final long BUG_PARSERS_COUNT = 3L;
-    private static final long VULNERABILITY_PARSERS_COUNT = 24L;
+    private static final long VULNERABILITY_PARSERS_COUNT = 25L;
     private static final long DUPLICATION_PARSERS_COUNT = 3L;
 
     private static final String SPOTBUGS = "spotbugs";
@@ -69,6 +69,10 @@ class ParserRegistryTest extends ResourceTest {
         assertThat(parserRegistry.get("prisma-cloud"))
                 .hasId("prisma-cloud")
                 .hasName("Prisma Cloud")
+                .hasType(IssueType.VULNERABILITY);
+        assertThat(parserRegistry.get("darkmoon"))
+                .hasId("darkmoon")
+                .hasName("Darkmoon")
                 .hasType(IssueType.VULNERABILITY);
         assertThat(parserRegistry.get("osv-scanner"))
                 .hasId("osv-scanner")

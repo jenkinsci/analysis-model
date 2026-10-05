@@ -73,6 +73,7 @@ public class ParserRegistry {
         new CppLintDescriptor(),
         new CrossCoreEmbeddedStudioDescriptor(),
         new CssLintDescriptor(),
+        new DarkmoonDescriptor(),
         new DartAnalyzeDescriptor(),
         new DependencyTrackDescriptor(),
         new DetectSecretsDescriptor(),

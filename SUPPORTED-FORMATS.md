@@ -795,6 +795,27 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
         </tr>
         <tr>
             <td>
+                darkmoon
+            </td>
+            <td>
+                <img src="https://raw.githubusercontent.com/ASCIT31/Dark-Moon/master/docs/pics/logo_blue.png" alt="Darkmoon" height="64" width="64">
+            </td>
+            <td>
+                <a href="https://github.com/ASCIT31/Dark-Moon">
+                    Darkmoon
+                </a>
+            </td>
+            <td>
+                **/darkmoon-*.json
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                :bulb: Run the <a href="https://github.com/ASCIT31/darkmoon-action">Darkmoon GitHub Action</a> with <code>report-format: json</code> to write the findings of an assessment to <code>darkmoon-&amp;lt;campaign&amp;gt;.json</code>. <br> Findings carry the exploitation status, CVSS, CVE and MITRE ATT&amp;amp;CK data.
+            </td>
+        </tr>
+        <tr>
+            <td>
                 dart
             </td>
             <td>
