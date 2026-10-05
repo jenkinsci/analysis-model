@@ -64,7 +64,7 @@
     <commons-beanutils.version>1.11.0</commons-beanutils.version>
     <commons.text.version>1.15.0</commons.text.version>
     <j2html.version>1.4.0</j2html.version>
-    <slf4j.version>2.0.19</slf4j.version>
+    <slf4j.version>2.0.20</slf4j.version>
     <violations-lib.version>3.0.0</violations-lib.version>
     <jsoup.version>1.23.2</jsoup.version>
     <json.version>20260814</json.version>
