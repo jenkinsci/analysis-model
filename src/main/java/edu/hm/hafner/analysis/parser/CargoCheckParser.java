@@ -117,16 +117,17 @@ public class CargoCheckParser extends IssueParser {
         var renderedMessage = message.getString(MESSAGE_RENDERED);
         var severity = Severity.guessFromString(message.getString(MESSAGE_LEVEL));
 
-        return parseDetails(message).map(details -> issueBuilder
-                .setFileName(details.fileName)
-                .setLineStart(details.lineStart)
-                .setLineEnd(details.lineEnd)
-                .setColumnStart(details.columnStart)
-                .setColumnEnd(details.columnEnd)
-                .setCategory(category)
-                .setMessage(renderedMessage)
-                .setSeverity(severity)
-                .buildAndClean());
+        return parseDetails(message)
+                .map(details -> issueBuilder
+                        .setFileName(details.fileName)
+                        .setLineStart(details.lineStart)
+                        .setLineEnd(details.lineEnd)
+                        .setColumnStart(details.columnStart)
+                        .setColumnEnd(details.columnEnd)
+                        .setCategory(category)
+                        .setMessage(renderedMessage)
+                        .setSeverity(severity)
+                        .buildAndClean());
     }
 
     private Optional<CompilerMessageDetails> parseDetails(final JSONObject message) {

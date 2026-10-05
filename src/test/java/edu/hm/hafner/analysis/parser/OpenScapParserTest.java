@@ -184,7 +184,8 @@ class OpenScapParserTest extends AbstractParserTest {
     }
 
     private void assertOnlyFailureCategories(final Report report) {
-        assertThat(report.get()).map(Issue::getCategory).allSatisfy(category -> assertThat(category)
-                .isIn("fail", "error"));
+        assertThat(report.get())
+                .map(Issue::getCategory)
+                .allSatisfy(category -> assertThat(category).isIn("fail", "error"));
     }
 }

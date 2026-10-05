@@ -70,11 +70,13 @@ class RevApiParserTest extends StructuredFileParserTest {
                  </table>
                 """);
         softly.assertThat(report.get(0).getAdditionalProperties())
-                .isInstanceOfSatisfying(RevApiInfoExtension.class, i -> softly.assertThat(i)
-                        .hasNewFile("-")
-                        .hasOldFile("class edu.hm.hafner.analysis.parser.AquaScannerParser")
-                        .hasIssueName("java.class.removed")
-                        .hasSeverities(expectedSeverities));
+                .isInstanceOfSatisfying(
+                        RevApiInfoExtension.class,
+                        i -> softly.assertThat(i)
+                                .hasNewFile("-")
+                                .hasOldFile("class edu.hm.hafner.analysis.parser.AquaScannerParser")
+                                .hasIssueName("java.class.removed")
+                                .hasSeverities(expectedSeverities));
 
         expectedSeverities.replace("SOURCE", "BREAKING", "NON_BREAKING");
         expectedSeverities.replace("BINARY", "BREAKING", "NON_BREAKING");
@@ -100,11 +102,13 @@ class RevApiParserTest extends StructuredFileParserTest {
                 .hasPackageName("edu.hm.hafner.analysis.registry")
                 .hasFileName("edu/hm/hafner/analysis/registry/RevApiDescriptor.java");
         softly.assertThat(report.get(2).getAdditionalProperties())
-                .isInstanceOfSatisfying(RevApiInfoExtension.class, i -> softly.assertThat(i)
-                        .hasNewFile("class edu.hm.hafner.analysis.registry.RevApiDescriptor")
-                        .hasOldFile("-")
-                        .hasIssueName("java.class.added")
-                        .hasSeverities(expectedSeverities));
+                .isInstanceOfSatisfying(
+                        RevApiInfoExtension.class,
+                        i -> softly.assertThat(i)
+                                .hasNewFile("class edu.hm.hafner.analysis.registry.RevApiDescriptor")
+                                .hasOldFile("-")
+                                .hasIssueName("java.class.added")
+                                .hasSeverities(expectedSeverities));
 
         expectedSeverities.replace("SOURCE", "NON_BREAKING", "BREAKING");
         expectedSeverities.replace("BINARY", "NON_BREAKING", "BREAKING");
@@ -114,11 +118,13 @@ class RevApiParserTest extends StructuredFileParserTest {
                 .hasPackageName("shaded.org.objectweb.asm")
                 .hasFileName("shaded/org/objectweb/asm/ByteVector.java");
         softly.assertThat(report.get(3).getAdditionalProperties())
-                .isInstanceOfSatisfying(RevApiInfoExtension.class, i -> softly.assertThat(i)
-                        .hasNewFile("-")
-                        .hasOldFile("method int shaded.org.objectweb.asm.ByteVector::size()")
-                        .hasIssueName("java.method.removed")
-                        .hasSeverities(expectedSeverities));
+                .isInstanceOfSatisfying(
+                        RevApiInfoExtension.class,
+                        i -> softly.assertThat(i)
+                                .hasNewFile("-")
+                                .hasOldFile("method int shaded.org.objectweb.asm.ByteVector::size()")
+                                .hasIssueName("java.method.removed")
+                                .hasSeverities(expectedSeverities));
 
         expectedSeverities.replace("SOURCE", "BREAKING", "NON_BREAKING");
         expectedSeverities.replace("BINARY", "BREAKING", "NON_BREAKING");
@@ -129,11 +135,13 @@ class RevApiParserTest extends StructuredFileParserTest {
                 .hasPackageName("shaded.org.objectweb.asm")
                 .hasFileName("shaded/org/objectweb/asm/ClassWriter.java");
         softly.assertThat(report.get(4).getAdditionalProperties())
-                .isInstanceOfSatisfying(RevApiInfoExtension.class, i -> softly.assertThat(i)
-                        .hasNewFile("-")
-                        .hasOldFile("method boolean shaded.org.objectweb.asm.ClassWriter::hasFlags(int)")
-                        .hasIssueName("java.method.removed")
-                        .hasSeverities(expectedSeverities));
+                .isInstanceOfSatisfying(
+                        RevApiInfoExtension.class,
+                        i -> softly.assertThat(i)
+                                .hasNewFile("-")
+                                .hasOldFile("method boolean shaded.org.objectweb.asm.ClassWriter::hasFlags(int)")
+                                .hasIssueName("java.method.removed")
+                                .hasSeverities(expectedSeverities));
 
         expectedSeverities.replace("SOURCE", "NON_BREAKING", "POTENTIALLY_BREAKING");
         expectedSeverities.replace("BINARY", "NON_BREAKING", "POTENTIALLY_BREAKING");
@@ -145,11 +153,13 @@ class RevApiParserTest extends StructuredFileParserTest {
                 .hasPackageName("shaded.org.objectweb.asm")
                 .hasFileName("shaded/org/objectweb/asm/Opcodes.java");
         softly.assertThat(report.get(5).getAdditionalProperties())
-                .isInstanceOfSatisfying(RevApiInfoExtension.class, i -> softly.assertThat(i)
-                        .hasNewFile("-")
-                        .hasOldFile("field shaded.org.objectweb.asm.Opcodes.V19")
-                        .hasIssueName("java.field.removedWithConstant")
-                        .hasSeverities(expectedSeverities));
+                .isInstanceOfSatisfying(
+                        RevApiInfoExtension.class,
+                        i -> softly.assertThat(i)
+                                .hasNewFile("-")
+                                .hasOldFile("field shaded.org.objectweb.asm.Opcodes.V19")
+                                .hasIssueName("java.field.removedWithConstant")
+                                .hasSeverities(expectedSeverities));
     }
 
     @Test
