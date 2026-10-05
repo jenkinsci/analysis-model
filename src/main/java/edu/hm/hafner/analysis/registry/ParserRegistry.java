@@ -235,6 +235,15 @@ public class ParserRegistry {
     }
 
     /**
+     * Returns the number of available parsers.
+     *
+     * @return the number of available parsers
+     */
+    public int size() {
+        return descriptors.size();
+    }
+
+    /**
      * Returns the IDs of all available parsers.
      *
      * @return a set of all IDs
@@ -298,7 +307,7 @@ public class ParserRegistry {
 
         try (var file = new PrintWriter("SUPPORTED-FORMATS.md", StandardCharsets.UTF_8)) {
             file.printf(
-                    "<!--- DO NOT EDIT -- Generated at %s - Run the `main` method of `%s` to regenerate after changing parsers -- DO NOT EDIT --->%n",
+                    "<!--- DO NOT EDIT -- Generated at %s - Run the `main` method of `%s` to regenerate after changing parsers -- DO NOT EDIT --->%n%n",
                     LocalDateTime.now(ZoneId.of("Europe/Berlin")), ParserRegistry.class.getSimpleName());
             file.println("""
                     # Supported Report Formats
@@ -311,7 +320,6 @@ public class ParserRegistry {
 
                     If your tool is supported, but some properties are missing (icon, URL, etc.), please file a \
                     [pull request](https://github.com/jenkinsci/analysis-model/pulls).
-
                     """);
 
             List<ContainerTag> lines = descriptors.stream()
@@ -333,7 +341,8 @@ public class ParserRegistry {
                         td(getName(descriptor)),
                         td(StringUtils.defaultIfBlank(descriptor.getPattern(), "-"))));
         if (descriptor.hasHelp()) {
-            rows.add(tr().with(td().attr("colspan", "4").with(join(BULB_EMOJI, rawHtml(descriptor.getHelp())))));
+            rows.add(tr().withAlt("help")
+                    .with(td().attr("colspan", "4").with(join(BULB_EMOJI, rawHtml(descriptor.getHelp())))));
         }
         return rows;
     }
