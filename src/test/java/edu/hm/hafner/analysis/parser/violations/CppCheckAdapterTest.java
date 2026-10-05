@@ -86,9 +86,11 @@ class CppCheckAdapterTest extends AbstractParserTest {
                 .hasSecondaryLocations();
 
         assertThat(secondIssue.getLocations()).hasSize(2);
-        assertThat(secondIssue.getSecondaryLocations()).hasSize(1).first().satisfies(location -> assertThat(location)
-                .hasFileName(secondaryFile)
-                .hasLineStart(335));
+        assertThat(secondIssue.getSecondaryLocations())
+                .hasSize(1)
+                .first()
+                .satisfies(location ->
+                        assertThat(location).hasFileName(secondaryFile).hasLineStart(335));
     }
 
     /**
@@ -111,9 +113,12 @@ class CppCheckAdapterTest extends AbstractParserTest {
                 .hasLineStart(51)
                 .hasMessage("Variable 'that' is reassigned a value before the old one has been used.")
                 .hasType("redundantAssignment");
-        assertThat(secondIssue.getSecondaryLocations()).hasSize(1).first().satisfies(location -> assertThat(location)
-                .hasFileName("that/cloud_composer/src/point_selectors/rectangular_frustum_selector.cpp")
-                .hasLineStart(53));
+        assertThat(secondIssue.getSecondaryLocations())
+                .hasSize(1)
+                .first()
+                .satisfies(location -> assertThat(location)
+                        .hasFileName("that/cloud_composer/src/point_selectors/rectangular_frustum_selector.cpp")
+                        .hasLineStart(53));
     }
 
     private void verifyFirstIssue(final Issue issue, final String fileName) {
@@ -124,9 +129,11 @@ class CppCheckAdapterTest extends AbstractParserTest {
                 .hasType("redundantAssignment")
                 .hasSecondaryLocations();
         assertThat(issue.getLocations()).hasSize(2);
-        assertThat(issue.getSecondaryLocations()).hasSize(1).first().satisfies(location -> assertThat(location)
-                .hasFileName(fileName)
-                .hasLineStart(51));
+        assertThat(issue.getSecondaryLocations())
+                .hasSize(1)
+                .first()
+                .satisfies(
+                        location -> assertThat(location).hasFileName(fileName).hasLineStart(51));
     }
 
     /**
@@ -185,9 +192,11 @@ class CppCheckAdapterTest extends AbstractParserTest {
                 .hasType("missingOverride")
                 .hasSecondaryLocations();
         assertThat(issue.getLocations()).hasSize(2);
-        assertThat(issue.getSecondaryLocations()).hasSize(1).first().satisfies(location -> assertThat(location)
-                .hasFileName("base.hpp")
-                .hasLineStart(117));
+        assertThat(issue.getSecondaryLocations())
+                .hasSize(1)
+                .first()
+                .satisfies(
+                        location -> assertThat(location).hasFileName("base.hpp").hasLineStart(117));
     }
 
     @Override

@@ -99,8 +99,9 @@ class CpdParserTest extends AbstractParserTest {
         softly.assertThat(additionalProperties).isEqualTo(reporterSecond.getAdditionalProperties());
         softly.assertThat(additionalProperties)
                 .isInstanceOfSatisfying(
-                        DuplicationGroup.class, duplicationGroup -> assertThat(duplicationGroup.getCodeFragment())
-                                .isNotEmpty());
+                        DuplicationGroup.class,
+                        duplicationGroup ->
+                                assertThat(duplicationGroup.getCodeFragment()).isNotEmpty());
     }
 
     @Test
