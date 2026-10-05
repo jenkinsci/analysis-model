@@ -1,4 +1,5 @@
-<!--- DO NOT EDIT -- Generated at 2026-09-27T22:29:00.636001225 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+<!--- DO NOT EDIT -- Generated at 2026-10-05T13:49:18.288612 - Run the `main` method of `ParserRegistry` to regenerate after changing parsers -- DO NOT EDIT --->
+
 # Supported Report Formats
 
 The static analysis model supports the following report formats.
@@ -8,7 +9,6 @@ If your tool is not yet supported, you can
 2. provide a [pull request](https://github.com/jenkinsci/analysis-model/pulls) with a new parser.
 
 If your tool is supported, but some properties are missing (icon, URL, etc.), please file a [pull request](https://github.com/jenkinsci/analysis-model/pulls).
-
 
 <table>
     <thead>
@@ -44,7 +44,7 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
                 **/codeguru-security-report.json
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use commandline <code>aws codeguru-security get-findings --scan-name &lt;scan-name&gt; --output json > codeguru-security-report.json</code> to generate JSON output.<br/>See <a href='https://docs.aws.amazon.com/cli/latest/reference/codeguru-security/get-findings.html'>AWS CodeGuru Security get-findings</a> for usage details.
             </td>
@@ -93,7 +93,7 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
                 **/*vulnerabilities*.json
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use commandline <code>anchorectl image one-time-scan -o json IMAGE &gt; anchorectl-scan.json</code>, see <a href="https://docs.anchore.com/current/docs/using/cli_usage/images/">anchorectl documentation</a> for usage details.
             </td>
@@ -112,7 +112,7 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
                 -
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use the flag -p.
             </td>
@@ -133,7 +133,7 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
                 -
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use -p flag.
             </td>
@@ -154,7 +154,7 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
                 -
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use the flag -p.
             </td>
@@ -175,7 +175,7 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
                 -
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use commandline <code>scannercli scan &#x27;image&#x27; --jsonfile results.json</code>, see <a href="https://support.aquasec.com/support/solutions/articles/16000120206">Aqua Scanner CLI</a> for usage details.
             </td>
@@ -196,7 +196,7 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
                 -
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use commandline <code>trivy image -f json -o results.json &#x27;image&#x27;</code>, see <a href="https://github.com/aquasecurity/trivy">tivy on Github</a> for usage details. <p>Supported scanners:</p> <ul><li><a href="https://trivy.dev/latest/docs/scanner/vulnerability/">Vulnerability Scanner</a></li><li><a href="https://trivy.dev/latest/docs/scanner/misconfiguration/">Misconfiguration Scanner</a></li></ul>
             </td>
@@ -261,7 +261,7 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
                 **/black-report.txt
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use commandline <code>black --check. 2&gt;&amp;1 | tee black-report.txt</code> to capture output.<br/>See <a href='https://black.readthedocs.io/'>Black documentation</a> for usage details.
             </td>
@@ -298,7 +298,7 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
                 **/brakeman-output.json
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Reads Brakeman JSON reports. Use commandline <code>brakeman -o brakeman-output.json</code> output.<br/>See <a href='https://brakemanscanner.org/docs/jenkins/'>Brakeman documentation</a> for usage details.
             </td>
@@ -347,7 +347,7 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
                 **/cfn-lint-report.json
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use commandline <code>cfn-lint --format json</code> to generate JSON output.<br/>See <a href='https://github.com/aws-cloudformation/cfn-lint'>cfn-lint on GitHub</a> for usage details.
             </td>
@@ -368,7 +368,7 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
                 **/cfn-nag-report.json
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use commandline <code>cfn_nag_scan --input-path. --output-format json</code> to generate JSON output.<br/>See <a href='https://github.com/stelligent/cfn_nag'>cfn_nag on GitHub</a> for usage details.
             </td>
@@ -419,7 +419,7 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
                 -
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use options --xml --xml-version=2
             </td>
@@ -468,7 +468,7 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
                 **/cargo-audit.json
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use commandline <code>cargo audit --json -o cargo-audit.json</code> to generate JSON output.<br/>See <a href='https://github.com/rustsec/cargo-audit'>cargo-audit on GitHub</a> for usage details.
             </td>
@@ -489,7 +489,7 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
                 -
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use commandline <code>cargo check --message-format json</code>
             </td>
@@ -542,7 +542,7 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
                 **/checkov-report.json
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use commandline <code>checkov --output json --output-file-path checkov-report.json</code> to generate JSON output.<br/>See <a href='https://www.checkov.io/'>Checkov documentation</a> for usage details.
             </td>
@@ -563,7 +563,7 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
                 -
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Reads Clair json data. Use commandline <code>clair-scanner --report="/target/clair.json"</code> output.<br/>See <a href='https://github.com/arminc/clair-scanner'>clair-scanner on Github</a> for usage details.
             </td>
@@ -598,7 +598,7 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
                 -
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use options --analyze --analyzer-output plist-multi-file
             </td>
@@ -707,7 +707,7 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
                 **/cookstyle-report.json
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use commandline <code>cookstyle --format json</code> to generate JSON output.<br/>See <a href='https://github.com/chef/cookstyle'>Cookstyle on GitHub</a> for usage details.
             </td>
@@ -756,7 +756,7 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
                 -
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: You need to use the Eclipse format with the option <code>--output=eclipse</code>
             </td>
@@ -825,7 +825,7 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
                 **/dependency-track-findings.json
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Export findings from the Dependency-Track REST API using: <br> <code>GET /api/v1/finding/project/{uuid}/export</code>, then save the response to a file. See <a href="https://docs.dependencytrack.org/integrations/file-formats/">Dependency-Track File Formats</a> for details.
             </td>
@@ -846,7 +846,7 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
                 **/detectify-report.json
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use the Detectify API to export vulnerabilities in JSON format from <code>GET /vulnerabilities/</code>. See the Detectify API documentation for details. <ul><li><a href="https://developer.detectify.com/v2">Detectify API</a></li><li><a href="https://docs.detectify.com/web-application-security-testing/results">Results</a></li></ul>
             </td>
@@ -867,7 +867,7 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
                 -
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use option --output-format xml.
             </td>
@@ -902,7 +902,7 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
                 -
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use commandline <code>dockerfile_lint -j</code> output.<br/>See <a href='https://github.com/projectatomic/dockerfile_lint'>dockerfile_lint on Github</a> for usage details.
             </td>
@@ -923,7 +923,7 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
                 -
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Execute doxygen:As <b>shell</b> command <code>( cat Doxyfile; echo WARN_FORMAT='$file:$line: $text' ) | doxygen -</code>As <b>batch</b> command <code>( type Doxyfile & echo WARN_FORMAT='$file:$line: $text' ) | doxygen -</code>
             </td>
@@ -958,7 +958,7 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
                 -
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use option <code>--format json</code> (recommend), <code>--format json-with-metadata</code> or <code>--format checkstyle</code> (deprecated).
             </td>
@@ -977,7 +977,7 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
                 -
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: <p><p>Create an output file that contains Eclipse ECJ output, in either XML or text format.</p><p>To log in XML format, specify &quot;.xml&quot; as the file extension to the -log argument:</p><p><code>java -jar ecj.jar -log &lt;logfile&gt;.xml &lt;other arguments&gt;</code></p><p>To log in text format, specify any file extension except &quot;.xml&quot; to the -log argument:</p><p><code>java -jar ecj.jar -log &lt;logfile&gt;.log &lt;other arguments&gt;</code></p></p>
             </td>
@@ -1044,7 +1044,7 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
                 **/fossa-report.json
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use commandline <code>fossa test --format json &gt; fossa-report.json</code> to generate JSON output.<br/>See <a href='https://docs.fossa.com/'>FOSSA documentation</a> for usage details.
             </td>
@@ -1079,7 +1079,7 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
                 -
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: <p>Run flake8 as <code>flake8 --format=pylint</code></p>
             </td>
@@ -1100,7 +1100,7 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
                 -
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use commandline <code>flawfinder -S</code>.
             </td>
@@ -1209,7 +1209,7 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
                 -
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: <p>Parses warnings and errors generated by GCC version 4 and newer (including GCC 5–15+). Use this parser for modern GCC compilers that output messages in the standard format like:</p><p><code>file.c:10:5: warning: unused variable 'x' [-Wunused-variable]</code></p><p>For very old GCC versions (pre-GCC 4), use the 'gcc3' parser instead.</p>
             </td>
@@ -1228,7 +1228,7 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
                 -
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: <p>Parses warnings and errors from legacy GCC compilers (versions older than GCC 4). This parser uses an older, simpler warning format.</p><p>For modern GCC versions (GCC 4 and newer, including GCC 5–15), use the 'gcc' parser instead, which supports the newer format with additional context like:</p><p><code>file.c:10:5: warning: unused variable 'x' [-Wunused-variable]</code></p>
             </td>
@@ -1277,7 +1277,7 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
                 **/gitguardian-report.json
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use commandline <code>ggshield secret scan path --recursive --json > gitguardian-report.json</code> to generate JSON output.<br/>See <a href='https://docs.gitguardian.com/ggshield-docs/reference/secret/scan/path'>GitGuardian ggshield documentation</a> for usage details.
             </td>
@@ -1298,7 +1298,7 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
                 **/gitleaks.json
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use commandline <code>gitleaks detect --report-format json</code> to generate JSON output.<br/>See <a href='https://github.com/zricethezav/gitleaks'>gitleaks on GitHub</a> for usage details.
             </td>
@@ -1347,7 +1347,7 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
                 **/gradle-lint-report.json
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Configure <code>gradleLint { reportFormat = 'json' }</code> in your <code>build.gradle</code> and run <code>./gradlew generateGradleLintReport</code> to generate a JSON report.<br/>See <a href='https://github.com/nebula-plugins/gradle-lint-plugin'>Gradle Lint Plugin</a> for usage details.
             </td>
@@ -1384,7 +1384,7 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
                 -
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use commandline <code>hadolint --format json Dockerfile</code> output.<br/>See <a href='https://github.com/hadolint/hadolint'>hadolint on Github</a> for usage details.
             </td>
@@ -1403,7 +1403,7 @@ If your tool is supported, but some properties are missing (icon, URL, etc.), pl
                 -
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: <p>The IAR C-STAT static analysis tool finds potential issues in code by doing an analysis on the source code level. Use the following icstat command to generate the output on stdout in the correct format: <pre><code>icstat --db a.db --checks checks.ch commands commands.txt</code></pre> where the commands.txt contains: <pre><code>analyze - iccxxxxcompiler_opts cstat1.c
 analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-STAT guide.</p>
@@ -1423,7 +1423,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 -
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: The IAR compilers need to be started with option <strong>--no_wrap_diagnostics</strong>. Then the IAR compilers will create single-line warnings.
             </td>
@@ -1458,7 +1458,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 -
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use configuration reporter: \”checkstyle\”.
             </td>
@@ -1479,7 +1479,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 -
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use option --pmd-xml.
             </td>
@@ -1514,7 +1514,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 **/intelephense-report.json
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Export Intelephense diagnostics as JSON with the publishDiagnostics payload.
             </td>
@@ -1637,7 +1637,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 **/results.json
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use commandline <code>kics scan -p &lt;path&gt; -o./ --report-formats json</code> to generate results.json, see <a href="https://docs.kics.io/latest/">KICS</a> for usage details.
             </td>
@@ -1686,7 +1686,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 -
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use option --reporter=checkstyle.
             </td>
@@ -1707,7 +1707,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 **/kube-hunter.json
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use commandline <code>kube-hunter --report json --dispatch stdout &gt; kube-hunter.json</code> output.<br/>See <a href='https://github.com/aquasecurity/kube-hunter'>Kube Hunter on GitHub</a> for usage details.
             </td>
@@ -1728,7 +1728,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 **/kube-linter.json
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use commandline <code>kube-linter lint --format json --output kube-linter.json</code> output.<br/>See <a href='https://github.com/stackrox/kube-linter'>KubeLinter on GitHub</a> for usage details.
             </td>
@@ -1749,7 +1749,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 **/kube-score.json
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use commandline <code>kube-score score -o json &gt; kube-score.json</code> output.<br/>See <a href='https://github.com/zegl/kube-score'>kube-score on GitHub</a> for usage details.
             </td>
@@ -1770,7 +1770,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 **/kubesec.json
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use commandline <code>kubesec scan -f deployment.yaml -o json > kubesec.json</code> output.<br/>See <a href='https://kubesec.io/'>Kubesec</a> for usage details.
             </td>
@@ -1791,7 +1791,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 **/kyverno-report.json
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use commandline <code>kyverno apply policy.yaml resource.yaml --output json</code> to generate JSON output.<br/>See <a href='https://kyverno.io/docs/kyverno-cli/commands/apply/'>Kyverno CLI documentation</a> for usage details.
             </td>
@@ -1828,7 +1828,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 -
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use commandline <code>markdownlint-cli2 --json</code> output.<br/>See <a href='https://github.com/DavidAnson/markdownlint'>markdownlint on GitHub</a> for usage details.
             </td>
@@ -1893,7 +1893,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 -
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: <p><p>Ensure that the output from the CodeWarrior build tools is in the expected format. If there are warnings present, but they are not found, then it is likely that the format is incorrect. The mwccarm compiler and mwldarm linker tools may support a configurable message style. This can be used to enforce the expected output format, which may be different from Metrowerks CodeWarrior (and thus require a different tool). For example the following could be appended to the build flags:</p><p><code>-msgstyle gcc -nowraplines</code></p></p>
             </td>
@@ -1944,7 +1944,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 -
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: <p>Create an output file that contains issues in the native analysis-model format, in either XML or JSON. The parser is even capable of reading individual lines of a log file that contains issues in JSON format.</p>
             </td>
@@ -1981,7 +1981,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 **/osv-scanner-report.json
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use commandline <code>osv-scanner scan --format json /path/to/project &gt; osv-scanner-report.json</code> to generate a JSON report.<br/>See <a href='https://google.github.io/osv-scanner/'>OSV-Scanner documentation</a> for usage details.
             </td>
@@ -2002,7 +2002,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 -
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use commandline <code>ot-docker-linter audit --docker.file Dockerfile -o json</code> output.<br/>See <a href='https://github.com/opstree/OT-Dockerlinter'>ot-docker-linter on Github</a> for usage details.
             </td>
@@ -2039,7 +2039,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 **/openapi-validator-report.json
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use commandline <code>lint-openapi --json your-api.yaml &gt; openapi-validator-report.json</code> to generate JSON output.<br/>See <a href='https://github.com/IBM/openapi-validator'>IBM OpenAPI Validator on GitHub</a> for usage details.
             </td>
@@ -2060,7 +2060,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 **/openscap-report.json
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use commandline <code>oscap scan --results-arf results.xml --report report.html</code> to generate reports. Convert ARF to JSON for automated parsing.<br/>See <a href='https://github.com/OpenSCAP/openscap'>OpenSCAP on GitHub</a> for usage details.
             </td>
@@ -2093,7 +2093,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 -
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: <p>Use the following PC-Lint properties to create an output file in the correct format: <pre><code>-v // turn off verbosity
 -width(0) // don't insert line breaks (unlimited output width)
@@ -2162,7 +2162,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 -
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use the options: --no-progress --error-format checkstyle
             </td>
@@ -2183,7 +2183,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 -
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use option --report=checkstyle.
             </td>
@@ -2294,7 +2294,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 **/phan-report.json
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use <code>phan --output-mode json &gt; phan-report.json</code> to generate JSON output.<br/>See <a href='https://github.com/phan/phan'>Phan on GitHub</a> for usage details. See <a href='https://phpqa.io/projects/phan.html'>Phan documentation</a> for usage details.
             </td>
@@ -2315,7 +2315,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 -
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Reads reports of Polyspace Static Analysis Tool by MathWorks. Used for <a href='https://www.mathworks.com/help/bugfinder/ref/polyspaceresultsexport.html?s_tid=srchtitle_polyspace-results-export_1'>BugFinder</a> and  <a href='https://www.mathworks.com/help/codeprover/ref/polyspaceresultsexport.html?s_tid=srchtitle_polyspace-results-export_2'>CodeProver</a> result files.<br/>Report can be generated with command: polyspace-results-export -format csv -results-dir <RESULTS> -output-name <CSVFILE> -key <KEY>
             </td>
@@ -2336,7 +2336,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 **/prisma-cloud-report.json
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use commandline <code>twistcli images scan --output-file prisma-cloud-report.json &lt;IMAGE&gt;</code> to generate JSON output.<br/>See <a href='https://docs.prismacloud.io/en/enterprise-edition/content-collections/runtime-security/tools/twistcli-scan-images'>twistcli documentation</a> for usage details.
             </td>
@@ -2357,7 +2357,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 -
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use protolint with options <code>-reporter=json -output_file=protolint-report.json</code>, see <a href="https://github.com/yoheimuta/protolint?tab=readme-ov-file#usage">protoLint CLI options</a> for usage details.
             </td>
@@ -2378,7 +2378,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 **/psalm-report.json
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use commandline <code>psalm --output-format=json > psalm-report.json</code> to generate JSON output. See <a href='https://github.com/vimeo/psalm'>Psalm on GitHub</a> for usage details.
             </td>
@@ -2397,7 +2397,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 -
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: You will need a recent enough version that supports <code>--log-format flag</code>. When running puppet-lint, make sure you use the log format <code>%{path}:%{line}:%{check}:%{KIND}:%{message}</code>. <br> Complete example: <br> <code>find. -iname *.pp -exec puppet-lint --log-format &quot;%{path}:%{line}:%{check}:%{KIND}:%{message}&quot; {} \;</code>
             </td>
@@ -2430,7 +2430,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 -
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: <p>Start Pylint using this custom message template (can also be configured via a pylintrc configuration file):<p><code>pylint --msg-template='{path}:{line}: [{msg_id}, {obj}] {msg} ({symbol})' modules_or_packages > pylint.log</code></p></p>
             </td>
@@ -2451,7 +2451,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 **/pyright-report.json
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use commandline <code>pyright --outputjson &gt; pyright-report.json</code> to generate JSON output.<br/>See <a href='https://github.com/microsoft/pyright'>Pyright on GitHub</a> for usage details.
             </td>
@@ -2486,7 +2486,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 -
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Reads translation files of Qt, which are created by "lupdate" or "Linguist".
             </td>
@@ -2551,7 +2551,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 **/revive-report.json
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use commandline <code>revive -formatter json./...</code> to generate JSON output.<br/>See <a href='https://github.com/mgechev/revive'>Revive on GitHub</a> for usage details.
             </td>
@@ -2598,7 +2598,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 -
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use commandline <code>rubocop --format progress</code>.
             </td>
@@ -2619,7 +2619,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 -
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use commandline <code>ruff check --output-format=json</code> to generate the JSON report.<br/>See <a href='https://docs.astral.sh/ruff/'>Ruff Documentation</a> for usage details.
             </td>
@@ -2656,7 +2656,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 **/sqlfluff.json
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use commandline <code>sqlfluff lint --format json &gt; report.json</code> to generate JSON output.<br/>See <a href='https://www.sqlfluff.com/'>SQLFluff documentation</a> for usage details.
             </td>
@@ -2691,7 +2691,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 **/salt-lint-report.json
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use commandline <code>salt-lint --json</code> to generate JSON output.<br/>Add <code>--severity</code> to include severity levels in the report.<br/>See <a href='https://github.com/warpnet/salt-lint'>salt-lint on GitHub</a> for usage details.
             </td>
@@ -2726,7 +2726,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 -
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use <code>--json</code>
             </td>
@@ -2747,7 +2747,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 **/shellcheck.json
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use commandline <code>shellcheck -f json script.sh</code> to generate the JSON report.<br/>See <a href='https://github.com/koalaman/shellcheck'>ShellCheck Documentation</a> for usage details.
             </td>
@@ -2782,7 +2782,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 -
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Reads and Parses HTML reports of Simulink Check Tool by MathWorks. Report can be generated with command: <code>ModelAdvisor.summaryReport(ModelAdvisor.run(<SYSTEMS>, <CONFIG>, <FILENAME>, <ARGS>))</code>
             </td>
@@ -2833,7 +2833,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 **/spectral-report.json
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use commandline <code>spectral lint api.yaml --format json</code> to generate JSON output.<br/>See <a href='https://github.com/stoplightio/spectral'>Spectral on GitHub</a> for usage details.
             </td>
@@ -2884,7 +2884,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 **/staticcheck-report.json
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use commandline <code>staticcheck -f json./... > staticcheck-report.json</code> to generate JSON output.<br/>See <a href='https://github.com/dominikh/go-tools'>Staticcheck on GitHub</a> for usage details.
             </td>
@@ -2919,7 +2919,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 -
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: <p>Use <code>--formatter json</code></p><p>For checkstyle format install <a href='https://www.npmjs.com/package/stylelint-checkstyle-reporter'>stylelint-checkstyle-reporter</a>.<br/>Use <code>--custom-formatter node_modules/stylelint-checkstyle-reporter/index.js -o stylelint-warnings.xml</code><br/>The checkstyle formatter is deprecated. Use the json formatter instead.</p>
             </td>
@@ -2940,7 +2940,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 **/swagger-lint-report.json
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use commandline <code>swaggerlint /path/to/swagger.json 2>&amp;1 | tee swagger-lint-report.json</code> or programmatically via Node.js and <code>JSON.stringify</code> to generate JSON output.<br/>See <a href='https://github.com/antonk52/swaggerlint'>swaggerlint on GitHub</a> for usage details.
             </td>
@@ -2961,7 +2961,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 -
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use configuration reporter: \”checkstyle\”.
             </td>
@@ -3010,7 +3010,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 -
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use option --format checkstyle.
             </td>
@@ -3031,7 +3031,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 **/talisman-report.json
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use commandline <code>talisman --scanWithHtml</code> to generate a report that includes a JSON file.<br/>See <a href='https://github.com/thoughtworks/talisman'>Talisman on GitHub</a> for usage details.
             </td>
@@ -3052,7 +3052,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 **/tflint-report.json
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use commandline <code>tflint --format json</code> to generate JSON output.<br/>See <a href='https://github.com/terraform-linters/tflint'>tflint on GitHub</a> for usage details.
             </td>
@@ -3087,7 +3087,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 **/truffleHog.json
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use commandline <code>truffleHog filesystem /path --json --only-verified</code> to generate JSON output.<br/>See <a href='https://github.com/trufflesecurity/trufflehog'>TruffleHog on GitHub</a> for usage details.
             </td>
@@ -3108,7 +3108,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 **/vale-report.json
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Reads vale report files. Use the flag --output=JSON
             </td>
@@ -3129,7 +3129,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 -
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use options <code>--xml=yes --xml-file=valgrind_report.xml --child-silent-after-fork=yes</code>, see the <a href="https://valgrind.org/docs/manual/manual-core.html">Valgrind User Manual</a> for usage details.
             </td>
@@ -3150,7 +3150,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 -
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use commandline <code>java -jar pipeline-scan.jar --json_output=true --json_output_file=results.json</code>, see <a href="https://docs.veracode.com/r/c_about_pipeline_scan">Veracode Pipeline Scanner</a> for usage details.
             </td>
@@ -3213,7 +3213,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 -
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use option -f parsable.
             </td>
@@ -3234,7 +3234,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 -
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use commandline <code>bitbake &lt;your product image&gt;</code>, add INHERIT += &quot;cve-check&quot; in your local.conf <a href="https://docs.yoctoproject.org/dev/dev-manual/vulnerabilities.html">Yocto Scanner</a> for usage details.
             </td>
@@ -3269,7 +3269,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 **/.secrets.baseline
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use commandline <code>detect-secrets scan &gt;.secrets.baseline</code> to generate the baseline JSON report.<br/>See <a href='https://github.com/Yelp/detect-secrets'>detect-secrets on GitHub</a> for usage details.
             </td>
@@ -3290,7 +3290,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 **/golangci-lint-report.json
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use commandline <code>golangci-lint run --output.json.path=golangci-lint-report.json</code> to generate JSON output.<br/>See <a href='https://github.com/golangci/golangci-lint'>golangci-lint on GitHub</a> for usage details.
             </td>
@@ -3311,7 +3311,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 **/gosec-report.json
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use commandline <code>gosec -fmt=json -out=gosec-report.json./...</code> to generate JSON output.<br/>See <a href='https://github.com/securego/gosec'>gosec on GitHub</a> for usage details.
             </td>
@@ -3332,7 +3332,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 -
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use commandline <code>npm audit --json &gt; npm-audit.json</code>, see <a href="https://docs.npmjs.com/cli/commands/npm-audit">npm audit</a> for usage details.
             </td>
@@ -3369,7 +3369,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 -
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use commandline <code>pnpm audit --json &gt; pnpm-audit.json</code>, see <a href="https://pnpm.io/cli/audit">pnpm audit</a> for usage details.
             </td>
@@ -3390,7 +3390,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 **/rust-analyzer.json
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use commandline <code>rust-analyzer diagnostics &lt;path&gt;</code> to generate JSON output.<br/>See <a href='https://github.com/rust-lang/rust-analyzer'>rust-analyzer on GitHub</a> for usage details.
             </td>
@@ -3411,7 +3411,7 @@ analyze - iccxxxxcompiler_opts cstat2.c</pre></code>For details check the IAR C-
                 **/tfsec-report.json
             </td>
         </tr>
-        <tr>
+        <tr alt="help">
             <td colspan="4">
                 :bulb: Use commandline <code>tfsec. -f json -o tfsec-report.json</code> to generate JSON output.<br/>See <a href='https://aquasecurity.github.io/tfsec/latest/'>tfsec documentation</a> for usage details.
             </td>
