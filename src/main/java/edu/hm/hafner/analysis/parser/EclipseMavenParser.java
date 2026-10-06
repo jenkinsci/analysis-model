@@ -1,6 +1,10 @@
 package edu.hm.hafner.analysis.parser;
 
-import static edu.hm.hafner.analysis.parser.EclipseParser.*;
+import static edu.hm.hafner.analysis.parser.EclipseParser.ERROR;
+import static edu.hm.hafner.analysis.parser.EclipseParser.INFO;
+import static edu.hm.hafner.analysis.parser.EclipseParser.WARNING;
+import static edu.hm.hafner.analysis.parser.EclipseParser.extractCategory;
+import static edu.hm.hafner.analysis.parser.EclipseParser.extractMessage;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;

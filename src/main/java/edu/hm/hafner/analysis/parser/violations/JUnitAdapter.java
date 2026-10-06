@@ -1,6 +1,6 @@
 package edu.hm.hafner.analysis.parser.violations;
 
-import static se.bjurr.violations.lib.model.SEVERITY.*;
+import static se.bjurr.violations.lib.model.SEVERITY.ERROR;
 
 import edu.hm.hafner.analysis.ParsingCanceledException;
 import edu.hm.hafner.analysis.ParsingException;
