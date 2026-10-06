@@ -1,6 +1,6 @@
 package edu.hm.hafner.analysis.parser.violations;
 
-import static se.bjurr.violations.lib.model.SEVERITY.*;
+import static se.bjurr.violations.lib.model.SEVERITY.INFO;
 
 import java.io.Serial;
 import se.bjurr.violations.lib.model.Violation;

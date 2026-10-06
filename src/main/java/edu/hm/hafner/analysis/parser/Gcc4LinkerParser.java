@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
-import static edu.hm.hafner.analysis.Severity.*;
+import static edu.hm.hafner.analysis.Severity.WARNING_HIGH;
+import static edu.hm.hafner.analysis.Severity.WARNING_NORMAL;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;

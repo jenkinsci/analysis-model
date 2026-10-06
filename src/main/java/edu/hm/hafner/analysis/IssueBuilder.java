@@ -1,6 +1,6 @@
 package edu.hm.hafner.analysis;
 
-import static edu.hm.hafner.analysis.util.IntegerParser.*;
+import static edu.hm.hafner.analysis.util.IntegerParser.parseInt;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import edu.hm.hafner.util.Ensure;

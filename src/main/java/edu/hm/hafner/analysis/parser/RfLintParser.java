@@ -1,6 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import static edu.hm.hafner.analysis.Categories.*;
+import static edu.hm.hafner.analysis.Categories.guessCategoryIfEmpty;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;

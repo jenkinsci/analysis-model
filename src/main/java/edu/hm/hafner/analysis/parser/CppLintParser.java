@@ -1,6 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import static edu.hm.hafner.analysis.util.IntegerParser.*;
+import static edu.hm.hafner.analysis.util.IntegerParser.parseInt;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;

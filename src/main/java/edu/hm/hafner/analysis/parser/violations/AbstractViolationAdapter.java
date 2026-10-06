@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis.parser.violations;
 
-import static se.bjurr.violations.lib.model.SEVERITY.*;
+import static se.bjurr.violations.lib.model.SEVERITY.ERROR;
+import static se.bjurr.violations.lib.model.SEVERITY.WARN;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;

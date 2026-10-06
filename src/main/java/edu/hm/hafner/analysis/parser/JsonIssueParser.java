@@ -1,6 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import static j2html.TagCreator.*;
+import static j2html.TagCreator.join;
 
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;

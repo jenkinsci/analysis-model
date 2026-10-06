@@ -1,6 +1,7 @@
 package edu.hm.hafner.analysis.parser;
 
-import static edu.hm.hafner.analysis.parser.ErrorProneParser.*;
+import static edu.hm.hafner.analysis.parser.ErrorProneParser.appendPeriod;
+import static edu.hm.hafner.analysis.parser.ErrorProneParser.createDescription;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;

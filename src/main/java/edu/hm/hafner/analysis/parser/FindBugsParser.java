@@ -1,6 +1,6 @@
 package edu.hm.hafner.analysis.parser;
 
-import static edu.hm.hafner.analysis.parser.FindBugsParser.PriorityProperty.*;
+import static edu.hm.hafner.analysis.parser.FindBugsParser.PriorityProperty.RANK;
 
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.IssueParser;
