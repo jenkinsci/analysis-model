@@ -70,7 +70,9 @@ public abstract class LookaheadParser extends IssueParser {
         try (var builder = new IssueBuilder()) {
             while (lookahead.hasNext()) {
                 var line = lookahead.next();
-                handleDirectoryChanges(builder, line, report);
+                if (isDirectoryTrackingEnabled()) {
+                    handleDirectoryChanges(builder, line, report);
+                }
                 preprocessLine(line);
                 if (isLineInteresting(line)) {
                     var matcher = pattern.matcher(line);
@@ -93,6 +95,19 @@ public abstract class LookaheadParser extends IssueParser {
      */
     protected void preprocessLine(final String line) {
         // empty default implementation does nothing
+    }
+
+    /**
+     * Returns whether build-tool directory messages should set the base directory for relative issue filenames.
+     * Tracking is enabled by default for compiler diagnostics, including Ninja builds that use CMake's binary directory
+     * as their working directory. The CMake marker is a directory hint, not proof of a compiler's working directory.
+     * Parsers whose filenames are not relative to the build working directory may opt out without losing lookahead or
+     * multiline parsing.
+     *
+     * @return {@code true} to track Make directory changes and CMake binary-directory markers
+     */
+    protected boolean isDirectoryTrackingEnabled() {
+        return true;
     }
 
     /**
