@@ -6,17 +6,18 @@ skinparam rectangle {
   BackgroundColor<<runtime>> lightBlue
   BackgroundColor<<provided>> lightGray
 }
-rectangle "spotbugs\n\n4.10.4" as com_github_spotbugs_spotbugs_jar
-rectangle "asm\n\n9.10.1" as org_ow2_asm_asm_jar
-rectangle "asm-analysis\n\n9.10.1" as org_ow2_asm_asm_analysis_jar
-rectangle "asm-tree\n\n9.10.1" as org_ow2_asm_asm_tree_jar
-rectangle "asm-commons\n\n9.10.1" as org_ow2_asm_asm_commons_jar
-rectangle "asm-util\n\n9.10.1" as org_ow2_asm_asm_util_jar
-rectangle "bcel\n\n6.12.0" as org_apache_bcel_bcel_jar
+rectangle "spotbugs\n\n4.10.5" as com_github_spotbugs_spotbugs_jar
+rectangle "asm\n\n9.11" as org_ow2_asm_asm_jar
+rectangle "asm-analysis\n\n9.11" as org_ow2_asm_asm_analysis_jar
+rectangle "asm-tree\n\n9.11" as org_ow2_asm_asm_tree_jar
+rectangle "asm-commons\n\n9.11" as org_ow2_asm_asm_commons_jar
+rectangle "asm-util\n\n9.11" as org_ow2_asm_asm_util_jar
+rectangle "bcel\n\n6.13.0" as org_apache_bcel_bcel_jar
 rectangle "commons-io\n\n2.22.0" as commons_io_commons_io_jar
 rectangle "jcip-annotations\n\n1.0-1" as com_github_stephenc_jcip_jcip_annotations_jar
 rectangle "dom4j\n\n2.2.0" as org_dom4j_dom4j_jar
 rectangle "gson\n\n2.14.0" as com_google_code_gson_gson_jar
+rectangle "jspecify\n\n1.0.1" as org_jspecify_jspecify_jar
 rectangle "Saxon-HE\n\n13.0" as net_sf_saxon_Saxon_HE_jar
 rectangle "xmlresolver\n\n6.0.23" as org_xmlresolver_xmlresolver_jar
 rectangle "xmlresolver\ndata\n6.0.23" as org_xmlresolver_xmlresolver_jar_data
@@ -61,11 +62,12 @@ org_ow2_asm_asm_util_jar .[#ABABAB].> org_ow2_asm_asm_jar
 org_ow2_asm_asm_util_jar .[#ABABAB].> org_ow2_asm_asm_tree_jar
 org_ow2_asm_asm_util_jar .[#ABABAB].> org_ow2_asm_asm_analysis_jar
 com_github_spotbugs_spotbugs_jar -[#000000]-> org_ow2_asm_asm_util_jar
-org_apache_bcel_bcel_jar .[#FF0000].> commons_io_commons_io_jar: 2.21.0
+org_apache_bcel_bcel_jar .[#ABABAB].> commons_io_commons_io_jar
 com_github_spotbugs_spotbugs_jar -[#000000]-> org_apache_bcel_bcel_jar
 com_github_spotbugs_spotbugs_jar -[#000000]-> com_github_stephenc_jcip_jcip_annotations_jar
 com_github_spotbugs_spotbugs_jar -[#000000]-> org_dom4j_dom4j_jar
 com_github_spotbugs_spotbugs_jar -[#000000]-> com_google_code_gson_gson_jar
+com_github_spotbugs_spotbugs_jar -[#000000]-> org_jspecify_jspecify_jar
 net_sf_saxon_Saxon_HE_jar -[#000000]-> org_xmlresolver_xmlresolver_jar
 net_sf_saxon_Saxon_HE_jar -[#000000]-> org_xmlresolver_xmlresolver_jar_data
 com_github_spotbugs_spotbugs_jar -[#000000]-> net_sf_saxon_Saxon_HE_jar
