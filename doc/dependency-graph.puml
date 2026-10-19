@@ -18,9 +18,9 @@ rectangle "jcip-annotations\n\n1.0-1" as com_github_stephenc_jcip_jcip_annotatio
 rectangle "dom4j\n\n2.2.0" as org_dom4j_dom4j_jar
 rectangle "gson\n\n2.14.0" as com_google_code_gson_gson_jar
 rectangle "jspecify\n\n1.0.1" as org_jspecify_jspecify_jar
-rectangle "Saxon-HE\n\n13.0" as net_sf_saxon_Saxon_HE_jar
-rectangle "xmlresolver\n\n6.0.23" as org_xmlresolver_xmlresolver_jar
-rectangle "xmlresolver\ndata\n6.0.23" as org_xmlresolver_xmlresolver_jar_data
+rectangle "Saxon-HE\n\n13.1" as net_sf_saxon_Saxon_HE_jar
+rectangle "xmlresolver\n\n6.1.0" as org_xmlresolver_xmlresolver_jar
+rectangle "xmlresolver\ndata\n6.1.0" as org_xmlresolver_xmlresolver_jar_data
 rectangle "analysis-model\n\n14.21.0-SNAPSHOT" as edu_hm_hafner_analysis_model_jar
 rectangle "j2html\n\n1.4.0" as com_j2html_j2html_jar
 rectangle "commons-beanutils\n\n1.11.0" as commons_beanutils_commons_beanutils_jar
@@ -44,7 +44,7 @@ rectangle "violations-lib\n\n3.0.2" as se_bjurr_violations_violations_lib_jar
 rectangle "violations-lib-sarif\n\n3.0.2" as se_bjurr_violations_violations_lib_sarif_jar
 rectangle "xercesImpl\n\n2.12.2" as xerces_xercesImpl_jar
 rectangle "xml-apis\n\n1.4.01" as xml_apis_xml_apis_jar
-rectangle "spotbugs-annotations\n\n4.10.4" as com_github_spotbugs_spotbugs_annotations_jar
+rectangle "spotbugs-annotations\n\n4.10.5" as com_github_spotbugs_spotbugs_annotations_jar
 rectangle "jsr305\n\n3.0.2" as com_google_code_findbugs_jsr305_jar
 rectangle "error_prone_annotations\n\n2.50.0" as com_google_errorprone_error_prone_annotations_jar
 rectangle "codingstyle\n\n7.5.0" as edu_hm_hafner_codingstyle_jar
