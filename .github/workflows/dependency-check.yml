@@ -2,20 +2,19 @@ name: 'Dependency Check'
 
 on:
   push:
-      branches:
+    branches:
       - main
-  pull_request_target:
+  pull_request:
 
 jobs:
   build:
     runs-on: [ubuntu-latest]
     name: Create report
+    if: ${{ !github.event.pull_request.head.repo.fork }}
 
     steps:
       - name: Checkout project
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
       - name: Set up JDK
         uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6
         with:
