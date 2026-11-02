@@ -105,7 +105,7 @@ jobs:
           git add SUPPORTED-FORMATS.md
           git commit -m "Generate list of supported formats" || true
       - name: Push updated badges to GitHub repository
-        uses: ad-m/github-push-action@881a6320fdb16eb5318c5054f31c218aec2b324c # master
+        uses: ad-m/github-push-action@7fba72704ad2db819788db8f2d9e7d1dfbebe089 # master
         if: ${{ success() }}
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
