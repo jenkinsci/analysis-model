@@ -124,6 +124,55 @@ class ShellCheckParserTest extends AbstractParserTest {
     }
 
     @Test
+    void shouldParseReportWithNullFixOfShellCheck011() {
+        var report = parse("shellcheck-fix-null.json");
+
+        try (var softly = new SoftAssertions()) {
+            softly.assertThat(report).hasSize(3);
+            softly.assertThat(report.get(0))
+                    .hasFileName("scripts/deploy.sh")
+                    .hasLineStart(3)
+                    .hasColumnStart(1)
+                    .hasColumnEnd(5)
+                    .hasType("SC2162")
+                    .hasMessage("read without -r will mangle backslashes.")
+                    .hasSeverity(Severity.WARNING_LOW);
+            softly.assertThat(report.get(1))
+                    .hasFileName("scripts/deploy.sh")
+                    .hasLineStart(3)
+                    .hasColumnStart(6)
+                    .hasColumnEnd(12)
+                    .hasType("SC2034")
+                    .hasMessage("answer appears unused. Verify use (or export if used externally).")
+                    .hasSeverity(Severity.WARNING_NORMAL);
+            softly.assertThat(report.get(2))
+                    .hasFileName("scripts/deploy.sh")
+                    .hasLineStart(4)
+                    .hasColumnStart(21)
+                    .hasColumnEnd(28)
+                    .hasType("SC2086")
+                    .hasMessage("Double quote to prevent globbing and word splitting. [fixable]")
+                    .hasSeverity(Severity.WARNING_LOW);
+        }
+    }
+
+    @Test
+    void shouldIgnoreNullFix() {
+        var parser = new ShellCheckParser();
+        var jsonIssue = new JSONObject()
+                .put("file", "test.sh")
+                .put("line", 1)
+                .put("column", 1)
+                .put("level", "info")
+                .put("code", 2162)
+                .put("message", "read without -r will mangle backslashes.")
+                .put("fix", JSONObject.NULL);
+
+        var issue = parser.convertToIssue(jsonIssue, new IssueBuilder());
+        assertThat(issue).hasMessage("read without -r will mangle backslashes.");
+    }
+
+    @Test
     void shouldIgnoreFixWithMissingReplacementsKey() {
         var parser = new ShellCheckParser();
         var jsonIssue = new JSONObject()

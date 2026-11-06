@@ -1,0 +1,56 @@
+[
+  {
+    "file": "scripts/deploy.sh",
+    "line": 3,
+    "endLine": 3,
+    "column": 1,
+    "endColumn": 5,
+    "level": "info",
+    "code": 2162,
+    "message": "read without -r will mangle backslashes.",
+    "fix": null
+  },
+  {
+    "file": "scripts/deploy.sh",
+    "line": 3,
+    "endLine": 3,
+    "column": 6,
+    "endColumn": 12,
+    "level": "warning",
+    "code": 2034,
+    "message": "answer appears unused. Verify use (or export if used externally).",
+    "fix": null
+  },
+  {
+    "file": "scripts/deploy.sh",
+    "line": 4,
+    "endLine": 4,
+    "column": 21,
+    "endColumn": 28,
+    "level": "info",
+    "code": 2086,
+    "message": "Double quote to prevent globbing and word splitting.",
+    "fix": {
+      "replacements": [
+        {
+          "column": 21,
+          "endColumn": 21,
+          "endLine": 4,
+          "insertionPoint": "afterEnd",
+          "line": 4,
+          "precedence": 7,
+          "replacement": "\""
+        },
+        {
+          "column": 28,
+          "endColumn": 28,
+          "endLine": 4,
+          "insertionPoint": "beforeStart",
+          "line": 4,
+          "precedence": 7,
+          "replacement": "\""
+        }
+      ]
+    }
+  }
+]
