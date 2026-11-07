@@ -53,7 +53,7 @@ public class ShellCheckParser extends JsonIssueParser {
     }
 
     private void addFixableMessage(final JSONObject jsonIssue, final IssueBuilder issueBuilder, final String message) {
-        if (!jsonIssue.has("fix")) {
+        if (!jsonIssue.has("fix") || jsonIssue.isNull("fix")) {
             return;
         }
 
