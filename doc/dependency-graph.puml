@@ -39,7 +39,7 @@ rectangle "commons-digester3\n\n3.2" as org_apache_commons_commons_digester3_jar
 rectangle "cglib\n\n2.2.2" as cglib_cglib_jar
 rectangle "commons-text\n\n1.15.0" as org_apache_commons_commons_text_jar
 rectangle "json\n\n20260814" as org_json_json_jar
-rectangle "jsoup\n\n1.23.2" as org_jsoup_jsoup_jar
+rectangle "jsoup\n\n1.24.1" as org_jsoup_jsoup_jar
 rectangle "violations-lib\n\n3.0.3" as se_bjurr_violations_violations_lib_jar
 rectangle "violations-lib-sarif\n\n3.0.3" as se_bjurr_violations_violations_lib_sarif_jar
 rectangle "xercesImpl\n\n2.12.2" as xerces_xercesImpl_jar
