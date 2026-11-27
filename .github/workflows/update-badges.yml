@@ -20,10 +20,6 @@ jobs:
           java-version: '25'
           check-latest: true
           cache: 'maven'
-      - name: Set up Maven
-        uses: stCarolas/setup-maven@d6af6abeda15e98926a57b5aa970a96bb37f97d1 # v5
-        with:
-          maven-version: 3.10.0
       - name: Check if quality monitor reports mutation coverage
         run: |
           FILE='.github/quality-monitor.json'
@@ -44,7 +40,7 @@ jobs:
           NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
           OSS_INDEX_TOKEN: ${{ secrets.OSS_INDEX_TOKEN }}
         run: |
-          mvn -V --color always -ntp clean verify -Pci $PIT -Powasp -Pdepgraph | tee maven.log
+          ./mvnw -V --color always -ntp clean verify -Pci $PIT -Powasp -Pdepgraph | tee maven.log
           if [ "${PIPESTATUS[0]}" != "0" ]; then
              exit 1;
           fi
@@ -92,7 +88,7 @@ jobs:
           color: 'orange'
           path: badges/bugs.svg
       - name: Build and test with Maven
-        run: mvn -V --color always -ntp test -Dtest=UpdateSupportedFormats#run
+        run: ./mvnw -V --color always -ntp test -Dtest=UpdateSupportedFormats#run
       - name: Commit updated files
         continue-on-error: true
         run: |
